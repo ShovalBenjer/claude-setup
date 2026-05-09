@@ -1,0 +1,166 @@
+{
+  "env": {
+    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "0"
+  },
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf $HOME*)",
+      "Bash(rm -rf ~/*)",
+      "Bash(rm -rf .git*)",
+      "Bash(git push --force*)",
+      "Bash(git push --force-with-lease*)",
+      "Bash(git reset --hard origin/*)",
+      "Bash(git clean -f*)",
+      "Bash(git branch -D *)",
+      "Bash(curl * | sh)",
+      "Bash(curl * | bash)",
+      "Bash(wget * | sh)",
+      "Bash(wget * | bash)",
+      "Write(.env)",
+      "Write(.env.*)",
+      "Write(**/.ssh/**)",
+      "Write(**/credentials*)",
+      "Write(**/*.pem)",
+      "Write(**/*.key)"
+    ],
+    "defaultMode": "bypassPermissions"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/session-context.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/post-compact-reinject.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/session-snapshot.sh start"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/visual-explainer-trigger.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/voice-explainer-trigger.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/protect-infra.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/watchdog-verify.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "TaskUpdate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/verification-before-completion.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/coverage-enforcer.sh"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/snapshot-state.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/stop-checklist.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/session-snapshot.sh end"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/shovalbe/.claude/hooks/meme-stop.sh",
+            "timeout": 1000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/shovalbe/.claude/hooks/meme-post-bash.sh",
+            "timeout": 1000
+          }
+        ]
+      },
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/shovalbe/.claude/hooks/meme-post-skill.sh",
+            "timeout": 1000
+          }
+        ]
+      }
+    ]
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
+  "skipAutoPermissionPrompt": true,
+  "_meta": {
+    "project": "Axia Seekapa CS Agents",
+    "type": "Azure Functions (Python)",
+    "description": "OTP authentication for Seekapa and AxiaCS AI agents",
+    "settings_revision": "2026-05-04b — wired session-snapshot.sh start/end into SessionStart + Stop; 5 hook events / 12 hook scripts live",
+    "settings_backup": "~/.claude/settings.json.bak-2026-05-04-pre-precompact",
+    "rollback": "cp ~/.claude/settings.json.bak-2026-05-04-pre-precompact ~/.claude/settings.json"
+  }
+}

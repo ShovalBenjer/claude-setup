@@ -1,0 +1,163 @@
+# Home-dir .claudeignore — patterns Claude Code will not read as file content.
+# Pattern syntax identical to .gitignore.
+#
+# Rule: matched files are skipped. If you need orientation, rely on INDEX.md
+# or CLAUDE.md at the relevant directory instead of reading the file itself.
+
+# ── Credentials & secrets (HARD SKIP — bash-guard also enforces) ──────────
+.env
+.env.*
+!.env.example
+!.env.template
+*.pem
+*.key
+*.pfx
+*.crt
+id_rsa*
+id_ed25519*
+.netrc
+.credentials*
+*.credentials
+*token*
+*TOKEN*
+.azure/config
+.azure/azureProfile.json
+
+# ── Binary & data files (use INDEX.md / schema docs instead) ──────────────
+*.xlsx
+*.xls
+*.csv
+*.tsv
+*.parquet
+*.arrow
+*.feather
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+
+# ── Media & documents ─────────────────────────────────────────────────────
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.webp
+*.bmp
+*.tiff
+*.ico
+*.mp4
+*.mp3
+*.wav
+*.m4a
+*.mov
+*.pdf
+*.docx
+*.pptx
+*.odt
+*.odp
+*.tex
+
+# ── OS / WSL artifacts ────────────────────────────────────────────────────
+*:Zone.Identifier
+*.Zone.Identifier
+Thumbs.db
+*.lnk
+.DS_Store
+._*
+
+# ── Build & dependency artifacts ──────────────────────────────────────────
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+dist/
+build/
+target/
+.next/
+.nuxt/
+out/
+.gradle/
+.mvn/
+
+# ── IDE / editor ──────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+
+# ── Test, cache, log artifacts ────────────────────────────────────────────
+htmlcov/
+.coverage
+.pytest_cache/
+.hypothesis/
+.mypy_cache/
+.ruff_cache/
+.tox/
+*.log
+*.tmp
+
+# ── Claude Code internals (don't re-read self) ────────────────────────────
+.claude/cache/
+.claude/debug/
+.claude/telemetry/
+.claude/sessions/
+.claude/backups/
+.claude/paste-cache/
+.claude/file-history/
+.claude/channels/
+.claude/downloads/
+.claude/golden/
+.claude/shell-snapshots/
+.claude/projects/*/memory/MEMORY.md.bak*
+.claude.json
+.claude.json.backup.*
+.bash_history
+.antigravity-server/
+.bun/
+
+# ── Large generated output (reference INDEX.md instead) ───────────────────
+charts/
+screenshots/
+qa_reports/
+eval-results/
+agent-batch/
+runs/
+*.summary.csv
+Screen Recording*
+ceo-report-*.html
+ceo-report-*.pdf
+
+# ── Project-archive dumps ─────────────────────────────────────────────────
+projects/.archive/
+archive/
+.archive/
+
+# Oded handover materials — read the API_SERVICES_REPORT.md only
+projects/.archive/Oded/*.mp4
+projects/.archive/Oded/*.pptx
+projects/.archive/Oded/*.pdf
+
+# ── Do NOT skip (explicit overrides — api/ref files are always important) ─
+!*api*.md
+!*API*.md
+!*ref*.md
+!*REF*.md
+!openapi_*.txt
+!openapi_*.yaml
+!openapi_*.yml
+!*_schema*.txt
+!*_schema*.yaml
+!*_schema*.yml

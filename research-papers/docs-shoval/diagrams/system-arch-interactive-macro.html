@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS Agents -- System Architecture (Overview)</title>
+  <link rel="stylesheet" href="https://esm.sh/@xyflow/react@12.10.0/dist/style.css">
+  <style>
+    /* === Reset & Base Dark Theme === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; width: 100%; overflow: hidden; }
+    body {
+      background: #0d1117;
+      color: #e6edf3;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    #root { width: 100%; height: 100%; }
+
+    /* === React Flow Dark Overrides === */
+    .react-flow { background: #0d1117 !important; }
+    .react-flow__background { background: #0d1117 !important; }
+    .react-flow__minimap { background: #161b22 !important; border: 1px solid #30363d !important; border-radius: 6px !important; }
+    .react-flow__controls { background: #161b22 !important; border: 1px solid #30363d !important; border-radius: 6px !important; }
+    .react-flow__controls button { background: #161b22 !important; color: #e6edf3 !important; border-color: #30363d !important; }
+    .react-flow__controls button:hover { background: #21262d !important; }
+    .react-flow__controls button svg { fill: #e6edf3 !important; }
+    .react-flow__edge-path { stroke: #484f58 !important; }
+    .react-flow__edge-text { fill: #8b949e !important; }
+    .react-flow__edge-textbg { fill: #0d1117 !important; }
+    .react-flow__attribution { display: none !important; }
+
+    /* === Custom Node === */
+    .interactive-node {
+      min-width: 160px;
+      max-width: 260px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 2px solid #30363d;
+      background: #161b22;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, opacity 0.3s ease;
+      position: relative;
+    }
+    .interactive-node:hover {
+      transform: scale(1.02);
+    }
+    .interactive-node.selected {
+      border-color: #f39c12 !important;
+      box-shadow: 0 0 15px rgba(243, 156, 18, 0.6);
+    }
+    .interactive-node.dimmed {
+      opacity: 0.3;
+    }
+    .interactive-node.tour-active {
+      border-color: #f39c12 !important;
+      box-shadow: 0 0 20px rgba(243, 156, 18, 0.7);
+    }
+    .node-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e6edf3;
+      text-align: center;
+      word-wrap: break-word;
+    }
+    .node-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .node-group-icon {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #21262d;
+      border: 1px solid #484f58;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #8b949e;
+      cursor: pointer;
+    }
+
+    /* === React Flow Handle Override === */
+    .react-flow__handle {
+      width: 8px !important;
+      height: 8px !important;
+      background: #484f58 !important;
+      border: 1px solid #30363d !important;
+    }
+
+    /* === Detail Panel === */
+    .detail-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 42vw;
+      min-width: 400px;
+      max-width: 640px;
+      height: 100%;
+      background: #161b22;
+      border-left: 1px solid #30363d;
+      z-index: 100;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .detail-panel.open {
+      transform: translateX(0);
+    }
+    .detail-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 24px 24px 14px;
+      border-bottom: 1px solid #30363d;
+    }
+    .detail-panel-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #e6edf3;
+      flex: 1;
+      margin-right: 12px;
+    }
+    .detail-panel-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: #21262d;
+      color: #8b949e;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s;
+    }
+    .detail-panel-close:hover {
+      background: #30363d;
+      color: #e6edf3;
+    }
+    .detail-panel-body {
+      padding: 20px 24px;
+      flex: 1;
+    }
+    .detail-section {
+      margin-bottom: 20px;
+    }
+    .detail-section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #8b949e;
+      margin-bottom: 8px;
+    }
+    .detail-section-text {
+      font-size: 15px;
+      color: #c9d1d9;
+      line-height: 1.7;
+    }
+    .detail-code {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 12px;
+      overflow-x: auto;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #c9d1d9;
+      white-space: pre;
+      tab-size: 4;
+    }
+    .detail-filepath {
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 12px;
+      color: #58a6ff;
+      background: #0d1117;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #30363d;
+      display: inline-block;
+    }
+    .category-badge-detail {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      color: #fff;
+    }
+
+    /* === Guided Tour === */
+    .tour-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: #161b22;
+      border-top: 1px solid #30363d;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 0 24px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    .tour-bar.active {
+      transform: translateY(0);
+    }
+    .tour-step-counter {
+      font-size: 13px;
+      font-weight: 600;
+      color: #8b949e;
+      min-width: 100px;
+      text-align: center;
+    }
+    .tour-description {
+      flex: 1;
+      font-size: 14px;
+      color: #e6edf3;
+      text-align: center;
+      max-width: 600px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .tour-btn {
+      padding: 6px 16px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background: #21262d;
+      color: #e6edf3;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+    .tour-btn:hover {
+      background: #30363d;
+      border-color: #484f58;
+    }
+    .tour-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .tour-btn.primary {
+      background: #1f6feb;
+      border-color: #1f6feb;
+    }
+    .tour-btn.primary:hover {
+      background: #388bfd;
+    }
+    .tour-btn.exit {
+      background: transparent;
+      border-color: #484f58;
+      color: #8b949e;
+    }
+
+    /* === Start Tour Button === */
+    .start-tour-btn {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 50;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background: #161b22;
+      color: #e6edf3;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .start-tour-btn:hover {
+      background: #21262d;
+      border-color: #484f58;
+    }
+
+    /* === Diagram Title === */
+    .diagram-title {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      font-size: 16px;
+      font-weight: 700;
+      color: #e6edf3;
+      background: rgba(22, 27, 34, 0.85);
+      padding: 6px 16px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    /* === Animated Edge === */
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -20; }
+    }
+    .animated-edge-path {
+      stroke-dasharray: 5 5;
+      animation: dash-flow 0.6s linear infinite;
+    }
+
+    /* === Responsive === */
+    @media (max-width: 768px) {
+      .detail-panel { width: 100%; }
+      .tour-description { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    // DIAGRAM DATA - replaced per diagram by generator script
+    window.__DIAGRAM_DATA__ = {
+  "nodes": [
+    {
+      "id": "channels",
+      "type": "interactive",
+      "position": {
+        "x": 400,
+        "y": 50
+      },
+      "data": {
+        "label": "Channels",
+        "category": "trigger",
+        "group": "channels",
+        "details": "Customers reach the CS agents through 4 supported channels, each with channel-specific message formats:\n\n**Web Widget** (`widget/`): Embeddable HTML/CSS/JS chat widget for Seekapa and Axia websites. Uses `widget.js` to connect via the channel router API.\n\n**Telegram** (`telegram_handler/`): Telegram Bot webhook receives Update JSON. Bot token from Key Vault (`TELEGRAM_BOT_TOKEN`). Deep links: `https://t.me/SeekApaBot?start={signed_token}`.\n\n**WhatsApp** (`whatsapp_handler/`): WhatsApp Business API integration via webhook handler.\n\n**Email** (`email_handler/`): Incoming email handler that parses email content and routes to the AI agent.\n\nAll channels produce messages in different formats that must be normalized before agent processing.",
+        "childCount": 1,
+        "children": [
+          "Customer Channels"
+        ],
+        "stepIndex": 1,
+        "stepDescription": "Customers interact through 4 channels: web widget (embedded on websites), Telegram bot, WhatsApp Business API, and email. Each channel has its own message format and webhook handler.",
+        "codeSnippet": "// widget/widget.js\n// Embeddable chat widget for Seekapa/Axia websites\n// Sends messages to POST /api/channel-router\n\n# telegram_handler/__init__.py\n# Receives Telegram Bot API Update JSON via webhook\nfrom shared.message_normalizer import normalize_message, format_response",
+        "filePath": "widget/index.html"
+      }
+    },
+    {
+      "id": "routing",
+      "type": "interactive",
+      "position": {
+        "x": 180,
+        "y": 220
+      },
+      "data": {
+        "label": "Routing (2)",
+        "category": "process",
+        "group": "routing",
+        "details": "**2 components** working together:\n\n- **Channel Router**: Central routing function that accepts messages from any channel, normalizes them, sends to the AI agent, and returns cha...\n- **Message Normalizer**: Converts channel-specific input to a unified internal format and vice versa.",
+        "childCount": 2,
+        "children": [
+          "Channel Router",
+          "Message Normalizer"
+        ],
+        "stepIndex": 2,
+        "stepDescription": "2 components: Channel Router, Message Normalizer.",
+        "codeSnippet": "# azure-function-crm/channel_router/__init__.py\nVALID_BRANDS = (\"seekapa\", \"axia\")\nPROJECT_ENDPOINT = \"https://brn-azai.services.ai.azure.com/api/projects/seekapa_ai\"\nAPI_VERSION = \"2025-11-15-preview\"\n\nfrom shared.message_normalizer import normalize_message, format_response, SUPPORTED_CHANNELS",
+        "filePath": "azure-function-crm/channel_router/__init__.py"
+      }
+    },
+    {
+      "id": "ai-agents",
+      "type": "interactive",
+      "position": {
+        "x": 620,
+        "y": 220
+      },
+      "data": {
+        "label": "Ai Agents (2)",
+        "category": "process",
+        "group": "ai-agents",
+        "details": "**2 components** working together:\n\n- **Azure AI Foundry Agents**: Two brand-specific conversational AI agents hosted on Azure AI Foundry:\n- **Agent Prompts (v27-v36)**: Version-controlled system prompts for both brand agents, optimized via multi-model debate.",
+        "childCount": 2,
+        "children": [
+          "Azure AI Foundry Agents",
+          "Agent Prompts (v27-v36)"
+        ],
+        "stepIndex": 3,
+        "stepDescription": "2 components: Azure AI Foundry Agents, Agent Prompts (v27-v36).",
+        "codeSnippet": "# Seekapa agent endpoint:\n# POST https://brn-azai.services.ai.azure.com/api/projects/seekapa_ai/applications/seekapa/...\n\n# AxiaCS agent endpoint:\n# POST https://brn-azai.services.ai.azure.com/api/projects/seekapa_ai/applications/AxiaCS/...\n\nAGENT_NAMES = {\"seekapa\": \"seekapa\", \"axia\": \"AxiaCS\"}",
+        "filePath": "agent-prompts/seekapa-system-prompt.md"
+      }
+    },
+    {
+      "id": "authentication",
+      "type": "interactive",
+      "position": {
+        "x": 180,
+        "y": 390
+      },
+      "data": {
+        "label": "Authentication (2)",
+        "category": "gate",
+        "group": "authentication",
+        "details": "**2 components** working together:\n\n- **OTP Authentication**: Email OTP authentication flow for secure CRM data access:\n- **HMAC Signed Links**: HMAC-SHA256 signed deep links for secure CS agent authentication from parent apps.",
+        "childCount": 2,
+        "children": [
+          "OTP Authentication",
+          "HMAC Signed Links"
+        ],
+        "stepIndex": 4,
+        "stepDescription": "2 components: OTP Authentication, HMAC Signed Links.",
+        "codeSnippet": "# azure-function-crm/shared/otp_storage.py\notp_store: Dict[str, Dict[str, Any]] = {}\notp_store_lock = threading.Lock()\n\nOTP_EXPIRY_MINUTES = 5\nMAX_ATTEMPTS = 3\nVALID_BRANDS = ['axia', 'seekapa']\n\ndef store_otp(email, login, otp_code, brand):\n    key = f\"{email}:{brand}\".lower()\n    with otp_store_lock:\n        otp_store[key] = {'otp': otp_code, 'expires_at': ...}",
+        "filePath": "azure-function-crm/shared/otp_storage.py"
+      }
+    },
+    {
+      "id": "crm-data",
+      "type": "interactive",
+      "position": {
+        "x": 620,
+        "y": 390
+      },
+      "data": {
+        "label": "Crm Data (2)",
+        "category": "storage",
+        "group": "crm-data",
+        "details": "**2 components** working together:\n\n- **PandaTS CRM (MySQL)**: PandaTS CRM MySQL databases for Axia and Seekapa (separate instances):\n- **Legacy CRM (SQL Server)**: Legacy SQL Server CRM database used by the original OTP verification flow:",
+        "childCount": 2,
+        "children": [
+          "PandaTS CRM (MySQL)",
+          "Legacy CRM (SQL Server)"
+        ],
+        "stepIndex": 5,
+        "stepDescription": "2 components: PandaTS CRM (MySQL), Legacy CRM (SQL Server).",
+        "codeSnippet": "# azure-function-crm/shared/crm_mysql_client.py\nCRM_CONFIG = {\n    \"axia\": {\"host\": \"35.241.202.155\", \"database\": \"panda_db\"},\n    \"seekapa\": {\"host\": \"34.38.141.12\", \"database\": \"panda_db\"}\n}\n# Tables: vtiger_account, trading_accounts, vtiger_mttransactions",
+        "filePath": "azure-function-crm/shared/crm_mysql_client.py"
+      }
+    },
+    {
+      "id": "escalation",
+      "type": "interactive",
+      "position": {
+        "x": 400,
+        "y": 560
+      },
+      "data": {
+        "label": "Escalation",
+        "category": "process",
+        "group": "escalation",
+        "details": "Human agent escalation via LiveAgent ticket system.\n\n**create_ticket** (`POST /api/create-ticket`):\n- Creates support tickets in LiveAgent when AI agent determines human assistance is needed\n- Categorizes by issue type: complaint, technical, escalation, regulatory\n- Routes to correct LiveAgent department based on `ticket_categories.py` config\n- Supports 4 languages: EN, ES, AR, PT\n- Includes conversation context (channel, brand, user_id) in ticket metadata\n\n**LiveAgent Client** (`shared/liveagent_client.py`):\n- REST API client using httpx (async) with urllib fallback\n- Configurable via `LIVEAGENT_API_URL` and `LIVEAGENT_API_KEY` env vars\n- Can be disabled via `LIVEAGENT_ENABLED=false`\n\n**Escalation triggers** (from agent system prompt):\n- KYC rejected, high-value withdrawals (>$50K), compliance requests\n- Account frozen/locked, regulatory inquiries, third-party access\n- Customer explicitly requests human agent",
+        "childCount": 1,
+        "children": [
+          "LiveAgent Escalation"
+        ],
+        "stepIndex": 6,
+        "stepDescription": "When the AI agent determines human help is needed (compliance triggers, explicit requests, complex issues), a ticket is created in LiveAgent with full conversation context and routed to the appropriate department.",
+        "codeSnippet": "# azure-function-crm/create_ticket/__init__.py\nVALID_ISSUE_TYPES = [\"complaint\", \"technical\", \"escalation\", \"regulatory\"]\nVALID_LANGUAGES = [\"en\", \"es\", \"ar\", \"pt\"]\nVALID_CHANNELS = [\"widget\", \"email\", \"telegram\", \"whatsapp\", \"unknown\"]\n\nfrom shared.liveagent_client import get_liveagent_client\nfrom shared.ticket_categories import get_category_config, validate_issue_type",
+        "filePath": "azure-function-crm/create_ticket/__init__.py"
+      }
+    },
+    {
+      "id": "security",
+      "type": "interactive",
+      "position": {
+        "x": 400,
+        "y": 730
+      },
+      "data": {
+        "label": "Security (2)",
+        "category": "gate",
+        "group": "security",
+        "details": "**2 components** working together:\n\n- **Rate Limiter + Validators**: Security layer with input validation and rate limiting.\n- **Azure Communication Services**: Azure Communication Services (ACS) handles OTP email delivery.",
+        "childCount": 2,
+        "children": [
+          "Rate Limiter + Validators",
+          "Azure Communication Services"
+        ],
+        "stepIndex": 7,
+        "stepDescription": "2 components: Rate Limiter + Validators, Azure Communication Services.",
+        "codeSnippet": "# azure-function-crm/shared/rate_limiter.py\nRATE_LIMIT_EMAIL_MAX = 10       # Max OTP requests per email per hour\nRATE_LIMIT_IP_MAX = 100         # Max requests per IP per hour\n\n# azure-function-crm/shared/validators.py\nEMAIL_PATTERN = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')\nLOGIN_PATTERN = re.compile(r'^[a-zA-Z0-9-]{1,50}$')\nOTP_PATTERN = re.compile(r'^\\d{6}$')",
+        "filePath": "azure-function-crm/shared/rate_limiter.py"
+      }
+    },
+    {
+      "id": "testing",
+      "type": "interactive",
+      "position": {
+        "x": 400,
+        "y": 900
+      },
+      "data": {
+        "label": "Testing",
+        "category": "process",
+        "group": "testing",
+        "details": "Comprehensive agent evaluation framework using DeepEval, with hybrid connector for both KB and CRM queries.\n\n**Agent Connector** (`tests/agent_connector.py`):\n- Primary: Applications endpoint (handles `file_search` / KB queries)\n- Fallback: FunctionToolConnector (handles CRM queries via raw Responses API)\n- Content Safety refusal detection (~20% rate) with automatic retry\n- Rate limiting: 15 requests/minute with exponential backoff (5s initial, 60s max, 5 retries)\n\n**Test suites**:\n- `deepeval_suite.py` -- DeepEval metrics (correctness, relevance, faithfulness)\n- `advanced_scenario_test_runner.py` -- Complex multi-turn scenarios\n- `e2e_test_runner.py` -- End-to-end conversation flows\n- `escalation_test_runner.py` -- Escalation trigger validation\n- `verify_crm.py` -- CRM data verification against live database\n- `test_channel_integration.py` -- Multi-channel routing tests\n\n**Test data**: `tests/test_data/` contains KB tests and scenario definitions.",
+        "childCount": 1,
+        "children": [
+          "Test Framework (DeepEval)"
+        ],
+        "stepIndex": 8,
+        "stepDescription": "The DeepEval-based test framework evaluates agent quality with hybrid connectors (KB + CRM), content safety refusal detection, and comprehensive test suites covering scenarios, escalation, and CRM verification.",
+        "codeSnippet": "# tests/agent_connector.py\n# Hybrid: Applications endpoint (KB) + FunctionToolConnector (CRM)\nAGENT_NAMES = {\"seekapa\": \"seekapa\", \"axia\": \"AxiaCS\"}\nMAX_RETRIES = 5\nREQUESTS_PER_MINUTE = 15\n\n_REFUSAL_PATTERNS = [\n    \"i'm sorry, but i cannot assist\",\n    \"i cannot assist with that request\",\n]",
+        "filePath": "tests/agent_connector.py"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-channels-routing",
+      "source": "channels",
+      "target": "routing",
+      "animated": true,
+      "type": "animated",
+      "label": "Messages"
+    },
+    {
+      "id": "e-routing-ai-agents",
+      "source": "routing",
+      "target": "ai-agents",
+      "animated": true,
+      "type": "animated",
+      "label": "Agent Call"
+    },
+    {
+      "id": "e-ai-agents-authentication",
+      "source": "ai-agents",
+      "target": "authentication",
+      "animated": true,
+      "type": "animated",
+      "label": "send_otp / verify_otp"
+    },
+    {
+      "id": "e-authentication-security",
+      "source": "authentication",
+      "target": "security",
+      "animated": true,
+      "type": "animated",
+      "label": "Send OTP Email"
+    },
+    {
+      "id": "e-authentication-crm-data",
+      "source": "authentication",
+      "target": "crm-data",
+      "animated": true,
+      "type": "animated",
+      "label": "Verify + Fetch"
+    },
+    {
+      "id": "e-ai-agents-crm-data",
+      "source": "ai-agents",
+      "target": "crm-data",
+      "animated": true,
+      "type": "animated",
+      "label": "CRM Tools"
+    },
+    {
+      "id": "e-ai-agents-escalation",
+      "source": "ai-agents",
+      "target": "escalation",
+      "animated": true,
+      "type": "animated",
+      "label": "Escalate"
+    },
+    {
+      "id": "e-authentication-channels",
+      "source": "authentication",
+      "target": "channels",
+      "animated": true,
+      "type": "animated",
+      "label": "Deep Links"
+    },
+    {
+      "id": "e-security-authentication",
+      "source": "security",
+      "target": "authentication",
+      "animated": true,
+      "type": "animated",
+      "label": "Guard"
+    },
+    {
+      "id": "e-testing-ai-agents",
+      "source": "testing",
+      "target": "ai-agents",
+      "animated": true,
+      "type": "animated",
+      "label": "Evaluate"
+    }
+  ],
+  "meta": {
+    "title": "CS Agents -- System Architecture (Overview)",
+    "description": "High-level overview: 8 families from 13 nodes.",
+    "totalSteps": 8
+  }
+};
+  </script>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@19.1.0",
+      "react/jsx-runtime": "https://esm.sh/react@19.1.0/jsx-runtime",
+      "react-dom": "https://esm.sh/react-dom@19.1.0",
+      "react-dom/client": "https://esm.sh/react-dom@19.1.0/client",
+      "@xyflow/react": "https://esm.sh/@xyflow/react@12.10.0?external=react,react-dom"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
+    import { createRoot } from 'react-dom/client';
+    import {
+      ReactFlow,
+      ReactFlowProvider,
+      MiniMap,
+      Controls,
+      Background,
+      useReactFlow,
+      Handle,
+      Position,
+      getBezierPath,
+      useNodesState,
+      useEdgesState
+    } from '@xyflow/react';
+
+    const h = React.createElement;
+
+    // =============================================
+    // Category color definitions
+    // =============================================
+    const CATEGORY_COLORS = {
+      trigger:  { bg: '#1e3a5f', border: '#3498db', badge: '#2980b9' },
+      data:     { bg: '#1a3a4f', border: '#3498db', badge: '#2980b9' },
+      process:  { bg: '#1a3a4f', border: '#3498db', badge: '#2471a3' },
+      gate:     { bg: '#3d2e0f', border: '#f39c12', badge: '#d68910' },
+      decision: { bg: '#3d2e0f', border: '#f39c12', badge: '#d68910' },
+      trade:    { bg: '#1a3d2e', border: '#2ecc71', badge: '#27ae60' },
+      notrade:  { bg: '#3d1a1a', border: '#e74c3c', badge: '#c0392b' },
+      shadow:   { bg: '#2d2d2d', border: '#95a5a6', badge: '#7f8c8d' },
+      storage:  { bg: '#2d1a3d', border: '#9b59b6', badge: '#8e44ad' },
+    };
+
+    function getCategoryColor(category) {
+      return CATEGORY_COLORS[category] || CATEGORY_COLORS.data;
+    }
+
+    // =============================================
+    // Simple Markdown → HTML renderer
+    // Handles: **bold**, `code`, tables, lists, paragraphs
+    // =============================================
+    function renderMarkdown(text) {
+      if (!text) return '';
+      var lines = text.split('\n');
+      var result = [];
+      var i = 0;
+
+      while (i < lines.length) {
+        var line = lines[i];
+        var trimmed = line.trim();
+
+        // Table row: starts and ends with |
+        if (trimmed.match(/^\|.*\|$/)) {
+          var tableHtml = '<table style="width:100%;border-collapse:collapse;margin:10px 0;font-size:14px;">';
+          var isHeader = true;
+          while (i < lines.length && lines[i].trim().match(/^\|.*\|$/)) {
+            var row = lines[i].trim();
+            // Skip separator rows (|---|---|)
+            if (row.match(/^\|[\s\-:]+\|$/)) { i++; isHeader = false; continue; }
+            var cells = row.split('|').slice(1, -1);
+            var tag = isHeader ? 'th' : 'td';
+            var style = isHeader
+              ? 'padding:8px 12px;border:1px solid #30363d;background:#21262d;text-align:left;font-weight:600;color:#e6edf3;'
+              : 'padding:8px 12px;border:1px solid #30363d;color:#c9d1d9;';
+            tableHtml += '<tr>';
+            cells.forEach(function(cell) {
+              tableHtml += '<' + tag + ' style="' + style + '">' + inlineMarkdown(cell.trim()) + '</' + tag + '>';
+            });
+            tableHtml += '</tr>';
+            if (isHeader) isHeader = false;
+            i++;
+          }
+          tableHtml += '</table>';
+          result.push(tableHtml);
+          continue;
+        }
+
+        // Bullet list item
+        if (trimmed.match(/^[-*]\s/)) {
+          result.push('<div style="padding-left:16px;margin:3px 0;position:relative;">'
+            + '<span style="position:absolute;left:0;color:#8b949e;">•</span>'
+            + inlineMarkdown(trimmed.replace(/^[-*]\s/, ''))
+            + '</div>');
+          i++;
+          continue;
+        }
+
+        // Empty line
+        if (trimmed === '') {
+          result.push('<div style="height:8px;"></div>');
+          i++;
+          continue;
+        }
+
+        // Regular paragraph
+        result.push('<div style="margin:4px 0;line-height:1.6;">' + inlineMarkdown(trimmed) + '</div>');
+        i++;
+      }
+
+      return result.join('');
+    }
+
+    // Inline markdown: **bold**, `code`
+    function inlineMarkdown(text) {
+      return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#e6edf3;">$1</strong>')
+        .replace(/`([^`]+)`/g, '<code style="background:#0d1117;padding:1px 5px;border-radius:3px;font-size:12px;color:#79c0ff;font-family:monospace;">$1</code>');
+    }
+
+    // =============================================
+    // InteractiveNode Component
+    // =============================================
+    function InteractiveNode({ id, data, selected }) {
+      const colors = getCategoryColor(data.category);
+      const isTourActive = data._tourActive || false;
+      const isDimmed = data._dimmed || false;
+
+      const nodeClasses = [
+        'interactive-node',
+        selected ? 'selected' : '',
+        isDimmed ? 'dimmed' : '',
+        isTourActive ? 'tour-active' : '',
+      ].filter(Boolean).join(' ');
+
+      const nodeStyle = {
+        background: colors.bg,
+        borderColor: (selected || isTourActive) ? '#f39c12' : colors.border,
+      };
+
+      return h('div', { className: nodeClasses, style: nodeStyle },
+        // Top handle
+        h(Handle, { type: 'target', position: Position.Top, style: { background: colors.border } }),
+        // Group icon
+        data.isGroup ? h('div', { className: 'node-group-icon' }, data._collapsed ? '+' : '-') : null,
+        // Category badge
+        h('span', {
+          className: 'node-badge',
+          style: { background: colors.badge }
+        }, data.category),
+        // Label
+        h('div', { className: 'node-label' }, data.label),
+        // Bottom handle
+        h(Handle, { type: 'source', position: Position.Bottom, style: { background: colors.border } })
+      );
+    }
+
+    // =============================================
+    // AnimatedEdge Component
+    // =============================================
+    function AnimatedEdge({
+      id, sourceX, sourceY, targetX, targetY,
+      sourcePosition, targetPosition, style, label, markerEnd
+    }) {
+      const [edgePath, labelX, labelY] = getBezierPath({
+        sourceX, sourceY, sourcePosition,
+        targetX, targetY, targetPosition,
+      });
+
+      const isAnimated = style && style.animated !== false;
+      const isDashed = style && style.strokeDasharray;
+
+      return h('g', null,
+        h('path', {
+          id: id,
+          className: isAnimated ? 'animated-edge-path' : '',
+          d: edgePath,
+          fill: 'none',
+          stroke: (style && style.stroke) || '#484f58',
+          strokeWidth: (style && style.strokeWidth) || 2,
+          strokeDasharray: isDashed ? style.strokeDasharray : (isAnimated ? '5 5' : undefined),
+          markerEnd: markerEnd,
+        }),
+        label ? h('g', { transform: `translate(${labelX}, ${labelY})` },
+          h('rect', {
+            x: -((label.length * 6.5 + 16) / 2),
+            y: -10,
+            width: label.length * 6.5 + 16,
+            height: 20,
+            rx: 4,
+            fill: '#0d1117',
+            stroke: '#30363d',
+            strokeWidth: 1,
+          }),
+          h('text', {
+            style: {
+              fontSize: '11px',
+              fill: '#8b949e',
+              fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+            },
+            textAnchor: 'middle',
+            dominantBaseline: 'central',
+          }, label)
+        ) : null
+      );
+    }
+
+    // =============================================
+    // DetailPanel Component
+    // =============================================
+    function DetailPanel({ node, onClose }) {
+      if (!node) {
+        return h('div', { className: 'detail-panel' });
+      }
+
+      const d = node.data;
+      const colors = getCategoryColor(d.category);
+
+      return h('div', { className: 'detail-panel open' },
+        // Header
+        h('div', { className: 'detail-panel-header' },
+          h('div', null,
+            h('div', { className: 'detail-panel-title' }, d.label),
+            h('span', {
+              className: 'category-badge-detail',
+              style: { background: colors.badge, marginTop: '4px' }
+            }, d.category)
+          ),
+          h('button', {
+            className: 'detail-panel-close',
+            onClick: onClose,
+            'aria-label': 'Close panel',
+          }, '\u00D7')
+        ),
+        // Body
+        h('div', { className: 'detail-panel-body' },
+          // Description (rendered markdown)
+          d.details ? h('div', { className: 'detail-section' },
+            h('div', { className: 'detail-section-label' }, 'Description'),
+            h('div', {
+              className: 'detail-section-text',
+              dangerouslySetInnerHTML: { __html: renderMarkdown(d.details) }
+            })
+          ) : null,
+          // Code snippet
+          d.codeSnippet ? h('div', { className: 'detail-section' },
+            h('div', { className: 'detail-section-label' }, 'Code'),
+            h('pre', { className: 'detail-code' }, d.codeSnippet)
+          ) : null,
+          // File path
+          d.filePath ? h('div', { className: 'detail-section' },
+            h('div', { className: 'detail-section-label' }, 'File'),
+            h('span', { className: 'detail-filepath' }, d.filePath)
+          ) : null,
+          // Step narration (rendered markdown)
+          d.stepIndex ? h('div', { className: 'detail-section' },
+            h('div', { className: 'detail-section-label' }, 'Step ' + d.stepIndex + ' of Tour'),
+            h('div', {
+              className: 'detail-section-text',
+              dangerouslySetInnerHTML: { __html: renderMarkdown(d.stepDescription || '') }
+            })
+          ) : null
+        )
+      );
+    }
+
+    // =============================================
+    // GuidedTour Component
+    // =============================================
+    function GuidedTour({ stepNodes, currentStep, onStepChange, onExit, tourActive, onStartTour }) {
+      const totalSteps = stepNodes.length;
+      const currentStepNode = stepNodes[currentStep - 1];
+      const description = currentStepNode ? currentStepNode.data.stepDescription || '' : '';
+
+      // Keyboard navigation
+      useEffect(function () {
+        if (!tourActive) return;
+        function handleKey(e) {
+          if (e.key === 'ArrowRight' && currentStep < totalSteps) {
+            onStepChange(currentStep + 1);
+          } else if (e.key === 'ArrowLeft' && currentStep > 1) {
+            onStepChange(currentStep - 1);
+          } else if (e.key === 'Escape') {
+            onExit();
+          }
+        }
+        window.addEventListener('keydown', handleKey);
+        return function () { window.removeEventListener('keydown', handleKey); };
+      }, [tourActive, currentStep, totalSteps, onStepChange, onExit]);
+
+      // Start Tour button (shown when tour is not active)
+      if (!tourActive && totalSteps > 0) {
+        return h('button', {
+          className: 'start-tour-btn',
+          onClick: onStartTour,
+        }, '\u25B6 Start Tour (' + totalSteps + ' steps)');
+      }
+
+      if (!tourActive || totalSteps === 0) return null;
+
+      return h('div', { className: 'tour-bar active' },
+        h('button', {
+          className: 'tour-btn exit',
+          onClick: onExit,
+        }, 'Exit'),
+        h('button', {
+          className: 'tour-btn',
+          onClick: function () { onStepChange(currentStep - 1); },
+          disabled: currentStep <= 1,
+        }, '\u2190 Prev'),
+        h('span', { className: 'tour-step-counter' },
+          'Step ' + currentStep + ' of ' + totalSteps
+        ),
+        h('span', { className: 'tour-description' }, description),
+        h('button', {
+          className: 'tour-btn primary',
+          onClick: function () { onStepChange(currentStep + 1); },
+          disabled: currentStep >= totalSteps,
+        }, 'Next \u2192')
+      );
+    }
+
+    // =============================================
+    // Register custom node/edge types (stable refs, before components)
+    // =============================================
+    const nodeTypes = { interactive: InteractiveNode };
+    const edgeTypes = { animated: AnimatedEdge };
+
+    // =============================================
+    // App Component
+    // =============================================
+    function FlowCanvas() {
+      const diagramData = window.__DIAGRAM_DATA__ || { nodes: [], edges: [], meta: {} };
+      const { fitView, setCenter } = useReactFlow();
+
+      const [selectedNode, setSelectedNode] = useState(null);
+      const [currentStep, setCurrentStep] = useState(1);
+      const [tourActive, setTourActive] = useState(false);
+
+      // Ref to hold step nodes — breaks circular dependency with useEffect
+      const stepNodesRef = useRef([]);
+
+      // Initialize nodes and edges from data
+      const initialNodes = useMemo(function () {
+        return (diagramData.nodes || []).map(function (n) {
+          return Object.assign({}, n, {
+            type: n.type || 'interactive',
+            data: Object.assign({}, n.data, {
+              _tourActive: false,
+              _dimmed: false,
+            }),
+          });
+        });
+      }, []);
+
+      const initialEdges = useMemo(function () {
+        return (diagramData.edges || []).map(function (e) {
+          return Object.assign({}, e, {
+            type: e.type || 'animated',
+            style: Object.assign({}, e.style || {}, {
+              animated: e.animated !== false,
+            }),
+          });
+        });
+      }, []);
+
+      const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+      const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+      // Get step nodes sorted by stepIndex — also update ref for useEffect
+      const stepNodes = useMemo(function () {
+        var sorted = nodes
+          .filter(function (n) { return n.data && n.data.stepIndex; })
+          .sort(function (a, b) { return a.data.stepIndex - b.data.stepIndex; });
+        stepNodesRef.current = sorted;
+        return sorted;
+      }, [nodes]);
+
+      // Update node tour state when step changes
+      // IMPORTANT: Only depend on [tourActive, currentStep] — NOT stepNodes
+      // stepNodes derives from nodes, and this effect modifies nodes via setNodes.
+      // Including stepNodes would create: setNodes→nodes→stepNodes→effect→setNodes = infinite loop
+      useEffect(function () {
+        if (!tourActive) {
+          // Only reset if nodes actually have tour state set
+          setNodes(function (nds) {
+            var needsReset = nds.some(function (n) { return n.data._tourActive || n.data._dimmed; });
+            if (!needsReset) return nds; // bail out — return same ref, no re-render
+            return nds.map(function (n) {
+              return Object.assign({}, n, {
+                data: Object.assign({}, n.data, {
+                  _tourActive: false,
+                  _dimmed: false,
+                }),
+              });
+            });
+          });
+          return;
+        }
+
+        var activeNode = stepNodesRef.current[currentStep - 1];
+        if (!activeNode) return;
+
+        setNodes(function (nds) {
+          return nds.map(function (n) {
+            var isActive = n.id === activeNode.id;
+            // Skip update if state already matches
+            if (n.data._tourActive === isActive && n.data._dimmed === !isActive) return n;
+            return Object.assign({}, n, {
+              data: Object.assign({}, n.data, {
+                _tourActive: isActive,
+                _dimmed: !isActive,
+              }),
+            });
+          });
+        });
+
+        // Auto-open detail panel for the active step node
+        setSelectedNode(activeNode);
+
+        // Auto-zoom to active node (offset left to account for detail panel)
+        if (activeNode.position) {
+          setTimeout(function () {
+            setCenter(
+              activeNode.position.x - 160,
+              activeNode.position.y + 30,
+              { zoom: 1.2, duration: 500 }
+            );
+          }, 50);
+        }
+      }, [tourActive, currentStep]);
+
+      // Node click handler
+      var onNodeClick = useCallback(function (event, node) {
+        setSelectedNode(node);
+      }, []);
+
+      // Pane click to deselect
+      var onPaneClick = useCallback(function () {
+        setSelectedNode(null);
+      }, []);
+
+      // Tour controls
+      var handleStepChange = useCallback(function (step) {
+        if (step >= 1 && step <= stepNodes.length) {
+          setCurrentStep(step);
+        }
+      }, [stepNodes.length]);
+
+      var handleExitTour = useCallback(function () {
+        setTourActive(false);
+        setCurrentStep(1);
+        setSelectedNode(null); // Close detail panel on tour exit
+        setTimeout(function () { fitView({ duration: 500, padding: 0.1 }); }, 50);
+      }, [fitView]);
+
+      var handleStartTour = useCallback(function () {
+        setTourActive(true);
+        setCurrentStep(1);
+      }, []);
+
+      // Close detail panel
+      var handleClosePanel = useCallback(function () {
+        setSelectedNode(null);
+      }, []);
+
+      var meta = diagramData.meta || {};
+
+      // MiniMap node color function
+      var minimapNodeColor = useCallback(function (node) {
+        var cat = node.data && node.data.category;
+        var colors = getCategoryColor(cat);
+        return colors.border;
+      }, []);
+
+      return h('div', { style: { width: '100%', height: '100%', position: 'relative' } },
+        // Title
+        meta.title ? h('div', { className: 'diagram-title' }, meta.title) : null,
+        // React Flow canvas
+        h(ReactFlow, {
+          nodes: nodes,
+          edges: edges,
+          onNodesChange: onNodesChange,
+          onEdgesChange: onEdgesChange,
+          onNodeClick: onNodeClick,
+          onPaneClick: onPaneClick,
+          nodeTypes: nodeTypes,
+          edgeTypes: edgeTypes,
+          fitView: true,
+          fitViewOptions: { padding: 0.15 },
+          minZoom: 0.2,
+          maxZoom: 3,
+          proOptions: { hideAttribution: true },
+          defaultEdgeOptions: { type: 'animated' },
+        },
+          h(Background, { color: '#21262d', gap: 20, size: 1 }),
+          h(MiniMap, {
+            nodeColor: minimapNodeColor,
+            maskColor: 'rgba(13, 17, 23, 0.8)',
+            style: { background: '#161b22' },
+            position: 'bottom-right',
+          }),
+          h(Controls, { position: 'top-right', showInteractive: false })
+        ),
+        // Detail panel
+        h(DetailPanel, {
+          node: selectedNode,
+          onClose: handleClosePanel,
+        }),
+        // Guided tour
+        h(GuidedTour, {
+          stepNodes: stepNodes,
+          currentStep: currentStep,
+          onStepChange: handleStepChange,
+          onExit: handleExitTour,
+          tourActive: tourActive,
+          onStartTour: handleStartTour,
+        })
+      );
+    }
+
+    function App() {
+      return h(ReactFlowProvider, null,
+        h(FlowCanvas, null)
+      );
+    }
+
+    // Mount
+    const root = createRoot(document.getElementById('root'));
+    root.render(h(App, null));
+  </script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+# Unified .gitignore Template for All Projects
+# Version: 1.0
+# Last Updated: 2026-02-18
+# Purpose: Consistent ignore rules across entire portfolio
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ENVIRONMENT & SECRETS (CRITICAL)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+.env                    # Never commit environment variables
+.env.local
+.env.*.local
+.env.prod
+*.pem                   # SSH/TLS keys
+*.key                   # Private keys
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ROOT CLUTTER PREVENTION (Critical for all projects)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Root-level images (should be in docs/assets/ if needed)
+/*.png
+/*.jpg
+/*.jpeg
+/*.gif
+/*.webp
+/*.svg
+
+# Root-level temporary files
+/*.tmp
+/*.temp
+/*.bak
+/*.log
+*.log
+
+# Root-level database files
+/*.db
+/*.db-wal
+/*.db-shm
+
+# Root-level archives
+/*.zip
+/*.tar
+/*.tar.gz
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# PYTHON CACHES & VIRTUAL ENVIRONMENTS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+__pycache__/            # Python bytecode cache
+*.py[cod]
+*$py.class
+.pytest_cache/          # Pytest cache
+.hypothesis/            # Hypothesis property test data
+.mypy_cache/            # MyPy type checking cache
+.dmypy.json
+dmypy.json
+.ruff_cache/            # Ruff linter cache
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# NODE.JS / JAVASCRIPT CACHES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+node_modules/           # NPM/Yarn/Bun dependencies
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# TEST OUTPUT & COVERAGE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Test output directories
+test-results/
+test_results/
+test_report/
+reports/
+.test-results/
+playwright-report/
+playwright-results/
+
+# Mutation testing
+mutants/
+.mutmut/
+mutants.json
+
+# Stryker mutation testing
+.stryker-tmp/
+stryker-report/
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# IDE & EDITOR CONFIG
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+.vscode/settings.json    # Don't commit personal vscode settings
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# BUILD OUTPUT
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# JavaScript/TypeScript builds
+.next/
+.nuxt/
+dist/
+out/
+build/
+.turbo/
+
+# Esbuild cache
+.esbuild/
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# RUNTIME DATA & STAGING
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+data/                   # Runtime data (databases, cache, runs)
+.data/
+.dev-staging/           # Development staging area
+staging/
+.staging/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache directories
+.cache/
+cache/
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# TEMPORARY FILES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/tmp/
+temp/
+.temp/
+*.tmp
+*.temp
+*.bak
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# DOCKER & CONTAINERIZATION
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+.dockerignore
+docker-compose.override.yml
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# CI/CD & BUILD ARTIFACTS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# GitHub Actions artifacts
+.github/workflows/artifacts/
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# PLATFORM-SPECIFIC
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+*.lcov
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# PROJECT-SPECIFIC (Add as needed)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Add project-specific ignores below this line
+
+# For Figma plugin projects:
+# qa_reports/generated/
+# .temp-package/
+
+# For video rendering projects:
+# out/
+# renders/
+
+# For Remotion projects:
+# remotion-cache/
+
+# For data science projects:
+# .ipynb_checkpoints/
+# *.csv
+# *.parquet
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# NOTES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# This template provides comprehensive ignore rules for all project types.
+# Review and uncomment patterns specific to your project.
+#
+# Key principles:
+# 1. Never commit secrets, keys, or credentials
+# 2. Never commit dependencies (node_modules, venv, etc.)
+# 3. Never commit caches (.pytest_cache, .mypy_cache, etc.)
+# 4. Never commit build output (dist, build, out, etc.)
+# 5. Never commit test output and coverage reports
+# 6. Never commit clutter (root-level images, temp files, etc.)
+#
+# When in doubt, add it to .gitignore rather than committing it.

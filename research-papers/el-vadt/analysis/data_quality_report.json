@@ -1,0 +1,1102 @@
+[
+  {
+    "filename": "record1767542485.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 6564
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1768468854.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 19690
+    },
+    "turn_count": 1
+  },
+  {
+    "filename": "record1768819149.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 19190
+    },
+    "turn_count": 4
+  },
+  {
+    "filename": "record1765721553.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 42792
+    },
+    "turn_count": 20
+  },
+  {
+    "filename": "force-962797494XXX-5393-20260102-152433-1767360273.133196.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 50859
+    },
+    "turn_count": 29
+  },
+  {
+    "filename": "CA57589957.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 4145
+    },
+    "turn_count": 9
+  },
+  {
+    "filename": "CA53190526.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 5527
+    },
+    "turn_count": 5
+  },
+  {
+    "filename": "CA50130108_20250730_184453.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 4731
+    },
+    "turn_count": 1
+  },
+  {
+    "filename": "call_20251216_110129.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 19512
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "20260118192735-1768753648.10595-1057-00966568454001-Outbound (1).wav-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 3277
+    },
+    "turn_count": 1
+  },
+  {
+    "filename": "record1765187871.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 3942
+    },
+    "turn_count": 5
+  },
+  {
+    "filename": "WhatsApp Audio 2025-12-17 special-chars test.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 5688
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1767105832.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 2480
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record-1765267241.182275.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 33958
+    },
+    "turn_count": 2
+  },
+  {
+    "filename": "CA66486215 05_12_25.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 5813
+    },
+    "turn_count": 5
+  },
+  {
+    "filename": "record1766566054.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 16648
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "CA53279112.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 11254
+    },
+    "turn_count": 3
+  },
+  {
+    "filename": "CA50128132_20250730_165427.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 21752
+    },
+    "turn_count": 1
+  },
+  {
+    "filename": "call_20251216_113542.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 19113
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1767526804.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 2074
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "CA57589383.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 8907
+    },
+    "turn_count": 21
+  },
+  {
+    "filename": "20260118180617-1768748766.9050-1057-00966568454001-Outbound (1).wav-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 8285
+    },
+    "turn_count": 11
+  },
+  {
+    "filename": "CA50092476_20250728_140045.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 8582
+    },
+    "turn_count": 1
+  },
+  {
+    "filename": "CA66352431 03_12_25.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 7754
+    },
+    "turn_count": 15
+  },
+  {
+    "filename": "force-4028962797148XXX-6061-20251222-114538-1766396737.37668.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 34431
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1765964167.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 8725
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1766505307.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 208
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "call_20251223_115443.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 34539
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "call_20251223_115458.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 26569
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "recordCA55607597.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 10213
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1768392734.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 11227
+    },
+    "turn_count": 15
+  },
+  {
+    "filename": "record1765176708.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 24996
+    },
+    "turn_count": 17
+  },
+  {
+    "filename": "recordCA55607273.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 880
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "20251223112350-1766478199.2777-1019-00966554512126-Outbound.wav-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 13433
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1766316699.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 4451
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1765187866.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 29818
+    },
+    "turn_count": 9
+  },
+  {
+    "filename": "CA66047199 27_11_25.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 4610
+    },
+    "turn_count": 11
+  },
+  {
+    "filename": "record-1765285141.228267.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 23583
+    },
+    "turn_count": 11
+  },
+  {
+    "filename": "record1768396965.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 6376
+    },
+    "turn_count": 2
+  },
+  {
+    "filename": "recordCA58454389.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 38126
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1765706747.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 9644
+    },
+    "turn_count": 2
+  },
+  {
+    "filename": "record1768836944.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 1692
+    },
+    "turn_count": 2
+  },
+  {
+    "filename": "record1765209839.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 34856
+    },
+    "turn_count": 8
+  },
+  {
+    "filename": "record1766418806.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 18501
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "call_20251216_105115.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 21034
+    },
+    "turn_count": 15
+  },
+  {
+    "filename": "record1766316803.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 16080
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1765183546.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 21631
+    },
+    "turn_count": 4
+  },
+  {
+    "filename": "record1768393104.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 4667
+    },
+    "turn_count": 1
+  },
+  {
+    "filename": "call_20251223_115446.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 29162
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1768229800.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 17529
+    },
+    "turn_count": 18
+  },
+  {
+    "filename": "record1769086957.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 19009
+    },
+    "turn_count": 23
+  },
+  {
+    "filename": "record1765964162.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 36850
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1765964165.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 11328
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "call_20251210_091427.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 22490
+    },
+    "turn_count": 19
+  },
+  {
+    "filename": "record1765109057.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 49365
+    },
+    "turn_count": 10
+  },
+  {
+    "filename": "record1765187873.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 16058
+    },
+    "turn_count": 8
+  },
+  {
+    "filename": "record-1753349515.4895393.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 4431
+    },
+    "turn_count": 4
+  },
+  {
+    "filename": "force-4028962797148XXX-6061-20251222-135914-1766404754.55688.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 27318
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "call_20251216_111816.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 18938
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record CA55607597.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 10077
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1769337023.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 1812
+    },
+    "turn_count": 1
+  },
+  {
+    "filename": "record1767623040.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 868
+    },
+    "turn_count": 1
+  },
+  {
+    "filename": "record1765186026.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 25833
+    },
+    "turn_count": 10
+  },
+  {
+    "filename": "CA50092314_20250728_135021.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 5195
+    },
+    "turn_count": 6
+  },
+  {
+    "filename": "record1768311587.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 17355
+    },
+    "turn_count": 12
+  },
+  {
+    "filename": "20260118184747-1768751246.10248-1057-00966568454001-Outbound (1).wav-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 2294
+    },
+    "turn_count": 3
+  },
+  {
+    "filename": "record1765975328.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 36505
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1766317178.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 33360
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1766316555.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 33465
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1768229865.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 10189
+    },
+    "turn_count": 6
+  },
+  {
+    "filename": "record1769086867.mp3-arabic (1).txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 26130
+    },
+    "turn_count": 25
+  },
+  {
+    "filename": "record1765183467.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 4276
+    },
+    "turn_count": 1
+  },
+  {
+    "filename": "record1768819145.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 51131
+    },
+    "turn_count": 71
+  },
+  {
+    "filename": "CA50046654_20250724_104101.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 18848
+    },
+    "turn_count": 29
+  },
+  {
+    "filename": "record1765187869.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 38679
+    },
+    "turn_count": 18
+  },
+  {
+    "filename": "record1766483993.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 36938
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1765378876.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 34648
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "force-4028962797148XXX-6061-20251222-111640-1766395000.33196.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 22676
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "20260118181632-1768749374.9330-1057-00966568454001-Outbound (1).wav-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 6093
+    },
+    "turn_count": 6
+  },
+  {
+    "filename": "call_20260112_132552.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 17508
+    },
+    "turn_count": 24
+  },
+  {
+    "filename": "call_20251218_080840.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 5548
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "CA66577595 08_12_25.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 9370
+    },
+    "turn_count": 8
+  },
+  {
+    "filename": "call_20251216_115028.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 18999
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "call_20251223_115426.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 23405
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1768389939.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 31200
+    },
+    "turn_count": 28
+  },
+  {
+    "filename": "record1765183467.mp3-arabic (1).txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 4302
+    },
+    "turn_count": 1
+  },
+  {
+    "filename": "call_20251216_104204.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 18860
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1768468902.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 17059
+    },
+    "turn_count": 1
+  },
+  {
+    "filename": "record1766418814.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 19519
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record CA55607273.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 870
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1767609783.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 7741
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "WhatsApp Audio 2025-12-17 at 17.23.12 (1) (online-audio-converter.com).mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 5595
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1768468904.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 27058
+    },
+    "turn_count": 22
+  },
+  {
+    "filename": "force-4028962797148XXX-6075-20251222-094135-1766389294.17580.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 28511
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1769086865.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 16527
+    },
+    "turn_count": 16
+  },
+  {
+    "filename": "record1766392058.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 12982
+    },
+    "turn_count": 0
+  },
+  {
+    "filename": "record1768393108.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 11327
+    },
+    "turn_count": 18
+  },
+  {
+    "filename": "CA53166372.mp3-arabic.txt",
+    "valid": false,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": false,
+      "language": "ar",
+      "file_size": 7376
+    },
+    "turn_count": 2
+  },
+  {
+    "filename": "record1768230007.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 54574
+    },
+    "turn_count": 72
+  },
+  {
+    "filename": "record1765350635.mp3-arabic.txt",
+    "valid": true,
+    "checks": {
+      "has_speaker_labels": true,
+      "min_turns": true,
+      "language": "ar",
+      "file_size": 37221
+    },
+    "turn_count": 13
+  }
+]

@@ -1,0 +1,67 @@
+# Node modules
+node_modules/
+
+# Build artifacts
+dist/
+build/
+out/
+*.log
+
+# Test results
+test-results/
+playwright-report/
+coverage/
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large generated files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.pdf
+*.zip
+*.tar
+*.gz
+
+# Binary files
+*.so
+*.dll
+*.exe
+*.bin
+
+# Package manager locks
+package-lock.json
+yarn.lock
+
+# Sales agents data
+sales-agents/data/
+sales-agents/output/
+sales-agents/test-results/
+
+# Seekapa transcripts
+seekapa-sales-conversations-transcripts/

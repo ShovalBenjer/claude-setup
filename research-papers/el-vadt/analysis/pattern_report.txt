@@ -1,0 +1,10 @@
+=== SOTA PATTERN MINING REPORT ===
+
+🚨 CRITICAL AVOID ACTIONS:
+- [AVOID-002] Regulatory Violation: No Risk Claims (5/59)
+  Action: Immediate prompt override to ban 'guaranteed/no risk' terms.
+
+- [AVOID-005] Religious Manipulation (Oaths) (52/59)
+  Action: Remove 'Wallah/Swear' from objection handling response bank.
+
+✅ STRATEGIC EXECUTE ACTIONS:

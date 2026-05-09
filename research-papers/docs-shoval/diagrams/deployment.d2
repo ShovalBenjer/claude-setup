@@ -1,0 +1,109 @@
+direction: down
+
+classes: {
+  azure: {
+    shape: rectangle
+    style: {
+      fill: "#0078D4"
+      font-color: "#FFFFFF"
+      stroke: "#005A9E"
+    }
+  }
+  compute: {
+    shape: rectangle
+    style: {
+      fill: "#2ECC71"
+      font-color: "#FFFFFF"
+      stroke: "#1A9B52"
+    }
+  }
+  database: {
+    shape: cylinder
+    style: {
+      fill: "#E67E22"
+      font-color: "#FFFFFF"
+      stroke: "#B8651B"
+    }
+  }
+  service: {
+    shape: cloud
+    style: {
+      fill: "#9B59B6"
+      font-color: "#FFFFFF"
+      stroke: "#7D3C98"
+    }
+  }
+  secrets: {
+    shape: diamond
+    style: {
+      fill: "#E74C3C"
+      font-color: "#FFFFFF"
+      stroke: "#C0392B"
+    }
+  }
+  repo: {
+    shape: package
+    style: {
+      fill: "#34495E"
+      font-color: "#FFFFFF"
+      stroke: "#2C3E50"
+    }
+  }
+}
+
+# Source Control
+devops: "Azure DevOps\nCorp-AI/axia-seekapa-cs-agents" {
+  class: repo
+}
+
+# Azure Resource Group
+azure: "Azure (AZAI_group / swedencentral)" {
+  style: {
+    fill: "#F0F4F8"
+    stroke: "#0078D4"
+  }
+
+  # Compute
+  func_app: "Function App\naxia-seekapa-crm\n(Consumption Plan / Python)" {
+    class: compute
+  }
+
+  # AI Platform
+  foundry: "Azure AI Foundry\nSeekapa + Axia Agents" {
+    class: azure
+  }
+
+  # Data
+  crm_db: "CRM SQL Server\nazvmsqlpowerbi.database.windows.net\nDB: AZDBSQLPowerBI" {
+    class: database
+  }
+
+  # Services
+  acs: "Azure Communication\nServices\n(Email OTP)" {
+    class: service
+  }
+
+  vault: "Key Vault\nkv-seekapa-apps" {
+    class: secrets
+  }
+
+  # Internal connections
+  func_app -> crm_db: "SQL Query\n[XPORT].[Customer_Support1]"
+  func_app -> acs: "Send OTP Email"
+  func_app -> vault: "Read Secrets"
+  foundry -> func_app: "Function Calling\n(tool-definitions.json)"
+}
+
+# Deployment flow
+devops -> azure.func_app: "func azure functionapp publish\nazure-function-crm/"
+
+# External access
+users: "Customers" {
+  shape: oval
+  style: {
+    fill: "#4A90D9"
+    font-color: "#FFFFFF"
+  }
+}
+
+users -> azure.foundry: "Chat / Voice\nvia AI Foundry widget"

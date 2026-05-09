@@ -1,0 +1,32 @@
+{
+  "AVOID": [
+    {
+      "code": "AVOID-002",
+      "name": "Regulatory Violation: No Risk Claims",
+      "frequency": "5/59",
+      "evidence": [
+        "record1765109057.mp3-arabic.txt",
+        "record1765186026.mp3-arabic.txt",
+        "record1769086867.mp3-arabic (1).txt",
+        "record1768819145.mp3-arabic.txt",
+        "record1768468904.mp3-arabic.txt"
+      ],
+      "action": "Immediate prompt override to ban 'guaranteed/no risk' terms."
+    },
+    {
+      "code": "AVOID-005",
+      "name": "Religious Manipulation (Oaths)",
+      "frequency": "52/59",
+      "evidence": [
+        "record1768468854.mp3-arabic.txt",
+        "record1768819149.mp3-arabic.txt",
+        "record1765721553.mp3-arabic.txt",
+        "force-962797494XXX-5393-20260102-152433-1767360273.133196.mp3-arabic.txt",
+        "CA57589957.mp3-arabic.txt"
+      ],
+      "action": "Remove 'Wallah/Swear' from objection handling response bank."
+    }
+  ],
+  "EXECUTE": [],
+  "FOLLOW": []
+}

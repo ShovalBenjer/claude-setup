@@ -1,0 +1,657 @@
+Cooperation
+
+Article
+Talk
+Read
+Edit
+View history
+
+Tools
+Appearance hide
+Text
+
+Small
+
+Standard
+
+Large
+Width
+
+Standard
+
+Wide
+Color (beta)
+
+Automatic
+
+Light
+
+Dark
+From Wikipedia, the free encyclopedia
+This article is about cooperation as used in the social sciences. For cooperation in evolution, see Cooperation (evolution). For the economic model, see Cooperative. For other uses, see Cooperation (disambiguation).
+
+Many animal species cooperate with each other in mutual symbiosis. One example is the ocellaris clownfish, which dwells among the tentacles of Ritteri sea anemones. The anemones provide the clownfish with protection from their predators (which cannot tolerate the stings of the sea anemone's tentacles), while the fish defend the anemones against butterflyfish (which eat anemones)
+Cooperation (now much less often written as co-operation in British English[1][2] and, with a varied usage along time,[3] coöperation) takes place when a group of organisms works or acts together for a collective benefit to the group as opposed to working in competition for selfish individual benefit. In biology, many animal and plant species cooperate both with other members of their own species and with members of other species with whom they have (symbiotic or mutualistic) relationships.[4]
+
+Among humans
+Humans cooperate for the same reasons as other animals: immediate benefit, genetic relatedness, and reciprocity, but also for particularly human reasons, such as honesty signaling (indirect reciprocity), cultural group selection, and for reasons having to do with cultural evolution.
+
+Language allows humans to cooperate on a very large scale. Certain studies have suggested that fairness affects human cooperation; individuals are willing to punish at their own cost (altruistic punishment) if they believe that they are being treated unfairly.[5][6] Sanfey, et al. conducted an experiment where 19 individuals were scanned using MRI while playing an ultimatum game in the role of the responder.[6] They received offers from other human partners and from a computer partner. Responders refused unfair offers from human partners at a significantly higher rate than those from a computer partner. The experiment also suggested that altruistic punishment is associated with negative emotions that are generated in unfair situations by the anterior insula of the brain.[6]
+
+It has been observed that image scoring, where a participant learns of their counterpart's prior behavior or reputation, promotes cooperative behavior in situations where direct reciprocity is unlikely.[7] This implies that in situations where reputation and status are involved, humans tend to cooperate more.
+
+Many organisms other than apes, such as fish, birds, and insects exhibit cooperative behavior: teaching, helping, and self-sacrifice, and can coordinate to solve problems. The author Nichola Raihani argues that Earth is a history of teamwork, collective action, and cooperation.[8] Its a selfish behavior, working together towards solving a problem, because it yields success to engage cooperatively, typically this means work in effort towards solving a problem can often only ever be solved by a cooperative effort, for example for most individuals working cooperatively but especially within families has made cooperation behaviors be generally aggregated together to accomplish major problem solving for survival, like migration and success, particularly familial success. Democracy for instance was created because of three key traits; social comparison, engagement with collaboration, and wanting to be someone who shares, which all stems from the desire to not monopolize all resources but to gradually accept the divvying up of resources of collaboration (cliques, teams or greater communities).
+
+When clients are watching and see the current interaction reacting badly, then sometimes everyone else who is waiting will stop watching or go elsewhere, thus they may provide a better service when a client can be made aware of their ability to exhibit cooperative behavior. This has been observed in generosity 'tournaments' or one-upmanship behavior among people, and among cleaner fish, and it's an example of costly behavior that engages in that is about a future underlying benefit that one can gain by gaining those clients, for human beings its particularly the case that unconditional generosity is a particular response which suggests perception of a sexual role advantage as underlining such behavioral choices amongst men when undergoing competitively this way in the presence of attractive females or online.[9]
+
+Every human achievements are actually reliant on the cooperation efforts that have been created by others, from the cursory to the truly magnificent, whether its a mundane achievement or the greatest achievements, it relies on cooperation.[10] We're biologically geared to ensuring survival by social instincts like much of the food early human beings ate were hunted or gathered, these are aspects of cooperation that alone cannot be done. To avoid the problem of starvation we had to band together like our distant ancestors if we wish to continue existing. However primates largely lived on large salad bowls so they avoided such pressure, narrowing what they need as a evolutionary strategy. We had to not only cooperate to eat, we also readily need to learn other important life skills to be able continue this strategy and had to raise our children that couldn't survive without essential food.
+
+Kin selection or related inclusive fitness theory is defined as a reproductive strategy that favors the success of an organism's relatives, even when it is not in an organism's own best interest, it's highly relevant to human social behavior, relationships and cooperation.
+
+In the individual psychology of Alfred Adler, a definition of social instinct is; an innate drive for cooperation is what invariably leads individuals to inculcate social interest and the common good to help them achieve self-realization.[11]
+
+Among other animals
+
+The name of the Indicator indicator refers to its habit of guiding honey badgers and humans to bee colonies, in order to obtain the wax and larvae it feeds on after the honey has been plundered by mammals.
+Cooperation is common in non-human animals. Besides cooperation with an immediate benefit for both actors, this behavior appears to occur mostly between relatives. Spending time and resources assisting a related individual may reduce an organism's chances of survival, but because relatives share genes, may increase the likelihood that the helper's genetic traits will be passed on to future generations.[12] The cooperative pulling paradigm is an experimental design used to assess if and under which conditions animals cooperate. It involves two or more animals pulling rewards towards themselves via an apparatus they can not successfully operate alone.[13]
+
+Some researchers assert that cooperation is more complex than this. They maintain that helpers may receive more direct, and less indirect, gains from assisting others than is commonly reported. Furthermore, they insist that cooperation may not solely be an interaction between two individuals but may be part of the broader goal of unifying populations.[14]
+
+Kin selection
+One specific form of cooperation in animals is kin selection, which can be defined as animals helping to rear a relative's offspring in order to enhance their own fitness.[12][14]
+
+Different theories explaining kin selection have been proposed, including the "pay-to-stay" and "territory inheritance" hypotheses. The "pay-to-stay" theory suggests that individuals help others rear offspring in order to return the favor of the breeders allowing them to live on their land. The "territory inheritance" theory contends that individuals help in order to have improved access to breeding areas once the breeders depart. These two hypotheses both appear to be valid, at least in cichlid fish.[15]
+
+Studies conducted on red wolves support previous researchers'[14] contention that helpers obtain both immediate and long-term gains from cooperative breeding. Researchers evaluated the consequences of red wolves' decisions to stay with their packs for extended periods of time after birth. It was found that this "delayed dispersal," while it involved helping other wolves rear their offspring, extended male wolves' life spans. These findings suggest that kin selection may not only benefit an individual in the long-term in terms of increased fitness but in the short-term as well through enhanced chance of survival.[16]
+
+Some research even suggests that certain species provide more help to the individuals with which they are more closely related. This phenomenon is known as kin discrimination.[17] In their meta-analysis, researchers compiled data on kin selection as mediated by genetic relatedness in 18 species, including the Western bluebird, Pied kingfisher, Australian magpie, and Dwarf Mongoose. They found that different species exhibited varying degrees of kin discrimination, with the largest frequencies occurring among those who have the most to gain from cooperative interactions.[17]
+
+Cooperative systems
+Cooperation is a process by which the components of a system work together to achieve the global properties. In other words, individual components that appear to be "selfish" and independent work together to create a highly complex, greater-than-the-sum-of-its-parts system. The phenomenon is generally known as 'emergence' and is considered an outcome of self-organization.[18] Examples:
+
+The components in a cell work together to keep it living.
+Neurons create thought and consciousness, other cells work together and communicate to produce multicellular organisms.
+Organisms form food chains and ecosystems.
+People form families, tribes, cities and nations.
+Atoms cooperate in a simple way, by combining to make up molecules.
+Understanding the mechanisms that create cooperating agents in a system is one of the most important and least well understood phenomena in nature, though there has not been a lack of effort.[citation needed]
+
+Individual action on behalf of a larger system may be coerced (forced), voluntary (freely chosen), or even unintentional, and consequently individuals and groups might act in concert even though they have almost nothing in common as regards interests or goals. Examples of that can be found in market trade, military wars, families, workplaces, schools and prisons, and more generally any institution or organization of which individuals are part (out of own choice, by law, or forced).[citation needed]
+
+A cooperative system has been defined in organization studies as a complex of physical, biological, personal and social components which are in a specific systematic relationship by reason of the cooperation of two or more persons for at least one definite end.[19]
+
+The prisoner's dilemma
+Main article: Prisoner's dilemma
+The prisoner's dilemma is a model that demonstrates how, in certain conditions, members of a group will not cooperate even though cooperation would mutually benefit them all. It makes clear that collective self-interest is insufficient to achieving cooperative behavior, at least when an uncooperative individual who "cheats" can exploit cooperating group members. The prisoner's dilemma formalizing this problem using game theory and has been the subject of much theoretical and experimental research. The first extensive experimental studies were conducted in the early 1960s by Anatol Rapoport and Albert Chammah.[20] Results from experimental economics show that humans often act more cooperatively than strict self-interest, modeled as the Nash Equilibrium, would seem to dictate. While economic experiments require subjects to make relatively abstract decisions for small stakes, evidence from natural experiments for high stakes support the claim that humans act more cooperatively than strict self-interest would dictate.[21]
+
+One reason may be that if the prisoner's dilemma situation is repeated (the iterated prisoner's dilemma), it allows non-cooperation to be punished more, and cooperation to be rewarded more, than the single-shot version of the problem would suggest. It has been suggested that this is one reason for the evolution of complex emotions in higher life forms.[22][23] Playing the iterated version of the game leads to a cascade of brain signals that relate the speed with which players reciprocate cooperation at subsequent rounds.[24]
+
+In evolutionary biology, five mechanisms for the evolution of cooperation have been suggested: (i) kin selection, (ii) direct reciprocity, (iii) indirect reciprocity, (iv) spatial structure, and (v) group selection.[25]
+
+See also
+Agreeableness
+Collaboration
+Cooperativeness (personality trait)
+Cooperative gameplay
+Dictator game
+Dunbar's number
+Game theory
+Management cybernetics
+Polytely
+Teamwork
+Faz'ah
+Books
+The Evolution of Cooperation
+Mutual Aid: A Factor of Evolution
+
+-------
+
+Copying
+
+Article
+Talk
+Read
+Edit
+View history
+
+Tools
+Appearance hide
+Text
+
+Small
+
+Standard
+
+Large
+Width
+
+Standard
+
+Wide
+Color (beta)
+
+Automatic
+
+Light
+
+Dark
+From Wikipedia, the free encyclopedia
+For the guidelines for copying in Wikipedia, see WP:Copying within Wikipedia.
+Copying is the duplication of information or an artifact based on an instance of that information or artifact, and not using the process that originally generated it. With analog forms of information, copying is only possible to a limited degree of accuracy, which depends on the quality of the equipment used and the skill of the operator. There is some inevitable generation loss, deterioration and accumulation of "noise" (random small changes) from original to copy when copies are made. This deterioration accumulates with each generation. With digital forms of information, copying is perfect. Copy and paste is frequently used by a computer user when they select and copy an area of text or content.
+
+In art
+Further information: Imitation (art) and After (art)
+In visual art, copying the works of the masters is a standard way that students learn to paint and sculpt.[1] Often, artists will use the term after to credit the original artist in the title of the copy (regardless of how similar the two works appear) such as in Vincent van Gogh's "First Steps (after Millet)" and Pablo Picasso's "Luncheon on the Grass, after Manet" (based on Manet's well-known work).[2][3] In sculpture, copies have often been made using devices such as the pointing machine, the pantograph or, more recently, computer guided router systems that scan[4] a model and can produce it in a variety of materials and in any desired size.[5] Another way of copying three-dimensional works is by lost-wax casting and other forms of molding and casting.
+
+In literature
+
+Portrait of Burgundian scribe Jean Miélot who was a copyist.
+Prior to the invention of the printing press, the only way to obtain a copy of a book was to copy it out by hand (see scrivener). Throughout the Middle Ages, monks copied entire texts as a way of disseminating and preserving literary, philosophical and religious texts.
+
+In office work
+Further information: Duplicating machines
+Offices need more than one copy of a document in a number of situations. They usually need a copy of outgoing correspondence for their records. Sometimes they want to circulate copies of documents they create to several interested parties.
+
+Until the late 18th century, if an office wanted to keep a copy of an outgoing letter, a clerk had to write out the copy by hand. This technology continued to be prevalent through most of the 19th century. For these purposes, offices employed copy clerks, also known as copyists, scribes, and scriveners.
+
+A few alternatives to hand copying were invented between the mid-17th century and the late 18th century, but none had a significant impact on offices. In 1780 James Watt obtained a patent for letter copying presses, which James Watt & Co. produced beginning in that year. Letter copying presses were used by the early 1780s by people like Benjamin Franklin, George Washington, and Thomas Jefferson. In 1785, Jefferson was using both stationary and portable presses made by James Watt & Co.
+
+During the 19th century, a host of competing technologies were introduced to meet office copying needs.[6] The technologies that were most commonly used in 1895 are identified in an 1895 description of the New York Business College's course program: "All important letters or documents are copied in a letter-book or carbon copies [are] made, and instruction is also given in the use of the mimeograph and other labor-saving office devices."[7]
+
+Biological copying
+Main article: DNA replication
+Organically, copying of genetic information can take place using DNA replication, which is able to copy and replicate the data with a high degree of accuracy, but mistakes are common, and occur in the form of mutations. However, in the process of DNA repair, many of the mistakes are corrected by checking the copied data against the original data.
+
+Digital copying
+See also: digital copy
+The same principle is applied digitally, in devices such as in hard disks, but in a different form. The magnetised data on the disk consists of 1s and 0s. Unlike DNA, it only has two types of information, rather than four types, however, it still has a polar concept of transfer. In this case, the read-write head acts as an intermediary. A data section reading "1", can only trigger one type of response, and "0" for the other. These responses from reading are converted into an electrical form that gets carried through the circuits. Although this can be later converted and processed for other ways of using the data, which can be modified, if a file was being copied from one hard disk to another, the principle ensures that the data is transferred with high fidelity, because only each type of signal can only trigger one type of data write, in this case, a 1 or a 0. This excludes exceptions where the data was written incorrectly or the existing data has been corrupted while on the disk such that no distinction can be made, but usually the hard disk returns the area as unreadable. The other concept that using digital copying is website copy, digital copying has more interpretation than just the basic concept of disk read and write itself. Digital Copy is a sample of interpretation of digital copying.
+
+Copying rights
+Main article: Copyright
+A video regarding the ethics of copying in favour of being able to copy
+The concept of copying has a particular significance in certain areas of law. In each of the primary areas of intellectual property law, a number of cases have refined the question of what exactly constitutes the kind of copying prohibited by law, especially in areas such as copyright law.
+
+A related concept is plagiarism, copying others' work and passing it off as one's own. Many schools will take plagiarism to academic suspension, or even the failure of a course.
+
+See also
+Copier
+Copyscript
+Duplicating machines
+Fauxbergé
+Replica
+Typescript
+References
+ Tang, Grace (2023-09-04). "From 'take-ism' to pursuit of newness and originality: design professionals and models of creativity in contemporary China". Journal of Cultural Economy: 1–18. doi:10.1080/17530350.2023.2246984. ISSN 1753-0350.
+ "Artlex Art Dictionary". Artlex. Archived from the original on 15 Nov 2015. Retrieved 9 Jul 2022.
+ "Art Terms from A to Z". Victoria, British Columbia: AbeBooks. 8 Jun 2021. Retrieved 13 Jul 2022.
+ "David Petry: Body Scans a Big Step in Replacing Courthouse Sculpture". Noozhawk.com. 2010-02-25. Archived from the original on 2013-02-24. Retrieved 2013-10-01.
+ "Sculpture.org". Sculpture.org. Retrieved 2013-10-01.
+ Rhodes, Barbara J.; Streeter, William W. (1999). Before Photocopying: The Art & History of Mechanical Copying, 1780-1938 : a Book in Two Parts. New Castle, Delaware: Oak Knoll Press. ISBN 9781884718618. Retrieved 10 January 2023.
+ "Copying Machines". Officemuseum.com. Retrieved 2013-10-01.
+External links
+
+
+----
+
+Data compression
+
+Article
+Talk
+Read
+Edit
+View history
+
+Tools
+Appearance hide
+Text
+
+Small
+
+Standard
+
+Large
+Width
+
+Standard
+
+Wide
+Color (beta)
+
+Automatic
+
+Light
+
+Dark
+From Wikipedia, the free encyclopedia
+"Source coding" redirects here. For the term in computer programming, see Source code.
+"Decompression software" redirects here. For the code for calculation of diving decompression schedules, see Decompression algorithm.
+In information theory, data compression, source coding,[1] or bit-rate reduction is the process of encoding information using fewer bits than the original representation.[2] Any particular compression is either lossy or lossless. Lossless compression reduces bits by identifying and eliminating statistical redundancy. No information is lost in lossless compression. Lossy compression reduces bits by removing unnecessary or less important information.[3] Typically, a device that performs data compression is referred to as an encoder, and one that performs the reversal of the process (decompression) as a decoder.
+
+The process of reducing the size of a data file is often referred to as data compression. In the context of data transmission, it is called source coding: encoding is done at the source of the data before it is stored or transmitted.[4] Source coding should not be confused with channel coding, for error detection and correction or line coding, the means for mapping data onto a signal.
+
+Data compression algorithms present a space–time complexity trade-off between the bytes needed to store or transmit information, and the computational resources needed to perform the encoding and decoding. The design of data compression schemes involves balancing the degree of compression, the amount of distortion introduced (when using lossy data compression), and the computational resources or time required to compress and decompress the data.[5]
+
+Lossless
+Main article: Lossless compression
+Lossless data compression algorithms usually exploit statistical redundancy to represent data without losing any information, so that the process is reversible. Lossless compression is possible because most real-world data exhibits statistical redundancy. For example, an image may have areas of color that do not change over several pixels; instead of coding "red pixel, red pixel, ..." the data may be encoded as "279 red pixels". This is a basic example of run-length encoding; there are many schemes to reduce file size by eliminating redundancy.
+
+The Lempel–Ziv (LZ) compression methods are among the most popular algorithms for lossless storage.[6] DEFLATE is a variation on LZ optimized for decompression speed and compression ratio,[7] but compression can be slow. In the mid-1980s, following work by Terry Welch, the Lempel–Ziv–Welch (LZW) algorithm rapidly became the method of choice for most general-purpose compression systems. LZW is used in GIF images, programs such as PKZIP, and hardware devices such as modems.[8] LZ methods use a table-based compression model where table entries are substituted for repeated strings of data. For most LZ methods, this table is generated dynamically from earlier data in the input. The table itself is often Huffman encoded. Grammar-based codes like this can compress highly repetitive input extremely effectively, for instance, a biological data collection of the same or closely related species, a huge versioned document collection, internet archival, etc. The basic task of grammar-based codes is constructing a context-free grammar deriving a single string. Other practical grammar compression algorithms include Sequitur and Re-Pair.
+
+The strongest modern lossless compressors use probabilistic models, such as prediction by partial matching. The Burrows–Wheeler transform can also be viewed as an indirect form of statistical modelling.[citation needed] In a further refinement of the direct use of probabilistic modelling, statistical estimates can be coupled to an algorithm called arithmetic coding. Arithmetic coding is a more modern coding technique that uses the mathematical calculations of a finite-state machine to produce a string of encoded bits from a series of input data symbols. It can achieve superior compression compared to other techniques such as the better-known Huffman algorithm. It uses an internal memory state to avoid the need to perform a one-to-one mapping of individual input symbols to distinct representations that use an integer number of bits, and it clears out the internal memory only after encoding the entire string of data symbols. Arithmetic coding applies especially well to adaptive data compression tasks where the statistics vary and are context-dependent, as it can be easily coupled with an adaptive model of the probability distribution of the input data. An early example of the use of arithmetic coding was in an optional (but not widely used) feature of the JPEG image coding standard.[9] It has since been applied in various other designs including H.263, H.264/MPEG-4 AVC and HEVC for video coding.[10]
+
+Archive software typically has the ability to adjust the "dictionary size", where a larger size demands more random-access memory during compression and decompression, but compresses stronger, especially on repeating patterns in files' content.[11][12]
+
+Lossy
+Main article: Lossy compression
+
+Composite image showing JPG and PNG image compression. Left side of the image is from a JPEG image, showing lossy artifacts; the right side is from a PNG image.
+In the late 1980s, digital images became more common, and standards for lossless image compression emerged. In the early 1990s, lossy compression methods began to be widely used.[13] In these schemes, some loss of information is accepted as dropping nonessential detail can save storage space. There is a corresponding trade-off between preserving information and reducing size. Lossy data compression schemes are designed by research on how people perceive the data in question. For example, the human eye is more sensitive to subtle variations in luminance than it is to the variations in color. JPEG image compression works in part by rounding off nonessential bits of information.[14] A number of popular compression formats exploit these perceptual differences, including psychoacoustics for sound, and psychovisuals for images and video.
+
+Most forms of lossy compression are based on transform coding, especially the discrete cosine transform (DCT). It was first proposed in 1972 by Nasir Ahmed, who then developed a working algorithm with T. Natarajan and K. R. Rao in 1973, before introducing it in January 1974.[15][16] DCT is the most widely used lossy compression method, and is used in multimedia formats for images (such as JPEG and HEIF),[17] video (such as MPEG, AVC and HEVC) and audio (such as MP3, AAC and Vorbis).
+
+Lossy image compression is used in digital cameras, to increase storage capacities. Similarly, DVDs, Blu-ray and streaming video use lossy video coding formats. Lossy compression is extensively used in video.
+
+In lossy audio compression, methods of psychoacoustics are used to remove non-audible (or less audible) components of the audio signal. Compression of human speech is often performed with even more specialized techniques; speech coding is distinguished as a separate discipline from general-purpose audio compression. Speech coding is used in internet telephony, for example, audio compression is used for CD ripping and is decoded by the audio players.[citation needed]
+
+Lossy compression can cause generation loss.
+
+Theory
+The theoretical basis for compression is provided by information theory and, more specifically, Shannon's source coding theorem; domain-specific theories include algorithmic information theory for lossless compression and rate–distortion theory for lossy compression. These areas of study were essentially created by Claude Shannon, who published fundamental papers on the topic in the late 1940s and early 1950s. Other topics associated with compression include coding theory and statistical inference.[18]
+
+Machine learning
+There is a close connection between machine learning and compression. A system that predicts the posterior probabilities of a sequence given its entire history can be used for optimal data compression (by using arithmetic coding on the output distribution). Conversely, an optimal compressor can be used for prediction (by finding the symbol that compresses best, given the previous history). This equivalence has been used as a justification for using data compression as a benchmark for "general intelligence".[19][20][21]
+
+An alternative view can show compression algorithms implicitly map strings into implicit feature space vectors, and compression-based similarity measures compute similarity within these feature spaces. For each compressor C(.) we define an associated vector space ℵ, such that C(.) maps an input string x, corresponding to the vector norm ||~x||. An exhaustive examination of the feature spaces underlying all compression algorithms is precluded by space; instead, feature vectors chooses to examine three representative lossless compression methods, LZW, LZ77, and PPM.[22]
+
+According to AIXI theory, a connection more directly explained in Hutter Prize, the best possible compression of x is the smallest possible software that generates x. For example, in that model, a zip file's compressed size includes both the zip file and the unzipping software, since you can not unzip it without both, but there may be an even smaller combined form.
+
+Examples of AI-powered audio/video compression software include NVIDIA Maxine, AIVC.[23] Examples of software that can perform AI-powered image compression include OpenCV, TensorFlow, MATLAB's Image Processing Toolbox (IPT) and High-Fidelity Generative Image Compression.[24]
+
+In unsupervised machine learning, k-means clustering can be utilized to compress data by grouping similar data points into clusters. This technique simplifies handling extensive datasets that lack predefined labels and finds widespread use in fields such as image compression.[25]
+
+Data compression aims to reduce the size of data files, enhancing storage efficiency and speeding up data transmission. K-means clustering, an unsupervised machine learning algorithm, is employed to partition a dataset into a specified number of clusters, k, each represented by the centroid of its points. This process condenses extensive datasets into a more compact set of representative points. Particularly beneficial in image and signal processing, k-means clustering aids in data reduction by replacing groups of data points with their centroids, thereby preserving the core information of the original data while significantly decreasing the required storage space.[26]
+
+Large language models (LLMs) are also efficient lossless data compressors on some data sets, as demonstrated by DeepMind's research with the Chinchilla 70B model. Developed by DeepMind, Chinchilla 70B effectively compressed data, outperforming conventional methods such as Portable Network Graphics (PNG) for images and Free Lossless Audio Codec (FLAC) for audio. It achieved compression of image and audio data to 43.4% and 16.4% of their original sizes, respectively. There is, however, some reason to be concerned that the data set used for testing overlaps the LLM training data set, making it possible that the Chinchilla 70B model is only an efficient compression tool on data it has already been trained on.[27][28]
+
+Data differencing
+
+Comparison of two revisions of a file
+Data compression can be viewed as a special case of data differencing.[29][30] Data differencing consists of producing a difference given a source and a target, with patching reproducing the target given a source and a difference. Since there is no separate source and target in data compression, one can consider data compression as data differencing with empty source data, the compressed file corresponding to a difference from nothing. This is the same as considering absolute entropy (corresponding to data compression) as a special case of relative entropy (corresponding to data differencing) with no initial data.
+
+The term differential compression is used to emphasize the data differencing connection.
+
+Uses
+Image
+Main article: Image compression
+Entropy coding originated in the 1940s with the introduction of Shannon–Fano coding,[31] the basis for Huffman coding which was developed in 1950.[32] Transform coding dates back to the late 1960s, with the introduction of fast Fourier transform (FFT) coding in 1968 and the Hadamard transform in 1969.[33]
+
+An important image compression technique is the discrete cosine transform (DCT), a technique developed in the early 1970s.[15] DCT is the basis for JPEG, a lossy compression format which was introduced by the Joint Photographic Experts Group (JPEG) in 1992.[34] JPEG greatly reduces the amount of data required to represent an image at the cost of a relatively small reduction in image quality and has become the most widely used image file format.[35][36] Its highly efficient DCT-based compression algorithm was largely responsible for the wide proliferation of digital images and digital photos.[37]
+
+Lempel–Ziv–Welch (LZW) is a lossless compression algorithm developed in 1984. It is used in the GIF format, introduced in 1987.[38] DEFLATE, a lossless compression algorithm specified in 1996, is used in the Portable Network Graphics (PNG) format.[39]
+
+Wavelet compression, the use of wavelets in image compression, began after the development of DCT coding.[40] The JPEG 2000 standard was introduced in 2000.[41] In contrast to the DCT algorithm used by the original JPEG format, JPEG 2000 instead uses discrete wavelet transform (DWT) algorithms.[42][43][44] JPEG 2000 technology, which includes the Motion JPEG 2000 extension, was selected as the video coding standard for digital cinema in 2004.[45]
+
+Audio
+See also: Audio coding format and Audio codec
+Audio data compression, not to be confused with dynamic range compression, has the potential to reduce the transmission bandwidth and storage requirements of audio data. Audio compression formats compression algorithms are implemented in software as audio codecs. In both lossy and lossless compression, information redundancy is reduced, using methods such as coding, quantization, DCT and linear prediction to reduce the amount of information used to represent the uncompressed data.
+
+Lossy audio compression algorithms provide higher compression and are used in numerous audio applications including Vorbis and MP3. These algorithms almost all rely on psychoacoustics to eliminate or reduce fidelity of less audible sounds, thereby reducing the space required to store or transmit them.[2][46]
+
+The acceptable trade-off between loss of audio quality and transmission or storage size depends upon the application. For example, one 640 MB compact disc (CD) holds approximately one hour of uncompressed high fidelity music, less than 2 hours of music compressed losslessly, or 7 hours of music compressed in the MP3 format at a medium bit rate. A digital sound recorder can typically store around 200 hours of clearly intelligible speech in 640 MB.[47]
+
+Lossless audio compression produces a representation of digital data that can be decoded to an exact digital duplicate of the original. Compression ratios are around 50–60% of the original size,[48] which is similar to those for generic lossless data compression. Lossless codecs use curve fitting or linear prediction as a basis for estimating the signal. Parameters describing the estimation and the difference between the estimation and the actual signal are coded separately.[49]
+
+A number of lossless audio compression formats exist. See list of lossless codecs for a listing. Some formats are associated with a distinct system, such as Direct Stream Transfer, used in Super Audio CD and Meridian Lossless Packing, used in DVD-Audio, Dolby TrueHD, Blu-ray and HD DVD.
+
+Some audio file formats feature a combination of a lossy format and a lossless correction; this allows stripping the correction to easily obtain a lossy file. Such formats include MPEG-4 SLS (Scalable to Lossless), WavPack, and OptimFROG DualStream.
+
+When audio files are to be processed, either by further compression or for editing, it is desirable to work from an unchanged original (uncompressed or losslessly compressed). Processing of a lossily compressed file for some purpose usually produces a final result inferior to the creation of the same compressed file from an uncompressed original. In addition to sound editing or mixing, lossless audio compression is often used for archival storage, or as master copies.
+
+Lossy audio compression
+
+Comparison of spectrograms of audio in an uncompressed format and several lossy formats. The lossy spectrograms show bandlimiting of higher frequencies, a common technique associated with lossy audio compression.
+Lossy audio compression is used in a wide range of applications. In addition to standalone audio-only applications of file playback in MP3 players or computers, digitally compressed audio streams are used in most video DVDs, digital television, streaming media on the Internet, satellite and cable radio, and increasingly in terrestrial radio broadcasts. Lossy compression typically achieves far greater compression than lossless compression, by discarding less-critical data based on psychoacoustic optimizations.[50]
+
+Psychoacoustics recognizes that not all data in an audio stream can be perceived by the human auditory system. Most lossy compression reduces redundancy by first identifying perceptually irrelevant sounds, that is, sounds that are very hard to hear. Typical examples include high frequencies or sounds that occur at the same time as louder sounds. Those irrelevant sounds are coded with decreased accuracy or not at all.
+
+Due to the nature of lossy algorithms, audio quality suffers a digital generation loss when a file is decompressed and recompressed. This makes lossy compression unsuitable for storing the intermediate results in professional audio engineering applications, such as sound editing and multitrack recording. However, lossy formats such as MP3 are very popular with end-users as the file size is reduced to 5-20% of the original size and a megabyte can store about a minute's worth of music at adequate quality.
+
+Several proprietary lossy compression algorithms have been developed that provide higher quality audio performance by using a combination of lossless and lossy algorithms with adaptive bit rates and lower compression ratios. Examples include aptX, LDAC, LHDC, MQA and SCL6.
+
+Coding methods
+To determine what information in an audio signal is perceptually irrelevant, most lossy compression algorithms use transforms such as the modified discrete cosine transform (MDCT) to convert time domain sampled waveforms into a transform domain, typically the frequency domain. Once transformed, component frequencies can be prioritized according to how audible they are. Audibility of spectral components is assessed using the absolute threshold of hearing and the principles of simultaneous masking—the phenomenon wherein a signal is masked by another signal separated by frequency—and, in some cases, temporal masking—where a signal is masked by another signal separated by time. Equal-loudness contours may also be used to weigh the perceptual importance of components. Models of the human ear-brain combination incorporating such effects are often called psychoacoustic models.[51]
+
+Other types of lossy compressors, such as the linear predictive coding (LPC) used with speech, are source-based coders. LPC uses a model of the human vocal tract to analyze speech sounds and infer the parameters used by the model to produce them moment to moment. These changing parameters are transmitted or stored and used to drive another model in the decoder which reproduces the sound.
+
+Lossy formats are often used for the distribution of streaming audio or interactive communication (such as in cell phone networks). In such applications, the data must be decompressed as the data flows, rather than after the entire data stream has been transmitted. Not all audio codecs can be used for streaming applications.[50]
+
+Latency is introduced by the methods used to encode and decode the data. Some codecs will analyze a longer segment, called a frame, of the data to optimize efficiency, and then code it in a manner that requires a larger segment of data at one time to decode. The inherent latency of the coding algorithm can be critical; for example, when there is a two-way transmission of data, such as with a telephone conversation, significant delays may seriously degrade the perceived quality.
+
+In contrast to the speed of compression, which is proportional to the number of operations required by the algorithm, here latency refers to the number of samples that must be analyzed before a block of audio is processed. In the minimum case, latency is zero samples (e.g., if the coder/decoder simply reduces the number of bits used to quantize the signal). Time domain algorithms such as LPC also often have low latencies, hence their popularity in speech coding for telephony. In algorithms such as MP3, however, a large number of samples have to be analyzed to implement a psychoacoustic model in the frequency domain, and latency is on the order of 23 ms.
+
+Speech encoding
+Speech encoding is an important category of audio data compression. The perceptual models used to estimate what aspects of speech a human ear can hear are generally somewhat different from those used for music. The range of frequencies needed to convey the sounds of a human voice is normally far narrower than that needed for music, and the sound is normally less complex. As a result, speech can be encoded at high quality using a relatively low bit rate.
+
+This is accomplished, in general, by some combination of two approaches:
+
+Only encoding sounds that could be made by a single human voice.
+Throwing away more of the data in the signal—keeping just enough to reconstruct an "intelligible" voice rather than the full frequency range of human hearing.
+The earliest algorithms used in speech encoding (and audio data compression in general) were the A-law algorithm and the μ-law algorithm.
+
+History
+
+Solidyne 922: The world's first commercial audio bit compression sound card for PC, 1990
+Early audio research was conducted at Bell Labs. There, in 1950, C. Chapin Cutler filed the patent on differential pulse-code modulation (DPCM).[52] In 1973, Adaptive DPCM (ADPCM) was introduced by P. Cummiskey, Nikil S. Jayant and James L. Flanagan.[53][54]
+
+Perceptual coding was first used for speech coding compression, with linear predictive coding (LPC).[55] Initial concepts for LPC date back to the work of Fumitada Itakura (Nagoya University) and Shuzo Saito (Nippon Telegraph and Telephone) in 1966.[56] During the 1970s, Bishnu S. Atal and Manfred R. Schroeder at Bell Labs developed a form of LPC called adaptive predictive coding (APC), a perceptual coding algorithm that exploited the masking properties of the human ear, followed in the early 1980s with the code-excited linear prediction (CELP) algorithm which achieved a significant compression ratio for its time.[55] Perceptual coding is used by modern audio compression formats such as MP3[55] and AAC.
+
+Discrete cosine transform (DCT), developed by Nasir Ahmed, T. Natarajan and K. R. Rao in 1974,[16] provided the basis for the modified discrete cosine transform (MDCT) used by modern audio compression formats such as MP3,[57] Dolby Digital,[58][59] and AAC.[60] MDCT was proposed by J. P. Princen, A. W. Johnson and A. B. Bradley in 1987,[61] following earlier work by Princen and Bradley in 1986.[62]
+
+The world's first commercial broadcast automation audio compression system was developed by Oscar Bonello, an engineering professor at the University of Buenos Aires. [63] This broadcast automation system was launched in 1987 under the name Audicom. [64] [65]
+
+A literature compendium for a large variety of audio coding systems was published in the IEEE's Journal on Selected Areas in Communications (JSAC), in February 1988. While there were some papers from before that time, this collection documented an entire variety of finished, working audio coders, nearly all of them using perceptual techniques and some kind of frequency analysis and back-end noiseless coding.[66]
+
+Video
+See also: Video coding format and Video codec
+Uncompressed video requires a very high data rate. Although lossless video compression codecs perform at a compression factor of 5 to 12, a typical H.264 lossy compression video has a compression factor between 20 and 200.[67]
+
+The two key video compression techniques used in video coding standards are the DCT and motion compensation (MC). Most video coding standards, such as the H.26x and MPEG formats, typically use motion-compensated DCT video coding (block motion compensation).[68][69]
+
+Most video codecs are used alongside audio compression techniques to store the separate but complementary data streams as one combined package using so-called container formats.[70]
+
+Encoding theory
+Video data may be represented as a series of still image frames. Such data usually contains abundant amounts of spatial and temporal redundancy. Video compression algorithms attempt to reduce redundancy and store information more compactly.
+
+Most video compression formats and codecs exploit both spatial and temporal redundancy (e.g. through difference coding with motion compensation). Similarities can be encoded by only storing differences between e.g. temporally adjacent frames (inter-frame coding) or spatially adjacent pixels (intra-frame coding). Inter-frame compression (a temporal delta encoding) (re)uses data from one or more earlier or later frames in a sequence to describe the current frame. Intra-frame coding, on the other hand, uses only data from within the current frame, effectively being still-image compression.[51]
+
+The intra-frame video coding formats used in camcorders and video editing employ simpler compression that uses only intra-frame prediction. This simplifies video editing software, as it prevents a situation in which a compressed frame refers to data that the editor has deleted.
+
+Usually, video compression additionally employs lossy compression techniques like quantization that reduce aspects of the source data that are (more or less) irrelevant to the human visual perception by exploiting perceptual features of human vision. For example, small differences in color are more difficult to perceive than are changes in brightness. Compression algorithms can average a color across these similar areas in a manner similar to those used in JPEG image compression.[9] As in all lossy compression, there is a trade-off between video quality and bit rate, cost of processing the compression and decompression, and system requirements. Highly compressed video may present visible or distracting artifacts.
+
+Other methods other than the prevalent DCT-based transform formats, such as fractal compression, matching pursuit and the use of a discrete wavelet transform (DWT), have been the subject of some research, but are typically not used in practical products. Wavelet compression is used in still-image coders and video coders without motion compensation. Interest in fractal compression seems to be waning, due to recent theoretical analysis showing a comparative lack of effectiveness of such methods.[51]
+
+Inter-frame coding
+Main article: Inter frame
+Further information: Motion compensation
+In inter-frame coding, individual frames of a video sequence are compared from one frame to the next, and the video compression codec records the differences to the reference frame. If the frame contains areas where nothing has moved, the system can simply issue a short command that copies that part of the previous frame into the next one. If sections of the frame move in a simple manner, the compressor can emit a (slightly longer) command that tells the decompressor to shift, rotate, lighten, or darken the copy. This longer command still remains much shorter than data generated by intra-frame compression. Usually, the encoder will also transmit a residue signal which describes the remaining more subtle differences to the reference imagery. Using entropy coding, these residue signals have a more compact representation than the full signal. In areas of video with more motion, the compression must encode more data to keep up with the larger number of pixels that are changing. Commonly, the high-frequency detail of explosions, flames, flocks of animals, and some panning shots, will lead to decreases in quality or increases in the variable bitrate.
+
+Hybrid block-based transform formats
+
+Processing stages of a typical video encoder
+Many commonly used video compression methods (e.g., those in standards approved by the ITU-T or ISO) share the same basic architecture that dates back to H.261 which was standardized in 1988 by the ITU-T. They mostly rely on the DCT, applied to rectangular blocks of neighboring pixels, and temporal prediction using motion vectors, as well as nowadays also an in-loop filtering step.
+
+In the prediction stage, various deduplication and difference-coding techniques are applied that help decorrelate data and describe new data based on already transmitted data.
+
+Then rectangular blocks of remaining pixel data are transformed to the frequency domain. In the main lossy processing stage, frequency domain data gets quantized in order to reduce information that is irrelevant to human visual perception.
+
+In the last stage statistical redundancy gets largely eliminated by an entropy coder which often applies some form of arithmetic coding.
+
+In an additional in-loop filtering stage various filters can be applied to the reconstructed image signal. By computing these filters also inside the encoding loop they can help compression because they can be applied to reference material before it gets used in the prediction process and they can be guided using the original signal. The most popular example are deblocking filters that blur out blocking artifacts from quantization discontinuities at transform block boundaries.
+
+History
+Main article: Video coding format § History
+In 1967, A.H. Robinson and C. Cherry proposed a run-length encoding bandwidth compression scheme for the transmission of analog television signals.[71] The DCT, which is fundamental to modern video compression,[72] was introduced by Nasir Ahmed, T. Natarajan and K. R. Rao in 1974.[16][73]
+
+H.261, which debuted in 1988, commercially introduced the prevalent basic architecture of video compression technology.[74] It was the first video coding format based on DCT compression.[72] H.261 was developed by a number of companies, including Hitachi, PictureTel, NTT, BT and Toshiba.[75]
+
+The most popular video coding standards used for codecs have been the MPEG standards. MPEG-1 was developed by the Motion Picture Experts Group (MPEG) in 1991, and it was designed to compress VHS-quality video. It was succeeded in 1994 by MPEG-2/H.262,[74] which was developed by a number of companies, primarily Sony, Thomson and Mitsubishi Electric.[76] MPEG-2 became the standard video format for DVD and SD digital television.[74] In 1999, it was followed by MPEG-4/H.263.[74] It was also developed by a number of companies, primarily Mitsubishi Electric, Hitachi and Panasonic.[77]
+
+H.264/MPEG-4 AVC was developed in 2003 by a number of organizations, primarily Panasonic, Godo Kaisha IP Bridge and LG Electronics.[78] AVC commercially introduced the modern context-adaptive binary arithmetic coding (CABAC) and context-adaptive variable-length coding (CAVLC) algorithms. AVC is the main video encoding standard for Blu-ray Discs, and is widely used by video sharing websites and streaming internet services such as YouTube, Netflix, Vimeo, and iTunes Store, web software such as Adobe Flash Player and Microsoft Silverlight, and various HDTV broadcasts over terrestrial and satellite television.[citation needed]
+
+Genetics
+Genetics compression algorithms are the latest generation of lossless algorithms that compress data (typically sequences of nucleotides) using both conventional compression algorithms and genetic algorithms adapted to the specific datatype. In 2012, a team of scientists from Johns Hopkins University published a genetic compression algorithm that does not use a reference genome for compression. HAPZIPPER was tailored for HapMap data and achieves over 20-fold compression (95% reduction in file size), providing 2- to 4-fold better compression and is less computationally intensive than the leading general-purpose compression utilities. For this, Chanda, Elhaik, and Bader introduced MAF-based encoding (MAFE), which reduces the heterogeneity of the dataset by sorting SNPs by their minor allele frequency, thus homogenizing the dataset.[79] Other algorithms developed in 2009 and 2013 (DNAZip and GenomeZip) have compression ratios of up to 1200-fold—allowing 6 billion basepair diploid human genomes to be stored in 2.5 megabytes (relative to a reference genome or averaged over many genomes).[80][81] For a benchmark in genetics/genomics data compressors, see [82]
+
+Outlook and currently unused potential
+It is estimated that the total amount of data that is stored on the world's storage devices could be further compressed with existing compression algorithms by a remaining average factor of 4.5:1.[83] It is estimated that the combined technological capacity of the world to store information provides 1,300 exabytes of hardware digits in 2007, but when the corresponding content is optimally compressed, this only represents 295 exabytes of Shannon information.[84]
+
+See also
+Data conversion
+HTTP compression
+Kolmogorov complexity
+Minimum description length
+Modulo-N code
+Motion coding
+Range coding
+Set redundancy compression
+Sub-band coding
+Universal code (data compression)
+Vector quantization
+
+----
+
+Communication
+
+Article
+Talk
+Read
+Edit
+View history
+
+Tools
+Appearance hide
+Text
+
+Small
+
+Standard
+
+Large
+Width
+
+Standard
+
+Wide
+Color (beta)
+
+Automatic
+
+Light
+
+Dark
+Featured article
+Checked
+Page protected with pending changes
+From Wikipedia, the free encyclopedia
+For other uses, see Communication (disambiguation). "Communicate" redirects here. For other uses, see Communicate (disambiguation).
+Statue of two businessmen talking
+Photo of two women using sign language
+Photo of a letter
+Photo of a singing bird
+Photo of two bees interacting with each other
+Illustration of the Pioneer plaque
+There are many forms of communication, including human linguistic communication using sounds, sign language, and writing as well as animals exchanging information and attempts to communicate with intelligent extraterrestrial life.
+Communication is commonly defined as the transmission of information. Its precise definition is disputed and there are disagreements about whether unintentional or failed transmissions are included and whether communication not only transmits meaning but also creates it. Models of communication are simplified overviews of its main components and their interactions. Many models include the idea that a source uses a coding system to express information in the form of a message. The message is sent through a channel to a receiver who has to decode it to understand it. The main field of inquiry investigating communication is called communication studies.
+
+A common way to classify communication is by whether information is exchanged between humans, members of other species, or non-living entities such as computers. For human communication, a central contrast is between verbal and non-verbal communication. Verbal communication involves the exchange of messages in linguistic form, including spoken and written messages as well as sign language. Non-verbal communication happens without the use of a linguistic system, for example, using body language, touch, and facial expressions. Another distinction is between interpersonal communication, which happens between distinct persons, and intrapersonal communication, which is communication with oneself. Communicative competence is the ability to communicate well and applies to the skills of formulating messages and understanding them.
+
+Non-human forms of communication include animal and plant communication. Researchers in this field often refine their definition of communicative behavior by including the criteria that observable responses are present and that the participants benefit from the exchange. Animal communication is used in areas like courtship and mating, parent–offspring relations, navigation, and self-defense. Communication through chemicals is particularly important for the relatively immobile plants. For example, maple trees release so-called volatile organic compounds into the air to warn other plants of a herbivore attack. Most communication takes place between members of the same species. The reason is that its purpose is usually some form of cooperation, which is not as common between different species. Interspecies communication happens mainly in cases of symbiotic relationships. For instance, many flowers use symmetrical shapes and distinctive colors to signal to insects where nectar is located. Humans engage in interspecies communication when interacting with pets and working animals.
+
+Human communication has a long history and how people exchange information has evolved over time. These changes were usually triggered by the development of new communication technologies. Examples are the invention of writing systems, the development of mass printing, the use of radio and television, and the invention of the internet. The technological advances also led to new forms of communication, such as the exchange of data between computers.
+
+Definitions
+The word communication has its root in the Latin verb communicare, which means 'to share' or 'to make common'.[1] Communication is usually understood as the transmission of information:[2] a message is conveyed from a sender to a receiver using some medium, such as sound, written signs, bodily movements, or electricity.[3] Sender and receiver are often distinct individuals but it is also possible for an individual to communicate with themselves. In some cases, sender and receiver are not individuals but groups like organizations, social classes, or nations.[4] In a different sense, the term communication refers to the message that is being communicated or to the field of inquiry studying communicational phenomena.[5]
+
+The precise characterization of communication is disputed. Many scholars have raised doubts that any single definition can capture the term accurately. These difficulties come from the fact that the term is applied to diverse phenomena in different contexts, often with slightly different meanings.[6] The issue of the right definition affects the research process on many levels. This includes issues like which empirical phenomena are observed, how they are categorized, which hypotheses and laws are formulated as well as how systematic theories based on these steps are articulated.[7]
+
+Some definitions are broad and encompass unconscious and non-human behavior.[8] Under a broad definition, many animals communicate within their own species and flowers communicate by signaling the location of nectar to bees through their colors and shapes.[9] Other definitions restrict communication to conscious interactions among human beings.[10] Some approaches focus on the use of symbols and signs while others stress the role of understanding, interaction, power, or transmission of ideas. Various characterizations see the communicator's intent to send a message as a central component. In this view, the transmission of information is not sufficient for communication if it happens unintentionally.[11] A version of this view is given by philosopher Paul Grice, who identifies communication with actions that aim to make the recipient aware of the communicator's intention.[12] One question in this regard is whether only successful transmissions of information should be regarded as communication.[13] For example, distortion may interfere with and change the actual message from what was originally intended.[14] A closely related problem is whether acts of deliberate deception constitute communication.[15]
+
+According to a broad definition by literary critic I. A. Richards, communication happens when one mind acts upon its environment to transmit its own experience to another mind.[16] Another interpretation is given by communication theorists Claude Shannon and Warren Weaver, who characterize communication as a transmission of information brought about by the interaction of several components, such as a source, a message, an encoder, a channel, a decoder, and a receiver.[17] The transmission view is rejected by transactional and constitutive views, which hold that communication is not just about the transmission of information but also about the creation of meaning. Transactional and constitutive perspectives hold that communication shapes the participant's experience by conceptualizing the world and making sense of their environment and themselves.[18] Researchers studying animal and plant communication focus less on meaning-making. Instead, they often define communicative behavior as having other features, such as playing a beneficial role in survival and reproduction, or having an observable response.[19]
+
+Models of communication
+Main article: Models of communication
+Models of communication are conceptual representations of the process of communication.[20] Their goal is to provide a simplified overview of its main components. This makes it easier for researchers to formulate hypotheses, apply communication-related concepts to real-world cases, and test predictions.[21] Due to their simplified presentation, they may lack the conceptual complexity needed for a comprehensive understanding of all the essential aspects of communication. They are usually presented visually in the form of diagrams showing the basic components and their interaction.[22]
+
+Models of communication are often categorized based on their intended applications and how they conceptualize communication. Some models are general in the sense that they are intended for all forms of communication. Specialized models aim to describe specific forms, such as models of mass communication.[23]
+
+One influential way to classify communication is to distinguish between linear transmission, interaction, and transaction models.[24] Linear transmission models focus on how a sender transmits information to a receiver. They are linear because this flow of information only goes in a single direction.[25] This view is rejected by interaction models, which include a feedback loop. Feedback is needed to describe many forms of communication, such as a conversation, where the listener may respond to a speaker by expressing their opinion or by asking for clarification. Interaction models represent the process as a form of two-way communication in which the communicators take turns sending and receiving messages.[26] Transaction models further refine this picture by allowing representations of sending and responding at the same time. This modification is needed to describe how the listener can give feedback in a face-to-face conversation while the other person is talking. Examples are non-verbal feedback through body posture and facial expression. Transaction models also hold that meaning is produced during communication and does not exist independently of it.[27]
+
+Diagram showing the five components of Lasswell's model: communicator, message, medium, recipient, and effect
+Lasswell's model of communication, which is based on five questions corresponding to five basic components
+All the early models, developed in the middle of the 20th century, are linear transmission models. Lasswell's model, for example, is based on five fundamental questions: "Who?", "Says what?", "In which channel?", "To whom?", and "With what effect?".[28] The goal of these questions is to identify the basic components involved in the communicative process: the sender, the message, the channel, the receiver, and the effect.[29] Lasswell's model was initially only conceived as a model of mass communication, but it has been applied to other fields as well. Some communication theorists, like Richard Braddock, have expanded it by including additional questions, like "Under what circumstances?" and "For what purpose?".[30]
+
+Diagram of the Shannon–Weaver model showing the different steps of a message on its way to the destination
+Shannon–Weaver model of communication, which focuses on how a message is first translated into a signal and then back into a message
+The Shannon–Weaver model is another influential linear transmission model.[31] It is based on the idea that a source creates a message, which is then translated into a signal by a transmitter. Noise may interfere with and distort the signal. Once the signal reaches the receiver, it is translated back into a message and made available to the destination. For a landline telephone call, the person calling is the source and their telephone is the transmitter. The transmitter translates the message into an electrical signal that travels through the wire, which acts as the channel. The person taking the call is the destination and their telephone is the receiver.[32] The Shannon–Weaver model includes an in-depth discussion of how noise can distort the signal and how successful communication can be achieved despite noise. This can happen by making the message partially redundant so that decoding is possible nonetheless.[33] Other influential linear transmission models include Gerbner's model and Berlo's model.[34]
+
+Diagram of the feedback loop in Schramm's model of communication
+Schramm's model of communication, which focuses on the processes of encoding and decoding as well as feedback
+The earliest interaction model was developed by communication theorist Wilbur Schramm.[35] He states that communication starts when a source has an idea and expresses it in the form of a message. This process is called encoding and happens using a code, i.e. a sign system that is able to express the idea, for instance, through visual or auditory signs.[36] The message is sent to a destination, who has to decode and interpret it to understand it.[37] In response, they formulate their own idea, encode it into a message, and send it back as a form of feedback. Another innovation of Schramm's model is that previous experience is necessary to be able to encode and decode messages. For communication to be successful, the fields of experience of source and destination have to overlap.[38]
+
+The first transactional model was proposed by communication theorist Dean Barnlund in 1970.[39] He understands communication as "the production of meaning, rather than the production of messages".[40] Its goal is to decrease uncertainty and arrive at a shared understanding.[41] This happens in response to external and internal cues. Decoding is the process of ascribing meaning to them and encoding consists in producing new behavioral cues as a response.[42]
+
+Human
+There are many forms of human communication. A central distinction is whether language is used, as in the contrast between verbal and non-verbal communication. A further distinction concerns whether one communicates with others or with oneself, as in the contrast between interpersonal and intrapersonal communication.[43] Forms of human communication are also categorized by their channel or the medium used to transmit messages.[44] The field studying human communication is known as anthroposemiotics.[45]
+
+Verbal
+Main article: Linguistics
+Verbal communication is the exchange of messages in linguistic form, i.e., by means of language.[46] In colloquial usage, verbal communication is sometimes restricted to oral communication and may exclude writing and sign language. However, in academic discourse, the term is usually used in a wider sense, encompassing any form of linguistic communication, whether through speech, writing, or gestures.[47] Some of the challenges in distinguishing verbal from non-verbal communication come from the difficulties in defining what exactly language means. Language is usually understood as a conventional system of symbols and rules used for communication. Such systems are based on a set of simple units of meaning that can be combined to express more complex ideas. The rules for combining the units into compound expressions are called grammar. Words are combined to form sentences.[48]
+
+One hallmark of human language, in contrast to animal communication, lies in its complexity and expressive power. Human language can be used to refer not just to concrete objects in the here-and-now but also to spatially and temporally distant objects and to abstract ideas.[49] Humans have a natural tendency to acquire their native language in childhood. They are also able to learn other languages later in life as second languages. However, this process is less intuitive and often does not result in the same level of linguistic competence.[50] The academic discipline studying language is called linguistics. Its subfields include semantics (the study of meaning), morphology (the study of word formation), syntax (the study of sentence structure), pragmatics (the study of language use), and phonetics (the study of basic sounds).[51]
+
+A central contrast among languages is between natural and artificial or constructed languages. Natural languages, like English, Spanish, and Japanese, developed naturally and for the most part unplanned in the course of history. Artificial languages, like Esperanto, Quenya, C++, and the language of first-order logic, are purposefully designed from the ground up.[52] Most everyday verbal communication happens using natural languages. Central forms of verbal communication are speech and writing together with their counterparts of listening and reading.[53] Spoken languages use sounds to produce signs and transmit meaning while for writing, the signs are physically inscribed on a surface.[54] Sign languages, like American Sign Language and Nicaraguan Sign Language, are another form of verbal communication. They rely on visual means, mostly by using gestures with hands and arms, to form sentences and convey meaning.[55]
+
+Verbal communication serves various functions. One key function is to exchange information, i.e. an attempt by the speaker to make the audience aware of something, usually of an external event. But language can also be used to express the speaker's feelings and attitudes. A closely related role is to establish and maintain social relations with other people. Verbal communication is also utilized to coordinate one's behavior with others and influence them. In some cases, language is not employed for an external purpose but only for entertainment or personal enjoyment.[56] Verbal communication further helps individuals conceptualize the world around them and themselves. This affects how perceptions of external events are interpreted, how things are categorized, and how ideas are organized and related to each other.[57]
+
+Non-verbal
+Main article: Non-verbal communication
+Photo of a handshake
+Shaking hands is one form of non-verbal communication.
+Non-verbal communication is the exchange of information through non-linguistic modes, like facial expressions, gestures, and postures.[58] However, not every form of non-verbal behavior constitutes non-verbal communication. Some theorists, like Judee Burgoon, hold that it depends on the existence of a socially shared coding system that is used to interpret the meaning of non-verbal behavior.[59] Non-verbal communication has many functions. It frequently contains information about emotions, attitudes, personality, interpersonal relations, and private thoughts.[60]
+
+Non-verbal communication often happens unintentionally and unconsciously, like sweating or blushing, but there are also conscious intentional forms, like shaking hands or raising a thumb.[61] It often happens simultaneously with verbal communication and helps optimize the exchange through emphasis and illustration or by adding additional information. Non-verbal cues can clarify the intent behind a verbal message.[62] Using multiple modalities of communication in this way usually makes communication more effective if the messages of each modality are consistent.[63] However, in some cases different modalities can contain conflicting messages. For example, a person may verbally agree with a statement but press their lips together, thereby indicating disagreement non-verbally.[64]
+
+There are many forms of non-verbal communication. They include kinesics, proxemics, haptics, paralanguage, chronemics, and physical appearance.[65] Kinesics studies the role of bodily behavior in conveying information. It is commonly referred to as body language, even though it is, strictly speaking, not a language but rather non-verbal communication. It includes many forms, like gestures, postures, walking styles, and dance.[66] Facial expressions, like laughing, smiling, and frowning, all belong to kinesics and are expressive and flexible forms of communication.[67] Oculesics is another subcategory of kinesics in regard to the eyes. It covers questions like how eye contact, gaze, blink rate, and pupil dilation form part of communication.[68] Some kinesic patterns are inborn and involuntary, like blinking, while others are learned and voluntary, like giving a military salute.[69]
+
+Proxemics studies how personal space is used in communication. The distance between the speakers reflects their degree of familiarity and intimacy with each other as well as their social status.[70] Haptics examines how information is conveyed using touching behavior, like handshakes, holding hands, kissing, or slapping. Meanings linked to haptics include care, concern, anger, and violence. For instance, handshaking is often seen as a symbol of equality and fairness, while refusing to shake hands can indicate aggressiveness. Kissing is another form often used to show affection and erotic closeness.[71]
+
+Paralanguage, also known as vocalics, encompasses non-verbal elements in speech that convey information. Paralanguage is often used to express the feelings and emotions that the speaker has but does not explicitly state in the verbal part of the message. It is not concerned with the words used but with how they are expressed. This includes elements like articulation, lip control, rhythm, intensity, pitch, fluency, and loudness.[72] For example, saying something loudly and in a high pitch conveys a different meaning on the non-verbal level than whispering the same words. Paralanguage is mainly concerned with spoken language but also includes aspects of written language, like the use of colors and fonts as well as spatial arrangement in paragraphs and tables.[73] Non-linguistic sounds may also convey information; crying indicates that an infant is distressed, and babbling conveys information about infant health and well-being.[74]
+
+Chronemics concerns the use of time, such as what messages are sent by being on time versus late for a meeting.[75] The physical appearance of the communicator, such as height, weight, hair, skin color, gender, clothing, tattooing, and piercing, also carries information.[76] Appearance is an important factor for first impressions but is more limited as a mode of communication since it is less changeable.[77] Some forms of non-verbal communication happen using such artifacts as drums, smoke, batons, traffic lights, and flags.[78]
+
+Non-verbal communication can also happen through visual media like paintings and drawings. They can express what a person or an object looks like and can also convey other ideas and emotions. In some cases, this type of non-verbal communication is used in combination with verbal communication, for example, when diagrams or maps employ labels to include additional linguistic information.[79]
+
+Traditionally, most research focused on verbal communication. However, this paradigm began to shift in the 1950s when research interest in non-verbal communication increased and emphasized its influence.[80] For example, many judgments about the nature and behavior of other people are based on non-verbal cues.[81] It is further present in almost every communicative act to some extent and certain parts of it are universally understood.[82] These considerations have prompted some communication theorists, like Ray Birdwhistell, to claim that the majority of ideas and information is conveyed this way.[83] It has also been suggested that human communication is at its core non-verbal and that words can only acquire meaning because of non-verbal communication.[84] The earliest forms of human communication, such as crying and babbling, are non-verbal.[85] Some basic forms of communication happen even before birth between mother and embryo and include information about nutrition and emotions.[86] Non-verbal communication is studied in various fields besides communication studies, like linguistics, semiotics, anthropology, and social psychology.[87]
+
+Interpersonal
+Main article: Interpersonal communication
+Photo of two women talking
+Kathy Matayoshi and Mazie Hirono conversing in the White House, an example of interpersonal communication
+Interpersonal communication is communication between distinct people. Its typical form is dyadic communication, i.e. between two people, but it can also refer to communication within groups.[88] It can be planned or unplanned and occurs in many forms, like when greeting someone, during salary negotiations, or when making a phone call.[89] Some communication theorists, like Virginia M. McDermott, understand interpersonal communication as a fuzzy concept that manifests in degrees.[90] In this view, an exchange varies in how interpersonal it is based on several factors. It depends on how many people are present, and whether it happens face-to-face rather than through telephone or email. A further factor concerns the relation between the communicators:[91] group communication and mass communication are less typical forms of interpersonal communication and some theorists treat them as distinct types.[92]
+
+Interpersonal communication can be synchronous or asynchronous. For asynchronous communication, the parties take turns in sending and receiving messages. This occurs when exchanging letters or emails. For synchronous communication, both parties send messages at the same time.[93] This happens when one person is talking while the other person sends non-verbal messages in response signaling whether they agree with what is being said.[94] Some communication theorists, like Sarah Trenholm and Arthur Jensen, distinguish between content messages and relational messages. Content messages express the speaker's feelings toward the topic of discussion. Relational messages, on the other hand, demonstrate the speaker's feelings toward their relation with the other participants.[95]
+
+Various theories of the function of interpersonal communication have been proposed. Some focus on how it helps people make sense of their world and create society. Others hold that its primary purpose is to understand why other people act the way they do and to adjust one's behavior accordingly.[96] A closely related approach is to focus on information and see interpersonal communication as an attempt to reduce uncertainty about others and external events.[97] Other explanations understand it in terms of the needs it satisfies. This includes the needs of belonging somewhere, being included, being liked, maintaining relationships, and influencing the behavior of others.[98] On a practical level, interpersonal communication is used to coordinate one's actions with the actions of others to get things done.[99] Research on interpersonal communication includes topics like how people build, maintain, and dissolve relationships through communication. Other questions are why people choose one message rather than another and what effects these messages have on the communicators and their relation. A further topic is how to predict whether two people would like each other.[100]
+
+Intrapersonal
+Main article: Intrapersonal communication
+Painting of a woman daydreaming
+Paul César Helleu's 1901 painting, Rêverie (Daydream) featuring Alice Guérin. Daydreaming is a form of intrapersonal communication.
+Intrapersonal communication is communication with oneself.[101] In some cases this manifests externally, such as when engaged in a monologue, taking notes, highlighting a passage, and writing a diary or a shopping list. But many forms of intrapersonal communication happen internally in the form of an inner exchange with oneself, as when thinking about something or daydreaming.[102] Closely related to intrapersonal communication is communication that takes place within an organism below the personal level, such as exchange of information between organs or cells.[103]
+
+Intrapersonal communication can be triggered by internal and external stimuli. It may happen in the form of articulating a phrase before expressing it externally. Other forms are to make plans for the future and to attempt to process emotions to calm oneself down in stressful situations.[104] It can help regulate one's own mental activity and outward behavior as well as internalize cultural norms and ways of thinking.[105] External forms of intrapersonal communication can aid one's memory. This happens, for example, when making a shopping list. Another use is to unravel difficult problems, as when solving a complex mathematical equation line by line. New knowledge can also be internalized this way, such as when repeating new vocabulary to oneself. Because of these functions, intrapersonal communication can be understood as "an exceptionally powerful and pervasive tool for thinking."[106]
+
+Based on its role in self-regulation, some theorists have suggested that intrapersonal communication is more basic than interpersonal communication. Young children sometimes use egocentric speech while playing in an attempt to direct their own behavior. In this view, interpersonal communication only develops later when the child moves from their early egocentric perspective to a more social perspective.[107] A different explanation holds that interpersonal communication is more basic since it is first used by parents to regulate what their child does. Once the child has learned this, they can apply the same technique to themselves to get more control over their own behavior.[108]
+
+Channels
+For communication to be successful, the message has to travel from the sender to the receiver. The channel is the way this is accomplished. It is not concerned with the meaning of the message but only with the technical means of how the meaning is conveyed.[109] Channels are often understood in terms of the senses used to perceive the message, i.e. hearing, seeing, smelling, touching, and tasting.[110] But in the widest sense, channels encompass any form of transmission, including technological means like books, cables, radio waves, telephones, or television.[111] Naturally transmitted messages usually fade rapidly whereas some messages using artificial channels have a much longer lifespan, as in the case of books or sculptures.[112]
+
+The physical characteristics of a channel have an impact on the code and cues that can be used to express information. For example, typical telephone calls are restricted to the use of verbal language and paralanguage but exclude facial expressions. It is often possible to translate messages from one code into another to make them available to a different channel. An example is writing down a spoken message or expressing it using sign language.[113]
+
+The transmission of information can occur through multiple channels at once. For example, face-to-face communication often combines the auditory channel to convey verbal information with the visual channel to transmit non-verbal information using gestures and facial expressions. Employing multiple channels can enhance the effectiveness of communication by helping the receiver better understand the subject matter.[114] The choice of channels often matters since the receiver's ability to understand may vary depending on the chosen channel. For instance, a teacher may decide to present some information orally and other information visually, depending on the content and the student's preferred learning style. This underlines the role of a media-adequate approach.[115]
+
+Communicative competence
+Main article: Communicative competence
+Communicative competence is the ability to communicate effectively or to choose the appropriate communicative behavior in a given situation.[116] It concerns what to say, when to say it, and how to say it.[117] It further includes the ability to receive and understand messages.[118] Competence is often contrasted with performance since competence can be present even if it is not exercised, while performance consists in the realization of this competence.[119] However, some theorists reject a stark contrast and hold that performance is the observable part and is used to infer competence in relation to future performances.[120]
+
+Two central components of communicative competence are effectiveness and appropriateness.[121] Effectiveness is the degree to which the speaker achieves their desired outcomes or the degree to which preferred alternatives are realized.[122] This means that whether a communicative behavior is effective does not just depend on the actual outcome but also on the speaker's intention, i.e. whether this outcome was what they intended to achieve. Because of this, some theorists additionally require that the speaker be able to give an explanation of why they engaged in one behavior rather than another.[123] Effectiveness is closely related to efficiency, the difference being that effectiveness is about achieving goals while efficiency is about using few resources (such as time, effort, and money) in the process.[124]
+
+Appropriateness means that the communicative behavior meets social standards and expectations.[125] Communication theorist Brian H. Spitzberg defines it as "the perceived legitimacy or acceptability of behavior or enactments in a given context".[126] This means that the speaker is aware of the social and cultural context in order to adapt and express the message in a way that is considered acceptable in the given situation.[127] For example, to bid farewell to their teacher, a student may use the expression "Goodbye, sir" but not the expression "I gotta split, man", which they may use when talking to a peer.[128] To be both effective and appropriate means to achieve one's preferred outcomes in a way that follows social standards and expectations.[129] Some definitions of communicative competence put their main emphasis on either effectiveness or appropriateness while others combine both features.[130]
+
+Many additional components of communicative competence have been suggested, such as empathy, control, flexibility, sensitivity, and knowledge.[131] It is often discussed in terms of the individual skills employed in the process, i.e. the specific behavioral components that make up communicative competence.[132] Message production skills include reading and writing. They are correlated with the reception skills of listening and reading.[133] There are both verbal and non-verbal communication skills.[134] For example, verbal communication skills involve the proper understanding of a language, including its phonology, orthography, syntax, lexicon, and semantics.[135]
+
+Many aspects of human life depend on successful communication, from ensuring basic necessities of survival to building and maintaining relationships.[136] Communicative competence is a key factor regarding whether a person is able to reach their goals in social life, like having a successful career and finding a suitable spouse.[137] Because of this, it can have a large impact on the individual's well-being.[138] The lack of communicative competence can cause problems both on the individual and the societal level, including professional, academic, and health problems.[139]
+
+Barriers to effective communication can distort the message. They may result in failed communication and cause undesirable effects. This can happen if the message is poorly expressed because it uses terms with which the receiver is not familiar, or because it is not relevant to the receiver's needs, or because it contains too little or too much information. Distraction, selective perception, and lack of attention to feedback may also be responsible.[140] Noise is another negative factor. It concerns influences that interfere with the message on its way to the receiver and distort it.[141] Crackling sounds during a telephone call are one form of noise. Ambiguous expressions can also inhibit effective communication and make it necessary to disambiguate between possible interpretations to discern the sender's intention.[142] These interpretations depend also on the cultural background of the participants. Significant cultural differences constitute an additional obstacle and make it more likely that messages are misinterpreted.[143]
+
+Other species
+See also: Biocommunication (science) and Biosemiotics
+Photo of a wolf howling
+Wolves communicate by howling.
+Besides human communication, there are many other forms of communication found in the animal kingdom and among plants. They are studied in fields like biocommunication and biosemiotics.[144] There are additional obstacles in this area for judging whether communication has taken place between two individuals. Acoustic signals are often easy to notice and analyze for scientists, but it is more difficult to judge whether tactile or chemical changes should be understood as communicative signals rather than as other biological processes.[145]
+
+For this reason, researchers often use slightly altered definitions of communication to facilitate their work. A common assumption in this regard comes from evolutionary biology and holds that communication should somehow benefit the communicators in terms of natural selection.[146] The biologists Rumsaïs Blatrix and Veronika Mayer define communication as "the exchange of information between individuals, wherein both the signaller and receiver may expect to benefit from the exchange".[147] According to this view, the sender benefits by influencing the receiver's behavior and the receiver benefits by responding to the signal. These benefits should exist on average but not necessarily in every single case. This way, deceptive signaling can also be understood as a form of communication. One problem with the evolutionary approach is that it is often difficult to assess the impact of such behavior on natural selection.[148] Another common pragmatic constraint is to hold that it is necessary to observe a response by the receiver following the signal when judging whether communication has occurred.[149]
+
+Animals
+Main article: Animal communication
+Animal communication is the process of giving and taking information among animals.[150] The field studying animal communication is called zoosemiotics.[151] There are many parallels to human communication. One is that humans and many animals express sympathy by synchronizing their movements and postures.[152] Nonetheless, there are also significant differences, like the fact that humans also engage in verbal communication, which uses language, while animal communication is restricted to non-verbal (i.e. non-linguistic) communication.[153] Some theorists have tried to distinguish human from animal communication based on the claim that animal communication lacks a referential function and is thus not able to refer to external phenomena. However, various observations seem to contradict this view, such as the warning signals in response to different types of predators used by vervet monkeys, Gunnison's prairie dogs, and red squirrels.[154] A further approach is to draw the distinction based on the complexity of human language, especially its almost limitless ability to combine basic units of meaning into more complex meaning structures. One view states that recursion sets human language apart from all non-human communicative systems.[155] Another difference is that human communication is frequently linked to the conscious intention to send information, which is often not discernable for animal communication.[156] Despite these differences, some theorists use the term "animal language" to refer to certain communicative patterns in animal behavior that have similarities with human language.[157]
+
+Photo of a glowing firefly
+Many species of fireflies, such as the Lampyris noctiluca, communicate with light to attract mates.
+Animal communication can take a variety of forms, including visual, auditory, tactile, olfactory, and gustatory communication. Visual communication happens in the form of movements, gestures, facial expressions, and colors. Examples are movements seen during mating rituals, the colors of birds, and the rhythmic light of fireflies. Auditory communication takes place through vocalizations by species like birds, primates, and dogs. Auditory signals are frequently used to alert and warn. Lower-order living systems often have simple response patterns to auditory messages, reacting either by approach or avoidance.[158] More complex response patterns are observed for higher animals, which may use different signals for different types of predators and responses. For example, some primates use one set of signals for airborne predators and another for land predators.[159] Tactile communication occurs through touch, vibration, stroking, rubbing, and pressure. It is especially relevant for parent-young relations, courtship, social greetings, and defense. Olfactory and gustatory communication happen chemically through smells and tastes, respectively.[160]
+
+There are large differences between species concerning what functions communication plays, how much it is realized, and the behavior used to communicate.[161] Common functions include the fields of courtship and mating, parent-offspring relations, social relations, navigation, self-defense, and territoriality.[162] One part of courtship and mating consists in identifying and attracting potential mates. This can happen through various means. Grasshoppers and crickets communicate acoustically by using songs, moths rely on chemical means by releasing pheromones, and fireflies send visual messages by flashing light.[163] For some species, the offspring depends on the parent for its survival. One central function of parent-offspring communication is to recognize each other. In some cases, the parents are also able to guide the offspring's behavior.[164]
+
+Social animals, like chimpanzees, bonobos, wolves, and dogs, engage in various forms of communication to express their feelings and build relations.[165] Communication can aid navigation by helping animals move through their environment in a purposeful way, e.g. to locate food, avoid enemies, and follow other animals. In bats, this happens through echolocation, i.e. by sending auditory signals and processing the information from the echoes. Bees are another often-discussed case in this respect since they perform a type of dance to indicate to other bees where flowers are located.[166] In regard to self-defense, communication is used to warn others and to assess whether a costly fight can be avoided.[167] Another function of communication is to mark and claim territories used for food and mating. For example, some male birds claim a hedge or part of a meadow by using songs to keep other males away and attract females.[168]
+
+Two competing theories in the study of animal communication are nature theory and nurture theory. Their conflict concerns to what extent animal communication is programmed into the genes as a form of adaptation rather than learned from previous experience as a form of conditioning.[169] To the degree that it is learned, it usually happens through imprinting, i.e. as a form of learning that only occurs in a certain phase and is then mostly irreversible.[170]
+
+Plants, fungi, and bacteria
+Plant communication refers to plant processes involving the sending and receiving of information.[171] The field studying plant communication is called phytosemiotics.[172] This field poses additional difficulties for researchers since plants are different from humans and other animals in that they lack a central nervous system and have rigid cell walls.[173] These walls restrict movement and usually prevent plants from sending and receiving signals that depend on rapid movement.[174] However, there are some similarities since plants face many of the same challenges as animals. For example, they need to find resources, avoid predators and pathogens, find mates, and ensure that their offspring survive.[175] Many of the evolutionary responses to these challenges are analogous to those in animals but are implemented using different means.[176] One crucial difference is that chemical communication is much more prominent in the plant kingdom in contrast to the importance of visual and auditory communication for animals.[177]
+
+Diagram of the steps of plant communication: a cue is first emitted and later received, leading to a response
+Steps of plant communication
+In plants, the term behavior is usually not defined in terms of physical movement, as is the case for animals, but as a biochemical response to a stimulus. This response has to be short relative to the plant's lifespan. Communication is a special form of behavior that involves conveying information from a sender to a receiver. It is distinguished from other types of behavior, like defensive reactions and mere sensing.[178] Like in the field of animal communication, plant communication researchers often require as additional criteria that there is some form of response in the receiver and that the communicative behavior is beneficial to sender and receiver.[179] Biologist Richard Karban distinguishes three steps of plant communication: the emission of a cue by a sender, the perception of the cue by a receiver, and the receiver's response.[180] For plant communication, it is not relevant to what extent the emission of a cue is intentional. However, it should be possible for the receiver to ignore the signal. This criterion can be used to distinguish a response to a signal from a defense mechanism against an unwanted change like intense heat.[181]
+
+Plant communication happens in various forms. It includes communication within plants, i.e. within plant cells and between plant cells, between plants of the same or related species, and between plants and non-plant organisms, especially in the root zone.[182] A prominent form of communication is airborne and happens through volatile organic compounds (VOCs). For example, maple trees release VOCs when they are attacked by a herbivore to warn neighboring plants, which then react accordingly by adjusting their defenses.[183] Another form of plant-to-plant communication happens through mycorrhizal fungi. These fungi form underground networks, colloquially referred to as the Wood-Wide Web, and connect the roots of different plants. The plants use the network to send messages to each other, specifically to warn other plants of a pest attack and to help prepare their defenses.[184]
+
+Communication can also be observed for fungi and bacteria. Some fungal species communicate by releasing pheromones into the external environment. For instance, they are used to promote sexual interaction in several aquatic fungal species.[185] One form of communication between bacteria is called quorum sensing. It happens by releasing hormone-like molecules, which other bacteria detect and respond to. This process is used to monitor the environment for other bacteria and to coordinate population-wide responses, for example, by sensing the density of bacteria and regulating gene expression accordingly. Other possible responses include the induction of bioluminescence and the formation of biofilms.[186]
+
+Interspecies
+Main article: Interspecies communication
+Most communication happens between members within a species as intraspecies communication. This is because the purpose of communication is usually some form of cooperation. Cooperation happens mostly within a species while different species are often in conflict with each other by competing over resources.[187] However, there are also some forms of interspecies communication.[188] This occurs especially for symbiotic relations and significantly less for parasitic or predator-prey relations.[189]
+
+Photo of a honey bee on a flower
+A honeybee on a Cosmos bipinnatus. Many flowers use vivid colors to signal to insects that they offer food like nectar.
+Interspecies communication plays a key role for plants that depend on external agents for reproduction.[190] For example, flowers need insects for pollination and provide resources like nectar and other rewards in return.[191] They use communication to signal their benefits and attract visitors by using distinctive colors and symmetrical shapes to stand out from their surroundings.[192] This form of advertisement is necessary since flowers compete with each other for visitors.[193] Many fruit-bearing plants rely on plant-to-animal communication to disperse their seeds and move them to a favorable location.[194] This happens by providing nutritious fruits to animals. The seeds are eaten together with the fruit and are later excreted at a different location.[195] Communication makes animals aware of where the fruits are and whether they are ripe. For many fruits, this happens through their color: they have an inconspicuous green color until they ripen and take on a new color that stands in visual contrast to the environment.[196] Another example of interspecies communication is found in the ant-plant relation.[197] It concerns, for instance, the selection of seeds by ants for their ant gardens and the pruning of exogenous vegetation as well as plant protection by ants.[198]
+
+Some animal species also engage in interspecies communication, like apes, whales, dolphins, elephants, and dogs.[199] For example, different species of monkeys use common signals to cooperate when threatened by a common predator.[200] Humans engage in interspecies communication when interacting with pets and working animals.[201] For instance, acoustic signals play a central role in communication with dogs. Dogs can learn to react to various commands, like "sit" and "come". They can even be trained to respond to short syntactic combinations, like "bring X" or "put X in a box". They also react to the pitch and frequency of the human voice to detect emotions, dominance, and uncertainty. Dogs use a range of behavioral patterns to convey their emotions to humans, for example, in regard to aggressiveness, fearfulness, and playfulness.[202]
+
+Computer
+Main article: Computer networks
+Diagram of computer communication from a personal computer to a server using modems and the public telephone network
+Example of computer communication: modems act as transmitter and receiver while the public telephone network is used as a transmission system.[203]
+Computer communication concerns the exchange of data between computers and similar devices.[204] For this to be possible, the devices have to be connected through a transmission system that forms a network between them. A transmitter is needed to send messages and a receiver is needed to receive them. A personal computer may use a modem as a transmitter to send information to a server through the public telephone network as the transmission system. The server may use a modem as its receiver.[205] To transmit the data, it has to be converted into an electric signal.[206] Communication channels used for transmission are either analog or digital and are characterized by features like bandwidth and latency.[207]
+
+There are many forms of computer networks. The most commonly discussed ones are LANs and WANs. LAN stands for local area network, which is a computer network within a limited area, usually with a distance of less than one kilometer.[208] This is the case when connecting two computers within a home or an office building. LANs can be set up using a wired connection, like Ethernet, or a wireless connection, like Wi-Fi.[209] WANs, on the other hand, are wide area networks that span large geographical regions, like the internet.[210] Their networks are more complex and may use several intermediate connection nodes to transfer information between endpoints.[211] Further types of computer networks include PANs (personal area networks), CANs (campus area networks), and MANs (metropolitan area networks).[212]
+
+For computer communication to be successful, the involved devices have to follow a common set of conventions governing their exchange. These conventions are known as the communication protocol. They concern various aspects of the exchange, like the format of messages and how to respond to transmission errors. They also cover how the two systems are synchronized, for example, how the receiver identifies the start and end of a signal.[213] Based on the flow of informations, systems are categorized as simplex, half-duplex, and full-duplex. For simplex systems, signals flow only in one direction from the sender to the receiver, like in radio, cable television, and screens displaying arrivals and departures at airports.[214] Half-duplex systems allow two-way exchanges but signals can only flow in one direction at a time, like walkie-talkies and police radios. In the case of full-duplex systems, signals can flow in both directions at the same time, like regular telephone and internet.[215] In either case, it is often important for successful communication that the connection is secure to ensure that the transmitted data reaches only the intended destination and is not intercepted by an unauthorized third party.[216] This can be achieved by using cryptography, which changes the format of the transmitted information to make it unintelligible to potential interceptors.[217]
+
+Human-computer communication is a closely related field that concerns topics like how humans interact with computers and how data in the form of inputs and outputs is exchanged.[218] This happens through a user interface, which includes the hardware used to interact with the computer, like a mouse, a keyboard, and a monitor, as well as the software used in the process.[219] On the software side, most early user interfaces were command-line interfaces in which the user must type a command to interact with the computer.[220] Most modern user interfaces are graphical user interfaces, like Microsoft Windows and macOS, which are usually much easier to use for non-experts. They involve graphical elements through which the user can interact with the computer, commonly using a design concept known as skeumorphism to make a new concept feel familiar and speed up understanding by mimicking the real-world equivalent of the interface object. Examples include the typical computer folder icon and recycle bin used for discarding files.[221] One aim when designing user interfaces is to simplify the interaction with computers. This helps make them more user-friendly and accessible to a wider audience while also increasing productivity.[222]
+
+Communication studies
+Main article: Communication studies
+Communication studies, also referred to as communication science, is the academic discipline studying communication. It is closely related to semiotics, with one difference being that communication studies focuses more on technical questions of how messages are sent, received, and processed. Semiotics, on the other hand, tackles more abstract questions in relation to meaning and how signs acquire it.[223] Communication studies covers a wide area overlapping with many other disciplines, such as biology, anthropology, psychology, sociology, linguistics, media studies, and journalism.[224]
+
+Many contributions in the field of communication studies focus on developing models and theories of communication. Models of communication aim to give a simplified overview of the main components involved in communication. Theories of communication try to provide conceptual frameworks to accurately present communication in all its complexity.[225] Some theories focus on communication as a practical art of discourse while others explore the roles of signs, experience, information processing, and the goal of building a social order through coordinated interaction.[226] Communication studies is also interested in the functions and effects of communication. It covers issues like how communication satisfies physiological and psychological needs, helps build relationships, and assists in gathering information about the environment, other individuals, and oneself.[227] A further topic concerns the question of how communication systems change over time and how these changes correlate with other societal changes.[228] A related topic focuses on psychological principles underlying those changes and the effects they have on how people exchange ideas.[229]
+
+Communication was studied as early as Ancient Greece. Early influential theories were created by Plato and Aristotle, who stressed public speaking and the understanding of rhetoric. According to Aristotle, for example, the goal of communication is to persuade the audience.[230] The field of communication studies only became a separate research discipline in the 20th century, especially starting in the 1940s.[231] The development of new communication technologies, such as telephone, radio, newspapers, television, and the internet, has had a big impact on communication and communication studies.[232]
+
+Today, communication studies is a wide discipline. Some works in it try to provide a general characterization of communication in the widest sense. Others attempt to give a precise analysis of one specific form of communication. Communication studies includes many subfields. Some focus on wide topics like interpersonal communication, intrapersonal communication, verbal communication, and non-verbal communication. Others investigate communication within a specific area.[233] Organizational communication concerns communication between members of organizations such as corporations, nonprofits, or small businesses. Central in this regard is the coordination of the behavior of the different members as well as the interaction with customers and the general public.[234] Closely related terms are business communication, corporate communication, and professional communication.[235] The main element of marketing communication is advertising but it also encompasses other communication activities aimed at advancing the organization's objective to its audiences, like public relations.[236] Political communication covers topics like electoral campaigns to influence voters and legislative communication, like letters to a congress or committee documents. Specific emphasis is often given to propaganda and the role of mass media.[237]
+
+Intercultural communication is relevant to both organizational and political communication since they often involve attempts to exchange messages between communicators from different cultural backgrounds.[238] The cultural background affects how messages are formulated and interpreted and can be the cause of misunderstandings.[239] It is also relevant for development communication, which is about the use of communication for assisting in development, like aid given by first-world countries to third-world countries.[240] Health communication concerns communication in the field of healthcare and health promotion efforts. One of its topics is how healthcare providers, like doctors and nurses, should communicate with their patients.[241]
+
+History
+Main article: History of communication
+Communication history studies how communicative processes evolved and interacted with society, culture, and technology.[242] Human communication has a long history and the way people communicate has changed considerably over time. Many of these changes were triggered by the development of new communication technologies and had various effects on how people exchanged ideas.[243] New communication technologies usually require new skills that people need to learn to use them effectively.[244]
+
+In the academic literature, the history of communication is usually divided into ages based on the dominant form of communication in that age. The number of ages and the precise periodization are disputed. They usually include ages for speaking, writing, and print as well as electronic mass communication and the internet.[245] According to communication theorist Marshall Poe, the dominant media for each age can be characterized in relation to several factors. They include the amount of information a medium can store, how long it persists, how much time it takes to transmit it, and how costly it is to use the medium. Poe argues that subsequent ages usually involve some form of improvement of one or more of the factors.[246]
+
+According to some scientific estimates, language developed around 40,000 years ago while others consider it to be much older. Before this development, human communication resembled animal communication and happened through a combination of grunts, cries, gestures, and facial expressions. Language helped early humans to organize themselves and plan ahead more efficiently.[247] In early societies, spoken language was the primary form of communication.[248] Most knowledge was passed on through it, often in the form of stories or wise sayings. This form does not produce stable knowledge since it depends on imperfect human memory. Because of this, many details differ from one telling to the next and are presented differently by distinct storytellers.[249] As people started to settle and form agricultural communities, societies grew and there was an increased need for stable records of ownership of land and commercial transactions. This triggered the invention of writing, which is able to solve many problems that arose from using exclusively oral communication.[250] It is much more efficient at preserving knowledge and passing it on between generations since it does not depend on human memory.[251] Before the invention of writing, certain forms of proto-writing had already developed. Proto-writing encompasses long-lasting visible marks used to store information, like decorations on pottery items, knots in a cord to track goods, or seals to mark property.[252]
+
+Photo of a sales contract inscribed on a clay tablet
+Sales contract inscribed on a clay tablet using pre-cuneiform script
+Most early written communication happened through pictograms. Pictograms are graphical symbols that convey meaning by visually resembling real-world objects. The use of basic pictographic symbols to represent things like farming produce was common in ancient cultures and began around 9000 BCE. The first complex writing system including pictograms was developed around 3500 BCE by the Sumerians and is called cuneiform.[253] Pictograms are still in use today, like no-smoking signs and the symbols of male and female figures on bathroom doors.[254] A significant disadvantage of pictographic writing systems is that they need a large amount of symbols to refer to all the objects one wants to talk about. This problem was solved by the development of other writing systems. For example, the symbols of alphabetic writing systems do not stand for regular objects. Instead, they relate to the sounds used in spoken language.[255] Other types of early writing systems include logographic and ideographic writing systems.[256] A drawback of many early forms of writing, like the clay tablets used for cuneiform, was that they were not very portable. This made it difficult to transport the texts from one location to another to share information. This changed with the invention of papyrus by the Egyptians around 2500 BCE and was further improved later by the development of parchment and paper.[257]
+
+Until the 1400s, almost all written communication was hand-written, which limited the spread of written media within society since copying texts by hand was costly. The introduction and popularization of mass printing in the middle of the 15th century by Johann Gutenberg resulted in rapid changes. Mass printing quickly increased the circulation of written media and also led to the dissemination of new forms of written documents, like newspapers and pamphlets. One side effect was that the augmented availability of written documents significantly improved the general literacy of the population. This development served as the foundation for revolutions in various fields, including science, politics, and religion.[258]
+
+Scientific discoveries in the 19th and 20th centuries caused many further developments in the history of communication. They include the invention of telegraphs and telephones, which made it even easier and faster to transmit information from one location to another without the need to transport written documents.[259] These communication forms were initially limited to cable connections, which had to be established first. Later developments found ways of wireless transmission using radio signals. They made it possible to reach wide audiences and radio soon became one of the central forms of mass communication.[260] Various innovations in the field of photography enabled the recording of images on film, which led to the development of cinema and television.[261] The reach of wireless communication was further enhanced with the development of satellites, which made it possible to broadcast radio and television signals to stations all over the world. This way, information could be shared almost instantly everywhere around the globe.[262] The development of the internet constitutes a further milestone in the history of communication. It made it easier than ever before for people to exchange ideas, collaborate, and access information from anywhere in the world by using a variety of means, such as websites, e-mail, social media, and video conferences.[263]

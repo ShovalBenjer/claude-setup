@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+*.pdf
+*.zip
+*.pptx
+*.docx
+*.xlsx
+*.lnk
+.DS_Store

@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Azure App Service Security Audit (Codex/gpt-5.5) - Deep Research Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+        }
+
+        .header {
+            background: #003d5c;
+            color: white;
+            padding: 25px 40px;
+            border-bottom: 3px solid #002840;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header-meta {
+            font-size: 13px;
+            color: #b8d4e6;
+            display: flex;
+            gap: 25px;
+        }
+
+        .metrics-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0;
+            border-bottom: 2px solid #003d5c;
+        }
+
+        .metric {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-right: 1px solid #d1d5db;
+            text-align: center;
+        }
+
+        .metric:last-child {
+            border-right: none;
+        }
+
+        .metric-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #003d5c;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #4a5568;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 30px 40px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #003d5c;
+            margin: 32px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #003d5c;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            line-height: 1.3;
+        }
+
+        .subsection-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 24px 0 12px 0;
+            line-height: 1.4;
+        }
+
+        .executive-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #003d5c;
+        }
+
+        .executive-summary p {
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        p {
+            margin-bottom: 14px;
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        /* Better paragraph spacing in content sections */
+        .content > p,
+        .section p {
+            margin-bottom: 16px;
+        }
+
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .finding-card {
+            background: #f8f9fa;
+            padding: 18px;
+            border-left: 3px solid #003d5c;
+        }
+
+        .finding-card h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #003d5c;
+            margin-bottom: 10px;
+        }
+
+        .finding-card p {
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+
+        .data-table th {
+            background: #003d5c;
+            color: white;
+            padding: 10px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 16px 0 16px 28px;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+            padding-left: 8px;
+        }
+
+        /* Nested lists */
+        li ul, li ol {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Better bullet/number spacing */
+        ol {
+            list-style-position: outside;
+            padding-left: 0;
+        }
+
+        ul {
+            list-style-position: outside;
+            padding-left: 0;
+        }
+
+        .key-insight {
+            background: white;
+            border: 1px solid #d1d5db;
+            border-left: 3px solid #003d5c;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .key-insight strong {
+            color: #003d5c;
+            font-weight: 600;
+        }
+
+        .citation {
+            color: #003d5c;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            padding: 2px 4px;
+            background: #f0f7fc;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .citation:hover {
+            background: #003d5c;
+            color: white;
+        }
+
+        /* Attribution Gradients (2025 Enhancement) */
+        .citation-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 8px;
+            background: white;
+            border: 2px solid #003d5c;
+            box-shadow: 0 4px 12px rgba(0, 61, 92, 0.15);
+            padding: 12px;
+            min-width: 300px;
+            max-width: 500px;
+            z-index: 1000;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .citation:hover .citation-tooltip {
+            display: block;
+        }
+
+        .tooltip-title {
+            font-weight: 700;
+            color: #003d5c;
+            margin-bottom: 8px;
+            font-size: 13px;
+            border-bottom: 1px solid #d1d5db;
+            padding-bottom: 6px;
+        }
+
+        .tooltip-source {
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .tooltip-claim {
+            background: #f8f9fa;
+            padding: 8px;
+            margin-top: 8px;
+            border-left: 3px solid #003d5c;
+            font-size: 11px;
+        }
+
+        .tooltip-claim-label {
+            font-weight: 600;
+            color: #003d5c;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .evidence-chain {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #d1d5db;
+        }
+
+        .evidence-chain-label {
+            font-weight: 600;
+            color: #003d5c;
+            font-size: 11px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .evidence-step {
+            padding: 6px;
+            background: #f8f9fa;
+            margin-bottom: 4px;
+            font-size: 11px;
+            border-left: 2px solid #d1d5db;
+            padding-left: 8px;
+        }
+
+        .bibliography {
+            background: #f8f9fa;
+            padding: 30px;
+            margin-top: 40px;
+            border-left: 4px solid #003d5c;
+        }
+
+        .bibliography-content {
+            background: #f8f9fa;
+            padding: 20px 0;
+        }
+
+        .bib-entry {
+            margin-bottom: 18px;
+            padding-left: 50px;
+            text-indent: -50px;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        .bib-number {
+            color: #003d5c;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .bib-entry a {
+            color: #003d5c;
+            word-wrap: break-word;
+            text-decoration: none;
+        }
+
+        .bib-entry a:hover {
+            text-decoration: underline;
+        }
+
+        .compact-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .compact-list li {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .info-box {
+            background: white;
+            border: 1px solid #d1d5db;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .info-box h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #003d5c;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .highlight-stat {
+            font-weight: 700;
+            color: #003d5c;
+        }
+
+        strong {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        @media print {
+            .container {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .metrics-dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .findings-grid {
+                grid-template-columns: 1fr;
+            }
+            .compact-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MCP Azure App Service Security Audit (Codex/gpt-5.5)</h1>
+            <div class="header-meta">
+                <span>May 7, 2026</span>
+                <span>•</span>
+                <span>15 findings Sources</span>
+            </div>
+        </div>
+
+        
+
+        <div class="content">
+            <div class="section"><div class="executive-summary"><h2 class="section-title">Executive Summary</h2>
+
+<ol>
+<li><strong>Critical: Public OAuth can still mint broad MCP bearers when Entra is not configured</strong>: the deployment template explicitly falls back to <code>MCP_REQUIRE_ENTRA=false</code>, while the OAuth server supports dynamic public-client registration and all tools sit behind one coarse bearer gate.</li>
+<li><strong>Critical: The MCP boundary exposes high-risk customer PII and regulated financial context</strong>: CRM comments, Chatwoot identities/private notes, raw transcripts, and OneSignal payloads are returned with minimal policy enforcement at the tool boundary.</li>
+<li><strong>High: Azure secret and deployment posture is not yet board-grade</strong>: Key Vault MSI role assignment is commented out, registry credentials are injected as app settings, and the pipeline deploys directly to production without slot swap or image vulnerability gates.</li>
+<li>Existing controls worth preserving: HTTPS-only App Service config, <code>minTlsVersion: 1.2</code>, HSTS/CSP/no-sniff headers, FastMCP DNS-rebinding protection, non-root container user, Key Vault client via <code>DefaultAzureCredential</code>, upstream error envelopes, token-redaction tests, and per-host outbound token buckets.</li>
+<li>Strategic recommendation: position this MCP as the “secure BI edge” by making it more governed than internal BI: Entra-only federation, per-tool scopes, redacted data products, immutable audit logs, private networking, and release gates that BI spreadsheets cannot provide.</li>
+</ol>
+
+</div>
+<div class="section"><h2 class="section-title">Findings Table</h2>
+
+<table>
+<thead><tr>
+<th>ID</th>
+<th>Severity</th>
+<th>Category</th>
+<th>Affected Evidence</th>
+<th>Exploit Scenario</th>
+<th>Recommended Fix</th>
+<th>Effort</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>F-01</td>
+<td>Critical</td>
+<td>Identity</td>
+<td>[infra/mcp.bicep:56](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:56), [infra/mcp.bicep:83](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:83), [infra/mcp.bicep:121](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:121), [app_mcp/server.py:210](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:210), [app_mcp/oauth.py:321](/home/shovalbe/projects/campaign-analysis/app_mcp/oauth.py:321)</td>
+<td>The Bicep template states that empty Entra params make the app boot with open dev mode, then sets <code>MCP_REQUIRE_ENTRA</code> from that derived value. In that mode, any internet client that reaches <code>/oauth/register</code> can register a public client, complete PKCE locally, and receive a bearer for the MCP transport.</td>
+<td>Remove the dev-mode fallback from production infrastructure. Make Entra tenant/client settings required for all non-local deployments, fail deployment when empty, and keep <code>MCP_REQUIRE_ENTRA=true</code> as an invariant. Keep local dev behavior only in test/local startup scripts.</td>
+<td>S</td>
+</tr>
+<tr>
+<td>F-02</td>
+<td>Critical</td>
+<td>Data</td>
+<td>[app_mcp/tools/crm.py:90](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/crm.py:90), [app_mcp/tools/crm.py:102](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/crm.py:102), [app_mcp/tools/crm.py:127](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/crm.py:127), [app_mcp/server.py:366](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:366)</td>
+<td><code>crm_get_customer</code> returns customer email, language, compliance status, financial deposit fields, trading balance/equity/PNL, and every decoded comment. Because comments are URL-decoded and returned without content filtering, production notes containing PINs, signed links, health disclosures, or KYC narrative can move from CRM into a general MCP client transcript.</td>
+<td>Add a CRM response policy layer before MCP output: redact secrets, signed URLs, medical terms, government IDs, card/payment fragments, and high-risk free text by default. Split tools into <code>crm_get_customer_summary</code> and <code>crm_get_customer_sensitive_comments</code>, with the latter requiring elevated scope and audited justification.</td>
+<td>M</td>
+</tr>
+<tr>
+<td>F-03</td>
+<td>Critical</td>
+<td>Data</td>
+<td>[app_mcp/tools/chatwoot.py:98](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/chatwoot.py:98), [app_mcp/tools/chatwoot.py:109](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/chatwoot.py:109), [app_mcp/tools/chatwoot.py:123](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/chatwoot.py:123), [app_mcp/tools/chatwoot.py:209](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/chatwoot.py:209), [app_mcp/tests/test_chatwoot.py:267](/home/shovalbe/projects/campaign-analysis/app_mcp/tests/test_chatwoot.py:267)</td>
+<td>Chatwoot conversation output lifts <code>name</code>, WhatsApp JID, CRM ACC, email, branch, country, compliance status, and client status into a single contact block. Message retrieval explicitly preserves private notes and full content; a broad MCP bearer can enumerate inbox conversations and retrieve internal agent notes.</td>
+<td>Default Chatwoot tools to privacy-minimized output: hash or mask JID/email, remove private notes unless <code>include_private=true</code> is authorized by an elevated scope, and add server-side pagination/time bounds. Add tests proving private note content is excluded in default mode.</td>
+<td>M</td>
+</tr>
+<tr>
+<td>F-04</td>
+<td>High</td>
+<td>Identity</td>
+<td>[app_mcp/server.py:621](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:621), [app_mcp/oauth.py:220](/home/shovalbe/projects/campaign-analysis/app_mcp/oauth.py:220), [app_mcp/oauth.py:392](/home/shovalbe/projects/campaign-analysis/app_mcp/oauth.py:392), [app_mcp/oauth.py:421](/home/shovalbe/projects/campaign-analysis/app_mcp/oauth.py:421)</td>
+<td>The bearer gate validates token signature/audience, but it does not enforce per-tool scopes, role claims, customer ownership, broker namespace, or named-recipient restrictions. A token with <code>mcp.tools</code> can reach CRM, transcripts, Chatwoot, OneSignal, Windsor, and analysis tools equally.</td>
+<td>Introduce an authorization matrix at the MCP tool boundary: <code>crm.read.summary</code>, <code>crm.read.comments</code>, <code>chatwoot.read.public</code>, <code>chatwoot.read.private</code>, <code>calls.read</code>, <code>calls.transcribe</code>, <code>push.read</code>, <code>marketing.read</code>. Enforce Entra group/app-role claims and customer/broker constraints before calling each adapter.</td>
+<td>M</td>
+</tr>
+<tr>
+<td>F-05</td>
+<td>High</td>
+<td>Identity</td>
+<td>[app_mcp/oauth.py:37](/home/shovalbe/projects/campaign-analysis/app_mcp/oauth.py:37), [app_mcp/oauth.py:231](/home/shovalbe/projects/campaign-analysis/app_mcp/oauth.py:231), [infra/mcp.bicep:122](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:122), [app_mcp/server.py:627](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:627)</td>
+<td>OAuth issuer and protected-resource metadata are derived from <code>MCP_OAUTH_ISSUER</code>, with a legacy default of <code>https://mcp-seekapa-tools.azurewebsites.net</code>. The system under review is served from a different host; issuer/resource/audience mismatch causes connector failures at best and confused-token acceptance at worst if multiple hosts remain alive.</td>
+<td>Make the serving host canonical. Set <code>MCP_OAUTH_ISSUER</code> to the live host, retire legacy hostname traffic with redirect or deny, and remove legacy audience acceptance after token TTL. Add startup assertion that issuer host equals the configured App Service hostname for production.</td>
+<td>S</td>
+</tr>
+<tr>
+<td>F-06</td>
+<td>High</td>
+<td>App</td>
+<td>[app_mcp/tools/onesignal.py:1](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/onesignal.py:1), [app_mcp/tools/onesignal.py:70](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/onesignal.py:70), [app_mcp/tools/onesignal.py:88](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/onesignal.py:88), [app_mcp/server.py:445](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:445)</td>
+<td>The OneSignal adapter says it has “No _shape() yet” and returns <code>resp.json()</code> directly for notification list and template retrieval. That passes vendor payload structure, delivery metadata, null-heavy fields, tags, segmentation, and identifiers through to any bearer-authorized MCP client.</td>
+<td>Add strict OneSignal DTO shaping with an allowlist of fields needed by the pilot. Normalize external IDs to CRM ACC namespace or clearly mark unmapped identifiers; cap <code>limit</code>, block arbitrary raw template dumps by default, and add snapshot tests for “no unexpected fields.”</td>
+<td>S</td>
+</tr>
+<tr>
+<td>F-07</td>
+<td>High</td>
+<td>Data</td>
+<td>[app_mcp/tools/call_analyzer.py:333](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/call_analyzer.py:333), [app_mcp/tools/call_analyzer.py:350](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/call_analyzer.py:350), [app_mcp/tools/call_analyzer_orchestrator.py:44](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/call_analyzer_orchestrator.py:44), [app_mcp/tools/call_analyzer_orchestrator.py:121](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/call_analyzer_orchestrator.py:121)</td>
+<td>Raw transcript endpoints return full ElevenLabs payloads, including text and word timeline. The orchestrator also inlines <code>transcript_text</code> and <code>transcript_words</code> into call bundles, making call speech available for downstream model prompts and logs unless every consumer is careful.</td>
+<td>Keep raw transcript access only for scoring service paths, not general MCP users. Provide default redacted transcript segments, add content-classification flags, enforce short retention, and log every raw transcript request with Entra subject, ACC, call ID, and purpose.</td>
+<td>M</td>
+</tr>
+<tr>
+<td>F-08</td>
+<td>High</td>
+<td>Azure</td>
+<td>[infra/mcp.bicep:188](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:188), [infra/mcp.bicep:191](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:191), [app_mcp/config.py:95](/home/shovalbe/projects/campaign-analysis/app_mcp/config.py:95), [app_mcp/config.py:102](/home/shovalbe/projects/campaign-analysis/app_mcp/config.py:102)</td>
+<td>The app code is built around Key Vault via <code>DefaultAzureCredential</code>, but the Bicep comments say the Key Vault role assignment was removed and open dev-mode settings are inlined so MSI to KV is not required for boot. In production, this creates drift risk: the app may run with inline secrets or fail open around missing secret governance.</td>
+<td>Re-enable MSI-based Key Vault access as a deployment requirement. Grant only <code>Key Vault Secrets User</code> to the App Service managed identity, remove env-secret fallback from production, and add a <code>/readyz</code> gate that fails if required secrets are not fetched from KV.</td>
+<td>M</td>
+</tr>
+<tr>
+<td>F-09</td>
+<td>High</td>
+<td>Azure</td>
+<td>[infra/mcp.bicep:72](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:72), [infra/mcp.bicep:75](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:75), [infra/mcp.bicep:134](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:134), [azure-pipelines-mcp.yml:61](/home/shovalbe/projects/campaign-analysis/azure-pipelines-mcp.yml:61), [azure-pipelines-mcp.yml:75](/home/shovalbe/projects/campaign-analysis/azure-pipelines-mcp.yml:75)</td>
+<td>The template supports ACR admin username/password and writes registry credentials into App Service settings. The pipeline also logs into GHCR with a PAT and deploys registry credentials directly through <code>az webapp config container set</code>, creating a static credential blast radius outside managed identity.</td>
+<td>Use managed identity for ACR pull, disable ACR admin user, and store any unavoidable registry credential as a Key Vault reference until eliminated. Prefer Azure Container Registry with <code>AcrPull</code> assigned to the Web App identity; remove GHCR PAT dependency for production.</td>
+<td>M</td>
+</tr>
+<tr>
+<td>F-10</td>
+<td>Medium</td>
+<td>Network</td>
+<td>[infra/mcp.bicep:32](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:32), [infra/mcp.bicep:37](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:37), [infra/mcp.bicep:116](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:116), [app_mcp/_http_client.py:95](/home/shovalbe/projects/campaign-analysis/app_mcp/_http_client.py:95)</td>
+<td>Ingress restrictions allow broad Azure service tags and Azure Active Directory rather than a private endpoint or tightly scoped client egress. Outbound HTTP clients can reach any hard-coded public upstream host over internet TLS; there is no VNet integration, NAT egress pinning, Azure Firewall FQDN rule, or Private Link evidence in the repo config.</td>
+<td>Move the Web App behind private endpoint or Access Restrictions scoped to verified client egress only. Add regional VNet integration, route outbound through Azure Firewall/NAT, and allow only required FQDNs: analyzer, CRM, Chatwoot, OneSignal, Windsor, Foundry, Entra, Key Vault.</td>
+<td>L</td>
+</tr>
+<tr>
+<td>F-11</td>
+<td>Medium</td>
+<td>App</td>
+<td>[app_mcp/_http_client.py:32](/home/shovalbe/projects/campaign-analysis/app_mcp/_http_client.py:32), [app_mcp/_http_client.py:38](/home/shovalbe/projects/campaign-analysis/app_mcp/_http_client.py:38), [app_mcp/_http_client.py:75](/home/shovalbe/projects/campaign-analysis/app_mcp/_http_client.py:75), [app_mcp/server.py:621](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:621)</td>
+<td>There is a per-host outbound limiter for upstream calls, but no inbound per-subject, per-IP, per-client, or per-tool quota at the FastAPI/MCP boundary. A valid bearer can repeatedly invoke transcript, CRM cohort, Chatwoot pagination, or Windsor queries and consume upstream quota or leak large volumes.</td>
+<td>Add inbound throttling keyed by Entra <code>oid</code>, client ID, IP, and tool. Set lower quotas for raw transcript and customer-data tools, reject excessive page traversal, and emit rate-limit events to Log Analytics.</td>
+<td>M</td>
+</tr>
+<tr>
+<td>F-12</td>
+<td>Medium</td>
+<td>App</td>
+<td>[app_mcp/Dockerfile:24](/home/shovalbe/projects/campaign-analysis/app_mcp/Dockerfile:24), [app_mcp/Dockerfile:26](/home/shovalbe/projects/campaign-analysis/app_mcp/Dockerfile:26), [azure-pipelines-mcp.yml:44](/home/shovalbe/projects/campaign-analysis/azure-pipelines-mcp.yml:44), [pyproject.toml:27](/home/shovalbe/projects/campaign-analysis/pyproject.toml:27)</td>
+<td>Runtime dependencies in the Dockerfile are installed with broad lower bounds and no lockfile enforcement; the Dockerfile even allows <code>mcp>=1.0</code> while <code>pyproject.toml</code> pins <code><2.0</code>. CI runs lint, mypy, and tests, but does not run Bandit despite it being a dev dependency, nor pip-audit/SBOM/container CVE scanning.</td>
+<td>Build the container from the locked dependency graph, pin Docker runtime dependencies consistently with <code>pyproject.toml</code>, and add Bandit, pip-audit, Trivy/Defender image scan, and SBOM generation as pipeline gates before deploy.</td>
+<td>S</td>
+</tr>
+<tr>
+<td>F-13</td>
+<td>Medium</td>
+<td>Azure</td>
+<td>[azure-pipelines-mcp.yml:11](/home/shovalbe/projects/campaign-analysis/azure-pipelines-mcp.yml:11), [azure-pipelines-mcp.yml:54](/home/shovalbe/projects/campaign-analysis/azure-pipelines-mcp.yml:54), [azure-pipelines-mcp.yml:67](/home/shovalbe/projects/campaign-analysis/azure-pipelines-mcp.yml:67), [infra/mcp.bicep:142](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:142)</td>
+<td>The infrastructure defines a staging slot, but the pipeline comment says slot-swap rollback is deferred and the deploy job pushes directly to the production Web App on <code>master</code>. A bad auth, networking, or data-redaction release can immediately affect the live pilot endpoint.</td>
+<td>Restore staging deployment, run <code>/readyz</code>, OAuth metadata, bearer rejection, Entra login, and tool smoke tests against staging, then swap. Add automatic rollback if post-swap health or security probes fail.</td>
+<td>M</td>
+</tr>
+<tr>
+<td>F-14</td>
+<td>Medium</td>
+<td>Compliance</td>
+<td>[app_mcp/_logging.py:103](/home/shovalbe/projects/campaign-analysis/app_mcp/_logging.py:103), [app_mcp/server.py:647](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:647), [app_mcp/tools/crm.py:156](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/crm.py:156), [app_mcp/tools/chatwoot.py:198](/home/shovalbe/projects/campaign-analysis/app_mcp/tools/chatwoot.py:198)</td>
+<td>Structured request IDs exist, but tool-level logs mostly capture latency and counts, not immutable business audit fields: Entra subject, client app, tool name, ACC/customer ID under a protected hash, data classification, purpose, and decision outcome. That weakens incident investigation, GDPR accountability, EU AI Act logging, SR 11-7 model governance, and CySEC AML review.</td>
+<td>Add an audit event model emitted before and after every sensitive tool invocation. Store in Log Analytics with Diagnostic Settings and retention policy; include subject/client/tool/scope/purpose/result counts and hash identifiers with a tenant salt.</td>
+<td>M</td>
+</tr>
+<tr>
+<td>F-15</td>
+<td>Low</td>
+<td>Network</td>
+<td>[app_mcp/server.py:36](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:36), [app_mcp/server.py:119](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:119), [infra/mcp.bicep:102](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:102), [infra/mcp.bicep:105](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:105)</td>
+<td>Good transport controls are present: HSTS, CSP, no-sniff, DNS-rebinding protection, HTTPS-only, TLS 1.2 minimum, FTPS disabled, and HTTP/2 enabled. Remaining gap is that TLS is platform-managed with no client certificate binding, mutual TLS, or explicit certificate pinning to upstreams.</td>
+<td>Leave current headers and FastMCP transport protection in place. For board-grade internal access, evaluate App Service client certificates or gateway-level mTLS for MCP clients; do not add brittle application-level public CA pinning unless the upstreams support operational rotation.</td>
+<td>M</td>
+</tr>
+</tbody></table>
+
+</div>
+<div class="section"><h2 class="section-title">Threat Model Diagram</h2>
+
+<p>~~~
+Trust Boundary: Internet / End User
+  Claude Desktop / Web Connector / Named-recipient URL
+</p>
+<table>
+<thead><tr>
+</tr></thead>
+<tbody>
+<tr>
+</tr>
+</tbody></table>
+<p>        v
+Trust Boundary: Azure App Service
+  FastAPI + FastMCP
+</p>
+<ul>
+<li>/.well-known/oauth-authorization-server</li>
+<li>/.well-known/oauth-protected-resource</li>
+<li>/oauth/register, /oauth/authorize, /oauth/token</li>
+<li>/mcp, /sse, /messages/* | | Bearer gate: signature + audience only v</li>
+</ul>
+<p>  MCP Tool Surface
+</p>
+<ul>
+<li>CRM tools</li>
+<li>Call Analyzer tools</li>
+<li>Chatwoot tools</li>
+<li>OneSignal tools</li>
+<li>Windsor tools</li>
+<li>Layer-2 deterministic analysis | | DefaultAzureCredential v</li>
+</ul>
+<p>Trust Boundary: Azure Key Vault
+  KV shoval
+</p>
+<ul>
+<li>CRM-API-KEY</li>
+<li>CALL-ANALYSER-X-API</li>
+<li>ONE-SIGNAL-* keys</li>
+<li>WINDSOR-API-KEY</li>
+<li>CHATWOOT-API-KEY</li>
+</ul>
+
+<p>Trust Boundary: Upstream APIs
+  analyzer.corp-domain.com
+  az-corp.corp-domain.com
+  corpim.corp-domain.com
+  api.onesignal.com
+  connectors.windsor.ai
+  brn-azai.services.ai.azure.com
+</p>
+<table>
+<thead><tr>
+</tr></thead>
+<tbody>
+</tbody></table>
+<p>        v
+Trust Boundary: Customer / Regulated Data
+  CRM comments, KYC, deposits, PNL, compliance status
+  WhatsApp identity, JID, private notes, messages
+  Call transcripts and word timelines
+  Push notification metadata
+  Marketing platform account data
+~~~
+</p>
+
+</div>
+<div class="section"><h2 class="section-title">Remediation Roadmap</h2>
+
+<h3 class="subsection-title">Pri-1: This Week</h3>
+
+<ol>
+<li><strong>Force Entra-only production auth</strong>: remediate F-01. Remove production dev-mode fallback, require Entra parameters at deployment, and verify <code>/startupz</code> reports <code>entra_enabled=true</code>.</li>
+<li><strong>Kill broad bearer access</strong>: remediate F-04. Add a first-pass per-tool authorization matrix even if all sensitive tools initially require the same elevated group.</li>
+<li><strong>Redact CRM comments by default</strong>: remediate F-02. Ship a server-side redaction layer and split raw comment access behind elevated scope.</li>
+<li><strong>Minimize Chatwoot output</strong>: remediate F-03. Mask email/JID and exclude private notes by default.</li>
+<li><strong>Fix issuer/host canonicalization</strong>: remediate F-05. Align <code>MCP_OAUTH_ISSUER</code>, protected-resource metadata, and live serving host; retire legacy host.</li>
+<li><strong>Disable raw OneSignal pass-through</strong>: remediate F-06. Return only an allowlisted notification summary until a governed data contract exists.</li>
+<li><strong>Require MSI to Key Vault</strong>: remediate F-08. Re-enable KV role assignment or perform a documented Owner action; fail readiness if secrets come from inline production env.</li>
+</ol>
+
+<h3 class="subsection-title">Pri-2: This Month</h3>
+
+<ol>
+<li><strong>Raw transcript governance</strong>: remediate F-07. Gate raw transcripts behind elevated scope and audit every access.</li>
+<li><strong>Replace registry static credentials</strong>: remediate F-09. Move production image pull to managed identity and ACR RBAC.</li>
+<li><strong>Inbound quotas and abuse throttles</strong>: remediate F-11. Add per-subject/tool quotas and cap pagination/fan-out.</li>
+<li><strong>Pipeline security gates</strong>: remediate F-12. Add locked dependency install, Bandit, pip-audit, SBOM, and container CVE scan.</li>
+<li><strong>Staging slot and swap release flow</strong>: remediate F-13. Deploy to staging, run security smoke tests, then swap.</li>
+<li><strong>Immutable audit trail</strong>: remediate F-14. Emit tool audit events to Log Analytics with retention and alert rules.</li>
+</ol>
+
+<h3 class="subsection-title">Pri-3: This Quarter</h3>
+
+<ol>
+<li><strong>Private networking and egress control</strong>: remediate F-10. Add private endpoint or narrow ingress, VNet integration, NAT/Azure Firewall, and FQDN allowlisting.</li>
+<li><strong>mTLS or gateway-auth hardening</strong>: remediate F-15. Evaluate client certificates at App Service or Azure Front Door/Application Gateway.</li>
+<li><strong>Data-product contracts</strong>: extend F-02/F-03/F-06/F-07 into governed MCP schemas with classification labels and retention rules.</li>
+<li><strong>Board-grade BI replacement posture</strong>: combine Entra groups, audit logs, redaction, and deterministic evidence trails into a security narrative that internal BI cannot match with exported spreadsheets.</li>
+</ol>
+
+</div>
+<div class="section"><h2 class="section-title">Compliance Mapping</h2>
+
+<table>
+<thead><tr>
+<th>Finding</th>
+<th>Priority</th>
+<th>EU AI Act Art. 12</th>
+<th>GDPR Art. 32</th>
+<th>SR 11-7</th>
+<th>CySEC AML</th>
+<th>MiFID II</th>
+<th>Israeli Privacy Protection Law</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>F-01</td>
+<td>Pri-1</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>F-02</td>
+<td>Pri-1</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>F-03</td>
+<td>Pri-1</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>F-04</td>
+<td>Pri-1</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>F-05</td>
+<td>Pri-1</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>F-06</td>
+<td>Pri-1</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>F-08</td>
+<td>Pri-1</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>F-07</td>
+<td>Pri-2</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>F-09</td>
+<td>Pri-2</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>F-11</td>
+<td>Pri-2</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>F-12</td>
+<td>Pri-2</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>F-13</td>
+<td>Pri-2</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>F-14</td>
+<td>Pri-2</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+</div>
+<div class="section"><h2 class="section-title">Controls To Preserve</h2>
+
+<table>
+<thead><tr>
+<th>Control</th>
+<th>Evidence</th>
+<th>Why It Matters</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Security headers</td>
+<td>[app_mcp/server.py:36](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:36), [app_mcp/server.py:639](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:639)</td>
+<td>HSTS, CSP, no-sniff, and referrer policy are correct for a JSON-only MCP server.</td>
+</tr>
+<tr>
+<td>DNS-rebinding protection</td>
+<td>[app_mcp/server.py:119](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:119)</td>
+<td>FastMCP transport host/origin checks reduce browser-origin and host-header abuse.</td>
+</tr>
+<tr>
+<td>HTTPS/TLS baseline</td>
+<td>[infra/mcp.bicep:102](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:102), [infra/mcp.bicep:105](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:105), [infra/mcp.bicep:106](/home/shovalbe/projects/campaign-analysis/infra/mcp.bicep:106)</td>
+<td>HTTPS-only, TLS 1.2 minimum, and FTPS disabled are sound defaults.</td>
+</tr>
+<tr>
+<td>Non-root container user</td>
+<td>[app_mcp/Dockerfile:16](/home/shovalbe/projects/campaign-analysis/app_mcp/Dockerfile:16), [app_mcp/Dockerfile:41](/home/shovalbe/projects/campaign-analysis/app_mcp/Dockerfile:41)</td>
+<td>Reduces container RCE blast radius.</td>
+</tr>
+<tr>
+<td>Secret injection via auth classes</td>
+<td>[app_mcp/_http_client.py:115](/home/shovalbe/projects/campaign-analysis/app_mcp/_http_client.py:115), [app_mcp/_http_client.py:134](/home/shovalbe/projects/campaign-analysis/app_mcp/_http_client.py:134)</td>
+<td>Secrets are added by <code>httpx.Auth</code>, not hand-built tool headers.</td>
+</tr>
+<tr>
+<td>Safe upstream error envelope</td>
+<td>[app_mcp/_http_client.py:225](/home/shovalbe/projects/campaign-analysis/app_mcp/_http_client.py:225), [app_mcp/tests/test_token_redaction.py:42](/home/shovalbe/projects/campaign-analysis/app_mcp/tests/test_token_redaction.py:42)</td>
+<td>Prevents upstream URLs, ACCs, and tokens from leaking in error responses.</td>
+</tr>
+<tr>
+<td>Token redaction tests</td>
+<td>[app_mcp/_logging.py:48](/home/shovalbe/projects/campaign-analysis/app_mcp/_logging.py:48), [app_mcp/tests/test_token_redaction.py:53](/home/shovalbe/projects/campaign-analysis/app_mcp/tests/test_token_redaction.py:53)</td>
+<td>Good foundation for audit-safe logging; extend it to PII redaction.</td>
+</tr>
+<tr>
+<td>Outbound rate limiter</td>
+<td>[app_mcp/_http_client.py:38](/home/shovalbe/projects/campaign-analysis/app_mcp/_http_client.py:38), [app_mcp/_http_client.py:75](/home/shovalbe/projects/campaign-analysis/app_mcp/_http_client.py:75)</td>
+<td>Protects upstream APIs from accidental burst fan-out.</td>
+</tr>
+<tr>
+<td>OAuth PKCE and Entra ID token verification</td>
+<td>[app_mcp/server.py:242](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:242), [app_mcp/server.py:342](/home/shovalbe/projects/campaign-analysis/app_mcp/server.py:342), [app_mcp/oauth.py:157](/home/shovalbe/projects/campaign-analysis/app_mcp/oauth.py:157)</td>
+<td>PKCE and Entra JWT validation are implemented; the gap is production enforcement and per-tool authorization.</td>
+</tr>
+</tbody></table>
+
+
+</div>
+
+            <div class="bibliography">
+                <div class="section-title">Bibliography</div>
+                
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

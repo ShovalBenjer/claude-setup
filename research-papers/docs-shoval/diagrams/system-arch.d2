@@ -1,0 +1,115 @@
+direction: right
+
+classes: {
+  user: {
+    shape: oval
+    style: {
+      fill: "#4A90D9"
+      font-color: "#FFFFFF"
+      stroke: "#2C5F8A"
+    }
+  }
+  agent: {
+    shape: hexagon
+    style: {
+      fill: "#7B68EE"
+      font-color: "#FFFFFF"
+      stroke: "#5A4FCF"
+    }
+  }
+  api: {
+    shape: rectangle
+    style: {
+      fill: "#2ECC71"
+      font-color: "#FFFFFF"
+      stroke: "#1A9B52"
+    }
+  }
+  database: {
+    shape: cylinder
+    style: {
+      fill: "#E67E22"
+      font-color: "#FFFFFF"
+      stroke: "#B8651B"
+    }
+  }
+  service: {
+    shape: cloud
+    style: {
+      fill: "#9B59B6"
+      font-color: "#FFFFFF"
+      stroke: "#7D3C98"
+    }
+  }
+  secrets: {
+    shape: diamond
+    style: {
+      fill: "#E74C3C"
+      font-color: "#FFFFFF"
+      stroke: "#C0392B"
+    }
+  }
+}
+
+# Actors
+customer: "Customer" {
+  class: user
+}
+
+# AI Agents
+agents: "Azure AI Foundry Agents" {
+  seekapa: "Seekapa CS Agent\n(v27+)" {
+    class: agent
+  }
+  axia: "AxiaCS Agent\n(v20+)" {
+    class: agent
+  }
+}
+
+# Backend API
+api: "Azure Functions (axia-seekapa-crm)" {
+  send_otp: "POST /api/send-otp\nGenerate 6-digit OTP" {
+    class: api
+  }
+  verify_otp: "POST /api/verify-otp\nValidate OTP + return data" {
+    class: api
+  }
+  get_customer: "POST /api/get-customer-data\n(Legacy)" {
+    class: api
+  }
+}
+
+# External Services
+crm: "CRM SQL Server\nazvmsqlpowerbi\n[XPORT].[Customer_Support1]" {
+  class: database
+}
+
+email: "Azure Communication\nServices\n(OTP Email)" {
+  class: service
+}
+
+vault: "Key Vault\nkv-seekapa-apps" {
+  class: secrets
+}
+
+# Data Flow
+customer -> agents.seekapa: "Chat / Voice"
+customer -> agents.axia: "Chat / Voice"
+
+agents.seekapa -> api.send_otp: "1. Collect email\n+ login ID"
+agents.axia -> api.send_otp: "1. Collect email\n+ login ID"
+
+api.send_otp -> email: "2. Send OTP\nto customer email"
+email -> customer: "3. OTP code\nvia email"
+
+customer -> agents.seekapa: "4. Provide OTP"
+customer -> agents.axia: "4. Provide OTP"
+
+agents.seekapa -> api.verify_otp: "5. Validate OTP"
+agents.axia -> api.verify_otp: "5. Validate OTP"
+
+api.verify_otp -> crm: "6. Query CRM\ncustomer data"
+crm -> api.verify_otp: "7. Customer record"
+
+api.send_otp -> vault: "Secrets"
+api.verify_otp -> vault: "Secrets"

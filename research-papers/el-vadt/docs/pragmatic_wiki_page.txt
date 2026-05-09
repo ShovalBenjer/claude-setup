@@ -1,0 +1,438 @@
+Pragmatics
+
+Article
+Talk
+Read
+Edit
+View history
+
+Tools
+Appearance hide
+Text
+
+Small
+
+Standard
+
+Large
+Width
+
+Standard
+
+Wide
+Color (beta)
+
+Automatic
+
+Light
+
+Dark
+From Wikipedia, the free encyclopedia
+This article is about the subfield of linguistics. For the journal, see Pragmatics (journal). For the philosophy topic, see Pragmatism.
+Part of a series on
+Linguistics
+OutlineHistoryIndex
+General linguistics
+Applied linguistics
+Theoretical frameworks
+Topics
+ Portal
+vte
+In linguistics and the philosophy of language, pragmatics is the study of how context contributes to meaning. The field of study evaluates how human language is utilized in social interactions, as well as the relationship between the interpreter and the interpreted.[1] Linguists who specialize in pragmatics are called pragmaticians. The field has been represented since 1986 by the International Pragmatics Association (IPrA).
+
+Pragmatics encompasses phenomena including implicature, speech acts, relevance and conversation,[2] as well as nonverbal communication. Theories of pragmatics go hand-in-hand with theories of semantics, which studies aspects of meaning, and syntax, which examines sentence structures, principles, and relationships. Pragmatics, together with semantics and syntactics, is a part of semiotics.[3] The ability to understand another speaker's intended meaning is called pragmatic competence.[4][5][6] In 1938, Charles Morris first distinguished pragmatics as an independent subfield within semiotics, alongside syntax and semantics.[7] Pragmatics emerged as its own subfield in the 1950s after the pioneering work of J. L. Austin and Paul Grice.[8][9]
+
+History
+The intellectual roots of pragmatics trace back to early 20th-century philosophy and semiotics. The term pragmatics was first introduced by the semiotician Charles Morris in 1938, when he proposed dividing the study of signs (semiology) into three parts: syntax, semantics, and pragmatics.[7] In Morris's formulation, pragmatics would specifically study the relationship between signs and their interpreters (i.e. language users), bringing an external perspective that considers users' context and responses.[10][11] This idea was influenced by the philosophical tradition of pragmatism (especially the work of C. S. Peirce and colleagues), which emphasized practical consequences and usage in meaning.[12][13] Mid-century logical philosophers like Rudolf Carnap built on Morris's approach by suggesting that pragmatics should explicitly analyze the interaction between language, speakers, and the referents of words, thereby making the study of meaning more context-sensitive.[14] Around the same time, Yehoshua Bar-Hillel (a student of Carnap) argued that certain "indexical" elements of language – words like I, here, and now whose reference shifts with context – must be a central focus of pragmatics.[15] These early insights laid a foundation for viewing meaning as fundamentally tied to context and use, even before pragmatics was recognized as a distinct linguistic discipline.
+
+In the mid-20th century, a broader "pragmatic turn" took place in the study of language, largely driven by philosophers of language examining how meaning depends on use.[16] The later philosophy of Ludwig Wittgenstein (esp. Philosophical Investigations, 1953) encapsulated this shift with the dictum that "meaning is use," suggesting that words only gain meaning through their function in language games (concrete social interactions).[17] Around the same period, ordinary language philosophers at Oxford began analyzing language not just as an abstract system but as actions performed in particular contexts.[18][19] A landmark was the work of J. L. Austin, who in the 1950s developed Speech Act Theory.[20] Austin's posthumously published lectures How to Do Things with Words (1962) demonstrated that utterances can perform actions (for example, saying "I apologize" is the act of apologizing) and distinguished different levels of speech acts (the locutionary, illocutionary, and perlocutionary acts).[21][22] His colleague John Searle extended this framework in the late 1960s, elaborating a taxonomy of speech act types and the rules governing acts like asserting, questioning, commanding, etc., thereby firmly establishing speech acts as a core topic in pragmatics.[23][24]
+
+The 1967 book Pragmatics of Human Communication: A Study of Interactional Patterns, Pathologies, and Paradoxes by Paul Watzlawick, Janet Helmick Beavin, and Don D. Jackson, is an early book that featured the word pragmatics in its title, but it was used in its own interpretation of Morris's earlier conception of the word. The book is not about linguistics, but rather about psychology and family therapy.[25][26] The book relates to Morris's idea of pragmatics because it considers, broadly speaking, how communication is affected by context; the focus of the book, however, is rather on how communication is affected by different participants interpreting whose behavior was caused by whose in different ways.[27] For instance, one example in the book is that of a husband saying "I withdraw because she nags" and the wife saying "I nag because he withdraws"; a different example is the husband saying he does not act because the wife dominates, and the wife saying she takes over because the husband is passive.[28] The book would later influence research on psychotherapy[29] and interpersonal communication,[30][31] as well as the four-sides model, but not linguistics.
+
+A key figure in linguistic pragmatics, H. Paul Grice, advanced the study of pragmatics in the late 1960s and 1970s by explaining how people mean more than they literally say. Grice's theory of conversational implicature (first presented in lectures in 1967, published 1975) proposed that speakers and hearers are guided by a cooperative principle and a set of rational conversational maxims (e.g. be truthful, be relevant, be brief, be clear).[32] By adhering to or deliberately flouting these maxims, speakers can imply additional meanings which listeners infer in context. For example, if Alice asks, "Can you pass the salt?" and Bob responds, "There's a salt shaker on the table," Bob's literal statement is simply informative, but pragmatically it implies an answer (affirming that he can pass the salt) without directly saying so. The pioneering contributions of Austin (on speech acts) and Grice (on implicature and conversation) in the 1950s–1970s are often credited with establishing pragmatics as its own subfield within linguistics.[33][16][34] Indeed, before this period, many aspects of meaning that depend on context had been regarded as outside the scope of linguistic theory, but Austin and Grice showed these could be studied systematically.[35]
+
+In the 1970s, pragmatics began to gain broader recognition among linguists as a necessary complement to syntax and semantics;[36] in Boston in 1970, the International Symposium on the Pragmatics of Natural Language was held.[37] As the generative grammar revolution led by Noam Chomsky focused on formal syntax and semantics, it became clear that certain phenomena—such as deixis (context-bound reference words), presuppositions (unstated assumptions underlying utterances), and other context-dependent interpretations—could not be adequately explained by grammar and truth-conditional semantics alone.[38][39] Pragmatics emerged to address this "leftover" territory: those aspects of meaning and understanding that require speaker intentions, listener inferences, and real-world knowledge.[40] During this time, two different scholarly traditions in pragmatics crystallized. The first was the Anglo-American tradition, rooted in analytic philosophy of language and exemplified by the work of Austin, Searle, Grice, and their followers.[41] The second was a European continental approach (sometimes called the perspective or functional view of pragmatics), which treated pragmatics as a more holistic perspective on all language behavior, influenced by fields like sociology and anthropology.[42] Despite differing emphases – the Anglo-American school often analyzing micro-level utterances and logical inference, and the Continental school viewing pragmatics as a general functional dimension of language – both contributed to the growth of the field in the 1970s and 1980s.[36][43] By the early 1980s, the institutional and scholarly maturity of pragmatics was evident: a dedicated Journal of Pragmatics was founded in 1977, comprehensive textbooks and monographs on pragmatics (by authors such as Stephen Levinson and Geoffrey Leech) appeared in 1983, and an International Pragmatics Association (IPrA) was established in 1987 to coordinate research in the field.[44][45] These milestones marked pragmatics' definitive emergence as an independent discipline within linguistics, concerned specifically with language use and contextual meaning.[46]
+
+Areas of interest
+Introductory textbooks and handbooks generally converge on the idea that pragmatics investigates how language users encode and infer meanings in context, going beyond sentence-level meaning to recover speakers' intentions and manage social relations.[47][48][49][50] Surveys of the field typically distinguish a number of overlapping core areas:[51][52]
+
+Speaker meaning, communicative intention, and inference – the study of meaning as something speakers intentionally convey and hearers recover, rather than something fixed by sentence form alone. Work in this area asks how hearers infer what a speaker means on a given occasion from what is literally said, shared background assumptions, and general principles of rational cooperation.[53][54][55]
+Context, common ground, and indexicality – the study of how utterance interpretation depends on physical setting, participants, time, preceding discourse, social roles and other aspects of context, including what interlocutors mutually take for granted (common ground). This area also investigates indexicals and demonstratives (I, you, here, now, this, that), whose reference varies systematically with the situation of use, and more broadly the ways in which expressions are context-sensitive.[56][57][58]
+Implicature and other pragmatic inferences – the study of what is communicated indirectly or implicitly, including conversational implicatures (inferences guided by the cooperative principle and maxims), scalar implicatures (e.g. the inference from some to not all), and many forms of nonliteral language such as irony, understatement and metaphor. These inferences explain how hearers routinely grasp "more than is said."[59][60][61]
+Presupposition and conventional meaning – the study of information that an utterance takes for granted (presuppositions) and of conventional implicatures and other meaning components that are part of linguistic convention but interact with pragmatic reasoning. Research examines how presuppositions are triggered, accommodated into common ground, or challenged in discourse.[62][63][64]
+Speech acts, illocutionary force, and interactional norms – the study of how utterances perform actions (asserting, questioning, promising, requesting, apologizing, etc.), the conditions under which such actions are felicitous, and the ways they are organized in conversation and institutional settings. This area encompasses classic speech act theory as well as later work on indirect speech acts, institutional discourse and dialogue-act tagging.[65][66][67]
+Politeness, (im)politeness and social distance – the study of how linguistic choices index and negotiate social relations, including degrees of familiarity, social distance, power, and respect. This includes research on honorifics, address forms, facework, politeness strategies and impoliteness, often drawing on cross-cultural and sociolinguistic data. This work elaborates earlier characterizations of pragmatics as concerned with how speakers encode "distance" and social meaning in interaction.[68][69][70]
+Reference, anaphora and information structure – the study of how speakers choose between alternative referring expressions (proper names, definite descriptions, pronouns, demonstratives, null arguments) and how these choices interact with discourse structure, given/new information, topic–focus articulation and common ground management. This includes research on anaphora, accessibility and information packaging.[71][72][73]
+Discourse, conversation and interaction – the study of larger stretches of talk and text, including turn-taking, repair, discourse markers, narrative structure, and how pragmatic principles accumulate across sequences of utterances in conversation, institutional talk and written discourse. This area overlaps with conversation analysis and discourse analysis.[74][75][76]
+Pragmatic failure, misunderstanding and metapragmatic awareness – the study of cases where intended and interpreted meanings diverge (for example, in cross-cultural communication or second-language use), and of speakers' explicit reflections on appropriate or inappropriate language use. This includes the notion of pragmatic failure and work on how speakers learn to monitor and adjust their pragmatic behavior.[77][78]
+Formal, experimental and computational pragmatics – the study of context-dependent meaning using formal tools (dynamic semantics, game theory, decision theory), psycholinguistic and neuroscientific experiments, and computational modeling. Formal and probabilistic approaches (such as the Rational Speech Act framework) model pragmatic reasoning as structured inference, while experimental pragmatics tests such models against behavioral data.[79][80][81][82]
+Developmental and clinical pragmatics – the study of how pragmatic competence emerges in typical first-language acquisition, how it is affected in second-language learning, and how pragmatic skills are disrupted in developmental and acquired disorders (such as autism spectrum disorders, developmental language disorder, pragmatic language impairment or brain injury). This research distinguishes social-pragmatic aspects (e.g. understanding intentions, irony, or indirect requests) from more linguistic aspects (e.g. mastering reference, implicature, presupposition), and has become central in speech-language pathology and clinical linguistics.[83][84]
+These areas are not mutually exclusive; specific phenomena such as deixis, politeness strategies, or scalar implicatures often involve several of them at once, and different theoretical traditions emphasize different subsets of pragmatic concerns.[36][85]
+
+Ambiguity
+Main article: Ambiguity
+Ambiguity refers to when it is difficult to infer meaning without knowing the context, the identity of the speaker or the speaker's intent. For example, the sentence "You have a green light" is ambiguous, as without knowing the context, one could reasonably interpret it as meaning:
+
+the space that belongs to you has green ambient lighting;
+you are driving through a green traffic signal;
+you no longer have to wait to continue driving;
+you are permitted to proceed in a non-driving context;
+your body is cast in a greenish glow;
+you possess a light source which radiates green; or
+you possess a light with a green surface.
+Another example of an ambiguous sentence is, "I went to the bank." This is an example of lexical ambiguity, as the word bank can either be in reference to a place where money is kept, or the edge of a river. To understand what the speaker is truly saying, it is a matter of context, which is why it is pragmatically ambiguous as well.[86]
+
+Similarly, the sentence "Sherlock saw the man with binoculars" could mean that Sherlock observed the man by using binoculars, or it could mean that Sherlock observed a man who was holding binoculars (syntactic ambiguity).[87] The meaning of the sentence depends on an understanding of the context and the speaker's intent. As defined in linguistics, a sentence is an abstract entity: a string of words divorced from non-linguistic context, as opposed to an utterance, which is a concrete example of a speech act in a specific context. The more closely conscious subjects stick to common words, idioms, phrasings, and topics, the more easily others can surmise their meaning; the further they stray from common expressions and topics, the wider the variations in interpretations. That suggests that sentences do not have intrinsic meaning, that there is no meaning associated with a sentence or word, and that either can represent an idea only symbolically. The cat sat on the mat is a sentence in English. If someone were to say to someone else, "The cat sat on the mat", the act is itself an utterance. That implies that a sentence, term, expression or word cannot symbolically represent a single true meaning; such meaning is underspecified (which cat sat on which mat?) and potentially ambiguous. By contrast, the meaning of an utterance can be inferred through knowledge of both its linguistic and non-linguistic contexts (which may or may not be sufficient to resolve ambiguity). In mathematics, with Berry's paradox, there arises a similar systematic ambiguity with the word "definable".
+
+Referential uses of language
+The referential uses of language are how signs are used to refer to certain items. A sign is the link or relationship between a signified and the signifier as defined by de Saussure and Jean-René Huguenin. The signified is some entity or concept in the world. The signifier represents the signified. An example would be:
+
+Signified: the concept 'cat'
+Signifier: the word cat
+The relationship between the two gives the sign meaning. The relationship can be explained further by considering what is meant by meaning. In pragmatics, there are two different types of meaning to consider: semantic-referential meaning and indexical meaning.[88] Semantic-referential meaning refers to the aspect of meaning, which describes events in the world that are independent of the circumstance they are uttered in. An example would be propositions such as:
+
+"Santa Claus eats cookies."
+In this case, the proposition is describing that Santa Claus eats cookies. The meaning of the proposition does not rely on whether or not Santa Claus is eating cookies at the time of its utterance. Santa Claus could be eating cookies at any time and the meaning of the proposition would remain the same. The meaning is simply describing something that is the case in the world. In contrast, the proposition, "Santa Claus is eating a cookie right now", describes events that are happening at the time the proposition is uttered.
+
+Semantic-referential meaning is also present in meta-semantical statements such as:
+
+Tiger: carnivorous, a mammal
+If someone were to say that a tiger is a carnivorous animal in one context and a mammal in another, the definition of tiger would still be the same. The meaning of the sign tiger is describing some animal in the world, which does not change in either circumstance.
+
+Indexical meaning, on the other hand, is dependent on the context of the utterance and has rules of use. By rules of use, it is meant that indexicals can tell when they are used, but not what they actually mean.
+
+Example: I
+Whom I refers to depends on the context and the person uttering it.
+
+As mentioned, these meanings are brought about through the relationship between the signified and the signifier. One way to define the relationship is by placing signs in two categories: referential indexical signs, also called "shifters", and pure indexical signs.
+
+Referential indexical signs are signs where the meaning shifts depending on the context, hence the nickname shifters. I would be considered a referential indexical sign. The referential aspect of its meaning would be 'first-person singular' while the indexical aspect would be the person who is speaking (refer above for definitions of semantic-referential and indexical meaning). Another example would be:
+
+This
+Referential: singular count
+Indexical: close by
+A pure indexical sign does not contribute to the meaning of the propositions at all. It is an example of a "non-referential use of language."
+
+A second way to define the signified and signifier relationship is C.S. Peirce's Peircean Trichotomy. The components of the trichotomy are the following:
+
+1. Icon: the signified resembles the signifier (signified: a dog's barking noise, signifier: bow-wow)[89]
+2. Index: the signified and signifier are linked by proximity or the signifier has meaning only because it is pointing to the signified[89]
+3. Symbol: the signified and signifier are arbitrarily linked (signified: a cat, signifier: the word cat)[89]
+These relationships allow signs to be used to convey intended meaning. If two people were in a room and one of them wanted to refer to a characteristic of a chair in the room he would say "this chair has four legs" instead of "a chair has four legs." The former relies on context (indexical and referential meaning) by referring to a chair specifically in the room at that moment while the latter is independent of the context (semantico-referential meaning), meaning the concept chair.[89]
+
+Referential expressions in conversation
+Referring to things and people is a common feature of conversation, and conversants do so collaboratively. Individuals engaging in discourse utilize pragmatics.[90] In addition, individuals within the scope of discourse cannot help but avoid intuitive use of certain utterances or word choices in an effort to create communicative success.[90] The study of referential language is heavily focused upon definite descriptions and referent accessibility. Theories have been presented for why direct referent descriptions occur in discourse.[91] (In layman's terms: why reiteration of certain names, places, or individuals involved or as a topic of the conversation at hand are repeated more than one would think necessary.) Four factors are widely accepted for the use of referent language including (i) competition with a possible referent, (ii) salience of the referent in the context of discussion (iii) an effort for unity of the parties involved, and finally, (iv) a blatant presence of distance from the last referent.[90]
+
+Referential expressions are a form of anaphora.[91] They are also a means of connecting past and present thoughts together to create context for information at hand. Analyzing the context of a sentence and determining whether or not the use of referent expression is necessary is highly reliant upon the author/speaker's digression- and is correlated strongly with the use of pragmatic competency.[91][90]
+
+Nonreferential uses of language
+Silverstein's "pure" Indexes
+Michael Silverstein has argued that "nonreferential" or "pure" indices do not contribute to an utterance's referential meaning but instead "signal some particular value of one or more contextual variables."[92] Although nonreferential indexes are devoid of semantico-referential meaning, they do encode "pragmatic" meaning.
+
+The sorts of contexts that such indexes can mark are varied. Examples include:
+
+Sex indexes are affixes or inflections that index the sex of the speaker, e.g. the verb forms of female Koasati speakers take the suffix "-s".
+Deference indexes are words that signal social differences (usually related to status or age) between the speaker and the addressee. The most common example of a deference index is the V form in a language with a T–V distinction, the widespread phenomenon in which there are multiple second-person pronouns that correspond to the addressee's relative status or familiarity to the speaker. Honorifics are another common form of deference index and demonstrate the speaker's respect or esteem for the addressee via special forms of address and/or self-humbling first-person pronouns.
+An Affinal taboo index is an example of avoidance speech that produces and reinforces sociological distance, as seen in the Aboriginal Dyirbal language of Australia. In that language and some others, there is a social taboo against the use of the everyday lexicon in the presence of certain relatives (mother-in-law, child-in-law, paternal aunt's child, and maternal uncle's child). If any of those relatives are present, a Dyirbal speaker has to switch to a completely separate lexicon reserved for that purpose.
+In all of these cases, the semantico-referential meaning of the utterances is unchanged from that of the other possible (but often impermissible) forms, but the pragmatic meaning is vastly different.
+
+The performative
+Main articles: Performative utterance and Speech act theory
+J. L. Austin introduced the concept of the performative, contrasted in his writing with "constative" (i.e. descriptive) utterances. According to Austin's original formulation, a performative is a type of utterance characterized by two distinctive features:
+
+It is not truth-evaluable (i.e. it is neither true nor false)
+Its uttering performs an action rather than simply describing one
+Examples:
+
+"I hereby pronounce you man and wife."
+"I accept your apology."
+"This meeting is now adjourned."
+To be performative, an utterance must conform to various conditions involving what Austin calls felicity. These deal with things like appropriate context and the speaker's authority. For instance, when a couple has been arguing and the husband says to his wife that he accepts her apology even though she has offered nothing approaching an apology, his assertion is infelicitous: because she has made neither expression of regret nor request for forgiveness, there exists none to accept, and thus no act of accepting can possibly happen.
+
+Formalization
+There has been a great amount of discussion on the boundary between semantics and pragmatics[93] and there are many different formalizations of aspects of pragmatics linked to context dependence. Particularly interesting cases are the discussions on the semantics of indexicals and the problem of referential descriptions, a topic developed after the theories of Keith Donnellan.[94] A proper logical theory of formal pragmatics has been developed by Carlo Dalla Pozza, according to which it is possible to connect classical semantics (treating propositional contents as true or false) and intuitionistic semantics (dealing with illocutionary forces). The presentation of a formal treatment of pragmatics appears to be a development of the Fregean idea of assertion sign as formal sign of the act of assertion.
+
+Rational Speech Act and Probabilistic Pragmatics
+Over the past decade,[as of?] many probabilistic and Bayesian methods have become very popular in the modelling of pragmatics, of which the most successful framework has been the Rational Speech Act[95] framework developed by Noah Goodman and Michael C. Frank, which has already seen much use in the analysis of metaphor,[96] hyperbole[97] and politeness.[98] In the Rational Speech Act, listeners and speakers both reason about the other's reasoning concerning the literal meaning of the utterances, and as such, the resulting interpretation depends, but is not necessarily determined by the literal truth conditional meaning of an utterance, and so it uses recursive reasoning to pursue a broadly Gricean co-operative ideal.
+
+In the most basic form of the Rational Speech Act, there are three levels of inference; Beginning from the highest level, the pragmatic listener 
+L
+1
+{\displaystyle L_{1}} will reason about the pragmatic speaker 
+S
+1
+{\displaystyle S_{1}}, and will then infer the likely world state 
+s
+{\displaystyle s} taking into account that 
+S
+1
+{\displaystyle S_{1}} has deliberately chosen to produce utterance 
+u
+{\displaystyle u}, while 
+S
+1
+{\displaystyle S_{1}} chooses to produce utterance 
+u
+{\displaystyle u} by reasoning about how the literal listener 
+L
+0
+{\displaystyle L_{0}} will understand the literal meaning of 
+u
+{\displaystyle u} and so will attempt to maximise the chances that 
+L
+0
+{\displaystyle L_{0}} will correctly infer the world state 
+s
+{\displaystyle s}. As such, a simple schema of the Rational Speech Act reasoning hierarchy can be formulated for use in a reference game such that:[99]
+
+L
+1
+:
+P
+L
+1
+(
+s
+|
+u
+)
+∝
+P
+S
+1
+(
+u
+|
+s
+)
+⋅
+P
+(
+s
+)
+S
+1
+:
+P
+S
+1
+(
+u
+|
+s
+)
+∝
+exp
+⁡
+(
+α
+U
+S
+1
+(
+u
+;
+s
+)
+)
+L
+0
+:
+P
+L
+O
+(
+s
+|
+u
+)
+∝
+[
+[
+u
+]
+]
+(
+s
+)
+⋅
+P
+(
+s
+)
+{\displaystyle {\begin{aligned}&L_{1}:P_{L_{1}}(s|u)\propto P_{S_{1}}(u|s)\cdot P(s)\\&S_{1}:P_{S_{1}}(u|s)\propto \exp(\alpha U_{S_{1}}(u;s))\\&L_{0}:P_{L_{O}}(s|u)\propto [\![u]\!](s)\cdot P(s)\end{aligned}}}
+
+Recent work in Artificial Intelligence adds to the RSA framework explicit models (theories of mind (ToMs), 
+θ
+{\displaystyle \theta } below) the listener and the speaker have of each other.[100] The models are recursively nested (up to level 
+i
+{\displaystyle i}) partially observable Markov decision processes (POMDPs), called Interactive POMDPs (IPOMDPs). They formalize how agents keep track of (maintain their beliefs about) the state of the world, about each other, and about each other's beliefs. Including the agents' capability to communicate leads to Communicative IPOMDPs (CIPOMDPs).
+
+Using the above notation, the belief update of a CIPOMDP listener, given utterance 
+u
+{\displaystyle u}, can be simplified as:
+
+L
+i
+:
+P
+L
+i
+(
+s
+,
+θ
+i
+−
+1
+|
+u
+)
+∝
+P
+(
+u
+|
+s
+,
+θ
+i
+−
+1
+)
+⋅
+P
+(
+s
+,
+θ
+i
+−
+1
+)
+S
+i
+−
+1
+:
+P
+(
+u
+|
+s
+,
+θ
+i
+−
+1
+)
+∝
+exp
+⁡
+(
+α
+U
+S
+i
+−
+1
+(
+u
+;
+s
+,
+θ
+i
+−
+1
+)
+)
+L
+0
+:
+P
+L
+O
+(
+s
+|
+u
+)
+∝
+[
+[
+u
+]
+]
+(
+s
+)
+⋅
+P
+(
+s
+)
+{\displaystyle {\begin{aligned}&L_{i}:P_{L_{i}}(s,\theta _{i-1}|u)\propto P(u|s,\theta _{i-1})\cdot P(s,\theta _{i-1})\\&S_{i-1}:P(u|s,\theta _{i-1})\propto \exp(\alpha U_{S_{i-1}}(u;s,\theta _{i-1}))\\&L_{0}:P_{L_{O}}(s|u)\propto [\![u]\!](s)\cdot P(s)\end{aligned}}}
+
+Explicitly defining recursively nested theories of mind allows one to represent how listeners interpret messages they receive by modeling how speakers rationally decide what to communicate. Conversely, speakers decide on what to communicate by modeling the listener's belief update due to communication, and its effects on the speaker's utility 
+U
+S
+{\displaystyle U_{S}}. Unlike in classical RSA, in CIPOMDPs 
+U
+S
+{\displaystyle U_{S}} is computed using the Bellman equation. Note that there is no need to assume the speaker is sincere/cooperative: The listener can discount what is communicated if it is in the speaker's interest to be insincere.
+
+Related fields
+There is considerable overlap between pragmatics and sociolinguistics, since both share an interest in linguistic meaning as determined by usage in a speech community. However, sociolinguists tend to be more interested in variations in language within such communities. Influences of philosophy and politics are also present in the field of pragmatics, as the dynamics of societies and oppression are expressed through language.[101]
+
+Pragmatics helps anthropologists relate elements of language to broader social phenomena; it thus pervades the field of linguistic anthropology. Because pragmatics describes generally the forces in play for a given utterance, it includes the study of power, gender, race, identity, and their interactions with individual speech acts. For example, the study of code-switching directly relates to pragmatics, since a switch in code effects a shift in pragmatic force.[102]
+
+According to Charles W. Morris, pragmatics tries to understand the relationship between signs and their users, while semantics tends to focus on the actual objects or ideas to which a word refers, and syntax (or syntactics) examines relationships among signs or symbols. Semantics is the literal meaning of an idea whereas pragmatics is the implied meaning of the given idea.
+
+Speech Act Theory, pioneered by J. L. Austin and further developed by John Searle, centers around the idea of the performative, a type of utterance that performs the very action it describes. Speech Act Theory's examination of illocutionary acts has many of the same goals as pragmatics, as outlined above.
+
+Computational pragmatics, as defined by Victoria Fromkin, concerns how humans can communicate their intentions to computers with as little ambiguity as possible.[103] That process, integral to the science of natural language processing (seen as a sub-discipline of artificial intelligence), involves providing a computer system with some database of knowledge related to a topic and a series of algorithms, which control how the system responds to incoming data, using contextual knowledge to more accurately approximate natural human language and information processing abilities. Reference resolution, how a computer determines when two objects are different or not, is one of the most important tasks of computational pragmatics.
+
+In literary theory
+Pragmatics (more specifically, Speech Act Theory's notion of the performative) underpins Judith Butler's theory of gender performativity. In Gender Trouble, they claim that gender and sex are not natural categories, but socially constructed roles produced by "reiterative acting."
+
+In Excitable Speech they extend their theory of performativity to hate speech and censorship, arguing that censorship necessarily strengthens any discourse it tries to suppress and therefore, since the state has sole power to define hate speech legally, it is the state that makes hate speech performative.
+
+Jacques Derrida remarked that some work done under pragmatics aligned well with the program he outlined in his book Of Grammatology.
+
+Émile Benveniste argued that the pronouns I and you are fundamentally distinct from other pronouns because of their role in creating the subject.
+
+Gilles Deleuze and Félix Guattari discuss linguistic pragmatics in the fourth chapter of A Thousand Plateaus ("November 20, 1923—Postulates of Linguistics"). They draw three conclusions from Austin: (1) A performative utterance does not communicate information about an act second-hand, but it is the act; (2) Every aspect of language ("semantics, syntactics, or even phonematics") functionally interacts with pragmatics; (3) There is no distinction between language and speech. This last conclusion attempts to refute Saussure's division between langue and parole and Chomsky's distinction between deep structure and surface structure simultaneously.[104]
+
+Significant works and concepts
+Austin, J. L. (1962). J. O. Urmson (ed.). How to Do Things with Words. Oxford: Oxford University Press. ISBN 978-0-19-824553-7.
+Paul Grice's cooperative principle and conversational maxims
+Brown and Levinson's politeness theory
+Geoffrey Leech's politeness maxims
+Levinson's presumptive meanings
+Jürgen Habermas's universal pragmatics
+John Searle's "Speech Acts: An essay in the philosophy of language"
+Dan Sperber and Deirdre Wilson's relevance theory
+Dallin D. Oaks's Structural Ambiguity in English: An Applied Grammatical Inventory
+Vonk, Hustinx, and Simon's 1992 journal article "The use of referential expressions in structuring discourse"
+Nancy Bauer's How To Do Things With Pornography
+Piotr Gmytrasiewicz, "How to Do Things with Words: A Bayesian Approach", https://www.jair.org/index.php/jair/article/view/11951/26599.
+See also
+icon	Linguistics portal
+Anaphora – Use of an expression whose interpretation depends on context
+Co-construction
+Collapsing sequence
+Cooperative principle – Pragmatics of conversational communication
+Deixis – Words requiring context to understand their meaning
+Implicature – Information conveyed verbally yet not literally
+Indexicality – Sign pointing to or indexing an object in its context
+Origo (pragmatics) – Reference point of a deictic expression in the context of pragmatics
+Paul Grice – British philosopher of language (1913–1988)
+Presupposition – Assumed context surrounding an utterance
+Semantics – Study of meaning in language
+Semiotics – Study of signs
+Sign relation – Concept in semiotics
+Sitz im Leben – German phrase in Biblical criticism
+Speech act – Utterance that serves a performative function
+Stylistics – Branch of applied linguistics
+Universal pragmatics

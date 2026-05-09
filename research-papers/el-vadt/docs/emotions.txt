@@ -1,0 +1,142 @@
+Positive emotions
+Joy
+Happiness
+Cheerfulness
+Delight
+Contentment
+Satisfaction
+Relief
+Calm
+Serenity
+Peace
+Comfort
+Hope
+Optimism
+Gratitude
+Appreciation
+Affection
+Fondness
+Love
+Warmth
+Compassion
+Empathy
+Pride
+Accomplishment
+Confidence
+Trust
+Security
+Belonging
+Connection
+Amusement
+Playfulness
+Interest
+Curiosity
+Inspiration
+Awe
+
+Negative emotions
+Anger
+Irritation
+Annoyance
+Frustration
+Rage
+Hostility
+Resentment
+Bitterness
+Disgust
+Contempt
+Revulsion
+Hatred
+Sadness
+Sorrow
+Grief
+Loneliness
+Hurt
+Humiliation
+Embarrassment
+Shame
+Guilt
+Regret
+Disappointment
+Fear
+Anxiety
+Worry
+Panic
+Dread
+Stress
+Tension
+Unease
+Restlessness
+Insecurity
+Distrust
+Suspicion
+Jealousy
+Envy
+
+Cognitive states often treated as affect in UX
+Confusion
+Uncertainty
+Doubt
+Hesitation
+Overwhelm
+Cognitive strain
+Mental fatigue
+Boredom
+Indifference
+Detachment
+Focus
+Alertness
+Engagement
+
+Social and interpersonal affect toward the agent
+Feeling understood
+Feeling heard
+Feeling seen
+Validation
+Rejection
+Dismissal
+Disrespect
+Being judged
+Feeling patronized
+Feeling manipulated
+Feeling pressured
+Feeling supported
+Feeling cared for
+Closeness
+Attachment
+Dependency
+
+Normative and moral emotions
+Moral anger
+Indignation
+Outrage
+Compassion
+Moral disgust
+Moral pride
+Shame
+Guilt
+Gratitude
+Admiration
+
+Expectation and surprise
+Surprise
+Shock
+Amazement
+Confounded surprise
+Pleasant surprise
+Letdown
+
+Communication stances and interaction styles often mislabeled as emotions
+Cynicism
+Sarcasm
+Snark
+Defensiveness
+Passive aggression
+Condescension
+Patronizing tone
+Flattery
+Sycophancy
+People pleasing
+Coldness
+Formality
+Impatience
