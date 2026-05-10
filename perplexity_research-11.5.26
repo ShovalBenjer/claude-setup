@@ -1,0 +1,338 @@
+How to neurosymbolic my claude code sessions if i already have a gastown   Is this the best sota approach i mean whats beyond that + gastown of agents holding a repo within a strucutured pipeline and bicep/terraform for it  Whats more can be achieved because its already here in 2026-2027 what would be in 2027/2028? 2030? 2035?
+Completed 9 steps
+I now have comprehensive research. Let me write the full response.
+
+Neurosymbolic Gastown: Where You Are, What's Beyond, and the Roadmap to 2035
+You're sitting at a genuinely fascinating inflection point. You have Gastown — which is already a Stage 8 orchestration layer — and you're asking the right question: what's the actual SOTA architecture hiding inside it, and where does the frontier go from here? Let's go layer by layer.
+
+What Gastown Already Is (Neurosymbolically)
+Gastown is more neurosymbolic than it appears. The core pattern — where LLM-powered agents (neural) operate inside constrained, externalized, sequenced workflows (symbolic) — is exactly the architecture Gary Marcus and others have identified as the biggest AI advance since the LLM itself. When Claude Code calls tests, runs compilers, or hits a formal linter, it's already delegating to the symbolic substrate. This is NeSy in practice, just without the label.
+
+The key primitives Gastown exposes that are neurosymbolic by design:
+
+Beads/Molecules/Formulas — symbolic state machines that gate neural execution; agents cannot skip steps without external verification (symbolic constraint enforcement)
+
+The Refinery — a symbolic merge arbiter that resolves conflicts via logic before neural re-imagination kicks in
+
+The Witness — acts as a symbolic specification checker against a declared requirements graph
+
+The Deacon — a heartbeat loop (classic symbolic watchdog) that detects neural agent drift and resets to symbolic ground truth
+
+This is already the agentic neuro-symbolic loop pattern: neural plan generation → state grounding → constraint checking → iterative feedback. The G-SPEC framework achieves 94.1% success vs 82.4% baseline using exactly this architecture.
+
+How to Actually Neurosymbolize Your Gastown Sessions
+The gap in Gastown today is that its symbolic layer is implicit and soft — Beads are JSON, Formulas are prompts, verification is "did the agent say it's done." Here's how to harden it with genuine neuro-symbolic constraints:
+
+1. Attach a Formal Verifier to the Merge Gate
+
+Connect the Refinery to a lightweight formal verification pass before any bead state transitions to complete. Tools like Imandra's CodeLogician or SymCode-style verifiable code generation (instructing agents to output SymPy/Z3 assertions alongside code) turn every merge into a proof obligation. The agent generates code and a machine-checkable certificate; the Refinery only merges what passes.
+
+2. Encode Your Domain Constraints as Symbolic Grammars
+
+The NSG (Neurosymbolic Attribute Grammar) approach achieves 86% syntax-correct code vs 67% for pure LLMs by forcing agents to generate within a constrained grammar with symbol tables and type scoping baked in. In your Claude Code sessions, this means giving agents an AGENTS.md that contains your schema, invariants, and typing contracts — and wiring a static analysis step (pyright, mytt, ESLint, or domain-specific rules) as a required gate in every Formula.
+
+3. Wire a Knowledge Graph as Symbolic Memory
+
+Rather than letting each Polecat or Crew agent reason from scratch about your codebase, inject a structured knowledge graph (RDF/OWL or even a well-formatted JSON-LD ontology of your repo's entities, interfaces, and constraints) into each agent's context via RAG. AgenticDomiKnowS (ADS) cuts NeSy development time from hours to 10–15 minutes using exactly this pattern.
+
+4. Replace Prompt-Gate Checks with Logic Programs
+
+The Witness today operates by prompting an agent to "verify against requirements." A proper NeSy upgrade: express requirements as Datalog or Prolog clauses (or even LTL/CTL specs) and pipe the output AST through a solver before the Witness signs off. This eliminates the "agent checks its own homework" failure mode.
+
+Is Gastown + IaC the SOTA? And What's Beyond?
+Gastown + Bicep/Terraform is the right architecture, but it's not yet the ceiling. IaC is not going away; it becomes the safe interface through which AI manages infrastructure. The pattern that works in 2026:
+
+Agents generate Bicep/Terraform/Pulumi as output artifacts (not API calls)
+
+The IaC diff lands in a PR, runs through your existing policy-as-code pipeline (OPA, Sentinel, Checkov)
+
+Azure Container Apps now has a native Microsoft.App/agents Bicep resource type, so you can declare your agent infrastructure itself as IaC, closing the loop
+
+The gap Gastown doesn't yet fill is cross-agent governance — 70% of multi-agent systems will use narrowly specialized agents by 2027 (Gartner), and the coordination layer needs to be treated as core infrastructure, not a prompt hack. McKinsey's 2025 analysis calls this the agentic AI mesh.
+
+What sits above Gastown today, ranked by maturity:
+
+Layer	Current SOTA (2026)	Key Primitive
+Parallel Execution	Gastown polecats + worktrees	Git-backed bead state
+Symbolic Constraints	SymCode, NSG, ADS	Formal grammar/solver gates
+Self-Improving Loops	SiriuS (+2.86–21.88% on QA) 	Experience library of trajectories
+Metacognitive Agents	Meta's HyperAgents 	Self-modifiable meta-level
+Proof-Carrying Code	Proof-Carrying NeSy Code 	Machine-checkable certificates at merge
+IaC Integration	Agent-generated Terraform + OPA CI gate	GitOps as authority
+The deepest SOTA gap right now is non-differentiable symbolic solvers inside training loops — you can use Z3 and Lean at inference time, but you can't yet backprop through them. Research in 2026 is attacking this with reinforcement-style reward signals from solver success/failure.
+
+The Forward Roadmap
+2027–2028: Artificial Coding Intelligence (ACI) and Compositional Agents
+
+By 2027 there's a serious debate whether we've hit ACI — AI that can complete multi-week software projects end-to-end. Anthropic's Dario Amodei placed AGI-equivalent coding capability in this window. The specific unlocks:
+
+Hyperagent architectures become production-grade: agents that don't just improve their task performance but rewrite their own improvement loop (metacognitive self-modification). You stop prompt-engineering and start designing audit/stress-test mechanisms for self-modifying systems
+
+Stacked-diff orchestration replaces branch-per-polecat workflows; Cursor's acquisition of Graphite signals this. Agent-to-agent delta merging becomes real-time rather than batch
+
+Agent-to-agent commerce: by 2027, organizations give agents budgets and agents buy services from other agents — a machine-to-machine economy with its own pricing and governance
+
+IaC as pure intent layer: you describe architecture in natural language, agents generate and validate the Terraform/Bicep, policy engines verify before apply, and the human only approves policy exceptions
+
+Gartner: 33% of enterprise software will feature agentic AI by 2028
+
+2030: Orchestration-Native Software Engineering
+
+Code transitions from "scarce crafted artifact" to "abundant disposable commodity". The engineer role reorganizes around three competencies: intent articulation, systematic verification, and accountable human judgment. Key inflection points:
+
+Proof-Carrying Code becomes a standard artifact: every agent-generated module ships with a machine-checkable certificate that compilers validate; no merge without a proof. What SymCode does for math reasoning generalizes to all production code
+
+Neurosymbolic tutors and domain agents achieve 95% task success on structured planning vs 34% for pure neural VLAs, making NeSy the default architecture for any safety-critical or regulated domain
+
+Self-driving infrastructure: agents own the full IaC lifecycle (write → verify → apply → monitor → remediate) with humans as policy governors, not operators
+
+Compute scaling likely hits a wall near 2028–2032; progress pivots to algorithmic efficiency and NeSy integration rather than raw scale — systems that reason better rather than just bigger
+
+2035: The Post-Scarcity Software Paradigm
+
+By 2035 the SCSP projects weak AGI triggering an acceleration, with Oracle-level AGI (superhuman across all cognitive tasks) arriving within ~21 months of that. For software engineering specifically:
+
+The organization optimizes for idea throughput, not code throughput — your job is to have better taste, sharper specifications, and clearer invariants than competitors' agents
+
+Knowledge-graph-native development: entire codebases encoded as formal ontologies that agents traverse, prove properties over, and extend — closer to Lean 5 proofs than Python files
+
+NeSy + embodied AI convergence: the same neuro-symbolic loop that controls robot manipulation controls cloud infrastructure, with unified proof certificates spanning physical and digital systems
+
+AI research accelerates AI development (Amodei's feedback loop ) meaning the distance between "research prototype" and "production SOTA" collapses from years to weeks
+
+Deep tech prediction from WEF: NeSy systems accelerate drug discovery and rare disease treatment by combining deep learning with symbolic causal reasoning — the same architectural playbook you're running in your repo
+
+The Concrete Stack for Right Now
+If you're running Gastown today and want to push to actual 2027-era NeSy architecture, the build order is:
+
+Harden your Formulas with SymCode-style self-debugging loops: agents output verifiable code + assertions, not just code
+
+Wire a static analysis gate (AST + type checker + your domain invariants as Datalog rules) into every Refinery merge
+
+Externalize your knowledge graph (your repo's entities, interfaces, contracts) and inject it via RAG into every Crew/Polecat context — this is what separates reliable agents from stochastic ones
+
+Replace prompt-verification (Witness) with solver-verification (Z3/Lean/Alloy on your critical invariants)
+
+Declare agent infra in Bicep/Terraform — GitOps as your single source of authority, CI validates everything agent-generated before it touches production
+
+Prepare for SiriuS-style experience libraries: start logging successful agent reasoning trajectories now so you have training signal when self-improving loops hit production
+
+The limiting factor — as every serious Gastown practitioner has found — isn't the models or even the orchestration. It's the quality of your symbolic layer: your specs, your invariants, your verification gates. That's the part that compounds.
+
+Prepared by Deep Research
+How i can improve my claude code on architecture level? lets say i take an open model and retrain it or go on its hidden layers and try figuring out vector repre paths for q learning from it but 2030-2035 in mind.
+Completed 4 steps
+Great, I have everything needed. Let me now write a deep, technically precise answer.
+
+This is one of the most interesting architectural questions in the space right now. Here's the full map — from what you can do today on a practical open model, through the theoretical machinery of RL in representation space, all the way to the 2030–2035 endgame.
+
+The Three Levels You're Operating At
+Think of the architecture as three concentric circles. You're asking about all three at once:
+
+Inference-time behavior — steering what the model does without retraining
+
+Training-time representation — reshaping what the model knows at the weight level
+
+RL from execution feedback — giving the model a reward signal and letting it discover coding strategies you can't hand-engineer
+
+The right 2030-in-mind framing is to treat these as a stack, not alternatives.
+
+Layer 1: Mechanistic Interpretability + Activation Steering (Do This Now)
+The most underrated tool in the practitioner's toolkit is already production-grade. The mechanic is simple:
+
+Run contrastive pairs through your open model (e.g., "correct code" vs "buggy code") and capture hidden-state activations at a specific layer
+
+Compute the difference vector: steering_vector = alpha * (correct_activation - buggy_activation)
+
+At inference, inject that vector additively into the residual stream at the target layer
+
+The critical finding from ICML 2025 work on hidden representations is that intermediate layers carry richer features than the final layer — mid-depth embeddings beat final-layer embeddings by up to 16% across 32 downstream tasks. So you don't probe the last token of the last layer; you probe layers 30–60% of total depth.
+
+For code specifically, sparse autoencoders (SAEs) on open models have successfully isolated a "code correctness direction" in the representation space. Key findings:
+
+Code correctness directions reliably predict incorrect code — you can build error-alarm probes
+
+Directions identified in base models retain effectiveness after instruction-tuning, meaning whatever you find now transfers to fine-tuned variants
+
+Mechanistically, successful code generation depends on the model attending to test cases over problem descriptions — this alone should reshape how you write your Gastown AGENTS.md
+
+The SAE-RSV method (Sparse Autoencoder Refinement of Steering Vectors) outperforms even full fine-tuning on behavior-steering tasks by using SAEs to denoise task-irrelevant features from extracted vectors. You extract a raw steering vector, pass it through a pre-trained SAE, and it semantically filters out noise.
+
+Layer 2: RL from Execution Feedback (RLEF) — The Right "Q-Learning" Framing
+Pure Q-learning on LLM hidden states isn't really the right abstraction — the action space is the entire token vocabulary (≥100k), which makes classic tabular or even deep Q-networks impractical. What is working in 2026 and maps cleanly to your intent is RLEF (Reinforcement Learning from Execution Feedback).
+
+The architecture:
+
+The state is the hidden-layer representation at each decoding step
+
+The reward signal is binary (or graded) test-case pass/fail from an actual execution environment
+
+The policy is the LLM's next-token distribution
+
+The RL algorithm is typically GRPO or PPO operating on the log-probability of generated tokens, with the reward signal coming from the compiler/interpreter, not a human or a critic model
+
+Results are significant: RLEF achieves large performance gains on both 8B and 70B models compared to SFT-only baselines, while reducing samples required by an order of magnitude. The key behavior that emerges is that RLEF-trained models can incorporate multi-turn feedback from unit tests — they learn iterative correction strategies that pure SFT never develops.
+
+For your Gastown pipeline, this means: log every test-pass/fail event from every Polecat session as a trajectory. That is your RL training corpus. You don't need to retrain constantly — you need to accumulate trajectories until you have sufficient signal, then run an RLEF pass on an open base model (Qwen2.5-Coder, DeepSeek-Coder-V3, or Code Llama variants are the practical targets).
+
+Layer 3: Latent World Models for Code — The 2027 Architecture
+This is where your Q-learning intuition actually lands on solid ground. The emerging architecture is the Code World Model (CWM), where the LLM doesn't just predict next tokens — it learns a latent simulation of code execution.
+
+Meta's CWM (September 2025) trains on observation-action trajectories from Python interpreter and Docker environments: the model observes the state of variables after each executed line and learns to predict how state evolves. This is the DreamerV3 architecture applied to software — the same latent world model that achieves 50x data efficiency over model-free RL on continuous control tasks.
+
+The full latent planning stack that's emerging:
+
+Low-level world model: predicts next latent state given current state + action (one execution step)
+
+High-level world model: plans across multiple steps in the same latent space, producing abstract subgoals
+
+MPC controller: runs model-predictive control in latent space to find the action sequence that reaches the goal, without committing to execution
+
+This is exactly hierarchical planning with latent world models (HWM) — achieving 70% zero-shot success on complex robotic pick-and-place vs 0% for flat planners, and it's already being applied to code agents. When a CWM plans code, it's simulating execution futures before it writes a single character. That is Q-learning in representation space: the value function operates over latent execution states, and the policy searches for the sequence of edits that maximizes expected test-pass reward.
+
+DreamPhase takes this further with offline imagination: a latent world model simulates multi-step futures, branches are scored by an uncertainty-aware value function, the best branch is distilled into a natural-language reflection that conditions the next LLM policy query — all without modifying the LLM itself.
+
+Test-Time Compute: The Pragmatic Bridge
+Before you get to full CWM, there's an intermediate unlock available now. The test-time compute scaling paradigm gives you much of the benefit with far less infrastructure:
+
+Serial scaling: let the model think longer (CoT/reasoning mode) — effective for single difficult problems
+
+Parallel scaling: run N Polecats in parallel, have a verifier pick the first solution that passes all tests — this is already Gastown's architecture
+
+Process Reward Models (PRMs): train a small verifier model that gives a dense reward at each step, not just at final test-pass — this dramatically improves credit assignment and is far cheaper than full RLEF
+
+SWE-bench scores improved >50% in 2025 using test-time scaling alone, reaching 74.4%. The optimal strategy is difficulty-dependent: for easy tasks let the model self-revise once; for hard tasks use parallel sampling + verifier.
+
+The Trajectory: What You're Building Toward
+Horizon	Architecture	Your Role
+Now (2026)	Activation steering + SAE probes on your open model; RLEF trajectory logging from Gastown runs	Probe your model's correctness direction, build error-alarm layer
+2027	CWM + RLEF as standard fine-tune stack; GRPO-trained models that plan in latent execution space	Fine-tune on your accumulated trajectories; add PRM verifier gate to Gastown Refinery
+2028	Proof-carrying latent plans: world model outputs come with symbolic certificates ; self-improving meta-agents retrain themselves on their own failure trajectories 	Shift from training models to designing their reward topology and audit infrastructure
+2030	RL in latent code space converges with NeSy: the value function IS a symbolic proof obligation; agents plan over formal spec states, not token distributions 	Write specs and invariants in Lean/Alloy; the model does the search
+2035	Models with causal world models of software systems; they don't predict "what token comes next" but "what system state results from this edit" — and plan accordingly 	You're a domain theorist, not a coder
+Concrete Starting Points for Right Now
+Given you already have Gastown as the outer shell, the build order that's most aligned with where the research is going:
+
+Probe your base model's correctness direction using the SAE-based approach from the ICML 2025 code correctness paper — use TransformerLens or baukit on Qwen2.5-Coder or a DeepSeek variant. This costs a weekend, not a compute cluster
+
+Wire the correctness probe as a Gastown gate: before a Polecat's diff lands in the Refinery, pass the generated code through the probe — if the vector projects strongly onto the "buggy" direction, trigger an automatic retry with a self-correction prompt
+
+Start logging RLEF trajectories from every Gastown session: (prompt, code_attempt, test_pass/fail, correction). This is your future fine-tuning corpus
+
+Replace your Witness with a PRM (Process Reward Model) trained on your trajectory logs — a small 1–3B model that gives dense reward signal at each edit step, not just "did tests pass at the end"
+
+Experiment with DreamPhase-style offline imagination: before Claude Code generates code, run a fast latent sim of 5–10 candidate execution paths, score them with your PRM, and only pass the best-scoring one as the "seed prompt" into the actual Polecat session
+
+The fundamental insight across all of this: RL doesn't reshape what the model knows — it reshapes how it searches. Your open model already contains the representational knowledge to write correct code. The Q-learning question is: can you give it a value function over execution states that teaches it when to commit vs when to keep exploring. RLEF + CWM is that value function.
+
+Prepared by Deep Research
+What sbout niche domains of math/computer sciene theory and how it all can fit togethet Statistics complexity computing applied math like wavelets singals times series
+Completed 6 steps
+This is a rich, unified picture. Let me now compose the synthesis.
+
+This is really the deepest layer of the whole stack — the mathematical substrate that everything else is built on. Here's how all of it fits together into a single unified frame, and where each field plugs into your Gastown + NeSy + RL architecture.
+
+The Unifying Lens: Everything Is Compression
+The single thread connecting all of these fields is Kolmogorov complexity and Minimum Description Length (MDL). An LLM is, at its core, a near-optimal compression engine: training is learning the shortest program that reproduces the data, and generation is decompression. This isn't just philosophy — NeurIPS 2025 work shows that Kolmogorov's Structure Function directly explains scaling laws, hallucination behavior, and grokking in transformers. The Complexity Gap Theorem then tells you the hard limit: any explanation of a model that is significantly simpler than the model itself must differ from it on some inputs — which is a formal bound on what interpretability can ever achieve.
+
+For your architecture, this means: the complexity of your agent's plan (measured in description length) is a principled proxy for how likely it is to be correct. This is the theoretical grounding for why your Gastown symbolic gates work.
+
+Domain-by-Domain: Where Each Field Plugs In
+Algorithmic Information Theory + Complexity Theory
+
+The operative idea: the shortest program that describes a codebase is also the best model of it. Two immediate applications:
+
+MDL as a verifier gate: rather than prompting an agent to "check correctness," compute an approximation of the description length of the diff. A correct refactor should compress the codebase (lower K); a bloated or incorrect one increases it. You can approximate this with standard compressors (zstd, brotli) on the AST delta — not Kolmogorov-exact, but directionally correct and instant to compute
+
+Grokking dynamics: the rise-and-fall of complexity during training tells you exactly when a model has internalized a rule vs memorized it. If you're fine-tuning on RLEF trajectories (from the previous conversation), monitoring this metric tells you when to stop training — the fall in complexity corresponds to generalization onset
+
+CoT information theory: there's now a formal PAC-learning result showing that chain-of-thought supervision yields strictly faster learning rates than end-to-end supervision, quantified by the "CoT information" (mutual information between the intermediate reasoning steps and the hypothesis class). This is why structured Gastown workflows learn more efficient policies than monolithic agent calls
+
+The meta-complexity connection: problems that describe their own computational complexity (MCSP, KSV) are the frontier. By 2030, verifying that an agent's code is "near-optimal" — not just correct but computationally efficient — will be done by solvers that operate directly on complexity certificates.
+
+Statistics + PAC Learning + Generalization Theory
+
+Classical VC dimension yields vacuous bounds for overparameterized models — essentially useless for anything LLM-scale. The live frontier is:
+
+PAC-Bayes bounds: these work by measuring the KL divergence between the posterior (trained model) and a prior, and give non-vacuous bounds for real networks. For your RLEF fine-tune, this is the theoretically sound way to measure "how much did the reward signal actually generalize vs overfit to your trajectory distribution"
+
+Stability-based bounds: tight generalization bounds exist if and only if the algorithm is loss-stable (output doesn't change much when you perturb a single training example). RLEF with execution feedback tends to be stable because the reward signal is objective; RLHF with human feedback tends to be unstable. This is a theoretical argument for preferring compiler/test feedback over human preference data in your training loop
+
+Rademacher complexity for multi-scale attention: the formal guarantee that your transformer's multi-head attention will generalize scales with 
+Rad
+n
+Rad 
+n
+​	
+ , the Rademacher complexity. For code tasks, this decays faster when you condition on structured inputs (typed ASTs, schema constraints) — another formal argument for the neurosymbolic gate approach
+
+Wavelets + Signal Processing + Time Series
+
+This domain connects in a way that's less obvious but practically powerful. The key insight: code is a time series (edit history, execution trace, latency profile), and the tools developed for non-stationary signals apply directly.
+
+Wavelet decomposition for execution traces: your Gastown agent sessions produce multi-resolution time series — fast events (token generation, test pass/fail) and slow events (bead state transitions, branch merges). Wavelet transforms (specifically the Discrete Wavelet Transform over the execution event stream) let you decompose these into frequency bands and detect anomalies at each scale independently. WDNO shows this approach handles abrupt changes (test failures, agent crashes) and generalizes across resolutions — exactly what you need for robust Polecat monitoring
+
+Foundation models for time series (TimeGPT, MOMENT, Chronos, NV-Tesseract ): these are directly applicable to your CI/CD metrics, deployment health, and infra cost time series. NV-Tesseract achieves 5–20% better accuracy over shallow models on multivariate data and can perform zero-shot anomaly detection on unseen system signatures
+
+Multimodal LLMs for TSAD: by 2026, you can pipe your agent session timeline as a visual rendering into a multimodal LLM to detect anomalous workflow patterns — an agent spending unusually long in a state, a bead that keeps retrying, a cost spike in infra spend — using the same vision-attention mechanisms the model uses for images
+
+Spectral methods on your codebase graph: your repo is a graph (call graph, dependency graph, module graph). Spatio-Spectral GNNs with LLM-predicted homophily can distinguish high-cohesion (homophilic) modules from cross-cutting concerns (heterophilic ones) and adaptively apply different graph filters — a rigorous way to guide agents toward touching only the most relevant subgraph for a given task
+
+Category Theory + Functional Programming
+
+This is the structural glue. The key: agents are morphisms, pipelines are categories.
+
+Category theory's compositionality principle says: if each agent has a well-typed interface (typed inputs/outputs expressed as objects in a category), and you've verified each individual agent morphism, then the composed pipeline is automatically well-formed. The n-Category Café paper from March 2026 formalizes exactly this for LLM agent coordination — you express each Gastown Polecat as a typed morphism, and composition guarantees type-safety across the whole pipeline without a separate integration test
+
+Monads as workflow primitives: the Maybe monad (handle failure gracefully), State monad (pass mutable state through a pipeline), and IO monad (isolate side effects) map directly onto Gastown's Beads, Formula chains, and the Refinery. If you wire your agent framework in a language with strong type theory (Haskell, Idris, Lean4, or even TypeScript with proper effect types), you get formal guarantees at compile time about which agents can fail, which mutate shared state, and which have external side effects — before a single token is generated
+
+Towards AGI architecture comparison: a March 2026 arXiv paper proposes category-theoretic formalization of AGI architecture comparison, suggesting that by 2030 the "design space of agents" will be navigated the same way mathematicians navigate the space of algebraic structures — via functors and natural transformations that preserve the structure you care about
+
+Information Geometry
+
+The Riemannian geometry of parameter space — where every point is a probability distribution and distances are KL divergences. This plugs into your RL + fine-tuning stack:
+
+Natural gradient methods (KFAC, Shampoo, and their 2026 successors) follow the geodesics of the Fisher information metric rather than Euclidean gradient descent. They're the theoretically correct way to do RLEF training: each update step moves the same "probability distance" rather than the same Euclidean distance in weight space
+
+Model compression via information geometry: when you fine-tune a base model on your RLEF trajectories, the correct compression strategy is to project onto the low-compute submanifold that minimizes information divergence from the full model. Apple's research shows information divergences are critical for zero-shot accuracy but less so after fine-tuning — telling you when to use expensive KL-projection and when you can use cheaper L2 projection
+
+MDL objectives for transformers: the September 2025 paper on asymptotically optimal description length objectives shows a variational objective grounded in Kolmogorov complexity selects low-complexity solutions with strong generalization — but standard optimizers fail to find them from random initialization. By 2028–2030, specialized optimizers (likely geometry-aware, operating on the Fisher manifold) will solve this, completing the connection from information geometry back to algorithmic information theory
+
+The Unified Architecture Map
+How all of this fits into a single coherent stack:
+
+text
+LAYER 5: Category Theory
+  → typed composition of agents (morphisms)
+  → pipeline correctness guaranteed at design time
+           ↓
+LAYER 4: Statistics + PAC-Bayes
+  → non-vacuous generalization bounds on fine-tuned models
+  → stability certificates for RLEF training
+           ↓
+LAYER 3: Algorithmic Info Theory (MDL/Kolmogorov)
+  → MDL as correctness proxy at merge gates
+  → grokking detector for training stop criterion
+  → CoT information as formal justification for Gastown workflows
+           ↓
+LAYER 2: Wavelets + Signal Processing
+  → multi-resolution monitoring of agent session dynamics
+  → spectral GNNs over repo dependency graph
+  → TSAD on infra/CI telemetry
+           ↓
+LAYER 1: Information Geometry
+  → natural gradient RLEF training (Fisher manifold)
+  → compression-optimal model fine-tuning
+  → geometry of the latent planning space (world model)
+The neurosymbolic loop from the previous conversation sits across all layers: the neural component lives in Layers 1–2 (representation and signal), the symbolic component enforces constraints at Layers 3–4 (complexity and statistics), and Layer 5 (category theory) gives you the composition calculus that makes the whole thing modular and verifiable.
+
+The 2030–2035 Horizon for This Stack
+By 2027–2028, the compression view becomes operational: models will monitor their own Kolmogorov-approximate complexity during generation and flag when they're likely memorizing vs generalizing. Your PRM verifier from the previous discussion will incorporate MDL as a reward signal component, not just test-pass.
+
+By 2030, the category-theoretic formalization of agent composition matures into practical type-theory-backed agent languages — you write Lean4 or Idris interfaces for your Polecats and get formal composition guarantees. The NeSy layer collapses into the type system: a type-correct agent composition is the symbolic proof.
+
+By 2035, the entire stack operates over a unified Riemannian geometry of programs: edit operations are geodesics in a manifold where distance is semantic divergence (KL on execution distributions), generalization bounds are tight (PAC-Bayes with information-geometric regularization), and agent composition is category-theoretically sound. The engineer's role is to define the metric and the morphism interfaces — the model searches the manifold for the minimum-description-length solution that satisfies all typed constraints.
+
+The fields aren't separate — they're the same thing viewed from different levels of abstraction. Kolmogorov complexity IS information geometry IS statistical learning theory, just expressed in different vocabularies. When your agents eventually operate natively in this unified mathematical space, the distinction between "writing code" and "finding the shortest proof" will disappear entirely.
+
+Prepared by Deep Research
