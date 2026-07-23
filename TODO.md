@@ -22,7 +22,9 @@ One TODO, grouped by layer, ticket-tagged (SETUP-OS). Status mirrors docs/prd/cl
 - [ ] Authorize subscription OAuth token; distribute secret to 22 repos (#4)
 
 ## P1 — Deep Work Protocol hooks (L0) + digest (L4)
-- [ ] spec-anchor (UserPromptSubmit), handoff-on-stop, slop gate, postcondition metadata (#5)
+- [x] SessionStart recall rewired Windows-native (P1.1, deployed+wired)
+- [x] Reflex router + flywheel S1 logger, PII-safe (P1.2, SLM #2)
+- [ ] handoff-on-stop, slop-gate command, postcondition metadata (#5 remainder)
 - [ ] RTK bash guard hook (efficiency; was WSL-era, re-wire Windows)
 - [ ] Daily digest push from cron (#6); SessionStart recall rewire (#7)
 

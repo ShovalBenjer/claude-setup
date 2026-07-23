@@ -16,6 +16,20 @@
   "skipAutoPermissionPrompt": true,
   "agentPushNotifEnabled": true,
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": [
+              "C:\\Users\\shova\\.claude\\hooks\\session-recall.sh"
+            ],
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "hooks": [
