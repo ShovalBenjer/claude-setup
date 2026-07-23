@@ -26,7 +26,8 @@ One TODO, grouped by layer, ticket-tagged (SETUP-OS). Status mirrors docs/prd/cl
 - [x] Reflex router + flywheel S1 logger, PII-safe (P1.2, SLM #2)
 - [ ] handoff-on-stop, slop-gate command, postcondition metadata (#5 remainder)
 - [ ] RTK bash guard hook (efficiency; was WSL-era, re-wire Windows)
-- [ ] Daily digest push from cron (#6); SessionStart recall rewire (#7)
+- [x] Memory + web write pipe (P1.3, #14) - real card written + recalled
+- [ ] Daily digest push from cron (#6, generator+cron done, needs always-on)
 
 ## P2 — Review fabric (L5)
 - [ ] Run live two-Claudes review on test PR #1 (seed for persona economy)
