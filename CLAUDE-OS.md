@@ -102,6 +102,24 @@ Forge Loop, local-intent-control-plane, orchestration-rewire.
 - OneSignal: NOT part of the personal loop (native push won). Reserved for
   Shoval-owned apps' users (learning-platform Web push; Kith Expo when unparked).
 
+### L5b — New capabilities (2026-07-23 amendments)
+- **Memory + web-search write pipe** (L2): WebSearch/WebFetch → distill → TYPED
+  memory (reference cards w/ source+date+staleness); Changelog Hound cron rewired to
+  write memory, not dead .md. Memory becomes write-managed-and-read; web is a source.
+- **Repo portfolio graph** (L6): cron scanner → nodes (repos) + edges (shared code /
+  cross-ref / owner-persona / dependency) as d2 diagram + SQLite; makes the portfolio
+  queryable ("what breaks if I change X"). Feeds routing.
+- **Blast-radius graph** (L5/L6): intra-repo import/call graph; a diff reports modules
+  touched; wide diff → more reviewers (the old Understand-Anything blast-radius idea).
+- **Git branch health sweep** (L5): weekly cross-repo sweep — stale/merged/ahead-behind/
+  orphan-worktree/default-branch-drift; auto-delete MERGED branches (reflog-reversible),
+  PROPOSE deleting unmerged (never silent; destructive-op rule).
+- **Rules-as-enforcement** (L1): per-repo rules versioned in each repo's .claude/rules
+  and BOUND to hooks/CI, not prose (ADR-0005). A rule with no stick is a defect.
+- **Persona review economy** (L5/L8): the dynamic reviewer labor market — contracts,
+  reputation from external truth (ADR-0008), Thompson allocation, PIP, firing, coverage-
+  gap recruitment. Full design: docs/specs/2026-07-23-persona-review-economy.md.
+
 ### L5 — Quality Fabric
 - **a2a ⇄ GitHub PR review sync**: cron PR watcher over opt-in ShovalBenjer repos →
   two independent reviews (Claude /code-review + Codex via a2a-codex-call.sh) →
@@ -213,6 +231,59 @@ REQUESTED from the model. A "please think deeply" prompt is the canonical anti-p
 | /model + effort + [1m] | L3,L8 | depth escalation for coupled design work | model-selection rule |
 | AskUserQuestion previews | L0 | wide-then-curate picks | creative-brief skill |
 | SendUserFile / DesignSync | L4 | artifact delivery | per-task |
+
+## 2d. What makes it DYNAMIC (the reason it is an OS, not a script)
+
+A script runs the same path every time. This system is a **closed-loop control
+plane**: outcomes feed back into how work is allocated, who does it, what the
+harness knows, and what the rules are. Three feedback loops at three speeds — that
+is the whole definition of "dynamic" here.
+
+**Fast loop (per-task / per-PR): reputation + routing.**
+Every review, apply, or build produces an outcome (finding held or dismissed,
+test reproduced, escaped defect later found). That outcome updates the actor's
+reputation. Allocation is Thompson sampling over actors (resume arms, review
+personas, channels) — so the NEXT task routes to whoever is currently performing,
+probabilistically, self-correcting under low volume. The org reshapes itself from
+results, continuously, with no hand-set weights. (Signal must be EXTERNAL ground
+truth — see ADR-0008; personas never rate personas.)
+
+**Medium loop (weekly): self-improvement.**
+The weekly loop reads what actually happened — skills that fired vs never, hooks
+that errored, intents shipped without proof, failure clusters — and proposes diffs
+to rules / hooks / skills / context-retrieval. Approved diffs mutate the harness
+itself. The system is therefore self-modifying, but approval-gated: it proposes,
+Shoval disposes (ADR-0005). What escaped last week becomes next week's gate.
+
+**Slow loop (as-needed): hiring, PIP, firing, rule evolution.**
+When a defect CLASS keeps escaping (a coverage cluster nobody catches), a new
+specialist review persona is recruited to target exactly that gap. Personas whose
+reputation decays get a PIP (narrowed scope / retrained prompt / pulled to a
+sandbox eval set) and, if they stay bad, are fired (deactivated, archived with
+record). The labor market of reviewers grows and prunes to fit the live threat
+surface (spec: persona-review-economy).
+
+Four more axes of dynamism layered on top of the loops:
+- **Adaptive compute** — effort, model tier, and subagent count scale to task
+  difficulty and confidence (0.90/0.70 gates), not fixed. Hard coupled design →
+  one long context on a 1M model; broad audit → fanout.
+- **Compounding memory** — typed memory + taste corpus + failure fixtures grow
+  every week; future work is conditioned on accumulated state, so the system is
+  measurably more capable each month without any model change.
+- **State-machine paths, not fixed scripts** — next_state = f(current_state,
+  verified_evidence, policy, budget, approval). The SAME intent takes different
+  paths live: blocked → escalate, failed postcondition → replan that subgoal,
+  low confidence → spawn reviewer. Path is computed from live state, not scripted.
+- **Open intent surface** — work enters from anywhere (WhatsApp, GitHub, phone,
+  cron, health sweeps) and the router classifies + dispatches at runtime; the
+  system continuously re-surveys its terrain (repo graph, branch health, drift)
+  and files its own work.
+
+The maturity ladder this climbs (from L0 prose-collection to L5 self-improving OS)
+and the target level (L4 Governed Control Plane → L5) are tracked in
+docs/adr and the PRD. Current honest maturity self-assessment: core harness and
+tool orchestration high; memory, evaluation, observability, and the dynamic
+loops are the build frontier.
 
 ## 3. Build Sequence
 
