@@ -16,6 +16,20 @@
   "skipAutoPermissionPrompt": true,
   "agentPushNotifEnabled": true,
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": [
+              "C:\\Users\\shova\\.claude\\hooks\\kernel-anchor.sh"
+            ],
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "hooks": [

@@ -1,0 +1,1045 @@
+[
+  {
+    "repo": "Bank-Change-Prediction",
+    "default": "main",
+    "drift": false,
+    "branches": [],
+    "error": null
+  },
+  {
+    "repo": "Explorations_With_KAN",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "convoy/kan-research-agent-platform/379a68a7/gt/flint/71d0332c",
+        "sha": "d69b63837102",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 5
+        }
+      },
+      {
+        "name": "convoy/kan-research-agent-platform/379a68a7/gt/shadow/71d0332c",
+        "sha": "f6377eba6457",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 5
+        }
+      },
+      {
+        "name": "convoy/kan-research-agent-platform/379a68a7/head",
+        "sha": "4c200049b100",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 5
+        }
+      },
+      {
+        "name": "convoy/kan-research-agent-platform-v2-z-ai/381d8140/gt/shadow/e5409e13",
+        "sha": "7457f7e0b575",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 3,
+          "behind_by": 5
+        }
+      },
+      {
+        "name": "convoy/kan-research-agent-platform-v2-z-ai/381d8140/gt/shadow/9ba8d85b",
+        "sha": "4f6668ee770f",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 2,
+          "behind_by": 4
+        }
+      },
+      {
+        "name": "convoy/kan-research-agent-platform-v2-z-ai/381d8140/head",
+        "sha": "60f23527c2a6",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "convoy/kan-research-agent-v3-free-minimax/f67c4f27/gt/shadow/92f18060",
+        "sha": "5ec615fec10d",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 5
+        }
+      },
+      {
+        "name": "convoy/kan-research-agent-v3-free-minimax/f67c4f27/head",
+        "sha": "4c200049b100",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 5
+        }
+      },
+      {
+        "name": "gt/refinery/2953cd8a",
+        "sha": "8ecfc2f8c07d",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 5
+        }
+      },
+      {
+        "name": "gt/shadow/de7345c9",
+        "sha": "ed7eb3c21e97",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 5
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "JSQ-SLQ",
+    "default": "main",
+    "drift": false,
+    "branches": [],
+    "error": null
+  },
+  {
+    "repo": "LeetCode_C_Python_SQL",
+    "default": "main",
+    "drift": false,
+    "branches": [],
+    "error": null
+  },
+  {
+    "repo": "Machine_Learning_Study_Guidebook",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "ShovalBenjer-patch-1",
+        "sha": "f181b11a8952",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 2,
+          "behind_by": 3
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "Resonant-Harmonics-Agents",
+    "default": "main",
+    "drift": false,
+    "branches": [],
+    "error": null
+  },
+  {
+    "repo": "ShovalBenjer",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "claude/optimize-profile-styling-pyy2K",
+        "sha": "25c220e83776",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 7
+        }
+      },
+      {
+        "name": "gt/birch/b3b93d2a",
+        "sha": "0665f7771607",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 2,
+          "behind_by": 18
+        }
+      },
+      {
+        "name": "gt/clover/4b202dcd",
+        "sha": "507ed355f015",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 16
+        }
+      },
+      {
+        "name": "gt/maple/2b63cf0d",
+        "sha": "cac713cbf3e5",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 18
+        }
+      },
+      {
+        "name": "gt/maple/5edbfc55",
+        "sha": "5d34403bc388",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 19
+        }
+      },
+      {
+        "name": "gt/refinery/4ca3f498",
+        "sha": "39f3c94949cf",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 18
+        }
+      },
+      {
+        "name": "gt/refinery/13999bc3",
+        "sha": "883cd6292116",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 21
+        }
+      },
+      {
+        "name": "gt/shadow/1b584102",
+        "sha": "948447b06cbb",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 2,
+          "behind_by": 18
+        }
+      },
+      {
+        "name": "gt/toast/4f8e64fb",
+        "sha": "20dfe59510c4",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 11
+        }
+      },
+      {
+        "name": "gt/toast/5edbfc55",
+        "sha": "1bb9662795f5",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 7,
+          "behind_by": 17
+        }
+      },
+      {
+        "name": "gt/toast/6e74e2f4",
+        "sha": "6db10682011b",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 2,
+          "behind_by": 18
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "admaven-python-data-engineering",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "convoy/agentops-platform-transformation/afdc1451/gt/maple/ee51a73a",
+        "sha": "539dd9d9cd81",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "convoy/agentops-platform-transformation/afdc1451/gt/toast/5bbc2eac",
+        "sha": "8c741848d50c",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "convoy/agentops-platform-transformation/afdc1451/head",
+        "sha": "d52b1a9507c5",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 2,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "convoy/agentops-platform-v2-z-ai/d1a57187/gt/toast/9dc70865",
+        "sha": "a4d37372ea4d",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 8,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "convoy/agentops-platform-v2-z-ai/d1a57187/gt/toast/5022749f",
+        "sha": "03315befec71",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 3,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "convoy/agentops-platform-v2-z-ai/d1a57187/head",
+        "sha": "45978dd020ac",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 14,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "convoy/agentops-platform-v3-free-minimax/13a33705/gt/toast/9dc75c06",
+        "sha": "6e9523311580",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "convoy/agentops-platform-v3-free-minimax/13a33705/head",
+        "sha": "2e4e5eff3573",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "convoy/agentops-platform-v3-glm-4-7-free/515e1ecc/head",
+        "sha": "2e4e5eff3573",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "dependabot/pip/src/pip-924c6da88a",
+        "sha": "78ca6bb68106",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "gt/birch/d5c345e0",
+        "sha": "e9828ef5fa1c",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 5
+        }
+      },
+      {
+        "name": "gt/maple/f54e5725",
+        "sha": "aa3497fc5d8a",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "gt/maple/ff1ae724",
+        "sha": "770e19e3d30d",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 5
+        }
+      },
+      {
+        "name": "gt/refinery/834f0f00",
+        "sha": "2a4f2fba9dde",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "gt/toast/7240a910",
+        "sha": "fcd4445de6d8",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 13,
+          "behind_by": 6
+        }
+      },
+      {
+        "name": "readme-refactor",
+        "sha": "8e84af7454a9",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 7
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "agenteval-bench",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "claude/repo-overview-innovation-j5aktb",
+        "sha": "1cc0360b0f29",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 3,
+          "behind_by": 3
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "altius-financial-analysis",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "convoy/chronos-ts-agent-platform/070ca8f1/gt/ember/5d2120bc",
+        "sha": "cca4baca5bad",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "convoy/chronos-ts-agent-platform/070ca8f1/head",
+        "sha": "35282718e65c",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "convoy/chronos-ts-agent-platform-v2-z-ai/49cb4cf2/gt/ember/0d82a6c0",
+        "sha": "b8e748162467",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "convoy/chronos-ts-agent-platform-v2-z-ai/49cb4cf2/gt/ember/6d0df3b6",
+        "sha": "b15d83d852d2",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 2,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "convoy/chronos-ts-agent-platform-v2-z-ai/49cb4cf2/head",
+        "sha": "f84fea4e211d",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 3,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "convoy/chronos-ts-agent-v3-free-minimax/10ed194f/gt/ember/c54a588c",
+        "sha": "0cbcc46f2aed",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "convoy/chronos-ts-agent-v3-free-minimax/10ed194f/head",
+        "sha": "35282718e65c",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "gt/birch/9092f16b",
+        "sha": "fe8a61ae2c4a",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "gt/refinery/1341f33c",
+        "sha": "45bc97bb9318",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "readme-refactor",
+        "sha": "7dd876fdd5ec",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 4
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "argmax_solution",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "dependabot/pip/web/pip-5b770d017d",
+        "sha": "9a79ca0132be",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "readme-refactor",
+        "sha": "bedc74029033",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 4
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "claude-memes-skills",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "claude/giphy-production-repo-gwf3rj",
+        "sha": "017e2dd01480",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 2,
+          "behind_by": 3
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "claude-setup",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "test/claude-review-live",
+        "sha": "7c396e9e7f51",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "ahead",
+          "ahead_by": 1,
+          "behind_by": 0
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "daily-deep-learning",
+    "default": "main",
+    "drift": false,
+    "branches": [],
+    "error": null
+  },
+  {
+    "repo": "deep_learning_neural_networks",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "convoy/interactive-learning-agent/b3680739/gt/clover/7f852d7e",
+        "sha": "530be1715c7b",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 4,
+          "behind_by": 4
+        }
+      },
+      {
+        "name": "convoy/interactive-learning-agent/b3680739/head",
+        "sha": "197abd621c8a",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 4
+        }
+      },
+      {
+        "name": "convoy/interactive-learning-agent-v2-z-ai/52b46405/gt/clover/eef7e0e9",
+        "sha": "1b34ceecd1bf",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 5,
+          "behind_by": 4
+        }
+      },
+      {
+        "name": "convoy/interactive-learning-agent-v2-z-ai/52b46405/gt/clover/350eb78b",
+        "sha": "0722f39603f4",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 4
+        }
+      },
+      {
+        "name": "convoy/interactive-learning-agent-v2-z-ai/52b46405/head",
+        "sha": "5236b7bcf821",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "convoy/learning-agent-v3-free-minimax/f98550e9/gt/clover/209992a3",
+        "sha": "424d1a88c86e",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 4
+        }
+      },
+      {
+        "name": "convoy/learning-agent-v3-free-minimax/f98550e9/head",
+        "sha": "dfb4cd54a437",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 4
+        }
+      },
+      {
+        "name": "language-models-integration",
+        "sha": "097f496bca63",
+        "protected": false,
+        "classification": "STALE",
+        "compare": null
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "matchiq",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "claude/implement-in-full-6vkgx7",
+        "sha": "c331a2c49928",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 57,
+          "behind_by": 2
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "mcp-guard",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "claude/readme-claims-verification-58yxy9",
+        "sha": "839c3976f0ef",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 7,
+          "behind_by": 3
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "oren-roast-hq",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "worktree-button-rewire",
+        "sha": "1603cebf5509",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 293
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "phone-social-reminder",
+    "default": "master",
+    "drift": true,
+    "branches": [
+      {
+        "name": "claude/ios-social-analytics-app-Vhjj9",
+        "sha": "ee90d5cd0967",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 23
+        }
+      },
+      {
+        "name": "claude/production-readiness-roadmap-20l8im",
+        "sha": "80573006bbe4",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 2
+        }
+      },
+      {
+        "name": "dependabot/npm_and_yarn/npm_and_yarn-4580a7e550",
+        "sha": "c2920032dadb",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 4
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "protobuf-fuzz-guard",
+    "default": "master",
+    "drift": true,
+    "branches": [
+      {
+        "name": "claude/rust-sota-practices-research-5ddl6v",
+        "sha": "dd8c864191f4",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 3
+        }
+      },
+      {
+        "name": "dependabot/cargo/clap-4.6.4",
+        "sha": "36c6014d862d",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 2
+        }
+      },
+      {
+        "name": "dependabot/cargo/fuzz/serde-1.0.229",
+        "sha": "0c7de64b64b3",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 2
+        }
+      },
+      {
+        "name": "dependabot/cargo/fuzz/thiserror-2.0.19",
+        "sha": "f3dde63d1492",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 2
+        }
+      },
+      {
+        "name": "dependabot/cargo/serde_json-1.0.151",
+        "sha": "0c017a064563",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 2
+        }
+      },
+      {
+        "name": "dependabot/cargo/serde-1.0.229",
+        "sha": "fd38929dd52f",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 2
+        }
+      },
+      {
+        "name": "dependabot/cargo/thiserror-2.0.19",
+        "sha": "c20ef7ba3e7b",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 2
+        }
+      },
+      {
+        "name": "dependabot/github_actions/actions/checkout-7",
+        "sha": "d5bf0d735b96",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 2
+        }
+      },
+      {
+        "name": "dependabot/github_actions/dtolnay/rust-toolchain-1.100",
+        "sha": "d0d42a63c944",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 2
+        }
+      },
+      {
+        "name": "dependabot/github_actions/softprops/action-gh-release-3",
+        "sha": "acb9be3fa38a",
+        "protected": false,
+        "classification": "ACTIVE",
+        "compare": {
+          "status": "diverged",
+          "ahead_by": 1,
+          "behind_by": 2
+        }
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "sqltok",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "claude/sqltok-schema-budget-v0.1-jfpkmi",
+        "sha": "15fab9dd4fc6",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 4
+        }
+      },
+      {
+        "name": "gh-pages",
+        "sha": "48109e225530",
+        "protected": false,
+        "classification": "STALE",
+        "compare": null
+      }
+    ],
+    "error": null
+  },
+  {
+    "repo": "time-twist-visualizer",
+    "default": "main",
+    "drift": false,
+    "branches": [
+      {
+        "name": "readme-refactor",
+        "sha": "a633799d6a24",
+        "protected": false,
+        "classification": "MERGED",
+        "compare": {
+          "status": "behind",
+          "ahead_by": 0,
+          "behind_by": 3
+        }
+      }
+    ],
+    "error": null
+  }
+]
