@@ -8,6 +8,11 @@ One TODO, grouped by layer, ticket-tagged (SETUP-OS). Status mirrors docs/prd/cl
 - [x] Notification fabric: phone push + desktop toast (#3)
 - [x] Always-fresh PR review workflow on 22 repos (#4) — auth pending
 - [x] PRD + 8 ADRs + persona spec + INDEX (this doc set)
+- [x] kernel-anchor hook: deep-work discipline injected every prompt, live+wired (#5 partial)
+- [x] slop_lint gate (Antislop banlist), verified exit-1 on hits
+- [x] Repo portfolio graph: 22 nodes / 72 edges -> d2 + sqlite (#15)
+- [x] Git branch health sweep: 22 repos, 80 branches, 20 merged-deletable, 2 drift (#17)
+- [x] Daily digest generator over live state + cron 7:03 (#6 partial: needs always-on / Task Scheduler)
 
 ## P0 — Truth & hygiene (L1/L7)
 - [ ] Rotate API key found in תזכורת לעצמי group (operator)
