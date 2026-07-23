@@ -1,6 +1,7 @@
 ---
 name: azure-audit
 description: Weekly dormancy + cost audit of Azure (functions, web apps, container apps, storage), Azure DevOps repos + wikis, and Foundry agents. Produces a dated markdown report under ~/docs/audits/, never deletes anything autonomously.
+allowed-tools: ["Bash", "Read", "Write", "Grep", "Glob"]
 ---
 
 # azure-audit

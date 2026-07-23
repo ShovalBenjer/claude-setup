@@ -1,0 +1,176 @@
+# ============================================================
+# ISDD AI Department — Security-Hardened .gitignore Template
+# Categories: Secrets, Binaries, Build, IDE/OS, Images, Temp
+# ============================================================
+
+# ── Secrets & Credentials ──────────────────────────────────
+.env
+.env.*
+!.env.example
+local.settings.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.cert
+*.crt
+*.cer
+credentials.json
+service-account*.json
+secrets.json
+*.secret
+**/secret*/
+.netrc
+.npmrc
+.pypirc
+token.json
+oauth2.json
+.htpasswd
+
+# ── Python ─────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+.eggs/
+build/
+dist/
+sdist/
+wheels/
+*.whl
+.venv/
+venv/
+ENV/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+.tox/
+.nox/
+
+# ── JavaScript / TypeScript ────────────────────────────────
+node_modules/
+.npm
+.yarn/
+.pnp.*
+*.tsbuildinfo
+.eslintcache
+.parcel-cache/
+.next/
+.nuxt/
+.output/
+.turbo/
+dist/
+out/
+
+# ── Build Artifacts ────────────────────────────────────────
+build/
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.dll
+*.exe
+*.dylib
+*.lib
+*.a
+*.o
+*.obj
+
+# ── IDE / Editor ───────────────────────────────────────────
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.iml
+*.iws
+*.ipr
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project
+
+# ── OS Files ───────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.Zone.Identifier
+
+# ── Images (keep only explicitly tracked project logos) ────
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.bmp
+**/*.tiff
+**/*.ico
+**/*.svg
+**/*.webp
+# Exception: tracked project logo
+!ai_department_logo.png
+
+# ── Large / Binary Files ──────────────────────────────────
+**/*.pdf
+**/*.docx
+**/*.xlsx
+**/*.pptx
+**/*.zip
+**/*.tar.gz
+**/*.rar
+**/*.7z
+**/*.mp4
+**/*.mp3
+**/*.wav
+**/*.mov
+**/*.avi
+**/*.sqlite
+**/*.db
+
+# ── Logs & Temp Files ─────────────────────────────────────
+*.log
+*.tmp
+*.bak
+*.orig
+*.rej
+*.patch
+*.diff
+
+# ── Azure / Cloud ─────────────────────────────────────────
+.azure/
+.azurefunctions/
+.deepeval/
+.deepeval_cache/
+.playwright-mcp/
+
+# ── Test Artifacts ─────────────────────────────────────────
+test-results/
+test-results.xml
+playwright-report/
+test-screenshots/
+
+# ── Package Locks (project-specific — uncomment as needed)
+# uv.lock
+# bun.lockb
+# package-lock.json
+# yarn.lock

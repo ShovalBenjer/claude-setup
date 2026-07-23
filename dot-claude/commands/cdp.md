@@ -9,7 +9,7 @@ description: Kickstart browser CDP for UI inspection / scraping. Defaults to Obs
 
 ## Default flow — Obscura (Linux, stealth Chromium)
 
-This is the right choice for: public web scraping, your own UI testing, screenshots, anti-bot pages. **Use this unless the target requires Windows SSO / Entra / domain join.**
+This is the right choice for: public web scraping and anti-bot pages where stealth matters more than pixel capture. For visual inspection, screenshots, layout defects, RTL review, or user-reported UI bugs, use the default `playwright` MCP server instead; it launches normal Chrome through `/home/shovalbe/.codex/bin/playwright-mcp-visual`.
 
 ```bash
 ~/.codex/bin/obscura-cdp start
@@ -21,7 +21,7 @@ The script is idempotent — it health-checks `http://127.0.0.1:9222/json/versio
 curl -fsS http://127.0.0.1:9222/json/version | head -c 300
 ```
 
-Should return JSON with `Browser`, `webSocketDebuggerUrl`, etc. If yes, the `playwright` MCP server (already in `~/.mcp.json` as `playwright-mcp-obscura`) is usable. Tell the user the endpoint is live and you're ready to drive the browser.
+Should return JSON with `Browser`, `webSocketDebuggerUrl`, etc. If yes, the `playwright-obscura` MCP server is usable. Tell the user the endpoint is live for stealth browsing, but do not present it as visual proof when screenshots are required.
 
 If `curl` returns connection refused or empty, run:
 
@@ -57,7 +57,8 @@ Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" `
   -ArgumentList @(
     "--remote-debugging-port=9223",
     "--remote-debugging-address=0.0.0.0",
-    "--user-data-dir=C:\Users\shoval.be\AppData\Local\Microsoft\Edge\CDP-Profile"
+    "--user-data-dir=C:\Users\shoval.be\AppData\Local\Microsoft\Edge\CDP-Profile",
+    "https://comp-widgora-prod-b0emf3hyefetcken.swedencentral-01.azurewebsites.net/calendars"
   )
 ```
 
@@ -100,9 +101,10 @@ Edge stays up — closing it is the user's call (it's a Windows-side process und
 
 | Target | Use |
 |---|---|
-| Public web, your own UI, scraping, screenshots | Obscura (default) |
-| `*.i-sdd.com`, Azure portal, ADO web UI, anything Entra/SSO | Edge |
+| Visual QA, screenshots, layout/RTL bugs, console/network review | Playwright Chrome (`playwright`) |
+| Public web scraping where stealth matters more than screenshots | Obscura (`playwright-obscura`) |
+| `*.i-sdd.com`, Azure portal, ADO web UI, Widgora prod, anything Entra/SSO | Edge (`playwright-edge`) |
 | Anti-bot test (Cloudflare, Akamai etc.) | Obscura (stealth-mode is its purpose) |
 | Domain-joined intranet sites | Edge (Windows session has the kerberos/NTLM auth) |
 
-After kickstart, browser automation flows through the `playwright` MCP server (Obscura) or `playwright-edge` MCP server (Edge — once wired per master plan items 10-12).
+After kickstart, stealth browser automation flows through the `playwright-obscura` MCP server. Visual browser automation flows through the default `playwright` MCP server, which uses normal Chrome and supports screenshots. Windows Edge automation flows through `playwright-edge`, which attaches to `http://<windows-host>:9223`.

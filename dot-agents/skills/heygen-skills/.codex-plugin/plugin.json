@@ -1,0 +1,50 @@
+{
+  "name": "heygen",
+  "version": "1.3.2",
+  "description": "Create HeyGen avatar videos, personalized video messages, and translated / dubbed videos. Build a persistent digital identity from a photo, generate presenter-led videos with your digital twin, and localize existing videos into 175+ languages with voice cloning and lip-sync.",
+  "author": {
+    "name": "HeyGen",
+    "email": "developers@heygen.com",
+    "url": "https://heygen.com"
+  },
+  "homepage": "https://heygen.com",
+  "repository": "https://github.com/heygen-com/skills",
+  "license": "MIT",
+  "keywords": [
+    "heygen",
+    "avatar",
+    "identity",
+    "video",
+    "digital-twin",
+    "video-message",
+    "presenter",
+    "talking-head",
+    "ai-avatar",
+    "avatar-video",
+    "translate",
+    "dub",
+    "localization",
+    "voice-cloning",
+    "lip-sync"
+  ],
+  "skills": "./",
+  "apps": "./.app.json",
+  "interface": {
+    "displayName": "HeyGen",
+    "shortDescription": "Avatar videos, personalized messages, and video translation",
+    "longDescription": "HeyGen Skills give your agent a face, a voice, and the ability to send video like a message — in any language. Use heygen-avatar to build a persistent digital identity from a photo and pick a voice, heygen-video to generate identity-first presenter videos via the HeyGen v3 Video Agent pipeline (avatar resolution, aspect ratio correction, prompt engineering, and voice selection handled automatically), and heygen-translate to localize existing videos into 175+ languages with voice cloning and lip-sync.",
+    "developerName": "HeyGen",
+    "category": "Design",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://heygen.com",
+    "defaultPrompt": [
+      "Create my HeyGen avatar from this photo",
+      "Make a 30-second intro video of myself",
+      "Send a video update to my team about this week's progress",
+      "Translate this video into Spanish, Japanese, and German"
+    ],
+    "brandColor": "#0a0a0a",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png"
+  }
+}

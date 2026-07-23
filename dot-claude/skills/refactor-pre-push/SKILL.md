@@ -1,7 +1,7 @@
 ---
 name: refactor-pre-push
 description: Suggest /simplify on hot-zone changed files immediately before /commit-push-pr runs the push step. Reminder skill, not auto-rewrite — preserves the authorization-scope rule that destructive ops need explicit OK. Triggers on "/refactor-pre-push", "before push", or as step 6 of Path A's standing workflow.
-model: claude-sonnet-4-6
+model: sonnet
 ---
 
 # Refactor pre-push — REFACTOR axis support

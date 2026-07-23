@@ -1,6 +1,7 @@
 ---
 name: azure-activity-watch
 description: Surface Azure Activity-Log events where someone other than the owner (default shoval.be@i-sdd.com) has stopped, restarted, deleted, or resized a resource in AZAI_group. Use after a service goes unexpectedly cold, on the weekly audit, or any time you suspect a teammate touched your stuff without telling you.
+allowed-tools: ["Bash", "Read", "Grep", "Glob"]
 ---
 
 # azure-activity-watch

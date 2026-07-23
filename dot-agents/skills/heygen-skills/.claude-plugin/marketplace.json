@@ -1,0 +1,32 @@
+{
+  "name": "heygen",
+  "owner": {
+    "name": "HeyGen",
+    "url": "https://heygen.com"
+  },
+  "plugins": [
+    {
+      "name": "heygen",
+      "source": "./",
+      "description": "HeyGen skills for avatar creation, identity-first video generation, personalized video messages, and video translation / dubbing. Invoke as /heygen:avatar, /heygen:video, or /heygen:translate.",
+      "version": "1.3.2",
+      "skills": [
+        {
+          "name": "avatar",
+          "path": "heygen-avatar",
+          "invoke": "/heygen:avatar"
+        },
+        {
+          "name": "video",
+          "path": "heygen-video",
+          "invoke": "/heygen:video"
+        },
+        {
+          "name": "translate",
+          "path": "heygen-translate",
+          "invoke": "/heygen:translate"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "figma-4-all": {
+    "test_cmd": "bun run test:p0",
+    "full_test_cmd": "bun run test:staged",
+    "lint_cmd": "bunx eslint plugin test scripts --ext .js,.mjs,.cjs",
+    "constraints": "ES2017. No optional chaining, nullish coalescing, async iterators. No mocks except global.figma.",
+    "mutation_targets": "plugin/"
+  },
+  "social-intelligence-unit": {
+    "test_cmd": "uv run pytest tests/unit/ -x --tb=short -q",
+    "full_test_cmd": "uv run pytest tests/",
+    "lint_cmd": "uv run ruff check src/",
+    "integration_test_cmd": "uv run pytest tests/integration/ -v",
+    "property_test_cmd": "uv run pytest tests/property/ -v",
+    "type_check_cmd": "uv run mypy src/siu/",
+    "format_cmd": "uv run ruff format --check src/",
+    "frontend_lint_cmd": "cd frontend && bun run lint",
+    "frontend_type_cmd": "cd frontend && bun run type-check",
+    "frontend_test_cmd": "cd frontend && bunx playwright test",
+    "coverage_cmd": "uv run pytest tests/ --cov=src/siu --cov-fail-under=90",
+    "constraints": "Python 3.12. TypeScript strict (frontend). No mocks (except global.figma). VCR.py for API fixtures. 10 system invariants + 5 quality gates enforced.",
+    "mutation_targets": "src/"
+  },
+  "seekapa-video": {
+    "test_cmd": "bun test",
+    "full_test_cmd": "bun test",
+    "lint_cmd": "bun run lint",
+    "constraints": "TypeScript strict. Remotion pipeline.",
+    "mutation_targets": "src/"
+  },
+  "seekapa-training-platform": {
+    "test_cmd": "cd backend && python3 -m pytest tests/ -x -q",
+    "full_test_cmd": "cd backend && python3 -m pytest tests/ -v",
+    "lint_cmd": "echo 'no linter configured'",
+    "constraints": "Python 3.12 Azure Functions. PostgreSQL parameterized queries only. No mocks. ACS email rate limit 10/hour (managed domain).",
+    "mutation_targets": "backend/shared/"
+  }
+}

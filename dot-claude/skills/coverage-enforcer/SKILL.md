@@ -1,7 +1,7 @@
 ---
 name: coverage-enforcer
 description: Block /commit-push-pr from pushing if the staged diff has source changes (.py/.ts/.js) without matching test changes. Closes the COVERAGE axis of Shoval's forge loop. Triggers on /commit-push-pr or "ready to push". Companion hook is at ~/.codex/hooks/coverage-enforcer.sh — wired as PreToolUse on git push.
-model: claude-sonnet-4-6
+model: sonnet
 ---
 
 # Coverage Enforcer — COVERAGE axis gate

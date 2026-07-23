@@ -25,6 +25,21 @@ SESSION_ID=$(printf '%s' "$INPUT" | python3 -c "import sys,json; print(json.load
 CWD=$(printf '%s' "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('cwd','$PWD'))" 2>/dev/null || echo "$PWD")
 STAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
+# HOME-as-repo guard: $HOME doubles as a worktree of axia-seekapa-cs-agents
+# (memory: project_home_as_repo). Scanning $HOME walks 86M+ lines of personal
+# files; the result is meaningless and freezes the TUI for ~50s. Skip cleanly.
+if [ "$CWD" = "$HOME" ] || [ "$CWD" = "/home/shovalbe" ]; then
+  if [ "$PHASE" = "start" ]; then
+    cat <<'EOF'
+{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Layer 7: skipped at $HOME (HOME-as-repo anomaly). Snapshot computes for project-scoped sessions only."}}
+EOF
+  else
+    echo '{}'
+  fi
+  exit 0
+fi
+
+
 # Bail silently if dependencies missing
 command -v python3 >/dev/null 2>&1 || { echo '{}'; exit 0; }
 [ -f "$LAYER7_DIR/snapshot-metrics.py" ] || { echo '{}'; exit 0; }
@@ -35,7 +50,7 @@ if [ ! -f "$DB_PATH" ]; then
 fi
 
 # Compute snapshot (always — small enough that we re-run on each phase)
-SNAPSHOT_JSON=$(python3 "$LAYER7_DIR/snapshot-metrics.py" "$CWD" 2>/dev/null || echo '{}')
+SNAPSHOT_JSON=$(timeout 3 python3 "$LAYER7_DIR/snapshot-metrics.py" "$CWD" 2>/dev/null || echo '{}')
 [ -z "$SNAPSHOT_JSON" ] && { echo '{}'; exit 0; }
 
 # Persist JSON file
@@ -112,8 +127,10 @@ PY
 # Emit hook output (additionalContext for SessionStart only — Stop hooks don't inject)
 if [ "$PHASE" = "start" ]; then
   PROJECT_NAME=$(basename "$CWD")
+  TERM_COLS="${COLUMNS:-unknown}"
+  TERM_ROWS="${LINES:-unknown}"
   cat <<EOF
-{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Layer 7 baseline: project=$PROJECT_NAME loc=$(echo "$SNAPSHOT_JSON" | python3 -c "import sys,json; print(json.load(sys.stdin).get('loc',0))") tests=$(echo "$SNAPSHOT_JSON" | python3 -c "import sys,json; print(json.load(sys.stdin).get('test_count',0))") complexity=$(echo "$SNAPSHOT_JSON" | python3 -c "import sys,json; print(json.load(sys.stdin).get('complexity_total',0))") layer_violations=$(echo "$SNAPSHOT_JSON" | python3 -c "import sys,json; print(json.load(sys.stdin).get('layer_violations',0))"). Session quality signal will be computed at Stop. Snapshot at $SNAP_FILE."}}
+{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Layer 7 baseline: project=$PROJECT_NAME loc=$(echo "$SNAPSHOT_JSON" | python3 -c "import sys,json; print(json.load(sys.stdin).get('loc',0))") tests=$(echo "$SNAPSHOT_JSON" | python3 -c "import sys,json; print(json.load(sys.stdin).get('test_count',0))") complexity=$(echo "$SNAPSHOT_JSON" | python3 -c "import sys,json; print(json.load(sys.stdin).get('complexity_total',0))") layer_violations=$(echo "$SNAPSHOT_JSON" | python3 -c "import sys,json; print(json.load(sys.stdin).get('layer_violations',0))") terminal=${TERM_COLS}x${TERM_ROWS}. Size tables/diffs/ASCII charts to fit this window. Session quality signal will be computed at Stop. Snapshot at $SNAP_FILE."}}
 EOF
 else
   echo '{}'

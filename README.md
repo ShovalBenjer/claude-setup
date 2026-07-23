@@ -1,4 +1,14 @@
-# Shoval Benjer — Claude Setup + Research Bundle
+# Shoval Benjer — Claude Setup (Claude OS)
+
+**Start here: [CLAUDE-OS.md](CLAUDE-OS.md) — the single source of truth.** It merges and
+supersedes every prior plan in this repo.
+
+Updated 2026-07-23: relocated to `C:\Users\shova\claude-setup` (out of new-recruit),
+synced to the July work state (`dot-claude/`, `dot-codex/`, `dot-agents/`), added
+`tools/whatsapp/` CDP readers and the live notification hooks. The 2026-05-08 export
+below remains as history (commit 910dec2).
+
+---
 
 Built 2026-05-08. A snapshot of my Claude Code setup, research artifacts, presentations, and master plans.
 

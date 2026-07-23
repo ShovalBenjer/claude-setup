@@ -1,7 +1,8 @@
 ---
 name: azure-runtime
 description: Call Azure AI runtime from CLI — Azure OpenAI chat completions against deployed GPT models in brn-azai (gpt-5.5, gpt-4.1, etc.) AND Azure AI Foundry agents (ORM-FLAGGING-AGENT, seekapa, AxiaCS) with thread/run streaming and step observability. Auth via az login (DefaultAzureCredential) — no API keys handled. Triggers on "/azure-runtime", "/foundry-runtime", "chat with gpt-5.5", "call my Foundry agent", "run agent_xxx via Foundry", "stream foundry run", any reference to brn-azai or services.ai.azure.com runtime calls. SKIP when authoring/creating agents (use agent-builder), running eval pipelines (use eval-runner), doing raw az resource ops (use Bash directly), or talking to OpenAI's platform.openai.com (no key, not supported).
-model: claude-opus-4-7
+model: opus
+allowed-tools: ["Bash", "Read", "Grep", "Glob"]
 ---
 
 # Azure Runtime — call Azure AI from CLI

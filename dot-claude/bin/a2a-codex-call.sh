@@ -7,7 +7,7 @@
 # Auth: chatgpt subscription (auth_mode=chatgpt). $0 marginal cost.
 #
 # Usage:
-#     a2a-codex-call.sh "<prompt>" [--timeout 60] [--effort medium] [--model gpt-5.5]
+#     a2a-codex-call.sh "<prompt>" [--timeout 180] [--effort medium] [--model gpt-5.5]
 #     a2a-codex-call.sh "review src/handler.py for SQL injection" --effort high
 #
 # Output: JSON to stdout: {state, response_text, duration_ms, error?}
@@ -17,9 +17,10 @@
 set -euo pipefail
 
 PROMPT=""
-TIMEOUT=60
+TIMEOUT=180
 EFFORT="medium"
 MODEL=""
+SANDBOX=""
 FROM_ADDR="claude:home"
 TO_ADDR="codex:home"
 CONV_ID=""
@@ -29,6 +30,7 @@ while [ $# -gt 0 ]; do
         --timeout) TIMEOUT="$2"; shift 2 ;;
         --effort) EFFORT="$2"; shift 2 ;;
         --model) MODEL="$2"; shift 2 ;;
+        --sandbox) SANDBOX="$2"; shift 2 ;;
         --from-addr) FROM_ADDR="$2"; shift 2 ;;
         --conversation-id) CONV_ID="$2"; shift 2 ;;
         --help) echo "usage: a2a-codex-call.sh \"<prompt>\" [--timeout N] [--effort low|medium|high|xhigh] [--model gpt-5.5]"; exit 0 ;;
@@ -55,10 +57,15 @@ PROMPT_HASH=$(echo -n "$PROMPT" | sha1sum | cut -c1-12)
 TMPOUT=$(mktemp)
 trap "rm -f $TMPOUT" EXIT
 
-# Build codex args
-CODEX_ARGS=(exec --full-auto --skip-git-repo-check -C "$PWD" --output-last-message "$TMPOUT")
+# Build codex args. Default --full-auto (workspace-write) keeps existing callers unchanged;
+# pass --sandbox read-only for review/analysis calls that must not edit the working tree.
+if [ -n "$SANDBOX" ]; then
+    CODEX_ARGS=(exec -s "$SANDBOX" --skip-git-repo-check -C "$PWD" --output-last-message "$TMPOUT")
+else
+    CODEX_ARGS=(exec --full-auto --skip-git-repo-check -C "$PWD" --output-last-message "$TMPOUT")
+fi
 [ -n "$MODEL" ] && CODEX_ARGS+=(-m "$MODEL")
-[ -n "$EFFORT" ] && CODEX_ARGS+=(-c "reasoning_effort=$EFFORT")
+[ -n "$EFFORT" ] && CODEX_ARGS+=(-c "model_reasoning_effort=$EFFORT")
 
 # Time the call (millisecond precision)
 T_START=$(date +%s%3N 2>/dev/null || date +%s)
@@ -78,15 +85,18 @@ fi
 T_END=$(date +%s%3N 2>/dev/null || date +%s)
 DURATION_MS=$((T_END - T_START))
 
-# Surface common error patterns from stderr
+# Surface common error patterns from stderr. Only RE-CLASSIFY a generic failure
+# (exit != 0 and != 124). A timeout MUST stay "timeout": codex echoes the prompt to
+# stderr, so a diff containing "auth"/"401" (e.g. auth.py, res.status===401) would
+# otherwise be misread as an auth failure. Patterns are scoped to codex's own error
+# phrasings, not bare "auth"/"401" substrings that appear in reviewed code.
 ERR_MSG=""
 if [ "$STATE" != "completed" ] && [ -s "$TMPERR" ]; then
-    # Extract the most informative line (rate limit, auth, etc.)
-    if grep -qE "usage limit|rate limit|429" "$TMPERR"; then
-        ERR_MSG=$(grep -E "usage limit|rate limit|429" "$TMPERR" | head -1)
+    if [ "$STATE" = "failed" ] && grep -qiE "usage limit|rate limit|429 too many" "$TMPERR"; then
+        ERR_MSG=$(grep -iE "usage limit|rate limit|429 too many" "$TMPERR" | head -1)
         STATE="rate_limited"
-    elif grep -qE "unauthorized|401|auth" "$TMPERR"; then
-        ERR_MSG=$(grep -iE "unauthorized|401|auth" "$TMPERR" | head -1)
+    elif [ "$STATE" = "failed" ] && grep -qiE "unauthorized|not logged in|invalid api key|authentication (failed|error)|401 unauthorized" "$TMPERR"; then
+        ERR_MSG=$(grep -iE "unauthorized|not logged in|invalid api key|authentication (failed|error)|401 unauthorized" "$TMPERR" | head -1)
         STATE="auth_failed"
     else
         ERR_MSG=$(tail -3 "$TMPERR" | tr '\n' ' ' | head -c 300)

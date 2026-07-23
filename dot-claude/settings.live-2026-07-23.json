@@ -1,0 +1,40 @@
+{
+  "env": {
+    "API_TIMEOUT_MS": "600000",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "70",
+    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1"
+  },
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  },
+  "model": "claude-fable-5[1m]",
+  "autoUpdatesChannel": "latest",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
+  "remoteControlAtStartup": true,
+  "skipAutoPermissionPrompt": true,
+  "agentPushNotifEnabled": true,
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe",
+            "args": [
+              "-NoProfile",
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              "C:\\Users\\shova\\.claude\\hooks\\notify-toast.ps1"
+            ],
+            "async": true,
+            "timeout": 15,
+            "statusMessage": "Raising Windows toast"
+          }
+        ]
+      }
+    ]
+  }
+}

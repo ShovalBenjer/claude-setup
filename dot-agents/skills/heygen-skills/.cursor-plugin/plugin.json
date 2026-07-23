@@ -1,0 +1,36 @@
+{
+  "$schema": "https://cursor.com/schemas/cursor-plugin/plugin.json",
+  "name": "heygen",
+  "displayName": "HeyGen",
+  "version": "1.3.2",
+  "description": "Create HeyGen avatar videos, personalized video messages, and translated / dubbed videos. Build a persistent digital identity from a photo, generate presenter-led videos with your digital twin, and localize existing videos into 175+ languages with voice cloning and lip-sync.",
+  "author": {
+    "name": "HeyGen",
+    "email": "developers@heygen.com"
+  },
+  "publisher": "HeyGen",
+  "homepage": "https://heygen.com",
+  "repository": "https://github.com/heygen-com/skills",
+  "license": "MIT",
+  "logo": "assets/logo.png",
+  "category": "developer-tools",
+  "keywords": [
+    "heygen",
+    "avatar",
+    "identity",
+    "video",
+    "digital-twin",
+    "video-message",
+    "presenter",
+    "talking-head",
+    "ai-avatar",
+    "avatar-video",
+    "translate",
+    "dub",
+    "localization",
+    "voice-cloning",
+    "lip-sync"
+  ],
+  "tags": ["video", "avatar", "ai", "identity", "presenter", "creative", "translation", "localization"],
+  "skills": ["./heygen-avatar/", "./heygen-video/", "./heygen-translate/"]
+}

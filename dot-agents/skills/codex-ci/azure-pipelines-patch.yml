@@ -1,0 +1,44 @@
+# Add this job block to ~/projects/figma-4-all/azure-pipelines.yml
+# Insert BEFORE the "plugin_observability" job (line ~86)
+#
+# Requires: FOUNDRY-API-KEY variable linked from Azure Key Vault (kv-seekapa-apps)
+#
+# To apply: manually paste this block into azure-pipelines.yml,
+# or temporarily disable protect-infra.sh hook and re-run /codex-ci
+
+  - job: codex_ci_review
+    displayName: AI Code Review (Codex via Azure Foundry)
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+    steps:
+    - checkout: self
+
+    - bash: |
+        curl -fsSL https://bun.sh/install | bash
+        echo "##vso[task.prependpath]$HOME/.bun/bin"
+      displayName: Install Bun
+
+    - bash: bun install
+      displayName: Install dependencies
+
+    - bash: npm install -g @openai/codex-cli
+      displayName: Install Codex CLI
+
+    - bash: |
+        git diff origin/main...HEAD > /tmp/pr-diff.txt
+        export OPENAI_API_KEY=$(FOUNDRY_API_KEY)
+        export OPENAI_BASE_URL="https://brn-azai.openai.azure.com/openai/v1"
+        codex exec "Review this PR diff for bugs, security, performance, test gaps. \
+          ES2017 constraints. No optional chaining, nullish coalescing, async iterators. \
+          Format each finding as: BLOCKING|SUGGESTION|NITPICK [file:line] description. \
+          $(cat /tmp/pr-diff.txt)" --safety full 2>&1 | tee codex-review.md
+      displayName: Codex AI Review
+      env:
+        FOUNDRY_API_KEY: $(FOUNDRY-API-KEY)
+
+    - task: PublishPipelineArtifact@1
+      displayName: Publish Codex review
+      condition: always()
+      inputs:
+        targetPath: codex-review.md
+        artifact: codex-review
+        publishLocation: pipeline

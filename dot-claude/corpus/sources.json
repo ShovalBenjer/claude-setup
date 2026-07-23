@@ -1,0 +1,42 @@
+[
+  {
+    "id": "google-eng-practices",
+    "title": "Google Engineering Practices Documentation",
+    "url": "https://google.github.io/eng-practices/",
+    "license": "CC-BY-3.0",
+    "allowed_use": "index_and_summarize_with_attribution",
+    "freshness": "foundational"
+  },
+  {
+    "id": "google-swe-book",
+    "title": "Software Engineering at Google",
+    "url": "https://abseil.io/resources/swe-book/html/toc.html",
+    "license": "CC-BY-NC-ND-4.0",
+    "allowed_use": "index_for_private_reference_no_derivatives_or_republication",
+    "freshness": "foundational"
+  },
+  {
+    "id": "azure-well-architected",
+    "title": "Azure Well-Architected Framework",
+    "url": "https://learn.microsoft.com/en-us/azure/well-architected/",
+    "license": "Microsoft Learn terms",
+    "allowed_use": "index_and_summarize_with_attribution",
+    "freshness": "current"
+  },
+  {
+    "id": "openssf-best-practices",
+    "title": "OpenSSF Best Practices Working Group",
+    "url": "https://best.openssf.org/",
+    "license": "OpenSSF public materials",
+    "allowed_use": "index_and_summarize_with_attribution",
+    "freshness": "current"
+  },
+  {
+    "id": "local-shoval-docs",
+    "title": "Shoval local research and project docs",
+    "path": "/home/shovalbe/docs",
+    "license": "private local workspace",
+    "allowed_use": "private_index_only",
+    "freshness": "local"
+  }
+]

@@ -1,7 +1,7 @@
 ---
 name: dispatch
 description: Sync agent-to-agent dispatch from Claude orchestrator to a registered peer (Codex executor on gpt-5.5, Foundry agents seekapa/AxiaCS, future bridges). Triggers on /dispatch, "ask seekapa", "have AxiaCS check", "send to codex for review", "second-opinion from gpt-5.5". Default timeout 60s, sync only in v1, one peer per call. Logs every call to ~/.claude/cache/a2a/audit.jsonl.
-model: claude-sonnet-4-6
+model: sonnet
 allowed-tools: ["Bash($HOME/.claude/bin/a2a-codex-call.sh *)", "Bash($HOME/.claude/bin/a2a-foundry-call.py *)", "Bash($HOME/.claude/bin/a2a-audit.py *)"]
 ---
 

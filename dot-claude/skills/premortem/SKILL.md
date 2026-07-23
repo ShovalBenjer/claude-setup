@@ -1,7 +1,7 @@
 ---
 name: premortem
 description: Force a 5-failure-mode section into any /plan output before code is written. Triggers on "/plan", "/premortem", "let's design", "before we build", "design X", or whenever the user explicitly asks for a plan. This skill enforces the PREMORTEM axis of Shoval's forge loop (currently scoring near zero in the weekly a09 audit). Use it as the gating step between /reground and TDD.
-model: claude-sonnet-4-6
+model: sonnet
 ---
 
 # Premortem — 5 failure modes before code

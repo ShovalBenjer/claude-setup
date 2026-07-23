@@ -1,7 +1,7 @@
 ---
 name: codex-call
 description: Bridge Claude → Codex CLI for review, eval, automation, and any work where gpt-5.5 with explicit reasoning effort fits better than Claude. Use for /review on a PR or branch, batch test generation, codex automation prompts, second opinions from a different model family, or when Claude is the orchestrator and Codex should be the executor. Triggers on "/review", "ask codex", "have codex do it", "codex review", "/codex".
-model: claude-sonnet-4-6
+model: sonnet
 allowed-tools: ["Bash(/home/shovalbe/.local/bin/codex *)", "Bash($HOME/.codex/automations/run-codex-automation.sh *)"]
 ---
 
@@ -65,7 +65,7 @@ codex resume --last     # continue the most recent
 | Concrete review of a single PR/branch | `codex review` |
 | Boilerplate test gen, single-file refactor | `codex exec` with effort=medium |
 | Architecture review, multi-domain critique | Claude Opus + `codex review` (both, compare) |
-| Cheap parallel exploration | Claude subagents at `model: claude-haiku-4-5-20251001` |
+| Cheap parallel exploration | Claude subagents at `model: haiku` |
 | Scheduled night automations | Codex via `run-codex-automation.sh` (cron-driven) |
 | Multi-model debate / second opinion | Claude (one perspective) + Codex (another) — compare outputs |
 
