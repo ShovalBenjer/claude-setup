@@ -1,6 +1,14 @@
-# ADR-0007 — Codex is an independent reviewer, not an executor
+# ADR-0007 — Second reviewer = free different-family models (Codex removed)
 
-Status: Accepted (2026-07-23; supersedes the "Codex is the executor" global rule)
+Status: Amended (2026-07-23 PM): Codex subscription is being cancelled. The
+decorrelated-second-reviewer role moves to FREE, different-family models — Gemini
+(AI Studio free tier) as primary, OpenRouter/Groq free tiers (DeepSeek/Llama) for a
+third voice. Models are interchangeable ACTORS assigned to model-agnostic personas
+(see persona-review-economy spec), never hardcoded to a role. Original Codex-as-
+reviewer decision below, kept for history.
+
+---
+## Original (Codex as reviewer, not executor)
 
 ## Context
 The global CLAUDE.md said "Codex is the executor (gpt-5.5); Claude is the

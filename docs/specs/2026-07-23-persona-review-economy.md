@@ -23,37 +23,67 @@ Verification). Reputation is only real if its signal is external (ADR-0008). So 
 market is: many single-aspect reviewers, each contracted, each scored by ground
 truth, allocated by Thompson sampling.
 
+## Three-way separation (personas are NOT bound to models)
+The load-bearing design decision: **a persona is a model-agnostic ROLE, not a model.**
+Three independent things:
+1. **PR type** — what kind of change this is (frontend / data-pipeline / infra / CI /
+   docs / security-sensitive). Determines WHICH personas activate.
+2. **Persona** — a review ROLE/LENS: an aspect + scope + prompt + reputation. Owns the
+   WHAT. Any model can enact it. Never names a model.
+3. **Model** — an interchangeable ACTOR (Claude, Gemini free, DeepSeek/OpenRouter free,
+   local SLM) assigned to enact a persona at review time. Owns the HOW. Swappable.
+
+So "security-reviewer" is a persona that Claude enacts on one PR and Gemini on the next;
+you never hardcode "Gemini = the security guy." Model diversity (ADR-0004 decorrelation)
+is achieved by ASSIGNING DIFFERENT MODELS to the activated personas per PR, not by
+baking a model into a persona.
+
 ## Entities
 
-### Persona contract (one YAML per persona under dot-claude/personas/)
+### Persona contract (model-agnostic; one YAML per persona under dot-claude/personas/)
 ```
 id: reviewer-boundary-contracts
-aspect: boundary            # single aspect: correctness|security|boundary|simplicity|perf|slop|tests
-model: sonnet               # or codex via a2a (model diversity is required, not optional)
+aspect: boundary            # single aspect: correctness|security|boundary|simplicity|perf|slop|tests|a11y
+applies_to_pr_types: [data-pipeline, infra, backend]   # which PR types activate this lens
 scope: "IO edges, proxies, (de)serialization, typed DTOs"
+prompt_ref: prompts/boundary.md    # the lens; NO model named anywhere
 allowed_tools: [read, grep, gh-pr-diff]
 forbidden: [approve_own, write, deploy]
 output_schema: {verdict, findings:[{severity,file,line,claim,evidence,fix}]}
-probation: true             # new recruit; not fire-eligible until N>=20 scored findings
+probation: true             # not fire-eligible until N>=20 scored findings
 status: active              # active|pip|fired
 ```
 
-### Reputation record (SQLite, one row per persona, updated by the fast loop)
+### Two reputation records (persona reputation and model reputation are SEPARATE)
+Separating them answers "is the ROLE wrong or is the ACTOR weak?"
 ```
-persona_id | n_findings | confirmed | dismissed | escaped_defects
-           | precision (confirmed/(confirmed+dismissed))
-           | escape_rate (escaped/reviewed_prs)
-           | reputation (Beta posterior mean, see below) | last_updated
+persona_rep:  persona_id | confirmed | dismissed | escaped | precision | reputation
+model_rep:    model_id   | confirmed | dismissed | escaped | precision | reputation
+pair_rep:     (persona_id, model_id) | ...   # optional: is Gemini-as-security good?
 ```
+A persona with a bad prompt gets PIP'd (fix the LENS). A model that reviews weakly gets
+down-weighted (used less), independent of any persona.
 
 ## Mechanics
 
-### 1. Allocation (fast loop) — Thompson over personas
-For each PR, per aspect, sample each candidate persona's reputation from its
-Beta(confirmed+1, dismissed+1) posterior; allocate the review to samples above a
-floor. High performers get first pass probabilistically; low-volume/new personas
-still get exploration draws (Thompson handles the explore/exploit tradeoff with no
-hand-set epsilon). "Constantly marketed" = the digest shows the current leaderboard.
+### 0. PR-type routing (which personas activate)
+On PR open/push, classify the PR type from cheap signals — changed file paths/ext
+(.tsx -> frontend; pipeline dirs -> data; .github/workflows -> CI; Dockerfile/bicep ->
+infra), blast-radius width (tools/graph/blast_radius.py), diff size, secret-adjacent
+patterns. The type selects the persona set via `applies_to_pr_types`. Only relevant
+lenses run (less cost, less noise). A frontend PR gets {a11y, ui-consistency,
+correctness}; a data-pipeline PR gets {boundary, correctness, security}.
+
+### 1. Model assignment + allocation (fast loop)
+Two-stage, keeping persona and model separate:
+- **Persona allocation** — Thompson over the ACTIVATED personas' `persona_rep`
+  posteriors (Beta(confirmed+1, dismissed+1)); exploration draws keep new lenses alive.
+- **Model assignment** — assign an interchangeable model to each chosen persona,
+  weighted by `model_rep`, with a hard DECORRELATION constraint: the personas whose
+  findings will be compared in the agreement gate MUST be enacted by DIFFERENT model
+  families (Claude vs Gemini vs DeepSeek). Same-model pairs don't count as independent
+  (ADR-0004/0008). Free models (Gemini/OpenRouter free tiers) are first-class actors.
+"Constantly marketed" = the digest shows both leaderboards (top personas, top models).
 
 ### 2. Scoring (ADR-0008) — external ground truth only
 On every posted finding, the operator's accept/dismiss is captured (a reaction or a
