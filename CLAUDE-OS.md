@@ -158,6 +158,62 @@ Forge Loop, local-intent-control-plane, orchestration-rewire.
 
 ---
 
+## 2b. Deep Work Protocol (the answer to "partial and shallow")
+
+Grounded in the July-2026 literature sweep (sources in docs/research
+appendix; key: METR time-horizons, arXiv 2509.09677 self-conditioning, ACL 2026
+"Illusion of Insight", debate-martingale results, LLM homogenization studies,
+Verbalized Sampling 2510.01171, Antislop ICLR 2026, MAST NeurIPS 2025, Anthropic
+long-running-harness + context-engineering posts). Four findings drive everything:
+(1) long-task failure is EXECUTION failure — a model seeing its own errors in
+context errs more (self-conditioning); (2) visible self-reflection is mostly
+theater — only external checks deepen output; (3) same-context ensembles/debate
+cannot exceed their correlated-error floor — value requires information asymmetry;
+(4) homogenization ("AI slop") is measured and prompt-resistant — organic feel
+requires distribution-eliciting generation + human taste curation + slop gates.
+
+The protocol — every rule has a native mechanism and a stick (nothing is advisory):
+
+| # | Rule | Native mechanism | Sticks via |
+|---|---|---|---|
+| 1 | Spec-as-spine: no substantive build without spec + acceptance table; every turn re-anchored | Plan mode → docs/prd; UserPromptSubmit hook injects active-spec pointer | hook + docs-control-plane rule |
+| 2 | Fresh-context resumption: thrashed session → write handoff, restart from artifacts; never continue polluted context | Stop/PreCompact hook writes handoff (goal/phase/decisions/evidence/next); progress files + git as sole carry-over | hook file + progress artifacts in repo |
+| 3 | External verifiers at every boundary; model self-review only as fresh-context subagent seeing diff+spec, never the transcript | PostToolUse test hooks; /verify, /run; workflow verify stages | hooks + production-means-smoked rule |
+| 4 | HTN-lite: every subgoal carries a postcondition + check command; failed postcondition replans that subgoal only | Plan-mode template; TaskCreate metadata `postcondition` | task-bus convention + planning skill |
+| 5 | Wide-then-curate for anything with taste: 5 candidates with verbalized conventionality probabilities; Shoval picks; pick + reason appended to taste corpus | AskUserQuestion with previews; `docs/taste.md` injected into creative tasks | creative-brief skill + taste.md file |
+| 6 | Defixation: name the obvious/default solution and forbid it first; anchor vocabulary to excavated real artifacts | creative-brief skill (encodes excavate-before-building) | skill + memory rule |
+| 7 | Slop lint as a GATE on prose deliverables (banned lexicon, rule-of-three, symmetric bullets, stock phrases) | Stop-hook / review pass; humanize + shoval-voice as gates | hook, not suggestion |
+| 8 | Fanout for breadth with designed information asymmetry (disjoint evidence/roles); depth stays in ONE context, 1M model when the working set demands | Agent tool + Workflow; /model [1m] escalation | hive-mind rule + L3 admission criteria |
+| 9 | Typed memory: decisions / episodes / procedures / taste — not one blob; weekly reflection distills episodes into procedures | auto-memory dir structure; curator cron | memory taxonomy + cron |
+| 10 | Compaction never decides what survives: mandated handoff schema written first | PreCompact hook | hook file |
+| 11 | Long horizon = the LOOP, not the session: cron-driven bounded runs over durable artifacts (feature-list, progress file, one advance per run, commit) | CronCreate / /schedule; initializer+coder pattern | cron jobs + artifacts |
+| 12 | Aspect-split verification: parallel single-aspect verifiers (correctness, security, contract, simplicity, slop), binary verdict + evidence each | Workflow pipeline templates | .claude/workflows in repo |
+
+Cross-cutting: depth is ENFORCED by structure (hooks, gates, files, crons), never
+REQUESTED from the model. A "please think deeply" prompt is the canonical anti-pattern.
+
+## 2c. Native-feature map (layer by layer, with stick mechanism)
+
+| Native feature | Layer(s) | Use | Sticks via |
+|---|---|---|---|
+| Hooks (UserPromptSubmit/PreToolUse/PostToolUse/Stop/PreCompact/SessionStart/Notification) | L0,L2,L4,L5 | kernel gates, recall, toasts, verifiers | dot-claude/hooks + settings.json (this repo, deployed) |
+| Skills (frontmatter auto-invocation) | L0,L5,L8 | creative-brief, review aspects, voice gates | dot-claude/skills, owned per persona |
+| Plan mode + plan files | L0 | spec-as-spine entry | plansDirectory + prd tables |
+| Task bus (TaskCreate/Update, deps, metadata) | L0,L2,L3 | acceptance checklists, postconditions, cross-session state | task conventions in CLAUDE.md rule |
+| Workflows / ultracode | L0,L5 | loop-until-dry, adversarial verify, aspect panels | .claude/workflows templates |
+| Subagents (Explore/general/custom, worktree isolation) | L3,L5 | asymmetric fanout, fresh-eyes review | admission criteria rule |
+| CronCreate (local) + /schedule (cloud) + /loop | L3,L4,L5 | daily digest, PR watcher, curator, self-improvement | registered jobs (re-bootstrap weekly) |
+| Monitor + background tasks | L4 | gws reply watcher, CI watches | armed per session by convention |
+| PushNotification + Notification hook toast | L4 | approvals rail (verified 2026-07-22) | settings.json hook |
+| Remote Control + phone app | L3,L4 | concierge front door, approval from phone | remoteControlAtStartup + convention |
+| Memory (auto-memory dir + MEMORY.md) | L2 | typed memory taxonomy | memory files + curator cron |
+| CLAUDE.md hierarchy + .claude/rules | L1 | governance, authority order | this repo's dot-claude deployed |
+| MCP (lazy, per-session) | L4 | gws, playwright, onesignal (dormant) | mcp-activation skill; default-off |
+| GitHub Actions claude-code-action | L5 | always-fresh PR review, 22 repos | .github/workflows in each repo (rolled out 2026-07-23) |
+| /model + effort + [1m] | L3,L8 | depth escalation for coupled design work | model-selection rule |
+| AskUserQuestion previews | L0 | wide-then-curate picks | creative-brief skill |
+| SendUserFile / DesignSync | L4 | artifact delivery | per-task |
+
 ## 3. Build Sequence
 
 - **P0 (now):** repo relocation ✅; July-state sync ✅; this document ✅; governance
@@ -185,6 +241,8 @@ Forge Loop, local-intent-control-plane, orchestration-rewire.
 | 10 | Scheduler topology consolidated; WSL systemd retired | TODO |
 | 11 | Skills estate fully owned/merged/archived | TODO |
 | 12 | Weekly self-improvement loop running | TODO |
+| 13 | Always-fresh PR review workflow on every source repo | DONE 2026-07-23 (22 repos; ANTHROPIC_API_KEY secret pending Shoval) |
+| 14 | Deep Work Protocol hooks live (spec-anchor, handoff, slop gate, postconditions) | TODO (P1) |
 
 ## 5. Supersession table
 
