@@ -22,6 +22,7 @@ Generated-from-docs wiki spine (docs-control-plane rule). One PRD, one TODO, one
 - [0006](adr/0006-one-scheduler-topology.md) — native cron + cloud routines; WSL systemd retired
 - [0007](adr/0007-codex-reviewer-only.md) — Codex is reviewer, not executor
 - [0008](adr/0008-reputation-from-external-truth-only.md) — reputation from external truth only
+- [0009](adr/0009-slm-swarm-asymmetric-leaf-executors.md) — SLM swarm = asymmetric leaf executors + trace flywheel
 
 ## Analysis (point-in-time; inputs to TODO)
 - Research digests (harness depth, PR-review, MCP, IVR sensors) — sourced in agent runs
