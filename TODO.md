@@ -5,8 +5,9 @@ docs/prd/claude-os.md and docs/prd/autonomy-ecosystem.md. Fresh session? Read
 docs/SESSION-BOOT.md first.
 
 ## AUTO — Autonomy Ecosystem (prd/autonomy-ecosystem.md, spec 2026-07-24)
-- [x] ADR-0010..0014 + PRD + spec + charters + SESSION-BOOT + lessons ledger (AUTO-01/02/03/08/13/16 seed) — 2026-07-24
-- [x] PreCompact handoff hook wired + pipe-tested (AUTO-02)
+- [x] ADR-0010..0015 + PRD + spec + charters + SESSION-BOOT + lessons ledger (AUTO-03/08/13/16 seed) — 2026-07-24
+- [ ] AUTO-01/02 hook fire-proof: confirm `state/hook-fires.log` gains a harness-written SessionStart line (new session) + PreCompact line (real /compact). Interpreter/path bug fixed 2026-07-24 (L011); status STAGED until the log shows it
+- [ ] DECIDE: live `~/.claude/settings.json` has 4 hook events; canonical `dot-claude/settings.json` carries 6 incl. the work enforcement layer (PreToolUse protect-infra/rtk-bash-guard, Stop stop-checklist/verification-before-completion/contract-proof-stop, PostToolUse skill-usage-logger). Adopt selectively — these are the checks that would have caught L003/L009 mechanically
 - [x] Nightly autonomy pilot workflow on claude-setup (AUTO-07) — first scheduled run pending
 - [ ] ecosystem.db bootstrap from intent-control-plane schema + tools/eco/db.py (AUTO-06) ← unblocks work-claims (AUTO-04) + FleetView (AUTO-19)
 - [ ] RC concierge pattern test: durable lane-A session + intake flow (AUTO-05)

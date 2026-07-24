@@ -9,3 +9,22 @@
 a822100 feat(review): free Gemini 2nd-model reviewer (replaces Codex, ADR-0007)
 986b808 feat: self-improvement engine + anti-convergence + FleetView spec
 ```
+## compact 2026-07-24 21:03
+```
+## main...origin/main
+?? state/hook-fires.log
+44fb961 feat(models): Opus 5 as lead default; Fable exceptional-only (ADR-0015)
+fb9e6cf feat(calibration): calibrated-claims rule + kernel-anchor v2 + L009
+9a4f7bc fix(autonomy): close 26 adversarial-review findings on the plan
+```
+## compact 2026-07-24 21:05
+```
+## main...origin/main
+ M docs/prd/autonomy-ecosystem.md
+ M dot-claude/hooks/kernel-anchor.sh
+ M dot-claude/hooks/precompact-handoff.sh
+ M dot-claude/hooks/session-recall.sh
+44fb961 feat(models): Opus 5 as lead default; Fable exceptional-only (ADR-0015)
+fb9e6cf feat(calibration): calibrated-claims rule + kernel-anchor v2 + L009
+9a4f7bc fix(autonomy): close 26 adversarial-review findings on the plan
+```

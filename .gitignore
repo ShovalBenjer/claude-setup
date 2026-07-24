@@ -9,3 +9,4 @@ __pycache__/
 .DS_Store
 tools/local/flywheel/router_decisions.jsonl
 tools/selfimprove/proposals.jsonl
+state/hook-fires.log

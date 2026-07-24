@@ -7,6 +7,10 @@ set -uo pipefail
 OS_DIR="${CLAUDE_OS_DIR:-$HOME/claude-setup}"
 todo="$OS_DIR/TODO.md"
 
+# Fire-log (L011): durable proof the injection actually reached the harness.
+printf '%s\tUserPromptSubmit\n' "$(date '+%Y-%m-%dT%H:%M:%S')" \
+  >> "$OS_DIR/state/hook-fires.log" 2>/dev/null || true
+
 active=""
 if [ -f "$todo" ]; then
   # first unchecked item under the first "## P" (priority) section

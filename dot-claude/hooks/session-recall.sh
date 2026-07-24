@@ -7,6 +7,11 @@
 set -uo pipefail
 INPUT="$(cat 2>/dev/null || true)"
 
+# Fire-log (L011): durable proof the hook ran INSIDE the harness, not just in a pipe test.
+# A hook that is "wired" but never fires is prose, not enforcement (ADR-0005).
+printf '%s\tSessionStart\t%s\n' "$(date '+%Y-%m-%dT%H:%M:%S')" "$(printf '%s' "$INPUT" | tr -d '\n' | cut -c1-100)" \
+  >> "${CLAUDE_OS_DIR:-$HOME/claude-setup}/state/hook-fires.log" 2>/dev/null || true
+
 # Silent only during real automation (overnight loop / Codex run). Interactive fires.
 if [ -n "${CLAUDE_LOOP_MODE:-}" ] || [ -n "${CODEX_AUTOMATION_ID:-}" ]; then
   echo '{}'; exit 0

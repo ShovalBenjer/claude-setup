@@ -5,6 +5,9 @@ set +e
 OS_DIR="$HOME/claude-setup"
 LOG="$OS_DIR/state/compact-log.md"
 mkdir -p "$OS_DIR/state" 2>/dev/null
+# Fire-log (L011): durable proof the hook ran inside the harness.
+printf '%s\tPreCompact\n' "$(date '+%Y-%m-%dT%H:%M:%S')" \
+  >> "$OS_DIR/state/hook-fires.log" 2>/dev/null || true
 {
   echo "## compact $(date '+%Y-%m-%d %H:%M')"
   echo '```'
