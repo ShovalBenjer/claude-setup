@@ -36,6 +36,7 @@ Generated-from-docs wiki spine (docs-control-plane rule). One TODO, one INDEX.
 - [0012](adr/0012-autonomy-ships-only-via-pr-gate.md) — autonomy ships only via PR gate
 - [0013](adr/0013-session-topology-concierge-plus-lanes.md) — concierge + three chartered lanes
 - [0014](adr/0014-social-publish-draft-first-hard-gate.md) — social publish behind phone-approval gate
+- [0015](adr/0015-opus5-default-fable-exceptional.md) — Opus 5 is the lead default; Fable exceptional-only (out-of-Fable-credits fix, 2026-07-24)
 
 ## Analysis (point-in-time; inputs to TODO)
 - [analysis/2026-07-24-work-archive-import.md](analysis/2026-07-24-work-archive-import.md) — full work-setup import inventory.

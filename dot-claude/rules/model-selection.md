@@ -1,27 +1,31 @@
 # Claude Model Selection
 
-## Default
+## Default (Opus 5 era — updated 2026-07-24, ADR-0015)
 
-- Use `claude-sonnet-5` as the global Claude Code default. This avoids the stale TUI picker label and keeps normal sessions off expensive Opus/Fable unless the task needs them.
-- Keep adaptive thinking globally disabled with `CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1`. Use explicit effort/model choices per task instead of global adaptive behavior.
-- Use `/effort ultracode` for substantive work so Claude writes dynamic workflows instead of only chatting through a plan.
-- Treat Sonnet 5 as the everyday execution model for coding, analysis, and most agent work.
-- Treat Opus as the orchestrator when the task is broad enough to justify it: decomposition, parallel fanout, subagent assignment, review, synthesis, and escalation decisions.
-- Escalate the lead to `/model claude-opus-4-8[1m]` only when the work needs a large shared context window.
-- Let workflow phases choose models dynamically: Sonnet 5 for default implementation and structured analysis, Opus for orchestration and synthesis, Haiku for cheap scans and summarization, Fable only for unusually hard long-horizon work.
+- **Lead default is `opus` (= Opus 5).** Opus 5 lands within 0.5% of Fable 5's peak at HALF the cost per task ($5/$25, same as Opus 4.8), and is the Claude Max default. For work that wants near-frontier quality, Opus 5 is the cost-effective way to get it — roughly double the runway of Fable. Set in `~/.claude/settings.json` as `"model": "opus"`.
+- **Fable is now exceptional-only, not the hard-work default.** Reserve `fable` for the single genuinely hardest long-horizon thread where the last 0.5% changes the outcome AND budget allows. Defaulting hard work to Fable is what burned the token budget; Opus 5 is the replacement. (`best` alias = Fable where the org has it, else latest Opus.)
+- **Workers stay cheap: `CLAUDE_CODE_SUBAGENT_MODEL=claude-sonnet-5`.** Fan-out subagents must not inherit the Opus 5 lead — set this env var (now live) so a workflow spawning 5 agents costs Sonnet, not Opus. Haiku for inventory/scan workers.
+- Keep adaptive thinking disabled (`CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1`); choose effort explicitly. Persist `effortLevel: xhigh` + `ultracode: true` (Opus 5 supports low/medium/high/xhigh/max). `/effort ultracode` is the session-only orchestration mode; `effortLevel` cannot store the literal `ultracode`.
+- `opus[1m]` selects the 1M-context Opus 5 variant. NOTE: `CLAUDE_CODE_DISABLE_1M_CONTEXT=1` is currently set (deliberate cost control), so 1M is OFF and the `[1m]` suffix is moot until that env var is removed. Re-enable only when a task genuinely needs the large window and the per-turn cost is acceptable.
+- Let workflow phases choose models dynamically: Sonnet 5 for default implementation and structured analysis, Opus 5 for the lead/orchestration/synthesis, Haiku for cheap scans, Fable only for the rare hardest thread.
+- Mythos 5 sits above Fable (cybersecurity/exploit tiers, approved orgs only) — not a coding-work option here.
 - Runtime agents from Foundry/OpenAI/HeyGen/ElevenLabs are not model choices for coding work. Use them only through Runtime Agents Division or Voice and Media Studio for runtime/eval/media tasks.
 - Keep first-party Claude routing unless the user explicitly asks for Z.ai fallback.
 - Spawned subagents default to `claude-sonnet-5`. Override deliberately: Haiku for inventory/summarization, Opus for high-risk review/synthesis, Fable only for one hard lead thread.
 - Never fork or paste the full transcript into subagents. Give each worker a compact context pack: goal, files/commands allowed, evidence required, write scope, stop condition, and how results will be verified.
 
-## Current Aliases
+## Current Aliases (Claude Code built-in, verified vs model-config doc 2026-07-24)
 
-- `fable` -> `claude-fable-5`: hardest, longest-running, ambiguous investigations.
-- `opus` -> `claude-opus-4-8`: orchestration, architecture, subagent fanout, review, synthesis, high-autonomy coding.
-- `sonnet` -> `claude-sonnet-5`: daily coding and implementation.
-- `haiku` -> `claude-haiku-4-5`: fast/simple edits, summarization, cheap parallel work.
-- Shell launchers in `~/.local/bin`: `fable`, `sonnet5`, `opus48`, `haiku45`.
-- Persistent default switches: `claude-provider fable`, `claude-provider sonnet5`, `claude-provider opus48`, `claude-provider haiku45`, `claude-provider claude`.
+- `opus` -> **Opus 5** (latest Opus): the lead/default. Near-Fable quality, half the cost.
+- `opus[1m]` -> Opus 5 with 1M context (moot while `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`).
+- `fable` -> `claude-fable-5`: the rare hardest thread only (budget-gated; often exhausted).
+- `best` -> Fable 5 where available, else latest Opus. `default` -> account/org recommended.
+- `sonnet` -> `claude-sonnet-5`: daily coding, implementation, and the subagent default.
+- `haiku` -> latest Haiku: fast/simple edits, summarization, cheap parallel scans.
+- `opusplan` -> Opus during plan mode, Sonnet for execution (cost-aware plan/build split).
+- Aliases auto-track the newest version of each family, so `opus` follows Opus forward.
+- Legacy shell launchers in `~/.local/bin` (`fable`, `sonnet5`, `opus48`, `haiku45`) still
+  pin their exact IDs; `opus48` = Opus 4.8 specifically, distinct from the `opus`=Opus 5 alias.
 
 ## Usage
 
