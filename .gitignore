@@ -8,3 +8,4 @@ __pycache__/
 *.lnk
 .DS_Store
 tools/local/flywheel/router_decisions.jsonl
+tools/selfimprove/proposals.jsonl

@@ -40,11 +40,11 @@ not a coordinator.
 | 1 | claude-setup = canonical OS repo, relocated, July state, pushed | L1/L6 | DONE 2026-07-23 | commit 146cb7b; github.com/ShovalBenjer/claude-setup |
 | 2 | CLAUDE-OS.md single source of truth, supersedes all prior plans | L0 | DONE | CLAUDE-OS.md §5 supersession table |
 | 3 | Notification fabric: phone push + desktop toast verified | L4 | DONE 2026-07-22 | push test #4 landed; notify-toast.ps1 hook |
-| 4 | Always-fresh PR review workflow on every source repo | L5 | DONE 2026-07-23 (auth pending) | 22 repos; workflow live; run 29974489357 failed only at missing OAuth secret |
+| 4 | Always-fresh PR review workflow on every source repo | L5 | DONE 2026-07-23 (auth pending) | 22 repos; OAuth token SET on all 22 (2026-07-23); live review PROVEN on PR #2 (4/4 seeds caught) |
 | 5 | Deep Work Protocol hooks (spec-anchor, handoff, slop gate, postconditions, RTK guard) | L0 | TODO | — |
 | 6 | Daily digest push from cron | L4 | TODO | tools/digest/ scaffold on test branch |
 | 7 | SessionStart recall injects digest + skills (Windows paths) | L2 | TODO | — |
-| 8 | a2a ⇄ GitHub PR review, agreement-gated, provenance + audit | L5 | TODO | — |
+| 8 | Multi-model agreement-gated review, provenance + audit | L5 | PARTIAL | Claude-only proven (PR #2); 2nd model = free Gemini (Codex removed, ADR-0007); agreement gate pending |
 | 9 | WhatsApp copilot: triage + style drafts + coaching retro | L2/L4 | TODO (scope granted) | tools/whatsapp readers proven |
 | 10 | Learning-card emitter → הסדנה queue | L8 | TODO | — |
 | 11 | Scheduler topology consolidated; WSL systemd retired | L3/L7 | TODO | — |
