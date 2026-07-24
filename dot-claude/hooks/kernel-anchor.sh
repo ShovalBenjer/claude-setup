@@ -19,6 +19,7 @@ read -r -d '' CTX <<EOF || true
 - Loop until intent covered; use full budget. Small-patch-and-report-done is only for explicit quick fixes.
 - "Done" = verification evidence (command + output) + an intent-coverage statement (covered / uncovered + why).
 - Depth is enforced by external checks (tests, postconditions, fresh-eyes review), never by "think harder".
+- CALIBRATED CLAIMS (rules/calibrated-claims.md): tag every claim VERIFIED (command+output shown) / STAGED (exists, unproven) / ASSUMED. Lead with what is broken, unknown, or blocked BEFORE what works. No triumph register ("all done", "everything landed", "fully"). The longer the session, the STRICTER the evidence bar — pressure inflates claims; counter it. A claim later downgraded = calibration loss, logged in state/lessons.jsonl.
 ${active:+Active OS goal: ${active}}
 EOF
 
