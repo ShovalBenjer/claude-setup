@@ -15,25 +15,31 @@ One TODO, grouped by layer, ticket-tagged (SETUP-OS). Status mirrors docs/prd/cl
 - [x] Daily digest generator over live state + cron 7:03 (#6 partial: needs always-on / Task Scheduler)
 
 ## P0 — Truth & hygiene (L1/L7)
-- [ ] Rotate API key found in תזכורת לעצמי group (operator)
+- [x] Authorize OAuth token; distribute to 22 repos (#4) — DONE 2026-07-23 (root cause: was stripping #state)
+- [ ] Rotate API key still in תזכורת לעצמי group (operator) — Account id + cfat_ token still visible
 - [ ] Global default model fable[1m] → sonnet per model-selection (operator OK)
-- [ ] Update global CLAUDE.md "Codex is executor" line → reviewer-only (ADR-0007)
-- [ ] Purge WSL-era paths in /cdp, reground, session-recall docs
-- [ ] Authorize subscription OAuth token; distribute secret to 22 repos (#4)
+- [ ] Update global CLAUDE.md "Codex is executor" line (ADR-0007 amended: Codex REMOVED)
+- [ ] Purge WSL-era paths in /cdp, reground docs
+- [ ] Catch docs up to reality: PRD #4 done, #8 partial, ADR-0007 Codex-out
 
 ## P1 — Deep Work Protocol hooks (L0) + digest (L4)
 - [x] SessionStart recall rewired Windows-native (P1.1, deployed+wired)
 - [x] Reflex router + flywheel S1 logger, PII-safe (P1.2, SLM #2)
 - [x] /slop gate command (P1.5, deployed)
-- [ ] handoff-on-stop, postcondition metadata (#5 remainder)
-- [ ] RTK bash guard hook (efficiency; was WSL-era, re-wire Windows)
 - [x] Memory + web write pipe (P1.3, #14) - real card written + recalled
-- [ ] Daily digest push from cron (#6, generator+cron done, needs always-on)
+- [x] Blast-radius grapher (P1.4, #16)
+- [ ] handoff-on-stop, postcondition metadata (#5 remainder)
+- [ ] RTK bash guard hook — blocked: rtk binary MISSING on Windows
+- [ ] Daily digest push from cron (#6, generator+cron done, needs always-on Task Scheduler)
 
 ## P2 — Review fabric (L5)
-- [ ] Run live two-Claudes review on test PR #1 (seed for persona economy)
-- [ ] a2a ⇄ GitHub agreement-gated review + provenance + audit (#8)
-- [ ] Persona review economy build (#19) — per spec
+- [x] Live review demonstrated: PR #2, GitHub-Claude caught 4/4 seeded defects + 2 bonus; session-Claude replied (two-Claude loop)
+- [ ] Second model = FREE Gemini (AI Studio) replaces Codex; wire a2a-gemini bridge + gemini-review workflow (needs free key)
+- [ ] a2a ⇄ GitHub agreement-gated review + provenance + audit (#8) — needs Gemini actor
+- [ ] Persona review economy build (#19) — model-agnostic personas; PR-type routing; two reputation axes (persona + model)
+
+## P-DASH — Dashboard / multi-session (NEW, from WhatsApp compare)
+- [ ] Evaluate adopting amirfish1/claude-command-center (MIT) as the missing session-dashboard layer (Kanban, spawn/resume, cost, cross-session) — DO NOT rebuild (excavate-before-building). Windows-native PS install exists; Mac-first, some features degrade.
 
 ## P3 — Orchestration (L3)
 - [ ] Scheduler consolidation; WSL systemd retired (#11); standing personas
