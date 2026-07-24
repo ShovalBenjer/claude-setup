@@ -1,6 +1,20 @@
 # TODO — Claude OS
 
-One TODO, grouped by layer, ticket-tagged (SETUP-OS). Status mirrors docs/prd/claude-os.md.
+One TODO, grouped by layer, ticket-tagged (SETUP-OS + AUTO). Status mirrors
+docs/prd/claude-os.md and docs/prd/autonomy-ecosystem.md. Fresh session? Read
+docs/SESSION-BOOT.md first.
+
+## AUTO — Autonomy Ecosystem (prd/autonomy-ecosystem.md, spec 2026-07-24)
+- [x] ADR-0010..0014 + PRD + spec + charters + SESSION-BOOT + lessons ledger (AUTO-01/02/03/08/13/16 seed) — 2026-07-24
+- [x] PreCompact handoff hook wired + pipe-tested (AUTO-02)
+- [x] Nightly autonomy pilot workflow on claude-setup (AUTO-07) — first scheduled run pending
+- [ ] ecosystem.db bootstrap from intent-control-plane schema + tools/eco/db.py (AUTO-06) ← unblocks work-claims (AUTO-04) + FleetView (AUTO-19)
+- [ ] RC concierge pattern test: durable lane-A session + intake flow (AUTO-05)
+- [ ] Merge-policy labels + auto-merge for auto:low (AUTO-11)
+- [ ] Scale nightly to tier-1 repos after 7 clean days (AUTO-09)
+- [ ] Social: excavate social-media-agent.bundle → draft-first pipeline (AUTO-12/13/14)
+- [ ] Research stage in weekly self-improve cron (AUTO-17)
+- [ ] Reputation routing once runs-table volume (AUTO-20)
 
 ## DONE
 - [x] Repo relocated + July state synced + pushed (SETUP-OS #1)

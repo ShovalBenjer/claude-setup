@@ -1,0 +1,50 @@
+name: Nightly autonomy (pilot, AUTO-07)
+
+# The cloud rail: runs with the laptop off, on the subscription token (ADR-0002).
+# Structural safety (ADR-0012): opens a PR at most; contains NO push-to-main path;
+# skips entirely if 3+ autonomy PRs already open (premortem cap). The existing
+# claude-code-review.yml + gemini-review.yml then review its PR like any other —
+# the autonomy loop is audited by the same fabric it feeds.
+on:
+  schedule:
+    - cron: "17 1 * * *"   # 01:17 UTC nightly
+  workflow_dispatch: {}
+
+concurrency:
+  group: claude-nightly
+  cancel-in-progress: false
+
+jobs:
+  nightly:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with: { fetch-depth: 0 }
+
+      - name: Cap check (max 3 open autonomy PRs)
+        id: cap
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          OPEN=$(gh pr list --label autonomy --state open --json number --jq length || echo 0)
+          echo "open=$OPEN" >> "$GITHUB_OUTPUT"
+          [ "$OPEN" -ge 3 ] && echo "Cap reached ($OPEN); skipping." || true
+
+      - name: Nightly maintenance pass
+        if: ${{ steps.cap.outputs.open < 3 }}
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            You are the nightly autonomy run (AUTO-07, ADR-0012) for this repo.
+            Read TODO.md, tools/selfimprove/proposals.jsonl, and state/lessons.jsonl.
+            Pick ONE low-risk item (docs drift, missing test for a tool, dead code,
+            lint, an open lesson's enforcement artifact). Implement it completely
+            with verification (run the test/tool; include output in the PR body).
+            Create branch auto/nightly-<date>, commit, open ONE pull request labeled
+            'autonomy' with: what/why, evidence, and which proposal/lesson it closes.
+            NEVER push to main. If nothing qualifies, open no PR and stop.
+          claude_args: "--max-turns 40"
