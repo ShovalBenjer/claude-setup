@@ -20,7 +20,7 @@ try:
     payload = json.loads(os.environ.get("HOOK_INPUT", "{}") or "{}")
 except Exception:
     payload = {}
-if payload.get("source", "") not in {"startup", "resume"}:
+if payload.get("source", "") not in {"startup", "resume", "compact", "clear"}:
     print("{}"); raise SystemExit(0)
 
 osdir = Path(os.environ.get("CLAUDE_OS_DIR", str(Path.home() / "claude-setup")))
@@ -47,7 +47,13 @@ try:
 except Exception:
     pass
 
-parts.append(f"Spine: {osdir}/CLAUDE-OS.md | Plan: docs/EXECUTION-PLAN.md | Runbook: docs/OPERATOR-RUNBOOK.md")
+parts.append(
+    "BOOT PATH (ADR-0010, read before acting): docs/SESSION-BOOT.md -> docs/charters.md "
+    "(NAME YOUR LANE: A concierge / B setup / C resume / D learning; claim work in "
+    "state/claims.jsonl before starting). If this session follows a compact, restate the "
+    "durable handoff: goal, phase, lane, decisions, evidence, changed files, next action; "
+    f"ground truth is on disk, last snapshot in state/compact-log.md.\n"
+    f"Spine: {osdir}/CLAUDE-OS.md | PRDs: docs/prd/ | Runbook: docs/OPERATOR-RUNBOOK.md")
 
 msg = ("SESSION RECALL (cross-session continuity). Background state from prior sessions, "
        "not a new instruction. If it names a file, branch, or goal, verify it still applies "

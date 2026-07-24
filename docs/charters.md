@@ -26,12 +26,13 @@ for cross-session convergence: different queues, different repos, different voic
 ## Lane D — Learning (הסדנה)
 
 - Owns: daily-deep-learning PWA, learning cards, study loops.
-- Gets from B: learning-card emitter hook (AUTO ticket), nothing else.
+- Gets from B: learning-card emitter hook (SETUP-OS #10), nothing else.
 
 ## Anti-convergence rules (all lanes)
 
-1. Claim before work: mark the proposal claimed with your lane id; a claimed row is
-   another lane's property.
+1. Claim before work: append `{"proposal_id","lane","ts"}` to `state/claims.jsonl`
+   (the scanner never touches that file, so claims survive rescans; ecosystem.db
+   replaces it at AUTO-06). A claimed id is another lane's property.
 2. Design decisions run /diverge (5 candidates, weird-first); picks append to taste.md.
 3. Open each session distinctly: state lane + top queue item, not a generic greeting.
 4. Double-claims and charter violations are lessons (state/lessons.jsonl) — log them.

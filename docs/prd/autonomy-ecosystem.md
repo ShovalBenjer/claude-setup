@@ -23,23 +23,23 @@ generating most of its own work. Operator role shifts from prompting to approvin
 
 | # | Ticket | Acceptance criterion | Status | Evidence |
 |---|--------|---------------------|--------|----------|
-| 1 | AUTO-01 | Any fresh session reaches full working context in <60s from disk only (SESSION-BOOT.md path) | DONE | docs/SESSION-BOOT.md + session-recall hook |
-| 2 | AUTO-02 | Compaction/clear loses zero decisions: PreCompact hook writes durable snapshot; disk is the only memory (ADR-0010) | DONE | precompact-handoff.sh wired; state/compact-log |
+| 1 | AUTO-01 | Any fresh session reaches full working context in <60s from disk only (SESSION-BOOT.md path) | DONE | SESSION-BOOT.md + session-recall v2 (injects boot+charters+lane on startup/resume/compact; pipe-tested 2026-07-24) |
+| 2 | AUTO-02 | Compaction/clear loses zero decisions: PreCompact hook writes durable snapshot; disk is the only memory (ADR-0010) | DONE | snapshot hook (pipe-tested, state/compact-log) + steering moved to SessionStart source=compact (PreCompact has no additionalContext — verified); repo payload synced |
 | 3 | AUTO-03 | 4 session lanes chartered (concierge/setup/resume/learning); no two lanes implement the same thing | DONE | docs/charters.md |
-| 4 | AUTO-04 | Cross-session convergence broken: lanes read distinct work queues; design decisions pass /diverge | PARTIAL | charters + /diverge live; work-claims need ecosystem.db (AUTO-06) |
-| 5 | AUTO-05 | Phone RC reaches a durable concierge (not a fresh orphan session); concierge routes to lanes | TODO | ADR-0013 design; needs RC pattern test |
+| 4 | AUTO-04 | Cross-session convergence broken: lanes read distinct work queues; design decisions pass /diverge | PARTIAL | charters + /diverge + state/claims.jsonl (scanner-safe interim); db claims at AUTO-06 |
+| 5 | AUTO-05 | Phone RC reaches a durable concierge (not a fresh orphan session); concierge routes to lanes | TODO | spec §P0.5: concierge launch + relaunch job + approval round-trip; acceptance = phone→disk→ack evidence |
 | 6 | AUTO-06 | ecosystem.db (SQLite) is system-of-record: sessions, proposals, runs, lessons, reputation, post_queue, repo_registry | TODO | seed from intent-control-plane schema (ADR-0011) |
-| 7 | AUTO-07 | Nightly server-side autonomy pilot: scheduled GitHub Action runs Claude maintenance pass on claude-setup, opens PR — laptop off | STAGED | .github/workflows/claude-nightly.yml pushed; first scheduled run pending |
-| 8 | AUTO-08 | Autonomous changes ship ONLY via PR + review gate; never direct to main (ADR-0012) | DONE (policy) | ADR-0012; nightly workflow has no push-to-main path |
+| 7 | AUTO-07 | Nightly server-side autonomy pilot: scheduled GitHub Action runs Claude maintenance pass on claude-setup, opens PR — laptop off | STAGED | workflow v2 (no-Bash agent, deterministic branch-scoped PR step, fail-closed auto/* cap, in-run review job; label created). DONE requires: PR URL + autonomy label + posted review from run 1 |
+| 8 | AUTO-08 | Autonomous changes ship ONLY via PR + review gate; never direct to main (ADR-0012) | DONE (structural v2) | ADR-0012 corrected: agent step has no Bash; only push is branch-scoped auto/*; review guaranteed in-run (GITHUB_TOKEN PRs trigger no workflows) |
 | 9 | AUTO-09 | Repo autonomy scaled to tier-1 repos (3+) with per-repo run caps and reputation gate | TODO | after AUTO-07 proves clean for 1 week |
 | 10 | AUTO-10 | Two-model review live on autonomy PRs (Claude + Gemini family-decorrelated) | BLOCKED(operator) | needs GEMINI_API_KEY secret |
 | 11 | AUTO-11 | Merge policy: low-risk class auto-merge on green + agreement; risky class = phone push approval | TODO | policy in spec §P2 |
 | 12 | AUTO-12 | Social pipeline excavated from social-media-agent.bundle (44 refs) — not rebuilt | TODO | bundle in work-archive; ADR-0014 |
-| 13 | AUTO-13 | Social posts are draft-first: phone approval before ANY external publish, no publish creds in repo | POLICY-SET | ADR-0014 (hard gate) |
+| 13 | AUTO-13 | Social posts are draft-first: phone approval before ANY external publish, no publish creds in repo | POLICY-SET | ADR-0014 + spec §P0.5 approval round-trip (inbound: RC 'approve <id>' or tools/eco/db.py approve) |
 | 14 | AUTO-14 | Content calendar in ecosystem.db feeds drafts in Shoval voice (taste.md + shoval-voice-draft) | TODO | after AUTO-06 |
 | 15 | AUTO-15 | Resume engine gets rails only (schedulers, review, push approvals); hiring logic stays in lane C | POLICY-SET | charters.md lane boundary |
-| 16 | AUTO-16 | Lessons ledger live and seeded; every incident → ledger row → enforced rule/hook (never prose-only) | DONE (seed) | state/lessons.jsonl (8 seeded); loop in spec §P5 |
-| 17 | AUTO-17 | Weekly research sweep converts papers → practice-diff proposals into the self-improve queue | PARTIAL | weekly self-improve cron exists; research input TODO |
+| 16 | AUTO-16 | Lessons ledger live and seeded; every incident → ledger row → enforced rule/hook (never prose-only) | PARTIAL | 8 seeded; digest surfaces open lessons (live run 2026-07-24: '3 open lessons' in push); durable schedule pending AUTO-18 |
+| 17 | AUTO-17 | Weekly research sweep converts papers → practice-diff proposals into the self-improve queue | TODO | weekly cron is session-only (dies with session — contradicts AUTO-18 until Task Scheduler); research_sweep.py unbuilt |
 | 18 | AUTO-18 | All schedules survive laptop sleep: Task Scheduler (local) + GitHub schedule (cloud) as primary | BLOCKED(operator) | runbook has commands; GitHub-side live via AUTO-07 |
 | 19 | AUTO-19 | FleetView built ON intent-control-plane/ + tower (excavated ancestors), reads ecosystem.db | TODO | spec 2026-07-24-command-center-superior.md |
 | 20 | AUTO-20 | Reputation-driven routing (Thompson) allocates autonomy budget across repos/personas from external truth only | TODO | ADR-0008; needs volume from AUTO-09 |

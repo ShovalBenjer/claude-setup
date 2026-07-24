@@ -20,3 +20,14 @@ heroic session.
 + Cron is subscription-window aware (unlike Task Scheduler), so backoff is native.
 - Local crons need an always-on PC (power/wake settings become OS concerns).
 - Two schedulers means two places to audit job health; the digest surfaces both.
+
+## Amendment (2026-07-24, with the autonomy layer)
+
+The autonomy PRD adds a third rail and re-ranks: **GitHub `schedule:`** becomes the
+PRIMARY rail for repo autonomy (cloud, laptop-independent, subscription token —
+claude-nightly.yml); **Windows Task Scheduler** is accepted for always-on LOCAL jobs
+(digest, WhatsApp, concierge relaunch) because native cron is session-scoped and dies
+with its session — the "subscription-window aware" advantage does not survive laptop
+sleep; **native cron** remains for session-window-aware jobs inside a live session.
+One topology still means: every schedule is registered in exactly one of these three,
+listed in the digest, and nothing schedules from WSL.

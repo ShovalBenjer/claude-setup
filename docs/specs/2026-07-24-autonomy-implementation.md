@@ -10,7 +10,7 @@ How the next-level system gets built, phase by phase, with acceptance criteria a
 premortem per Forge Loop. Assumes sessions die at any moment (ADR-0010): every step
 lands on disk or in GitHub before it counts.
 
-## Premortem (5 failure modes → mitigations)
+## Premortem (5 failure modes → mitigations, each tagged with implementation status)
 
 1. **OAuth token expires/revoked → 22-repo autonomy dies silently.** Mitigation: weekly
    canary (nightly workflow on claude-setup IS the canary — a missed Monday PR = alarm in
@@ -38,6 +38,26 @@ lands on disk or in GitHub before it counts.
 - OPERATOR (3 items, ~10 min): (a) GEMINI_API_KEY at aistudio.google.com/apikey →
   `bash tools/rollout_gemini_key.sh` (sets secret on 22 repos); (b) Task Scheduler
   import per OPERATOR-RUNBOOK §always-on; (c) model default per model-selection rule.
+
+## P0.5 — Phone RC concierge (day 1-2) — AUTO-05
+
+The pain: RC spawns a fresh orphan per connection. The fix makes intake stateless:
+
+1. Concierge launch: a dedicated terminal running `claude` in ~/claude-setup whose
+   SessionStart recall names lane A (charter: intake-and-route ONLY).
+2. Relaunch artifact: Task Scheduler job `claude-concierge` (logon + daily 07:00)
+   starting that terminal; command in OPERATOR-RUNBOOK §always-on.
+3. Intake write path: every phone utterance → row in proposals/claims (until db:
+   append to state/claims.jsonl with lane target) → PushNotification ack.
+4. Acceptance (AUTO-05): a phone→computer round trip — speak an intent, see the
+   row on disk, get the ack push — pasted as evidence. Even if RC still spawns
+   fresh, the fresh session boots lane A from SESSION-BOOT and loses nothing.
+
+**Approval round-trip (closes the ADR-0014/AUTO-11 gap):** push notifications are
+outbound-only. Inbound approval = operator replies via RC to the concierge ("approve
+<id>") OR runs `python tools/eco/db.py approve <id>` locally; either writes
+approved_at. No approval row, no publish/merge — the adapter checks the row, not
+the conversation.
 
 ## P1 — Ecosystem state (week 1) — AUTO-06
 

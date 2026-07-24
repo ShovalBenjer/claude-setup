@@ -15,6 +15,9 @@ docs/SESSION-BOOT.md first.
 - [ ] Social: excavate social-media-agent.bundle → draft-first pipeline (AUTO-12/13/14)
 - [ ] Research stage in weekly self-improve cron (AUTO-17)
 - [ ] Reputation routing once runs-table volume (AUTO-20)
+- [ ] AUTO-10 BLOCKED(operator): GEMINI_API_KEY → bash tools/rollout_gemini_key.sh (script now exists)
+- [ ] AUTO-15: split resume rails into verifiable rows (job-scan cron, review wf on hiring repo, lane-C tables)
+- [ ] AUTO-18 BLOCKED(operator): Task Scheduler always-on (runbook §5); GitHub schedule live via AUTO-07
 
 ## DONE
 - [x] Repo relocated + July state synced + pushed (SETUP-OS #1)

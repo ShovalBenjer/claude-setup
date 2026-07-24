@@ -12,7 +12,7 @@ mkdir -p "$OS_DIR/state" 2>/dev/null
   git -C "$OS_DIR" log --oneline -3 2>/dev/null
   echo '```'
 } >> "$LOG" 2>/dev/null
-cat <<'EOF'
-{"hookSpecificOutput":{"hookEventName":"PreCompact","additionalContext":"COMPACT INTO A DURABLE HANDOFF (hive-mind rule): preserve verbatim - current goal, phase, lane (docs/charters.md), key decisions made this session, verification evidence (commands+output), changed files, blockers, and the exact next action. State that ground truth lives on disk: ~/claude-setup SESSION-BOOT.md, TODO.md, prd/autonomy-ecosystem.md, state/compact-log.md."}}
-EOF
+# NOTE: PreCompact supports no additionalContext (verified vs hooks docs 2026-07-24);
+# summarizer steering lives in session-recall.sh (SessionStart source=compact) instead.
+# This hook's whole job is the disk snapshot above.
 exit 0

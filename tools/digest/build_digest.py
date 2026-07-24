@@ -72,6 +72,19 @@ def main():
           f"- claude-setup repo: {gs['branch']}, " + ("dirty (%d)" % gs["changes"] if gs["dirty"] else "clean")]
     if bh:
         md.append(f"- Branch health: {bh['merged_deletable']} merged-deletable, {bh['drift']} default-branch drift")
+
+    # AUTO-16: open lessons surface in EVERY digest until their enforcement lands
+    lessons = OS / "state" / "lessons.jsonl"
+    if lessons.exists():
+        rows = [json.loads(l) for l in lessons.read_text(encoding="utf-8", errors="replace").splitlines() if l.strip()]
+        open_rows = [r for r in rows if r.get("status") != "closed"]
+        if open_rows:
+            md.append("")
+            md.append(f"- OPEN LESSONS ({len(open_rows)}) — unenforced until closed:")
+            for r in open_rows:
+                md.append(f"  - {r['id']}: {r['lesson'][:90]} -> {r['enforcement'][:70]}")
+            push += f" {len(open_rows)} open lessons."
+
     md.append("")
     md.append("Pending operator decisions: model default, key rotation, PR repo list, WhatsApp cadence, OAuth token.")
 

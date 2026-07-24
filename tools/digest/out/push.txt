@@ -1,1 +1,1 @@
-Claude OS: 14 done / 21 open. Next: Rotate API key found in תזכורת לעצמי group (operator). 20 merged branches deletable.
+Claude OS: 21 done / 29 open. Next: ecosystem.db bootstrap from intent-control-plane schema + tools/eco/db. 20 merged branches deletable. 3 open lessons.
