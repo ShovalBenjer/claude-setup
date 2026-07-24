@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CS Agents - Function I/O Flow (Yasha)</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --panel: #161b22;
+      --panel-2: #0f1622;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --line: #30363d;
+      --accent: #1f6feb;
+      --ok: #2ea043;
+      --warn: #d29922;
+      --danger: #da3633;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(1200px 800px at 80% -20%, #1a2940 0%, var(--bg) 55%);
+      color: var(--text);
+      font-family: "Segoe UI", "IBM Plex Sans", system-ui, sans-serif;
+      line-height: 1.5;
+    }
+
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 28px 20px 56px; }
+
+    .hero {
+      background: linear-gradient(120deg, rgba(31,111,235,0.2), rgba(30,164,84,0.08));
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 18px;
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 12px;
+      object-fit: contain;
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 8px;
+    }
+
+    h1 {
+      font-size: clamp(22px, 2.8vw, 34px);
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .muted { color: var(--muted); }
+    .mono {
+      font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+      background: #0d141f;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 12px;
+      display: inline-block;
+    }
+
+    .chipbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #0f1622;
+      font-size: 12px;
+      color: #b9c6d6;
+    }
+
+    .status { color: #9bdbb4; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .node {
+      background: #101721;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 8px;
+      text-align: center;
+      min-height: 74px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .node strong { font-size: 13px; }
+    .node span { font-size: 11px; color: var(--muted); }
+    .arrow {
+      text-align: center;
+      color: #7aa2d4;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .endpoint-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .endpoint {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0f1622;
+      padding: 10px;
+    }
+
+    .endpoint .name { font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+
+    .modes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+
+    .mode-btn {
+      border: 1px solid #385074;
+      background: #111b29;
+      color: #c6d4e8;
+      border-radius: 9px;
+      padding: 8px 10px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .mode-btn:hover { border-color: #4a6b99; }
+    .mode-btn.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(31,111,235,0.2) inset;
+      color: #e6f0ff;
+      background: #0f223e;
+    }
+
+    .scenario {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #0f1622;
+      overflow: hidden;
+    }
+
+    .scenario-head {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      background: #121d2b;
+    }
+
+    .scenario-head h3 { font-size: 16px; margin-bottom: 4px; }
+
+    .steps {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0e141d;
+      padding: 10px;
+    }
+
+    .step-title {
+      font-size: 13px;
+      color: #9ac2f5;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    pre {
+      background: #0d131d;
+      border: 1px solid #273241;
+      border-radius: 8px;
+      padding: 10px;
+      overflow-x: auto;
+      font-size: 12px;
+      line-height: 1.45;
+      margin-top: 6px;
+      color: #d3e1f5;
+    }
+
+    code { font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace; }
+
+    .copy {
+      margin-top: 8px;
+      padding: 4px 8px;
+      border: 1px solid #3a4d67;
+      border-radius: 6px;
+      background: #121d2b;
+      color: #cde0fa;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .qa {
+      margin-top: 14px;
+      border: 1px solid #365938;
+      background: rgba(46,160,67,0.08);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .qa h4 { margin-bottom: 8px; font-size: 14px; color: #9bdbb4; }
+    .qa ul { padding-left: 18px; color: #c6d3e2; font-size: 13px; display: grid; gap: 4px; }
+    .qa .warn { color: #f3cf8d; }
+
+    .footer-note {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+      .flow-row { grid-template-columns: 1fr; }
+      .arrow { transform: rotate(90deg); }
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .logo { margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <img src="../../ai_department_logo.png" alt="AI Department Logo" class="logo" onerror="this.style.display='none'" />
+      <div>
+        <h1>Axia & Seekapa - Interactive Function I/O Flow</h1>
+        <div class="muted">Prepared for Yasha: current deployed runtime and exact interaction contracts</div>
+        <div class="chipbar">
+          <div class="chip">Function App: <span class="mono">func-cs-agents-dev</span></div>
+          <div class="chip">Chatwoot Account: <span class="mono">1</span></div>
+          <div class="chip">Allowed Inbox IDs: <span class="mono">4</span></div>
+          <div class="chip status">Runtime Status: 3 active functions</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Architecture in One Line</h2>
+        <div class="flow-row">
+          <div class="node">
+            <strong>Telegram / Chatwoot</strong>
+            <span>Incoming customer message</span>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node">
+            <strong>chatwoot_handler</strong>
+            <span>Filter + normalize + call agent</span>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node">
+            <strong>channel_router</strong>
+            <span>Foundry conversations + responses</span>
+          </div>
+        </div>
+        <div class="flow-row" style="margin-top:10px;">
+          <div class="node">
+            <strong>Foundry Agent</strong>
+            <span>brand=seekapa by default</span>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node">
+            <strong>chatwoot_handler</strong>
+            <span>Send reply to same conversation</span>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node">
+            <strong>create_ticket</strong>
+            <span>Escalation path (labels + note + open)</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Live Endpoints</h2>
+        <div class="endpoint-list">
+          <div class="endpoint">
+            <div class="name">1) chatwoot_handler (anonymous webhook)</div>
+            <div class="mono">POST https://func-cs-agents-dev.azurewebsites.net/api/chatwoot-webhook</div>
+          </div>
+          <div class="endpoint">
+            <div class="name">2) channel_router (function auth)</div>
+            <div class="mono">POST https://func-cs-agents-dev.azurewebsites.net/api/channel-router?code=&lt;FUNCTION_KEY&gt;</div>
+          </div>
+          <div class="endpoint">
+            <div class="name">3) create_ticket (function auth)</div>
+            <div class="mono">POST https://func-cs-agents-dev.azurewebsites.net/api/create-ticket?code=&lt;FUNCTION_KEY&gt;</div>
+          </div>
+        </div>
+        <p class="footer-note">
+          Note: <code>chatwoot_handler</code> processes only <code>event=message_created</code>, incoming messages,
+          non-private notes, <code>sender.type=contact</code>, and inbox in allowed set (<code>4</code>).
+        </p>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>Interactive I/O Simulator</h2>
+      <div class="modes" id="modes"></div>
+      <div class="scenario" id="scenario"></div>
+      <div class="qa">
+        <h4>Telegram Scope Answer (Account 1 / Channel 4 / Itto)</h4>
+        <ul>
+          <li>Yes, code scope supports it: Account <code>1</code> with allowed inbox <code>4</code> is active.</li>
+          <li>New conversations are picked up when Chatwoot emits a valid webhook event to <code>/api/chatwoot-webhook</code>.</li>
+          <li class="warn">Operational dependency: Telegram must successfully deliver messages into Chatwoot inbox 4 first.</li>
+          <li>If Telegram → Chatwoot delivery is broken, no webhook is fired, so the function cannot respond.</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const scenarios = [
+      {
+        key: "telegram-auto",
+        label: "Auto flow: Telegram -> Chatwoot webhook",
+        title: "Automatic Customer Reply Flow (Production Path)",
+        description: "This is the real runtime path for customer support from Telegram/Chatwoot to Foundry and back.",
+        steps: [
+          {
+            title: "Step 1 - Chatwoot sends webhook",
+            text: "Chatwoot posts to chatwoot_handler when a new incoming message is created in conversation inbox 4.",
+            payload: `POST /api/chatwoot-webhook
+Content-Type: application/json
+
+{
+  "event": "message_created",
+  "message_type": 0,
+  "private": false,
+  "content": "Hi, I need help with my account",
+  "inbox": { "id": 4, "name": "Telegram A" },
+  "conversation": { "id": 12345, "status": "open", "assignee_id": null },
+  "sender": { "id": 991, "type": "contact", "name": "Customer" }
+}`
+          },
+          {
+            title: "Step 2 - channel_router call to Foundry",
+            text: "chatwoot_handler calls channel_router._call_agent() with Foundry conversation continuity.",
+            payload: `POST <PROJECT_ENDPOINT>/openai/v1/responses
+{
+  "agent_reference": { "type": "agent_reference", "name": "seekapa" },
+  "conversation": "conv_...",
+  "input": [{ "role": "user", "content": "Hi, I need help with my account" }]
+}`
+          },
+          {
+            title: "Step 3 - Reply posted to same Chatwoot conversation",
+            text: "chatwoot_handler posts the generated answer via Chatwoot API and returns 200 to webhook caller.",
+            payload: `{
+  "ok": true,
+  "conversation_id": 12345,
+  "response_id": "resp_...",
+  "agent_conversation_id": "conv_...",
+  "turn_count": 1
+}`
+          }
+        ]
+      },
+      {
+        key: "manual-webhook",
+        label: "Manual trigger: webhook payload",
+        title: "Manual Webhook Trigger (for validation)",
+        description: "Use this when testing handler behavior directly. Use a real Chatwoot conversation ID for full send-back validation.",
+        steps: [
+          {
+            title: "Request",
+            text: "Anonymous endpoint. No function key required.",
+            payload: `curl -X POST "https://func-cs-agents-dev.azurewebsites.net/api/chatwoot-webhook" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "event": "message_created",
+    "message_type": 0,
+    "private": false,
+    "content": "Please help me with account verification",
+    "inbox": { "id": 4 },
+    "conversation": { "id": 12345, "status": "open", "assignee_id": null },
+    "sender": { "id": 991, "type": "contact" }
+  }'`
+          },
+          {
+            title: "Expected 200 Response",
+            text: "If payload passes all filters and downstream calls succeed.",
+            payload: `{
+  "ok": true,
+  "conversation_id": 12345,
+  "response_id": "resp_...",
+  "agent_conversation_id": "conv_...",
+  "turn_count": 1
+}`
+          }
+        ]
+      },
+      {
+        key: "manual-router",
+        label: "Manual trigger: channel-router",
+        title: "Direct Agent Test (without Chatwoot)",
+        description: "Best path for deterministic agent smoke tests and multi-turn continuity checks.",
+        steps: [
+          {
+            title: "Turn 1 request",
+            text: "Requires function key.",
+            payload: `curl -X POST "https://func-cs-agents-dev.azurewebsites.net/api/channel-router?code=<FUNCTION_KEY>" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "channel": "widget",
+    "brand": "seekapa",
+    "user_id": "smoke-user-1",
+    "message": { "message": "My account ID is 777321. Reply ACK." }
+  }'`
+          },
+          {
+            title: "Turn 1 response",
+            text: "Keep conversation_id from this response.",
+            payload: `{
+  "success": true,
+  "channel": "widget",
+  "response": { "reply": "ACK" },
+  "conversation_id": "conv_7a44a100...",
+  "timestamp": "..."
+}`
+          },
+          {
+            title: "Turn 2 request (reuse conversation_id)",
+            text: "Demonstrates multi-pass memory.",
+            payload: `{
+  "channel": "widget",
+  "brand": "seekapa",
+  "user_id": "smoke-user-1",
+  "conversation_id": "conv_7a44a100...",
+  "message": { "message": "What account ID did I give you?" }
+}`
+          },
+          {
+            title: "Turn 2 response",
+            text: "Expected memory-aware reply.",
+            payload: `{
+  "success": true,
+  "response": { "reply": "You provided account ID 777321." },
+  "conversation_id": "conv_7a44a100..."
+}`
+          }
+        ]
+      },
+      {
+        key: "manual-ticket",
+        label: "Manual trigger: create-ticket",
+        title: "Escalation Function Contract",
+        description: "Use this when validating escalation workflow independently.",
+        steps: [
+          {
+            title: "Request",
+            text: "Requires function key and a real Chatwoot conversation id.",
+            payload: `curl -X POST "https://func-cs-agents-dev.azurewebsites.net/api/create-ticket?code=<FUNCTION_KEY>" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "issue_type": "technical",
+    "description": "Customer reports login loop after OTP",
+    "language": "en",
+    "conversation_id": 12345,
+    "conversation_history": [
+      {"role":"user","content":"I cannot log in"},
+      {"role":"assistant","content":"I will escalate this"}
+    ]
+  }'`
+          },
+          {
+            title: "Expected response",
+            text: "On success it adds label, private note, and opens conversation.",
+            payload: `{
+  "success": true,
+  "ticket_id": "CW-12345-154210",
+  "status": "escalated",
+  "department": "support",
+  "priority": "high",
+  "conversation_id": 12345,
+  "label": "escalation-technical"
+}`
+          }
+        ]
+      }
+    ];
+
+    const modesEl = document.getElementById("modes");
+    const scenarioEl = document.getElementById("scenario");
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {}, () => {});
+    }
+
+    function renderScenario(key) {
+      const sc = scenarios.find(s => s.key === key) || scenarios[0];
+      [...modesEl.children].forEach(btn => btn.classList.toggle("active", btn.dataset.key === sc.key));
+
+      scenarioEl.innerHTML = `
+        <div class="scenario-head">
+          <h3>${sc.title}</h3>
+          <div class="muted">${sc.description}</div>
+        </div>
+        <div class="steps">
+          ${sc.steps.map((step, idx) => `
+            <div class="step">
+              <div class="step-title">${idx + 1}. ${step.title}</div>
+              <div class="muted">${step.text}</div>
+              <pre><code>${step.payload.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre>
+              <button class="copy" data-copy="${encodeURIComponent(step.payload)}">Copy</button>
+            </div>
+          `).join("")}
+        </div>
+      `;
+
+      scenarioEl.querySelectorAll(".copy").forEach(btn => {
+        btn.addEventListener("click", () => copyText(decodeURIComponent(btn.dataset.copy)));
+      });
+    }
+
+    scenarios.forEach(sc => {
+      const btn = document.createElement("button");
+      btn.className = "mode-btn";
+      btn.dataset.key = sc.key;
+      btn.textContent = sc.label;
+      btn.addEventListener("click", () => renderScenario(sc.key));
+      modesEl.appendChild(btn);
+    });
+
+    renderScenario(scenarios[0].key);
+  </script>
+</body>
+</html>

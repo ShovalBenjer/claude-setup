@@ -1,0 +1,1 @@
+/home/shovalbe/.codex/hooks/visual-explainer-trigger.sh

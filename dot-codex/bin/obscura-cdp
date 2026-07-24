@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+HOST="${OBSCURA_CDP_HOST:-127.0.0.1}"
+PORT="${OBSCURA_CDP_PORT:-9222}"
+WORKERS="${OBSCURA_WORKERS:-1}"
+ENDPOINT="http://${HOST}:${PORT}"
+OBSCURA_BIN="${OBSCURA_BIN:-obscura}"
+LOG_FILE="${OBSCURA_LOG_FILE:-/tmp/obscura-cdp-${PORT}.log}"
+PID_FILE="${OBSCURA_PID_FILE:-/tmp/obscura-cdp-${PORT}.pid}"
+
+usage() {
+  cat <<USAGE
+Usage: obscura-cdp <start|status|stop|restart|endpoint>
+
+Environment:
+  OBSCURA_CDP_HOST      CDP host for clients (default: 127.0.0.1)
+  OBSCURA_CDP_PORT      CDP port (default: 9222)
+  OBSCURA_WORKERS       Obscura workers (default: 1)
+  OBSCURA_PROXY         Optional proxy URL passed to obscura serve
+  OBSCURA_USER_AGENT    Optional user-agent passed to obscura serve
+  OBSCURA_BIN           Obscura binary name/path (default: obscura)
+USAGE
+}
+
+health() {
+  curl -fsS --max-time 1 "${ENDPOINT}/json/version" >/dev/null 2>&1
+}
+
+pid_alive() {
+  [[ -f "$PID_FILE" ]] || return 1
+  local pid
+  pid="$(cat "$PID_FILE" 2>/dev/null || true)"
+  [[ -n "$pid" ]] || return 1
+  kill -0 "$pid" >/dev/null 2>&1
+}
+
+start() {
+  if health; then
+    echo "Obscura CDP already reachable at ${ENDPOINT}"
+    return 0
+  fi
+
+  if ! command -v "$OBSCURA_BIN" >/dev/null 2>&1; then
+    echo "Missing Obscura binary: ${OBSCURA_BIN}" >&2
+    echo "Install from: https://github.com/h4ckf0r0day/obscura/releases/latest" >&2
+    exit 127
+  fi
+
+  local args=(serve --port "$PORT" --stealth --workers "$WORKERS")
+  if [[ -n "${OBSCURA_PROXY:-}" ]]; then
+    args+=(--proxy "$OBSCURA_PROXY")
+  fi
+  if [[ -n "${OBSCURA_USER_AGENT:-}" ]]; then
+    args+=(--user-agent "$OBSCURA_USER_AGENT")
+  fi
+
+  nohup "$OBSCURA_BIN" "${args[@]}" >"$LOG_FILE" 2>&1 &
+  echo "$!" >"$PID_FILE"
+
+  for _ in {1..50}; do
+    if health; then
+      echo "Obscura CDP started at ${ENDPOINT}"
+      return 0
+    fi
+    sleep 0.1
+  done
+
+  echo "Obscura did not become reachable at ${ENDPOINT}" >&2
+  echo "Log: ${LOG_FILE}" >&2
+  if [[ -s "$LOG_FILE" ]]; then
+    tail -n 40 "$LOG_FILE" >&2
+  fi
+  exit 1
+}
+
+status() {
+  if health; then
+    echo "running ${ENDPOINT}"
+  elif pid_alive; then
+    echo "process alive but CDP health check failed: $(cat "$PID_FILE")"
+    exit 1
+  else
+    echo "stopped ${ENDPOINT}"
+    exit 1
+  fi
+}
+
+stop() {
+  if pid_alive; then
+    kill "$(cat "$PID_FILE")"
+    echo "Stopped Obscura CDP process $(cat "$PID_FILE")"
+  else
+    echo "No tracked Obscura CDP process for ${ENDPOINT}"
+  fi
+}
+
+case "${1:-start}" in
+  start) start ;;
+  status) status ;;
+  stop) stop ;;
+  restart) stop >/dev/null 2>&1 || true; start ;;
+  endpoint) echo "$ENDPOINT" ;;
+  -h|--help|help) usage ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac

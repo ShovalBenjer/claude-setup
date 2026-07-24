@@ -1,0 +1,217 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+MANAGED=(perplexity playwright apify heygen elevenlabs brand24)
+CODEX_HOME="${CODEX_HOME:-/home/shovalbe/.codex}"
+SECRETS_SYNC="$CODEX_HOME/bin/codex-secrets-sync"
+
+declare -A SERVER_ENV_KEYS=(
+  [perplexity]="PERPLEXITY_API_KEY"
+  [apify]="APIFY_API_KEY"
+  [heygen]="HEYGEN_API_KEY"
+  [elevenlabs]="ELEVENLABS_API_KEY"
+  [brand24]="BRAND24_MCP_ACCESS_TOKEN"
+)
+
+trim() {
+  local s="$1"
+  s="${s#"${s%%[![:space:]]*}"}"
+  s="${s%"${s##*[![:space:]]}"}"
+  printf '%s' "$s"
+}
+
+load_env_file() {
+  local file="$1"
+  [[ -f "$file" ]] || return 0
+
+  local raw line key value
+  while IFS= read -r raw || [[ -n "$raw" ]]; do
+    line="${raw%%#*}"
+    line="${line%$'\r'}"
+    line="$(trim "$line")"
+    [[ -z "$line" ]] && continue
+    if [[ "$line" =~ ^([A-Za-z_][A-Za-z0-9_]*)[[:space:]]*=[[:space:]]*(.*)$ ]]; then
+      key="${BASH_REMATCH[1]}"
+      value="$(trim "${BASH_REMATCH[2]}")"
+      if [[ "$value" =~ ^\"(.*)\"$ ]]; then value="${BASH_REMATCH[1]}"; fi
+      if [[ "$value" =~ ^\'(.*)\'$ ]]; then value="${BASH_REMATCH[1]}"; fi
+      export "$key=$value"
+    fi
+  done < "$file"
+}
+
+detect_project_root() {
+  local p="$PWD"
+  while [[ "$p" != "/" ]]; do
+    if [[ -d "$p/.codex" && "$p" != "/home/shovalbe" ]]; then
+      echo "$p"
+      return 0
+    fi
+    p="$(dirname "$p")"
+  done
+  return 1
+}
+
+load_known_envs() {
+  local project_root=""
+  if project_root="$(detect_project_root 2>/dev/null)"; then
+    :
+  else
+    project_root=""
+  fi
+
+  load_env_file "/home/shovalbe/.env"
+  load_env_file "$CODEX_HOME/secrets/runtime/global.env"
+  load_env_file "$CODEX_HOME/secrets/runtime/brand24.env"
+  if [[ -n "$project_root" ]]; then
+    load_env_file "$project_root/.env"
+    load_env_file "$project_root/.codex/secrets/runtime.env"
+  fi
+}
+
+collect_required_envs() {
+  declare -g -a REQUIRED_KEYS=()
+  local srv key existing
+  for srv in "${SELECTED[@]}"; do
+    key="${SERVER_ENV_KEYS[$srv]:-}"
+    [[ -z "$key" ]] && continue
+    existing=false
+    for existing_key in "${REQUIRED_KEYS[@]}"; do
+      if [[ "$existing_key" == "$key" ]]; then
+        existing=true
+        break
+      fi
+    done
+    if [[ "$existing" == "false" ]]; then
+      REQUIRED_KEYS+=("$key")
+    fi
+  done
+}
+
+ensure_mcp_secrets() {
+  collect_required_envs
+  [[ ${#REQUIRED_KEYS[@]} -eq 0 ]] && return 0
+
+  load_known_envs
+
+  local key
+  local -a missing=()
+  for key in "${REQUIRED_KEYS[@]}"; do
+    if [[ -z "${!key:-}" ]]; then
+      missing+=("$key")
+    fi
+  done
+
+  if [[ ${#missing[@]} -gt 0 && -x "$SECRETS_SYNC" ]]; then
+    local -a sync_args=(--project auto --mcp-only --quiet)
+    for key in "${REQUIRED_KEYS[@]}"; do
+      sync_args+=(--require "$key")
+    done
+    "$SECRETS_SYNC" "${sync_args[@]}" >/dev/null 2>&1 || true
+    load_known_envs
+    missing=()
+    for key in "${REQUIRED_KEYS[@]}"; do
+      if [[ -z "${!key:-}" ]]; then
+        missing+=("$key")
+      fi
+    done
+  fi
+
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    echo "Missing required MCP env vars: ${missing[*]}" >&2
+    echo "Run: ~/.codex/bin/codex-secrets-sync --project auto --mcp-only ${missing[*]/#/--require }" >&2
+    exit 1
+  fi
+}
+
+usage() {
+  cat <<USAGE
+Usage:
+  codex-with-mcp <server> [server ...] [-- <codex args>]
+  codex-with-mcp --status
+  codex-with-mcp --dry-run <server> [server ...] [-- <codex args>]
+
+Managed servers:
+  perplexity playwright apify heygen elevenlabs
+
+Examples:
+  codex-with-mcp perplexity -- -c model="gpt-5.3-codex"
+  codex-with-mcp perplexity playwright
+  codex-with-mcp --status
+USAGE
+}
+
+if [[ $# -eq 0 ]]; then
+  usage
+  exit 1
+fi
+
+if [[ "$1" == "--status" ]]; then
+  exec codex mcp list
+fi
+
+DRY_RUN=false
+if [[ "$1" == "--dry-run" ]]; then
+  DRY_RUN=true
+  shift
+fi
+
+SELECTED=()
+EXTRA=()
+PARSING_SERVERS=true
+
+for arg in "$@"; do
+  if [[ "$arg" == "--" ]]; then
+    PARSING_SERVERS=false
+    continue
+  fi
+  if [[ "$PARSING_SERVERS" == "true" ]]; then
+    SELECTED+=("$arg")
+  else
+    EXTRA+=("$arg")
+  fi
+done
+
+if [[ ${#SELECTED[@]} -eq 0 ]]; then
+  echo "No MCP servers selected." >&2
+  usage
+  exit 1
+fi
+
+for srv in "${SELECTED[@]}"; do
+  valid=false
+  for known in "${MANAGED[@]}"; do
+    if [[ "$srv" == "$known" ]]; then
+      valid=true
+      break
+    fi
+  done
+  if [[ "$valid" == "false" ]]; then
+    echo "Unknown MCP server: $srv" >&2
+    echo "Allowed: ${MANAGED[*]}" >&2
+    exit 1
+  fi
+done
+
+if [[ "$DRY_RUN" == "false" ]]; then
+  ensure_mcp_secrets
+fi
+
+CMD=(codex)
+for srv in "${MANAGED[@]}"; do
+  CMD+=(-c "mcp_servers.${srv}.enabled=false")
+done
+for srv in "${SELECTED[@]}"; do
+  CMD+=(-c "mcp_servers.${srv}.enabled=true")
+done
+for arg in "${EXTRA[@]}"; do
+  CMD+=("$arg")
+done
+
+if [[ "$DRY_RUN" == "true" ]]; then
+  printf '%q ' "${CMD[@]}"
+  echo
+  exit 0
+fi
+
+exec "${CMD[@]}"

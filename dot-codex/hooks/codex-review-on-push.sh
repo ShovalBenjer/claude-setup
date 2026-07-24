@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/hooks/codex-review-on-push.sh

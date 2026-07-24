@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/skills/prod-deploy-rules/reference/notify.sh

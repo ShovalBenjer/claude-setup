@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# cx - start a Claude Code session in an ISOLATED git worktree (worktree-per-session).
+#
+# Replaces the "one terminal per project dir" habit, where several parallel Claude
+# sessions share one working tree and collide (the exact failure that broke a live
+# session on 2026-07-10 and motivated the session-guard). Each cx session gets its
+# own worktree under .claude/worktrees/<name>/ on branch worktree-<name>, and Claude
+# Code holds a `git worktree lock` on it while the agent runs, so a concurrent
+# cleanup cannot remove an in-use worktree. Native Claude Code >= 2.1 (-w/--worktree).
+#
+# Usage (run from inside a project repo, e.g. cd ~/projects/<name>):
+#   cx                 # auto-named worktree session in this repo
+#   cx <name>          # worktree named <name>
+#   cx <name> --tmux   # also open a tmux session for the worktree
+#   cx <name> --model opus[1m]   # extra args pass straight through to claude
+#
+# Not for $HOME: $HOME is the local setup repo, not a place to branch work.
+set -euo pipefail
+
+if [ "$(git rev-parse --show-toplevel 2>/dev/null)" = "$HOME" ]; then
+  echo "cx: refusing to worktree \$HOME (the setup repo). cd into ~/projects/<repo> first." >&2
+  exit 1
+fi
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "cx: not inside a git repo. cd into a project first (e.g. ~/projects/<repo>)." >&2
+  exit 1
+fi
+
+if [ -n "${1:-}" ] && [ "${1#-}" = "$1" ]; then
+  wt="$1"; shift
+  exec claude --worktree "$wt" "$@"
+fi
+exec claude --worktree "$@"

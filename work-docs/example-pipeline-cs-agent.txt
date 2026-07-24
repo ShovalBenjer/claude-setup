@@ -1,0 +1,474 @@
+# CS Agents -- CI/CD Pipeline
+# Branch flow: feature/* -> stage -> master (production deploy)
+# func-cs-agents-dev (AZAI_group)
+
+trigger:
+  branches:
+    include:
+      - master
+      - stage
+      - 'feature/*'
+  paths:
+    include:
+      - azure-function-crm/**
+      - azure-pipelines.yml
+      - scripts/**
+      - tests/**
+
+pr:
+  branches:
+    include:
+      - master
+      - stage
+
+schedules:
+  - cron: '0 7 * * *'
+    displayName: 'Daily 07:00 UTC'
+    branches:
+      include:
+        - stage
+        - master
+    always: true
+
+variables:
+  - group: cs-agents-secrets
+  - name: azureSubscription
+    value: 'U-BTech - CSP (Z-Online)'
+  - name: azureServiceConnection
+    value: 'managecorpairegistry'
+  - name: resourceGroup
+    value: 'AZAI_group'
+  - name: functionAppName
+    value: 'func-cs-agents-dev'
+  - name: pythonVersion
+    # MUST match the Function App runtime (Python|3.12). At 3.11 the CI bundled native
+    # wheels (cffi, etc.) tagged cpython-311, which cannot load on the 3.12 runtime ->
+    # "No module named '_cffi_backend'" -> the cold-store blob write died silently on
+    # every turn. Keep this in lockstep with the deployed runtime. (Fixed 2026-07-01.)
+    value: '3.12'
+  - name: foundryEvalAgentName
+    value: 'seekapa'
+  - name: foundryPrimaryEvalDeployment
+    value: 'grok-4-1-fast-reasoning-2-eval'
+  - name: foundryAuditEvalDeployment
+    value: 'DeepSeek-V3.2'
+  - name: foundrySmokeEvalDataset
+    value: 'tests/test_data/foundry_smoke_eval.jsonl'
+  - name: foundrySmokeEvalMaxRows
+    value: '10'
+  - name: foundrySmokeEvalAuditRows
+    value: '3'
+  - name: foundrySmokeEvalMaxInputTokens
+    value: '1500'
+  - name: foundrySmokeEvalMaxOutputTokens
+    value: '120'
+  - name: enableIntegrationTests
+    value: 'true'
+
+stages:
+  # ============================================
+  # STAGE 1: Build & Test (runs on ALL branches)
+  # ============================================
+  - stage: Build
+    displayName: 'Build & Test'
+    jobs:
+      - job: BuildFunctionApp
+        displayName: 'Build Function App (Python)'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: UsePythonVersion@0
+            displayName: 'Use Python $(pythonVersion)'
+            inputs:
+              versionSpec: '$(pythonVersion)'
+              addToPath: true
+
+          - script: |
+              python -m pip install --upgrade pip uv
+              cd azure-function-crm
+              uv pip install --system -r requirements.txt
+              uv pip install --system pip-audit
+            displayName: 'Install dependencies'
+
+          - script: |
+              cd azure-function-crm
+              pip-audit -r requirements.txt || true
+            displayName: 'Security scan (pip-audit)'
+            continueOnError: true
+
+          - script: |
+              cd azure-function-crm
+              uv pip install --system ruff
+              ruff check chatwoot_handler/ channel_router/ shared/ create_ticket/ --select E,W,F,I,N,UP,B,A,SIM
+            displayName: 'Lint (ruff)'
+
+          - script: |
+              cd azure-function-crm
+              uv pip install --system mypy types-PyMySQL
+              mypy chatwoot_handler/ shared/ create_ticket/ coverage_pending/ coverage_approve/
+            displayName: 'Type check (mypy)'
+
+          - script: |
+              uv pip install --system pytest pytest-asyncio pytest-cov
+              mkdir -p test-results
+              cd azure-function-crm
+              python -m pytest \
+                ../tests/test_chatwoot_webhook.py \
+                ../tests/test_create_ticket.py \
+                ../tests/test_message_normalizer.py \
+                ../tests/test_seekapa_otp.py \
+                ../tests/test_verification_flow.py \
+                ../tests/test_sanitize_language_closer.py \
+                -v \
+                --junitxml=../test-results/unit-tests.xml \
+                --cov=. \
+                --cov-report=xml:../coverage.xml \
+                --cov-report=html:../htmlcov \
+                --cov-report=term-missing \
+                --noconftest
+            displayName: 'Unit tests (all)'
+
+          # Eval gate disabled — smoke eval runs as Stage 5 (YashaEvalGate) post-deploy
+          # - task: AzureKeyVault@2 ...
+          # - bash: Resolve Foundry API key ...
+          # - script: Foundry smoke eval gate ...
+
+          - script: |
+              uv pip install --system pytest pytest-asyncio httpx
+              mkdir -p test-results
+              if [ -z "${CHATWOOT_WEBHOOK_URL:-}" ]; then
+                echo "CHATWOOT_WEBHOOK_URL is not set. Skipping integration tests."
+                exit 0
+              fi
+              case "$CHATWOOT_WEBHOOK_URL" in
+                http://*|https://*) ;;
+                *) export CHATWOOT_WEBHOOK_URL="https://$CHATWOOT_WEBHOOK_URL" ;;
+              esac
+              echo "Integration test URL: $CHATWOOT_WEBHOOK_URL"
+              cd azure-function-crm
+              python -m pytest ../tests/test_channel_integration.py -v --junitxml=../test-results/integration-tests.xml --noconftest
+            displayName: 'Integration tests (chatwoot webhook)'
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/stage'), eq(variables['enableIntegrationTests'], 'true'))
+
+          - script: |
+              mkdir -p test-results
+              if ! ls test-results/*.xml >/dev/null 2>&1; then
+                printf '%s\n' \
+                  '<?xml version="1.0" encoding="UTF-8"?>' \
+                  '<testsuite name="no-tests" tests="0" failures="0" errors="0" skipped="0" time="0"></testsuite>' \
+                  > test-results/no-tests.xml
+              fi
+            displayName: 'Ensure test result file exists'
+            condition: always()
+
+          - task: PublishTestResults@2
+            displayName: 'Publish test results'
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: '$(Build.SourcesDirectory)/test-results/*.xml'
+              mergeTestResults: true
+              testRunTitle: 'Python CI Tests'
+              failTaskOnFailedTests: false
+            condition: always()
+
+          - task: PublishCodeCoverageResults@2
+            displayName: 'Publish code coverage'
+            inputs:
+              codeCoverageTool: 'Cobertura'
+              summaryFileLocation: '$(Build.SourcesDirectory)/coverage.xml'
+              reportDirectory: '$(Build.SourcesDirectory)/htmlcov'
+              failIfCoverageEmpty: false
+            condition: always()
+
+          # Eval artifact publish disabled (eval gate disabled)
+          # - publish: '$(Build.SourcesDirectory)/qa_reports/foundry-eval' ...
+
+          - script: |
+              cd azure-function-crm
+              uv pip install --system -r requirements.txt -t .python_packages/lib/site-packages --quiet
+              rm -rf tests/ .venv/ __pycache__/
+              find . -name '__pycache__' -type d -exec rm -rf {} + 2>/dev/null || true
+              find . -name '*.pyc' -delete 2>/dev/null || true
+            displayName: 'Bundle dependencies'
+
+          - task: ArchiveFiles@2
+            displayName: 'Archive Function App'
+            inputs:
+              rootFolderOrFile: 'azure-function-crm'
+              includeRootFolder: false
+              archiveType: 'zip'
+              archiveFile: '$(Build.ArtifactStagingDirectory)/function-app.zip'
+
+          - publish: '$(Build.ArtifactStagingDirectory)/function-app.zip'
+            artifact: 'function-app'
+            displayName: 'Publish Function App artifact'
+
+  # ============================================
+  # STAGE 2: Deploy (master branch ONLY)
+  # ============================================
+  - stage: Deploy
+    displayName: 'Deploy to Azure'
+    dependsOn: Build
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    jobs:
+      - deployment: DeployFunctionApp
+        displayName: 'Deploy Function App'
+        pool:
+          vmImage: 'ubuntu-latest'
+        environment: 'production'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: 'function-app'
+
+                - task: AzureCLI@2
+                  displayName: 'Deploy to Azure Function App'
+                  inputs:
+                    azureSubscription: '$(azureServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      set -euo pipefail
+                      ZIP_FILE="$(Pipeline.Workspace)/function-app/function-app.zip"
+                      echo "Deploying: $ZIP_FILE"
+                      echo "Function App: $(functionAppName)"
+                      echo "Resource Group: $(resourceGroup)"
+                      az functionapp deployment source config-zip \
+                        --resource-group "$(resourceGroup)" \
+                        --name "$(functionAppName)" \
+                        --src "$ZIP_FILE"
+
+                # Behavioural eval + prompt sync moved out of CI.
+                # Run `python scripts/deploy.py --all` locally before merging.
+                # See scripts/deploy.py for usage.
+
+  # ============================================
+  # STAGE 3: Smoke Tests (after deploy)
+  # ============================================
+  - stage: SmokeTests
+    displayName: 'Post-Deployment Smoke Tests'
+    dependsOn: Deploy
+    condition: succeeded()
+    jobs:
+      - job: SmokeTest
+        displayName: 'Run Smoke Tests'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - script: |
+              set -euo pipefail
+              echo "Verifying webhook endpoint..."
+              FUNC_URL="https://$(functionAppName).azurewebsites.net/api/chatwoot-webhook"
+              PAYLOAD='{"event":"conversation_updated"}'
+
+              # Build signature header if webhook secret is configured
+              SIG_HEADER=""
+              if [ -n "${CHATWOOT_WEBHOOK_SECRET:-}" ]; then
+                SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$CHATWOOT_WEBHOOK_SECRET" | awk '{print $2}')
+                SIG_HEADER="-H"
+                SIG_EXTRA="X-Chatwoot-Signature:$SIGNATURE"
+              fi
+
+              HTTP_STATUS=$(curl -s -o /tmp/response.json -w "%{http_code}" \
+                -X POST "$FUNC_URL" \
+                -H "Content-Type: application/json" \
+                ${SIG_HEADER:+"$SIG_HEADER" "$SIG_EXTRA"} \
+                -d "$PAYLOAD" --max-time 30)
+
+              echo "Webhook smoke test: HTTP $HTTP_STATUS"
+              cat /tmp/response.json 2>/dev/null || true
+              if [ "$HTTP_STATUS" = "200" ]; then
+                echo "Smoke test passed"
+              else
+                echo "Smoke test failed (expected 200, got $HTTP_STATUS)"
+                exit 1
+              fi
+            displayName: 'Verify webhook endpoint'
+            env:
+              CHATWOOT_WEBHOOK_SECRET: $(chatwootWebhookSecret)
+
+          - script: |
+              set -euo pipefail
+              FUNC_URL="https://$(functionAppName).azurewebsites.net/api/chatwoot-webhook"
+              if [ -n "${CW_FUNCTION_KEY:-}" ]; then
+                FUNC_URL="${FUNC_URL}?code=${CW_FUNCTION_KEY}"
+              fi
+
+              check() {
+                local label="$1"
+                local payload="$2"
+                local expect_skipped="$3"
+                local resp
+                resp=$(curl -sf -X POST "$FUNC_URL" \
+                  -H "Content-Type: application/json" \
+                  -d "$payload" --max-time 30 2>/dev/null || echo '{}')
+                echo "[$label] $resp"
+                if [ "$expect_skipped" = "true" ]; then
+                  echo "$resp" | python3 -c "import sys,json; d=json.load(sys.stdin); assert d.get('skipped') or d.get('ok'), 'expected skipped/ok'" \
+                    && echo "[$label] PASS" || { echo "[$label] FAIL"; exit 1; }
+                fi
+              }
+
+              # Non-message event -> skipped (no agent call)
+              check "event-gate" \
+                '{"event":"conversation_updated","conversation":{"id":99901,"status":"pending"},"inbox":{"id":4}}' \
+                "true"
+
+              # Outgoing message (agent/bot) -> skipped (only incoming processed)
+              check "outgoing-gate" \
+                '{"event":"message_created","message_type":1,"content":"bot reply","private":false,"conversation":{"id":99902,"status":"open"},"inbox":{"id":4},"sender":{"id":1,"type":"user"}}' \
+                "true"
+
+              # Private note -> skipped
+              check "private-gate" \
+                '{"event":"message_created","message_type":0,"content":"internal note","private":true,"conversation":{"id":99903,"status":"open"},"inbox":{"id":4},"sender":{"id":1,"type":"contact"}}' \
+                "true"
+
+              echo "Spec-compliance smoke tests passed."
+            displayName: 'Spec-compliance smoke tests'
+            env:
+              CW_FUNCTION_KEY: $(CW_FUNCTION_KEY)
+
+  # ============================================
+  # STAGE 4: Notify (Telegram, after deploy + smoke)
+  # ============================================
+  # Format dictated by Yasha (2026-05-03): see /home/shovalbe/docs/tlg_notification 1.sh.
+  # Single rich Markdown message on success or failure. SUCCESS includes commit message,
+  # author, branch, build ID + URL. FAILURE flips icon and label, otherwise identical.
+  # Pipeline secrets: tgBotToken (e.g. "bot1234:abc..."), tgChatId.
+  - stage: Notify
+    displayName: 'Notify (Telegram)'
+    dependsOn:
+      - Deploy
+      - SmokeTests
+    # Run only on master deploys (where Deploy actually executes). PR-validation
+    # builds skip Deploy + SmokeTests, so notifying for them would be noise.
+    # `always()` within this scope ensures we still notify on Deploy/Smoke FAIL,
+    # but the outer eq() check skips non-master branches outright.
+    condition: |
+      and(
+        eq(variables['Build.SourceBranch'], 'refs/heads/master'),
+        in(dependencies.Deploy.result, 'Succeeded', 'Failed'),
+        in(dependencies.SmokeTests.result, 'Succeeded', 'Failed', 'Skipped')
+      )
+    jobs:
+      - job: TelegramNotify
+        displayName: 'Send Telegram build notification'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - checkout: self
+          - script: |
+              set -euo pipefail
+
+              # Aggregate stage outcomes — STATUS is FAILED if any of Deploy/SmokeTests failed.
+              # Note: deployResult / smokeResult are ENV vars set via the `env:` block below
+              # (runtime expressions). Bash reads them as $deployResult / $smokeResult — NOT
+              # the ADO macro syntax $(...), which would be interpreted by bash as command
+              # substitution and fail with "command not found" (build 11923 hit this bug).
+              if [ "${deployResult:-}" = "Succeeded" ] && [ "${smokeResult:-Skipped}" != "Failed" ]; then
+                STATUS="SUCCESS"
+              else
+                STATUS="FAILED"
+              fi
+
+              if [ "$STATUS" = "FAILED" ]; then
+                ICON="❌"
+                LABEL="Build FAILED"
+              else
+                ICON="✅"
+                LABEL="Build Succeeded"
+              fi
+
+              COMMIT_MESSAGE=$(git log --format=%B -n 1 2>/dev/null | head -5)
+              DEPLOY_TIME=$(date -u '+%Y-%m-%d %H:%M UTC')
+              BUILD_URL="https://dev.azure.com/Corp-domain/Corp-AI/_build/results?buildId=$(Build.BuildId)"
+
+              MSG="${ICON} *${LABEL}*
+              📦 *Pipeline:* \`cs-agents-ci\`
+              🌿 *Branch:* \`$(Build.SourceBranchName)\`
+              👤 *Author:* $(Build.RequestedFor)
+              💬 *Commit:* ${COMMIT_MESSAGE}
+              🕐 *Time:* ${DEPLOY_TIME}
+              🔢 *Build ID:* $(Build.BuildId)
+              🔗 [View Pipeline Run](${BUILD_URL})"
+
+              RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+                "https://api.telegram.org/${TG_BOT_TOKEN}/sendMessage" \
+                -d "chat_id=${TG_CHAT_ID}" \
+                -d "parse_mode=Markdown" \
+                --data-urlencode "text=${MSG}")
+
+              HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+              BODY=$(echo "$RESPONSE" | head -n -1)
+
+              if [ "$HTTP_CODE" != "200" ]; then
+                echo "Telegram notification failed (HTTP $HTTP_CODE): $BODY"
+                # Don't fail the pipeline if only the notification failed.
+                exit 0
+              fi
+              echo "Telegram notification sent (HTTP $HTTP_CODE)"
+            displayName: 'Send Telegram notification'
+            env:
+              TG_BOT_TOKEN: $(tgBotToken)
+              TG_CHAT_ID: $(tgChatId)
+              deployResult: $[ stageDependencies.Deploy.result ]
+              smokeResult: $[ stageDependencies.SmokeTests.result ]
+
+  # ============================================
+  # STAGE 5: Codex AI PR Review
+  # ============================================
+  # Calls scripts/codex_pr_review.py, which invokes the Foundry deployment
+  # gpt-5.3-codex-CI-Reviewer in the seekapa_ai project and posts the review as
+  # a PR comment thread. Runs in PARALLEL with Build (dependsOn: []) and never
+  # blocks merge; the review is advisory. Only fires on PR builds.
+  #
+  # Prereqs (one-time setup):
+  #   1. Service principal behind '$(azureServiceConnection)' has role
+  #      'Azure AI User' (or contributor) on the brn-azai Foundry account.
+  #   2. Project Collection Build Service has 'Contribute to pull requests'
+  #      allowed on this repo (Project Settings, Repos, Security).
+  - stage: CodexReview
+    displayName: 'Codex AI PR Review'
+    dependsOn: []
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+    jobs:
+      - job: review
+        displayName: 'Review PR with Foundry deployment gpt-5.3-codex-CI-Reviewer'
+        continueOnError: true   # advisory only, must NEVER block merges
+        pool:
+          vmImage: 'ubuntu-latest'
+        timeoutInMinutes: 10
+        steps:
+          - checkout: self
+            fetchDepth: 0
+            persistCredentials: true
+
+          - task: UsePythonVersion@0
+            displayName: 'Use Python $(pythonVersion)'
+            inputs:
+              versionSpec: '$(pythonVersion)'
+              addToPath: true
+
+          - script: |
+              python -m pip install --upgrade pip uv
+              uv pip install --system 'azure-ai-projects>=2.0.0' 'azure-identity>=1.15.0'
+            displayName: 'Install Foundry SDK'
+
+          - task: AzureCLI@2
+            displayName: 'Codex review (Foundry deployment to PR comment)'
+            inputs:
+              azureSubscription: '$(azureServiceConnection)'
+              scriptType: bash
+              scriptLocation: inlineScript
+              addSpnToEnvironment: true
+              inlineScript: |
+                set -euo pipefail
+                # AzureCLI@2 with addSpnToEnvironment exposes AZURE_CLIENT_ID,
+                # AZURE_TENANT_ID, and a federated token credential that
+                # DefaultAzureCredential picks up automatically.
+                python scripts/codex_pr_review.py
+            env:
+              SYSTEM_ACCESSTOKEN: $(System.AccessToken)

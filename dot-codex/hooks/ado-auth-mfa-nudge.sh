@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/hooks/ado-auth-mfa-nudge.sh

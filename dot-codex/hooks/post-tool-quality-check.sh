@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/hooks/post-tool-quality-check.sh

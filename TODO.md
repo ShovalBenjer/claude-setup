@@ -13,6 +13,7 @@ One TODO, grouped by layer, ticket-tagged (SETUP-OS). Status mirrors docs/prd/cl
 - [x] Repo portfolio graph: 22 nodes / 72 edges -> d2 + sqlite (#15)
 - [x] Git branch health sweep: 22 repos, 80 branches, 20 merged-deletable, 2 drift (#17)
 - [x] Daily digest generator over live state + cron 7:03 (#6 partial: needs always-on / Task Scheduler)
+- [x] FULL work-setup import from work-archive-2026-07-12: 23 personas + 14 hooks + 36 skills + tower/intent bins + work-docs/ + intent-control-plane/ (2026-07-24, see docs/analysis/2026-07-24-work-archive-import.md)
 
 ## P0 — Truth & hygiene (L1/L7)
 - [x] Authorize OAuth token; distribute to 22 repos (#4) — DONE 2026-07-23 (root cause: was stripping #state)

@@ -1,0 +1,456 @@
+If you only trust tests, then you need a **test architecture**, not just test files.
+
+Below is a **state-of-the-art test taxonomy** used in mature engineering organizations building production systems (backend, infra, ML, UI, distributed systems).
+
+---
+
+# 1. The Modern Testing Pyramid (Evolved)
+
+The classic pyramid is outdated if taken literally. A better mental model is:
+
+| Layer           | Purpose                       | Speed     | Isolation | Confidence |
+| --------------- | ----------------------------- | --------- | --------- | ---------- |
+| Static & Formal | Prevent bugs before runtime   | Instant   | Max       | High       |
+| Unit            | Verify logic in isolation     | Very fast | High      | Medium     |
+| Property        | Prove invariants              | Fast      | High      | High       |
+| Component       | Verify module behavior        | Medium    | Medium    | High       |
+| Contract        | Verify API boundaries         | Medium    | Medium    | High       |
+| Integration     | Verify subsystem interactions | Slower    | Low       | High       |
+| System / E2E    | Verify real behavior          | Slow      | None      | Very high  |
+| Non-Functional  | Verify production constraints | Varies    | None      | Critical   |
+
+You need coverage across all layers.
+
+---
+
+# 2. State of the Art Test Types
+
+## 2.1 Static and Compile Time Tests
+
+### Type Checking
+
+Strong typing catches entire classes of runtime bugs.
+
+### Linting and Semantic Analysis
+
+Enforce architecture and unsafe patterns.
+
+### Formal Verification
+
+For critical logic:
+
+* Model checking
+* SMT solvers
+* Refinement types
+
+Used in finance, crypto, aerospace.
+
+---
+
+## 2.2 Unit Tests
+
+Scope:
+
+* Pure functions
+* Deterministic logic
+* Edge cases
+* Error branches
+
+Characteristics:
+
+* No IO
+* No network
+* No filesystem
+* No DB
+
+Goal:
+Prove small logic blocks are correct.
+
+---
+
+## 2.3 Property Based Tests
+
+Instead of writing example cases, define invariants.
+
+Examples:
+
+* Sorting output is ordered
+* Parser serialize then deserialize returns original
+* Layout never produces overlapping elements
+
+Tools:
+
+* QuickCheck style generators
+* Fuzz input generation
+
+This is superior to example based tests for core algorithms.
+
+---
+
+## 2.4 Fuzz Testing
+
+Feed random structured input into:
+
+* Parsers
+* Compilers
+* Interpreters
+* Layout engines
+* APIs
+
+Goal:
+Discover crashes, undefined behavior, memory leaks.
+
+Modern fuzzing:
+
+* Coverage guided fuzzing
+* Mutation based fuzzing
+
+Essential for systems handling external input.
+
+---
+
+## 2.5 Mutation Testing
+
+Modify your code automatically:
+
+* Flip conditions
+* Remove branches
+* Change return values
+
+If tests still pass, your suite is weak.
+
+This measures real test strength.
+
+---
+
+## 2.6 Component Tests
+
+Test a module with real dependencies except infrastructure.
+
+Example:
+
+* Service with in memory DB
+* UI component rendered with real DOM
+* Layout engine with synthetic scene graph
+
+Verifies:
+
+* Internal wiring
+* Data transformations
+* State transitions
+
+---
+
+## 2.7 Contract Tests
+
+Critical in distributed systems.
+
+Verify:
+
+* API schema compatibility
+* Backward compatibility
+* Version negotiation
+
+Types:
+
+* Consumer driven contract tests
+* Schema validation
+* OpenAPI validation
+
+Prevents breaking changes between services.
+
+---
+
+## 2.8 Integration Tests
+
+Test multiple real components together:
+
+* DB
+* Cache
+* Message queue
+* Service layer
+
+Detect:
+
+* Transaction issues
+* Serialization problems
+* Dependency misconfiguration
+
+Should run in CI but not on every commit.
+
+---
+
+## 2.9 End to End Tests
+
+Simulate real user workflows.
+
+Verify:
+
+* UI interactions
+* Full request lifecycle
+* Real persistence
+
+Should be:
+
+* Few
+* High value
+* Stable
+
+Not thousands.
+
+---
+
+## 2.10 Golden Master Tests
+
+Snapshot based.
+
+Used for:
+
+* Rendering engines
+* Layout systems
+* Compilers
+* Transformers
+
+Compare output with known correct baseline.
+
+Useful for:
+
+* Refactors
+* Complex deterministic pipelines
+
+---
+
+## 2.11 Regression Suites
+
+Curated historical bug cases.
+
+Every production bug becomes:
+
+* A permanent test.
+
+This is how mature systems stabilize over years.
+
+---
+
+# 3. Non Functional Testing
+
+Most engineers ignore these. Production failures usually come from here.
+
+---
+
+## 3.1 Performance Testing
+
+Measure:
+
+* Latency
+* Throughput
+* CPU usage
+* Memory allocation
+
+Types:
+
+* Microbenchmarks
+* Load tests
+* Stress tests
+* Soak tests
+
+---
+
+## 3.2 Scalability Testing
+
+Test behavior at:
+
+* 10x
+* 100x
+* 1000x load
+
+Observe:
+
+* Linear degradation
+* Resource exhaustion
+
+---
+
+## 3.3 Concurrency Testing
+
+Detect:
+
+* Deadlocks
+* Race conditions
+* Starvation
+* Data corruption
+
+Methods:
+
+* Thread stress loops
+* Deterministic schedulers
+* Chaos timing injection
+
+---
+
+## 3.4 Security Testing
+
+Includes:
+
+* Static analysis
+* Dependency scanning
+* Fuzzing
+* Penetration testing
+* Injection testing
+* Auth bypass attempts
+
+Must exist if exposed to network.
+
+---
+
+## 3.5 Chaos Testing
+
+Inject failure:
+
+* Kill services
+* Drop packets
+* Corrupt data
+* Delay responses
+
+Verify:
+
+* Recovery
+* Idempotency
+* Retry logic
+
+Critical in distributed systems.
+
+---
+
+## 3.6 Resilience Testing
+
+Simulate:
+
+* Partial outages
+* Slow dependencies
+* Corrupted payloads
+
+Ensure graceful degradation.
+
+---
+
+# 4. Architecture Level Testing
+
+For complex systems:
+
+---
+
+## 4.1 Invariant Tests
+
+Global system invariants:
+
+* No overlapping layout
+* No negative balance
+* No invalid state transitions
+
+These run continuously.
+
+---
+
+## 4.2 State Machine Testing
+
+For workflows:
+
+* Enumerate transitions
+* Randomly traverse graph
+* Assert legal transitions only
+
+---
+
+## 4.3 Model Based Testing
+
+Build abstract model.
+Compare:
+Real system behavior == Model behavior
+
+Very powerful for:
+
+* Compilers
+* Layout engines
+* Protocols
+
+---
+
+# 5. CI Strategy for SOTA Testing
+
+You do not run everything on every commit.
+
+### On Every Commit
+
+* Lint
+* Type check
+* Unit
+* Property tests
+
+### On Pull Request
+
+* Component
+* Contract
+* Integration
+
+### Nightly
+
+* Fuzz
+* Mutation
+* Performance
+* Concurrency stress
+
+### Pre Release
+
+* Full regression
+* End to end
+* Load
+* Chaos
+
+---
+
+# 6. What You Must Have Minimum
+
+If you want serious reliability:
+
+1. Unit tests
+2. Property based tests
+3. Regression suite
+4. Integration tests
+5. Performance baseline tests
+
+If handling external input:
+
+6. Fuzz tests
+
+If distributed:
+
+7. Contract tests
+8. Chaos tests
+
+If algorithm heavy:
+
+9. Model based tests
+
+---
+
+# 7. The Real SOTA Mindset
+
+Testing is not about coverage percentage.
+
+It is about:
+
+* Invariants
+* Determinism
+* Regression protection
+* Failure modeling
+* Behavioral guarantees
+
+The strongest engineering teams treat tests as:
+A specification of system behavior.
+
+---
+
+If you tell me what kind of system you are building
+backend API, distributed system, layout engine, ML pipeline, compiler, etc
+I can design a test architecture specifically optimized for it.

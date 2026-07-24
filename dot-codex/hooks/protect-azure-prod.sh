@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/hooks/protect-azure-prod.sh

@@ -1,0 +1,1 @@
+/home/shovalbe/.codex/hooks/post-compact-reinject.sh

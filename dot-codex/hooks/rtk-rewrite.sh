@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/hooks/rtk-rewrite.sh

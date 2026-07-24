@@ -1,0 +1,198 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CODEX_HOME="${CODEX_HOME:-/home/shovalbe/.codex}"
+SECRETS_SYNC="$CODEX_HOME/bin/codex-secrets-sync"
+PASS_COUNT=0
+WARN_COUNT=0
+FAIL_COUNT=0
+
+pass() { PASS_COUNT=$((PASS_COUNT + 1)); echo "[PASS] $1"; }
+warn() { WARN_COUNT=$((WARN_COUNT + 1)); echo "[WARN] $1"; }
+fail() { FAIL_COUNT=$((FAIL_COUNT + 1)); echo "[FAIL] $1"; }
+
+trim() {
+  local s="$1"
+  s="${s#"${s%%[![:space:]]*}"}"
+  s="${s%"${s##*[![:space:]]}"}"
+  printf '%s' "$s"
+}
+
+load_env_file() {
+  local file="$1"
+  [[ -f "$file" ]] || return 0
+
+  local raw line key value
+  while IFS= read -r raw || [[ -n "$raw" ]]; do
+    line="${raw%%#*}"
+    line="${line%$'\r'}"
+    line="$(trim "$line")"
+    [[ -z "$line" ]] && continue
+    if [[ "$line" =~ ^([A-Za-z_][A-Za-z0-9_]*)[[:space:]]*=[[:space:]]*(.*)$ ]]; then
+      key="${BASH_REMATCH[1]}"
+      value="$(trim "${BASH_REMATCH[2]}")"
+      if [[ "$value" =~ ^\"(.*)\"$ ]]; then value="${BASH_REMATCH[1]}"; fi
+      if [[ "$value" =~ ^\'(.*)\'$ ]]; then value="${BASH_REMATCH[1]}"; fi
+      export "$key=$value"
+    fi
+  done < "$file"
+}
+
+detect_project_root() {
+  local p="$PWD"
+  while [[ "$p" != "/" ]]; do
+    if [[ -d "$p/.codex" && "$p" != "/home/shovalbe" ]]; then
+      echo "$p"
+      return 0
+    fi
+    p="$(dirname "$p")"
+  done
+  return 1
+}
+
+load_known_envs() {
+  local project_root=""
+  if project_root="$(detect_project_root 2>/dev/null)"; then
+    :
+  else
+    project_root=""
+  fi
+
+  load_env_file "/home/shovalbe/.env"
+  load_env_file "$CODEX_HOME/secrets/runtime/global.env"
+  if [[ -n "$project_root" ]]; then
+    load_env_file "$project_root/.env"
+    load_env_file "$project_root/.codex/secrets/runtime.env"
+  fi
+}
+
+need_cmd() {
+  local c="$1"
+  if command -v "$c" >/dev/null 2>&1; then
+    pass "command found: $c"
+  else
+    fail "missing command: $c"
+  fi
+}
+
+load_known_envs
+if [[ -x "$SECRETS_SYNC" ]]; then
+  "$SECRETS_SYNC" --project auto --mcp-only --quiet \
+    --require PERPLEXITY_API_KEY \
+    --require APIFY_API_KEY \
+    --require HEYGEN_API_KEY \
+    --require ELEVENLABS_API_KEY >/dev/null 2>&1 || true
+  load_known_envs
+fi
+
+echo "=== MCP Smoke Check ==="
+need_cmd codex
+need_cmd npx
+need_cmd uvx
+need_cmd playwright-cli
+if command -v bunx >/dev/null 2>&1; then
+  pass "command found: bunx"
+else
+  warn "bunx not found (not required for current MCP config)"
+fi
+
+echo
+echo "=== Env Presence ==="
+for k in PERPLEXITY_API_KEY APIFY_API_KEY HEYGEN_API_KEY ELEVENLABS_API_KEY; do
+  if [[ -n "${!k:-}" ]]; then
+    pass "$k is set"
+  else
+    fail "$k is missing"
+  fi
+done
+
+echo
+echo "=== API Reachability (token-auth only; no secret output) ==="
+if [[ -n "${PERPLEXITY_API_KEY:-}" ]]; then
+  code=$(curl -sS -o /tmp/pplx-smoke.json -w '%{http_code}' https://api.perplexity.ai/chat/completions \
+    -H "Authorization: Bearer ${PERPLEXITY_API_KEY}" \
+    -H 'Content-Type: application/json' \
+    -d '{"model":"sonar","messages":[{"role":"user","content":"ping"}],"max_tokens":8}') || code="000"
+  [[ "$code" == "200" ]] && pass "Perplexity API reachable" || fail "Perplexity API HTTP $code"
+fi
+
+if [[ -n "${APIFY_API_KEY:-}" ]]; then
+  code=$(curl -sS -o /tmp/apify-smoke.json -w '%{http_code}' "https://api.apify.com/v2/users/me?token=${APIFY_API_KEY}") || code="000"
+  [[ "$code" == "200" ]] && pass "Apify API reachable" || fail "Apify API HTTP $code"
+fi
+
+if [[ -n "${HEYGEN_API_KEY:-}" ]]; then
+  code=$(curl -sS -o /tmp/heygen-smoke.json -w '%{http_code}' https://api.heygen.com/v2/user/me \
+    -H "x-api-key: ${HEYGEN_API_KEY}") || code="000"
+  [[ "$code" == "200" ]] && pass "HeyGen API reachable" || warn "HeyGen API HTTP $code (check endpoint/account plan if not 200)"
+fi
+
+if [[ -n "${ELEVENLABS_API_KEY:-}" ]]; then
+  code=$(curl -sS -o /tmp/elevenlabs-smoke.json -w '%{http_code}' https://api.elevenlabs.io/v1/user \
+    -H "xi-api-key: ${ELEVENLABS_API_KEY}") || code="000"
+  [[ "$code" == "200" ]] && pass "ElevenLabs API reachable" || fail "ElevenLabs API HTTP $code"
+fi
+
+echo
+echo "=== MCP Server Command Smoke ==="
+if timeout 10s bash -lc 'npx -yq @perplexity-ai/mcp-server </dev/null >/tmp/perplexity-mcp-run.txt 2>&1'; then
+  pass "Perplexity MCP command starts"
+else
+  rc=$?
+  if [[ "$rc" == "124" ]]; then
+    warn "Perplexity MCP command started and waited for client (timeout expected)"
+  else
+    fail "Perplexity MCP command failed (rc=$rc)"
+  fi
+fi
+
+if timeout 15s bash -lc 'npx -y @playwright/mcp@latest --help >/tmp/playwright-mcp-help.txt 2>&1'; then
+  pass "Playwright MCP command responds"
+else
+  rc=$?
+  if [[ "$rc" == "124" ]]; then
+    warn "Playwright MCP command timed out (likely waiting on network/package install)"
+  else
+    fail "Playwright MCP command failed (rc=$rc)"
+  fi
+fi
+
+if timeout 15s bash -lc 'uvx heygen-mcp --help >/tmp/heygen-mcp-help.txt 2>&1'; then
+  pass "HeyGen MCP command responds"
+else
+  rc=$?
+  if [[ "$rc" == "124" ]]; then
+    warn "HeyGen MCP command timed out (likely waiting on network/package install)"
+  else
+    fail "HeyGen MCP command failed (rc=$rc)"
+  fi
+fi
+
+# elevenlabs-mcp may not provide --help; run with closed stdin and short timeout.
+if timeout 10s bash -lc 'uvx elevenlabs-mcp </dev/null >/tmp/elevenlabs-mcp-run.txt 2>&1'; then
+  pass "ElevenLabs MCP command starts"
+else
+  rc=$?
+  if [[ "$rc" == "124" ]]; then
+    warn "ElevenLabs MCP command started and waited for client (timeout expected)"
+  else
+    fail "ElevenLabs MCP command failed (rc=$rc)"
+  fi
+fi
+
+echo
+echo "=== Codex MCP Registration ==="
+codex mcp list
+
+echo
+echo "Tip: launch on-demand session"
+echo "  codex-with-mcp perplexity playwright"
+echo "  codex-with-mcp apify"
+echo "  codex-with-mcp heygen elevenlabs"
+
+echo
+echo "=== Summary ==="
+echo "Pass: $PASS_COUNT  Warn: $WARN_COUNT  Fail: $FAIL_COUNT"
+if [[ "$FAIL_COUNT" -gt 0 ]]; then
+  exit 1
+fi

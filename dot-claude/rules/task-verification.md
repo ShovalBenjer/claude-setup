@@ -1,0 +1,1 @@
+/home/shovalbe/.codex/rules/task-verification.md

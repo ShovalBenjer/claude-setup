@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hedg.com Website Engineering Audit, 2026-06-29</title>
+<style>
+  :root{
+    --navy:#0a2540; --navy2:#0b1f3a; --ink:#11202e; --slate:#41566b; --mute:#6b7d8f;
+    --line:#dde5ec; --bg:#ffffff; --soft:#f4f7fa; --teal:#0fb5c9; --teal-d:#0a7d8c;
+    --p1:#c0392b; --p2:#b9770e; --p3:#5a6b7b; --good:#1e8e5a; --good-bg:#e9f6ef;
+    --p1-bg:#fbeae8; --p2-bg:#fdf3e3; --p3-bg:#eef2f6;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); margin:0; font-size:13px; line-height:1.55; background:var(--bg);}
+  h1,h2,h3,h4{line-height:1.2; margin:0 0 .4em}
+  h2{font-size:21px; color:var(--navy); border-bottom:2px solid var(--teal); padding-bottom:6px; margin-top:6px}
+  h3{font-size:15.5px; color:var(--navy)}
+  h4{font-size:13px; color:var(--slate); text-transform:uppercase; letter-spacing:.04em}
+  p{margin:.3em 0 .7em}
+  a{color:var(--teal-d); text-decoration:none}
+  small{color:var(--mute)}
+  code{background:var(--soft); padding:1px 5px; border-radius:4px; font-size:11.5px; color:#0b3a44; word-break:break-word}
+  .page{padding:26px 34px; max-width:900px; margin:0 auto}
+  .pb{page-break-after:always}
+  .card{border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin:12px 0; page-break-inside:avoid; background:#fff}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .muted{color:var(--mute)}
+  table{width:100%; border-collapse:collapse; font-size:12px; margin:8px 0}
+  th,td{border:1px solid var(--line); padding:7px 9px; text-align:left; vertical-align:top}
+  th{background:var(--soft); color:var(--navy); font-weight:600}
+  .badge{display:inline-block; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:20px; letter-spacing:.03em; white-space:nowrap}
+  .b-p1{background:var(--p1-bg); color:var(--p1)} .b-p2{background:var(--p2-bg); color:var(--p2)}
+  .b-p3{background:var(--p3-bg); color:var(--p3)} .b-good{background:var(--good-bg); color:var(--good)}
+  .b-teal{background:#e3f6f9; color:var(--teal-d)}
+  .scorebar{height:9px; border-radius:6px; background:var(--soft); overflow:hidden; margin-top:4px}
+  .scorebar > span{display:block; height:100%; background:linear-gradient(90deg,var(--teal-d),var(--teal))}
+  .kpi{display:flex; gap:10px; flex-wrap:wrap; margin:10px 0}
+  .kpi > div{flex:1 1 150px; border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:#fff}
+  .kpi .n{font-size:24px; font-weight:700; color:var(--navy)}
+  .kpi .l{font-size:11px; color:var(--mute); text-transform:uppercase; letter-spacing:.04em}
+  ul{margin:.2em 0 .8em; padding-left:18px} li{margin:.18em 0}
+  .find{border-left:4px solid var(--line); padding:8px 12px; margin:9px 0; background:#fff; page-break-inside:avoid}
+  .find.p1{border-color:var(--p1)} .find.p2{border-color:var(--p2)} .find.p3{border-color:var(--p3)} .find.good{border-color:var(--good)}
+  .find .h{font-weight:700; color:var(--navy); margin-bottom:2px}
+  .cite{font-size:11px; color:var(--teal-d); background:#f1fafc; border:1px dashed #bfe6ec; border-radius:6px; padding:5px 9px; margin-top:6px}
+  .shot{width:100%; max-height:430px; object-fit:cover; object-position:top center; border:1px solid var(--line); border-radius:8px}
+  /* cover */
+  .cover{background:radial-gradient(1200px 600px at 70% -10%, #15436b 0%, var(--navy) 45%, var(--navy2) 100%); color:#eaf2f8; min-height:1040px; display:flex; flex-direction:column; justify-content:space-between; padding:60px 56px}
+  .cover .logo{width:148px; height:148px; border-radius:26px; box-shadow:0 10px 40px rgba(0,0,0,.35)}
+  .cover h1{font-size:40px; letter-spacing:-.5px; margin:18px 0 6px; color:#fff}
+  .cover .sub{font-size:16px; color:#9fc7d6; max-width:620px}
+  .wordmark{font-size:13px; letter-spacing:.42em; color:var(--teal); font-weight:700; text-transform:uppercase}
+  .wordmark .b{color:#cfe0ec; letter-spacing:.42em}
+  .metabox{border:1px solid rgba(255,255,255,.16); border-radius:12px; padding:16px 18px; background:rgba(255,255,255,.04); font-size:12.5px; color:#cdddE8; max-width:560px}
+  .metabox b{color:#fff}
+  .ribbon{display:inline-block; background:var(--teal); color:#04222a; font-weight:800; padding:5px 12px; border-radius:6px; font-size:12px; letter-spacing:.02em}
+  @page{size:A4; margin:14mm 0}
+  @media print{ .page{padding:0 16mm} .cover{padding:24mm 18mm; min-height:auto; height:262mm} }
+</style>
+</head>
+<body>
+
+<!-- ===================== COVER ===================== -->
+<section class="cover pb">
+  <div>
+    <div class="wordmark">AI<span class="b"> ENGINEERING</span></div>
+  </div>
+  <div>
+    <img class="logo" src="ai-team-logo.png" alt="AI Engineering team emblem">
+    <h1>hedg.com Website Engineering Audit</h1>
+    <div class="sub">A principal-engineer review of the public hedg.com web property, graded against the June 2026 state of the art in production AI, software engineering, SQL/data engineering, and the principal-engineer curriculum.</div>
+    <p style="margin-top:18px"><span class="ribbon">Overall: 3.4 / 5 &nbsp;|&nbsp; Grade B-, strong foundation, four priority fixes</span></p>
+  </div>
+  <div class="metabox">
+    <div><b>Target:</b> https://hedg.com/ (CFD trading platform, HEDG / R.M.A Financial Services Ltd)</div>
+    <div><b>Date:</b> 2026-06-29 &nbsp; <b>Prepared by:</b> AI Engineering Team</div>
+    <div><b>Method:</b> passive external observation only. No login, no form submission, no active probing of backend APIs. Lighthouse run against Chrome 149 headless; transport, headers, content and structure read via curl and a headless browser.</div>
+    <div><b>Confidentiality:</b> internal engineering assessment. Compliance and legal items are observations, not determinations, and require validation by qualified compliance/legal staff.</div>
+  </div>
+</section>
+
+<!-- ===================== EXEC SUMMARY ===================== -->
+<section class="page">
+  <h2>Executive Summary</h2>
+  <p><b>Bottom line.</b> hedg.com is a competently built, well-instrumented marketing property: a WordPress/PHP front end behind Cloudflare, with a separate trading backend, bought-in widgets (TradingView, VoiceSpin voice, Trustpilot), and genuinely strong results on SEO, accessibility, internationalization, edge transport, and regulatory transparency for an offshore broker. It is held back from state-of-the-art by four fixable issues: mobile Core Web Vitals fail, the Content Security Policy is self-defeating, a JSON Web Token is placed in a JavaScript-readable cookie before login, and the headline AI ("autonomous trading") product has thin public risk and trust disclosure.</p>
+
+  <div class="kpi">
+    <div><div class="n">95</div><div class="l">Lighthouse perf, desktop</div></div>
+    <div><div class="n" style="color:var(--p2)">60</div><div class="l">Lighthouse perf, mobile</div></div>
+    <div><div class="n" style="color:var(--good)">98</div><div class="l">Accessibility</div></div>
+    <div><div class="n" style="color:var(--good)">100</div><div class="l">SEO</div></div>
+    <div><div class="n">96</div><div class="l">Best practices</div></div>
+  </div>
+
+  <h3>Scorecard</h3>
+  <table>
+    <thead><tr><th style="width:230px">Lens (graded against the 3 reference docs)</th><th style="width:70px">Score</th><th>Maturity and verdict</th></tr></thead>
+    <tbody>
+      <tr><td>A. Systems &amp; Performance</td><td><b>3.0</b>/5<div class="scorebar"><span style="width:60%"></span></div></td><td>L3. Edge and transport excellent; mobile front-end performance is the weak point. <b>Improve.</b></td></tr>
+      <tr><td>B. Architecture &amp; API</td><td><b>3.5</b>/5<div class="scorebar"><span style="width:70%"></span></div></td><td>L3. Sensible build-vs-buy; dependency hygiene and locale consistency are the gaps. <b>Improve.</b></td></tr>
+      <tr><td>C. Data Layer (external signals)</td><td><b>3.5</b>/5<div class="scorebar"><span style="width:70%"></span></div></td><td>No external leakage observed; API root not exposed. Internal review needs authorized access. <b>Improve.</b></td></tr>
+      <tr><td>D. Security</td><td><b>3.0</b>/5<div class="scorebar"><span style="width:60%"></span></div></td><td>L2 to L3. Strong header baseline undone by CSP and a non-HttpOnly token cookie. <b>Improve.</b></td></tr>
+      <tr><td>E. Product, Trust &amp; Compliance</td><td><b>3.5</b>/5<div class="scorebar"><span style="width:70%"></span></div></td><td>Clear funnel and good regulatory transparency; consent and claim-copy gaps. <b>Improve.</b></td></tr>
+      <tr><td>F. AI Features (public surface)</td><td><b>2.5</b>/5<div class="scorebar"><span style="width:50%"></span></div></td><td>Autonomous-AI claim is front and center; public AI risk and trust disclosure is thin. <b>Redesign the disclosure.</b></td></tr>
+      <tr><td>G. SEO &amp; Accessibility</td><td><b>4.5</b>/5<div class="scorebar"><span style="width:90%"></span></div></td><td>L4. Excellent. Minor a11y polish only. <b>Approve.</b></td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>What a principal engineer would approve</h4>
+      <ul>
+        <li>Cloudflare edge with HTTP/3 (<code>alt-svc: h3</code>), TLS 1.3, Brotli, and HSTS preload.</li>
+        <li>SEO 100 and Accessibility 98: full hreflang set, correct Arabic <code>dir="rtl"</code>, JSON-LD, complete alt coverage.</li>
+        <li>Strong CSP skeleton (<code>default-src 'none'</code>, <code>object-src 'none'</code>, <code>frame-ancestors 'self'</code>).</li>
+        <li>Clear regulatory disclosure (named entity, FSA Seychelles SD114) and a thorough legal document set.</li>
+        <li>Pragmatic build-vs-buy: charting, voice, and reviews are bought, not built.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Top priorities</h4>
+      <ul>
+        <li><span class="badge b-p1">P1</span> Fix mobile Core Web Vitals (LCP 5.2s, CLS 0.26).</li>
+        <li><span class="badge b-p1">P1</span> Remove <code>'unsafe-inline'</code> and <code>'unsafe-eval'</code> from the script CSP.</li>
+        <li><span class="badge b-p1">P1</span> Make the pre-auth JWT cookie <code>HttpOnly</code> + <code>SameSite</code>.</li>
+        <li><span class="badge b-p2">P2</span> Cookie consent + cookie policy before session-replay trackers fire.</li>
+        <li><span class="badge b-p2">P2</span> Add public AI/CopyAlgo risk and methodology transparency.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="muted" style="font-size:11px">Scoring blends the L1 to L5 maturity ladder from "Production AI &amp; Software Engineering, June 2026" with the principal-engineer grading lens from the curriculum doc and the externally observable data-layer subset from the SQL doc. Compliance items are observations for legal review, not determinations.</p>
+</section>
+<div class="pb"></div>
+
+<!-- ===================== A. SYSTEMS & PERF ===================== -->
+<section class="page">
+  <h2>A. Systems &amp; Performance &nbsp;<span class="badge b-p2" style="vertical-align:middle">Score 3.0 / 5</span></h2>
+  <p>The edge and transport layer is state-of-the-art. The front-end asset pipeline is not, and the gap shows up almost entirely on mobile.</p>
+
+  <div class="find good"><div class="h">Edge and transport: excellent</div>
+  Cloudflare anycast edge (TLV PoP observed), HTTP/2 with HTTP/3 advertised (<code>alt-svc: h3=":443"; ma=86400</code>), TLS verified, Brotli on the document (<code>content-encoding: br</code>), and HSTS with preload (<code>max-age=31536000; includeSubDomains; preload</code>). The homepage served from edge cache (<code>cf-cache-status: HIT</code>).
+  <div class="cite">Curriculum, "Enable HTTP/3 at the edge for all new services; the configuration is trivial and the fallback is automatic." Satisfied.</div></div>
+
+  <div class="find p1"><div class="h"><span class="badge b-p1">P1</span> Mobile Core Web Vitals fail</div>
+  Lighthouse mobile performance scored <b>60</b> versus <b>95</b> on desktop. Mobile LCP <b>5.2 s</b> (target under 2.5 s), CLS <b>0.26</b> (target under 0.1), FCP <b>3.5 s</b>. Total Blocking Time is 0 ms, so this is a loading and layout-stability problem, not a script-execution one. Root causes Lighthouse attributes:
+  <ul>
+    <li>Render-blocking resources: est. savings <b>~2.07 to 2.23 s</b> on mobile (CSS and head scripts block first paint).</li>
+    <li>No modern image formats (WebP/AVIF): est. <b>~300 KiB</b>; no responsive images: <b>~56 KiB</b>; image delivery: <b>~288 KiB</b>.</li>
+    <li>94 images on the page, <b>none</b> with <code>loading="lazy"</code>; images have no intrinsic dimensions (<code>unsized-images</code>), which drives the 0.26 CLS.</li>
+    <li>Root document server response ~<b>580 ms</b> (WordPress/PHP origin).</li>
+  </ul>
+  Fix: defer non-critical CSS/JS, ship WebP/AVIF with responsive <code>srcset</code>, lazy-load below-the-fold images, set explicit width/height on every image, and consider critical-CSS inlining for the hero. For a broker whose acquisition is increasingly mobile, this is a direct conversion and SEO cost.
+  <div class="cite">Curriculum, "Perceived performance tracks TTFT more than total response time; optimize TTFT first." Production-AI maturity: asset pipeline below L4.</div></div>
+
+  <div class="find p3"><div class="h"><span class="badge b-p3">P3</span> Two broken (404) hero assets</div>
+  <code>/wp-content/uploads/2025/11/hero-vector.png</code> and <code>/wp-content/uploads/2025/12/candles-hedg.png</code> return 404. Lighthouse also flags console errors from these. Low effort, removes layout jank near the LCP element.</div>
+
+  <div class="find p3"><div class="h"><span class="badge b-p3">P3</span> Cache TTL on static assets is short</div>
+  Brand images on <code>bcdn.hedg.com</code> and the jsDelivr Swiper CSS carry ~7-day TTLs. Static, content-hashed assets should be served <code>immutable</code> with a 1-year TTL. Minor repeat-visit win.</div>
+</section>
+<div class="pb"></div>
+
+<!-- ===================== B. ARCHITECTURE ===================== -->
+<section class="page">
+  <h2>B. Architecture &amp; API &nbsp;<span class="badge b-teal" style="vertical-align:middle">Score 3.5 / 5</span></h2>
+  <p>The shape is a classic and defensible one for a broker: a WordPress/PHP brochure (<code>x-powered-by: PHP/8.2.5</code>, <code>wp-*</code> paths, <code>wp-sitemap.xml</code>) fronted by Cloudflare, with a separate <code>api.hedg.com</code> trading backend referenced in the CSP <code>connect-src</code>. Commodity capability is bought, not built.</p>
+
+  <div class="find good"><div class="h">Build-vs-buy judgment: sound</div>
+  Charting (TradingView), click-to-call voice (VoiceSpin WebRTC), reviews (Trustpilot), CAPTCHA (Cloudflare Turnstile), and product analytics (Amplitude) are all bought. The team builds the trading differentiator and buys the commodities.
+  <div class="cite">Curriculum, "Buy for generic capabilities (auth, payments, email, search), build for core differentiation."</div></div>
+
+  <div class="find p2"><div class="h"><span class="badge b-p2">P2</span> Third-party dependency surface is wide and ungoverned</div>
+  The CSP allowlists roughly 13 external origins: jQuery, Google Tag Manager and Analytics, TradingView, Amplitude, Trustpilot, jsDelivr, Facebook, Cloudflare Insights, Microsoft Clarity (session replay), an unidentified <code>trackflare.net</code>, plus the VoiceSpin WebRTC endpoint. In a clean lab load only Cloudflare, Google Fonts, and jsDelivr actually fired (the heavier trackers appear gated or lazy), which is good, but external scripts carry no Subresource Integrity (<code>integrity</code>) attribute. Each allowlisted origin is a supply-chain entry point.
+  Fix: add SRI to third-party scripts, document why each origin is trusted, and identify or remove <code>trackflare.net</code>.
+  <div class="cite">Curriculum dependency hygiene; Production-AI supply-chain section (SBOM and provenance as the 2026 direction).</div></div>
+
+  <div class="find p3"><div class="h"><span class="badge b-p3">P3</span> Locale URL scheme is inconsistent</div>
+  Navigation mixes <code>/en/</code>-prefixed and unprefixed paths (for example <code>/en/legal-documents/</code> next to <code>/trading/markets/</code> and <code>/company/about-us/</code>). This risks redirect chains and duplicate-content dilution. Normalize to one canonical locale-prefix convention.</div>
+
+  <div class="find p3"><div class="h"><span class="badge b-p3">P3</span> Legacy and loader stack</div>
+  jQuery plus Cloudflare Rocket Loader and email-decode are present. Rocket Loader reorders script execution and is a common source of subtle front-end bugs; verify it is not contributing to the render-blocking profile.</div>
+</section>
+<div class="pb"></div>
+
+<!-- ===================== C. DATA LAYER ===================== -->
+<section class="page">
+  <h2>C. Data Layer, External Signals &nbsp;<span class="badge b-teal" style="vertical-align:middle">Score 3.5 / 5</span></h2>
+  <p>By design, almost nothing about the database tier is observable from a public marketing site, and that is the honest finding. What can be observed is clean.</p>
+
+  <div class="find good"><div class="h">No external data-layer red flags observed</div>
+  <code>api.hedg.com</code> did not respond to an unauthenticated root request, so the API surface was not externally enumerable from this audit (a good default). No SQL fragments, stack traces, ORM names, or driver errors were surfaced in any response body. No GraphQL introspection endpoint was detected. Resource identifiers that would enable enumeration are behind the authenticated trading app, which this audit did not access.</div>
+
+  <div class="find p2"><div class="h"><span class="badge b-p2">P2</span> Stack version disclosure</div>
+  <code>x-powered-by: PHP/8.2.5</code> is returned on every response. Beyond leaking the framework, the pinned patch level (8.2.5) is old for mid-2026 and, if accurate, indicates the runtime is behind on security patches. Remove the header (<code>expose_php = Off</code>) and confirm the PHP build is current.</div>
+
+  <div class="card">
+    <h4>Recommendations for the backend team (not externally verifiable; self-assess against the SQL SOTA)</h4>
+    <ul>
+      <li>Primary keys: UUIDv7 or BIGSERIAL, never UUIDv4 on high-write tables (random B-tree inserts cause page splits and index bloat).</li>
+      <li>Pagination: keyset/cursor for any table over ~10K rows; offset pagination is O(n+m) and degrades on deep pages.</li>
+      <li>Queries: parameterized at the driver level; whitelist any dynamic identifier, never string-interpolate SQL.</li>
+      <li>Observability: <code>pg_stat_statements</code> + <code>auto_explain</code> enabled on every production instance.</li>
+      <li>Overload: shed with a fast HTTP 503 + <code>Retry-After</code> rather than queue-and-hang.</li>
+      <li>Multi-tenant isolation: Row-Level Security at the database layer, tested with a non-superuser connection.</li>
+      <li>Secrets and auth: SCRAM-SHA-256, vault-managed credentials, never plaintext in environment variables.</li>
+    </ul>
+    <div class="cite">SQL Engineering, June 2026: the citable verdicts above are the doc's strongest positions.</div>
+  </div>
+</section>
+<div class="pb"></div>
+
+<!-- ===================== D. SECURITY ===================== -->
+<section class="page">
+  <h2>D. Security &nbsp;<span class="badge b-p2" style="vertical-align:middle">Score 3.0 / 5</span></h2>
+  <p>The HTTP header baseline is genuinely strong; two specific choices undo a lot of it. Lighthouse best practices scored 96.</p>
+
+  <div class="find good"><div class="h">Header baseline: strong</div>
+  HSTS preload, <code>x-content-type-options: nosniff</code>, <code>x-frame-options: SAMEORIGIN</code>, <code>referrer-policy: strict-origin-when-cross-origin</code>, a tight <code>permissions-policy</code>, and a CSP whose skeleton is correct: <code>default-src 'none'</code>, <code>object-src 'none'</code>, <code>base-uri 'self'</code>, <code>frame-ancestors 'self'</code>, <code>form-action 'self'</code>.</div>
+
+  <div class="find p1"><div class="h"><span class="badge b-p1">P1</span> CSP is self-defeating on scripts</div>
+  The script directive allows <code>'unsafe-inline'</code>, <code>'unsafe-eval'</code>, and <code>data:</code>. Lighthouse flags this directly: "host allowlists can frequently be bypassed; <code>'unsafe-inline'</code> allows the execution of unsafe in-page scripts; avoid plain <code>data:</code> URL schemes." With ~20 inline scripts on the page, the current setup keeps the strong skeleton from actually preventing XSS.
+  Fix: move to per-request nonces or hashes plus <code>'strict-dynamic'</code>, and drop <code>'unsafe-eval'</code> and <code>data:</code> from <code>script-src</code>.
+  <div class="cite">Production-AI security section and Lighthouse <code>csp-xss</code>. For a platform that handles funds and identity, this is the highest-value security fix.</div></div>
+
+  <div class="find p1"><div class="h"><span class="badge b-p1">P1</span> A JWT is placed in a JavaScript-readable cookie before login</div>
+  On first page load, an anonymous visitor receives <code>webrtc_jwt_token</code> (an RS256 JWT) and <code>webrtc_user_id</code>. Both are <code>Secure</code> but carry <b>no</b> <code>HttpOnly</code> flag and <b>no</b> <code>SameSite</code> attribute. A token readable by JavaScript is exfiltratable via any XSS, and the missing <code>SameSite</code> adds CSRF exposure. (The token value is deliberately not reproduced or decoded in this report, per data-handling policy.)
+  Fix: set <code>HttpOnly</code> and <code>SameSite=Lax</code> (or <code>Strict</code>), or stop issuing the token to anonymous visitors and keep it server-side. Note the contrast: the <code>preferred_language</code> cookie is correctly set with <code>SameSite=Lax</code>.
+  <div class="cite">Production-AI anti-pattern: "storing tokens in localStorage [or JS-readable cookies]; HTTP-only cookies or in-memory only."</div></div>
+
+  <div class="find p2"><div class="h"><span class="badge b-p2">P2</span> WordPress attack surface and no SRI</div>
+  A WordPress/PHP origin needs disciplined core and plugin patching; the team has already hardened robots and blocks <code>wp-login</code>, <code>xmlrpc</code>, and <code>wp-json</code> at the crawl layer (good). Pair that with automatic updates, a WAF ruleset on Cloudflare, and Subresource Integrity on third-party scripts.</div>
+
+  <div class="find p3"><div class="h"><span class="badge b-p3">P3</span> CORS header on an HTML document</div>
+  The HTML response returns <code>access-control-allow-headers: Content-Type, Authorization, X-Requested-With</code>. CORS headers belong on API responses, not on an HTML page; review the origin config to ensure CORS is scoped to the API, not blanket.</div>
+</section>
+<div class="pb"></div>
+
+<!-- ===================== E. PRODUCT, TRUST, COMPLIANCE ===================== -->
+<section class="page">
+  <h2>E. Product, Trust &amp; Compliance &nbsp;<span class="badge b-teal" style="vertical-align:middle">Score 3.5 / 5</span></h2>
+  <p class="muted" style="font-size:11px">Compliance items below are observations from the public site, not legal determinations. They require validation by qualified compliance/legal staff against the broker's actual target markets.</p>
+
+  <div class="find good"><div class="h">Conversion path and trust signals: clear</div>
+  A single education-first narrative (Learn, Practice, Trade), unambiguous primary CTAs (Register, Open an Account, Try Demo), a Trustpilot "Excellent" badge, and a complete legal set: Terms and Conditions, Privacy Policy, Risk Disclosure &amp; Warning Notice, AML &amp; CTF Policy, Complaint Procedure, General Fees Policy, Social Trading Terms, Client Service Agreement.</div>
+
+  <div class="find good"><div class="h">Regulatory transparency: above the offshore norm</div>
+  The Regulation page names the operator (R.M.A Financial Services Ltd, previously Trade Match Ltd), the registration (Seychelles, Registrar of Companies No. 8426609-1), and the license (Financial Services Authority of Seychelles, License Number SD114), and clearly states that services are not offered in the EEA, the United States, or British Columbia (Canada), among other restricted regions. A qualitative CFD risk warning is present site-wide ("Trading CFDs carries high risk and may not be suitable for all investors ... result in losses"), alongside a past-performance disclaimer.</div>
+
+  <div class="find p2"><div class="h"><span class="badge b-p2">P2</span> Cookie consent and cookie policy</div>
+  No dedicated Cookie Policy appears in the legal set, and no clear consent gate was observed while the site is configured to load Microsoft Clarity (session replay), a Facebook pixel, Amplitude, and Google Analytics. Even with the EEA excluded, several target markets have cookie/ePrivacy expectations. Add a consent manager that blocks non-essential trackers until consent, and publish a Cookie Policy. <span class="muted">(Observation for legal review.)</span></div>
+
+  <div class="find p2"><div class="h"><span class="badge b-p2">P2</span> Marketing-copy tension with the no-advice position</div>
+  The homepage promotes a "Personal Trading Expert: a dedicated manager who ... helps guide every trading decision," while the Regulation page states the Company "does not provide investment advice, recommendations, or opinions." Those two statements sit in tension. Separately, "practice risk-free" (for the demo) and a "Zero Fees" headline that is in fact conditional ("New accounts trade free; GCC traders enjoy zero fees on the Arabian Market") are the kind of claims regulators scrutinize. Align the copy with the disclosures and qualify conditional claims at the point of the claim. <span class="muted">(Observation for legal/compliance review.)</span></div>
+</section>
+<div class="pb"></div>
+
+<!-- ===================== F. AI ===================== -->
+<section class="page">
+  <h2>F. AI Features, Public Surface &nbsp;<span class="badge b-p2" style="vertical-align:middle">Score 2.5 / 5</span></h2>
+  <p>AI is a headline feature, not an afterthought: "AI-Powered Autonomous Trading. Let AI trade for you automatically, 24/7. Powered by CopyAlgo, Hedg's proprietary algo engine," alongside social CopyTrading ("Follow Experts. Trade Smarter."). The product UX sits behind login and was not accessed, so this lens grades the public surface only.</p>
+
+  <div class="find p2"><div class="h"><span class="badge b-p2">P2</span> Trust calibration is thin for an autonomous-trading claim</div>
+  The site advertises a system that places real, irreversible financial actions automatically and continuously, but the public-facing material offers only generic CFD risk language. There is no AI-specific disclosure: how CopyAlgo decides, what its limitations are, that the algorithm can and does lose money, the methodology behind any implied performance, or what control and stop mechanisms the user retains.
+  <div class="cite">Curriculum, AI pillar: "Users who cannot assess AI confidence either over-trust or under-trust, both of which reduce product value," and "reversibility by design; flag and confirm irreversible actions regardless of automation level."</div></div>
+
+  <div class="find p3"><div class="h"><span class="badge b-p3">P3</span> Recommendation</div>
+  Add a dedicated, plain-language CopyAlgo page that states what the engine does and does not do, an explicit capital-at-risk and no-guarantee notice attached to the AI claim itself, performance-methodology transparency, and a clear description of the user's control (start, stop, limits). This both improves the product and reduces the claim-vs-disclosure risk noted in lens E.</div>
+
+  <div class="card"><h4>Note on scope</h4>If an in-product AI assistant or streaming AI UX exists behind login, it should be reviewed separately against the AI pillar (streaming token render, interrupt/stop, per-tool loading, source and confidence indicators). That requires authorized access and is out of scope for this external audit.</div>
+</section>
+<div class="pb"></div>
+
+<!-- ===================== G. SEO & A11Y ===================== -->
+<section class="page">
+  <h2>G. SEO &amp; Accessibility &nbsp;<span class="badge b-good" style="vertical-align:middle">Score 4.5 / 5</span></h2>
+  <p>The strongest area of the site. Lighthouse SEO 100, Accessibility 98, on both form factors.</p>
+
+  <div class="find good"><div class="h">SEO and internationalization: excellent</div>
+  Correct title and meta description, self-referencing canonical, a full hreflang set (<code>x-default, en-US, ar, pt-BR, es-ES, en, pt, es</code>), 16 Open Graph and 12 Twitter-card tags, JSON-LD for Organization, WebSite, and WebPage, a clean <code>robots.txt</code> (recently audited), and <code>wp-sitemap.xml</code>. Internationalization is done properly: the Arabic locale serves <code>&lt;html dir="rtl" lang="ar"&gt;</code>, and Spanish and Portuguese carry correct <code>lang</code> values.</div>
+
+  <div class="find good"><div class="h">Accessibility: strong</div>
+  Every image carries an <code>alt</code> attribute (0 missing; 26 intentionally empty for decorative images), a single H1, a sensible landmark structure, and correct language metadata.</div>
+
+  <div class="find p3"><div class="h"><span class="badge b-p3">P3</span> Minor a11y polish</div>
+  Lighthouse flags <code>heading-order</code> (heading levels are not strictly sequential), <code>label-content-name-mismatch</code> (some image-wrapped CTAs whose visible label and accessible name diverge), and <code>unsized-images</code> (also the CLS driver in lens A). All low effort.</div>
+
+  <div class="find p3"><div class="h"><span class="badge b-p3">P3</span> Staging locales disallowed in robots</div>
+  <code>robots.txt</code> blocks <code>/ko/</code>, <code>/ja/</code>, and <code>/zh-hk/</code> as "hidden/staging language prefixes," which suggests partially shipped i18n. Either finish and publish or remove those locales.</div>
+</section>
+<div class="pb"></div>
+
+<!-- ===================== ROADMAP ===================== -->
+<section class="page">
+  <h2>Prioritized Roadmap</h2>
+  <p>No P0 (the site is up, served securely, and crawls cleanly). Priorities are ordered by user and risk impact against effort.</p>
+  <table>
+    <thead><tr><th style="width:54px">Priority</th><th>Action</th><th style="width:88px">Lens</th><th style="width:90px">Effort</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge b-p1">P1</span></td><td>Fix mobile Core Web Vitals: defer render-blocking CSS/JS, ship WebP/AVIF + responsive <code>srcset</code>, lazy-load below-fold images, set explicit image dimensions, fix the 2 broken hero assets. Target mobile LCP under 2.5s, CLS under 0.1.</td><td>A</td><td>Medium</td></tr>
+      <tr><td><span class="badge b-p1">P1</span></td><td>Rebuild the script CSP on nonces/hashes + <code>'strict-dynamic'</code>; remove <code>'unsafe-inline'</code>, <code>'unsafe-eval'</code>, <code>data:</code>.</td><td>D</td><td>Medium</td></tr>
+      <tr><td><span class="badge b-p1">P1</span></td><td>Set <code>HttpOnly</code> + <code>SameSite</code> on the webrtc JWT/user cookies, or keep the token server-side and out of anonymous sessions.</td><td>D</td><td>Low</td></tr>
+      <tr><td><span class="badge b-p2">P2</span></td><td>Add a consent manager (block non-essential trackers pre-consent) and publish a Cookie Policy.</td><td>E</td><td>Medium</td></tr>
+      <tr><td><span class="badge b-p2">P2</span></td><td>Publish a CopyAlgo transparency page with AI-specific risk, no-guarantee, methodology, and user-control disclosure; reconcile the "guides every trading decision" copy with the no-advice position.</td><td>E, F</td><td>Medium</td></tr>
+      <tr><td><span class="badge b-p2">P2</span></td><td>Remove <code>x-powered-by</code>, confirm PHP patch level, add SRI to third-party scripts, identify/remove <code>trackflare.net</code>, scope CORS to the API.</td><td>B, C, D</td><td>Low</td></tr>
+      <tr><td><span class="badge b-p3">P3</span></td><td>Normalize locale URL prefixes, lengthen static-asset cache TTL (immutable), finish or remove staging locales, fix heading-order and label/name a11y items.</td><td>B, G</td><td>Low</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Visual reference</h3>
+  <div class="grid2">
+    <div><div class="muted" style="font-size:11px;margin-bottom:4px">Desktop (1440px), Lighthouse perf 95</div><img class="shot" src="screenshots/hedg-desktop-home.png" alt="hedg.com desktop homepage"></div>
+    <div><div class="muted" style="font-size:11px;margin-bottom:4px">Mobile (412px), Lighthouse perf 60</div><img class="shot" src="screenshots/hedg-mobile-home.png" alt="hedg.com mobile homepage"></div>
+  </div>
+</section>
+<div class="pb"></div>
+
+<!-- ===================== APPENDIX ===================== -->
+<section class="page">
+  <h2>Appendix: Method, Evidence, References</h2>
+
+  <h3>Method and honest limitations</h3>
+  <ul>
+    <li><b>Passive only.</b> No login, no form submission, no active probing of <code>api.hedg.com</code>. Active security tests (injection, IDOR, tenant isolation) are listed as hypotheses for an authorized engagement, not exercised.</li>
+    <li><b>Performance</b> from a Lighthouse run against local Chrome 149 headless (mobile and desktop). The public PageSpeed Insights API was over quota, and the browser-automation backend used for DOM inspection did not expose the Performance Timeline, so all numeric vitals come from the Lighthouse runs (saved in evidence).</li>
+    <li><b>Data handling.</b> A JWT observed in a Set-Cookie header was treated as a credential: its value is neither reproduced nor decoded in this report.</li>
+    <li><b>Compliance</b> statements are observations of the public site, not legal determinations.</li>
+  </ul>
+
+  <h3>Tooling</h3>
+  <p>curl (headers, content, compression, robots/sitemap), Google Chrome 149 headless (Lighthouse + screenshots), a headless-browser MCP (DOM/structure/accessibility extraction).</p>
+
+  <h3>Evidence artifacts (this folder)</h3>
+  <ul>
+    <li><code>evidence/00-recon-and-rubric.md</code> headers, CSP, cookies (redacted), robots, third-party fingerprint, and the distilled rubrics.</li>
+    <li><code>evidence/lighthouse_mobile.json</code>, <code>evidence/lighthouse_desktop.json</code> full Lighthouse results.</li>
+    <li><code>screenshots/hedg-desktop-home.png</code>, <code>screenshots/hedg-mobile-home.png</code>.</li>
+    <li><code>ai-team-logo.png</code> the AI Engineering team emblem.</li>
+  </ul>
+
+  <h3>Reference standards</h3>
+  <ul>
+    <li>Production AI &amp; Software Engineering: The June 2026 State of the Art (maturity ladder, security anti-patterns, CSP, durable execution, observability).</li>
+    <li>Excellent SQL Engineering, June 2026 State of the Art (data-layer verdicts: UUIDv7, keyset pagination, parameterized queries, RLS, 503 shedding).</li>
+    <li>The Complete Principal Engineer Curriculum, June 2026 (Systems, Architecture, Product, AI grading lens and citable standards).</li>
+  </ul>
+
+  <div class="card" style="margin-top:18px; text-align:center; background:var(--navy); color:#dbe8f0; border:none">
+    <img src="ai-team-logo.png" alt="AI Engineering emblem" style="width:64px;height:64px;border-radius:14px;vertical-align:middle">
+    <div style="font-size:12px; letter-spacing:.4em; color:var(--teal); font-weight:700; margin-top:8px">AI ENGINEERING</div>
+    <div class="muted" style="color:#8fb0c2; font-size:11px">hedg.com Website Engineering Audit &nbsp;|&nbsp; 2026-06-29 &nbsp;|&nbsp; internal, observations require human validation</div>
+  </div>
+</section>
+
+</body>
+</html>

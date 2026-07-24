@@ -1,0 +1,62 @@
+[
+  {
+    "name": "MCP_REQUIRE_ENTRA",
+    "slotSetting": false,
+    "value": "false"
+  },
+  {
+    "name": "MCP_OAUTH_ISSUER",
+    "slotSetting": false,
+    "value": "https://mcp-seekapa-tools.azurewebsites.net"
+  },
+  {
+    "name": "MCP_OAUTH_SIGNING_KEY",
+    "slotSetting": false,
+    "value": "fwcr4xjuvfz6e"
+  },
+  {
+    "name": "MCP_ENTRA_TENANT_ID",
+    "slotSetting": false,
+    "value": ""
+  },
+  {
+    "name": "MCP_ENTRA_APP_CLIENT_ID",
+    "slotSetting": false,
+    "value": ""
+  },
+  {
+    "name": "MCP_ENTRA_APP_CLIENT_SECRET",
+    "slotSetting": false,
+    "value": ""
+  },
+  {
+    "name": "WEBSITE_INSTANCES",
+    "slotSetting": false,
+    "value": "1"
+  },
+  {
+    "name": "WEBSITES_PORT",
+    "slotSetting": false,
+    "value": "8000"
+  },
+  {
+    "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+    "slotSetting": false,
+    "value": "false"
+  },
+  {
+    "name": "DOCKER_REGISTRY_SERVER_URL",
+    "slotSetting": false,
+    "value": "https://sentimarkregistry.azurecr.io"
+  },
+  {
+    "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+    "slotSetting": false,
+    "value": "sentimarkregistry"
+  },
+  {
+    "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+    "slotSetting": false,
+    "value": null
+  }
+]

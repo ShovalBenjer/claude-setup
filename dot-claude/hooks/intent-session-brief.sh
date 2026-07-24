@@ -1,0 +1,1 @@
+/home/shovalbe/.codex/hooks/intent-session-brief.sh

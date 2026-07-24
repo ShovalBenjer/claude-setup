@@ -1,0 +1,195 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SETTINGS_PATH="${CLAUDE_SETTINGS_PATH:-/home/shovalbe/.claude/settings.json}"
+ENV_PATH="${CLAUDE_ZAI_ENV_PATH:-/home/shovalbe/.env}"
+
+usage() {
+  cat <<'USAGE'
+Usage: claude-provider <claude|fable|sonnet5|opus48|haiku45|zai|opus-z|status>
+
+  claude  Remove Z.ai API routing and restore the first-party Sonnet 5 default.
+  fable   Use first-party Claude with Claude Fable 5 selected for this profile.
+  sonnet5 Use first-party Claude with Claude Sonnet 5 selected for this profile.
+  opus48  Use first-party Claude with Claude Opus 4.8 selected for this profile.
+  haiku45 Use first-party Claude with Claude Haiku 4.5 selected for this profile.
+  zai     Route Claude Code through Z.ai using Z_AI_API_KEY from /home/shovalbe/.env.
+  opus-z  Route Claude Code through Z.ai GLM 5.2 as the Opus alias.
+  status  Show current provider routing without printing secrets.
+
+Ephemeral model:
+  run-opus-z
+          Run `opus-z` to launch Claude Code through Z.ai GLM 5.2 for that process only.
+          This does not mutate ~/.claude/settings.json, so the default provider stays Claude.
+USAGE
+}
+
+mode="${1:-status}"
+
+node - "$mode" "$SETTINGS_PATH" "$ENV_PATH" <<'NODE'
+const fs = require("fs");
+
+const mode = process.argv[2];
+const settingsPath = process.argv[3];
+const envPath = process.argv[4];
+
+function readSettings() {
+  return JSON.parse(fs.readFileSync(settingsPath, "utf8"));
+}
+
+function writeSettings(settings) {
+  const backupPath = `${settingsPath}.backup-provider-${new Date()
+    .toISOString()
+    .replace(/[:.]/g, "-")}`;
+  fs.copyFileSync(settingsPath, backupPath);
+  fs.writeFileSync(settingsPath, `${JSON.stringify(settings, null, 2)}\n`);
+  fs.chmodSync(settingsPath, 0o600);
+  fs.chmodSync(backupPath, 0o600);
+  return backupPath;
+}
+
+function readZaiKey() {
+  const envText = fs.readFileSync(envPath, "utf8");
+  const line = envText.split(/\r?\n/).find((entry) => entry.startsWith("Z_AI_API_KEY="));
+  if (!line) {
+    throw new Error(`Z_AI_API_KEY not found in ${envPath}`);
+  }
+  const key = line.slice("Z_AI_API_KEY=".length).trim();
+  if (!key) {
+    throw new Error(`Z_AI_API_KEY is empty in ${envPath}`);
+  }
+  return key;
+}
+
+function provider(settings) {
+  const env = settings.env || {};
+  if (env.ANTHROPIC_BASE_URL === "https://api.z.ai/api/anthropic") {
+    return "zai";
+  }
+  return "claude";
+}
+
+function status(settings, backupPath = null) {
+  const env = settings.env || {};
+  const output = {
+    provider: provider(settings),
+    switchCommands: {
+      claude: "claude-provider claude",
+      fable: "claude-provider fable",
+      sonnet5: "claude-provider sonnet5",
+      opus48: "claude-provider opus48",
+      haiku45: "claude-provider haiku45",
+      "Opus Z": "claude-provider opus-z",
+    },
+    model: settings.model || null,
+    hasAnthropicAuthToken: Boolean(env.ANTHROPIC_AUTH_TOKEN),
+    baseUrl: env.ANTHROPIC_BASE_URL || null,
+    disable1mContext: env.CLAUDE_CODE_DISABLE_1M_CONTEXT || null,
+    opusAlias: env.ANTHROPIC_DEFAULT_OPUS_MODEL || null,
+    sonnetAlias: env.ANTHROPIC_DEFAULT_SONNET_MODEL || null,
+    haikuAlias: env.ANTHROPIC_DEFAULT_HAIKU_MODEL || null,
+    fableAlias: env.ANTHROPIC_DEFAULT_FABLE_MODEL || null,
+    fallbackModel: settings.fallbackModel || null,
+    ephemeralModels: {
+      "Opus Z": {
+        command: "opus-z",
+        provider: "Z.ai",
+        model: "glm-5.2",
+        defaultUnchanged: true,
+      },
+    },
+    backupPath,
+  };
+  console.log(JSON.stringify(output, null, 2));
+}
+
+const settings = readSettings();
+settings.env = settings.env || {};
+
+if (mode === "status") {
+  status(settings);
+} else if (mode === "claude") {
+  delete settings.env.ANTHROPIC_AUTH_TOKEN;
+  delete settings.env.ANTHROPIC_BASE_URL;
+  delete settings.env.API_TIMEOUT_MS;
+  delete settings.env.ANTHROPIC_DEFAULT_OPUS_MODEL;
+  delete settings.env.ANTHROPIC_DEFAULT_SONNET_MODEL;
+  delete settings.env.ANTHROPIC_DEFAULT_HAIKU_MODEL;
+  delete settings.env.ANTHROPIC_DEFAULT_FABLE_MODEL;
+  delete settings.env.CLAUDE_CODE_DISABLE_1M_CONTEXT;
+  settings.env.ANTHROPIC_DEFAULT_FABLE_MODEL = "claude-fable-5";
+  settings.env.ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-8";
+  settings.env.ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
+  settings.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5";
+  settings.model = "claude-sonnet-5";
+  settings.fallbackModel = ["haiku"];
+  status(settings, writeSettings(settings));
+} else if (mode === "fable") {
+  delete settings.env.ANTHROPIC_AUTH_TOKEN;
+  delete settings.env.ANTHROPIC_BASE_URL;
+  delete settings.env.API_TIMEOUT_MS;
+  delete settings.env.CLAUDE_CODE_DISABLE_1M_CONTEXT;
+  settings.env.ANTHROPIC_DEFAULT_FABLE_MODEL = "claude-fable-5";
+  settings.env.ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-8";
+  settings.env.ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
+  settings.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5";
+  settings.model = "claude-fable-5";
+  settings.fallbackModel = ["opus", "sonnet", "haiku"];
+  status(settings, writeSettings(settings));
+} else if (mode === "sonnet5") {
+  delete settings.env.ANTHROPIC_AUTH_TOKEN;
+  delete settings.env.ANTHROPIC_BASE_URL;
+  delete settings.env.API_TIMEOUT_MS;
+  delete settings.env.CLAUDE_CODE_DISABLE_1M_CONTEXT;
+  settings.env.ANTHROPIC_DEFAULT_FABLE_MODEL = "claude-fable-5";
+  settings.env.ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-8";
+  settings.env.ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
+  settings.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5";
+  settings.model = "claude-sonnet-5";
+  settings.fallbackModel = ["haiku"];
+  status(settings, writeSettings(settings));
+} else if (mode === "opus48") {
+  delete settings.env.ANTHROPIC_AUTH_TOKEN;
+  delete settings.env.ANTHROPIC_BASE_URL;
+  delete settings.env.API_TIMEOUT_MS;
+  delete settings.env.CLAUDE_CODE_DISABLE_1M_CONTEXT;
+  settings.env.ANTHROPIC_DEFAULT_FABLE_MODEL = "claude-fable-5";
+  settings.env.ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-8";
+  settings.env.ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
+  settings.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5";
+  settings.model = "claude-opus-4-8";
+  settings.fallbackModel = ["sonnet", "haiku"];
+  status(settings, writeSettings(settings));
+} else if (mode === "haiku45") {
+  delete settings.env.ANTHROPIC_AUTH_TOKEN;
+  delete settings.env.ANTHROPIC_BASE_URL;
+  delete settings.env.API_TIMEOUT_MS;
+  delete settings.env.CLAUDE_CODE_DISABLE_1M_CONTEXT;
+  settings.env.ANTHROPIC_DEFAULT_FABLE_MODEL = "claude-fable-5";
+  settings.env.ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-8";
+  settings.env.ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
+  settings.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5";
+  settings.model = "claude-haiku-4-5";
+  settings.fallbackModel = ["sonnet"];
+  status(settings, writeSettings(settings));
+} else if (mode === "zai" || mode === "opus-z") {
+  settings.env.ANTHROPIC_AUTH_TOKEN = readZaiKey();
+  settings.env.ANTHROPIC_BASE_URL = "https://api.z.ai/api/anthropic";
+  settings.env.API_TIMEOUT_MS = "3000000";
+  settings.env.ANTHROPIC_DEFAULT_OPUS_MODEL = "glm-5.2";
+  settings.env.ANTHROPIC_DEFAULT_SONNET_MODEL = "glm-4.7";
+  settings.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "glm-4.5-air";
+  delete settings.env.ANTHROPIC_DEFAULT_FABLE_MODEL;
+  settings.model = "opusplan";
+  settings.fallbackModel = ["sonnet", "haiku"];
+  status(settings, writeSettings(settings));
+} else {
+  process.exitCode = 2;
+  console.error(`Unknown mode: ${mode}`);
+}
+NODE
+
+if [[ "$mode" != "claude" && "$mode" != "fable" && "$mode" != "sonnet5" && "$mode" != "opus48" && "$mode" != "haiku45" && "$mode" != "zai" && "$mode" != "opus-z" && "$mode" != "status" ]]; then
+  usage >&2
+  exit 2
+fi

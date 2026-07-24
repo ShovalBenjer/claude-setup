@@ -1,0 +1,217 @@
+[
+  {
+    "lastModified": "2026-01-22T18:00:16+00:00",
+    "name": "$web",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-15T11:35:19+00:00",
+    "name": "automationfabrichub-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-15T12:27:22+00:00",
+    "name": "automationfabrichub-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T08:23:30+00:00",
+    "name": "automationfabrichub20251229-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T13:30:42+00:00",
+    "name": "automationfabrichub20251229-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T07:21:22+00:00",
+    "name": "automationfabrichublocal-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T07:53:21+00:00",
+    "name": "automationfabrichublocal-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T14:48:04+00:00",
+    "name": "automationfabrichublocal20251229-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T14:49:22+00:00",
+    "name": "automationfabrichublocal20251229-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T15:22:52+00:00",
+    "name": "automationfabrichublocal20251229v2-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T15:23:54+00:00",
+    "name": "automationfabrichublocal20251229v2-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T15:47:34+00:00",
+    "name": "automationfabrichublocal20251229v3-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T15:50:19+00:00",
+    "name": "automationfabrichublocal20251229v3-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T16:13:50+00:00",
+    "name": "automationfabrichublocal20251229v4-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-30T04:25:33+00:00",
+    "name": "automationfabrichublocal20251229v4-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2026-01-13T11:31:34+00:00",
+    "name": "automationfabrichublocal20260113v1-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2026-01-14T07:00:14+00:00",
+    "name": "automationfabrichublocal20260113v1-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2026-01-21T14:52:32+00:00",
+    "name": "automationfabrichublocal20260121v2-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2026-01-22T07:00:17+00:00",
+    "name": "automationfabrichublocal20260121v2-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2026-01-25T14:44:32+00:00",
+    "name": "automationfabrichublocal20260125v1-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2026-01-25T14:47:58+00:00",
+    "name": "automationfabrichublocal20260125v1-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2026-01-26T06:42:08+00:00",
+    "name": "automationfabrichublocal20260126v1-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2026-01-26T06:42:34+00:00",
+    "name": "automationfabrichublocal20260126v1-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2026-01-29T16:32:24+00:00",
+    "name": "automationfabrichublocal20260129v2-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2026-01-29T16:33:11+00:00",
+    "name": "automationfabrichublocal20260129v2-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-11T12:02:10+00:00",
+    "name": "azure-webjobs-hosts",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-11T12:02:05+00:00",
+    "name": "azure-webjobs-secrets",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-23T11:45:46+00:00",
+    "name": "baselines",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2026-01-20T10:31:14+00:00",
+    "name": "brand-assets",
+    "publicAccess": "blob"
+  },
+  {
+    "lastModified": "2026-01-22T06:02:00+00:00",
+    "name": "charts",
+    "publicAccess": "blob"
+  },
+  {
+    "lastModified": "2026-01-25T14:28:22+00:00",
+    "name": "email-charts",
+    "publicAccess": "blob"
+  },
+  {
+    "lastModified": "2026-01-26T07:03:29+00:00",
+    "name": "email-previews",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-15T09:58:22+00:00",
+    "name": "function-releases",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-11T11:28:27+00:00",
+    "name": "landing-pages",
+    "publicAccess": "blob"
+  },
+  {
+    "lastModified": "2025-12-29T09:04:46+00:00",
+    "name": "marketing-assets",
+    "publicAccess": "blob"
+  },
+  {
+    "lastModified": "2025-12-29T12:50:40+00:00",
+    "name": "marketingnewsletter-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-11T11:28:27+00:00",
+    "name": "newsletters",
+    "publicAccess": "blob"
+  },
+  {
+    "lastModified": "2025-12-11T11:30:55+00:00",
+    "name": "scm-releases",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-31T10:05:36+00:00",
+    "name": "silver-campaign",
+    "publicAccess": "blob"
+  },
+  {
+    "lastModified": "2025-12-31T12:56:36+00:00",
+    "name": "testhubname-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-11T11:28:26+00:00",
+    "name": "thumbnails",
+    "publicAccess": "blob"
+  },
+  {
+    "lastModified": "2025-12-11T11:28:25+00:00",
+    "name": "videos",
+    "publicAccess": "blob"
+  },
+  {
+    "lastModified": "2026-01-18T07:24:32+00:00",
+    "name": "x-bundles",
+    "publicAccess": null
+  }
+]

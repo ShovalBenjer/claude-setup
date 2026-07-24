@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/rules/boundary-contracts.md

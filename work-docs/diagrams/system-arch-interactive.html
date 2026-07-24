@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS Agents -- System Architecture</title>
+  <link rel="stylesheet" href="https://esm.sh/@xyflow/react@12.10.0/dist/style.css">
+  <style>
+    /* === Reset & Base Dark Theme === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; width: 100%; overflow: hidden; }
+    body {
+      background: #0d1117;
+      color: #e6edf3;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    #root { width: 100%; height: 100%; }
+
+    /* === React Flow Dark Overrides === */
+    .react-flow { background: #0d1117 !important; }
+    .react-flow__background { background: #0d1117 !important; }
+    .react-flow__minimap { background: #161b22 !important; border: 1px solid #30363d !important; border-radius: 6px !important; }
+    .react-flow__controls { background: #161b22 !important; border: 1px solid #30363d !important; border-radius: 6px !important; }
+    .react-flow__controls button { background: #161b22 !important; color: #e6edf3 !important; border-color: #30363d !important; }
+    .react-flow__controls button:hover { background: #21262d !important; }
+    .react-flow__controls button svg { fill: #e6edf3 !important; }
+    .react-flow__edge-path { stroke: #484f58 !important; }
+    .react-flow__edge-text { fill: #8b949e !important; }
+    .react-flow__edge-textbg { fill: #0d1117 !important; }
+    .react-flow__attribution { display: none !important; }
+
+    /* === Custom Node === */
+    .interactive-node {
+      min-width: 160px;
+      max-width: 260px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 2px solid #30363d;
+      background: #161b22;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, opacity 0.3s ease;
+      position: relative;
+    }
+    .interactive-node:hover {
+      transform: scale(1.02);
+    }
+    .interactive-node.selected {
+      border-color: #f39c12 !important;
+      box-shadow: 0 0 15px rgba(243, 156, 18, 0.6);
+    }
+    .interactive-node.dimmed {
+      opacity: 0.3;
+    }
+    .interactive-node.tour-active {
+      border-color: #f39c12 !important;
+      box-shadow: 0 0 20px rgba(243, 156, 18, 0.7);
+    }
+    .node-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e6edf3;
+      text-align: center;
+      word-wrap: break-word;
+    }
+    .node-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .node-group-icon {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #21262d;
+      border: 1px solid #484f58;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #8b949e;
+      cursor: pointer;
+    }
+
+    /* === React Flow Handle Override === */
+    .react-flow__handle {
+      width: 8px !important;
+      height: 8px !important;
+      background: #484f58 !important;
+      border: 1px solid #30363d !important;
+    }
+
+    /* === Detail Panel === */
+    .detail-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 42vw;
+      min-width: 400px;
+      max-width: 640px;
+      height: 100%;
+      background: #161b22;
+      border-left: 1px solid #30363d;
+      z-index: 100;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .detail-panel.open {
+      transform: translateX(0);
+    }
+    .detail-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 24px 24px 14px;
+      border-bottom: 1px solid #30363d;
+    }
+    .detail-panel-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #e6edf3;
+      flex: 1;
+      margin-right: 12px;
+    }
+    .detail-panel-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: #21262d;
+      color: #8b949e;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s;
+    }
+    .detail-panel-close:hover {
+      background: #30363d;
+      color: #e6edf3;
+    }
+    .detail-panel-body {
+      padding: 20px 24px;
+      flex: 1;
+    }
+    .detail-section {
+      margin-bottom: 20px;
+    }
+    .detail-section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #8b949e;
+      margin-bottom: 8px;
+    }
+    .detail-section-text {
+      font-size: 15px;
+      color: #c9d1d9;
+      line-height: 1.7;
+    }
+    .detail-code {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 12px;
+      overflow-x: auto;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #c9d1d9;
+      white-space: pre;
+      tab-size: 4;
+    }
+    .detail-filepath {
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 12px;
+      color: #58a6ff;
+      background: #0d1117;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #30363d;
+      display: inline-block;
+    }
+    .category-badge-detail {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      color: #fff;
+    }
+
+    /* === Guided Tour === */
+    .tour-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: #161b22;
+      border-top: 1px solid #30363d;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 0 24px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    .tour-bar.active {
+      transform: translateY(0);
+    }
+    .tour-step-counter {
+      font-size: 13px;
+      font-weight: 600;
+      color: #8b949e;
+      min-width: 100px;
+      text-align: center;
+    }
+    .tour-description {
+      flex: 1;
+      font-size: 14px;
+      color: #e6edf3;
+      text-align: center;
+      max-width: 600px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .tour-btn {
+      padding: 6px 16px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background: #21262d;
+      color: #e6edf3;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+    .tour-btn:hover {
+      background: #30363d;
+      border-color: #484f58;
+    }
+    .tour-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .tour-btn.primary {
+      background: #1f6feb;
+      border-color: #1f6feb;
+    }
+    .tour-btn.primary:hover {
+      background: #388bfd;
+    }
+    .tour-btn.exit {
+      background: transparent;
+      border-color: #484f58;
+      color: #8b949e;
+    }
+
+    /* === Start Tour Button === */
+    .start-tour-btn {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 50;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background: #161b22;
+      color: #e6edf3;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .start-tour-btn:hover {
+      background: #21262d;
+      border-color: #484f58;
+    }
+
+    /* === Diagram Title === */
+    .diagram-title {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      font-size: 16px;
+      font-weight: 700;
+      color: #e6edf3;
+      background: rgba(22, 27, 34, 0.85);
+      padding: 6px 16px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    /* === Animated Edge === */
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -20; }
+    }
+    .animated-edge-path {
+      stroke-dasharray: 5 5;
+      animation: dash-flow 0.6s linear infinite;
+    }
+
+    /* === Responsive === */
+    @media (max-width: 768px) {
+      .detail-panel { width: 100%; }
+      .tour-description { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    // DIAGRAM DATA - replaced per diagram by generator script
+    window.__DIAGRAM_DATA__ = {
+  "nodes": [
+    {
+      "id": "customer-channels",
+      "type": "interactive",
+      "position": {"x": 400, "y": 50},
+      "data": {
+        "label": "Customer Channels",
+        "category": "trigger",
+        "group": "channels",
+        "details": "Customers reach the CS agents through 4 supported channels, each with channel-specific message formats:\n\n**Web Widget** (`widget/`): Embeddable HTML/CSS/JS chat widget for Seekapa and Axia websites. Uses `widget.js` to connect via the channel router API.\n\n**Telegram** (`telegram_handler/`): Telegram Bot webhook receives Update JSON. Bot token from Key Vault (`TELEGRAM_BOT_TOKEN`). Deep links: `https://t.me/SeekApaBot?start={signed_token}`.\n\n**WhatsApp** (`whatsapp_handler/`): WhatsApp Business API integration via webhook handler.\n\n**Email** (`email_handler/`): Incoming email handler that parses email content and routes to the AI agent.\n\nAll channels produce messages in different formats that must be normalized before agent processing.",
+        "codeSnippet": "// widget/widget.js\n// Embeddable chat widget for Seekapa/Axia websites\n// Sends messages to POST /api/channel-router\n\n# telegram_handler/__init__.py\n# Receives Telegram Bot API Update JSON via webhook\nfrom shared.message_normalizer import normalize_message, format_response",
+        "filePath": "widget/index.html",
+        "stepIndex": 1,
+        "stepDescription": "Customers interact through 4 channels: web widget (embedded on websites), Telegram bot, WhatsApp Business API, and email. Each channel has its own message format and webhook handler."
+      }
+    },
+    {
+      "id": "channel-router",
+      "type": "interactive",
+      "position": {"x": 400, "y": 220},
+      "data": {
+        "label": "Channel Router",
+        "category": "process",
+        "group": "routing",
+        "details": "Central routing function that accepts messages from any channel, normalizes them, sends to the AI agent, and returns channel-formatted responses.\n\n**Request format**:\n```json\n{\"channel\": \"widget|email|telegram|whatsapp\",\n \"message\": {channel-specific payload},\n \"user_id\": \"unique-id\",\n \"brand\": \"seekapa|axia\",\n \"conversation_id\": \"optional-previous-response-id\"}\n```\n\n**Flow**: Receive -> Validate brand -> Normalize message -> Call AI agent -> Format response for channel -> Return.\n\nUses Azure AI Foundry Applications endpoint to invoke the correct brand agent. Handles conversation continuity via `conversation_id` (previous response ID from the Responses API).",
+        "codeSnippet": "# azure-function-crm/channel_router/__init__.py\nVALID_BRANDS = (\"seekapa\", \"axia\")\nPROJECT_ENDPOINT = \"https://brn-azai.services.ai.azure.com/api/projects/seekapa_ai\"\nAPI_VERSION = \"2025-11-15-preview\"\n\nfrom shared.message_normalizer import normalize_message, format_response, SUPPORTED_CHANNELS",
+        "filePath": "azure-function-crm/channel_router/__init__.py",
+        "stepIndex": 2,
+        "stepDescription": "The channel router normalizes messages from all 4 channels into a unified format, sends them to the correct brand's AI agent, and formats the response back to the originating channel's format."
+      }
+    },
+    {
+      "id": "message-normalizer",
+      "type": "interactive",
+      "position": {"x": 100, "y": 220},
+      "data": {
+        "label": "Message Normalizer",
+        "category": "process",
+        "group": "routing",
+        "details": "Converts channel-specific input to a unified internal format and vice versa.\n\n**normalize_message()**: Takes channel name, raw payload, and user_id. Returns unified dict with `text`, `user_id`, `channel`, and `metadata`.\n\n**format_response()**: Takes agent response text and target channel. Returns channel-specific output format.\n\nChannel-specific normalization:\n- **Widget**: Extracts `text` from body\n- **Email**: Extracts subject + body, preserves headers\n- **Telegram**: Extracts `message.text` from Telegram Update JSON\n- **WhatsApp**: Extracts message content from WhatsApp webhook format\n\nRaises `ValueError` for unsupported channels or malformed payloads.",
+        "codeSnippet": "# azure-function-crm/shared/message_normalizer.py\nSUPPORTED_CHANNELS = (\"widget\", \"email\", \"telegram\", \"whatsapp\")\n\ndef normalize_message(channel: str, raw_payload: dict, user_id: str) -> dict:\n    \"\"\"Returns: {\"text\": str, \"user_id\": str, \"channel\": str, \"metadata\": dict}\"\"\"\n    if channel == \"widget\": return _normalize_widget(raw_payload, user_id)\n    elif channel == \"telegram\": return _normalize_telegram(raw_payload, user_id)",
+        "filePath": "azure-function-crm/shared/message_normalizer.py",
+        "stepIndex": 3,
+        "stepDescription": "The message normalizer converts channel-specific payloads (Telegram Update JSON, email headers, widget text) into a unified internal format, and formats agent responses back for each channel."
+      }
+    },
+    {
+      "id": "ai-foundry-agents",
+      "type": "interactive",
+      "position": {"x": 400, "y": 400},
+      "data": {
+        "label": "Azure AI Foundry Agents",
+        "category": "process",
+        "group": "ai-agents",
+        "details": "Two brand-specific conversational AI agents hosted on Azure AI Foundry:\n\n**Seekapa Agent** (Application: `seekapa`):\n- FSA-regulated forex platform (license SD183)\n- System prompt v31+ with hard escalation gate\n- Mandatory escalation triggers: KYC rejected, high-value withdrawals (>$50K), compliance, legal identity changes\n- Multi-language support (EN, AR, ES, PT)\n\n**AxiaCS Agent** (Application: `AxiaCS`):\n- Same AI Foundry project (`seekapa_ai`)\n- Brand-specific system prompt v28+\n- Separate knowledge base and CRM data\n\nBoth agents use Azure AI Foundry's Responses API with `file_search` (knowledge base) and OpenAPI tools (CRM functions). Conversation continuity via response ID chaining.",
+        "codeSnippet": "# Seekapa agent endpoint:\n# POST https://brn-azai.services.ai.azure.com/api/projects/seekapa_ai/applications/seekapa/...\n\n# AxiaCS agent endpoint:\n# POST https://brn-azai.services.ai.azure.com/api/projects/seekapa_ai/applications/AxiaCS/...\n\nAGENT_NAMES = {\"seekapa\": \"seekapa\", \"axia\": \"AxiaCS\"}",
+        "filePath": "agent-prompts/seekapa-system-prompt.md",
+        "stepIndex": 4,
+        "stepDescription": "Two Azure AI Foundry agents (Seekapa and AxiaCS) handle customer service for each brand. They use knowledge bases for FAQ answers and CRM tools for account-specific queries, with mandatory escalation gates for compliance-sensitive topics."
+      }
+    },
+    {
+      "id": "otp-auth",
+      "type": "interactive",
+      "position": {"x": 100, "y": 400},
+      "data": {
+        "label": "OTP Authentication",
+        "category": "gate",
+        "group": "authentication",
+        "details": "Email OTP authentication flow for secure CRM data access:\n\n**Step 1 - send_otp** (`POST /api/send-otp`):\n- Generates 6-digit OTP code\n- Stores in thread-safe in-memory dict with 5-minute expiry\n- Sends via Azure Communication Services email\n- Brand-scoped: `email:brand` key format\n\n**Step 2 - verify_otp** (`POST /api/verify-otp`):\n- Validates OTP code (max 3 attempts)\n- On success: retrieves customer data from CRM\n- One-time use: OTP deleted after successful verification\n- Brand routes to correct CRM table (Axia vs Seekapa)\n\n**Security**: Rate limiting (10 OTP requests per email/hour, 100 per IP/hour), thread-safe storage with locks, audit logging of all auth attempts.",
+        "codeSnippet": "# azure-function-crm/shared/otp_storage.py\notp_store: Dict[str, Dict[str, Any]] = {}\notp_store_lock = threading.Lock()\n\nOTP_EXPIRY_MINUTES = 5\nMAX_ATTEMPTS = 3\nVALID_BRANDS = ['axia', 'seekapa']\n\ndef store_otp(email, login, otp_code, brand):\n    key = f\"{email}:{brand}\".lower()\n    with otp_store_lock:\n        otp_store[key] = {'otp': otp_code, 'expires_at': ...}",
+        "filePath": "azure-function-crm/shared/otp_storage.py",
+        "stepIndex": 5,
+        "stepDescription": "OTP authentication requires customers to verify their email before accessing account data. 6-digit codes expire in 5 minutes, with max 3 attempts. Rate limiting prevents brute force attacks."
+      }
+    },
+    {
+      "id": "signed-links",
+      "type": "interactive",
+      "position": {"x": 100, "y": 570},
+      "data": {
+        "label": "HMAC Signed Links",
+        "category": "gate",
+        "group": "authentication",
+        "details": "HMAC-SHA256 signed deep links for secure CS agent authentication from parent apps.\n\n**generate_signed_link** (`POST /api/generate-signed-link`):\n- Takes login ID, brand, and optional TTL (default 24h, max 168h)\n- Generates `{login}_{timestamp}_{hmac_signature}` token\n- Returns deep links for all channels:\n  - Telegram: `https://t.me/SeekApaBot?start={token}`\n  - WhatsApp: `https://wa.me/{number}?text=start_{token}`\n  - Web widget: token passed directly\n\n**validate_token** (`POST /api/validate-token`):\n- Validates HMAC-SHA256 signature using Key Vault secret\n- Checks expiration and brand scope\n- Constant-time comparison to prevent timing attacks\n- Falls back to email/login lookup for backward compatibility\n\nPrevents login ID guessing attacks -- without a valid signature, the token is rejected.",
+        "codeSnippet": "# azure-function-crm/shared/link_signing.py\n# HMAC-SHA256 with Key Vault secret\ntoken = generate_signed_token(login=5844134, brand=\"seekapa\", secret_key=\"...\")\n# Result: \"5844134_1705600000_abc123def456\"\n\nresult = validate_signed_token(token, brand=\"seekapa\", secret_key=\"...\")\n# Constant-time comparison, brand-scoped, time-limited",
+        "filePath": "azure-function-crm/shared/link_signing.py",
+        "stepIndex": 6,
+        "stepDescription": "HMAC-SHA256 signed deep links allow parent apps (web, mobile) to pre-authenticate users for chat. Tokens are brand-scoped, time-limited (24h default), and validated with constant-time comparison."
+      }
+    },
+    {
+      "id": "crm-mysql",
+      "type": "interactive",
+      "position": {"x": 700, "y": 400},
+      "data": {
+        "label": "PandaTS CRM (MySQL)",
+        "category": "storage",
+        "group": "crm-data",
+        "details": "PandaTS CRM MySQL databases for Axia and Seekapa (separate instances):\n\n**Axia CRM**: `35.241.202.155:3306` / `panda_db`\n**Seekapa CRM**: `34.38.141.12:3306` / `panda_db`\n\n**Key tables** (discovered 2026-01-12):\n- `vtiger_account` -- Client profiles (accountid, email, first_name, last_name, compliance_status)\n- `trading_accounts` -- Trading data (login, balance, equity, margin, leverage, P&L)\n- `vtiger_mttransactions` -- Deposits/withdrawals (transactiontype, amount, payment_method, status)\n\n**CRM Functions** (Azure Functions that query CRM):\n- `get_client_info` -- Basic client profile\n- `get_full_client_context` -- Complete client context (profile + trading + transactions)\n- `get_kyc_status` -- KYC/compliance verification status\n- `get_open_positions` -- Current trading positions\n- `get_trade_history` -- Historical trades\n- `get_trading_summary` -- Aggregated trading statistics\n- `get_transaction_history` -- Deposit/withdrawal history\n- `get_client_by_account_no` -- Lookup by account number\n\nConnection: PyMySQL with DictCursor, 10s connect timeout, 30s read timeout. All credentials from environment variables (Key Vault).",
+        "codeSnippet": "# azure-function-crm/shared/crm_mysql_client.py\nCRM_CONFIG = {\n    \"axia\": {\"host\": \"35.241.202.155\", \"database\": \"panda_db\"},\n    \"seekapa\": {\"host\": \"34.38.141.12\", \"database\": \"panda_db\"}\n}\n# Tables: vtiger_account, trading_accounts, vtiger_mttransactions",
+        "filePath": "azure-function-crm/shared/crm_mysql_client.py",
+        "stepIndex": 7,
+        "stepDescription": "Two PandaTS MySQL CRM databases (Axia and Seekapa) store client profiles, trading accounts, and transaction history. 8 Azure Functions provide brand-routed CRM data access."
+      }
+    },
+    {
+      "id": "crm-sql-legacy",
+      "type": "interactive",
+      "position": {"x": 700, "y": 570},
+      "data": {
+        "label": "Legacy CRM (SQL Server)",
+        "category": "storage",
+        "group": "crm-data",
+        "details": "Legacy SQL Server CRM database used by the original OTP verification flow:\n\n**Server**: `azvmsqlpowerbi.database.windows.net`\n**Database**: `AZDBSQLPowerBI`\n**Table**: `[XPORT].[Customer_Support1]` (original), plus brand-specific tables:\n- `XPORT.CHAT1_Axia` -- Axia customer records\n- `XPORT.CHAT1_Seekapa` -- Seekapa customer records\n\nThe `verify_otp` function queries this database via pyodbc after successful OTP validation. CRM table routing is brand-aware (Axia vs Seekapa).\n\nThis is the older SQL Server CRM -- the PandaTS MySQL CRM (`crm_mysql_client.py`) provides more detailed trading data. Both are used concurrently.",
+        "codeSnippet": "# azure-function-crm/verify_otp/__init__.py\nCRM_TABLES = {\n    'axia': 'XPORT.CHAT1_Axia',\n    'seekapa': 'XPORT.CHAT1_Seekapa'\n}\n\n# Connection via pyodbc\nconnection_string = (\n    f\"DRIVER={{ODBC Driver 17 for SQL Server}};\"\n    f\"SERVER={server};DATABASE={database};\"\n    f\"UID={username};PWD={password}\")",
+        "filePath": "azure-function-crm/verify_otp/__init__.py",
+        "stepIndex": 8,
+        "stepDescription": "The legacy SQL Server CRM stores customer data accessed via OTP verification. Brand-specific tables (XPORT.CHAT1_Axia, XPORT.CHAT1_Seekapa) route queries to the correct dataset."
+      }
+    },
+    {
+      "id": "liveagent-escalation",
+      "type": "interactive",
+      "position": {"x": 700, "y": 220},
+      "data": {
+        "label": "LiveAgent Escalation",
+        "category": "process",
+        "group": "escalation",
+        "details": "Human agent escalation via LiveAgent ticket system.\n\n**create_ticket** (`POST /api/create-ticket`):\n- Creates support tickets in LiveAgent when AI agent determines human assistance is needed\n- Categorizes by issue type: complaint, technical, escalation, regulatory\n- Routes to correct LiveAgent department based on `ticket_categories.py` config\n- Supports 4 languages: EN, ES, AR, PT\n- Includes conversation context (channel, brand, user_id) in ticket metadata\n\n**LiveAgent Client** (`shared/liveagent_client.py`):\n- REST API client using httpx (async) with urllib fallback\n- Configurable via `LIVEAGENT_API_URL` and `LIVEAGENT_API_KEY` env vars\n- Can be disabled via `LIVEAGENT_ENABLED=false`\n\n**Escalation triggers** (from agent system prompt):\n- KYC rejected, high-value withdrawals (>$50K), compliance requests\n- Account frozen/locked, regulatory inquiries, third-party access\n- Customer explicitly requests human agent",
+        "codeSnippet": "# azure-function-crm/create_ticket/__init__.py\nVALID_ISSUE_TYPES = [\"complaint\", \"technical\", \"escalation\", \"regulatory\"]\nVALID_LANGUAGES = [\"en\", \"es\", \"ar\", \"pt\"]\nVALID_CHANNELS = [\"widget\", \"email\", \"telegram\", \"whatsapp\", \"unknown\"]\n\nfrom shared.liveagent_client import get_liveagent_client\nfrom shared.ticket_categories import get_category_config, validate_issue_type",
+        "filePath": "azure-function-crm/create_ticket/__init__.py",
+        "stepIndex": 9,
+        "stepDescription": "When the AI agent determines human help is needed (compliance triggers, explicit requests, complex issues), a ticket is created in LiveAgent with full conversation context and routed to the appropriate department."
+      }
+    },
+    {
+      "id": "rate-limiter",
+      "type": "interactive",
+      "position": {"x": 100, "y": 740},
+      "data": {
+        "label": "Rate Limiter + Validators",
+        "category": "gate",
+        "group": "security",
+        "details": "Security layer with input validation and rate limiting.\n\n**Rate Limiter** (`shared/rate_limiter.py`):\n- Per-email: 10 OTP requests per hour\n- Per-IP: 100 total requests per hour\n- Thread-safe in-memory storage with locks\n- Automatic expiry of rate limit windows\n- Returns seconds until reset for retry-after headers\n\n**Input Validators** (`shared/validators.py`):\n- OWASP-compliant input validation\n- Email: RFC 5321 format + 254 char max\n- Login: Alphanumeric + hyphens, max 50 chars\n- OTP: Exactly 6 digits\n- Pattern-based validation using compiled regexes\n\n**Security features**: OTP brute-force prevention (3 attempts max), expired OTP cleanup, audit logging of all authentication attempts with IP addresses.",
+        "codeSnippet": "# azure-function-crm/shared/rate_limiter.py\nRATE_LIMIT_EMAIL_MAX = 10       # Max OTP requests per email per hour\nRATE_LIMIT_IP_MAX = 100         # Max requests per IP per hour\n\n# azure-function-crm/shared/validators.py\nEMAIL_PATTERN = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')\nLOGIN_PATTERN = re.compile(r'^[a-zA-Z0-9-]{1,50}$')\nOTP_PATTERN = re.compile(r'^\\d{6}$')",
+        "filePath": "azure-function-crm/shared/rate_limiter.py",
+        "stepIndex": 10,
+        "stepDescription": "Input validation (OWASP-compliant) and rate limiting protect against brute force attacks. Email: 10 OTP requests/hour. IP: 100 requests/hour. OTP: 3 attempts max before lockout."
+      }
+    },
+    {
+      "id": "agent-prompts",
+      "type": "interactive",
+      "position": {"x": 400, "y": 570},
+      "data": {
+        "label": "Agent Prompts (v27-v36)",
+        "category": "data",
+        "group": "ai-agents",
+        "details": "Version-controlled system prompts for both brand agents, optimized via multi-model debate.\n\n**Seekapa prompts** (`seekapa-system-prompt-v36.md` latest):\n- v27: Multi-model debate optimized (GPT-5 Pro + Gemini + Perplexity + Codex)\n- v31: Hard escalation gate (Step 0), mandatory first check before any other action\n- v32-36: Enriched with progressive improvements\n\n**AxiaCS prompts** (`axia-cs-system-prompt-v30.md` latest):\n- v20: Multi-model debate optimized\n- v25-30: Progressive enrichment\n\n**Key prompt features**:\n- Step 0: HARD ESCALATION GATE (mandatory triggers: KYC, high-value, compliance, legal, regulatory)\n- Multi-language matching: case-insensitive, concept-based, any number format\n- Brand-specific knowledge base references\n- 4-language support: English, Arabic, Spanish, Portuguese\n- Drafts directory for in-progress iterations",
+        "codeSnippet": "# agent-prompts/seekapa-system-prompt.md (v31)\n## STEP 0: HARD ESCALATION GATE (MANDATORY FIRST CHECK)\n# Before ANY other action, check escalation triggers:\n# KYC rejected, high-value withdrawals >$50K, compliance,\n# legal identity, frozen accounts, regulatory inquiries\n# If YES -> ESCALATE immediately and STOP",
+        "filePath": "agent-prompts/seekapa-system-prompt.md",
+        "stepIndex": 11,
+        "stepDescription": "Version-controlled system prompts (Seekapa v36, Axia v30) define agent behavior. Key feature: Step 0 hard escalation gate ensures compliance-sensitive queries are immediately routed to humans."
+      }
+    },
+    {
+      "id": "test-framework",
+      "type": "interactive",
+      "position": {"x": 700, "y": 740},
+      "data": {
+        "label": "Test Framework (DeepEval)",
+        "category": "process",
+        "group": "testing",
+        "details": "Comprehensive agent evaluation framework using DeepEval, with hybrid connector for both KB and CRM queries.\n\n**Agent Connector** (`tests/agent_connector.py`):\n- Primary: Applications endpoint (handles `file_search` / KB queries)\n- Fallback: FunctionToolConnector (handles CRM queries via raw Responses API)\n- Content Safety refusal detection (~20% rate) with automatic retry\n- Rate limiting: 15 requests/minute with exponential backoff (5s initial, 60s max, 5 retries)\n\n**Test suites**:\n- `deepeval_suite.py` -- DeepEval metrics (correctness, relevance, faithfulness)\n- `advanced_scenario_test_runner.py` -- Complex multi-turn scenarios\n- `e2e_test_runner.py` -- End-to-end conversation flows\n- `escalation_test_runner.py` -- Escalation trigger validation\n- `verify_crm.py` -- CRM data verification against live database\n- `test_channel_integration.py` -- Multi-channel routing tests\n\n**Test data**: `tests/test_data/` contains KB tests and scenario definitions.",
+        "codeSnippet": "# tests/agent_connector.py\n# Hybrid: Applications endpoint (KB) + FunctionToolConnector (CRM)\nAGENT_NAMES = {\"seekapa\": \"seekapa\", \"axia\": \"AxiaCS\"}\nMAX_RETRIES = 5\nREQUESTS_PER_MINUTE = 15\n\n_REFUSAL_PATTERNS = [\n    \"i'm sorry, but i cannot assist\",\n    \"i cannot assist with that request\",\n]",
+        "filePath": "tests/agent_connector.py",
+        "stepIndex": 12,
+        "stepDescription": "The DeepEval-based test framework evaluates agent quality with hybrid connectors (KB + CRM), content safety refusal detection, and comprehensive test suites covering scenarios, escalation, and CRM verification."
+      }
+    },
+    {
+      "id": "azure-acs-email",
+      "type": "interactive",
+      "position": {"x": 400, "y": 740},
+      "data": {
+        "label": "Azure Communication Services",
+        "category": "process",
+        "group": "security",
+        "details": "Azure Communication Services (ACS) handles OTP email delivery.\n\n**Email delivery flow**:\n1. `send_otp` function generates 6-digit code\n2. Connects to ACS via `ACS_CONNECTION_STRING` (Key Vault)\n3. Sends branded email from `DoNotReply@65f5a6da-97ef-4846-b033-3b03cd0859a0.azurecomm.net`\n4. Email contains the OTP code with 5-minute expiry notice\n\n**MVP note**: In the current deployment, OTP codes are also logged to Azure Function logs as a fallback for testing. Production will rely solely on ACS email delivery.\n\n**Planned upgrades**: SendGrid or AWS SES as fallback email providers. OTP storage migration from in-memory dict to Azure Table Storage or Redis for persistence across function instances.",
+        "codeSnippet": "# azure-function-crm/send_otp/__init__.py\nfrom azure.communication.email import EmailClient\n\nACS_CONNECTION_STRING = os.environ.get('ACS_CONNECTION_STRING')\nACS_SENDER_EMAIL = os.environ.get('ACS_SENDER_EMAIL',\n    'DoNotReply@65f5a6da-...azurecomm.net')\n\nOTP_LENGTH = 6",
+        "filePath": "azure-function-crm/send_otp/__init__.py",
+        "stepIndex": 13,
+        "stepDescription": "Azure Communication Services sends OTP verification emails. Currently in MVP mode with fallback logging. Planned upgrades include persistent OTP storage (Redis/Table Storage) and backup email providers."
+      }
+    }
+  ],
+  "edges": [
+    {"id": "e1", "source": "customer-channels", "target": "channel-router", "label": "Messages", "animated": true},
+    {"id": "e2", "source": "channel-router", "target": "message-normalizer", "label": "Normalize", "animated": true},
+    {"id": "e3", "source": "message-normalizer", "target": "channel-router", "label": "Unified Format", "animated": true},
+    {"id": "e4", "source": "channel-router", "target": "ai-foundry-agents", "label": "Agent Call", "animated": true},
+    {"id": "e5", "source": "ai-foundry-agents", "target": "otp-auth", "label": "send_otp / verify_otp", "animated": true},
+    {"id": "e6", "source": "otp-auth", "target": "azure-acs-email", "label": "Send OTP Email", "animated": true},
+    {"id": "e7", "source": "otp-auth", "target": "crm-sql-legacy", "label": "Verify + Fetch", "animated": true},
+    {"id": "e8", "source": "ai-foundry-agents", "target": "crm-mysql", "label": "CRM Tools", "animated": true},
+    {"id": "e9", "source": "ai-foundry-agents", "target": "liveagent-escalation", "label": "Escalate", "animated": true},
+    {"id": "e10", "source": "ai-foundry-agents", "target": "agent-prompts", "label": "System Prompt", "animated": false},
+    {"id": "e11", "source": "signed-links", "target": "customer-channels", "label": "Deep Links", "animated": false},
+    {"id": "e12", "source": "rate-limiter", "target": "otp-auth", "label": "Guard", "animated": false},
+    {"id": "e13", "source": "test-framework", "target": "ai-foundry-agents", "label": "Evaluate", "animated": false}
+  ],
+  "meta": {
+    "title": "CS Agents -- System Architecture",
+    "description": "Multi-channel customer service AI for Seekapa and Axia. Azure AI Foundry agents with OTP authentication, PandaTS CRM integration, HMAC signed links, LiveAgent escalation, and DeepEval testing.",
+    "totalSteps": 13
+  }
+};
+  </script>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@19.1.0",
+      "react/jsx-runtime": "https://esm.sh/react@19.1.0/jsx-runtime",
+      "react-dom": "https://esm.sh/react-dom@19.1.0",
+      "react-dom/client": "https://esm.sh/react-dom@19.1.0/client",
+      "@xyflow/react": "https://esm.sh/@xyflow/react@12.10.0?external=react,react-dom"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
+    import { createRoot } from 'react-dom/client';
+    import {
+      ReactFlow,
+      ReactFlowProvider,
+      MiniMap,
+      Controls,
+      Background,
+      useReactFlow,
+      Handle,
+      Position,
+      getBezierPath,
+      useNodesState,
+      useEdgesState
+    } from '@xyflow/react';
+
+    const h = React.createElement;
+
+    // =============================================
+    // Category color definitions
+    // =============================================
+    const CATEGORY_COLORS = {
+      trigger:  { bg: '#1e3a5f', border: '#3498db', badge: '#2980b9' },
+      data:     { bg: '#1a3a4f', border: '#3498db', badge: '#2980b9' },
+      process:  { bg: '#1a3a4f', border: '#3498db', badge: '#2471a3' },
+      gate:     { bg: '#3d2e0f', border: '#f39c12', badge: '#d68910' },
+      decision: { bg: '#3d2e0f', border: '#f39c12', badge: '#d68910' },
+      trade:    { bg: '#1a3d2e', border: '#2ecc71', badge: '#27ae60' },
+      notrade:  { bg: '#3d1a1a', border: '#e74c3c', badge: '#c0392b' },
+      shadow:   { bg: '#2d2d2d', border: '#95a5a6', badge: '#7f8c8d' },
+      storage:  { bg: '#2d1a3d', border: '#9b59b6', badge: '#8e44ad' },
+    };
+
+    function getCategoryColor(category) {
+      return CATEGORY_COLORS[category] || CATEGORY_COLORS.data;
+    }
+
+    // =============================================
+    // Simple Markdown → HTML renderer
+    // Handles: **bold**, `code`, tables, lists, paragraphs
+    // =============================================
+    function renderMarkdown(text) {
+      if (!text) return '';
+      var lines = text.split('\n');
+      var result = [];
+      var i = 0;
+
+      while (i < lines.length) {
+        var line = lines[i];
+        var trimmed = line.trim();
+
+        // Table row: starts and ends with |
+        if (trimmed.match(/^\|.*\|$/)) {
+          var tableHtml = '<table style="width:100%;border-collapse:collapse;margin:10px 0;font-size:14px;">';
+          var isHeader = true;
+          while (i < lines.length && lines[i].trim().match(/^\|.*\|$/)) {
+            var row = lines[i].trim();
+            // Skip separator rows (|---|---|)
+            if (row.match(/^\|[\s\-:]+\|$/)) { i++; isHeader = false; continue; }
+            var cells = row.split('|').slice(1, -1);
+            var tag = isHeader ? 'th' : 'td';
+            var style = isHeader
+              ? 'padding:8px 12px;border:1px solid #30363d;background:#21262d;text-align:left;font-weight:600;color:#e6edf3;'
+              : 'padding:8px 12px;border:1px solid #30363d;color:#c9d1d9;';
+            tableHtml += '<tr>';
+            cells.forEach(function(cell) {
+              tableHtml += '<' + tag + ' style="' + style + '">' + inlineMarkdown(cell.trim()) + '</' + tag + '>';
+            });
+            tableHtml += '</tr>';
+            if (isHeader) isHeader = false;
+            i++;
+          }
+          tableHtml += '</table>';
+          result.push(tableHtml);
+          continue;
+        }
+
+        // Bullet list item
+        if (trimmed.match(/^[-*]\s/)) {
+          result.push('<div style="padding-left:16px;margin:3px 0;position:relative;">'
+            + '<span style="position:absolute;left:0;color:#8b949e;">•</span>'
+            + inlineMarkdown(trimmed.replace(/^[-*]\s/, ''))
+            + '</div>');
+          i++;
+          continue;
+        }
+
+        // Empty line
+        if (trimmed === '') {
+          result.push('<div style="height:8px;"></div>');
+          i++;
+          continue;
+        }
+
+        // Regular paragraph
+        result.push('<div style="margin:4px 0;line-height:1.6;">' + inlineMarkdown(trimmed) + '</div>');
+        i++;
+      }
+
+      return result.join('');
+    }
+
+    // Inline markdown: **bold**, `code`
+    function inlineMarkdown(text) {
+      return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#e6edf3;">$1</strong>')
+        .replace(/`([^`]+)`/g, '<code style="background:#0d1117;padding:1px 5px;border-radius:3px;font-size:12px;color:#79c0ff;font-family:monospace;">$1</code>');
+    }
+
+    // =============================================
+    // InteractiveNode Component
+    // =============================================
+    function InteractiveNode({ id, data, selected }) {
+      const colors = getCategoryColor(data.category);
+      const isTourActive = data._tourActive || false;
+      const isDimmed = data._dimmed || false;
+
+      const nodeClasses = [
+        'interactive-node',
+        selected ? 'selected' : '',
+        isDimmed ? 'dimmed' : '',
+        isTourActive ? 'tour-active' : '',
+      ].filter(Boolean).join(' ');
+
+      const nodeStyle = {
+        background: colors.bg,
+        borderColor: (selected || isTourActive) ? '#f39c12' : colors.border,
+      };
+
+      return h('div', { className: nodeClasses, style: nodeStyle },
+        // Top handle
+        h(Handle, { type: 'target', position: Position.Top, style: { background: colors.border } }),
+        // Group icon
+        data.isGroup ? h('div', { className: 'node-group-icon' }, data._collapsed ? '+' : '-') : null,
+        // Category badge
+        h('span', {
+          className: 'node-badge',
+          style: { background: colors.badge }
+        }, data.category),
+        // Label
+        h('div', { className: 'node-label' }, data.label),
+        // Bottom handle
+        h(Handle, { type: 'source', position: Position.Bottom, style: { background: colors.border } })
+      );
+    }
+
+    // =============================================
+    // AnimatedEdge Component
+    // =============================================
+    function AnimatedEdge({
+      id, sourceX, sourceY, targetX, targetY,
+      sourcePosition, targetPosition, style, label, markerEnd
+    }) {
+      const [edgePath, labelX, labelY] = getBezierPath({
+        sourceX, sourceY, sourcePosition,
+        targetX, targetY, targetPosition,
+      });
+
+      const isAnimated = style && style.animated !== false;
+      const isDashed = style && style.strokeDasharray;
+
+      return h('g', null,
+        h('path', {
+          id: id,
+          className: isAnimated ? 'animated-edge-path' : '',
+          d: edgePath,
+          fill: 'none',
+          stroke: (style && style.stroke) || '#484f58',
+          strokeWidth: (style && style.strokeWidth) || 2,
+          strokeDasharray: isDashed ? style.strokeDasharray : (isAnimated ? '5 5' : undefined),
+          markerEnd: markerEnd,
+        }),
+        label ? h('g', { transform: `translate(${labelX}, ${labelY})` },
+          h('rect', {
+            x: -((label.length * 6.5 + 16) / 2),
+            y: -10,
+            width: label.length * 6.5 + 16,
+            height: 20,
+            rx: 4,
+            fill: '#0d1117',
+            stroke: '#30363d',
+            strokeWidth: 1,
+          }),
+          h('text', {
+            style: {
+              fontSize: '11px',
+              fill: '#8b949e',
+              fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+            },
+            textAnchor: 'middle',
+            dominantBaseline: 'central',
+          }, label)
+        ) : null
+      );
+    }
+
+    // =============================================
+    // DetailPanel Component
+    // =============================================
+    function DetailPanel({ node, onClose }) {
+      if (!node) {
+        return h('div', { className: 'detail-panel' });
+      }
+
+      const d = node.data;
+      const colors = getCategoryColor(d.category);
+
+      return h('div', { className: 'detail-panel open' },
+        // Header
+        h('div', { className: 'detail-panel-header' },
+          h('div', null,
+            h('div', { className: 'detail-panel-title' }, d.label),
+            h('span', {
+              className: 'category-badge-detail',
+              style: { background: colors.badge, marginTop: '4px' }
+            }, d.category)
+          ),
+          h('button', {
+            className: 'detail-panel-close',
+            onClick: onClose,
+            'aria-label': 'Close panel',
+          }, '\u00D7')
+        ),
+        // Body
+        h('div', { className: 'detail-panel-body' },
+          // Description (rendered markdown)
+          d.details ? h('div', { className: 'detail-section' },
+            h('div', { className: 'detail-section-label' }, 'Description'),
+            h('div', {
+              className: 'detail-section-text',
+              dangerouslySetInnerHTML: { __html: renderMarkdown(d.details) }
+            })
+          ) : null,
+          // Code snippet
+          d.codeSnippet ? h('div', { className: 'detail-section' },
+            h('div', { className: 'detail-section-label' }, 'Code'),
+            h('pre', { className: 'detail-code' }, d.codeSnippet)
+          ) : null,
+          // File path
+          d.filePath ? h('div', { className: 'detail-section' },
+            h('div', { className: 'detail-section-label' }, 'File'),
+            h('span', { className: 'detail-filepath' }, d.filePath)
+          ) : null,
+          // Step narration (rendered markdown)
+          d.stepIndex ? h('div', { className: 'detail-section' },
+            h('div', { className: 'detail-section-label' }, 'Step ' + d.stepIndex + ' of Tour'),
+            h('div', {
+              className: 'detail-section-text',
+              dangerouslySetInnerHTML: { __html: renderMarkdown(d.stepDescription || '') }
+            })
+          ) : null
+        )
+      );
+    }
+
+    // =============================================
+    // GuidedTour Component
+    // =============================================
+    function GuidedTour({ stepNodes, currentStep, onStepChange, onExit, tourActive, onStartTour }) {
+      const totalSteps = stepNodes.length;
+      const currentStepNode = stepNodes[currentStep - 1];
+      const description = currentStepNode ? currentStepNode.data.stepDescription || '' : '';
+
+      // Keyboard navigation
+      useEffect(function () {
+        if (!tourActive) return;
+        function handleKey(e) {
+          if (e.key === 'ArrowRight' && currentStep < totalSteps) {
+            onStepChange(currentStep + 1);
+          } else if (e.key === 'ArrowLeft' && currentStep > 1) {
+            onStepChange(currentStep - 1);
+          } else if (e.key === 'Escape') {
+            onExit();
+          }
+        }
+        window.addEventListener('keydown', handleKey);
+        return function () { window.removeEventListener('keydown', handleKey); };
+      }, [tourActive, currentStep, totalSteps, onStepChange, onExit]);
+
+      // Start Tour button (shown when tour is not active)
+      if (!tourActive && totalSteps > 0) {
+        return h('button', {
+          className: 'start-tour-btn',
+          onClick: onStartTour,
+        }, '\u25B6 Start Tour (' + totalSteps + ' steps)');
+      }
+
+      if (!tourActive || totalSteps === 0) return null;
+
+      return h('div', { className: 'tour-bar active' },
+        h('button', {
+          className: 'tour-btn exit',
+          onClick: onExit,
+        }, 'Exit'),
+        h('button', {
+          className: 'tour-btn',
+          onClick: function () { onStepChange(currentStep - 1); },
+          disabled: currentStep <= 1,
+        }, '\u2190 Prev'),
+        h('span', { className: 'tour-step-counter' },
+          'Step ' + currentStep + ' of ' + totalSteps
+        ),
+        h('span', { className: 'tour-description' }, description),
+        h('button', {
+          className: 'tour-btn primary',
+          onClick: function () { onStepChange(currentStep + 1); },
+          disabled: currentStep >= totalSteps,
+        }, 'Next \u2192')
+      );
+    }
+
+    // =============================================
+    // Register custom node/edge types (stable refs, before components)
+    // =============================================
+    const nodeTypes = { interactive: InteractiveNode };
+    const edgeTypes = { animated: AnimatedEdge };
+
+    // =============================================
+    // App Component
+    // =============================================
+    function FlowCanvas() {
+      const diagramData = window.__DIAGRAM_DATA__ || { nodes: [], edges: [], meta: {} };
+      const { fitView, setCenter } = useReactFlow();
+
+      const [selectedNode, setSelectedNode] = useState(null);
+      const [currentStep, setCurrentStep] = useState(1);
+      const [tourActive, setTourActive] = useState(false);
+
+      // Ref to hold step nodes — breaks circular dependency with useEffect
+      const stepNodesRef = useRef([]);
+
+      // Initialize nodes and edges from data
+      const initialNodes = useMemo(function () {
+        return (diagramData.nodes || []).map(function (n) {
+          return Object.assign({}, n, {
+            type: n.type || 'interactive',
+            data: Object.assign({}, n.data, {
+              _tourActive: false,
+              _dimmed: false,
+            }),
+          });
+        });
+      }, []);
+
+      const initialEdges = useMemo(function () {
+        return (diagramData.edges || []).map(function (e) {
+          return Object.assign({}, e, {
+            type: e.type || 'animated',
+            style: Object.assign({}, e.style || {}, {
+              animated: e.animated !== false,
+            }),
+          });
+        });
+      }, []);
+
+      const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+      const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+      // Get step nodes sorted by stepIndex — also update ref for useEffect
+      const stepNodes = useMemo(function () {
+        var sorted = nodes
+          .filter(function (n) { return n.data && n.data.stepIndex; })
+          .sort(function (a, b) { return a.data.stepIndex - b.data.stepIndex; });
+        stepNodesRef.current = sorted;
+        return sorted;
+      }, [nodes]);
+
+      // Update node tour state when step changes
+      // IMPORTANT: Only depend on [tourActive, currentStep] — NOT stepNodes
+      // stepNodes derives from nodes, and this effect modifies nodes via setNodes.
+      // Including stepNodes would create: setNodes→nodes→stepNodes→effect→setNodes = infinite loop
+      useEffect(function () {
+        if (!tourActive) {
+          // Only reset if nodes actually have tour state set
+          setNodes(function (nds) {
+            var needsReset = nds.some(function (n) { return n.data._tourActive || n.data._dimmed; });
+            if (!needsReset) return nds; // bail out — return same ref, no re-render
+            return nds.map(function (n) {
+              return Object.assign({}, n, {
+                data: Object.assign({}, n.data, {
+                  _tourActive: false,
+                  _dimmed: false,
+                }),
+              });
+            });
+          });
+          return;
+        }
+
+        var activeNode = stepNodesRef.current[currentStep - 1];
+        if (!activeNode) return;
+
+        setNodes(function (nds) {
+          return nds.map(function (n) {
+            var isActive = n.id === activeNode.id;
+            // Skip update if state already matches
+            if (n.data._tourActive === isActive && n.data._dimmed === !isActive) return n;
+            return Object.assign({}, n, {
+              data: Object.assign({}, n.data, {
+                _tourActive: isActive,
+                _dimmed: !isActive,
+              }),
+            });
+          });
+        });
+
+        // Auto-open detail panel for the active step node
+        setSelectedNode(activeNode);
+
+        // Auto-zoom to active node (offset left to account for detail panel)
+        if (activeNode.position) {
+          setTimeout(function () {
+            setCenter(
+              activeNode.position.x - 160,
+              activeNode.position.y + 30,
+              { zoom: 1.2, duration: 500 }
+            );
+          }, 50);
+        }
+      }, [tourActive, currentStep]);
+
+      // Node click handler
+      var onNodeClick = useCallback(function (event, node) {
+        setSelectedNode(node);
+      }, []);
+
+      // Pane click to deselect
+      var onPaneClick = useCallback(function () {
+        setSelectedNode(null);
+      }, []);
+
+      // Tour controls
+      var handleStepChange = useCallback(function (step) {
+        if (step >= 1 && step <= stepNodes.length) {
+          setCurrentStep(step);
+        }
+      }, [stepNodes.length]);
+
+      var handleExitTour = useCallback(function () {
+        setTourActive(false);
+        setCurrentStep(1);
+        setSelectedNode(null); // Close detail panel on tour exit
+        setTimeout(function () { fitView({ duration: 500, padding: 0.1 }); }, 50);
+      }, [fitView]);
+
+      var handleStartTour = useCallback(function () {
+        setTourActive(true);
+        setCurrentStep(1);
+      }, []);
+
+      // Close detail panel
+      var handleClosePanel = useCallback(function () {
+        setSelectedNode(null);
+      }, []);
+
+      var meta = diagramData.meta || {};
+
+      // MiniMap node color function
+      var minimapNodeColor = useCallback(function (node) {
+        var cat = node.data && node.data.category;
+        var colors = getCategoryColor(cat);
+        return colors.border;
+      }, []);
+
+      return h('div', { style: { width: '100%', height: '100%', position: 'relative' } },
+        // Title
+        meta.title ? h('div', { className: 'diagram-title' }, meta.title) : null,
+        // React Flow canvas
+        h(ReactFlow, {
+          nodes: nodes,
+          edges: edges,
+          onNodesChange: onNodesChange,
+          onEdgesChange: onEdgesChange,
+          onNodeClick: onNodeClick,
+          onPaneClick: onPaneClick,
+          nodeTypes: nodeTypes,
+          edgeTypes: edgeTypes,
+          fitView: true,
+          fitViewOptions: { padding: 0.15 },
+          minZoom: 0.2,
+          maxZoom: 3,
+          proOptions: { hideAttribution: true },
+          defaultEdgeOptions: { type: 'animated' },
+        },
+          h(Background, { color: '#21262d', gap: 20, size: 1 }),
+          h(MiniMap, {
+            nodeColor: minimapNodeColor,
+            maskColor: 'rgba(13, 17, 23, 0.8)',
+            style: { background: '#161b22' },
+            position: 'bottom-right',
+          }),
+          h(Controls, { position: 'top-right', showInteractive: false })
+        ),
+        // Detail panel
+        h(DetailPanel, {
+          node: selectedNode,
+          onClose: handleClosePanel,
+        }),
+        // Guided tour
+        h(GuidedTour, {
+          stepNodes: stepNodes,
+          currentStep: currentStep,
+          onStepChange: handleStepChange,
+          onExit: handleExitTour,
+          tourActive: tourActive,
+          onStartTour: handleStartTour,
+        })
+      );
+    }
+
+    function App() {
+      return h(ReactFlowProvider, null,
+        h(FlowCanvas, null)
+      );
+    }
+
+    // Mount
+    const root = createRoot(document.getElementById('root'));
+    root.render(h(App, null));
+  </script>
+</body>
+</html>

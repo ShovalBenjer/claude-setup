@@ -1,0 +1,52 @@
+[
+  {
+    "name": "CORS_ALLOWED_ORIGINS",
+    "slotSetting": false,
+    "value": "https://brave-bay-048da2703.2.azurestaticapps.net"
+  },
+  {
+    "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+    "slotSetting": false,
+    "value": "1"
+  },
+  {
+    "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
+    "slotSetting": false,
+    "value": "3"
+  },
+  {
+    "name": "AGENT_API_KEY",
+    "slotSetting": false,
+    "value": "@Microsoft.KeyVault(VaultName=kv-seekapa-apps;SecretName=RealTime-AgentApiKey)"
+  },
+  {
+    "name": "JWT_SECRET",
+    "slotSetting": false,
+    "value": "@Microsoft.KeyVault(VaultName=kv-seekapa-apps;SecretName=RealTime-JwtSecret)"
+  },
+  {
+    "name": "SAGIV_PASSWORD_HASH",
+    "slotSetting": false,
+    "value": "@Microsoft.KeyVault(VaultName=kv-seekapa-apps;SecretName=RealTime-SagivPasswordHash)"
+  },
+  {
+    "name": "ELEVENLABS_API_KEY",
+    "slotSetting": false,
+    "value": "@Microsoft.KeyVault(VaultName=kv-seekapa-apps;SecretName=ELEVENLABS-API-KEY)"
+  },
+  {
+    "name": "AZURE_AI_ENDPOINT",
+    "slotSetting": false,
+    "value": "@Microsoft.KeyVault(VaultName=kv-seekapa-apps;SecretName=AzureAIFoundry-Endpoint)"
+  },
+  {
+    "name": "AZURE_AI_API_KEY",
+    "slotSetting": false,
+    "value": "@Microsoft.KeyVault(VaultName=kv-seekapa-apps;SecretName=AzureAIFoundry-ApiKey)"
+  },
+  {
+    "name": "KARIM_PASSWORD_HASH",
+    "slotSetting": false,
+    "value": "@Microsoft.KeyVault(VaultName=kv-seekapa-apps;SecretName=RealTime-KarimPasswordHash)"
+  }
+]

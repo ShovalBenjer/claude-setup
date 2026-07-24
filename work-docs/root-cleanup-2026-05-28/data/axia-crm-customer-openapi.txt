@@ -1,0 +1,76 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "AxiaCS CRM Customer Lookup",
+    "description": "Looks up a customer record in the Axia or Seekapa CRM by email.",
+    "version": "1.0"
+  },
+  "host": "az-corp.corp-domain.com",
+  "basePath": "/api/v1",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/ai-agent/customer": {
+      "post": {
+        "summary": "Get CRM customer by email",
+        "description": "Looks up a single customer in the chosen broker CRM (Axia or Seekapa) using their email address. Use this when you need account details, status, or contact information for a specific customer.",
+        "operationId": "GetCrmCustomer",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/CustomerLookupRequest" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer found",
+            "schema": { "$ref": "#/definitions/CustomerResponse" }
+          },
+          "400": { "description": "Invalid email or broker value" },
+          "401": { "description": "Missing or invalid bearer token" },
+          "404": { "description": "Customer not found" },
+          "429": { "description": "Rate limited" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CustomerLookupRequest": {
+      "type": "object",
+      "required": ["email", "broker"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Customer email address. Must be a valid email format.",
+          "x-ms-summary": "Email"
+        },
+        "broker": {
+          "type": "string",
+          "enum": ["axia", "seekapa"],
+          "description": "Which broker CRM to query. Lowercase, exactly 'axia' or 'seekapa'.",
+          "x-ms-summary": "Broker"
+        }
+      }
+    },
+    "CustomerResponse": {
+      "type": "object",
+      "description": "Customer record (shape TBD - tighten once Yasha confirms fields).",
+      "additionalProperties": true
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Paste the full string including the 'Bearer ' prefix."
+    }
+  },
+  "security": [
+    { "api_key": [] }
+  ]
+}

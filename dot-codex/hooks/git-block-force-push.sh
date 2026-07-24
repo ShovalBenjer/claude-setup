@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/hooks/git-block-force-push.sh

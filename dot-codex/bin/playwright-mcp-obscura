@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CODEX_HOME="${CODEX_HOME:-/home/shovalbe/.codex}"
+HOST="${OBSCURA_CDP_HOST:-127.0.0.1}"
+PORT="${OBSCURA_CDP_PORT:-9222}"
+ENDPOINT="${PLAYWRIGHT_CDP_ENDPOINT:-http://${HOST}:${PORT}}"
+BUNX_BIN="${BUNX_BIN:-bunx}"
+
+"$CODEX_HOME/bin/obscura-cdp" start >&2
+
+exec "$BUNX_BIN" -y @playwright/mcp@latest "--cdp-endpoint=${ENDPOINT}" "$@"

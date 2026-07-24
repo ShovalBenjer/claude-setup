@@ -1,0 +1,36 @@
+aeo-api
+Container App
+AZAI_group
+Sweden Central
+U-BTech - CSP (Z-Online)
+aeo-dashboard-swa
+Static Web App
+AZAI_group
+West Europe
+U-BTech - CSP (Z-Online)
+aeo-seekapa-db
+Azure Cosmos DB account
+AZAI_group
+Sweden Central
+U-BTech - CSP (Z-Online)
+COMP-AEO
+App Service
+AZAI_group
+Sweden Central
+U-BTech - CSP (Z-Online)
+func-aeo-api-prod
+Function App
+AZAI_group
+Sweden Central
+U-BTech - CSP (Z-Online)
+func-aeo-audit-prod
+Function App
+AZAI_group
+Sweden Central
+U-BTech - CSP (Z-Online)
+func-aeo-competitor-prod
+Function App
+AZAI_group
+Sweden Central
+U-BTech - CSP (Z-Online)
+webappCOMPAEO (sentimarkregistry/webappCOMPAEO)

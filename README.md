@@ -8,6 +8,14 @@ synced to the July work state (`dot-claude/`, `dot-codex/`, `dot-agents/`), adde
 `tools/whatsapp/` CDP readers and the live notification hooks. The 2026-05-08 export
 below remains as history (commit 910dec2).
 
+Updated 2026-07-24: the July sync above was PARTIAL — completed today from
+`work-archive-2026-07-12` (HOME-setup.bundle + uncommitted tgz): all 23 Gastown
+agent personas, 14 hooks, 36 skills, tower/cx/intent bins, work CLAUDE.md +
+settings.json, the full work `docs/` tree (→ `work-docs/`), and the
+`intent-control-plane/` repo folded in. Full inventory + what stays bundle-only:
+`docs/analysis/2026-07-24-work-archive-import.md`. The 11 work project repos stay
+as bundles in the archive (portfolio, not setup).
+
 ---
 
 Built 2026-05-08. A snapshot of my Claude Code setup, research artifacts, presentations, and master plans.

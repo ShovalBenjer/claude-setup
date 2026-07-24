@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "codebase-memory": {
+      "command": "/home/shovalbe/.local/bin/codebase-memory-mcp",
+      "args": []
+    }
+  }
+}

@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/hooks/stop-verify.sh

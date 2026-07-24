@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/hooks/layer7-embed.sh

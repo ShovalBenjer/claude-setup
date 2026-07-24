@@ -1,0 +1,22 @@
+[
+  {
+    "lastModified": "2025-12-25T10:05:54+00:00",
+    "name": "azure-webjobs-hosts",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-25T10:05:49+00:00",
+    "name": "azure-webjobs-secrets",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-25T10:05:42+00:00",
+    "name": "function-releases",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-25T10:04:33+00:00",
+    "name": "scm-releases",
+    "publicAccess": null
+  }
+]

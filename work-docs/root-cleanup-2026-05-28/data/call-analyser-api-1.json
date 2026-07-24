@@ -1,0 +1,3987 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Call Analyzer API",
+    "description": "API for processing call center audio recordings. Handles audio upload,\ntranscription (via ElevenLabs), CDR integration with VoiceSpin,\nAI-powered translation/Q&A, and role-based access control.\n\n## Authentication\n\n**Internal API** (`/api/v1/*`): Uses JWT Bearer tokens obtained via the auth callback flow.\n\n**External API** (`/api/external/*`): Uses a static API token passed in the `X-API-Token` header.\n\n**Sync API** (`/api/v1/sync/*`): Uses service-to-service authentication via `X-Service-Token` header.\n",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Call Analyzer Team"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://analyzer.corp-domain.com",
+      "description": "Production"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "Local development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication endpoints (login, refresh, logout)"
+    },
+    {
+      "name": "Audio",
+      "description": "Audio upload, listing, streaming, and export"
+    },
+    {
+      "name": "Transcription",
+      "description": "Transcription viewing"
+    },
+    {
+      "name": "Comments",
+      "description": "Audio comments (CRUD)"
+    },
+    {
+      "name": "CDR",
+      "description": "Call Detail Records — providers, records, transcription, export"
+    },
+    {
+      "name": "AI",
+      "description": "AI-powered translation and Q&A"
+    },
+    {
+      "name": "Users",
+      "description": "User management"
+    },
+    {
+      "name": "Roles",
+      "description": "Role management (admin only)"
+    },
+    {
+      "name": "Permissions",
+      "description": "Permission management (admin only)"
+    },
+    {
+      "name": "Restrictions",
+      "description": "Role-based restrictions (agents, providers, realms)"
+    },
+    {
+      "name": "Jobs",
+      "description": "Scheduled transcription jobs"
+    },
+    {
+      "name": "Audit",
+      "description": "Audit log viewing and export"
+    },
+    {
+      "name": "Agents",
+      "description": "Agent management (admin only)"
+    },
+    {
+      "name": "Sync",
+      "description": "Service-to-service sync from Laravel"
+    },
+    {
+      "name": "External",
+      "description": "External API for other backends (token-based auth)"
+    },
+    {
+      "name": "Events",
+      "description": "Real-time events (SSE and WebSocket)"
+    },
+    {
+      "name": "Health",
+      "description": "Health check endpoints"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT token obtained via /api/v1/auth/callback"
+      },
+      "ApiTokenAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Token",
+        "description": "Static API token for external service-to-service calls"
+      },
+      "ServiceAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Service-Token",
+        "description": "Service-to-service token for sync endpoints"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "path": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "agentExtension": {
+            "type": "string"
+          },
+          "avatarUrl": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "managedEmployees": {
+            "type": "boolean"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Permission"
+            }
+          }
+        }
+      },
+      "Permission": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "page": {
+            "type": "string"
+          }
+        }
+      },
+      "UserRestrictions": {
+        "type": "object",
+        "properties": {
+          "agents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RestrictionAgent"
+            }
+          },
+          "providers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "realms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Realm"
+            }
+          },
+          "managedEmployees": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RestrictionAgent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "extension": {
+            "type": "string"
+          }
+        }
+      },
+      "Realm": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthCallbackRequest": {
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "One-time auth code from Laravel"
+          }
+        }
+      },
+      "AuthRefreshRequest": {
+        "type": "object",
+        "required": [
+          "refreshToken"
+        ],
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthLogoutRequest": {
+        "type": "object",
+        "required": [
+          "refreshToken"
+        ],
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "sessionToken": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "restrictions": {
+            "$ref": "#/components/schemas/UserRestrictions"
+          }
+        }
+      },
+      "AuthMeResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "restrictions": {
+            "$ref": "#/components/schemas/UserRestrictions"
+          }
+        }
+      },
+      "UploadAudioResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "uploadedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "message": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          }
+        }
+      },
+      "AudioResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "fileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "duration": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PaginatedAudioResponse": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudioResponse"
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "pageSize": {
+            "type": "integer"
+          },
+          "totalPages": {
+            "type": "integer"
+          }
+        }
+      },
+      "ExportAudioRequest": {
+        "type": "object",
+        "required": [
+          "external_ids",
+          "export_type"
+        ],
+        "properties": {
+          "external_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "export_type": {
+            "type": "string",
+            "enum": [
+              "transcription",
+              "recording",
+              "both"
+            ]
+          }
+        }
+      },
+      "Segment": {
+        "type": "object",
+        "properties": {
+          "speakerId": {
+            "type": "string"
+          },
+          "start": {
+            "type": "number",
+            "format": "double"
+          },
+          "end": {
+            "type": "number",
+            "format": "double"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "TranscriptDetailResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "audioId": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "number",
+            "format": "double"
+          },
+          "wordCount": {
+            "type": "integer"
+          },
+          "speakers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Segment"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateCommentRequest": {
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "properties": {
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateCommentRequest": {
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "properties": {
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "CommentResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "audioId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "editedById": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "editedByName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PaginatedCommentsResponse": {
+        "type": "object",
+        "properties": {
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommentResponse"
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "pageSize": {
+            "type": "integer"
+          },
+          "totalPages": {
+            "type": "integer"
+          }
+        }
+      },
+      "EnrichedCDRRecord": {
+        "type": "object",
+        "properties": {
+          "callId": {
+            "type": "string"
+          },
+          "callDate": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "integer"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "callerNumber": {
+            "type": "string"
+          },
+          "destinationNumber": {
+            "type": "string"
+          },
+          "agentExtension": {
+            "type": "string"
+          },
+          "agentName": {
+            "type": "string"
+          },
+          "recordingUrl": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "realmId": {
+            "type": "string"
+          },
+          "transcriptionId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "acc": {
+            "type": "string"
+          }
+        }
+      },
+      "PaginationMeta": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "pageSize": {
+            "type": "integer"
+          },
+          "totalPages": {
+            "type": "integer"
+          }
+        }
+      },
+      "EnrichedCDRResponse": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EnrichedCDRRecord"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMeta"
+          }
+        }
+      },
+      "TranscribeCDRRecordingRequest": {
+        "type": "object",
+        "required": [
+          "provider",
+          "realm",
+          "recording_url",
+          "call_id",
+          "language"
+        ],
+        "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "realm": {
+            "type": "string"
+          },
+          "recording_url": {
+            "type": "string"
+          },
+          "call_id": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "isolated": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TranscribeCDRRecordingResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "call_id": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "DirectLinkRequest": {
+        "type": "object",
+        "required": [
+          "call_date",
+          "acc"
+        ],
+        "properties": {
+          "call_date": {
+            "type": "string",
+            "description": "Call date (YYYY-MM-DD)"
+          },
+          "acc": {
+            "type": "string",
+            "description": "Customer account number"
+          }
+        }
+      },
+      "DirectLinkResponse": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EnrichedCDRRecord"
+            }
+          }
+        }
+      },
+      "ExportCDRRequest": {
+        "type": "object",
+        "required": [
+          "call_ids",
+          "export_type",
+          "provider",
+          "realm"
+        ],
+        "properties": {
+          "call_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "export_type": {
+            "type": "string",
+            "enum": [
+              "transcription",
+              "recording",
+              "both"
+            ]
+          },
+          "provider": {
+            "type": "string"
+          },
+          "realm": {
+            "type": "string"
+          }
+        }
+      },
+      "ExportCDRResponse": {
+        "type": "object",
+        "properties": {
+          "download_url": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          }
+        }
+      },
+      "CDRProviderResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "realms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "TranslateTranscriptRequest": {
+        "type": "object",
+        "required": [
+          "audioId",
+          "targetLanguage",
+          "language",
+          "duration",
+          "wordCount",
+          "speakers",
+          "segments"
+        ],
+        "properties": {
+          "audioId": {
+            "type": "string"
+          },
+          "targetLanguage": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "number",
+            "format": "double"
+          },
+          "wordCount": {
+            "type": "integer"
+          },
+          "speakers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Segment"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "TranslatedSegment": {
+        "type": "object",
+        "properties": {
+          "speakerId": {
+            "type": "string"
+          },
+          "start": {
+            "type": "number",
+            "format": "double"
+          },
+          "end": {
+            "type": "number",
+            "format": "double"
+          },
+          "text": {
+            "type": "string"
+          },
+          "translation": {
+            "type": "string"
+          }
+        }
+      },
+      "TranslateTranscriptResponse": {
+        "type": "object",
+        "properties": {
+          "audioId": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "targetLanguage": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "number",
+            "format": "double"
+          },
+          "wordCount": {
+            "type": "integer"
+          },
+          "speakers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TranslatedSegment"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "translatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "QAQueryRequest": {
+        "type": "object",
+        "required": [
+          "audioId",
+          "question"
+        ],
+        "properties": {
+          "audioId": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Segment"
+            }
+          }
+        }
+      },
+      "RelevantSegment": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer"
+          },
+          "speakerId": {
+            "type": "string"
+          },
+          "start": {
+            "type": "number",
+            "format": "double"
+          },
+          "end": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "QAQueryResponse": {
+        "type": "object",
+        "properties": {
+          "audioId": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "relevantSegments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelevantSegment"
+            }
+          }
+        }
+      },
+      "CreateRoleRequest": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "managedEmployees": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UpdateRoleRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "managedEmployees": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RolePermissionsRequest": {
+        "type": "object",
+        "required": [
+          "permission_ids"
+        ],
+        "properties": {
+          "permission_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "CreatePermissionRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "page"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "page": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateUserRolesRequest": {
+        "type": "object",
+        "required": [
+          "role_ids"
+        ],
+        "properties": {
+          "role_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "PaginatedUsersResponse": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "pageSize": {
+            "type": "integer"
+          },
+          "totalPages": {
+            "type": "integer"
+          }
+        }
+      },
+      "SourceFilter": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "match": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "DurationFilter": {
+        "type": "object",
+        "properties": {
+          "match": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateScheduledJobRequest": {
+        "type": "object",
+        "required": [
+          "schedule_type",
+          "provider",
+          "realm",
+          "language"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "schedule_type": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "realm": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "isolated": {
+            "type": "boolean"
+          },
+          "date_from": {
+            "type": "string"
+          },
+          "date_to": {
+            "type": "string"
+          },
+          "next_run": {
+            "type": "string"
+          },
+          "source_filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SourceFilter"
+            }
+          },
+          "duration_filter": {
+            "$ref": "#/components/schemas/DurationFilter"
+          },
+          "send_alert": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UpdateScheduledJobRequest": {
+        "type": "object",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "pause",
+              "resume"
+            ]
+          }
+        }
+      },
+      "RunResultResponse": {
+        "type": "object",
+        "properties": {
+          "durationSeconds": {
+            "type": "integer"
+          },
+          "totalFound": {
+            "type": "integer"
+          },
+          "alreadyTranscribed": {
+            "type": "integer"
+          },
+          "newRecords": {
+            "type": "integer"
+          },
+          "processed": {
+            "type": "integer"
+          },
+          "failed": {
+            "type": "integer"
+          }
+        }
+      },
+      "ScheduledJobResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "scheduleType": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object"
+          },
+          "status": {
+            "type": "string"
+          },
+          "retryCount": {
+            "type": "integer"
+          },
+          "maxRetries": {
+            "type": "integer"
+          },
+          "processedCount": {
+            "type": "integer"
+          },
+          "lastRunResult": {
+            "$ref": "#/components/schemas/RunResultResponse"
+          },
+          "lastRunAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "nextRunAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastError": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PaginatedScheduledJobsResponse": {
+        "type": "object",
+        "properties": {
+          "jobs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduledJobResponse"
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "pageSize": {
+            "type": "integer"
+          },
+          "totalPages": {
+            "type": "integer"
+          }
+        }
+      },
+      "AuditLogResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userEmail": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "entityId": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "realm": {
+            "type": "string"
+          },
+          "ipAddress": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PaginatedAuditLogsResponse": {
+        "type": "object",
+        "properties": {
+          "logs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditLogResponse"
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "pageSize": {
+            "type": "integer"
+          },
+          "totalPages": {
+            "type": "integer"
+          }
+        }
+      },
+      "SyncRoleRequest": {
+        "type": "object",
+        "required": [
+          "event",
+          "id",
+          "name"
+        ],
+        "properties": {
+          "event": {
+            "type": "string",
+            "enum": [
+              "role.created",
+              "role.deleted"
+            ]
+          },
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "SyncAgentsRequest": {
+        "type": "object",
+        "required": [
+          "agents"
+        ],
+        "properties": {
+          "agents": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "external_id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "extension": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SyncRoleAgentsRequest": {
+        "type": "object",
+        "required": [
+          "agents"
+        ],
+        "properties": {
+          "agents": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "extension": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SyncRoleProvidersRequest": {
+        "type": "object",
+        "required": [
+          "providers"
+        ],
+        "properties": {
+          "providers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SyncRoleRealmsRequest": {
+        "type": "object",
+        "required": [
+          "realms"
+        ],
+        "properties": {
+          "realms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Realm"
+            }
+          }
+        }
+      },
+      "CallRecord": {
+        "type": "object",
+        "properties": {
+          "callId": {
+            "type": "string"
+          },
+          "transcriptionId": {
+            "type": "string"
+          },
+          "callDate": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "integer"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "callerNumber": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "realmId": {
+            "type": "string"
+          }
+        }
+      },
+      "GetCallsResponse": {
+        "type": "object",
+        "properties": {
+          "customerAcc": {
+            "type": "string"
+          },
+          "agentExtension": {
+            "type": "string"
+          },
+          "agentName": {
+            "type": "string"
+          },
+          "calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CallRecord"
+            }
+          }
+        }
+      },
+      "TranscribeCallRequest": {
+        "type": "object",
+        "required": [
+          "provider",
+          "realm"
+        ],
+        "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "realm": {
+            "type": "string",
+            "description": "Realm ID"
+          },
+          "language": {
+            "type": "string"
+          }
+        }
+      },
+      "TranscribeCallResponse": {
+        "type": "object",
+        "properties": {
+          "callId": {
+            "type": "string"
+          },
+          "transcriptionId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "fileUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "CDRMetadataResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "audio_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "call_id": {
+            "type": "string"
+          },
+          "lead_id": {
+            "type": "string"
+          },
+          "agent_user": {
+            "type": "string"
+          },
+          "agent_name": {
+            "type": "string"
+          },
+          "caller_number": {
+            "type": "string"
+          },
+          "destination_number": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "realm_id": {
+            "type": "string"
+          },
+          "dial_timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ring_duration": {
+            "type": "integer"
+          },
+          "call_duration": {
+            "type": "integer"
+          },
+          "total_duration": {
+            "type": "integer"
+          },
+          "call_status": {
+            "type": "string"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "country_name": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PaginatedCDRMetadataResponse": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CDRMetadataResponse"
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "pageSize": {
+            "type": "integer"
+          },
+          "totalPages": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/livez": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Liveness check",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "App is running"
+          }
+        }
+      }
+    },
+    "/readyz": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Readiness check",
+        "description": "Checks database and queue client connectivity.",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "App is ready to handle requests"
+          }
+        }
+      }
+    },
+    "/startupz": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Startup check",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "App has started successfully"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/callback": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Exchange auth code for tokens",
+        "description": "Exchanges a one-time code from the Laravel backend for JWT session and refresh tokens.",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthCallbackRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authentication successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing code",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh session token",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthRefreshRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tokens refreshed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid refresh token"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout and invalidate refresh token",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthLogoutRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Logged out successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get current user info",
+        "responses": {
+          "200": {
+            "description": "Current user details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthMeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          }
+        }
+      }
+    },
+    "/api/v1/audio": {
+      "post": {
+        "tags": [
+          "Audio"
+        ],
+        "summary": "Upload audio file",
+        "description": "Upload an audio file for transcription. Supports wav, mp3, m4a, ogg, flac, webm.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "audio"
+                ],
+                "properties": {
+                  "audio": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "user_name": {
+                    "type": "string"
+                  },
+                  "language": {
+                    "type": "string"
+                  },
+                  "provider": {
+                    "type": "string"
+                  },
+                  "isolated": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Audio uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadAudioResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid file or missing parameters"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Audio"
+        ],
+        "summary": "List audio records (paginated)",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated audio records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedAudioResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/audio/{externalId}": {
+      "get": {
+        "tags": [
+          "Audio"
+        ],
+        "summary": "Get single audio record",
+        "parameters": [
+          {
+            "name": "externalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audio record details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudioResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Audio not found"
+          }
+        }
+      }
+    },
+    "/api/v1/audio/{externalId}/stream": {
+      "get": {
+        "tags": [
+          "Audio"
+        ],
+        "summary": "Stream audio file",
+        "description": "Streams the audio file with HTTP range support. Auth can be via Bearer token or `token` query param.",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {}
+        ],
+        "parameters": [
+          {
+            "name": "externalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "JWT token (alternative to Bearer header, for HTML audio elements)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full audio file",
+            "content": {
+              "audio/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "206": {
+            "description": "Partial audio content (range request)"
+          },
+          "404": {
+            "description": "Audio not found"
+          }
+        }
+      }
+    },
+    "/api/v1/audio/{externalId}/transcript": {
+      "get": {
+        "tags": [
+          "Transcription"
+        ],
+        "summary": "Get transcript for audio",
+        "parameters": [
+          {
+            "name": "externalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transcript detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranscriptDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transcript not found"
+          }
+        }
+      }
+    },
+    "/api/v1/audio/export": {
+      "post": {
+        "tags": [
+          "Audio"
+        ],
+        "summary": "Export audio recordings",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportAudioRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Export file ready",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportCDRResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/audio/download/{filename}": {
+      "post": {
+        "tags": [
+          "Audio"
+        ],
+        "summary": "Download exported audio file",
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Binary file download",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/audio/{externalId}/comments": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "List comments for audio",
+        "parameters": [
+          {
+            "name": "externalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated comments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedCommentsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Create a comment",
+        "parameters": [
+          {
+            "name": "externalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCommentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Comment created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/audio/{externalId}/comments/{commentId}": {
+      "put": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Update a comment",
+        "parameters": [
+          {
+            "name": "externalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCommentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Comment updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Delete a comment",
+        "parameters": [
+          {
+            "name": "externalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cdr/providers": {
+      "get": {
+        "tags": [
+          "CDR"
+        ],
+        "summary": "List CDR providers",
+        "responses": {
+          "200": {
+            "description": "List of providers with their realms",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CDRProviderResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cdr/{provider}/realms": {
+      "get": {
+        "tags": [
+          "CDR"
+        ],
+        "summary": "Get realms for a provider",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of realm IDs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Provider not found"
+          }
+        }
+      }
+    },
+    "/api/v1/cdr/records": {
+      "get": {
+        "tags": [
+          "CDR"
+        ],
+        "summary": "Search CDR records",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "realm",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "Start date (YYYY-MM-DD)"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "End date (YYYY-MM-DD)"
+            }
+          },
+          {
+            "name": "acc",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "Customer account number"
+            }
+          },
+          {
+            "name": "agent_extension",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Enriched CDR records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnrichedCDRResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cdr/transcription": {
+      "post": {
+        "tags": [
+          "CDR"
+        ],
+        "summary": "Transcribe a CDR recording",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranscribeCDRRecordingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transcription queued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranscribeCDRRecordingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cdr/direct-link": {
+      "post": {
+        "tags": [
+          "CDR"
+        ],
+        "summary": "Search CDR by direct link",
+        "description": "Searches for CDR records by call date and customer account. Used for deep linking from external systems.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirectLinkRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Matching CDR records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirectLinkResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cdr/export": {
+      "post": {
+        "tags": [
+          "CDR"
+        ],
+        "summary": "Export CDR recordings",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportCDRRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Export file ready",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportCDRResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cdr/download/{filename}": {
+      "post": {
+        "tags": [
+          "CDR"
+        ],
+        "summary": "Download exported CDR file",
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Binary file download",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cdr/audio-proxy": {
+      "get": {
+        "tags": [
+          "CDR"
+        ],
+        "summary": "Proxy audio from CDR provider",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "realm",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "call_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proxied audio stream",
+            "content": {
+              "audio/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ai/translate": {
+      "post": {
+        "tags": [
+          "AI"
+        ],
+        "summary": "Translate a transcript",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranslateTranscriptRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Translation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranslateTranscriptResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ai/qa/query": {
+      "post": {
+        "tags": [
+          "AI"
+        ],
+        "summary": "Ask a question about a transcript",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QAQueryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Q&A answer with relevant segments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QAQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ai/qa/session/{audioId}": {
+      "delete": {
+        "tags": [
+          "AI"
+        ],
+        "summary": "Delete Q&A session for audio",
+        "parameters": [
+          {
+            "name": "audioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Session deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List users (paginated)",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Search by name or email",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "is_active",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedUsersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/api/v1/users/{id}/roles": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update user roles",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRolesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User with updated roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/roles": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "List all roles",
+        "responses": {
+          "200": {
+            "description": "List of roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "roles": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Role"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Create a role",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Role created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/roles/{id}": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Get role by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Update a role",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Role updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Delete a role",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Role deleted"
+          }
+        }
+      }
+    },
+    "/api/v1/roles/{id}/permissions": {
+      "post": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Add permissions to role",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolePermissionsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Role with updated permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Remove permissions from role",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolePermissionsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Role with updated permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/roles/{id}/restrictions": {
+      "get": {
+        "tags": [
+          "Restrictions"
+        ],
+        "summary": "Get role restrictions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role restrictions (agents, providers, realms)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRestrictions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/roles/{id}/restrictions/agents": {
+      "put": {
+        "tags": [
+          "Restrictions"
+        ],
+        "summary": "Sync role agent restrictions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncRoleAgentsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated restrictions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRestrictions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/roles/{id}/restrictions/providers": {
+      "put": {
+        "tags": [
+          "Restrictions"
+        ],
+        "summary": "Sync role provider restrictions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncRoleProvidersRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated restrictions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRestrictions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/roles/{id}/restrictions/realms": {
+      "put": {
+        "tags": [
+          "Restrictions"
+        ],
+        "summary": "Sync role realm restrictions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncRoleRealmsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated restrictions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRestrictions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pages": {
+      "get": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "List available pages",
+        "responses": {
+          "200": {
+            "description": "List of page identifiers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pages": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/permissions": {
+      "get": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "List all permissions",
+        "responses": {
+          "200": {
+            "description": "List of permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "permissions": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Permission"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Create a permission",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermissionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Permission created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/permissions/{id}": {
+      "delete": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Delete a permission",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Permission deleted"
+          }
+        }
+      }
+    },
+    "/api/v1/scheduled-jobs": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "List scheduled jobs (paginated)",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated scheduled jobs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedScheduledJobsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Create a scheduled job",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateScheduledJobRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Job created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledJobResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scheduled-jobs/{id}": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Get scheduled job by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledJobResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Update scheduled job (pause/resume)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateScheduledJobRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Job updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledJobResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Delete a scheduled job",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Job deleted"
+          }
+        }
+      }
+    },
+    "/api/v1/audit": {
+      "get": {
+        "tags": [
+          "Audit"
+        ],
+        "summary": "List audit logs (paginated)",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user_email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "target",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "realm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entity_type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "Start date (YYYY-MM-DD)"
+            }
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "End date (YYYY-MM-DD)"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated audit logs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedAuditLogsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/audit/export": {
+      "get": {
+        "tags": [
+          "Audit"
+        ],
+        "summary": "Export audit logs as CSV",
+        "description": "Exports audit logs matching the given filters as a CSV file download.",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user_email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "target",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "realm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entity_type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV file download",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/agents": {
+      "get": {
+        "tags": [
+          "Agents"
+        ],
+        "summary": "List all agents",
+        "responses": {
+          "200": {
+            "description": "List of agents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "agents": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/RestrictionAgent"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/agents/sync": {
+      "post": {
+        "tags": [
+          "Agents"
+        ],
+        "summary": "Sync agents from external source",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncAgentsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Agents synced",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sync/roles": {
+      "post": {
+        "tags": [
+          "Sync"
+        ],
+        "summary": "Sync role from Laravel",
+        "description": "Called by the Laravel backend when roles are created or deleted.",
+        "security": [
+          {
+            "ServiceAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncRoleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Role synced (deleted)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Role synced (created)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "role": {
+                      "$ref": "#/components/schemas/Role"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/external/cdr-metadata": {
+      "get": {
+        "tags": [
+          "External"
+        ],
+        "summary": "Search CDR metadata",
+        "security": [
+          {
+            "ApiTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "call_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lead_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agent_user",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated CDR metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedCDRMetadataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/external/calls": {
+      "get": {
+        "tags": [
+          "External"
+        ],
+        "summary": "Get calls by customer",
+        "description": "Returns all calls for a customer (ACC) across VoiceSpin realms. Defaults to last 30 days.",
+        "security": [
+          {
+            "ApiTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "customer_acc",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agent_extension",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer calls",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCallsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/external/calls/{callId}/transcribe": {
+      "post": {
+        "tags": [
+          "External"
+        ],
+        "summary": "Transcribe a specific call",
+        "security": [
+          {
+            "ApiTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "callId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranscribeCallRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transcription status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranscribeCallResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/external/transcriptions/{transcriptionId}/file": {
+      "get": {
+        "tags": [
+          "External"
+        ],
+        "summary": "Get transcription file",
+        "description": "Downloads the transcription result as a JSON file.",
+        "security": [
+          {
+            "ApiTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "transcriptionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transcription JSON file",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Server-Sent Events stream",
+        "description": "SSE endpoint for real-time transcription status updates.\nOptionally filter by call_id.\n",
+        "parameters": [
+          {
+            "name": "call_id",
+            "in": "query",
+            "description": "Filter events to a specific call",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SSE event stream",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ws": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "WebSocket connection",
+        "description": "WebSocket endpoint for real-time bidirectional communication.",
+        "security": [],
+        "responses": {
+          "101": {
+            "description": "WebSocket upgrade"
+          }
+        }
+      }
+    }
+  }
+}

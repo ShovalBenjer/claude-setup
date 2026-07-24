@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Spawn a Gastown persona as a live Claude Code agent (Claude Agent SDK, ephemeral install so
+# intent-control-plane stays zero-dep). Usage: gastown-spawn "Engineering Firm" "task" [--deep]
+exec uv run --no-project --with claude-agent-sdk python "$HOME/.claude/bin/gastown-spawn.py" "$@"

@@ -1,0 +1,50 @@
+[project]
+name = "intent-control-plane"
+version = "0.1.0"
+description = "Local-first intent ledger, context pack, and evidence CLI for Claude, Codex, and Hive workflows."
+requires-python = ">=3.12"
+dependencies = [
+    "tree-sitter>=0.26.0",
+    "tree-sitter-language-pack>=1.12.5",
+]
+
+[project.scripts]
+intent = "intent_control_plane.cli:main"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "pytest>=8",
+    "hypothesis>=6.156.5",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/intent_control_plane"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src"]
+
+[tool.ruff.lint]
+# Style standard (docs/specs/2026-07-12-coding-style-standard.md): minimal LOC, idiomatic
+# (C4/SIM/PERF/PIE/RUF), no commented-out code (ERA). Docstring-presence rules (D100-D107) get
+# added once the docstring batch closes the 76-function gap, then this gate locks it.
+select = ["E", "F", "I", "UP", "B", "C4", "SIM", "PERF", "PIE", "RUF", "ERA"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src"]
+ignore_missing_imports = true
+warn_unused_ignores = true
+strict = true
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

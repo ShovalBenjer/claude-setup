@@ -1,0 +1,272 @@
+{
+  "nodes": [
+    {
+      "id": "channels",
+      "type": "interactive",
+      "position": {
+        "x": 400,
+        "y": 50
+      },
+      "data": {
+        "label": "Channels",
+        "category": "trigger",
+        "group": "channels",
+        "details": "Customers reach the CS agents through 4 supported channels, each with channel-specific message formats:\n\n**Web Widget** (`widget/`): Embeddable HTML/CSS/JS chat widget for Seekapa and Axia websites. Uses `widget.js` to connect via the channel router API.\n\n**Telegram** (`telegram_handler/`): Telegram Bot webhook receives Update JSON. Bot token from Key Vault (`TELEGRAM_BOT_TOKEN`). Deep links: `https://t.me/SeekApaBot?start={signed_token}`.\n\n**WhatsApp** (`whatsapp_handler/`): WhatsApp Business API integration via webhook handler.\n\n**Email** (`email_handler/`): Incoming email handler that parses email content and routes to the AI agent.\n\nAll channels produce messages in different formats that must be normalized before agent processing.",
+        "childCount": 1,
+        "children": [
+          "Customer Channels"
+        ],
+        "stepIndex": 1,
+        "stepDescription": "Customers interact through 4 channels: web widget (embedded on websites), Telegram bot, WhatsApp Business API, and email. Each channel has its own message format and webhook handler.",
+        "codeSnippet": "// widget/widget.js\n// Embeddable chat widget for Seekapa/Axia websites\n// Sends messages to POST /api/channel-router\n\n# telegram_handler/__init__.py\n# Receives Telegram Bot API Update JSON via webhook\nfrom shared.message_normalizer import normalize_message, format_response",
+        "filePath": "widget/index.html"
+      }
+    },
+    {
+      "id": "routing",
+      "type": "interactive",
+      "position": {
+        "x": 180,
+        "y": 220
+      },
+      "data": {
+        "label": "Routing (2)",
+        "category": "process",
+        "group": "routing",
+        "details": "**2 components** working together:\n\n- **Channel Router**: Central routing function that accepts messages from any channel, normalizes them, sends to the AI agent, and returns cha...\n- **Message Normalizer**: Converts channel-specific input to a unified internal format and vice versa.",
+        "childCount": 2,
+        "children": [
+          "Channel Router",
+          "Message Normalizer"
+        ],
+        "stepIndex": 2,
+        "stepDescription": "2 components: Channel Router, Message Normalizer.",
+        "codeSnippet": "# azure-function-crm/channel_router/__init__.py\nVALID_BRANDS = (\"seekapa\", \"axia\")\nPROJECT_ENDPOINT = \"https://brn-azai.services.ai.azure.com/api/projects/seekapa_ai\"\nAPI_VERSION = \"2025-11-15-preview\"\n\nfrom shared.message_normalizer import normalize_message, format_response, SUPPORTED_CHANNELS",
+        "filePath": "azure-function-crm/channel_router/__init__.py"
+      }
+    },
+    {
+      "id": "ai-agents",
+      "type": "interactive",
+      "position": {
+        "x": 620,
+        "y": 220
+      },
+      "data": {
+        "label": "Ai Agents (2)",
+        "category": "process",
+        "group": "ai-agents",
+        "details": "**2 components** working together:\n\n- **Azure AI Foundry Agents**: Two brand-specific conversational AI agents hosted on Azure AI Foundry:\n- **Agent Prompts (v27-v36)**: Version-controlled system prompts for both brand agents, optimized via multi-model debate.",
+        "childCount": 2,
+        "children": [
+          "Azure AI Foundry Agents",
+          "Agent Prompts (v27-v36)"
+        ],
+        "stepIndex": 3,
+        "stepDescription": "2 components: Azure AI Foundry Agents, Agent Prompts (v27-v36).",
+        "codeSnippet": "# Seekapa agent endpoint:\n# POST https://brn-azai.services.ai.azure.com/api/projects/seekapa_ai/applications/seekapa/...\n\n# AxiaCS agent endpoint:\n# POST https://brn-azai.services.ai.azure.com/api/projects/seekapa_ai/applications/AxiaCS/...\n\nAGENT_NAMES = {\"seekapa\": \"seekapa\", \"axia\": \"AxiaCS\"}",
+        "filePath": "agent-prompts/seekapa-system-prompt.md"
+      }
+    },
+    {
+      "id": "authentication",
+      "type": "interactive",
+      "position": {
+        "x": 180,
+        "y": 390
+      },
+      "data": {
+        "label": "Authentication (2)",
+        "category": "gate",
+        "group": "authentication",
+        "details": "**2 components** working together:\n\n- **OTP Authentication**: Email OTP authentication flow for secure CRM data access:\n- **HMAC Signed Links**: HMAC-SHA256 signed deep links for secure CS agent authentication from parent apps.",
+        "childCount": 2,
+        "children": [
+          "OTP Authentication",
+          "HMAC Signed Links"
+        ],
+        "stepIndex": 4,
+        "stepDescription": "2 components: OTP Authentication, HMAC Signed Links.",
+        "codeSnippet": "# azure-function-crm/shared/otp_storage.py\notp_store: Dict[str, Dict[str, Any]] = {}\notp_store_lock = threading.Lock()\n\nOTP_EXPIRY_MINUTES = 5\nMAX_ATTEMPTS = 3\nVALID_BRANDS = ['axia', 'seekapa']\n\ndef store_otp(email, login, otp_code, brand):\n    key = f\"{email}:{brand}\".lower()\n    with otp_store_lock:\n        otp_store[key] = {'otp': otp_code, 'expires_at': ...}",
+        "filePath": "azure-function-crm/shared/otp_storage.py"
+      }
+    },
+    {
+      "id": "crm-data",
+      "type": "interactive",
+      "position": {
+        "x": 620,
+        "y": 390
+      },
+      "data": {
+        "label": "Crm Data (2)",
+        "category": "storage",
+        "group": "crm-data",
+        "details": "**2 components** working together:\n\n- **PandaTS CRM (MySQL)**: PandaTS CRM MySQL databases for Axia and Seekapa (separate instances):\n- **Legacy CRM (SQL Server)**: Legacy SQL Server CRM database used by the original OTP verification flow:",
+        "childCount": 2,
+        "children": [
+          "PandaTS CRM (MySQL)",
+          "Legacy CRM (SQL Server)"
+        ],
+        "stepIndex": 5,
+        "stepDescription": "2 components: PandaTS CRM (MySQL), Legacy CRM (SQL Server).",
+        "codeSnippet": "# azure-function-crm/shared/crm_mysql_client.py\nCRM_CONFIG = {\n    \"axia\": {\"host\": \"35.241.202.155\", \"database\": \"panda_db\"},\n    \"seekapa\": {\"host\": \"34.38.141.12\", \"database\": \"panda_db\"}\n}\n# Tables: vtiger_account, trading_accounts, vtiger_mttransactions",
+        "filePath": "azure-function-crm/shared/crm_mysql_client.py"
+      }
+    },
+    {
+      "id": "escalation",
+      "type": "interactive",
+      "position": {
+        "x": 400,
+        "y": 560
+      },
+      "data": {
+        "label": "Escalation",
+        "category": "process",
+        "group": "escalation",
+        "details": "Human agent escalation via LiveAgent ticket system.\n\n**create_ticket** (`POST /api/create-ticket`):\n- Creates support tickets in LiveAgent when AI agent determines human assistance is needed\n- Categorizes by issue type: complaint, technical, escalation, regulatory\n- Routes to correct LiveAgent department based on `ticket_categories.py` config\n- Supports 4 languages: EN, ES, AR, PT\n- Includes conversation context (channel, brand, user_id) in ticket metadata\n\n**LiveAgent Client** (`shared/liveagent_client.py`):\n- REST API client using httpx (async) with urllib fallback\n- Configurable via `LIVEAGENT_API_URL` and `LIVEAGENT_API_KEY` env vars\n- Can be disabled via `LIVEAGENT_ENABLED=false`\n\n**Escalation triggers** (from agent system prompt):\n- KYC rejected, high-value withdrawals (>$50K), compliance requests\n- Account frozen/locked, regulatory inquiries, third-party access\n- Customer explicitly requests human agent",
+        "childCount": 1,
+        "children": [
+          "LiveAgent Escalation"
+        ],
+        "stepIndex": 6,
+        "stepDescription": "When the AI agent determines human help is needed (compliance triggers, explicit requests, complex issues), a ticket is created in LiveAgent with full conversation context and routed to the appropriate department.",
+        "codeSnippet": "# azure-function-crm/create_ticket/__init__.py\nVALID_ISSUE_TYPES = [\"complaint\", \"technical\", \"escalation\", \"regulatory\"]\nVALID_LANGUAGES = [\"en\", \"es\", \"ar\", \"pt\"]\nVALID_CHANNELS = [\"widget\", \"email\", \"telegram\", \"whatsapp\", \"unknown\"]\n\nfrom shared.liveagent_client import get_liveagent_client\nfrom shared.ticket_categories import get_category_config, validate_issue_type",
+        "filePath": "azure-function-crm/create_ticket/__init__.py"
+      }
+    },
+    {
+      "id": "security",
+      "type": "interactive",
+      "position": {
+        "x": 400,
+        "y": 730
+      },
+      "data": {
+        "label": "Security (2)",
+        "category": "gate",
+        "group": "security",
+        "details": "**2 components** working together:\n\n- **Rate Limiter + Validators**: Security layer with input validation and rate limiting.\n- **Azure Communication Services**: Azure Communication Services (ACS) handles OTP email delivery.",
+        "childCount": 2,
+        "children": [
+          "Rate Limiter + Validators",
+          "Azure Communication Services"
+        ],
+        "stepIndex": 7,
+        "stepDescription": "2 components: Rate Limiter + Validators, Azure Communication Services.",
+        "codeSnippet": "# azure-function-crm/shared/rate_limiter.py\nRATE_LIMIT_EMAIL_MAX = 10       # Max OTP requests per email per hour\nRATE_LIMIT_IP_MAX = 100         # Max requests per IP per hour\n\n# azure-function-crm/shared/validators.py\nEMAIL_PATTERN = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')\nLOGIN_PATTERN = re.compile(r'^[a-zA-Z0-9-]{1,50}$')\nOTP_PATTERN = re.compile(r'^\\d{6}$')",
+        "filePath": "azure-function-crm/shared/rate_limiter.py"
+      }
+    },
+    {
+      "id": "testing",
+      "type": "interactive",
+      "position": {
+        "x": 400,
+        "y": 900
+      },
+      "data": {
+        "label": "Testing",
+        "category": "process",
+        "group": "testing",
+        "details": "Comprehensive agent evaluation framework using DeepEval, with hybrid connector for both KB and CRM queries.\n\n**Agent Connector** (`tests/agent_connector.py`):\n- Primary: Applications endpoint (handles `file_search` / KB queries)\n- Fallback: FunctionToolConnector (handles CRM queries via raw Responses API)\n- Content Safety refusal detection (~20% rate) with automatic retry\n- Rate limiting: 15 requests/minute with exponential backoff (5s initial, 60s max, 5 retries)\n\n**Test suites**:\n- `deepeval_suite.py` -- DeepEval metrics (correctness, relevance, faithfulness)\n- `advanced_scenario_test_runner.py` -- Complex multi-turn scenarios\n- `e2e_test_runner.py` -- End-to-end conversation flows\n- `escalation_test_runner.py` -- Escalation trigger validation\n- `verify_crm.py` -- CRM data verification against live database\n- `test_channel_integration.py` -- Multi-channel routing tests\n\n**Test data**: `tests/test_data/` contains KB tests and scenario definitions.",
+        "childCount": 1,
+        "children": [
+          "Test Framework (DeepEval)"
+        ],
+        "stepIndex": 8,
+        "stepDescription": "The DeepEval-based test framework evaluates agent quality with hybrid connectors (KB + CRM), content safety refusal detection, and comprehensive test suites covering scenarios, escalation, and CRM verification.",
+        "codeSnippet": "# tests/agent_connector.py\n# Hybrid: Applications endpoint (KB) + FunctionToolConnector (CRM)\nAGENT_NAMES = {\"seekapa\": \"seekapa\", \"axia\": \"AxiaCS\"}\nMAX_RETRIES = 5\nREQUESTS_PER_MINUTE = 15\n\n_REFUSAL_PATTERNS = [\n    \"i'm sorry, but i cannot assist\",\n    \"i cannot assist with that request\",\n]",
+        "filePath": "tests/agent_connector.py"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-channels-routing",
+      "source": "channels",
+      "target": "routing",
+      "animated": true,
+      "type": "animated",
+      "label": "Messages"
+    },
+    {
+      "id": "e-routing-ai-agents",
+      "source": "routing",
+      "target": "ai-agents",
+      "animated": true,
+      "type": "animated",
+      "label": "Agent Call"
+    },
+    {
+      "id": "e-ai-agents-authentication",
+      "source": "ai-agents",
+      "target": "authentication",
+      "animated": true,
+      "type": "animated",
+      "label": "send_otp / verify_otp"
+    },
+    {
+      "id": "e-authentication-security",
+      "source": "authentication",
+      "target": "security",
+      "animated": true,
+      "type": "animated",
+      "label": "Send OTP Email"
+    },
+    {
+      "id": "e-authentication-crm-data",
+      "source": "authentication",
+      "target": "crm-data",
+      "animated": true,
+      "type": "animated",
+      "label": "Verify + Fetch"
+    },
+    {
+      "id": "e-ai-agents-crm-data",
+      "source": "ai-agents",
+      "target": "crm-data",
+      "animated": true,
+      "type": "animated",
+      "label": "CRM Tools"
+    },
+    {
+      "id": "e-ai-agents-escalation",
+      "source": "ai-agents",
+      "target": "escalation",
+      "animated": true,
+      "type": "animated",
+      "label": "Escalate"
+    },
+    {
+      "id": "e-authentication-channels",
+      "source": "authentication",
+      "target": "channels",
+      "animated": true,
+      "type": "animated",
+      "label": "Deep Links"
+    },
+    {
+      "id": "e-security-authentication",
+      "source": "security",
+      "target": "authentication",
+      "animated": true,
+      "type": "animated",
+      "label": "Guard"
+    },
+    {
+      "id": "e-testing-ai-agents",
+      "source": "testing",
+      "target": "ai-agents",
+      "animated": true,
+      "type": "animated",
+      "label": "Evaluate"
+    }
+  ],
+  "meta": {
+    "title": "CS Agents -- System Architecture (Overview)",
+    "description": "High-level overview: 8 families from 13 nodes.",
+    "totalSteps": 8
+  }
+}

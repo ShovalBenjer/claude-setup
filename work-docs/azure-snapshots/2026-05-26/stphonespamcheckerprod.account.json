@@ -1,0 +1,108 @@
+{
+  "accessTier": "Hot",
+  "accountMigrationInProgress": null,
+  "allowBlobPublicAccess": false,
+  "allowCrossTenantReplication": false,
+  "allowSharedKeyAccess": null,
+  "allowedCopyScope": null,
+  "azureFilesIdentityBasedAuthentication": null,
+  "blobRestoreStatus": null,
+  "creationTime": "2025-12-25T10:04:05.838647+00:00",
+  "customDomain": null,
+  "defaultToOAuthAuthentication": null,
+  "dnsEndpointType": null,
+  "dualStackEndpointPreference": null,
+  "enableExtendedGroups": null,
+  "enableHttpsTrafficOnly": true,
+  "enableNfsV3": null,
+  "encryption": {
+    "encryptionIdentity": null,
+    "keySource": "Microsoft.Storage",
+    "keyVaultProperties": null,
+    "requireInfrastructureEncryption": null,
+    "services": {
+      "blob": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-12-25T10:04:05.916709+00:00"
+      },
+      "file": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-12-25T10:04:05.916709+00:00"
+      },
+      "queue": null,
+      "table": null
+    }
+  },
+  "extendedLocation": null,
+  "failoverInProgress": null,
+  "geoPriorityReplicationStatus": null,
+  "geoReplicationStats": null,
+  "id": "/subscriptions/08b0ac81-a17e-421c-8c1b-41b59ee758a3/resourceGroups/AZAI_group/providers/Microsoft.Storage/storageAccounts/stphonespamcheckerprod",
+  "identity": null,
+  "immutableStorageWithVersioning": null,
+  "isHnsEnabled": null,
+  "isLocalUserEnabled": null,
+  "isSftpEnabled": null,
+  "isSkuConversionBlocked": null,
+  "keyCreationTime": {
+    "key1": "2025-12-25T10:04:05.901085+00:00",
+    "key2": "2025-12-25T10:04:05.901085+00:00"
+  },
+  "keyPolicy": null,
+  "kind": "StorageV2",
+  "largeFileSharesState": null,
+  "lastGeoFailoverTime": null,
+  "location": "swedencentral",
+  "minimumTlsVersion": "TLS1_2",
+  "name": "stphonespamcheckerprod",
+  "networkRuleSet": {
+    "bypass": "AzureServices",
+    "defaultAction": "Allow",
+    "ipRules": [],
+    "ipv6Rules": [],
+    "resourceAccessRules": null,
+    "virtualNetworkRules": []
+  },
+  "placement": null,
+  "primaryEndpoints": {
+    "blob": "https://stphonespamcheckerprod.blob.core.windows.net/",
+    "dfs": "https://stphonespamcheckerprod.dfs.core.windows.net/",
+    "file": "https://stphonespamcheckerprod.file.core.windows.net/",
+    "internetEndpoints": null,
+    "ipv6Endpoints": null,
+    "microsoftEndpoints": null,
+    "queue": "https://stphonespamcheckerprod.queue.core.windows.net/",
+    "table": "https://stphonespamcheckerprod.table.core.windows.net/",
+    "web": "https://stphonespamcheckerprod.z1.web.core.windows.net/"
+  },
+  "primaryLocation": "swedencentral",
+  "privateEndpointConnections": [],
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": null,
+  "resourceGroup": "AZAI_group",
+  "routingPreference": null,
+  "sasPolicy": null,
+  "secondaryEndpoints": null,
+  "secondaryLocation": null,
+  "sku": {
+    "name": "Standard_LRS",
+    "tier": "Standard"
+  },
+  "statusOfPrimary": "available",
+  "statusOfSecondary": null,
+  "storageAccountSkuConversionStatus": null,
+  "tags": {
+    "Backup": "No",
+    "Cost": "Money",
+    "Criticality": "High",
+    "Environment": "prod",
+    "Owner": "AI",
+    "Project": "AI Projects",
+    "Reservation": "No",
+    "Usage": "AI Projects"
+  },
+  "type": "Microsoft.Storage/storageAccounts",
+  "zones": null
+}

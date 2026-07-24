@@ -1,0 +1,1 @@
+/home/shovalbe/projects/claude-meme-hooks/bin/play-random-meme.sh

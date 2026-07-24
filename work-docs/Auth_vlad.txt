@@ -1,0 +1,17 @@
+ 
+Base URL: https://home.corp-domain.com/
+Authorize redirect: GET /auth/authorize?app_id=trackflare&callback=<callback_url>
+Token exchange: POST /api/auth/token with body: {"code": "...", "app_id": "trackflare", "app_secret": "..."}
+ 
+Flow will be next
+ 
+1.On our dashboard on corp home u will click to ur project 
+2.i generated one code  and will redirect to {callback_url}?code={generated_code}
+3.On ur callback u give this code and will make a request to my side 
+POST /api/auth/token                                                                                                           
+     body: { code, app_id: "<app_name>", app_secret: <jwt_secret> }  
+ 
+ 
+app_name and jwt_secret i will provide u
+ 
+4. After ur request if all good i will return informaion about user

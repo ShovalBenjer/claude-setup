@@ -1,0 +1,128 @@
+The Company: QBO / Zon Online Ltd / i-SDD
+Your organization operates in the online trading and financial services industry, specializing in the MENA (Middle East & North Africa) region and expanding into LATAM (Latin America). The company holds a local trading regulation and operates under multiple brands and entities, including email domains like @i-sdd.com, @zonlineltd.com, and @axiainvestments.com.
+
+Brands & Products
+Your company runs a multi-brand ecosystem, all funneling into the core brokerage business:
+
+Main Broker Brands:
+
+Axia Investments (Axia Trade) – The flagship online trading brand, licensed by the Seychelles Financial Services Authority (FSA) under license No. SD034 (entity: SMARTTOOL TRADING SC LIMITED). Offers 800+ assets, leverage up to 1:600, MT5 platform, mobile app, and WebTrader. OP-10143: Axia  - RTG - Recovery Campaign  - Full Offer
+Done
+
+Seekapa – A second broker brand with its own website, app, and identity. Shares backend infrastructure with Axia but has a separate CRM, trading accounts, and customer base. OP-10553: Seekapa - Ramadan 2026 
+Done
+
+Satellite / Lead-Gen Brands:
+
+Traders Academy (TA) – An educational trading academy targeting Arabic-speaking users, with courses and personal trainers. OP-7194: Traders Academy AR - UA - New General LP with Stocks & Commodities Sections  
+Done
+
+WhatsApp Signals (WS) – Trading signals delivered via WhatsApp. OP-7037: WhatsApp Signals - signals-5 New AR LP  
+Done
+
+Telegram Signals – Same concept as WS but on Telegram.
+
+My Signals – Another signals brand. OP-9938: My Signals - AR Autologin Thank You Pages - Axia & Seekapa Pop-up
+Content Ready
+
+Daily Investing (DI) – A financial media/review site comparing brokers (Arabic). DEV-4196: Daily Investing | Bug & UX Review- PROD
+Cancelled
+
+GCCMM – A lead-gen funnel targeting the GCC region.
+
+MIC – Another non-branded funnel.
+
+Trade Match (trdmch.com) – A newer brand targeting LATAM with a minimalistic design. OP-9154: Design - trdmch.com  - stage
+Done
+
+CopyAlgo – An AI-powered copy-trading product with neural network-based automated bots (Challenger, Navigator, Guardian). OP-11038: Content - Video- review content
+In Review
+
+Target Markets
+Primary: GCC countries (Saudi Arabia, UAE, Kuwait, Qatar, Oman, Bahrain)
+
+Expanding: LATAM (with a team in Uruguay)
+
+Languages: Arabic (primary), English, Spanish, Portuguese
+
+Internal Systems & Tech Stack
+Panda – The CRM system managing customer data, leads, departments, agents, and trading accounts. DEV-3875: Trackflare - User Creation and Update Logic
+Done
+
+TrackFlare – An internal lead management/affiliate tracking portal with RBAC, Azure AD integration, user roles, and auditing. DEV-3836: TrackFlare: Users
+Done
+
+Corp Home – Internal company portal for employees, with SAML/Entra ID authentication, connecting all corporate sub-portals and tools. DEV-4819: Corp Home Wiki
+Done
+
+Corp Domain (Manager) – Internal management portal with sales targets, retention targets, gateway configurations, marketing entity management, and finance tools. DEV-1113: Develop 2 pages in corp domain for managing sales and retention targets for the BI reports
+Done
+
+The Manager – A home portal for internal systems with widgets for PowerBI, Call Analyzer, Personal Assistance, Technical Analysis, and TrackFlare. OP-10605: The manager home page disign
+Done
+
+Call Analyzer (CA) – A system for analyzing call center calls. OP-10301: Design - Call Analyzer System - design
+Done
+
+Corp IM – Internal instant messaging/support system with multi-channel support (web widget, email, WhatsApp). DEV-4820: Corp IM Wiki
+To Do
+
+LiveAgent – Customer support ticketing system. DEV-4397: axia - seekapa forms
+Done
+
+Power BI – Business intelligence and reporting.
+
+Amplitude – Product analytics platform.
+
+OneSignal – Push notifications and email marketing.
+
+VoiceSpin – Call center telephony system.
+
+Praxis – Payment processing integration.
+
+Azure AD (Entra ID) – Identity and access management.
+
+MT5 – MetaTrader 5 trading platform.
+
+Departments & Teams
+Marketing – UA (user acquisition), remarketing, social organic, email marketing, SEO, media buying
+
+Content Team – Arabic & English content creation for ads, LPs, emails, blog posts
+
+Design Team – Banners, landing pages, UI/UX, animations, scoreboards
+
+Developers Team – WordPress, landing pages, internal tools, backend systems
+
+Call Center / Sales – Conversion teams across multiple desks (AR, TLV, TK, UY)
+
+Retention – Re-engaging existing depositors
+
+Email Marketing – Daily economic events emails, promotions, automation
+
+Payment/Finance – Deposit/withdrawal processing, gateway management
+
+HR – Recruitment, onboarding
+
+Business Development – PMO, partnerships
+
+QA – Testing across platforms
+
+Operational Desks (Geographies)
+AR (HL) – Arabic/main desk
+
+TLV – Tel Aviv desk
+
+TK – Turkey desk
+
+UY – Uruguay desk (LATAM)
+
+Jira Projects
+DEV – Development & engineering work
+
+OP (Design & Content) – Marketing, design, content production tasks
+
+SK (SeeKapa) – SeeKapa-specific tasks
+
+GTMS – Go-to-market sample project
+
+That's a pretty comprehensive dump of what I can see 

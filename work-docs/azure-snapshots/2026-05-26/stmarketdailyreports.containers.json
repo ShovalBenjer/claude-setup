@@ -1,0 +1,27 @@
+[
+  {
+    "lastModified": "2025-12-29T08:59:02+00:00",
+    "name": "azure-webjobs-hosts",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T08:59:02+00:00",
+    "name": "azure-webjobs-secrets",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T08:59:02+00:00",
+    "name": "funcmarketdailyreports-applease",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T09:49:49+00:00",
+    "name": "funcmarketdailyreports-largemessages",
+    "publicAccess": null
+  },
+  {
+    "lastModified": "2025-12-29T08:47:01+00:00",
+    "name": "scm-releases",
+    "publicAccess": null
+  }
+]

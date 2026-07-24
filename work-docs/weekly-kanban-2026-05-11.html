@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Weekly Kanban — Week of 2026-05-11 — Shoval Benjer</title>
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --ink: #1c2433;
+    --muted: #5b6473;
+    --accent: #d96e3a;
+    --done: #2f7a3f;
+    --doing: #c47a18;
+    --next: #2a5fa3;
+    --wait: #6f4ea8;
+    --card-bg: #ffffff;
+    --border: #e2dccd;
+    --pill-bg: #f1ece0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 28px 32px 48px;
+  }
+  header {
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    margin: 0 0 4px 0;
+    font-size: 26px;
+    font-weight: 600;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .banner {
+    background: #fff8ed;
+    border: 1px solid #e8c98a;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+  .banner strong { color: var(--accent); }
+  .metrics {
+    display: flex;
+    gap: 12px;
+    margin: 16px 0 24px;
+    flex-wrap: wrap;
+  }
+  .metric {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  .metric-num {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--done);
+  }
+  .metric-label {
+    color: var(--muted);
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .column {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 12px;
+    min-height: 200px;
+  }
+  .col-header {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: white;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  .col-done .col-header { background: var(--done); }
+  .col-doing .col-header { background: var(--doing); }
+  .col-next .col-header { background: var(--next); }
+  .col-wait .col-header { background: var(--wait); }
+  .card {
+    background: #fdfbf7;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .col-done .card { border-left-color: var(--done); }
+  .col-doing .card { border-left-color: var(--doing); }
+  .col-next .card { border-left-color: var(--next); }
+  .col-wait .card { border-left-color: var(--wait); }
+  .card-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .card-body {
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .tag {
+    background: var(--pill-bg);
+    color: var(--muted);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .tag-cs { background: #e6f0f8; color: #2a5fa3; }
+  .tag-ca { background: #ecf3e7; color: #2f7a3f; }
+  .tag-orm { background: #ede5f5; color: #6f4ea8; }
+  .tag-video { background: #fbe9d8; color: #b96518; }
+  .tag-yasha { background: #f5e4e4; color: #a13838; }
+  .tag-liron { background: #f4ecd0; color: #8a7100; }
+  .tag-daniel { background: #ddebf2; color: #2a708c; }
+  .tag-adnan { background: #f0e1da; color: #885033; }
+  .tag-prod { background: #ffe4e4; color: #b13030; }
+  .decisions {
+    margin-top: 32px;
+    background: #fff8ed;
+    border: 1px solid #e8c98a;
+    padding: 16px 20px;
+    border-radius: 8px;
+  }
+  .decisions h2 {
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    color: var(--accent);
+  }
+  .decisions ul { margin: 0; padding-left: 20px; }
+  .decisions li { margin-bottom: 6px; font-size: 13px; }
+  footer {
+    margin-top: 32px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+  footer a { color: var(--next); }
+  @media (max-width: 1100px) {
+    .board { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .board { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Weekly Kanban — Week of 2026-05-11</h1>
+  <div class="sub">Shoval Benjer · Updated 2026-05-11 · for review with Liron</div>
+</header>
+
+<div class="banner">
+  <strong>Yesterday's headline:</strong> CRM is now connected to the Customer Support Agent. Our testing suite is at <strong>79% pass</strong> (up from the v107.3 baseline of 64%). Told Yasha. He asked for OTP 2FA messaging next — testing email is in hand, sending update today.
+</div>
+
+<div class="metrics">
+  <div class="metric"><span class="metric-label">CS agent eval</span><span class="metric-num">79%</span></div>
+  <div class="metric"><span class="metric-label">PRs merged yesterday</span><span class="metric-num">4</span></div>
+  <div class="metric"><span class="metric-label">Funnel UI</span><span class="metric-num">Day 1-3</span></div>
+  <div class="metric"><span class="metric-label">Live agents</span><span class="metric-num">v110</span></div>
+</div>
+
+<div class="board">
+
+  <section class="column col-done">
+    <div class="col-header">Done — Yesterday + today AM</div>
+
+    <div class="card">
+      <div class="card-title">CRM connected to CS Agent</div>
+      <div class="card-body">Customer support agent now reads CRM data directly. Yasha informed.</div>
+      <div class="tags"><span class="tag tag-cs">CS Agent</span><span class="tag tag-yasha">Yasha</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Eval pass rate 79%</div>
+      <div class="card-body">Testing suite up from 64% (v107.3 baseline). Yasha informed.</div>
+      <div class="tags"><span class="tag tag-cs">CS Agent</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Marketing analytics tool quality fixes</div>
+      <div class="card-body">PR 249 merged: call-lookup precision, OneSignal email templates, BI-collision strip, CJA v2.1 alignment.</div>
+      <div class="tags"><span class="tag tag-ca">Analytics</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Funnel UI — Days 1, 2, 3 shipped</div>
+      <div class="card-body">Streaming chat, ACC autocomplete, quick-actions, citations, approval gate.</div>
+      <div class="tags"><span class="tag tag-ca">Analytics</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Secure long-lived tokens for analytics</div>
+      <div class="card-body">PR 243 merged. Replaces ad-hoc keys for Foundry MCP connections.</div>
+      <div class="tags"><span class="tag tag-ca">Analytics</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Yasha runbook + wiki page</div>
+      <div class="card-body">PR 240 merged: WIKI.md tracked, post-merge runbook for Yasha.</div>
+      <div class="tags"><span class="tag tag-ca">Analytics</span><span class="tag tag-yasha">Yasha</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Infra retarget COMP-CAMPAIGN-PROD</div>
+      <div class="card-body">PR 241 merged. Bicep + wiki now point at the production environment.</div>
+      <div class="tags"><span class="tag tag-ca">Analytics</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Funnel agent v16 prompt update</div>
+      <div class="card-body">Banned 6 verdict-family tools; instructs live composition instead. Pushed this morning.</div>
+      <div class="tags"><span class="tag tag-ca">Analytics</span></div>
+    </div>
+  </section>
+
+  <section class="column col-doing">
+    <div class="col-header">In progress — Today (Mon)</div>
+
+    <div class="card">
+      <div class="card-title">OTP 2FA messaging — Yasha follow-up</div>
+      <div class="card-body">Testing email received yesterday. Sending test OTP today, then await Yasha's call on whether to widen to clients / help-desk.</div>
+      <div class="tags"><span class="tag tag-cs">CS Agent</span><span class="tag tag-yasha">Yasha</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Article Agent — sit with Daniel</div>
+      <div class="card-body">Daniel asked last Tuesday. Meeting today to scope.</div>
+      <div class="tags"><span class="tag tag-daniel">Daniel</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Manus.ai — evaluate for Daniel + team</div>
+      <div class="card-body">$20/seat/month, can be redirected from the marketing reports budget. Decide individual seat for Daniel first; if team adopts, multi-seat plan.</div>
+      <div class="tags"><span class="tag tag-daniel">Daniel</span><span class="tag">Tooling</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tuesday Video Flows session — confirm with Adnan</div>
+      <div class="card-body">Asked Adnan to come Tuesday and drive a blank flow build to his own demand. He previously used HeyGen video agent — using his frame.</div>
+      <div class="tags"><span class="tag tag-adnan">Adnan</span><span class="tag tag-video">Video</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Weekly meeting with Liron</div>
+      <div class="card-body">This kanban + the wiki weekly plan are the agenda.</div>
+      <div class="tags"><span class="tag tag-liron">Liron</span></div>
+    </div>
+  </section>
+
+  <section class="column col-next">
+    <div class="col-header">Up next — Tue to Thu</div>
+
+    <div class="card">
+      <div class="card-title">Tue — Video Flows blank-flow session w/ Adnan</div>
+      <div class="card-body">Build from zero against Adnan's actual demand. If unworkable in 90 min, we kill the project — already aligned with him.</div>
+      <div class="tags"><span class="tag tag-adnan">Adnan</span><span class="tag tag-video">Video</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tue-Wed — Implement Claude MCP</div>
+      <div class="card-body">Wire up Claude MCP this week. Target: working integration before Thu.</div>
+      <div class="tags"><span class="tag">MCP</span><span class="tag tag-cs">CS Agent</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Wed — HCTA delivery to Yasha</div>
+      <div class="card-body">Overdue. Reserved slot, no other deliverables that day.</div>
+      <div class="tags"><span class="tag tag-yasha">Yasha</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Thu — ORM scope-lock with Mohammad Da</div>
+      <div class="card-body">Walk Mohammad + Liron through the design. Lock 5 open questions (auto-hide threshold, sales hand-off, DM phrasing, X scope, operator console). If aligned: start KB indexing.</div>
+      <div class="tags"><span class="tag tag-orm">ORM</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Thu — FAQ → CRM hand-off spec</div>
+      <div class="card-body">Draft the spec for Q2 board commitment.</div>
+      <div class="tags"><span class="tag tag-cs">CS Agent</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Thu — Marketing Newsletter Docker migration kickoff</div>
+      <div class="card-body">Lift off EP1 plan → Docker on sentimark-env. Largest persistent cost line.</div>
+      <div class="tags"><span class="tag">Cost</span><span class="tag tag-yasha">Yasha</span></div>
+    </div>
+  </section>
+
+  <section class="column col-wait">
+    <div class="col-header">Waiting on others</div>
+
+    <div class="card">
+      <div class="card-title">Yasha — OTP test scope</div>
+      <div class="card-body">After today's test, awaiting his call on whether to involve clients or help-desk.</div>
+      <div class="tags"><span class="tag tag-yasha">Yasha</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Daniel — Manus.ai subscription confirm</div>
+      <div class="card-body">Likely "yes" after today's article-agent session. One seat first, expand if team adopts.</div>
+      <div class="tags"><span class="tag tag-daniel">Daniel</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Liron — Daily Market Overview kill/ship</div>
+      <div class="card-body">My rec: kill (no internal owner; Oded's prod variant already stopped).</div>
+      <div class="tags"><span class="tag tag-liron">Liron</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Nissreen S. — Compliance Exam user-readiness gap list</div>
+      <div class="card-body">Karim delegated to Nissreen on 2026-05-07. Compliance Exam is the 3rd pillar (Training → Call Analyze → Compliance) — not "leave standalone" until we have her gaps.</div>
+      <div class="tags"><span class="tag tag-yasha">Karim</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Mohammad Da — Q1 page-comment volume</div>
+      <div class="card-body">Needed to set ORM auto-action vs human-review threshold.</div>
+      <div class="tags"><span class="tag tag-orm">ORM</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Nadav Goldhagen — Hiya vendor onboarding</div>
+      <div class="card-body">Bluepine LTD company / VAT / signatory details to Olanda @ Hiya. 48h to live after signed. €750/mo for 5,000 calls. Multi-brand (Seekapa + Axia) supported.</div>
+      <div class="tags"><span class="tag tag-liron">Liron</span><span class="tag">Voice</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">PR 255 review</div>
+      <div class="card-body">SMOKE-24 fix + Sexual ASR retracted (149-attack red-team 0%) on feat/v109.7-eval-findings-update.</div>
+      <div class="tags"><span class="tag tag-cs">CS Agent</span></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="decisions">
+  <h2>Decisions for Liron this week</h2>
+  <ul>
+    <li><strong>Daily Market Overview</strong> — kill (recommended) or ship to floor.</li>
+    <li><strong>Compliance Exam</strong> — chase Nissreen S. for the user-readiness gap list before deciding.</li>
+    <li><strong>Calls + CRM analytics scope</strong> — sales or retention. Need by Wed to slot for next sprint.</li>
+    <li><strong>Video Flows</strong> — outcome of Tuesday's blank-flow session with Adnan decides simplify-and-pilot vs kill.</li>
+    <li><strong>Manus.ai tooling</strong> — one seat for Daniel ($20/mo, redirected from marketing-reports budget) and likely team-wide if he validates it.</li>
+  </ul>
+</div>
+
+<footer>
+  Full plan (markdown) on the wiki: <a href="https://dev.azure.com/Corp-domain/Corp-AI/_wiki/wikis/Corp-AI.wiki?pagePath=/Weekly-Plans/Week-of-2026-05-10">Corp-AI · Weekly-Plans · Week-of-2026-05-10</a>
+</footer>
+
+</body>
+</html>

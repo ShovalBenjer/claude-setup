@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/rules/read-whole-before-reasoning.md

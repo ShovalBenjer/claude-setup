@@ -1,0 +1,1 @@
+/home/shovalbe/projects/claude-meme-hooks/scripts/seed-meme-vectordb.py

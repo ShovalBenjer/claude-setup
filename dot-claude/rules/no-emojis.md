@@ -1,0 +1,1 @@
+/home/shovalbe/.codex/rules/no-emojis.md

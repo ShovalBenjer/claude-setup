@@ -1,0 +1,4 @@
+prefix_rule(pattern=["git", "ls-remote"], decision="allow")
+prefix_rule(pattern=["rm", "-rf", "/tmp/market-daily-reports-scan"], decision="allow")
+prefix_rule(pattern=["rtk", "mkdir"], decision="allow")
+prefix_rule(pattern=["rtk", "systemctl", "--user"], decision="allow")

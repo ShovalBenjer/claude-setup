@@ -1,0 +1,57 @@
+ 
+- task: AzureCLI@2
+            displayName: 'Sync Cloudflare IP Restrictions'
+            continueOnError: true
+            inputs:
+              azureSubscription: $(SERVICE_CONNECTION)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                echo "Fetching current Cloudflare IPs..."
+                CF_IPS=$(curl -sf https://www.cloudflare.com/ips-v4)
+                if [ -z "$CF_IPS" ]; then
+                  echo "Failed to fetch Cloudflare IPs — skipping restriction update"
+                  exit 0
+                fi
+                echo "Fetched $(echo "$CF_IPS" | wc -l) Cloudflare IPv4 ranges"
+ 
+                echo "Fetching existing CF IP rules on $(WEB_APP_NAME)..."
+                EXISTING=$(az webapp config access-restriction show \
+                  --name $(WEB_APP_NAME) \
+                  --resource-group $(RG) \
+                  --query "ipSecurityRestrictions[?name=='CF IPs'].ipAddress" \
+                  -o tsv)
+ 
+                for IP in $CF_IPS; do
+                  if echo "$EXISTING" | grep -qF "$IP"; then
+                    echo "Already set, skipping: $IP"
+                  else
+                    echo "Adding: $IP"
+                    az webapp config access-restriction add \
+                      --name $(WEB_APP_NAME) \
+                      --resource-group $(RG) \
+                      --rule-name "CF IPs" \
+                      --action Allow \
+                      --ip-address $IP \
+                      --priority 300
+                  fi
+                done
+ 
+                for IP in $EXISTING; do
+                  if echo "$CF_IPS" | grep -qF "$IP"; then
+                    echo "Still valid, keeping: $IP"
+                  else
+                    echo "Stale, removing: $IP"
+                    az webapp config access-restriction remove \
+                      --name $(WEB_APP_NAME) \
+                      --resource-group $(RG) \
+                      --ip-address $IP
+                  fi
+                done
+ 
+                az webapp config access-restriction set \
+                  --name $(WEB_APP_NAME) \
+                  --resource-group $(RG) \
+                  --default-action Deny
+ 
+                echo "Cloudflare IP restrictions synced successfully."

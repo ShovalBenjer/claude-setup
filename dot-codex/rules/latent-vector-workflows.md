@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/rules/latent-vector-workflows.md

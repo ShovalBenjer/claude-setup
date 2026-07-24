@@ -1,0 +1,1 @@
+/home/shovalbe/.codex/hooks/rtk-bash-guard.sh

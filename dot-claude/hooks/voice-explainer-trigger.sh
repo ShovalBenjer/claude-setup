@@ -1,0 +1,1 @@
+/home/shovalbe/.codex/hooks/voice-explainer-trigger.sh

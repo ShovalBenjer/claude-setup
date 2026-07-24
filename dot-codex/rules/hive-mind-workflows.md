@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/rules/hive-mind-workflows.md

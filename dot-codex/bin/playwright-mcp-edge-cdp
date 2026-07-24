@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BUNX_BIN="${BUNX_BIN:-bunx}"
+EDGE_CDP_HOST="${EDGE_CDP_HOST:-}"
+EDGE_CDP_PORT="${EDGE_CDP_PORT:-9223}"
+OUTPUT_DIR="${PLAYWRIGHT_MCP_OUTPUT_DIR:-/tmp/playwright-mcp-edge-cdp}"
+
+case "${1:-}" in
+  --help|-h|--version|-V)
+    exec "$BUNX_BIN" -y @playwright/mcp@latest "$@"
+    ;;
+esac
+
+if [[ -z "$EDGE_CDP_HOST" ]]; then
+  EDGE_CDP_HOST="$(ip route show default | awk '{print $3; exit}')"
+fi
+
+ENDPOINT="${PLAYWRIGHT_EDGE_CDP_ENDPOINT:-http://${EDGE_CDP_HOST}:${EDGE_CDP_PORT}}"
+
+mkdir -p "$OUTPUT_DIR"
+
+if ! curl -fsS --max-time 2 "${ENDPOINT}/json/version" >/dev/null 2>&1; then
+  cat >&2 <<EOF
+Windows Edge CDP is not reachable at ${ENDPOINT}.
+
+Run this in Windows PowerShell, then start/approve the Claude MCP server again:
+
+Start-Process "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" \`
+  -ArgumentList @(
+    "--remote-debugging-port=${EDGE_CDP_PORT}",
+    "--remote-debugging-address=0.0.0.0",
+    "--user-data-dir=C:\\Users\\shoval.be\\AppData\\Local\\Microsoft\\Edge\\CDP-Profile",
+    "https://comp-widgora-prod-b0emf3hyefetcken.swedencentral-01.azurewebsites.net/calendars"
+  )
+
+If that is already running, Windows Defender Firewall may be blocking WSL access to port ${EDGE_CDP_PORT}.
+EOF
+  exit 2
+fi
+
+exec "$BUNX_BIN" -y @playwright/mcp@latest \
+  --cdp-endpoint "$ENDPOINT" \
+  --caps vision,devtools \
+  --image-responses allow \
+  --snapshot-mode full \
+  --output-dir "$OUTPUT_DIR" \
+  "$@"

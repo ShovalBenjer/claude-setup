@@ -1,0 +1,1 @@
+/home/shovalbe/.codex/hooks/verification-before-completion.sh

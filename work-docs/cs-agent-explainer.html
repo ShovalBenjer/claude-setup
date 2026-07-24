@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CS-Agent — System Explainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0e27;--bg-card:#1e293b;--bg-surf:#0f172a;--border:#334155;--border-lit:#475569;
+  --hi:#f1f5f9;--mid:#cbd5e1;--lo:#94a3b8;--mute:#64748b;
+  --blue:#3b82f6;--blue-d:#1d4ed8;--green:#22c55e;--amber:#fbbf24;
+  --teal:#2dd4bf;--purple:#a78bfa;--red:#f87171;--orange:#fb923c;
+}
+body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,var(--bg) 0%,#1a1f3a 100%);color:var(--hi);min-height:100vh}
+nav{background:var(--bg-surf);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;gap:4px;position:sticky;top:0;z-index:100}
+.nav-brand{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);padding:18px 0;margin-right:16px;flex-shrink:0}
+.tab-btn{padding:18px 14px;font-size:.82rem;font-weight:500;color:var(--lo);cursor:pointer;border:none;background:none;font-family:inherit;border-bottom:2px solid transparent;transition:all .18s;white-space:nowrap}
+.tab-btn:hover{color:var(--mid)}.tab-btn.active{color:var(--hi);border-bottom-color:var(--blue)}
+.tab-pane{display:none;padding:40px 48px;max-width:1100px;margin:0 auto;animation:fadeIn .2s ease}
+.tab-pane.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hero{text-align:center;padding:44px 0 32px;border-bottom:1px solid var(--border);margin-bottom:36px;position:relative}
+.hero::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+.eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.hero h1{font-size:2.3rem;font-weight:700;background:linear-gradient(135deg,#f1f5f9,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+.hero p{font-size:.93rem;color:var(--lo);max-width:560px;margin:0 auto}
+.sl{font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin:32px 0 6px}
+h2{font-size:1.3rem;font-weight:700;margin-bottom:12px}
+h3{font-size:.93rem;font-weight:600;color:var(--mid);margin:22px 0 8px}
+p{font-size:.87rem;color:var(--mid);line-height:1.7;margin-bottom:10px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
+.kpi{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px 14px;text-align:center;border-top:3px solid var(--blue)}
+.kpi.gr{border-top-color:var(--green)}.kpi.am{border-top-color:var(--amber)}.kpi.tl{border-top-color:var(--teal)}.kpi.pu{border-top-color:var(--purple)}
+.kpi-val{font-size:1.8rem;font-weight:700;font-family:'JetBrains Mono',monospace}
+.kpi-lbl{font-size:.72rem;color:var(--lo);margin-top:6px;line-height:1.4}
+.pipe{display:flex;align-items:center;gap:0;margin:20px 0;overflow-x:auto;padding-bottom:4px}
+.step{background:var(--bg-card);border:1px solid var(--border);border-radius:9px;padding:11px 13px;font-size:.77rem;font-weight:600;text-align:center;min-width:90px;flex-shrink:0;line-height:1.4}
+.step .sn{display:block;font-size:.6rem;color:var(--mute);font-family:'JetBrains Mono',monospace;margin-bottom:3px}
+.step.bl{border-color:var(--blue-d);background:rgba(59,130,246,.1);color:var(--blue)}
+.step.gr{border-color:#15803d;background:rgba(34,197,94,.1);color:var(--green)}
+.step.am{border-color:#92400e;background:rgba(251,191,36,.1);color:var(--amber)}
+.step.tl{border-color:#0f766e;background:rgba(45,212,191,.1);color:var(--teal)}
+.step.pu{border-color:#5b21b6;background:rgba(167,139,250,.1);color:var(--purple)}
+.arrow{color:var(--border-lit);font-size:1.1rem;padding:0 4px;flex-shrink:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:11px;padding:16px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.card.bl::before{background:linear-gradient(90deg,var(--blue),#60a5fa)}.card.gr::before{background:linear-gradient(90deg,var(--green),#4ade80)}
+.card.tl::before{background:linear-gradient(90deg,var(--teal),#5eead4)}.card.am::before{background:linear-gradient(90deg,var(--amber),#fcd34d)}
+.card.pu::before{background:linear-gradient(90deg,var(--purple),#c4b5fd)}.card.rd::before{background:linear-gradient(90deg,var(--red),#fca5a5)}
+.card h4{font-size:.87rem;font-weight:600;margin-bottom:8px}
+.card ul{padding-left:15px;font-size:.8rem;color:var(--lo);line-height:1.9}
+.info{background:rgba(59,130,246,.08);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:11px 15px;margin:12px 0;font-size:.83rem;color:var(--mid)}
+.info.am{background:rgba(251,191,36,.08);border-left-color:var(--amber)}.info.rd{background:rgba(248,113,113,.08);border-left-color:var(--red)}
+.info.gr{background:rgba(34,197,94,.08);border-left-color:var(--green)}.info strong{color:var(--hi)}
+table{width:100%;border-collapse:collapse;margin:12px 0 18px;font-size:.81rem}
+thead tr{background:var(--bg-surf)}
+thead th{padding:8px 11px;text-align:left;font-size:.7rem;font-weight:600;letter-spacing:.04em;color:var(--lo);border-bottom:1px solid var(--border)}
+tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+tbody td{padding:8px 11px;vertical-align:top;color:var(--mid)}
+tbody td.k{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--hi);font-weight:500}
+tbody td.v{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--teal)}
+.pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:.67rem;font-weight:700}
+.pr{background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.3)}
+.pg{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.pa{background:rgba(251,191,36,.15);color:var(--amber);border:1px solid rgba(251,191,36,.3)}
+.px{background:rgba(100,116,139,.2);color:var(--lo);border:1px solid var(--border)}
+.pb{background:rgba(59,130,246,.15);color:var(--blue);border:1px solid rgba(59,130,246,.3)}
+.pt{background:rgba(45,212,191,.15);color:var(--teal);border:1px solid rgba(45,212,191,.3)}
+.pp{background:rgba(167,139,250,.15);color:var(--purple);border:1px solid rgba(167,139,250,.3)}
+code{font-family:'JetBrains Mono',monospace;font-size:.78rem;background:rgba(255,255,255,.07);padding:2px 6px;border-radius:4px;color:var(--teal)}
+pre{font-family:'JetBrains Mono',monospace;font-size:.77rem;background:var(--bg-surf);border:1px solid var(--border);border-radius:8px;padding:13px 15px;overflow-x:auto;color:var(--mid);line-height:1.7;margin:10px 0}
+pre .c{color:var(--mute)}pre .k{color:var(--blue)}pre .v{color:var(--teal)}
+.sb{background:var(--bg-card);border:1px solid var(--border);border-radius:9px;padding:13px 17px;margin-bottom:10px;padding-left:20px;position:relative}
+.sb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:9px 0 0 9px}
+.sb.s1::before{background:var(--blue)}.sb.s2::before{background:var(--purple)}.sb.s3::before{background:var(--green)}
+.sb.s4::before{background:var(--teal)}.sb.s5::before{background:var(--amber)}
+.sb h4{font-size:.87rem;font-weight:600;margin-bottom:4px}
+.sb .meta{font-size:.72rem;color:var(--mute);margin-bottom:7px;font-family:'JetBrains Mono',monospace}
+.sb ul{padding-left:15px;font-size:.79rem;color:var(--lo);line-height:1.8}
+@media(max-width:720px){.kpi-row,.two,.three{grid-template-columns:1fr 1fr}.tab-pane{padding:24px 20px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">CS-Agent · Seekapa</div>
+  <button class="tab-btn active" onclick="show('ov',this)">Overview</button>
+  <button class="tab-btn" onclick="show('cfg',this)">Configuration</button>
+  <button class="tab-btn" onclick="show('cx',this)">Connections</button>
+  <button class="tab-btn" onclick="show('ev',this)">Evaluate</button>
+  <button class="tab-btn" onclick="show('run',this)">Run It</button>
+</nav>
+
+<!-- ── OVERVIEW ── -->
+<div id="ov" class="tab-pane active">
+  <div class="hero">
+    <div class="eyebrow">Seekapa · CS-Agent · April 2026</div>
+    <h1>AI Customer Support Bot</h1>
+    <p>Nisreen answers support questions via Chatwoot and Telegram, escalates to humans when needed, and never gives trading advice.</p>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-val">2</div><div class="kpi-lbl">Brands<br>Seekapa · AxiaCS</div></div>
+    <div class="kpi tl"><div class="kpi-val">3</div><div class="kpi-lbl">Live channels<br>Chatwoot · Telegram · Widget</div></div>
+    <div class="kpi gr"><div class="kpi-val">11</div><div class="kpi-lbl">CRM endpoints<br>Read-only MySQL</div></div>
+    <div class="kpi pu"><div class="kpi-val">53</div><div class="kpi-lbl">Eval rows<br>25 smoke + 28 Yasha</div></div>
+  </div>
+  <div class="info"><strong>What it is:</strong> Azure Functions app (Python v2) that receives webhook events, routes to an <strong>Azure AI Foundry agent</strong>, and posts replies back. Nisreen has a <strong>KB file_search tool</strong> (FAQ vector store) and a <strong>create_ticket tool</strong>. She has no CRM access — separate read-only CRM endpoints exist for AxiaCS OpenAPI tools.</div>
+  <div class="sl">Message flow</div>
+  <h2>How a message travels</h2>
+  <div class="pipe">
+    <div class="step bl"><span class="sn">CHANNEL</span>Chatwoot<br>or Telegram</div><div class="arrow">→</div>
+    <div class="step"><span class="sn">AZURE FN</span>Webhook<br>Handler</div><div class="arrow">→</div>
+    <div class="step"><span class="sn">SAFETY</span>Dedup +<br>Inbox Gate</div><div class="arrow">→</div>
+    <div class="step bl"><span class="sn">FOUNDRY</span>Nisreen<br>Agent</div><div class="arrow">→</div>
+    <div class="step tl"><span class="sn">KB TOOL</span>file_search<br>FAQ</div><div class="arrow">→</div>
+    <div class="step gr"><span class="sn">REPLY</span>Post back<br>to channel</div>
+  </div>
+  <div class="sl">Decision rules</div>
+  <h2>5 Routes</h2>
+  <table>
+    <thead><tr><th>Route</th><th>When</th><th>Never</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill pg">resolve</span></td><td>Answer directly from KB — 1-3 paragraphs, lead with the answer</td><td>Combine with escalation in same reply</td></tr>
+      <tr><td><span class="pill pr">escalate</span></td><td>Account-specific, fraud, locked account, self-harm, explicit human request</td><td>Resolve first then escalate</td></tr>
+      <tr><td><span class="pill pa">no_advice</span></td><td>Trading strategy or profit prediction requests — refer to account manager</td><td>Give any investment opinion</td></tr>
+      <tr><td><span class="pill px">redirect</span></td><td>Off-topic (weather, restaurants) — politely decline and return to scope</td><td>Answer the off-topic question</td></tr>
+      <tr><td><span class="pill pt">disconnect</span></td><td>Hebrew keyword אנדרלמוסיה — stop processing immediately</td><td>Send any support content</td></tr>
+    </tbody>
+  </table>
+  <div class="info am"><strong>Hard rules:</strong> No financial advice · No balances/P&amp;L unprompted · No cross-sell · No competitor commentary · Always match customer language (EN/ES/AR/PT)</div>
+</div>
+
+<!-- ── CONFIGURATION ── -->
+<div id="cfg" class="tab-pane">
+  <div class="sl">Azure resources</div>
+  <h2>Where it lives</h2>
+  <table>
+    <thead><tr><th>Resource</th><th>Name</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Function App</td><td class="v">func-cs-agents-dev</td><td>All Azure Functions (handlers + CRM endpoints)</td></tr>
+      <tr><td class="k">Resource Group</td><td class="v">AZAI_group</td><td>Azure resource container</td></tr>
+      <tr><td class="k">Foundry Endpoint</td><td class="v">brn-azai.services.ai.azure.com/api/projects/seekapa_ai</td><td>AI agent project</td></tr>
+      <tr><td class="k">Key Vault</td><td class="v">shoval</td><td>All secrets: API keys, tokens, DB creds</td></tr>
+      <tr><td class="k">Service Connection</td><td class="v">managecorpairegistry</td><td>OIDC/Workload Identity — CI deploy + KV access</td></tr>
+      <tr><td class="k">DevOps Pipeline</td><td class="v">Corp-domain / Corp-AI · ID 121</td><td>CI/CD — Build → AI Review → Deploy → Eval</td></tr>
+    </tbody>
+  </table>
+  <div class="sl">Environment variables</div>
+  <h2>App settings</h2>
+  <table>
+    <thead><tr><th style="width:38%">Variable</th><th style="width:24%">Source / Default</th><th>Used by</th></tr></thead>
+    <tbody>
+      <tr><td class="k">FOUNDRY_API_KEY</td><td class="v">kv: FOUNDRY-API-KEY</td><td>channel_router · chatwoot_handler — Foundry auth</td></tr>
+      <tr><td class="k">CHATWOOT_WEBHOOK_SECRET</td><td class="v">kv: secret</td><td>chatwoot_handler — HMAC-SHA256 signature validation</td></tr>
+      <tr><td class="k">CHATWOOT_ALLOWED_INBOX_IDS</td><td class="v">e.g. "3,4,5"</td><td>Safety gate — bot DISABLED if empty</td></tr>
+      <tr><td class="k">CHATWOOT_DEFAULT_BRAND</td><td class="v">seekapa</td><td>Fallback when inbox name has no brand signal</td></tr>
+      <tr><td class="k">TELEGRAM_BOT_TOKEN</td><td class="v">kv: secret</td><td>telegram_handler — send replies via Bot API</td></tr>
+      <tr><td class="k">SEEKAPA_AGENT_NAME</td><td class="v">seekapa</td><td>Foundry agent dispatch</td></tr>
+      <tr><td class="k">AXIA_AGENT_NAME</td><td class="v">AxiaCS</td><td>Foundry agent dispatch</td></tr>
+      <tr><td class="k">MYSQL_HOST_SEEKAPA / _AXIA</td><td class="v">kv: secret</td><td>CRM functions — per-brand MySQL connection</td></tr>
+      <tr><td class="k">CRM_API_KEY</td><td class="v">kv: secret</td><td>channel_router → CRM function calls</td></tr>
+      <tr><td class="k">AGENT_TIMEOUT_SECONDS</td><td class="v">90</td><td>channel_router — per-request agent timeout</td></tr>
+    </tbody>
+  </table>
+  <div class="info"><strong>KV binding syntax:</strong> <code>@Microsoft.KeyVault(VaultName=shoval;SecretName=FOUNDRY-API-KEY)</code> — set in Azure Portal → Function App → Environment Variables.</div>
+  <div class="sl">Brand routing + prompts</div>
+  <h2>How brand is selected and which prompt runs</h2>
+  <div class="two">
+    <div class="card bl">
+      <h4>Chatwoot brand routing</h4>
+      <ul>
+        <li>Read <code>payload["inbox"]["name"]</code></li>
+        <li><code>"axia"</code> in name → brand = <code>axia</code></li>
+        <li>Otherwise → <code>CHATWOOT_DEFAULT_BRAND</code> (seekapa)</li>
+        <li><code>CHATWOOT_ALLOWED_INBOX_IDS</code> gate runs first</li>
+      </ul>
+    </div>
+    <div class="card pu">
+      <h4>Prompt versions (agent-prompts/)</h4>
+      <ul>
+        <li><span class="pill pg">prod</span> <code>seekapa-system-prompt-v39.md</code> — Nisreen, 211 lines</li>
+        <li><span class="pill pa">candidate</span> <code>seekapa-system-prompt-v97.md</code> — eval-optimized</li>
+        <li><span class="pill pg">prod</span> <code>axia-cs-system-prompt.md</code> — AxiaCS, CySEC</li>
+        <li>Deploy: via Foundry portal UI — not from git</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONNECTIONS ── -->
+<div id="cx" class="tab-pane">
+  <div class="sl">Chatwoot inboxes</div>
+  <h2>All inboxes are production — no test environment exists</h2>
+  <table>
+    <thead><tr><th>Inbox ID</th><th>Channel</th><th>Brand</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td class="k">3</td><td>WhatsApp</td><td>Seekapa</td><td><span class="pill pa">live customers</span></td></tr>
+      <tr><td class="k">4</td><td>Telegram @Ittosterbot</td><td>Seekapa</td><td><span class="pill pg">primary test inbox</span></td></tr>
+      <tr><td class="k">5, 6, 7</td><td>Live chat / Widget / Other</td><td>Seekapa / Axia</td><td><span class="pill pa">live customers</span></td></tr>
+    </tbody>
+  </table>
+  <div class="info rd"><strong>Safety:</strong> <code>CHATWOOT_ALLOWED_INBOX_IDS</code> must be explicitly set. If empty, the bot is completely disabled. Never add an inbox ID without confirming which brand it belongs to.</div>
+  <div class="sl">Azure Function endpoints</div>
+  <h2>API surface</h2>
+  <table>
+    <thead><tr><th style="width:36%">Endpoint</th><th style="width:20%">Auth</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td class="k">POST /api/chatwoot-webhook</td><td>HMAC + func key</td><td>Main bot handler — dedup → brand → agent → reply</td></tr>
+      <tr><td class="k">POST /api/telegram-webhook</td><td>Func key</td><td>Telegram — dedup by update_id → agent → sendMessage</td></tr>
+      <tr><td class="k">POST /api/channel-router</td><td>Func key</td><td>Widget / email / WhatsApp — normalize → agent → JSON reply</td></tr>
+      <tr><td class="k">POST /api/create-ticket</td><td>Func key</td><td>Foundry agent tool — creates Chatwoot conversation</td></tr>
+      <tr><td class="k">GET /api/get-client-info</td><td>CRM_API_KEY</td><td>Client profile by email or login (AxiaCS OpenAPI tool)</td></tr>
+      <tr><td class="k">GET /api/get-trading-summary</td><td>CRM_API_KEY</td><td>Balance, equity, P&amp;L, deposits/withdrawals</td></tr>
+      <tr><td class="k">GET /api/get-kyc-status</td><td>CRM_API_KEY</td><td>KYC verification level + missing docs</td></tr>
+      <tr><td class="k">GET /api/get-open-positions</td><td>CRM_API_KEY</td><td>Current open trades</td></tr>
+      <tr><td class="k">GET /api/get-full-client-context</td><td>CRM_API_KEY</td><td>Composite: client + trading + KYC in one call</td></tr>
+    </tbody>
+  </table>
+  <div class="sl">Foundry agent + dedup</div>
+  <div class="two">
+    <div class="card bl">
+      <h4>Azure AI Foundry call pattern</h4>
+      <ul>
+        <li><code>POST {endpoint}/applications/{agent}/protocols/openai/responses</code></li>
+        <li>Body: <code>{"input": [{"role":"user","content":"..."}]}</code></li>
+        <li>Auth: <code>api-key</code> header (key mode) or <code>Bearer</code> (OIDC)</li>
+        <li>Seekapa: KB only. AxiaCS: KB + full CRM OpenAPI suite</li>
+        <li>Content safety refusals: retry up to 5× (20% rate)</li>
+      </ul>
+    </div>
+    <div class="card tl">
+      <h4>Deduplication (prevents triple responses)</h4>
+      <ul>
+        <li><strong>Chatwoot:</strong> key = <code>payload["id"]</code>, TTL 300s, also checks if bot already replied</li>
+        <li><strong>Telegram:</strong> key = <code>update["update_id"]</code>, TTL 120s</li>
+        <li><strong>Why:</strong> Chatwoot retries on slow responses; without dedup each retry spawns a new agent call</li>
+        <li>Always return HTTP 200 to Telegram to prevent infinite retries</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ── EVALUATE ── -->
+<div id="ev" class="tab-pane">
+  <div class="sl">Eval tiers</div>
+  <h2>Three-tier evaluation</h2>
+  <div class="pipe">
+    <div class="step bl"><span class="sn">TIER 1</span>pytest<br>unit tests</div><div class="arrow">→</div>
+    <div class="step am"><span class="sn">TIER 2</span>Smoke eval<br>25 rows</div><div class="arrow">→</div>
+    <div class="step pu"><span class="sn">TIER 2.5</span>Yasha eval<br>28 rows</div><div class="arrow">→</div>
+    <div class="step tl"><span class="sn">TIER 3</span>DeepEval<br>159 tests</div><div class="arrow">→</div>
+    <div class="step gr"><span class="sn">GENERATE</span>Silver<br>dataset</div>
+  </div>
+  <div class="sl">Datasets</div>
+  <table>
+    <thead><tr><th>Dataset</th><th>Rows</th><th>Languages</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td class="k">foundry_smoke_eval.jsonl</td><td>25</td><td>en, ar, ar-gulf, es, pt, he</td><td>CI smoke — all 5 routes, multilingual</td></tr>
+      <tr><td class="k">foundry_yasha_eval.jsonl</td><td>28</td><td>en, ar, es</td><td>Regression — KB quality, anti-hedging, forbidden phrases</td></tr>
+      <tr><td class="k">evals/data/silver_eval_rows.jsonl</td><td>~30 generated</td><td>en</td><td>Agentic silver: FiQA + Bitext banking seeds → LLM-adapted</td></tr>
+    </tbody>
+  </table>
+  <p>Each row: <code>row_id · user_message · expected_route · required_keywords[] · forbidden_keywords[] · language · category</code></p>
+  <div class="sl">Dual-judge gate</div>
+  <div class="two">
+    <div class="card bl">
+      <h4>Primary judge — grok-4-1-fast-reasoning-2-eval</h4>
+      <ul>
+        <li>Checks: route match, required keywords present, forbidden absent</li>
+        <li>Output: <code>{"pass": true, "score": 1, "reason": "..."}</code></li>
+        <li>Decides pass/fail for CI gate</li>
+      </ul>
+    </div>
+    <div class="card tl">
+      <h4>Audit judge — DeepSeek-V3.2</h4>
+      <ul>
+        <li>Sees primary result + original exchange independently</li>
+        <li>Output: <code>{"agree": true, "reason": "..."}</code></li>
+        <li>Runs on first N rows (default 3 in CI, 5 locally)</li>
+      </ul>
+    </div>
+  </div>
+  <h3>Run smoke eval locally</h3>
+  <pre><span class="c"># Load key (never echo)</span>
+az keyvault secret show --vault-name shoval --name FOUNDRY-API-KEY -o tsv > /tmp/.key
+
+python scripts/foundry_eval_gate.py \
+  --dataset tests/test_data/foundry_smoke_eval.jsonl \
+  --project-endpoint <span class="v">https://brn-azai.services.ai.azure.com/api/projects/seekapa_ai</span> \
+  --agent-name seekapa --primary-deployment grok-4-1-fast-reasoning-2-eval \
+  --audit-deployment DeepSeek-V3.2 --api-key $(cat /tmp/.key) \
+  --max-rows 25 --audit-rows 5 --context-prefix \
+  --junit-out /tmp/r.xml --markdown-out /tmp/r.md --json-out /tmp/r.json
+rm /tmp/.key</pre>
+  <h3>Generate silver dataset (one-time, then commit output)</h3>
+  <pre>pip install datasets>=2.0.0
+
+python evals/scripts/generate_silver_dataset.py \
+  --project-endpoint ... --agent-name seekapa --api-key $(cat /tmp/.key) \
+  --adapt-deployment grok-4-1-fast-reasoning-2-eval \
+  --judge-deployment DeepSeek-V3.2 --n 30 --out evals/data/</pre>
+  <div class="info gr"><strong>PAC minimum:</strong> 55–64 rows for GPT-class model validation (√VC-dimension, Mutreja &amp; Shafer 2023). Current 53 rows is borderline. 53 + 30 generated = 83 rows gives statistical margin.</div>
+  <div class="info am"><strong>DeepEval full suite:</strong> 159 tests × ~15s = 40 min. Never run all at once. Run by section: <code>pytest tests/deepeval_suite.py -k "kb"</code>, <code>-k "escalation"</code>, <code>-k "multilingual"</code></div>
+</div>
+
+<!-- ── RUN IT ── -->
+<div id="run" class="tab-pane">
+  <div class="sl">Local dev</div>
+  <h2>Run the function app locally</h2>
+  <pre><span class="c"># 1. Install Azure Functions Core Tools v4 + Python deps</span>
+npm install -g azure-functions-core-tools@4
+cd azure-function-crm && pip install -r requirements.txt
+
+<span class="c"># 2. Copy template and fill in secrets</span>
+cp local.settings.json.template local.settings.json  <span class="c"># set FOUNDRY_API_KEY, etc.</span>
+
+<span class="c"># 3. Start (webhook at http://localhost:7071/api/chatwoot-webhook)</span>
+func start</pre>
+  <h3>Unit tests</h3>
+  <pre><span class="c"># Fast — ~155 tests, no API calls</span>
+python -m pytest tests/ -k "not deepeval" --ignore=tests/deepeval_suite.py -q
+ruff check azure-function-crm/</pre>
+  <div class="sl">CI pipeline stages</div>
+  <h2>5 stages on every push</h2>
+  <div class="sb s1">
+    <h4>Stage 1 — Build &amp; Test</h4>
+    <div class="meta">Triggers: master · stage · feature/* (azure-function-crm/** changes)</div>
+    <ul>
+      <li><code>uv pip install -r requirements.txt</code> + <code>pip-audit</code> (CVE check)</li>
+      <li><code>ruff check</code> lint gate → <code>pytest -k "not deepeval"</code> unit tests</li>
+      <li>Produces <code>function-app.zip</code> artifact</li>
+    </ul>
+  </div>
+  <div class="sb s2">
+    <h4>Stage 2 — AI Code Review</h4>
+    <div class="meta">PR builds only (master / stage targets)</div>
+    <ul>
+      <li><code>checkout: self</code> + <code>persistCredentials: true</code> — required for git diff read</li>
+      <li>Loads <code>FOUNDRY-API-KEY</code> from vault <code>shoval</code> via <code>managecorpairegistry</code></li>
+      <li><code>AIPullRequestReviewPrompt@2</code> — AI reviews the PR diff</li>
+    </ul>
+  </div>
+  <div class="sb s3">
+    <h4>Stage 3 — Deploy</h4>
+    <div class="meta">After Build passes on master / stage</div>
+    <ul>
+      <li><code>AzureCLI@2</code> with <code>azureSubscription: managecorpairegistry</code></li>
+      <li><code>az functionapp deployment source config-zip -g AZAI_group -n func-cs-agents-dev</code></li>
+    </ul>
+  </div>
+  <div class="sb s4">
+    <h4>Stage 4 — Smoke Tests</h4>
+    <div class="meta">Post-deploy, stage branch only</div>
+    <ul>
+      <li>Webhook health: dummy payload → expect HTTP 200</li>
+      <li>3 spec-compliance payloads: KB question + escalation phrase + off-topic guard</li>
+    </ul>
+  </div>
+  <div class="sb s5">
+    <h4>Stage 5 — Yasha Eval Gate</h4>
+    <div class="meta">Post-deploy, once per stage/master deploy</div>
+    <ul>
+      <li>Runs <code>foundry_eval_gate.py</code> on <code>foundry_yasha_eval.jsonl</code> (28 rows)</li>
+      <li>Publishes JUnit XML + Markdown as pipeline artifacts · CI fails on any judge fail</li>
+    </ul>
+  </div>
+  <div class="sl">Debugging</div>
+  <h2>Common issues</h2>
+  <table>
+    <thead><tr><th style="width:28%">Symptom</th><th style="width:36%">Root cause</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td>Triple response to customer</td><td>Chatwoot retries slow webhook; no dedup</td><td>Check <code>_seen_message_ids</code> TTL and inbox gate</td></tr>
+      <tr><td>Eval gate 401</td><td>Wrong KV service connection (U-BTech CSP lacks KV access)</td><td>KV task must use <code>managecorpairegistry</code> + vault <code>shoval</code> + secret <code>FOUNDRY-API-KEY</code></td></tr>
+      <tr><td>AI Review: git auth error</td><td><code>AIPullRequestReviewPrompt@2</code> needs git credentials</td><td>Add <code>checkout: self</code> + <code>persistCredentials: true</code> before AzureKeyVault task</td></tr>
+      <tr><td>"transfer funds" escalates bot</td><td>Old keyword "transfer" too broad</td><td>Escalation phrases are multi-word: "transfer you", "transferring you"</td></tr>
+      <tr><td>Bot ignores all inboxes</td><td><code>CHATWOOT_ALLOWED_INBOX_IDS</code> is empty</td><td>Set the env var; empty = bot disabled by design</td></tr>
+      <tr><td>pytest INTERNALERROR on collect</td><td><code>live_bot_test.py</code> calls <code>sys.exit(1)</code> at module level</td><td>Fixed in conftest: <code>collect_ignore = ["live_bot_test.py"]</code></td></tr>
+    </tbody>
+  </table>
+  <div class="info am"><strong>Secrets for local use:</strong> <code>az keyvault secret show --vault-name shoval --name FOUNDRY-API-KEY -o tsv &gt; /tmp/.key</code> — never echo secret values into terminal.</div>
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

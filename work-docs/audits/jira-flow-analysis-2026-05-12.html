@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DEV Jira flow analysis (v2) — 2026-05-12</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+         margin: 2rem auto; max-width: 1200px; padding: 0 1rem; color: #1a1a1a; line-height: 1.5; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3rem; }
+  h2 { margin-top: 2.5rem; border-bottom: 1px solid #ccc; padding-bottom: .2rem; }
+  .caveat { background: #fff8dc; border-left: 4px solid #d4a017; padding: .8rem 1rem; margin: 1rem 0; }
+  .danger { background: #ffe9e9; border-left: 4px solid #b00; padding: .8rem 1rem; margin: 1rem 0; }
+  .finding { background: #e6f4ea; border-left: 4px solid #137333; padding: .8rem 1rem; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 13px; }
+  th, td { border: 1px solid #ddd; padding: .4rem .55rem; text-align: left; vertical-align: top; }
+  th { background: #f2f2f2; }
+  tr.danger-row { background: #ffdada; }
+  tr.warn-row { background: #fff3cd; }
+  .meta { color: #666; font-size: 13px; }
+  code { background: #f4f4f4; padding: 1px 5px; border-radius: 3px; }
+  .kpi { display: inline-block; background: #eef; padding: .25rem .8rem; border-radius: 8px;
+          font-size: 14px; margin-right: .5rem; }
+</style>
+</head>
+<body>
+
+<h1>DEV Jira flow analysis — top 20 stale tickets</h1>
+<p class="meta">
+  Generated 2026-05-12 &nbsp;·&nbsp;
+  Source: changelog data via <code>jira_batch_get_changelogs</code> for the 20 oldest-stale active tickets.
+</p>
+
+<div>
+  <span class="kpi">Tickets analyzed: <strong>16</strong></span>
+  <span class="kpi">Total parking time: <strong>9272d</strong> (25.4y)</span>
+  <span class="kpi">Median parking: <strong>539d</strong></span>
+  <span class="kpi">Tickets parked &gt;1y: <strong>16</strong></span>
+</div>
+
+<div class="finding">
+<strong>The actual finding.</strong> These tickets aren't stale because someone forgot — they were
+<em>actively transitioned</em> into "In Progress" or "To Do" in batches (multiple tickets, &lt;1 minute apart, by the same person),
+and then never touched again. This is the <strong>"groomed and parked"</strong> pattern: visible motion on the
+timeline, zero subsequent work. It's a classic Jira-as-theater anti-pattern, well documented in the Kanban
+literature (Anderson, Roock, Vacanti). The fix is process, not punishment.
+</div>
+
+<div class="caveat">
+<strong>Caveat.</strong> A ticket being parked doesn't mean the person is lazy. It can also mean:
+(a) the work was actually done in code/AzDO and the ticket was abandoned because it doesn't matter, or
+(b) the ticket was deprioritized but never properly closed/cancelled, or
+(c) the person was reassigned but Jira wasn't updated. In all three cases the conclusion is the same:
+<strong>Jira is no longer a source of truth for this project</strong>. The data hygiene gap is the real problem.
+</div>
+
+<h2>1. Parking burden (by current assignee)</h2>
+<p>Total accumulated days these stuck tickets have been sitting in their current status. This is who owns
+the cleanup, regardless of who originally groomed.</p>
+<table>
+  <tr><th>Current assignee</th><th>Parked tickets</th><th>Total parking time</th><th>Worst-parked ticket</th></tr>
+  <tr><td>Amit Cohen</td><td>6</td><td>3427d (9.4y)</td><td>665d</td></tr>
+<tr><td>avi lior</td><td>4</td><td>2263d (6.2y)</td><td>659d</td></tr>
+<tr><td>Unassigned</td><td>3</td><td>1626d (4.5y)</td><td>549d</td></tr>
+<tr><td>Nikolay Dovhoniuk</td><td>1</td><td>882d (2.4y)</td><td>882d</td></tr>
+<tr><td>Maksym Yurchenko</td><td>1</td><td>599d (1.6y)</td><td>599d</td></tr>
+<tr><td>Tomer Kamil</td><td>1</td><td>475d (1.3y)</td><td>475d</td></tr>
+</table>
+
+<h2>1b. Bulk-grooming actors (by transition author, separate from assignee)</h2>
+<p>Who actually performed the rapid status transitions. The current assignee and the original groomer may differ
+(e.g. avi lior groomed DEV-3361 in Jan 2025 then reassigned it to Tomer Kamil a week later).</p>
+<table>
+  <tr><th>Author</th><th>Bulk bursts</th><th>Distinct tickets</th><th>Fastest burst</th><th>Tickets</th></tr>
+  <tr><td>avi lior</td><td>10</td><td>9</td><td>1s</td><td>DEV-2727, DEV-2746, DEV-2791, DEV-2922, DEV-3067, DEV-3082, DEV-3084, DEV-3167, </td></tr>
+<tr><td>Amit Cohen</td><td>2</td><td>2</td><td>2s</td><td>DEV-2106, DEV-3094</td></tr>
+<tr><td>Dor Shalom</td><td>1</td><td>1</td><td>3s</td><td>DEV-2746</td></tr>
+</table>
+
+<h2>2. Ticket-level parking table</h2>
+<p>Sorted by parking time (days since last status change). <code>Last actor</code> = who made the most recent
+status transition.</p>
+<table>
+  <tr><th>Key</th><th>Assignee</th><th>Status</th><th>Summary</th><th>Parked</th><th>Status transitions</th><th>Bulk bursts</th><th>Last actor</th></tr>
+  <tr class="danger-row"><td>DEV-1540</td><td>Nikolay Dovhoniuk</td><td>Blocked</td><td>Dailyvesting - Newsletter validation email issue</td><td>882d</td><td>4</td><td>0</td><td>Amit Cohen</td></tr>
+<tr class="danger-row"><td>DEV-2727</td><td>Amit Cohen</td><td>In Progress</td><td>DailyVesting - Copy pages from gccmm</td><td>665d</td><td>2</td><td>1</td><td>avi lior</td></tr>
+<tr class="danger-row"><td>DEV-2746</td><td>avi lior</td><td>In Progress</td><td>Ongoing Automations Promos infrastructure</td><td>659d</td><td>6</td><td>3</td><td>avi lior</td></tr>
+<tr class="danger-row"><td>DEV-2106</td><td>Amit Cohen</td><td>In Progress</td><td>WhatsApp Signals Improvements</td><td>601d</td><td>2</td><td>1</td><td>Amit Cohen</td></tr>
+<tr class="danger-row"><td>DEV-2922</td><td>Maksym Yurchenko</td><td>To Do</td><td>Daily investing &gt; Compare &gt; Language changes automatically a…</td><td>599d</td><td>2</td><td>1</td><td>avi lior</td></tr>
+<tr class="danger-row"><td>DEV-2987</td><td>Amit Cohen</td><td>WAITING</td><td>Panda - Add trade by volume to seekapa app</td><td>550d</td><td>1</td><td>0</td><td>Amit Cohen</td></tr>
+<tr class="danger-row"><td>DEV-2922b</td><td>Unassigned</td><td></td><td></td><td>549d</td><td>1</td><td>0</td><td>Mariam Petrosyan</td></tr>
+<tr class="danger-row"><td>DEV-3082</td><td>avi lior</td><td>In Progress</td><td>Webinars 2.0</td><td>539d</td><td>2</td><td>1</td><td>avi lior</td></tr>
+<tr class="danger-row"><td>DEV-3084</td><td>avi lior</td><td>To Do</td><td>Client side settings in the app</td><td>539d</td><td>2</td><td>1</td><td>avi lior</td></tr>
+<tr class="danger-row"><td>DEV-3087</td><td>Unassigned</td><td>Backlog</td><td>Seekapa - Webrtc</td><td>539d</td><td>1</td><td>0</td><td>avi lior</td></tr>
+<tr class="danger-row"><td>DEV-2791</td><td>Amit Cohen</td><td>In Progress</td><td>Daily Investing - SEO Improvement</td><td>539d</td><td>2</td><td>1</td><td>avi lior</td></tr>
+<tr class="danger-row"><td>DEV-3067</td><td>Amit Cohen</td><td>In Progress</td><td>Seekapa Quests</td><td>539d</td><td>2</td><td>1</td><td>avi lior</td></tr>
+<tr class="danger-row"><td>DEV-3094</td><td>Unassigned</td><td>Backlog</td><td>Seekapa - How to videos</td><td>538d</td><td>2</td><td>1</td><td>Amit Cohen</td></tr>
+<tr class="danger-row"><td>DEV-3134</td><td>Amit Cohen</td><td>To Do</td><td>Alert customers when there&#x27;s a new Signal from Trading Centr…</td><td>533d</td><td>1</td><td>0</td><td>avi lior</td></tr>
+<tr class="danger-row"><td>DEV-3167</td><td>avi lior</td><td>In Progress</td><td>Dev and Product infrastructure</td><td>526d</td><td>2</td><td>1</td><td>avi lior</td></tr>
+<tr class="danger-row"><td>DEV-3361</td><td>Tomer Kamil</td><td>In Progress</td><td>Improve signals in Seekapa for both conversion and retention</td><td>475d</td><td>2</td><td>1</td><td>avi lior</td></tr>
+</table>
+
+<h2>3. Bulk-grooming receipts (the smoking gun)</h2>
+<p>Each row is a pair of status transitions on the same ticket, by the same person, less than 5 minutes apart.
+These are the moments where someone batch-processed multiple tickets without doing real work on them.
+The <code>Parked since</code> column shows the ticket has been silent ever since.</p>
+<table>
+  <tr><th>Timestamp (UTC)</th><th>Author</th><th>Ticket</th><th>Transition chain</th><th>Speed</th><th>Then parked for</th></tr>
+  <tr class="warn-row"><td>2024-04-18 07:59:51</td><td>avi lior</td><td>DEV-2746</td><td>Backlog → To Do → In Progress</td><td>3s apart</td><td>659d since</td></tr>
+<tr class="warn-row"><td>2024-07-15 10:24:13</td><td>avi lior</td><td>DEV-2727</td><td>Backlog → To Do → In Progress</td><td>1s apart</td><td>665d since</td></tr>
+<tr class="warn-row"><td>2024-07-21 14:56:07</td><td>Dor Shalom</td><td>DEV-2746</td><td>In Progress → Blocked → Cancelled</td><td>3s apart</td><td>659d since</td></tr>
+<tr class="warn-row"><td>2024-07-21 15:14:16</td><td>avi lior</td><td>DEV-2746</td><td>Cancelled → To Do → In Progress</td><td>2s apart</td><td>659d since</td></tr>
+<tr class="warn-row"><td>2024-09-17 06:50:00</td><td>Amit Cohen</td><td>DEV-2106</td><td>Backlog → To Do → In Progress</td><td>2s apart</td><td>601d since</td></tr>
+<tr class="warn-row"><td>2024-09-19 09:15:09</td><td>avi lior</td><td>DEV-2922</td><td>Backlog → To Do → In Progress</td><td>11s apart</td><td>599d since</td></tr>
+<tr class="warn-row"><td>2024-11-18 14:44:10</td><td>avi lior</td><td>DEV-2791</td><td>Backlog → To Do → In Progress</td><td>3s apart</td><td>539d since</td></tr>
+<tr class="warn-row"><td>2024-11-18 15:37:24</td><td>avi lior</td><td>DEV-3067</td><td>Backlog → To Do → In Progress</td><td>1s apart</td><td>539d since</td></tr>
+<tr class="warn-row"><td>2024-11-18 15:48:10</td><td>avi lior</td><td>DEV-3082</td><td>Backlog → To Do → In Progress</td><td>1s apart</td><td>539d since</td></tr>
+<tr class="warn-row"><td>2024-11-18 15:53:38</td><td>avi lior</td><td>DEV-3084</td><td>Backlog → To Do → In Progress</td><td>2s apart</td><td>539d since</td></tr>
+<tr class="warn-row"><td>2024-11-19 08:33:13</td><td>Amit Cohen</td><td>DEV-3094</td><td>Backlog → To Do → In Progress</td><td>2s apart</td><td>538d since</td></tr>
+<tr class="warn-row"><td>2024-12-01 09:29:46</td><td>avi lior</td><td>DEV-3167</td><td>Backlog → To Do → In Progress</td><td>1s apart</td><td>526d since</td></tr>
+<tr class="warn-row"><td>2025-01-21 14:20:41</td><td>avi lior</td><td>DEV-3361</td><td>Backlog → To Do → In Progress</td><td>2s apart</td><td>475d since</td></tr>
+</table>
+
+<h2>4. SOTA flow metrics — what this report DOES use</h2>
+<ul>
+  <li><strong>Days-in-current-status</strong> (aged WIP, per-ticket) — the Kanban "age" metric, the most actionable single signal in flow management.</li>
+  <li><strong>Status transition count</strong> per ticket — proxy for engagement.</li>
+  <li><strong>Bulk-transition burst detection</strong> — original signal for batch-grooming theater (not in any textbook; derived from the data shape).</li>
+  <li><strong>Last-actor attribution</strong> — who is on the hook for the current state, separate from current assignee.</li>
+</ul>
+
+<h2>5. What's still missing for full SOTA</h2>
+<ul>
+  <li><strong>Flow efficiency</strong> = active-status-time / total-cycle-time, for <em>completed</em> tickets. Requires changelogs on resolved tickets, not just stale ones. Next batch fetch.</li>
+  <li><strong>Throughput p85 / Monte Carlo forecasting</strong> — needs a clean stream of resolved cycle times. Currently 60d × ~50 tickets is borderline; need 6-month window.</li>
+  <li><strong>CFD (Cumulative Flow Diagram)</strong> — needs status snapshots over time, expensive to compute from changelogs alone.</li>
+  <li><strong>DORA four</strong> — lives in Azure DevOps, not Jira. Pipeline frequency + lead time for changes + change failure rate + MTTR. Pull from AzDO API once we wire that integration.</li>
+  <li><strong>Rework rate</strong> — tickets that re-entered "In Progress" after "Done". The DEV-2746 trail shows this happens (Blocked → Cancelled → To Do → In Progress); needs a query for status_was_done_then_reopened.</li>
+</ul>
+
+<h2>6. Recommended actions (process, not people)</h2>
+<ol>
+  <li><strong>Bulk-close the parking lot.</strong> Anything in "In Progress" with no update in &gt;180 days should be auto-transitioned to "Cancelled" or "Backlog" with a comment "auto-archived: stale". Run quarterly.</li>
+  <li><strong>WIP limits per assignee.</strong> If avi lior has 6 tickets formally "In Progress" but is actively working on 0 or 1, the WIP limit should be 2. Enforces honest status.</li>
+  <li><strong>Forbid Backlog→In Progress in &lt;1 minute</strong> via a Jira automation rule. A status change should reflect real intent; if you're batching, use a single "groomed" label instead.</li>
+  <li><strong>Require an assignee before Done.</strong> Closes the 60% Unassigned-resolved hole from the v1 report.</li>
+  <li><strong>Status-change-by-pipeline.</strong> For your AzDO container work, have the pipeline transition the ticket on deploy. That removes manual transition entirely — status becomes a side-effect of real events.</li>
+</ol>
+
+<p class="meta">Generated from <code>~/docs/audits/analyze_jira_flow_2026-05-12.py</code>. Source data: 17 changelogs at <code>/tmp/changelogs_top20.json</code> + ticket metadata.</p>
+
+</body>
+</html>

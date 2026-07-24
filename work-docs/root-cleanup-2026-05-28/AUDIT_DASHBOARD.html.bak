@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISDD AI Department — Weekly Audit Dashboard · 2026-05-11</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#F6F7FB;--card:#FFFFFF;
+  --border:rgba(15,23,42,0.06);--border-strong:rgba(15,23,42,0.10);
+  --shadow:0 1px 3px rgba(15,23,42,0.04),0 4px 12px rgba(15,23,42,0.03);
+  --shadow-hover:0 8px 32px rgba(15,23,42,0.08),0 16px 48px rgba(15,23,42,0.04);
+  --text:#0F172A;--text-2:#334155;--text-3:#64748B;--text-4:#94A3B8;
+  --blue:#2563EB;--blue-light:#EFF6FF;
+  --teal:#0D9488;--teal-light:#F0FDFA;
+  --purple:#7C3AED;--purple-light:#F5F3FF;
+  --amber:#D97706;--amber-light:#FFFBEB;
+  --red:#DC2626;--red-light:#FEF2F2;
+  --green:#16A34A;--green-light:#F0FDF4;
+  --grey:#64748B;--grey-light:#F8FAFC;
+  --radius:14px;--radius-sm:10px;--radius-xs:6px;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+@media(max-width:768px){.wrap{padding:0 16px}}
+
+/* HEADER */
+header.top{padding:28px 0 12px;border-bottom:1px solid var(--border)}
+header.top h1{font-size:clamp(1.4rem,3vw,1.8rem);font-weight:800;letter-spacing:-0.025em}
+header.top .sub{color:var(--text-3);font-size:13px;margin-top:4px}
+.banner{margin:18px 0 0;padding:14px 18px;background:#FFF7E8;border:1px solid #F1D08A;border-radius:var(--radius-sm);font-size:14px;line-height:1.55}
+.banner strong{color:var(--amber)}
+.metrics{display:flex;gap:10px;margin:16px 0 0;flex-wrap:wrap}
+.metric{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;min-width:130px;box-shadow:var(--shadow)}
+.metric .v{font-size:20px;font-weight:700;color:var(--green);letter-spacing:-0.02em}
+.metric .v.amber{color:var(--amber)}
+.metric .v.red{color:var(--red)}
+.metric .l{display:block;text-transform:uppercase;letter-spacing:0.05em;font-size:10px;color:var(--text-3);font-weight:600;margin-top:2px}
+
+/* MAIN BULLETS */
+main{padding:28px 0 60px}
+section.bullet{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .2s}
+section.bullet:hover{box-shadow:var(--shadow-hover)}
+section.bullet > details > summary{
+  list-style:none;cursor:pointer;padding:16px 22px;display:flex;align-items:center;gap:14px;
+  user-select:none;
+}
+section.bullet > details > summary::-webkit-details-marker{display:none}
+section.bullet > details > summary::after{
+  content:"▸";color:var(--text-4);margin-left:auto;font-size:14px;transition:transform .2s;
+}
+section.bullet > details[open] > summary::after{transform:rotate(90deg)}
+section.bullet > details > summary .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.dot-live{background:var(--green)}
+.dot-busy{background:var(--amber)}
+.dot-disc{background:var(--purple)}
+.dot-risk{background:var(--red)}
+.dot-hold{background:var(--grey)}
+.title-block{display:flex;flex-direction:column;gap:2px}
+.title-block .t{font-size:16px;font-weight:700;letter-spacing:-0.015em}
+.title-block .st{font-size:11px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+
+/* EXPANDED CONTENT */
+.body{padding:6px 22px 22px;border-top:1px solid var(--border);margin-top:0}
+.body h4{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);font-weight:700;margin:14px 0 8px}
+.body h4:first-child{margin-top:14px}
+.body ul{list-style:none;padding-left:0}
+.body ul li{position:relative;padding:4px 0 4px 18px;font-size:14px;line-height:1.55}
+.body ul li::before{content:"–";position:absolute;left:0;color:var(--text-4);font-weight:600}
+.body ul li.do::before{content:"✓";color:var(--green)}
+.body ul li.now::before{content:"●";color:var(--amber)}
+.body ul li.next::before{content:"→";color:var(--blue)}
+.body ul li.wait::before{content:"◌";color:var(--purple)}
+.body ul li.risk::before{content:"!";color:var(--red);font-weight:700}
+.kv{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;font-size:13px;margin:10px 0}
+.kv dt{color:var(--text-3);font-weight:600}
+.kv dd{color:var(--text)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{font-size:10px;text-transform:uppercase;letter-spacing:0.05em;padding:3px 8px;border-radius:10px;font-weight:600}
+.chip-cs{background:var(--blue-light);color:var(--blue)}
+.chip-ca{background:var(--teal-light);color:var(--teal)}
+.chip-orm{background:var(--purple-light);color:var(--purple)}
+.chip-yasha{background:#FEEBEB;color:#B91C1C}
+.chip-liron{background:#FEF3C7;color:#92400E}
+.chip-daniel{background:#DBEAFE;color:#1E40AF}
+.chip-adnan{background:#FED7AA;color:#9A3412}
+.chip-video{background:#FCE7F3;color:#9D174D}
+.chip-prod{background:var(--red-light);color:var(--red)}
+.chip-cost{background:#E0F2FE;color:#075985}
+
+table.mini{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+table.mini th,table.mini td{padding:6px 8px;text-align:left;border-bottom:1px solid var(--border)}
+table.mini th{font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)}
+
+footer{margin-top:36px;padding:18px 0;border-top:1px solid var(--border);color:var(--text-3);font-size:12px}
+
+@media print{
+  body{background:#fff;font-size:11px}
+  section.bullet{break-inside:avoid;box-shadow:none;border:1px solid #ccc}
+  section.bullet > details{open:true}
+  section.bullet > details > summary::after{content:""}
+  .body{display:block !important}
+  details:not([open]) > *:not(summary){display:block !important}
+  @page{margin:1.5cm;size:A4}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="top">
+  <h1>Weekly Audit Dashboard — Week of 2026-05-11</h1>
+  <div class="sub">Shoval Benjer · ISDD AI Department · for review with Liron</div>
+
+  <div class="banner">
+    <strong>Yesterday's headline:</strong> CRM is now connected to the Customer Support Agent. Test suite at <strong>79% pass</strong> (up from 64% v107.3 baseline). Yasha briefed; he asked for OTP 2FA messaging next — testing email received, OTP test going out today.
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><span class="v">79%</span><span class="l">CS Eval Pass</span></div>
+    <div class="metric"><span class="v">v110</span><span class="l">Live Agent</span></div>
+    <div class="metric"><span class="v">27</span><span class="l">Marketing-Analytics Tools</span></div>
+    <div class="metric"><span class="v">4</span><span class="l">PRs Merged Yesterday</span></div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ CUSTOMER SUPPORT AGENT ============ -->
+<section class="bullet">
+<details open>
+  <summary>
+    <span class="dot dot-live"></span>
+    <div class="title-block">
+      <div class="t">Customer Support Agent (cs-agent)</div>
+      <div class="st">Live · v110 · 79% eval · with Yasha (review) + CS team (live use)</div>
+    </div>
+  </summary>
+  <div class="body">
+
+    <h4>Impact today</h4>
+    <ul>
+      <li>Multilingual chat (HE / AR / EN) on Chatwoot — handles the full customer base in one agent</li>
+      <li>Identity-verifies before sharing any account data</li>
+      <li>Reads CRM directly — no human hand-offs for account context</li>
+      <li>FAQ + KB self-serve in the wiki for Sales / CS</li>
+    </ul>
+
+    <h4>Accomplishments (last 2 weeks)</h4>
+    <ul>
+      <li class="do">CRM connection live (yesterday) — agent answers with real account context</li>
+      <li class="do">Eval pass rate 36% → 64% → 79% across v107.3 → v110</li>
+      <li class="do">Prompt size cut 22% (23k → 18k tokens) — same quality, lower cost</li>
+      <li class="do">Identity-verification + account-verification flow shipped (v110)</li>
+    </ul>
+
+    <h4>This week</h4>
+    <ul>
+      <li class="now">Today: OTP 2FA test against Yasha's testing email; report back</li>
+      <li class="next">Tue–Wed: Claude MCP wiring</li>
+      <li class="next">Wed: HCTA delivered</li>
+      <li class="next">Thu: FAQ → CRM hand-off spec draft</li>
+    </ul>
+
+    <div class="chips"><span class="chip chip-cs">CS Agent</span><span class="chip chip-yasha">Yasha</span></div>
+  </div>
+</details>
+</section>
+
+
+<!-- ============ MARKETING ANALYTICS (campaign-analysis) ============ -->
+<section class="bullet">
+<details open>
+  <summary>
+    <span class="dot dot-live"></span>
+    <div class="title-block">
+      <div class="t">Marketing Analytics — Campaign-Analysis MCP</div>
+      <div class="st">Live · 27 tools · BI-aligned · with Yasha (review) + Marketing / Sales / Retention (users)</div>
+    </div>
+  </summary>
+  <div class="body">
+
+    <h4>How it's used</h4>
+    <p style="color:var(--text-2);font-size:13.5px;margin-bottom:8px">One central surface where the Marketing / Sales / Retention teams (and our Foundry agents) reach all customer-journey data without copy-pasting between systems.</p>
+
+    <table class="mini">
+      <thead><tr><th>Source</th><th>What you can do</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CRM</strong></td><td>Customer summary, raw record, cohort pulls (deposits, trades, classified comments)</td></tr>
+        <tr><td><strong>Call Analyzer</strong></td><td>Get calls, CDRs, queue + transcribe, fetch transcripts</td></tr>
+        <tr><td><strong>OneSignal (Seekapa + Axia)</strong></td><td>List notifications, view templates (64,945 notifications across both brokers)</td></tr>
+        <tr><td><strong>Windsor.ai</strong></td><td>Ad spend across 40 FB / 37 GAds / LinkedIn / TikTok / Snap accounts</td></tr>
+        <tr><td><strong>Chatwoot</strong></td><td>Conversation data, redacted</td></tr>
+        <tr><td><strong>Funnel UI</strong></td><td>Streaming chat against funnel-mcp-agent; quick-actions, ACC autocomplete, citations, approval gate</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Accomplishments (yesterday + today AM)</h4>
+    <ul>
+      <li class="do">Funnel UI live — streaming chat, ACC autocomplete, citations, approval gate</li>
+      <li class="do">Live-tool sweep on all 27 tools; CRM / OneSignal / Call Analyzer verified against real data</li>
+      <li class="do">Tool-quality fixes shipped — call-lookup precision, OneSignal email templates, BI-collision strip</li>
+      <li class="do">CJA v2.1 alignment — score bands + intent + action vocabulary unified with BI</li>
+    </ul>
+
+    <h4>BI-collision guardrail</h4>
+    <ul>
+      <li>Owner directive 2026-05-10: "I don't want at all collision with BI"</li>
+      <li class="do">Industry benchmarks + leakage flags stripped — we don't publish numbers BI computes differently</li>
+    </ul>
+
+    <h4>This week</h4>
+    <ul>
+      <li class="next">Verify no hardcoded data or hidden marketing bias post-v16</li>
+    </ul>
+
+    <div class="chips"><span class="chip chip-ca">Marketing Analytics</span><span class="chip chip-yasha">Yasha</span></div>
+  </div>
+</details>
+</section>
+
+
+<!-- ============ ORM-AGENT ============ -->
+<section class="bullet">
+<details open>
+  <summary>
+    <span class="dot dot-disc"></span>
+    <div class="title-block">
+      <div class="t">ORM-Agent — Social Comment Auto-Moderation</div>
+      <div class="st">Discovery · Thu scope-lock · with Mohammad Da (lead) + Liron (sign-off) + Oded (history)</div>
+    </div>
+  </summary>
+  <div class="body">
+
+    <h4>What it does (the pitch)</h4>
+    <p style="color:var(--text-2);font-size:13.5px;margin-bottom:8px">Replaces the manual "check pages every few hours" loop with real-time AI moderation of comments on organic posts and paid ads. Workflow: detect → hide → DM commenter for contact → delete after reply → hand off to Sales.</p>
+
+    <h4>Channels (where it watches)</h4>
+    <table class="mini">
+      <thead><tr><th>Platform</th><th>Handle</th><th>API surface</th><th>MVP?</th></tr></thead>
+      <tbody>
+        <tr><td>Facebook</td><td>seekapaofficial</td><td>Meta Graph API + Webhooks</td><td>yes</td></tr>
+        <tr><td>Instagram</td><td>seekapaofficial</td><td>IG Graph API + Webhooks</td><td>yes</td></tr>
+        <tr><td>Twitter / X</td><td>SeekapaOfficial</td><td>X API v2 + filtered-stream</td><td>post-MVP</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Severity classes</h4>
+    <ul>
+      <li>Good review</li>
+      <li>Complaint</li>
+      <li>Misinformation</li>
+      <li>Abusive language &amp; hatred</li>
+    </ul>
+
+    <h4>Usage</h4>
+    <dl class="kv">
+      <dt>Operators</dt><dd>Existing CS + Sales — no new UI; chat UI repurposed as operator console</dd>
+      <dt>Languages MVP</dt><dd>EN + AR (ES + HE post-MVP). KB has full EN/AR coverage already</dd>
+      <dt>Volume baseline</dt><dd><strong>TBD — Mohammad Da to provide Q1 page-comment volume</strong>; sets auto-action vs human-review threshold</dd>
+      <dt>Reply source</dt><dd>~3,200 EN/AR/ES canned-reply rows in the existing KB (vector-indexed at deploy time)</dd>
+    </dl>
+
+    <h4>Compliance — already designed in</h4>
+    <ul>
+      <li>No financial advice (hard guardrail in system prompt + post-generation regex check)</li>
+      <li>No account-specific info echoed, even if commenter discloses it</li>
+      <li>Risk warnings preserved on branded financial communications</li>
+      <li>Restricted-country detection (existing "Cant trade -Restricted contries" KB template)</li>
+      <li>EU / IL data residency (Container Apps + AI Search + Cosmos all EU-region pinned)</li>
+      <li>Retention: Cosmos TTL 90d for closed cases / 12mo for escalations</li>
+    </ul>
+
+    <h4>5 open questions for Thu scope-lock</h4>
+    <ul>
+      <li class="wait">Auto-hide threshold vs always human-in-the-loop in v1?</li>
+      <li class="wait">Sales hand-off channel — CRM email template, Teams, or CRM API direct?</li>
+      <li class="wait">DM-ask phrasing — legal sign-off for EU consent?</li>
+      <li class="wait">X scope — post-MVP or parallel track?</li>
+      <li class="wait">Operator console — reuse existing chat UI or build a separate view?</li>
+    </ul>
+
+    <h4>This week</h4>
+    <ul>
+      <li class="next">Thu: walk Liron + Mohammad Da through <code>~/projects/ORM-AGENT/ORM-PLAN.md</code></li>
+      <li class="next">If signed off Thu: start Phase 1 KB indexing (1–2 days, no customer-visible change yet)</li>
+    </ul>
+
+    <div class="chips"><span class="chip chip-orm">ORM</span><span class="chip chip-liron">Liron</span></div>
+  </div>
+</details>
+</section>
+
+
+<!-- ============ VIDEO FLOWS ============ -->
+<section class="bullet">
+<details>
+  <summary>
+    <span class="dot dot-busy"></span>
+    <div class="title-block">
+      <div class="t">Video Agents — Adnan's Flow</div>
+      <div class="st">Decision · Tuesday blank-flow session · with Adnan</div>
+    </div>
+  </summary>
+  <div class="body">
+
+    <h4>State</h4>
+    <ul>
+      <li>Built on ElevenLabs (April flows) + HeyGen for avatar-induced video</li>
+      <li>Adnan's 2026-05-05 feedback: tool failed in his hands; "hard for marketing users"</li>
+      <li>His ask: simplify to <em>start → fields → preview → avatar → generate → edits → download</em></li>
+    </ul>
+
+    <h4>This week</h4>
+    <ul>
+      <li class="next">Tuesday — blank-flow session, Adnan-driven against his actual demand. 90-min box; pilot-or-kill at the end of it.</li>
+    </ul>
+
+    <div class="chips"><span class="chip chip-adnan">Adnan</span><span class="chip chip-video">Video</span></div>
+  </div>
+</details>
+</section>
+
+
+<!-- ============ DANIEL — ARTICLE AGENT + MANUS.AI ============ -->
+<section class="bullet">
+<details>
+  <summary>
+    <span class="dot dot-busy"></span>
+    <div class="title-block">
+      <div class="t">Daniel — Article Agent + Manus.ai</div>
+      <div class="st">Scoping today · with Daniel</div>
+    </div>
+  </summary>
+  <div class="body">
+
+    <h4>Article Agent</h4>
+    <ul>
+      <li>Daniel asked last Tuesday</li>
+      <li class="now">Today: scoping session — decide build vs adopt Manus</li>
+    </ul>
+
+    <h4>Manus.ai tooling</h4>
+    <dl class="kv">
+      <dt>Cost</dt><dd>$20 / seat / month</dd>
+      <dt>Budget source</dt><dd>Redirected from marketing-reports budget (Oded's func-market-reports-prod stopped 2026-05-06)</dd>
+      <dt>Initial seat</dt><dd>Daniel — likely "yes" after today</dd>
+      <dt>Team expansion</dt><dd>If Daniel validates, propose team-wide</dd>
+    </dl>
+
+    <div class="chips"><span class="chip chip-daniel">Daniel</span><span class="chip chip-cost">Tooling</span></div>
+  </div>
+</details>
+</section>
+
+
+<!-- ============ YASHA DELIVERABLES ============ -->
+<section class="bullet">
+<details>
+  <summary>
+    <span class="dot dot-risk"></span>
+    <div class="title-block">
+      <div class="t">Yasha Deliverables</div>
+      <div class="st">HCTA overdue · OTP today · Newsletter Thu · with Yasha</div>
+    </div>
+  </summary>
+  <div class="body">
+
+    <h4>Open items</h4>
+    <ul>
+      <li class="risk">HCTA — overdue; Wed slot reserved, no competing work</li>
+      <li class="now">OTP 2FA — testing email in hand; today's test goes out, then await his scope call (clients / help-desk?)</li>
+      <li class="next">Newsletter container migration — Thu kickoff. Lifts <code>func-marketing-newsletter</code> off EP1 → Docker on <code>sentimark-env</code> (largest persistent Azure cost line)</li>
+    </ul>
+
+    <div class="chips"><span class="chip chip-yasha">Yasha</span></div>
+  </div>
+</details>
+</section>
+
+
+<!-- ============ HIYA CALL BRANDING ============ -->
+<section class="bullet">
+<details>
+  <summary>
+    <span class="dot dot-busy"></span>
+    <div class="title-block">
+      <div class="t">Voice — Hiya Call Branding Rollout</div>
+      <div class="st">with Liron (lead) + Nadav (exec) + Olanda @ Hiya (vendor)</div>
+    </div>
+  </summary>
+  <div class="body">
+
+    <h4>Deal at a glance</h4>
+    <dl class="kv">
+      <dt>Pricing</dt><dd>€750 / mo for 5,000 calls; €0.15–0.16 / call</dd>
+      <dt>Display</dt><dd>Customer sees <strong>SEEKAPA</strong> (brand) instead of <strong>Bluepine LTD</strong> (legal entity)</dd>
+      <dt>Multi-brand</dt><dd>Seekapa + Axia each get own display (one number per brand)</dd>
+    </dl>
+
+    <h4>Outstanding</h4>
+    <ul>
+      <li class="wait">Bluepine LTD vendor-onboarding details — Nadav owns; 48h to live after signed</li>
+      <li class="wait">Per-channel name display — Liron's question to Olanda 2026-05-05, awaiting reply</li>
+    </ul>
+
+    <div class="chips"><span class="chip chip-liron">Liron</span><span class="chip chip-cost">Voice</span></div>
+  </div>
+</details>
+</section>
+
+
+<!-- ============ DECISIONS WAITING ON OTHERS ============ -->
+<section class="bullet">
+<details open>
+  <summary>
+    <span class="dot dot-hold"></span>
+    <div class="title-block">
+      <div class="t">Decisions for Liron + Others</div>
+      <div class="st">5 open</div>
+    </div>
+  </summary>
+  <div class="body">
+
+    <table class="mini">
+      <thead><tr><th>#</th><th>Decision</th><th>Owner</th><th>My recommendation</th><th>What I need from you</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Daily Market Overview</td>
+          <td>Liron</td>
+          <td><strong>Kill.</strong> No internal owner; Oded's prod variant already stopped.</td>
+          <td>One-line confirm so I can deprovision</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Compliance Exam — what next?</td>
+          <td>Liron + Nissreen S. (Axia)</td>
+          <td>Wait on Nissreen's gap list (Karim delegated to her 2026-05-07).</td>
+          <td>Nudge Nissreen if you have a faster channel; I'll integrate once we have her list</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Calls + CRM analytics scope — sales or retention?</td>
+          <td>Liron</td>
+          <td>Sales first if no signal otherwise — broader leverage.</td>
+          <td>Pick by Wed so it slots in next sprint</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Video Flows — pilot or kill?</td>
+          <td>Liron + Adnan</td>
+          <td>Decide at the end of Tuesday's 90-min session with Adnan.</td>
+          <td>Join the Tuesday wrap (10 min) so we close it that day</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Manus.ai seat for Daniel</td>
+          <td>Liron</td>
+          <td>Approve 1 seat ($20/mo, redirected from marketing-reports budget). Team-wide if validated.</td>
+          <td>Approve after I report back from today's Daniel session</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="chips"><span class="chip chip-liron">Liron</span></div>
+  </div>
+</details>
+</section>
+
+</main>
+
+<footer>
+  Full markdown plan on the wiki: <a href="https://dev.azure.com/Corp-domain/Corp-AI/_wiki/wikis/Corp-AI.wiki?pagePath=/Weekly-Plans/Week-of-2026-05-10">Corp-AI · Weekly-Plans · Week-of-2026-05-10</a> · Source: <code>~/docs/weekly-plan-2026-05-10.md</code>
+</footer>
+
+</div>
+
+</body>
+</html>

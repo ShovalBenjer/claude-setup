@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Launch the intent-control-plane control tower TUI (live watch mode by default).
+#
+# Uses the system python3 (has rich installed) rather than `uv run`, since the
+# intent-control-plane .venv deliberately declares zero third-party dependencies
+# (rich is optional presentation only; see src/intent_control_plane/tower.py).
+#
+# Usage: tower [refresh_secs]   (default refresh: 5s, Ctrl-C to exit)
+set -euo pipefail
+export PYTHONPATH="${HOME}/projects/intent-control-plane/src${PYTHONPATH:+:${PYTHONPATH}}"
+
+if [ "$#" -eq 0 ]; then
+  exec python3 -m intent_control_plane.tower --watch 5      # bare `tower`: live, 5s refresh
+elif [[ "$1" =~ ^[0-9]+$ ]]; then
+  exec python3 -m intent_control_plane.tower --watch "$1"   # `tower 10`: live, 10s refresh
+else
+  exec python3 -m intent_control_plane.tower "$@"           # `tower --once`: snapshot
+fi

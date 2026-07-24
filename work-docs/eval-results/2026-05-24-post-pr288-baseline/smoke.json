@@ -1,0 +1,82 @@
+[
+  {
+    "row_id": "YASHA-01",
+    "expected_route": "resolve",
+    "response_text": "",
+    "passed": false,
+    "reason": "eval_error:HTTP Error 401: Unauthorized",
+    "primary_model": "grok-4-1-fast-reasoning-2-eval"
+  },
+  {
+    "row_id": "YASHA-02",
+    "expected_route": "resolve",
+    "response_text": "",
+    "passed": false,
+    "reason": "eval_error:HTTP Error 401: Unauthorized",
+    "primary_model": "grok-4-1-fast-reasoning-2-eval"
+  },
+  {
+    "row_id": "YASHA-03",
+    "expected_route": "escalate",
+    "response_text": "",
+    "passed": false,
+    "reason": "eval_error:HTTP Error 401: Unauthorized",
+    "primary_model": "grok-4-1-fast-reasoning-2-eval"
+  },
+  {
+    "row_id": "YASHA-04",
+    "expected_route": "resolve",
+    "response_text": "",
+    "passed": false,
+    "reason": "eval_error:HTTP Error 401: Unauthorized",
+    "primary_model": "grok-4-1-fast-reasoning-2-eval"
+  },
+  {
+    "row_id": "YASHA-05",
+    "expected_route": "resolve",
+    "response_text": "",
+    "passed": false,
+    "reason": "eval_error:HTTP Error 401: Unauthorized",
+    "primary_model": "grok-4-1-fast-reasoning-2-eval"
+  },
+  {
+    "row_id": "YASHA-06",
+    "expected_route": "resolve",
+    "response_text": "",
+    "passed": false,
+    "reason": "eval_error:HTTP Error 401: Unauthorized",
+    "primary_model": "grok-4-1-fast-reasoning-2-eval"
+  },
+  {
+    "row_id": "YASHA-07",
+    "expected_route": "resolve",
+    "response_text": "",
+    "passed": false,
+    "reason": "eval_error:HTTP Error 401: Unauthorized",
+    "primary_model": "grok-4-1-fast-reasoning-2-eval"
+  },
+  {
+    "row_id": "YASHA-08",
+    "expected_route": "resolve",
+    "response_text": "",
+    "passed": false,
+    "reason": "eval_error:HTTP Error 401: Unauthorized",
+    "primary_model": "grok-4-1-fast-reasoning-2-eval"
+  },
+  {
+    "row_id": "YASHA-09",
+    "expected_route": "escalate",
+    "response_text": "",
+    "passed": false,
+    "reason": "eval_error:HTTP Error 401: Unauthorized",
+    "primary_model": "grok-4-1-fast-reasoning-2-eval"
+  },
+  {
+    "row_id": "YASHA-10",
+    "expected_route": "resolve",
+    "response_text": "",
+    "passed": false,
+    "reason": "eval_error:HTTP Error 401: Unauthorized",
+    "primary_model": "grok-4-1-fast-reasoning-2-eval"
+  }
+]

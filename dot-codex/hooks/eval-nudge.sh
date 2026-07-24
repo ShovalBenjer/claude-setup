@@ -1,0 +1,1 @@
+/home/shovalbe/.claude/hooks/eval-nudge.sh
