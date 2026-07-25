@@ -12,14 +12,6 @@ See archived full protocol: `~/.Codex/rules/.archive-agent-team-protocol.md`
 
 Always include in agent prompts: NO mocks, NO files >500 LOC, NO functions >50 LOC, NO new deps without documenting why, test everything, paste output. Use `isolation: "worktree"` for agents that write code.
 
-**On spawn, fire memes:**
-```bash
-# Single agent spawn:
-~/.Codex/bin/play-meme.sh warcraft_work &
-# 3+ parallel agents:
-~/.Codex/bin/play-meme.sh multi_agent_run &  # Exodia
-```
-
 ## Task Size: <200 LOC per task. Split if larger.
 
 ## Handoff: Agent A completes → lead verifies → Agent B reads A's files before starting.

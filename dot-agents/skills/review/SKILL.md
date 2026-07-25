@@ -387,14 +387,6 @@ Skip with `--skip-reflect` for mid-flight reviews.
 - **D**: Do not ship. Fix blocking issues first
 - **F**: Reject. Major issues in multiple layers
 
-**Memes on verdict:**
-```bash
-# All A grades:
-~/.Codex/bin/play-meme.sh review_perfect &
-# Any D/F:
-~/.Codex/bin/play-meme.sh hydra &  # bug reappears / quality regression
-```
-
 ---
 
 ## Parallel Execution Strategy

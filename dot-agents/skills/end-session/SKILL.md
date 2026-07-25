@@ -186,11 +186,6 @@ Print a clean session summary:
 ╚══════════════════════════════════════════╝
 ```
 
-**Then fire end-session meme:**
-```bash
-~/.claude/bin/play-meme.sh end_session &
-```
-
 ---
 
 ## What This Skill Replaces

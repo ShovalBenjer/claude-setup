@@ -1,0 +1,4 @@
+interface:
+  display_name: "Learn On Demand"
+  short_description: "Retrieve legal sources for the current task"
+  default_prompt: "Use $learn-on-demand to retrieve the most relevant legal book and documentation knowledge for this task and teach it with citations."

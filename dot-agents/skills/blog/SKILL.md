@@ -80,7 +80,7 @@ Pick the module by where it's publishing. If unsure, ask.
 - Use the `jira-task-draft` structure: Bottom line → Decisions → Acceptance
   criteria → Open questions. Defer to that skill for ticket *mechanics*; this
   module is for the prose quality inside it.
-- Zero memes, zero persona, formal register (per fingerprint register dial).
+- Zero persona, formal register (per fingerprint register dial).
 
 ## Step 4 — de-slop pass (Shoval-tuned)
 
@@ -135,5 +135,5 @@ If the draft would pass for "competent generic tech writer" rather than
   mark it `[TODO: real number]`.
 - Honor org data rules: no PII, credentials, customer records, or internal
   access URLs in anything destined to leave the team. Sanitize or ask.
-- In any audit/PR/spec-adjacent output, persona and memes are hard-blocked
+- In any audit/PR/spec-adjacent output, persona styling is hard-blocked
   (Jira module register).

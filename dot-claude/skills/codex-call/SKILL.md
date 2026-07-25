@@ -1,96 +1,100 @@
 ---
 name: codex-call
-description: Bridge Claude → Codex CLI for review, eval, automation, and any work where gpt-5.5 with explicit reasoning effort fits better than Claude. Use for /review on a PR or branch, batch test generation, codex automation prompts, second opinions from a different model family, or when Claude is the orchestrator and Codex should be the executor. Triggers on "/review", "ask codex", "have codex do it", "codex review", "/codex".
-model: sonnet
-allowed-tools: ["Bash(/home/shovalbe/.local/bin/codex *)", "Bash($HOME/.codex/automations/run-codex-automation.sh *)"]
+description: Run independent, bounded external code-review judges through Codex CLI and, only for explicitly public non-confidential input, the Gemini Developer API. Use automatically after executable checks for high-risk implementations, architecture or performance choices, non-trivial loops, security-sensitive changes, and before claims such as best, optimized, complete, or production-ready. Also use when asked to review, ask Codex, compare Claude with another model family, or obtain an external judge.
 ---
 
-# codex-call — Claude orchestrator, Codex executor
+# External review judges
 
-## Why this skill exists
+Treat external models as fallible reviewers, not executable oracles. Run tests
+first. Never auto-apply a finding or convert reviewer agreement into proof.
 
-Claude Opus is the orchestrator. Codex (gpt-5.5) is the executor. Don't collapse the two. When the task is "do this concrete thing" (review a PR, generate boilerplate tests, run an automation prompt, get a second opinion from a different model family), shell out to Codex instead of doing it inline.
+## Default workflow
 
-The two models complement, not replace, each other. Use both.
+1. Finish the implementation's executable checks.
+2. Run the status probe:
 
-## Invocation patterns
-
-### Pattern A — code review on a PR or branch
-
-```bash
-codex review --base origin/master HEAD              # current branch vs master
-codex review <PR_NUMBER>                            # GitHub PR (needs gh)
-codex review --files "src/handler.py,src/router.py" # specific files
+```powershell
+$judge = "$HOME\.claude\bin\external-review-judge.py"
+python $judge status
 ```
 
-`codex review` is a built-in non-interactive subcommand. Output is structured review markdown. Pipe through `tee` if you want a saved artifact:
+3. For any high-risk change or strong quality claim, run Codex automatically:
 
-```bash
-codex review --base origin/master HEAD | tee /tmp/codex-review-$(date -u +%Y%m%dT%H%M%SZ).md
+```powershell
+python $judge review --repo . --provider codex `
+  --output .claude\reviews\codex-latest.json
 ```
 
-### Pattern B — one-shot exec with explicit model + effort
+Use `--scope base --base origin/main` for a committed branch. Add
+`--criteria <file>` when acceptance criteria are available.
 
-```bash
-codex exec --full-auto \
-  -m gpt-5.5 \
-  -c reasoning_effort=high \
-  -C "$PWD" \
-  --output-last-message /tmp/codex-out.md \
-  - <<< "Generate property-based tests for src/validators.py covering OWASP input cases. No mocks."
+4. Inspect each finding against the repository and executable evidence.
+   - Fix a supported material issue and rerun the relevant test and judge.
+   - Record a rejected finding with concrete counter-evidence.
+   - Treat timeout, invalid JSON, concurrent repository changes, or partial
+     provider failure as unavailable, never approval.
+   - If reviewers disagree, surface the disagreement instead of averaging it
+     away.
+
+## Enforced Codex boundary
+
+The wrapper invokes the installed npm Codex through its absolute Node entrypoint
+and requires `Logged in using ChatGPT`. It strips API-key variables and runs:
+
+- `--ask-for-approval never`
+- `--sandbox read-only`
+- `--ephemeral`
+- `--ignore-user-config`
+- hooks and web search disabled
+- a temporary Git repository containing only the sealed review bundle
+- a strict structured-output schema
+
+This prevents the external judge from inheriting the user's global
+`danger-full-access` Codex setting. Do not bypass the wrapper with bare
+`codex exec` for automatic review.
+
+## Gemini Free Tier boundary
+
+Gemini CLI is installed for explicit future use, but Google stopped serving
+free consumer Gemini CLI requests on June 18, 2026. The free judge therefore
+uses one direct, tool-free Developer API request pinned to
+`gemini-3.6-flash`; it never falls back to Gemini CLI, Vertex AI, another
+model, another key, or a paid route.
+
+Google states that Free Tier content may be used to improve its products.
+Therefore:
+
+- Never send employer/proprietary code, customer data, resumes, recruiting
+  data, credentials, personal resources, or private repositories to Gemini
+  Free Tier.
+- Use Gemini only when the operator explicitly classifies the exact bundle as
+  public and non-confidential.
+- Require `GEMINI_API_KEY` in the process environment. Never place it in this
+  skill, a prompt, command argument, repository, log, or review artifact.
+- Require a current attestation matching the key. After the operator verifies
+  AI Studio shows `Billing Tier: Free` / `Set up billing` and no billing
+  account is linked, run:
+
+```powershell
+python $judge attest-gemini-free --confirm-free-project
 ```
 
-Effort levels: `low` (cheap, 1-shot answers), `medium` (default, routine), `high` (deep reasoning, reviews and refactors), `xhigh` (maximum, architecture decisions only — slow + expensive).
+Then an explicitly public comparison may run:
 
-### Pattern C — run a Codex automation prompt
-
-```bash
-~/.codex/automations/run-codex-automation.sh a09-forge-loop-compliance-score
+```powershell
+python $judge review --repo . --provider both --public `
+  --output .claude\reviews\panel-latest.json
 ```
 
-The runner handles locking, logging, and `codex exec --full-auto` invocation. Effort defaults to `medium` per `~/.codex/config.toml`. To override per run, prefix with `CODEX_REASONING_EFFORT=high` (the runner reads this env via the codex config override pattern).
+No per-request API switch can guarantee a project is unbilled. The attestation
+expires after 30 days so the operator must periodically recheck AI Studio.
 
-### Pattern D — fork an existing Codex session for a tangent
+## Interpretation
 
-```bash
-codex fork --last       # branch off the most recent codex session
-codex resume --last     # continue the most recent
-```
-
-## When to use Codex vs Claude vs subagent
-
-| Task type | Use |
-|---|---|
-| Orchestration, planning, multi-file design | Claude Opus (this session) |
-| Concrete review of a single PR/branch | `codex review` |
-| Boilerplate test gen, single-file refactor | `codex exec` with effort=medium |
-| Architecture review, multi-domain critique | Claude Opus + `codex review` (both, compare) |
-| Cheap parallel exploration | Claude subagents at `model: haiku` |
-| Scheduled night automations | Codex via `run-codex-automation.sh` (cron-driven) |
-| Multi-model debate / second opinion | Claude (one perspective) + Codex (another) — compare outputs |
-
-## Effort × cost guidance
-
-`gpt-5.5 high` is roughly 4-6× the latency of `gpt-5.5 medium` and proportional cost. Use `high` only when:
-- The task is a code review or architectural decision
-- The output is a one-time artifact (not iterated)
-- You'd otherwise have to re-run with `low`/`medium` and waste tokens
-
-For day-to-day execution prefer `medium`. For exploration prefer `low` or Claude Haiku.
-
-## Output handling
-
-Codex writes the final assistant message to `--output-last-message <path>` (used by the automation runner). For interactive `codex exec` use `tee` to capture. For `codex review`, output is stdout.
-
-## Safety
-
-- Codex `--full-auto` permits file writes and shell execution within the working tree. Never run with `--full-auto` against `$HOME` directly without a worktree boundary.
-- The user's `~/.codex/config.toml` already trusts `/home/shovalbe`, `/home/shovalbe/projects/*`, etc. — Codex will not prompt for trust.
-- Codex respects the deny-list patterns in `~/.codex/config.toml` `[shell_environment_policy]`.
-- Per project memory: destructive operations still need explicit per-action OK from the user, even when delegating to Codex.
-
-## Anti-patterns
-
-- Don't shell out to `codex exec` for tasks Claude can do trivially in 1-2 turns (asks → ask, simple file reads → use Read tool).
-- Don't use `codex` as a fallback when Claude is rate-limited — pick the right tool for the task, not as a substitute.
-- Don't pipe codex output back into Claude verbatim — it's another model's voice; quote selectively or extract the structured parts.
+- Tests and runtime observations remain the primary oracle.
+- Codex provides an independent OpenAI-family review under ChatGPT auth.
+- Gemini provides stronger model-family decorrelation but only within the
+  public-data/free-tier boundary.
+- Agreement raises confidence; it does not establish optimality.
+- A strong claim remains "best among tested candidates under these
+  constraints," with residual risk stated.

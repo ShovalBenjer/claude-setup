@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prove Implementation"
+  short_description: "Compare implementations and prove the choice"
+  default_prompt: "Use $prove-implementation to compare viable designs, implement the best justified option, and produce verification evidence."
