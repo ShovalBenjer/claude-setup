@@ -284,16 +284,81 @@ SECRET_SKIP = re.compile(
     r"(?i)(^|/)(\.git|node_modules|dist|build|\.next|\.venv|venv|__pycache__|"
     r"coverage|\.turbo|target)(/|$)")
 
+# Strings a vendor PUBLISHES in its own documentation as a worked example. They
+# are not credentials; appearing in public is their entire purpose. A test that
+# signs a vendor's documented example and asserts the vendor's documented
+# signature has to carry the literal, so a scanner with no way to say "this one
+# is public" leaves a project two bad options: weaken its own oracle, or waive
+# the whole security domain and stop looking for real keys. A narrow named
+# allowlist is better than either.
+#
+# The bar for adding an entry: the exact string appears in the vendor's own
+# public documentation as an example, and it authenticates nothing anywhere.
+#
+# Deliberately plaintext rather than hashed. A hash would keep this file free of
+# key-shaped strings, but it would also let someone allowlist a REAL secret with
+# nothing for a reviewer to look at. The literal is auditable; the hash is not.
+# The cost is that this file matches its own scanner, which is fine: the scan
+# below suppresses it by the same rule as anywhere else, and says so out loud.
+PUBLIC_TEST_VECTORS = [
+    ("aws docs example access key", "AKIAIOSFODNN7EXAMPLE"),
+    ("aws sigv4 test-suite access key", "AKIDEXAMPLE"),
+    ("aws docs example secret key", "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"),
+    ("aws sigv4 test-suite secret key", "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY"),
+]
 
-def secret_scan(project: str, contract: dict) -> tuple[str, str]:
+
+def _first_pattern_hit(line: str) -> str | None:
+    for name, pat in SECRET_PATTERNS:
+        if re.search(pat, line):
+            return name
+    return None
+
+
+def _vector_allowlist(spec: dict | None) -> tuple[list[tuple[str, str]], list[str]]:
+    """Built-in vectors plus any the contract declares, and complaints about the latter.
+
+    A contract entry must carry a `why`. An allowlist entry with no stated reason
+    is indistinguishable from someone silencing a real finding, so it is refused
+    rather than honoured, and the refusal is a gate failure rather than a warning.
+    """
+    vectors = list(PUBLIC_TEST_VECTORS)
+    problems: list[str] = []
+    for i, entry in enumerate(list((spec or {}).get("public_vectors") or [])):
+        if not isinstance(entry, dict):
+            problems.append("public_vectors[{}] is not an object".format(i))
+            continue
+        value = entry.get("value")
+        why = str(entry.get("why") or "").strip()
+        if not value:
+            problems.append("public_vectors[{}] declares no value".format(i))
+            continue
+        if not why:
+            problems.append(
+                "public_vectors[{}] declares a value with no `why`, so it is refused".format(i))
+            continue
+        vectors.append(("contract: " + why[:60], value))
+    return vectors, problems
+
+
+def secret_scan(project: str, contract: dict, spec: dict | None = None) -> tuple[str, str]:
     """Look for credential material in tracked files. Never print what it finds.
 
     Reports file, line number and which pattern matched. The matched text is
     never echoed, because a gate that prints the secret it found has leaked it
     into a log, a transcript and possibly a commit message.
+
+    Published test vectors are suppressed by removing them from the line and
+    scanning what is left. That ordering matters: a real key sitting on the same
+    line as an example one still fires, because the line minus the example still
+    matches. Suppressions are counted and named in the evidence either way, so
+    an allowlisted hit is never a silent one.
     """
+    vectors, problems = _vector_allowlist(spec)
+    vector_values = [v for _, v in vectors]
     files = [f for f in git("ls-files", project).splitlines() if f.strip()]
-    hits: list[str] = []
+    hits: list[str] = list(problems)
+    suppressed: list[str] = []
     scanned = 0
     for rel in files:
         if SECRET_SKIP.search(rel):
@@ -310,20 +375,78 @@ def secret_scan(project: str, contract: dict) -> tuple[str, str]:
         for i, line in enumerate(lines, 1):
             if len(line) > 4000:
                 continue
-            for name, pat in SECRET_PATTERNS:
-                if re.search(pat, line):
-                    hits.append("{}:{}  {} (value withheld)".format(rel, i, name))
-                    break
+            name = _first_pattern_hit(line)
+            if not name:
+                continue
+            redacted = line
+            used: list[str] = []
+            for vname, value in vectors:
+                if value and value in redacted:
+                    redacted = redacted.replace(value, "")
+                    used.append(vname)
+            if used:
+                residual = _first_pattern_hit(redacted)
+                if residual is None:
+                    suppressed.append("{}:{}  {}".format(rel, i, ", ".join(sorted(set(used)))))
+                    continue
+                # Something else on this line still matches once the published
+                # example is taken out, so the example was not the finding.
+                name = residual
+            hits.append("{}:{}  {} (value withheld)".format(rel, i, name))
     # A tracked .env is a finding on its own, whatever is inside it.
     for rel in files:
         base = os.path.basename(rel)
         if base == ".env" or base.startswith(".env."):
             if not base.endswith((".example", ".sample", ".template")):
                 hits.append("{}  tracked env file, so its contents are in git history".format(rel))
+    note = ""
+    if suppressed:
+        note = "\n  {} match(es) suppressed as published test vectors:\n    ".format(
+            len(suppressed)) + "\n    ".join(suppressed[:20])
     if hits:
         return FAIL, "{} finding(s) across {} tracked files:\n  ".format(
-            len(hits), scanned) + "\n  ".join(hits[:20])
-    return PASS, "{} tracked files scanned, no credential patterns matched".format(scanned)
+            len(hits), scanned) + "\n  ".join(hits[:20]) + note
+    return PASS, "{} tracked files scanned, no credential patterns matched".format(scanned) + note
+
+
+def _porcelain_paths(out: str) -> list[str]:
+    """Every path named by `git status --porcelain`, both sides of a rename.
+
+    Porcelain v1 lines are `XY path`, or `XY orig -> path` for a rename or copy,
+    and a path holding a special or non-ASCII character comes back C-quoted. The
+    old parse was `line.split(None, 1)[-1]`, which handed back the whole string
+    `orig -> path` as one pseudo-path for a rename, kept the quotes on a quoted
+    name, and split a path containing a space in the wrong place. All three make
+    a path that matches nothing and exists nowhere, so they quietly drop real
+    changes out of the comparison.
+    """
+    paths = []
+    for line in out.splitlines():
+        if len(line) < 4:
+            continue
+        # Porcelain reserves two columns for the status and one for a space, so
+        # `line[3:]` is the path -- except on the first line, because `git()`
+        # strips the whole output and an unstaged change leads with a space. So
+        # ` D README.md` arrives as `D README.md` and a fixed slice returns
+        # `EADME.md`, a path that exists nowhere and matches nothing. Check the
+        # column is really a space before trusting it. The selftest below caught
+        # this: the fix for the deletion bug reported `deleted: EADME.md`.
+        rest = line[3:] if line[2] == " " else line.split(None, 1)[-1]
+        rest = rest.strip()
+        halves = rest.split(" -> ") if " -> " in rest else [rest]
+        for half in halves:
+            half = half.strip()
+            if len(half) >= 2 and half.startswith('"') and half.endswith('"'):
+                body = half[1:-1]
+                try:
+                    # git C-quotes as octal escapes of the UTF-8 bytes.
+                    half = body.encode("ascii", "backslashreplace").decode(
+                        "unicode_escape").encode("latin-1").decode("utf-8")
+                except (UnicodeDecodeError, UnicodeEncodeError):
+                    half = body
+            if half:
+                paths.append(half)
+    return paths
 
 
 def docs_touched(project: str, contract: dict, spec: dict) -> tuple[str, str]:
@@ -337,20 +460,40 @@ def docs_touched(project: str, contract: dict, spec: dict) -> tuple[str, str]:
     paths = spec.get("paths") or ["README.md", "docs/", "CHANGELOG.md"]
     base = spec.get("base") or default_base(project)
     changed = [l for l in git("diff --name-only {}...HEAD".format(base), project).splitlines() if l]
-    changed += [l.split(None, 1)[-1] for l in git("status --porcelain", project).splitlines() if l]
+    changed += _porcelain_paths(git("status --porcelain", project))
     changed = sorted(set(c.strip() for c in changed if c.strip()))
     if not changed:
         return PASS, "no change to document relative to {}".format(base)
 
     code = [c for c in changed if re.search(
         r"\.(ts|tsx|js|jsx|py|go|rs|java|kt|swift|rb|php|cs|sql|sh|ps1)$", c)]
-    docs = [c for c in changed if any(
+    # Documentation only counts if it is still there to read. Both source lists
+    # above name deleted files too, which is right for `code` -- deleting a
+    # module is a change a reader needs told about -- and backwards for `docs`,
+    # because the one change guaranteed to leave a reader with less to read
+    # would otherwise be the change that satisfies the check. Found live on
+    # new-recruit 2026-07-25: the domain reported PASS citing six
+    # `.claude/rules/*.md` files by name while all thirteen files in that
+    # directory were deleted from the working tree.
+    root = git("rev-parse --show-toplevel", project) or project
+    named = [c for c in changed if any(
         c == p or c.startswith(p.rstrip("/") + "/") or c.endswith(".md") for p in paths)]
+    docs = [c for c in named if os.path.exists(os.path.join(root, c))]
+    gone = [c for c in named if c not in docs]
     if not code:
         return PASS, "no source files changed, so nothing to document"
     if docs:
-        return PASS, "{} source file(s) changed, documented in: {}".format(
+        ev = "{} source file(s) changed, documented in: {}".format(
             len(code), ", ".join(docs[:6]))
+        if gone:
+            ev += "\n  {} documentation file(s) deleted, not counted: {}".format(
+                len(gone), ", ".join(gone[:6]))
+        return PASS, ev
+    if gone:
+        return FAIL, ("{} source file(s) changed and the only documentation touched was "
+                      "{} file(s) that no longer exist on disk. Deleting documentation is "
+                      "not writing it.\n  deleted: {}\n  changed: {}".format(
+                          len(code), len(gone), ", ".join(gone[:10]), ", ".join(code[:10])))
     if len(code) <= 2:
         return PASS, ("{} source file(s) changed with no doc change, which is under the "
                       "threshold where a reader needs telling: {}".format(
@@ -488,7 +631,7 @@ def review_artifact(project: str, contract: dict, spec: dict) -> tuple[str, str]
 
 
 BUILTINS = {
-    "secret_scan": lambda proj, con, spec: secret_scan(proj, con),
+    "secret_scan": secret_scan,
     "docs_touched": docs_touched,
     "ci_runs_gate": ci_runs_gate,
 }
@@ -830,6 +973,156 @@ def cmd_selftest(args: argparse.Namespace) -> int:
             "ok  " if ok else "MISS"))
         if not ok:
             print("      status={} leaked={}".format(st, planted in ev))
+        rc |= 0 if ok else 1
+
+        os.remove(os.path.join(td, "conf.py"))
+        run("git add -A", td)
+
+        # 7. a vendor's published example is suppressed, and the suppression is
+        # visible. Silence would be the bug here: an allowlist nobody can see in
+        # the evidence is how a real finding gets buried under a plausible name.
+        aws_key = "AKIA" + "IOSFODNN7EXAMPLE"
+        aws_secret = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+        vec = os.path.join(td, "vec.py")
+        open(vec, "w").write("ACCESS = '{}'\nSECRET = '{}'\n".format(aws_key, aws_secret))
+        run("git add -A", td)
+        st, ev = secret_scan(td, {})
+        ok = st == PASS and "suppressed" in ev and "aws docs example" in ev
+        print("\n[{}] a published aws example vector is suppressed and named".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+        # ...and the allowlist must not cover for its neighbours. A real key on
+        # the SAME LINE as an example one still has to fire, which is the whole
+        # reason the scan re-runs on the line with the example removed rather
+        # than skipping the line.
+        neighbour = "AKIA" + "B" * 16
+        open(vec, "a").write("BOTH = '{}' # near '{}'\n".format(aws_key, neighbour))
+        run("git add -A", td)
+        st, ev = secret_scan(td, {})
+        ok = st == FAIL and neighbour not in ev and "vec.py:3" in ev
+        print("\n[{}] a real key sharing a line with an example still fires".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} leaked={} evidence={}".format(
+                st, neighbour in ev, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+        # 8. a project can declare its own vector, but only with a reason. No
+        # reason means refused, not honoured, because an unexplained allowlist
+        # entry and a silenced real finding look exactly the same from here.
+        open(vec, "w").write("TOKEN = '{}'\n".format("sk-" + "Z" * 24))
+        run("git add -A", td)
+        st, ev = secret_scan(td, {}, {"public_vectors": [{"value": "sk-" + "Z" * 24}]})
+        ok = st == FAIL and "no `why`" in ev
+        print("\n[{}] a contract vector with no reason is refused, not honoured".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+        st, ev = secret_scan(td, {}, {"public_vectors": [
+            {"value": "sk-" + "Z" * 24, "why": "rfc example token"}]})
+        ok = st == PASS and "rfc example token" in ev
+        print("\n[{}] a contract vector with a reason is suppressed and quotes the reason"
+              .format("ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+    # 9. Deleting documentation must not read as writing it.
+    #
+    # Found live on new-recruit 2026-07-25, where the docs domain reported PASS
+    # with "documented in: .claude/rules/boundary-contracts.md, ..." while all
+    # thirteen of those files were deleted from the working tree. docs_touched
+    # builds its file list from `git status --porcelain`, which lists deletions,
+    # and then counted any `.md` path as documentation without asking whether it
+    # still existed. So the one change guaranteed to leave a reader with less to
+    # read was the change that satisfied the check.
+    with tempfile.TemporaryDirectory() as td2:
+        run("git init -q .", td2)
+        open(os.path.join(td2, "README.md"), "w").write("# it\n")
+        for n in ("a.py", "b.py", "c.py"):
+            open(os.path.join(td2, n), "w").write("x = 1\n")
+        run("git add -A", td2)
+        run("git -c user.email=t@t -c user.name=t commit -q -m base", td2)
+
+        spec = {"paths": ["README.md", "docs/"], "base": "HEAD"}
+        for n in ("a.py", "b.py", "c.py"):
+            open(os.path.join(td2, n), "w").write("x = 2\n")
+        os.remove(os.path.join(td2, "README.md"))
+        st, ev = docs_touched(td2, {}, spec)
+        ok = st == FAIL
+        print("\n[{}] deleting the only doc does not satisfy the docs domain".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+        # The other half, so the fix cannot be "always fail". A doc that really
+        # was edited still counts.
+        open(os.path.join(td2, "README.md"), "w").write("# it, and what changed\n")
+        st, ev = docs_touched(td2, {}, spec)
+        ok = st == PASS and "README.md" in ev
+        print("\n[{}] a doc that was really edited still counts".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+        # Third half: a real edit alongside a deletion still passes, but the
+        # deletion has to be visible in the evidence. Otherwise the fix trades
+        # one silent reading for another.
+        os.makedirs(os.path.join(td2, "docs"), exist_ok=True)
+        open(os.path.join(td2, "docs", "old.md"), "w").write("# old\n")
+        run("git add -A", td2)
+        run("git -c user.email=t@t -c user.name=t commit -q -m docs", td2)
+        os.remove(os.path.join(td2, "docs", "old.md"))
+        # The commit above made README.md clean, so re-edit it: this half is
+        # about a live edit sitting beside a deletion, and without the edit
+        # there is no live doc and the FAIL would be correct.
+        open(os.path.join(td2, "README.md"), "w").write("# it, and old.md is gone\n")
+        for n in ("a.py", "b.py", "c.py"):
+            open(os.path.join(td2, n), "w").write("x = 3\n")
+        st, ev = docs_touched(td2, {}, spec)
+        ok = st == PASS and "README.md" in ev and "docs/old.md" in ev and "not counted" in ev
+        print("\n[{}] a deletion beside a real edit passes but is named in the evidence"
+              .format("ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+    # 10. A renamed document is still a document.
+    #
+    # `git status --porcelain` writes a rename as `R  old -> new`, and the old
+    # parse took the whole right-hand side as one path. It ends in `.md`, so it
+    # counted as documentation, and no such file exists, so under the existence
+    # rule above it would now be counted as a deletion and fail the domain. The
+    # parse has to split the arrow before either rule can be right.
+    with tempfile.TemporaryDirectory() as td3:
+        run("git init -q .", td3)
+        os.makedirs(os.path.join(td3, "docs"), exist_ok=True)
+        open(os.path.join(td3, "docs", "guide.md"), "w").write("# guide\n")
+        for n in ("a.py", "b.py", "c.py"):
+            open(os.path.join(td3, n), "w").write("x = 1\n")
+        run("git add -A", td3)
+        run("git -c user.email=t@t -c user.name=t commit -q -m base", td3)
+
+        spec3 = {"paths": ["README.md", "docs/"], "base": "HEAD"}
+        run("git mv docs/guide.md docs/handbook.md", td3)
+        open(os.path.join(td3, "docs", "handbook.md"), "a").write("and what changed\n")
+        for n in ("a.py", "b.py", "c.py"):
+            open(os.path.join(td3, n), "w").write("x = 2\n")
+        st, ev = docs_touched(td3, {}, spec3)
+        ok = st == PASS and "docs/handbook.md" in ev
+        print("\n[{}] a renamed doc counts under the name it now has".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={} porcelain={}".format(
+                st, ev.replace("\n", " | ")[:300],
+                git("status --porcelain", td3).replace("\n", " | ")))
         rc |= 0 if ok else 1
 
     print("\nVERDICT: {}".format(
