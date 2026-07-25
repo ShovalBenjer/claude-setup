@@ -1,1 +1,0 @@
-/home/shovalbe/.claude/hooks/meme-post-skill.sh
