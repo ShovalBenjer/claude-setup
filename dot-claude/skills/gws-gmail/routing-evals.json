@@ -1,0 +1,9 @@
+{
+  "_why": "Prompts written the way the operator actually types them, before checking whether they pass. Tuning a fixture until it goes green is the defect this suite exists to catch.",
+  "cases": [
+    {"prompt": "send an email to the recruiter with the status update", "expect": "trigger"},
+    {"prompt": "manage my email from the command line", "expect": "trigger"},
+    {"prompt": "show me the unread inbox summary", "expect": "skip", "_owner": "gws-gmail-triage"},
+    {"prompt": "deploy the static site to cloudflare pages", "expect": "skip"}
+  ]
+}

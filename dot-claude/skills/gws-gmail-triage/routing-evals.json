@@ -1,0 +1,8 @@
+{
+  "cases": [
+    {"prompt": "show me the unread inbox summary", "expect": "trigger"},
+    {"prompt": "what unread mail came in, with sender and subject", "expect": "trigger"},
+    {"prompt": "send an email to the team", "expect": "skip", "_owner": "gws-gmail"},
+    {"prompt": "rebase this branch onto main", "expect": "skip"}
+  ]
+}

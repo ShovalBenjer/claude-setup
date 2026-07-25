@@ -1,0 +1,10 @@
+{
+  "_why": "The skill authored earlier today. Its own fixture is the first thing that would catch a later edit narrowing its description below the prompts it was written to answer.",
+  "cases": [
+    {"prompt": "explain that simply, i do not follow what is going on", "expect": "trigger"},
+    {"prompt": "say it in plain language like i am new to it", "expect": "trigger"},
+    {"prompt": "what is broken and what do you need from me", "expect": "trigger"},
+    {"prompt": "rebase this branch onto main", "expect": "skip"},
+    {"prompt": "show me the unread inbox summary", "expect": "skip", "_owner": "gws-gmail-triage"}
+  ]
+}

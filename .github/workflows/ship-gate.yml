@@ -148,6 +148,38 @@ jobs:
       - name: plain.py check (the skill passes its own rules)
         run: python dot-claude/skills/explain-simply/plain.py check dot-claude/skills/explain-simply/SKILL.md
 
+      # Skill routing. Written after benchmarking Master0fFate/just-my-skills, which
+      # ships 40 eval cases across evals.json + trigger-evals.json and has nothing in
+      # the repository that reads either file. Forty written assertions, zero
+      # executions. This tree had the mirror-image defect measured the same day: 47
+      # skills and zero fixtures. A runner that grades nothing and a fixture nobody
+      # grades are the same inert artifact, so both steps below are required.
+      - name: skilleval selftest (prove each grader discriminates)
+        run: python tools/skilleval/run.py selftest
+
+      # WHAT THIS ENFORCES: for every skill that HAS a fixture, the frontmatter is
+      # structurally sound, the fixture holds at least one trigger AND one skip case
+      # (an all-positive suite cannot fail), every trigger prompt out-anchors every
+      # skip prompt in that skill's own description, and no other skill's description
+      # strictly outranks the owner of a trigger prompt.
+      #
+      # WHAT IT DOES NOT ENFORCE, named rather than left to look covered:
+      #   --strict is NOT passed. 42 of 47 skills carry no fixture as of 2026-07-25.
+      #     They are printed by name on every run and counted in the summary line, but
+      #     they do not fail the build. Turning --strict on is the backlog's finish
+      #     line, not its starting gun.
+      #   --strict-ties is NOT passed. The live tree holds one exact tie (gws-gmail vs
+      #     explain-simply, both 0.40 on "send an email to the recruiter with the
+      #     status update"). The score is a ratio over a handful of content words, so
+      #     ties are frequent by construction and a strict loss is the stronger
+      #     signal. Ties print on every run; only strict losses block.
+      #   This measures LEXICAL separation, not model routing. Passing does not prove
+      #     the model routes correctly. Failing proves the description shares more
+      #     vocabulary with a prompt that must be skipped than with one that must
+      #     trigger. It is a lower bound, and it costs no model call and no network.
+      - name: skilleval scan (grade the fixtures that exist)
+        run: python tools/skilleval/run.py scan
+
       # Runs here rather than in `unit` for the same reason as the rest of this job,
       # plus one specific to it: this tool is the undo path for writes into
       # ~/.claude, so the question "would we notice if it silently captured nothing,

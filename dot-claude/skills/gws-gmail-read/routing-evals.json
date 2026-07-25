@@ -1,0 +1,9 @@
+{
+  "_why": "The sibling most at risk of being captured by gws-gmail, whose description says 'Send, read, and manage email' and therefore contains this one.",
+  "cases": [
+    {"prompt": "read that message and extract its body", "expect": "trigger"},
+    {"prompt": "pull the headers off this message", "expect": "trigger"},
+    {"prompt": "send a reply to that thread", "expect": "skip", "_owner": "gws-gmail"},
+    {"prompt": "restart the docker container", "expect": "skip"}
+  ]
+}
