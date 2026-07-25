@@ -6,7 +6,8 @@ docs/SESSION-BOOT.md first.
 
 ## AUTO — Autonomy Ecosystem (prd/autonomy-ecosystem.md, spec 2026-07-24)
 - [x] ADR-0010..0015 + PRD + spec + charters + SESSION-BOOT + lessons ledger (AUTO-03/08/13/16 seed) — 2026-07-24
-- [ ] AUTO-01/02 hook fire-proof: confirm `state/hook-fires.log` gains a harness-written SessionStart line (new session) + PreCompact line (real /compact). Interpreter/path bug fixed 2026-07-24 (L011); status STAGED until the log shows it
+- [x] AUTO-01/02 hook fire-proof — CLOSED 2026-07-24 22:44. `state/hook-fires.log`: 7 harness-written SessionStart lines (real session ids incl. `8abb324e-…`) + 11 PreCompact lines + 12 `## compact` snapshots in `state/compact-log.md`. L011 interpreter/path bug fixed and now proven in-harness, not by pipe test
+- [ ] COMPACTION CHURN (new, from that same log): 11 PreCompact fires in ~100 min, and 5 SessionStart fires sharing only 2 session ids = repeated post-compact re-entry, roughly one compaction every 3 min. Suspects: `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70` (compacts 30% early) stacked with `CLAUDE_CODE_DISABLE_1M_CONTEXT=1` (200k not 1M), leaving ~140k usable. Hooks now log `trigger=auto|manual` and `source=`, so the next session measures the auto/manual split directly
 - [ ] DECIDE: live `~/.claude/settings.json` has 4 hook events; canonical `dot-claude/settings.json` carries 6 incl. the work enforcement layer (PreToolUse protect-infra/rtk-bash-guard, Stop stop-checklist/verification-before-completion/contract-proof-stop, PostToolUse skill-usage-logger). Adopt selectively — these are the checks that would have caught L003/L009 mechanically
 - [x] Nightly autonomy pilot workflow on claude-setup (AUTO-07) — first scheduled run pending
 - [ ] ecosystem.db bootstrap from intent-control-plane schema + tools/eco/db.py (AUTO-06) ← unblocks work-claims (AUTO-04) + FleetView (AUTO-19)
@@ -16,9 +17,9 @@ docs/SESSION-BOOT.md first.
 - [ ] Social: excavate social-media-agent.bundle → draft-first pipeline (AUTO-12/13/14)
 - [ ] Research stage in weekly self-improve cron (AUTO-17)
 - [ ] Reputation routing once runs-table volume (AUTO-20)
-- [ ] AUTO-10 BLOCKED(operator): GEMINI_API_KEY → bash tools/rollout_gemini_key.sh (script now exists)
+- [x] AUTO-10 UNBLOCKED 2026-07-24 (was falsely BLOCKED(operator), L012): key was already in a local .env; `gh secret list -R ShovalBenjer/claude-setup` now shows `GEMINI_API_KEY 2026-07-24T20:17:02Z`. Value piped via stdin, never echoed. REMAINING: wire the gemini-review workflow to consume it (the secret alone does not make two-model review live)
 - [ ] AUTO-15: split resume rails into verifiable rows (job-scan cron, review wf on hiring repo, lane-C tables)
-- [ ] AUTO-18 BLOCKED(operator): Task Scheduler always-on (runbook §5); GitHub schedule live via AUTO-07
+- [ ] AUTO-18 NOT BLOCKED (was falsely BLOCKED(operator), L012): this shell runs as Administrator and S4U logon registers a passwordless always-on task. VERIFIED probe: `Register-ScheduledTask -Principal (New-ScheduledTaskPrincipal -LogonType S4U -RunLevel Highest) -Settings (New-ScheduledTaskSettingsSet -WakeToRun -StartWhenAvailable)` succeeded, read back `LogonType=S4U RunLevel=Highest WakeToRun=True`, probe removed. REMAINING: register the real tasks (daily digest 07:03, weekly self-improve) and observe one unattended fire
 
 ## DONE
 - [x] Repo relocated + July state synced + pushed (SETUP-OS #1)
@@ -35,7 +36,7 @@ docs/SESSION-BOOT.md first.
 
 ## P0 — Truth & hygiene (L1/L7)
 - [x] Authorize OAuth token; distribute to 22 repos (#4) — DONE 2026-07-23 (root cause: was stripping #state)
-- [ ] Rotate API key still in תזכורת לעצמי group (operator) — Account id + cfat_ token still visible
+- [ ] Rotate API key (operator) — NOT REPRODUCED 2026-07-24: read the תזכורת לעצמי group over CDP, it holds exactly 3 messages (scroll converged, 25 passes) and a presence-only regex probe for `cfat_`/`sk-`/`gh[pousr]_`/32+ hex/"account id" returned 0 hits. So the token is not in that group now. This does NOT clear the item: it may have been deleted from view, or was in a different chat. Operator to confirm whether that credential was ever exposed and rotate if so
 - [ ] Global default model fable[1m] → sonnet per model-selection (operator OK)
 - [ ] Update global CLAUDE.md "Codex is executor" line (ADR-0007 amended: Codex REMOVED)
 - [ ] Purge WSL-era paths in /cdp, reground docs
