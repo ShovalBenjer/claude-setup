@@ -10,3 +10,23 @@ __pycache__/
 tools/local/flywheel/router_decisions.jsonl
 tools/selfimprove/proposals.jsonl
 state/hook-fires.log
+
+# Credentials. tools/lib/envload.py treats a repo-local .env as a valid override
+# path, so one landing here must never be committable. new-recruit already ignores
+# its own .env at .gitignore:12; this repo had no rule at all until 2026-07-25.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Per-API call ledger. Append-only and machine-local: it records timestamps and
+# HTTP statuses, never key material, but it is local telemetry, not shared state.
+state/api-usage.jsonl
+state/openrouter-models.json
+
+# Local safety nets and crash droppings, never shared state. The pre-edit copy of
+# settings.json is kept on disk deliberately: the version it backs up (live Windows
+# config before the ship-gate Stop hook) exists in no commit.
+*.bak-pre-*
+*.stackdump
