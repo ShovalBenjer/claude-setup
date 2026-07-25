@@ -1,0 +1,244 @@
+#!/usr/bin/env python3
+"""Stop-boundary gate: a done-claim needs a green gate run for THIS tree.
+
+WHY THIS IS NOT completion_gate.py
+
+completion_gate.py, sitting next to this file, decides whether a completion claim
+is acceptable by searching the assistant's own sentence for the word "tested".
+That is a check on wording. An agent that writes "implemented and tested" passes
+it whether or not anything ran, and an agent that ships a broken web app while
+saying "tested locally" passes it too. It is worth keeping as a calibration nudge
+and it is not evidence of anything.
+
+This hook asks a question the agent cannot answer with prose: does
+state/gate-runs.jsonl contain a full PASS recorded against the exact working tree
+being claimed done? The fingerprint covers HEAD plus the diff plus untracked
+file names, so a pass earned three edits ago does not count, and neither does a
+pass on a different branch.
+
+BEHAVIOUR
+
+  no quality-contract.json in the project      pass through, nothing to enforce
+  contract, green run for this tree            pass through
+  contract, no green run, no completion claim  systemMessage, non-blocking
+  contract, no green run, completion claim     block with the red domains named
+  gate.py cannot be found or imported          systemMessage saying enforcement
+                                               is OFF, never a silent pass
+
+That last row is the whole point of the file's tone. Three hooks in this
+directory are 45-byte files containing a Linux path that does not exist on this
+machine; they fail open and say nothing, which is why nobody noticed for months.
+A guard that cannot run must announce that it cannot run.
+"""
+
+from __future__ import annotations
+
+import importlib.util
+import json
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+CONTRACT_NAME = "quality-contract.json"
+
+
+def out(obj: dict) -> int:
+    sys.stdout.write(json.dumps(obj))
+    return 0
+
+
+def find_contract(start: str) -> str | None:
+    """Walk up looking for the contract. Stops at the git root or 6 levels."""
+    cur = os.path.abspath(start)
+    for _ in range(6):
+        if os.path.exists(os.path.join(cur, CONTRACT_NAME)):
+            return cur
+        if os.path.isdir(os.path.join(cur, ".git")):
+            return None
+        parent = os.path.dirname(cur)
+        if parent == cur:
+            return None
+        cur = parent
+    return None
+
+
+def load_gate():
+    """Import tools/gate/gate.py, wherever this hook happens to be deployed.
+
+    The hook ships to ~/.claude/hooks while gate.py stays in the repo, so the
+    path cannot be relative to __file__ once deployed. Each candidate below is a
+    real layout on this machine, tried in order of how specific it is.
+    """
+    candidates = []
+    env = os.environ.get("CLAUDE_SETUP_ROOT")
+    if env:
+        candidates.append(os.path.join(env, "tools", "gate", "gate.py"))
+    candidates += [
+        os.path.join(HERE, "..", "..", "tools", "gate", "gate.py"),
+        os.path.join(os.path.expanduser("~"), "claude-setup", "tools", "gate", "gate.py"),
+    ]
+    for cand in candidates:
+        cand = os.path.abspath(cand)
+        if not os.path.exists(cand):
+            continue
+        try:
+            spec = importlib.util.spec_from_file_location("_gate", cand)
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            return mod, cand
+        except Exception as exc:
+            return None, "found {} but could not import it: {}".format(cand, exc)
+    return None, "no gate.py at any of: " + ", ".join(os.path.abspath(c) for c in candidates)
+
+
+def assistant_text(payload: dict) -> str:
+    """The last assistant message, from the payload or from the transcript.
+
+    Stop payloads do not reliably carry the message inline, so the transcript is
+    the load-bearing path here, not the fallback. completion_gate.py only reads
+    the inline keys, which is worth knowing about it.
+    """
+    for key in ("last_assistant_message", "assistant_message", "response", "message"):
+        v = payload.get(key)
+        if isinstance(v, str) and v.strip():
+            return v
+        if isinstance(v, dict):
+            for nested in ("text", "content"):
+                item = v.get(nested)
+                if isinstance(item, str) and item.strip():
+                    return item
+
+    path = payload.get("transcript_path")
+    if not path or not os.path.exists(path):
+        return ""
+    try:
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            lines = fh.readlines()
+    except OSError:
+        return ""
+    for line in reversed(lines[-400:]):
+        try:
+            rec = json.loads(line)
+        except ValueError:
+            continue
+        if rec.get("type") != "assistant":
+            continue
+        msg = rec.get("message") or {}
+        content = msg.get("content")
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            parts = [c.get("text", "") for c in content
+                     if isinstance(c, dict) and c.get("type") == "text"]
+            joined = "\n".join(p for p in parts if p)
+            if joined.strip():
+                return joined
+    return ""
+
+
+def completion_claim(text: str) -> bool:
+    """Reuse completion_gate's own definition so the two cannot drift apart."""
+    try:
+        spec = importlib.util.spec_from_file_location(
+            "_cg", os.path.join(HERE, "completion_gate.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return bool(mod.COMPLETION.search(text))
+    except Exception:
+        import re
+        return bool(re.search(
+            r"(?i)\b(all done|done|complete[d]?|fully working|verified|fixed|"
+            r"implemented|it works|everything works|ready|shipped)\b", text))
+
+
+def ledger_state(gate, project: str) -> tuple[bool, str]:
+    """Is there a full PASS for this exact tree? Returns (green, explanation)."""
+    ledger = os.path.join(gate.setup_root(), gate.LEDGER)
+    sha, dirty, fp = gate.tree_fingerprint(project)
+    if not os.path.exists(ledger):
+        return False, ("no gate run has ever been recorded, so nothing has measured this "
+                       "project")
+    rows = []
+    with open(ledger, encoding="utf-8", errors="replace") as fh:
+        for line in fh:
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue
+            if r.get("project_path") == project:
+                rows.append(r)
+    if not rows:
+        return False, "no gate run recorded for {}".format(project)
+    mine = [r for r in rows if r.get("fingerprint") == fp and not r.get("partial")]
+    if any(r.get("verdict") == "PASS" for r in mine):
+        return True, ""
+    if mine:
+        last = mine[-1]
+        return False, "the gate ran on this exact tree and FAILED on: {}".format(
+            ", ".join(last.get("blocking") or ["unknown"]) or "unknown")
+    partials = [r for r in rows if r.get("fingerprint") == fp and r.get("partial")]
+    if partials:
+        return False, ("only single domains have been run against this tree ({}), which is "
+                       "not a gate pass".format(", ".join(
+                           sorted({d for p in partials for d, s in (p.get("domains") or {}).items()
+                                   if s in ("PASS", "FAIL")}))[:200]))
+    return False, ("the {} recorded run(s) are against other trees. The current tree ({}{}) "
+                   "has never been gated.".format(len(rows), fp, ", dirty" if dirty else ""))
+
+
+def main() -> int:
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+    try:
+        payload = json.loads(sys.stdin.buffer.read().decode("utf-8"))
+        if not isinstance(payload, dict):
+            raise TypeError
+    except (json.JSONDecodeError, TypeError, UnicodeDecodeError):
+        return out({})
+
+    if payload.get("stop_hook_active") is True:
+        return out({})
+
+    cwd = payload.get("cwd") or os.getcwd()
+    project = find_contract(cwd)
+    if not project:
+        return out({})
+
+    gate, where = load_gate()
+    if gate is None:
+        return out({"systemMessage": (
+            "Ship gate is OFF: {} has a {} but the gate runner is unreachable ({}). "
+            "Nothing is checking implementation quality this turn. Fix the path or set "
+            "CLAUDE_SETUP_ROOT.".format(project, CONTRACT_NAME, where))})
+
+    try:
+        green, why = ledger_state(gate, project)
+    except Exception as exc:
+        return out({"systemMessage": (
+            "Ship gate could not read its own ledger ({}), so it is not enforcing this "
+            "turn.".format(exc))})
+
+    if green:
+        return out({})
+
+    text = assistant_text(payload)
+    rel = os.path.relpath(os.path.join(gate.setup_root(), "tools", "gate", "gate.py"), project)
+    howto = "python {} run --project .".format(rel.replace("\\", "/"))
+
+    if completion_claim(text):
+        return out({"decision": "block", "reason": (
+            "Ship gate: this project declares a quality contract and {}\n"
+            "A done-claim is not available yet. Run:\n  {}\n"
+            "Then either make the red domains green, or record a waiver with a reason and "
+            "an expiry date and say in the response which domains are waived and why. "
+            "Do not restate the claim without doing one of those two things."
+        ).format(why, howto)})
+
+    return out({"systemMessage": (
+        "Ship gate note: {} Run `{}` before claiming this work is done.".format(why, howto))})
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

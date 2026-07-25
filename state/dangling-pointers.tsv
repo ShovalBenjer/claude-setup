@@ -1,0 +1,517 @@
+severity	kind	file	target	note
+medium	pointer	dot-claude/bin/intent	/home/shovalbe/.local/bin/intent	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/coverage-enforcer.sh	/home/shovalbe/.codex/hooks/coverage-enforcer.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/hive-review-bridge.sh	/home/shovalbe/.codex/hooks/hive-review-bridge.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/intent-capture.sh	/home/shovalbe/.codex/hooks/intent-capture.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/intent-session-brief.sh	/home/shovalbe/.codex/hooks/intent-session-brief.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/post-compact-reinject.sh	/home/shovalbe/.codex/hooks/post-compact-reinject.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/protect-infra.sh	/home/shovalbe/.codex/hooks/protect-infra.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/rtk-bash-guard.sh	/home/shovalbe/.codex/hooks/rtk-bash-guard.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/session-context.sh	/home/shovalbe/.codex/hooks/session-context.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/snapshot-state.sh	/home/shovalbe/.codex/hooks/snapshot-state.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/stop-checklist.sh	/home/shovalbe/.codex/hooks/stop-checklist.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/verification-before-completion.sh	/home/shovalbe/.codex/hooks/verification-before-completion.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/voice-explainer-trigger.sh	/home/shovalbe/.codex/hooks/voice-explainer-trigger.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/watchdog-verify.sh	/home/shovalbe/.codex/hooks/watchdog-verify.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/apify-mcp	/home/shovalbe/.codex/skills/apify-mcp	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/azure-devops	/home/shovalbe/.codex/skills/azure-devops	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/azure-keyvault-secrets	/home/shovalbe/.codex/skills/azure-keyvault-secrets	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/cleanup-crew	/home/shovalbe/.codex/skills/cleanup-crew	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/code-simplifier	/home/shovalbe/.codex/skills/code-simplifier	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/commit-push-pr	/home/shovalbe/.codex/skills/commit-push-pr	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/deep-research	/home/shovalbe/.agents/skills/deep-research	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/elevenlabs-mcp	/home/shovalbe/.codex/skills/elevenlabs-mcp	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/end-session	/home/shovalbe/.agents/skills/end-session	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/eval-runner	/home/shovalbe/.codex/skills/eval-runner	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/feature-investor	/home/shovalbe/.codex/skills/feature-investor	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/grill-me	/home/shovalbe/.agents/skills/grill-me	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/heidegger-reflect	/home/shovalbe/.agents/skills/heidegger-reflect	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/heygen-mcp	/home/shovalbe/.codex/skills/heygen-mcp	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/humanize	/home/shovalbe/.agents/skills/humanize	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/kill-stale	/home/shovalbe/.codex/skills/kill-stale	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/mcp-activation	/home/shovalbe/.codex/skills/mcp-activation	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/mutation-runner	/home/shovalbe/.codex/skills/mutation-runner	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/ops-status	/home/shovalbe/.codex/skills/ops-status	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/ponytail	/home/shovalbe/.codex/skills/ponytail	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/ponytail-audit	/home/shovalbe/.codex/skills/ponytail-audit	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/ponytail-help	/home/shovalbe/.codex/skills/ponytail-help	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/ponytail-review	/home/shovalbe/.codex/skills/ponytail-review	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/property-test-gen	/home/shovalbe/.codex/skills/property-test-gen	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/red-team	/home/shovalbe/.codex/skills/red-team	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/red-team-review	/home/shovalbe/.codex/skills/red-team-review	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/reground	/home/shovalbe/.agents/skills/reground	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/shoval-voice-draft	/home/shovalbe/.codex/skills/shoval-voice-draft	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/triage-tests	/home/shovalbe/.codex/skills/triage-tests	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/voice-explainer	/home/shovalbe/.codex/skills/voice-explainer	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/watchdog	/home/shovalbe/.codex/skills/watchdog	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/web-inspect	/home/shovalbe/.codex/skills/web-inspect	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/workspace-brain	/home/shovalbe/.codex/skills/workspace-brain	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/ado-auth-mfa-nudge.sh	/home/shovalbe/.claude/hooks/ado-auth-mfa-nudge.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/bash-guard.sh	/home/shovalbe/.claude/hooks/bash-guard.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/codex-review-on-push.sh	/home/shovalbe/.claude/hooks/codex-review-on-push.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/contract-proof-stop.sh	/home/shovalbe/.claude/hooks/contract-proof-stop.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/eval-gate.sh	/home/shovalbe/.claude/hooks/eval-gate.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/eval-nudge.sh	/home/shovalbe/.claude/hooks/eval-nudge.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/git-block-force-push.sh	/home/shovalbe/.claude/hooks/git-block-force-push.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/layer7-embed.sh	/home/shovalbe/.claude/hooks/layer7-embed.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/post-tool-quality-check.sh	/home/shovalbe/.claude/hooks/post-tool-quality-check.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/prompt-router.sh	/home/shovalbe/.claude/hooks/prompt-router.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/protect-azure-prod.sh	/home/shovalbe/.claude/hooks/protect-azure-prod.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/rtk-rewrite.sh	/home/shovalbe/.claude/hooks/rtk-rewrite.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/session-guard.sh	/home/shovalbe/.claude/hooks/session-guard.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/session-msg-counter.sh	/home/shovalbe/.claude/hooks/session-msg-counter.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/session-recall.sh	/home/shovalbe/.claude/hooks/session-recall.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/stop-skill-nudge.sh	/home/shovalbe/.claude/hooks/stop-skill-nudge.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/hooks/stop-verify.sh	/home/shovalbe/.claude/hooks/stop-verify.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/rules/boundary-contracts.md	/home/shovalbe/.claude/rules/boundary-contracts.md	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/rules/docs-control-plane.md	/home/shovalbe/.claude/rules/docs-control-plane.md	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/rules/foundry-deployment-per-project.md	/home/shovalbe/.claude/rules/foundry-deployment-per-project.md	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/rules/gastown-company-registry.md	/home/shovalbe/.claude/rules/gastown-company-registry.md	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/rules/hive-mind-workflows.md	/home/shovalbe/.claude/rules/hive-mind-workflows.md	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/rules/jira-comment-drafting.md	/home/shovalbe/.claude/rules/jira-comment-drafting.md	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/rules/latent-vector-workflows.md	/home/shovalbe/.claude/rules/latent-vector-workflows.md	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/rules/pii-handling.md	/home/shovalbe/.claude/rules/pii-handling.md	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/rules/production-means-merged-and-smoked.md	/home/shovalbe/.claude/rules/production-means-merged-and-smoked.md	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/rules/read-whole-before-reasoning.md	/home/shovalbe/.claude/rules/read-whole-before-reasoning.md	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/rules/repo-topology.md	/home/shovalbe/.claude/rules/repo-topology.md	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/LTMD	/home/shovalbe/.claude/skills/LTMD	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/advisor	/home/shovalbe/.claude/skills/advisor	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/agent-builder	/home/shovalbe/.claude/skills/agent-builder	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/azure-activity-watch	/home/shovalbe/.claude/skills/azure-activity-watch	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/azure-audit	/home/shovalbe/.claude/skills/azure-audit	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/azure-cert-coach	/home/shovalbe/.claude/skills/azure-cert-coach	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/azure-runtime	/home/shovalbe/.claude/skills/azure-runtime	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/blog	/home/shovalbe/.claude/skills/blog	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/blonde-designer	/home/shovalbe/.claude/skills/blonde-designer	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/codex-call	/home/shovalbe/.claude/skills/codex-call	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/context-bounded-analyst	/home/shovalbe/.claude/skills/context-bounded-analyst	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/coverage-enforcer	/home/shovalbe/.claude/skills/coverage-enforcer	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/decision-grade	/home/shovalbe/.claude/skills/decision-grade	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/deep-research	/home/shovalbe/.agents/skills/deep-research	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/dispatch	/home/shovalbe/.claude/skills/dispatch	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/end-session	/home/shovalbe/.agents/skills/end-session	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/grill-me	/home/shovalbe/.agents/skills/grill-me	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/heidegger-reflect	/home/shovalbe/.agents/skills/heidegger-reflect	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/humanize	/home/shovalbe/.agents/skills/humanize	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/jira-read	/home/shovalbe/.claude/skills/jira-read	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/jira-task-draft	/home/shovalbe/.claude/skills/jira-task-draft	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/meeting-notes	/home/shovalbe/.claude/skills/meeting-notes	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/openai-agents	/home/shovalbe/.claude/skills/openai-agents	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/persona	/home/shovalbe/.claude/skills/persona	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/pii-scrubber	/home/shovalbe/.claude/skills/pii-scrubber	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/premortem	/home/shovalbe/.claude/skills/premortem	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/prod-deploy-rules	/home/shovalbe/.claude/skills/prod-deploy-rules	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/refactor-pre-push	/home/shovalbe/.claude/skills/refactor-pre-push	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/reground	/home/shovalbe/.agents/skills/reground	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/requirement-anchor	/home/shovalbe/.claude/skills/requirement-anchor	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/review	/home/shovalbe/.claude/skills/review	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/testing-pyramid	/home/shovalbe/.claude/skills/testing-pyramid	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-codex/skills/ui-ux-pro-max	/home/shovalbe/.claude/skills/ui-ux-pro-max	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+low	doc-ref	dot-agents/skills/azure-keyvault-secrets/SKILL.md:22	~/.codex/bin/codex-secrets-sync	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/blog/SKILL.md:20	/home/shovalbe/work/shoval-style-finetune/voice-fingerprint.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/codex-call/SKILL.md:48	~/.codex/automations/run-codex-automation.sh	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/codex-call/SKILL.md:5	/home/shovalbe/.local/bin/codex	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/codex-call/SKILL.md:88	/home/shovalbe/projects/*	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/coverage-enforcer/SKILL.md:3	~/.codex/hooks/coverage-enforcer.sh	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/deep-research/reference/continuation.md:21	~/.claude/research_output/continuation_state_[report_id	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/deep-research/reference/report-assembly.md:104	~/.claude/research_output/	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/end-session/SKILL.md:104	~/.codex/cache/sessions/YYYY-MM-DD-<project>-session.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/end-session/SKILL.md:128	~/.codex/cache/layer7/.last-curate	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/end-session/SKILL.md:128	~/.codex/cache/sessions.db	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/end-session/SKILL.md:140	~/.codex/cache/resume/<project>-<HHMMSS>.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/end-session/SKILL.md:141	~/.codex/cache/resume-prompt.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/heygen-skills/INSTALL.md:51	~/.claude/skills/heygen-skills	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/heygen-skills/INSTALL_FOR_AGENTS.md:33	~/.claude/skills/heygen-skills	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/heygen-skills/INSTALL_FOR_AGENTS.md:34	~/.codex/skills/heygen-skills	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/heygen-skills/README.md:49	~/.claude/skills/heygen-skills	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/memory-curator/SKILL.md:57	/home/shovalbe/.Codex/cache/sessions.db	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/persona/SKILL.md:52	~/.codex/automations/last-messages/*	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/premortem/SKILL.md:18	~/.codex/automations/prompts/a09-forge-loop-compliance-score.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:21	/home/shovalbe/AGENTS.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:21	/home/shovalbe/.codex/RTK.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:21	/home/shovalbe/.codex/config.toml	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:21	/home/shovalbe/.claude/settings.json	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:21	/home/shovalbe/.claude/settings.local.json	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:22	/home/shovalbe/docs/	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:25	/home/shovalbe/docs/**	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:26	/home/shovalbe/.agents/skills/*/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:26	/home/shovalbe/.codex/skills/*/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:26	/home/shovalbe/.codex/plugins/cache/**/skills/*/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:27	/home/shovalbe/.codex/memories/memory_summary.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:27	/home/shovalbe/.codex/memories/MEMORY.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:28	/home/shovalbe/.claude/jira/reminders.json	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:56	/home/shovalbe/.agents/skills/reground/scripts/reground-snapshot.sh	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:90	/home/shovalbe/docs/README.md	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:90	/home/shovalbe/docs/specs/	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:90	/home/shovalbe/docs/research/	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:90	/home/shovalbe/docs/pipelines/	document names a path that is not on this machine
+low	doc-ref	dot-agents/skills/reground/SKILL.md:90	/home/shovalbe/docs/core/	document names a path that is not on this machine
+low	doc-ref	dot-claude/agents/eval-row-diagnoser.md:15	~/.claude/research_output/	document names a path that is not on this machine
+low	doc-ref	dot-claude/agents/evidence-clerk.md:12	~/.claude/corpus/sources.json	document names a path that is not on this machine
+low	doc-ref	dot-claude/agents/evidence-clerk.md:18	~/.claude/corpus/best_practices.sqlite3	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/cdp.md:12	/home/shovalbe/.codex/bin/playwright-mcp-visual	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/cdp.md:15	~/.codex/bin/obscura-cdp	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/commit-push-pr.md:6	~/.agents/skills/commit-push-pr/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/insights.md:16	/home/shovalbe/.agents/skills/reground/scripts/reground-snapshot.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/insights.md:6	/home/shovalbe/.agents/skills/reground/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/pickup-reviews.md:13	~/.claude/docs/ENGINEERING_REVIEW_*.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/pickup-reviews.md:14	~/.claude/docs/CLAUDEMD_DRIFT_*.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/pickup-reviews.md:15	~/.claude/docs/HOT_ZONES_*.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/reground.md:16	/home/shovalbe/.agents/skills/reground/scripts/reground-snapshot.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/reground.md:6	/home/shovalbe/.agents/skills/reground/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/azure-activity-watch/SKILL.md:14	~/.claude/projects/-home-shovalbe/memory/project_yasha_stop_incident.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/blog/SKILL.md:20	/home/shovalbe/work/shoval-style-finetune/voice-fingerprint.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/coverage-enforcer/SKILL.md:3	~/.codex/hooks/coverage-enforcer.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/dispatch/SKILL.md:3	~/.claude/cache/a2a/audit.jsonl	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/jira-read/SKILL.md:31	~/.claude/skills/jira-read/jira_read.py	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/jira-read/SKILL.md:53	~/.claude/jira/reminders.json	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/meeting-notes/SKILL.md:90	~/.claude/projects/-home-shovalbe/memory/	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/persona/SKILL.md:52	~/.claude/docs/*	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/persona/SKILL.md:52	~/.codex/automations/last-messages/*	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/pii-scrubber/SKILL.md:130	~/.claude/bin/pii-scrub.py	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/pii-scrubber/SKILL.md:162	~/.claude/hooks/pii-scrubber-hook.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/premortem/SKILL.md:18	~/.codex/automations/prompts/a09-forge-loop-compliance-score.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/refactor-pre-push/SKILL.md:37	~/.claude/docs/HOT_ZONES_*.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/review/SKILL.md:208	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/testing-pyramid/SKILL.md:229	~/.claude/skills/tdd-slice-planner/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/AGENTS.md:1	/home/shovalbe/.codex/RTK.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/README.md:11	/home/shovalbe/shoval.be@i-sdd.com.pst	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/README.md:25	~/.codex/automations/run-codex-automation.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/README.md:5	~/.claude/docs/CODEX_AUTOMATIONS_PROPOSAL.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260517T172435Z.md:3	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-05-17.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260517T180001Z.md:18	~/.claude/projects/-home-shovalbe/memory/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260517T180001Z.md:3	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-05-17.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260524T172250Z.md:1	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-05-24.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260524T180001Z.md:1	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-05-24.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260531T173012Z.md:15	~/.claude/cache/sessions.db	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260531T173012Z.md:17	~/.claude/projects/-home-shovalbe/memory/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260531T173012Z.md:5	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-05-31.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260531T180001Z.md:3	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-05-31.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260607T063017Z.md:3	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-06-07.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260614T063059Z.md:3	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-06-14.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260621T063022Z.md:3	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-06-21.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260621T180001Z.md:1	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-06-21.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260621T180001Z.md:15	/home/shovalbe/.claude/projects/-home-shovalbe/memory/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260628T064030Z.md:5	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-06-28.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260705T063545Z.md:3	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-07-05.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a01-memory-curator-sweep-20260712T063031Z.md:3	/home/shovalbe/.claude/docs/MEMORY_PROPOSALS_2026-07-12.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260518T172908Z.md:3	/home/shovalbe/.claude/docs/EMAIL_ACTIONS_2026-05-18.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260518T172908Z.md:5	/home/shovalbe/.claude/cache/pst/latest.jsonl	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260518T172908Z.md:5	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260518T180001Z.md:3	/home/shovalbe/.claude/docs/EMAIL_ACTIONS_2026-05-18.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260518T180001Z.md:7	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260525T172350Z.md:1	/home/shovalbe/.claude/docs/EMAIL_ACTIONS_2026-05-25.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260525T172350Z.md:3	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260525T180001Z.md:3	/home/shovalbe/.claude/docs/EMAIL_ACTIONS_2026-05-25.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260525T180001Z.md:5	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260601T180001Z.md:1	/home/shovalbe/.claude/docs/EMAIL_ACTIONS_2026-06-01.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260601T180001Z.md:5	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260608T180001Z.md:3	/home/shovalbe/.claude/docs/EMAIL_ACTIONS_2026-06-08.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260608T180001Z.md:5	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260615T180001Z.md:3	/home/shovalbe/.claude/docs/EMAIL_ACTIONS_2026-06-15.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260615T180001Z.md:7	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a05-pst-email-action-mining-20260622T180002Z.md:3	/home/shovalbe/.claude/docs/EMAIL_ACTIONS_2026-06-22.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260519T171708Z.md:3	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_20260519T171708Z.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260519T171708Z.md:5	/home/shovalbe/CLAUDE.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260519T171708Z.md:5	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260519T180001Z.md:11	/home/shovalbe/CLAUDE.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260519T180001Z.md:12	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260519T180001Z.md:3	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_20260519.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260526T172350Z.md:10	/home/shovalbe/CLAUDE.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260526T172350Z.md:12	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260526T172350Z.md:14	/home/shovalbe/tmp/claudemd_drift_audit.py	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260526T172350Z.md:3	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_2026-05-26.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260526T180001Z.md:1	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_2026-05-26.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260526T180001Z.md:11	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260602T180001Z.md:1	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_2026-06-02.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260602T180001Z.md:10	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260607T063017Z.md:12	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260607T063017Z.md:3	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_2026-06-07.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260607T063017Z.md:8	/home/shovalbe/CLAUDE.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260614T063059Z.md:14	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260614T063059Z.md:3	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_2026-06-14.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260616T180001Z.md:12	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260616T180001Z.md:3	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_2026-06-16.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260621T063022Z.md:1	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_2026-06-21.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260621T063022Z.md:10	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260621T063022Z.md:4	/home/shovalbe/CLAUDE.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260621T063022Z.md:5	/home/shovalbe/projects/cs-agent	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260623T180001Z.md:1	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_2026-06-23.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260623T180001Z.md:5	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260628T064030Z.md:13	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260628T064030Z.md:3	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_20260628.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260705T063545Z.md:13	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260705T063545Z.md:3	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_20260705.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260712T063031Z.md:10	/home/shovalbe/CLAUDE.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a08-claudemd-drift-per-project-20260712T063031Z.md:3	/home/shovalbe/.claude/docs/CLAUDEMD_DRIFT_2026-07-12.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260503T131438Z.md:3	/home/shovalbe/.claude/docs/FORGE_COMPLIANCE_2026-05-03.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260516T180000Z.md:10	~/.claude/cache/sessions/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260516T180000Z.md:3	/home/shovalbe/.claude/docs/FORGE_COMPLIANCE_2026-05-16.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260523T172650Z.md:1	/home/shovalbe/.claude/docs/FORGE_COMPLIANCE_2026-05-23.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260523T172650Z.md:9	~/.claude/cache/sessions/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260523T180001Z.md:12	~/.claude/cache/sessions/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260523T180001Z.md:3	/home/shovalbe/.claude/docs/FORGE_COMPLIANCE_2026-05-23.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260606T180001Z.md:1	/home/shovalbe/.claude/docs/FORGE_COMPLIANCE_2026-06-06.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260606T180001Z.md:9	~/.claude/cache/sessions/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260607T133021Z.md:12	~/.claude/cache/sessions/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260607T133021Z.md:3	/home/shovalbe/.claude/docs/FORGE_COMPLIANCE_2026-06-07.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260614T133059Z.md:1	/home/shovalbe/.claude/docs/FORGE_COMPLIANCE_2026-06-14.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260614T133059Z.md:9	~/.claude/cache/sessions/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/a09-forge-loop-compliance-score-20260705T133024Z.md:1	/home/shovalbe/.claude/docs/FORGE_COMPLIANCE_2026-07-05.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260427T060009Z.md:1	/home/shovalbe/.claude/docs/PLATFORM_HYGIENE_2026-04-27.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260504T062400Z.md:3	/home/shovalbe/.claude/docs/PLATFORM_HYGIENE_2026-05-04.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260504T062400Z.md:9	~/.claude/bin/pst-watch.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260504T062400Z.md:9	~/.claude/cache/sessions.db	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260511T054417Z.md:3	/home/shovalbe/.claude/docs/PLATFORM_HYGIENE_2026-05-11.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260511T054417Z.md:9	~/.claude/bin/pst-*	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260524T164050Z.md:3	/home/shovalbe/.claude/docs/PLATFORM_HYGIENE_2026-05-24.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260531T164412Z.md:1	/home/shovalbe/.claude/docs/PLATFORM_HYGIENE_2026-05-31.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260607T063017Z.md:1	/home/shovalbe/.claude/docs/PLATFORM_HYGIENE_2026-06-07.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260614T063059Z.md:3	/home/shovalbe/.claude/docs/PLATFORM_HYGIENE_2026-06-14.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260621T063022Z.md:1	/home/shovalbe/.claude/docs/PLATFORM_HYGIENE_2026-06-21.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260628T064030Z.md:3	/home/shovalbe/.claude/docs/PLATFORM_HYGIENE_2026-06-28.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260705T063545Z.md:3	/home/shovalbe/.claude/docs/PLATFORM_HYGIENE_2026-07-05.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c01-platform-hygiene-sweep-20260712T063031Z.md:3	/home/shovalbe/.claude/docs/PLATFORM_HYGIENE_2026-07-12.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260427T170315Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-04-27.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260429T072024Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-04-29.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260429T170750Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-04-29.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260429T170750Z.md:6	/home/shovalbe/projects	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260502T184824Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-05-02.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260505T172847Z.md:14	/home/shovalbe/.claude/c2_engineering_review_sweep_tmp.py	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260505T172847Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-05-05.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260505T172847Z.md:7	/home/shovalbe/projects	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260506T171532Z.md:13	/home/shovalbe/.claude/c2_engineering_review_sweep_tmp.py	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260506T171532Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-05-06.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260521T163250Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-05-21.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260522T163450Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-05-22.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260526T164050Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-05-26.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260527T163122Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-05-27.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260601T133012Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-01.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260602T063012Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-02.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260602T133012Z.md:1	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-02.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260603T063012Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-03.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260603T133012Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-03.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260604T063012Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-04.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260605T063012Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-05.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260605T133012Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-05.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260608T063059Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-08.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260608T133059Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-08.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260609T063059Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-09.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260609T133059Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-09.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260611T063059Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-11.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260611T133059Z.md:4	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-11.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260614T060048Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-14.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260615T063026Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-15.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260615T063026Z.md:7	/home/shovalbe/projects/axia-seekapa-cs-agents	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260615T133026Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-15.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260616T065409Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-16.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260616T133026Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-16.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260617T063026Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-17.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260617T133026Z.md:12	/home/shovalbe/projects/cs-agent	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260617T133026Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-17.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260618T063026Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-18.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260618T063026Z.md:7	/home/shovalbe/projects/axia-seekapa-cs-agents	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260618T063026Z.md:7	/home/shovalbe/projects/cs-agent	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260618T133026Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-18.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260620T234453Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-20.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260622T133022Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-22.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260623T133022Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-23.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260624T063022Z.md:4	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-24.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260624T133022Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-24.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260625T063014Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-25.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260625T133014Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-25.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260628T064030Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-28.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260629T063027Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-29.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260629T133013Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-29.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260630T063027Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-30.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260630T133027Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-06-30.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260705T063545Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-07-05.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260706T063029Z.md:1	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-07-06.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260706T133059Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-07-06.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260707T063059Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-07-07.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260707T133010Z.md:1	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-07-07.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260708T063019Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-07-08.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260708T133047Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-07-08.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260709T063007Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-07-09.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260710T063007Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-07-10.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c02-engineering-review-sweep-20260710T133007Z.md:3	/home/shovalbe/.claude/docs/ENGINEERING_REVIEW_2026-07-10.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c03-prompt-drift-sweep-20260521T164050Z.md:3	/home/shovalbe/.claude/docs/PROMPT_DRIFT_2026-05-21.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c03-prompt-drift-sweep-20260607T133021Z.md:3	/home/shovalbe/.claude/docs/PROMPT_DRIFT_2026-06-07.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c03-prompt-drift-sweep-20260614T133059Z.md:3	/home/shovalbe/.claude/docs/PROMPT_DRIFT_2026-06-14.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c03-prompt-drift-sweep-20260628T133014Z.md:3	/home/shovalbe/.claude/docs/PROMPT_DRIFT_2026-06-28.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c03-prompt-drift-sweep-20260628T133014Z.md:6	/home/shovalbe/projects/axia-seekapa-cs-agents	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c03-prompt-drift-sweep-20260705T133024Z.md:3	/home/shovalbe/.claude/docs/PROMPT_DRIFT_2026-07-05.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c04-security-testing-pyramid-sweep-20260521T171450Z.md:3	/home/shovalbe/.claude/docs/SECURITY_TESTING_PYRAMID_2026-05-21.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c04-security-testing-pyramid-sweep-20260607T133021Z.md:4	/home/shovalbe/.claude/docs/SECURITY_TESTING_PYRAMID_2026-06-07.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c04-security-testing-pyramid-sweep-20260614T133059Z.md:4	/home/shovalbe/.claude/docs/SECURITY_TESTING_PYRAMID_2026-06-14.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c04-security-testing-pyramid-sweep-20260628T133014Z.md:3	/home/shovalbe/.claude/docs/SECURITY_TESTING_PYRAMID_2026-06-28.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/c04-security-testing-pyramid-sweep-20260705T133024Z.md:3	/home/shovalbe/.claude/docs/SECURITY_TESTING_PYRAMID_2026-07-05.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260603T180001Z.md:1	/home/shovalbe/.claude/docs/HOT_ZONES_2026-06-03.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260603T180001Z.md:11	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260603T180001Z.md:5	/home/shovalbe/projects/qc/qc-telephony-api/src/api/activities/durable_activities.py	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260607T133021Z.md:3	/home/shovalbe/.claude/docs/HOT_ZONES_2026-06-07.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260614T133059Z.md:10	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260614T133059Z.md:3	/home/shovalbe/.claude/docs/HOT_ZONES_2026-06-14.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260617T180001Z.md:3	/home/shovalbe/.claude/docs/HOT_ZONES_2026-06-17.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260617T180001Z.md:6	/home/shovalbe/projects/qc/qc-telephony-api/src/api/activities/durable_activities.py	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260624T180001Z.md:3	/home/shovalbe/.claude/docs/HOT_ZONES_2026-06-24.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260624T180001Z.md:7	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260628T133014Z.md:1	/home/shovalbe/.claude/docs/HOT_ZONES_2026-06-28.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260628T133014Z.md:3	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260705T133024Z.md:1	/home/shovalbe/.claude/docs/HOT_ZONES_2026-07-05.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d05-hot-zone-indicator-20260705T133024Z.md:3	/home/shovalbe/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d07-stash-wip-leak-watch-20260425T215816Z.md:1	/home/shovalbe/.claude/docs/STASH_LEAKS_20260425.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/last-messages/d07-stash-wip-leak-watch-20260425T215816Z.md:3	/home/shovalbe/projects/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/_bead-emit-appendix.md:4	~/.codex/automations/prompts/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/_bead-emit-appendix.md:51	~/.codex/config/usage-budget.yaml	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a01-memory-curator-sweep.md:17	~/.claude/docs/MEMORY_PROPOSALS_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a01-memory-curator-sweep.md:19	~/.claude/projects/-home-shovalbe/memory/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a01-memory-curator-sweep.md:4	/home/shovalbe/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a01-memory-curator-sweep.md:8	~/.claude/projects/-home-shovalbe/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a02-spec-drift-watch.md:18	~/.claude/docs/SPEC_DRIFT_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a02-spec-drift-watch.md:23	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a02-spec-drift-watch.md:4	/home/shovalbe/projects/docs/superpowers/specs/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a03-hook-health-audit.md:13	~/.claude/hooks/.rtk-hook.sha256	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a03-hook-health-audit.md:15	~/.claude/docs/HOOK_HEALTH_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a03-hook-health-audit.md:4	/home/shovalbe/.claude/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a03-hook-health-audit.md:7	~/.claude/hooks/*.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a04-foundry-agent-prompt-sync.md:10	~/.claude/projects/-home-shovalbe/memory/project_foundry_agent_repos.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a04-foundry-agent-prompt-sync.md:14	~/.claude/docs/FOUNDRY_PROMPT_DIFF_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a04-foundry-agent-prompt-sync.md:19	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a04-foundry-agent-prompt-sync.md:4	/home/shovalbe/projects/cs-agent/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a04-foundry-agent-prompt-sync.md:4	/home/shovalbe/projects/hr-agent/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a04-foundry-agent-prompt-sync.md:4	/home/shovalbe/projects/campaign-analysis/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a05-pst-email-action-mining.md:10	~/.claude-ink-tui/data/pst-index.jsonl	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a05-pst-email-action-mining.md:26	~/.claude/docs/EMAIL_ACTIONS_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a05-pst-email-action-mining.md:31	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a05-pst-email-action-mining.md:9	~/.claude/cache/pst/latest.jsonl	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a06-news-feed-stack-digest.md:25	~/.claude/docs/NEWS_DIGEST_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a07-anti-slop-ui-audit.md:29	~/.claude/docs/ANTI_SLOP_AUDIT_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a07-anti-slop-ui-audit.md:37	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a07-anti-slop-ui-audit.md:4	/home/shovalbe/projects/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a08-claudemd-drift-per-project.md:19	~/.claude/docs/CLAUDEMD_DRIFT_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a08-claudemd-drift-per-project.md:28	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a09-forge-loop-compliance-score.md:20	~/.claude/docs/FORGE_COMPLIANCE_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a09-forge-loop-compliance-score.md:4	/home/shovalbe/.claude/cache/sessions/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a10-calm-coding-desperation-audit.md:24	~/.claude/docs/DESPERATION_AUDIT_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a11-ado-stale-pr-branch-triage.md:14	~/.claude/docs/ADO_STALE_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a11-ado-stale-pr-branch-triage.md:19	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a11-ado-stale-pr-branch-triage.md:22	~/.claude/cache/ado-bumped-prs.txt	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a12-skill-usage-telemetry.md:20	~/.claude/docs/SKILL_USAGE_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a12-skill-usage-telemetry.md:23	~/.claude/skills/.archive/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/a12-skill-usage-telemetry.md:4	/home/shovalbe/.claude/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c01-platform-hygiene-sweep.md:103	~/.claude/docs/PLATFORM_HYGIENE_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c01-platform-hygiene-sweep.md:26	~/.claude/projects/-home-shovalbe/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c01-platform-hygiene-sweep.md:39	~/.claude/hooks/*.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c01-platform-hygiene-sweep.md:49	~/.claude/hooks/.rtk-hook.sha256	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c01-platform-hygiene-sweep.md:68	/home/shovalbe/shoval.be@i-sdd.com.pst	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c01-platform-hygiene-sweep.md:79	~/.claude/bin/pst-watch.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c01-platform-hygiene-sweep.md:80	~/.claude/cache/sessions.db	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c01-platform-hygiene-sweep.md:95	~/.codex/bin/obscura-cdp	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c02-engineering-review-sweep.md:132	~/.claude/bin/qc-monitoring-check.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c02-engineering-review-sweep.md:132	/home/shovalbe/projects/qc-telephony-api	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c02-engineering-review-sweep.md:14	/home/shovalbe/projects/cs-agent	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c02-engineering-review-sweep.md:140	~/.claude/docs/ENGINEERING_REVIEW_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c02-engineering-review-sweep.md:15	/home/shovalbe/projects/qc/qc-telephony-api	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c02-engineering-review-sweep.md:16	/home/shovalbe/projects/video-understanding	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c02-engineering-review-sweep.md:17	/home/shovalbe/projects/campaign-analysis	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c02-engineering-review-sweep.md:19	/home/shovalbe/projects/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c03-prompt-drift-sweep.md:10	/home/shovalbe/agent-prompts	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c03-prompt-drift-sweep.md:11	/home/shovalbe/Prompts	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c03-prompt-drift-sweep.md:19	/home/shovalbe/agent-prompts/README.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c03-prompt-drift-sweep.md:20	/home/shovalbe/agent-prompts/*.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c03-prompt-drift-sweep.md:21	/home/shovalbe/agent-prompts/drafts/*.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c03-prompt-drift-sweep.md:58	~/.claude/docs/PROMPT_DRIFT_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c03-prompt-drift-sweep.md:8	/home/shovalbe/projects/cs-agent	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c03-prompt-drift-sweep.md:9	/home/shovalbe/projects/campaign-analysis	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c04-security-testing-pyramid-sweep.md:10	/home/shovalbe/docs/testing_practices.txt	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c04-security-testing-pyramid-sweep.md:11	/home/shovalbe/docs/research/2026-05-07-ai-bot-security-best-practices.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c04-security-testing-pyramid-sweep.md:12	/home/shovalbe/docs/specs/2026-05-13-hive-adoption-plan.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c04-security-testing-pyramid-sweep.md:13	/home/shovalbe/.hive/rigs.yaml	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c04-security-testing-pyramid-sweep.md:20	/home/shovalbe/projects/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/c04-security-testing-pyramid-sweep.md:65	~/.claude/docs/SECURITY_TESTING_PYRAMID_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d01-ci-auth-reproducer.md:24	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d01-ci-auth-reproducer.md:33	~/.claude/projects/-home-shovalbe/memory/lesson_azure_kv_auth_pattern.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d01-ci-auth-reproducer.md:35	~/.claude/docs/CI_AUTH_HEALTH_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d01-ci-auth-reproducer.md:4	/home/shovalbe/projects/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d02-web-ui-hand-edit-detector.md:16	~/.claude/docs/HANDEDIT_LOG_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d02-web-ui-hand-edit-detector.md:20	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d02-web-ui-hand-edit-detector.md:4	/home/shovalbe/projects/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d03-duplicate-commit-detector.md:21	~/.claude/docs/DUPLICATE_COMMITS_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d03-duplicate-commit-detector.md:4	/home/shovalbe/projects/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d04-foundry-agent-version-audit.md:23	~/.claude/docs/AGENT_VERSION_AUDIT_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d04-foundry-agent-version-audit.md:28	~/.claude/projects/-home-shovalbe/memory/lesson_prompt_versioning.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d04-foundry-agent-version-audit.md:35	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d04-foundry-agent-version-audit.md:4	/home/shovalbe/projects/cs-agent	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d04-foundry-agent-version-audit.md:4	/home/shovalbe/projects/HR-agent	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d04-foundry-agent-version-audit.md:4	/home/shovalbe/projects/campaign-analysis	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d05-hot-zone-indicator.md:25	~/.claude/docs/HOT_ZONES_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d05-hot-zone-indicator.md:30	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d06-lint-debt-tripwire.md:14	~/.claude/cache/lint-baseline-<repo>.txt	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d06-lint-debt-tripwire.md:21	~/.claude/docs/LINT_DEBT_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d06-lint-debt-tripwire.md:33	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d06-lint-debt-tripwire.md:4	/home/shovalbe/projects/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d07-stash-wip-leak-watch.md:19	~/.claude/docs/STASH_LEAKS_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d07-stash-wip-leak-watch.md:24	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d07-stash-wip-leak-watch.md:4	/home/shovalbe/projects/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d08-ai-review-stage-health.md:33	~/.claude/docs/AI_REVIEW_HEALTH_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d08-ai-review-stage-health.md:38	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d08-ai-review-stage-health.md:4	/home/shovalbe/projects/cs-agent	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d09-eval-gate-regression-detector.md:19	~/.claude/projects/-home-shovalbe/memory/lesson_eval_gate_reliability.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d09-eval-gate-regression-detector.md:23	~/.claude/docs/EVAL_GATE_REGRESSIONS_<DATE>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d09-eval-gate-regression-detector.md:28	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d09-eval-gate-regression-detector.md:4	/home/shovalbe/projects/cs-agent	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d09-eval-gate-regression-detector.md:4	/home/shovalbe/projects/campaign-analysis	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d10-pipeline-yaml-diff-reviewer.md:15	~/.claude/rules/production-safety.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d10-pipeline-yaml-diff-reviewer.md:27	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/d10-pipeline-yaml-diff-reviewer.md:4	/home/shovalbe/projects/	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/n02-multilingual-canary.md:18	~/.codex/automations/prompts/d09-eval-gate-regression-detector.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/automations/prompts/n02-multilingual-canary.md:20	/home/shovalbe/projects/cs-agent/evals/multilingual-canary.jsonl	document names a path that is not on this machine
+low	doc-ref	dot-codex/rules/no-mocks.md:37	~/.codex/skills/cleanup-crew/detect.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/rules/tdd-enforcement.md:3	~/.codex/rules/no-mocks.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/.system/plugin-creator/SKILL.md:26	~/.agents/plugins/marketplace.json	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/.system/plugin-creator/references/installing-and-updating.md:48	~/.agents/plugins/marketplace.json	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/.system/plugin-creator/references/plugin-json-spec.md:126	~/.agents/plugins/marketplace.json	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/apify-mcp/SKILL.md:13	~/.codex/bin/codex-with-mcp	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/apify-mcp/SKILL.md:16	~/.codex/bin/mcp-smoke-check	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/azure-devops/SKILL.md:12	~/.codex/skills/azure-devops/azure-devops.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/azure-devops/SKILL.md:13	~/.codex/skills/azure-devops/README.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/azure-devops/SKILL.md:14	~/.codex/skills/azure-devops/PERMISSIONS.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/azure-devops/TROUBLESHOOTING.md:37	/home/user/.azure/cliextensions/azure-devops	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/azure-devops/TROUBLESHOOTING.md:453	/home/shovalbe/.codex/skills/azure-devops/	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/azure-keyvault-secrets/SKILL.md:13	~/.codex/bin/codex-secrets-sync	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/azure-keyvault-secrets/SKILL.md:14	~/.codex/secrets/keyvault.conf	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/azure-keyvault-secrets/SKILL.md:15	~/.codex/secrets/global.map	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/azure-keyvault-secrets/SKILL.md:16	/home/shovalbe/projects/social-intelligence-unit/.codex/secrets.map	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/azure-keyvault-secrets/SKILL.md:17	/home/shovalbe/projects/figma-4-all/.codex/secrets.map	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/cleanup-crew/SKILL.md:9	~/.codex/skills/cleanup-crew/detect.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/elevenlabs-mcp/SKILL.md:13	~/.codex/bin/codex-with-mcp	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/elevenlabs-mcp/SKILL.md:16	~/.codex/bin/mcp-smoke-check	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/eval-runner/SKILL.md:94	~/.codex/hooks/stop-checklist.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/feature-investor/SKILL.md:114	~/.codex/agent-control/repos.toml	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/feature-investor/SKILL.md:61	~/.claude/docs/FEATURE_INVESTOR_<slug>_<date>.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/feature-investor/SKILL.md:61	~/.codex/agent-control/events.jsonl	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/heygen-mcp/SKILL.md:13	~/.codex/bin/codex-with-mcp	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/mcp-activation/SKILL.md:10	~/.codex/bin/codex-with-mcp	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/mcp-activation/SKILL.md:15	~/.codex/bin/codex-secrets-sync	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/mcp-activation/SKILL.md:18	~/.codex/bin/mcp-smoke-check	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/red-team-review/README.md:9	~/.codex/settings.json	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/red-team-review/README.md:95	~/.codex/skills/red-team-review/	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/voice-explainer/SKILL.md:100	~/.claude/assets/voice/morning-brief-YYYY-MM-DD.mp3	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/voice-explainer/SKILL.md:101	~/.claude/bin/walking-mode	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/voice-explainer/SKILL.md:118	~/.claude/assets/voice/	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/voice-explainer/SKILL.md:44	~/.claude/assets/voice/<slug>-<unix>.mp3	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/watchdog/SKILL.md:183	~/.codex/hooks/watchdog-verify.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/watchdog/SKILL.md:196	~/.codex/hooks/watchdog-pre-merge.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/watchdog/SKILL.md:199	~/.codex/hooks/watchdog-pre-push.sh	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/watchdog/SKILL.md:314	~/.codex/settings.json	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/web-inspect/SKILL.md:106	~/.codex/skills/playwright-cli/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/workspace-brain/SKILL.md:104	/home/shovalbe/AGENTS.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/workspace-brain/SKILL.md:112	/home/shovalbe/docs/testing_practices.txt	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/workspace-brain/SKILL.md:119	/home/shovalbe/docs/research/2026-05-07-ai-bot-security-best-practices.md	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/workspace-brain/SKILL.md:25	/home/shovalbe/.hive/rigs.yaml	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/workspace-brain/SKILL.md:32	/home/shovalbe/projects/seekapa-training-platform	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/workspace-brain/SKILL.md:45	/home/shovalbe/projects/cs-agent	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/workspace-brain/SKILL.md:58	/home/shovalbe/projects/qc/qc-telephony-api	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/workspace-brain/SKILL.md:71	/home/shovalbe/projects/video-understanding	document names a path that is not on this machine
+low	doc-ref	dot-codex/skills/workspace-brain/SKILL.md:84	/home/shovalbe/projects/campaign-analysis	document names a path that is not on this machine
