@@ -1898,3 +1898,22 @@ a0eb384 fix(hooks): hooks never fired in-harness — WSL bash + mangled backslas
 44fb961 feat(models): Opus 5 as lead default; Fable exceptional-only (ADR-0015)
 fb9e6cf feat(calibration): calibrated-claims rule + kernel-anchor v2 + L009
 ```
+## compact 2026-07-25 09:16
+```
+## main...origin/main [ahead 8]
+ M state/refutations.jsonl
+361a7fb docs: record the lessons, the audits and the retired surface
+2bb97a8 chore(config): sync tracked global contract and rules with the live tree
+73cb7d5 chore(meme): remove the meme and visual-explainer surface (MEME-01)
+```
+## compact 2026-07-25 09:29
+```
+## main...origin/main [ahead 8]
+ M dot-claude/settings.json
+ M state/compact-log.md
+ M state/refutations.jsonl
+ M tools/bus/bus.py
+361a7fb docs: record the lessons, the audits and the retired surface
+2bb97a8 chore(config): sync tracked global contract and rules with the live tree
+73cb7d5 chore(meme): remove the meme and visual-explainer surface (MEME-01)
+```

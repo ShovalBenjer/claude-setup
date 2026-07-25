@@ -74,6 +74,15 @@
               "/c/Users/shova/.claude/hooks/session-recall.sh"
             ],
             "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python",
+            "args": [
+              "C:\\Users\\shova\\claude-setup\\tools\\bus\\bus.py",
+              "inbox"
+            ],
+            "timeout": 10
           }
         ]
       }
@@ -153,6 +162,21 @@
             "timeout": 15,
             "statusMessage": "Raising Windows toast",
             "async": true
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python",
+            "args": [
+              "C:\\Users\\shova\\claude-setup\\tools\\bus\\bus.py",
+              "inbox"
+            ],
+            "timeout": 10
           }
         ]
       }
