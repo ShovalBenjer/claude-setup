@@ -133,6 +133,21 @@ jobs:
       - name: skills_sync.py selftest
         run: python tools/audit/skills_sync.py selftest
 
+      # A style rule nothing measures is a wish, and a style CHECKER nobody runs is
+      # the same thing one layer down. This is the only step in this job guarding
+      # prose rather than an instrument, and it belongs here because the question is
+      # not "is the writing good" but "would a violation be caught at all".
+      - name: plain.py selftest (explain-simply checker)
+        run: python dot-claude/skills/explain-simply/plain.py selftest
+
+      # The skill's own text has to survive its own rules. A style skill whose
+      # documentation fails its own checker is exactly the decorative check this repo
+      # keeps finding, so the document is a fixture as much as the fixtures are. This
+      # step already caught one real defect in the checker: a run of bullets was
+      # measured as a single long paragraph.
+      - name: plain.py check (the skill passes its own rules)
+        run: python dot-claude/skills/explain-simply/plain.py check dot-claude/skills/explain-simply/SKILL.md
+
       # Runs here rather than in `unit` for the same reason as the rest of this job,
       # plus one specific to it: this tool is the undo path for writes into
       # ~/.claude, so the question "would we notice if it silently captured nothing,
