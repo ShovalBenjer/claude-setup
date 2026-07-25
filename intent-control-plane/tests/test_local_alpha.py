@@ -4,6 +4,7 @@ import sqlite3
 import subprocess
 import sys
 import tempfile
+from contextlib import closing
 from pathlib import Path
 from unittest import TestCase
 
@@ -49,7 +50,11 @@ class LocalAlphaTests(TestCase):
             self.assertTrue((base_dir / "ledger" / "events.jsonl").exists())
             self.assertTrue((base_dir / "context-packs").is_dir())
             self.assertTrue((base_dir / "evals" / "golden").is_dir())
-            with sqlite3.connect(base_dir / "intent.db") as conn:
+            # `with sqlite3.connect(...)` commits and does NOT close, so this held
+            # intent.db open and the TemporaryDirectory teardown failed with WinError 32
+            # after every assertion below had already passed. closing() supplies the
+            # half the transaction manager does not.
+            with closing(sqlite3.connect(base_dir / "intent.db")) as conn:
                 tables = {
                     row[0]
                     for row in conn.execute(
@@ -657,7 +662,11 @@ class LocalAlphaTests(TestCase):
             old_time = 1_700_000_000
             os.utime(old_pack, (old_time, old_time))
 
-            with sqlite3.connect(hive_db) as conn:
+            # Same fix as above, and this one writes: closing() is the outer manager and
+            # `conn` the inner, so the transaction commits first and the file is released
+            # second. The explicit conn.commit() below is now redundant but harmless, and
+            # is left in place because it states the intent at the point of the write.
+            with closing(sqlite3.connect(hive_db)) as conn, conn:
                 conn.execute(
                     """
                     create table beads (

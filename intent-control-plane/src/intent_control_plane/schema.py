@@ -30,8 +30,35 @@ def base_paths(base_dir: Path) -> dict[str, Path]:
     }
 
 
+class _ClosingConnection(sqlite3.Connection):
+    """A connection whose `with` block releases the file, not just the transaction.
+
+    `sqlite3.Connection.__exit__` commits or rolls back and deliberately leaves the
+    handle open. That is correct for the stdlib and wrong for every call site in this
+    package: all 24 of them are `with connect(base_dir) as conn:` and not one of them
+    closes afterwards, so each read as if it released the database and none did.
+
+    On Linux nothing shows, because unlink succeeds on an open file. On Windows the
+    file stays locked, which is how this surfaced: two tests failed in TEARDOWN with
+    WinError 32 on `beads.db` and `intent.db`, long after their assertions had passed.
+    The leak was never Windows-specific; only the symptom was.
+
+    The contract narrows to "the with-block owns the connection". A caller that needs
+    the handle to outlive a transaction takes a bare `connect()` and closes it itself,
+    which is what transitions.py already does around its BEGIN IMMEDIATE.
+    """
+
+    def __exit__(self, exc_type, exc, tb):  # type: ignore[no-untyped-def]
+        # close() in a finally, so a commit that itself fails still releases the file
+        # rather than turning one error into two.
+        try:
+            return super().__exit__(exc_type, exc, tb)
+        finally:
+            self.close()
+
+
 def connect(base_dir: Path) -> sqlite3.Connection:
-    conn = sqlite3.connect(base_paths(base_dir)["db"])
+    conn = sqlite3.connect(base_paths(base_dir)["db"], factory=_ClosingConnection)
     conn.row_factory = sqlite3.Row
     return conn
 

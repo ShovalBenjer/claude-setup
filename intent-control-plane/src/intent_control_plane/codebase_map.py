@@ -74,7 +74,13 @@ def build_codebase_map(root: Path, max_files: int = 4000) -> list[dict[str, Any]
                 continue
             full = Path(dirpath) / name
             file_map = build_file_map(full)
-            file_map["path"] = str(full.relative_to(base))
+            # as_posix(), not str(): the map is a portable artifact. It gets rendered to
+            # markdown, handed to an agent, diffed between runs and compared against
+            # paths written elsewhere in this package, all of which use forward slashes.
+            # str() emits `sub\b.py` on Windows, so the same repo produced two different
+            # maps depending on which machine walked it, and every cross-run diff showed
+            # every nested file as changed.
+            file_map["path"] = full.relative_to(base).as_posix()
             maps.append(file_map)
             if len(maps) >= max_files:
                 return maps
