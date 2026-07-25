@@ -30,3 +30,11 @@ state/openrouter-models.json
 # config before the ship-gate Stop hook) exists in no commit.
 *.bak-pre-*
 *.stackdump
+
+# A2A read positions, one small integer per lane. state/bus.jsonl IS shared and IS
+# tracked; how far one machine has read through it is not. Tracking these would
+# conflict on every pull, and a fresh clone would start mid-stream and skip every
+# message sent before the clone. Ignored deliberately, with one consequence
+# accepted: a cursor's prior value is then unrecoverable, which is how lane B's
+# pre-reset value was already lost on 2026-07-25.
+state/bus-cursors/
