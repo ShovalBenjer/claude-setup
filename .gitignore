@@ -38,3 +38,15 @@ state/openrouter-models.json
 # accepted: a cursor's prior value is then unrecoverable, which is how lane B's
 # pre-reset value was already lost on 2026-07-25.
 state/bus-cursors/
+
+# Mutation-harness scratch. tools/audit/mutate.py writes a mutated copy of a target
+# BESIDE the original, because several targets resolve their repo root from
+# __file__ and a copy under %TEMP% would get a root that does not exist, turning
+# every case into a launch failure that then looks "caught". Removed in a finally
+# block and swept at startup; ignored so a crash cannot commit one.
+_mutant_*.py
+
+# Mutation-run lock (tools/audit/mutate.py). A directory, created atomically with
+# mkdir, holding the pid of the run that owns it. Two concurrent runs would
+# overwrite each other's mutants and the verdicts would be meaningless.
+.mutate-lock/

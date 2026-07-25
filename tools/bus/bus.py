@@ -32,16 +32,42 @@ DELIVERY RULE, and why it is not "skip your own lane":
   environment on this machine, so from_session is recorded but always empty
   and must not be used as a filter key.
 
+INTEGRITY, and why a plain JSONL append log was not enough:
+  Each row commits to its own content and to the row before it, so an edit, a
+  deletion, a reordering or an insertion anywhere in the chained region is
+  detectable by `bus.py verify`. Two defects forced this, both reproduced
+  against the unchained version before it changed:
+
+    - A third party edited a delivered row's body from "gate is RED, do not
+      ship" to "gate is GREEN, ship it" and the bus handed lane C the edited
+      text with nothing marking it as altered. A row that does not commit to
+      its content cannot be told apart from a row that was never touched.
+    - The read cursor was a positional offset into the parsed row list, which
+      assumes no earlier row ever moves. state/bus.jsonl is git-tracked and has
+      a second writer, so a hand-resolved merge that drops one line shifts every
+      lane's cursor. Dropping one earlier row made a genuinely unread message
+      undeliverable and printed no error. The cursor is now a row id.
+
+  Scope of the claim, stated because a hash chain invites more: this is tamper
+  EVIDENT, not tamper proof, and it authenticates nobody. Every lane here runs
+  as the same OS user, so anything that can edit the log can recompute the
+  chain over its edit. What it catches is the accident that actually happens, a
+  merge resolution or a second writer rewriting a row, not a forger. Truncating
+  the newest rows is also not detectable from the log alone, because nothing
+  outside the file records where the tip should be.
+
   bus.py send --to C --kind ask --subject "..." --body "..."
   bus.py inbox                 # unread for THIS lane, advances the cursor
   bus.py inbox --peek          # unread, cursor untouched
   bus.py log --tail 20
+  bus.py verify                # walk the chain, exit 1 on any break
   bus.py whoami
   bus.py selftest              # plants known traffic and asserts delivery
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -86,6 +112,64 @@ def lane_for(cwd: str) -> str:
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
+
+
+# The fields a row's hash is taken over. `hash` and `sig` are excluded because a
+# value cannot commit to itself; `prev` is included because that is what chains
+# one row to the one before it.
+CHAIN_FIELDS = ("id", "ts", "from_lane", "origin_lane", "from_session", "to",
+                "kind", "subject", "body", "refs", "prev")
+
+
+def canonical(rec: dict) -> bytes:
+    """The exact bytes a row's hash is taken over.
+
+    Sorted keys and no whitespace, so a row hashes identically regardless of how
+    json.dumps was configured when it was written. Absent keys are omitted
+    rather than defaulted to empty, so adding a field to CHAIN_FIELDS later
+    cannot silently change the hash of every row that predates the field.
+    """
+    payload = {k: rec[k] for k in CHAIN_FIELDS if k in rec}
+    return json.dumps(payload, sort_keys=True, separators=(",", ":"),
+                      ensure_ascii=False).encode("utf-8")
+
+
+def row_hash(rec: dict) -> str:
+    """16 hex of sha256 over canonical(rec), matching tree_fingerprint's width."""
+    return hashlib.sha256(canonical(rec)).hexdigest()[:16]
+
+
+def row_id(rec: dict) -> str:
+    """A stable address for any row, chained or not.
+
+    The rows that predate chaining carry no hash. Recomputing one for them costs
+    nothing and lets the cursor address every row in the file, so replacing the
+    positional cursor needs no migration pass over existing traffic and no
+    rewrite of a git-tracked log.
+
+    For a chained row this returns the STORED hash, not a recomputation, so a
+    tampered row keeps its address and stays addressable by a cursor that was
+    set before the tamper. A cursor that silently stopped resolving would
+    reintroduce exactly the message loss the row id was introduced to remove.
+    The tamper is not thereby hidden: row_altered() marks it at read time.
+    """
+    return rec.get("hash") or row_hash(rec)
+
+
+def row_altered(rec: dict) -> bool:
+    """True when a row carries a hash and its content no longer matches it.
+
+    Checked on the READ path, not only by verify. An earlier version of this
+    module detected tampering only when someone ran verify, and nothing runs
+    verify on every prompt, so an edited row was still handed to the reader as
+    ordinary traffic. A check nobody invokes at the moment of use is a check that
+    reports rather than protects.
+
+    False for a row with no hash. Those predate chaining and make no claim about
+    their own content, so calling them unaltered would be a claim this cannot
+    support; verify names them separately as uncovered.
+    """
+    return "hash" in rec and row_hash(rec) != rec["hash"]
 
 
 def read_all() -> list[dict]:
@@ -135,36 +219,76 @@ def cursor_path(lane: str) -> Path:
     return CURSORS / f"{lane}.txt"
 
 
-def get_cursor(lane: str) -> int:
+def get_cursor(lane: str) -> str:
+    """The id of the last row this lane consumed, or "" if it never has.
+
+    A value of all digits is the old positional cursor. It is returned as written
+    and unread() honours it once, so a lane mid-flight when this changed does not
+    replay its whole history.
+    """
     p = cursor_path(lane)
     if not p.exists():
-        return 0
-    try:
-        return int(p.read_text(encoding="utf-8").strip() or 0)
-    except ValueError:
-        return 0
+        return ""
+    return p.read_text(encoding="utf-8").strip()
 
 
-def set_cursor(lane: str, n: int) -> None:
+def set_cursor(lane: str, rows: list[dict]) -> None:
+    """Point this lane at the last row in the FILE, not the last one delivered.
+
+    Matches the previous semantics, which stored len(rows): a lane is caught up
+    to everything written so far, including the rows addressed elsewhere that it
+    was never shown.
+    """
     CURSORS.mkdir(parents=True, exist_ok=True)
-    cursor_path(lane).write_text(str(n), encoding="utf-8")
+    cursor_path(lane).write_text(row_id(rows[-1]) if rows else "", encoding="utf-8")
+
+
+def unread(rows: list[dict], lane: str) -> list[dict]:
+    """The rows after this lane's cursor.
+
+    When the cursor names a row that is no longer in the file, replay from the
+    start instead of skipping. That failure direction is chosen, not incidental:
+    over-delivery is visible to the operator and recoverable by reading, while
+    silent loss is neither, and silent loss is the defect this replaced. Searches
+    from the end so the newest match wins if a row id ever repeats.
+    """
+    cur = get_cursor(lane)
+    if not cur:
+        return list(rows)
+    if cur.isdigit():                       # legacy positional cursor, honoured once
+        return rows[int(cur):]
+    for i in range(len(rows) - 1, -1, -1):
+        if row_id(rows[i]) == cur:
+            return rows[i + 1:]
+    return list(rows)
 
 
 def cmd_send(a: argparse.Namespace) -> int:
     lane = a.from_lane or lane_for(os.getcwd())
+    rows = read_all()
     rec = {
         "id": f"{int(time.time())}-{uuid.uuid4().hex[:6]}",
         "ts": now_iso(),
         "from_lane": lane,
+        # Derived from cwd even when --from-lane overrides the sender. This
+        # module's first design rule is that a lane is derived and never
+        # declared, and --from-lane exists to break precisely that rule, so
+        # recording both makes a mismatch a visible fact in the row rather than
+        # an unknowable one. Nothing here authenticates the claim; it only stops
+        # the override from being silent.
+        "origin_lane": lane_for(os.getcwd()),
         "from_session": os.environ.get("CLAUDE_SESSION_ID", "")[:8],
         "to": a.to.upper() if a.to.lower() != "all" else "ALL",
         "kind": a.kind,
         "subject": a.subject,
         "body": a.body,
         "refs": [r for r in (a.ref or []) if r],
+        "prev": row_id(rows[-1]) if rows else "",
     }
+    rec["hash"] = row_hash(rec)
     append_row(rec)
-    print(f"sent {rec['id']} {lane} -> {rec['to']} [{rec['kind']}] {rec['subject']}")
+    note = "" if rec["origin_lane"] == lane else f" (declared; cwd is lane {rec['origin_lane']})"
+    print(f"sent {rec['id']} {lane}{note} -> {rec['to']} [{rec['kind']}] {rec['subject']}")
     return 0
 
 
@@ -186,18 +310,32 @@ def cmd_inbox(a: argparse.Namespace) -> int:
 def _inbox(a: argparse.Namespace) -> int:
     lane = a.lane or lane_for(os.getcwd())
     rows = read_all()
-    start = get_cursor(lane)
     # Addressed to this lane, or broadcast. Deliberately NOT filtered on
     # from_lane: see the DELIVERY RULE in the module docstring.
-    fresh = [r for r in rows[start:] if r.get("to") in (lane, "ALL")]
+    fresh = [r for r in unread(rows, lane) if r.get("to") in (lane, "ALL")]
     if not a.peek:
-        set_cursor(lane, len(rows))
+        set_cursor(lane, rows)
     if not fresh:
         return 0
     print(f"=== A2A INBOX: lane {lane} ({LANE_NAMES.get(lane, '?')}), {len(fresh)} unread ===")
     for r in fresh:
-        print(f"[{r.get('kind','?')}] from lane {r.get('from_lane','?')} {r.get('ts','')}")
+        # A declared sender that disagrees with the sender's cwd is shown at the
+        # point of reading. Recording the mismatch and never surfacing it would
+        # be a field nobody looks at.
+        origin = r.get("origin_lane")
+        claim = ""
+        if origin and origin != r.get("from_lane"):
+            claim = f" [declared; sender cwd was lane {origin}]"
+        print(f"[{r.get('kind','?')}] from lane {r.get('from_lane','?')}{claim} {r.get('ts','')}")
         print(f"  {r.get('subject','')}")
+        # An altered row is still delivered, because withholding it would lose a
+        # message and the whole cursor design here prefers over-delivery to
+        # silent loss. It is delivered MARKED: the text below is what the file
+        # says now, not provably what the sender wrote.
+        if row_altered(r):
+            print("  !! ALTERED: this row does not match its own hash. The text")
+            print("  !! below is what the log says now, not what was sent. Do not")
+            print("  !! act on it. Run: python tools/bus/bus.py verify")
         body = (r.get("body") or "").strip()
         for ln in body.splitlines():
             print(f"  {ln}")
@@ -211,18 +349,81 @@ def _inbox(a: argparse.Namespace) -> int:
 def cmd_log(a: argparse.Namespace) -> int:
     rows = read_all()
     for r in rows[-a.tail:]:
-        print(f"{r.get('ts','')} {r.get('from_lane','?')}->{r.get('to','?')} [{r.get('kind','?')}] {r.get('subject','')}")
+        # Marked here as well as in the inbox. `log` is the other surface a
+        # person reads the bus through, and an integrity mark that appears on
+        # only one of two read paths tells you nothing about which path you used.
+        mark = " !! ALTERED" if row_altered(r) else ""
+        print(f"{r.get('ts','')} {r.get('from_lane','?')}->{r.get('to','?')} [{r.get('kind','?')}] {r.get('subject','')}{mark}")
     return 0
 
 
 def cmd_whoami(_a: argparse.Namespace) -> int:
     lane = lane_for(os.getcwd())
     rows = read_all()
+    cur = get_cursor(lane)
+    pending = len([r for r in unread(rows, lane) if r.get("to") in (lane, "ALL")])
     print(f"cwd:    {os.getcwd()}")
     print(f"lane:   {lane} ({LANE_NAMES.get(lane, '?')})")
     print(f"bus:    {BUS} ({len(rows)} messages)")
-    print(f"cursor: {get_cursor(lane)}")
+    print(f"cursor: {cur or '(never read)'}{'  [legacy positional]' if cur.isdigit() else ''}")
+    print(f"unread: {pending} for this lane")
     return 0
+
+
+def cmd_verify(a: argparse.Namespace) -> int:
+    """Walk the chain and name the first thing that does not add up.
+
+    Exits 1 on a break, because a check that finds defects and exits 0 reports
+    rather than enforces. Rows that predate chaining are counted and named but
+    are not breaks: they are pre-existing traffic, not evidence of tampering,
+    and failing on them would make the clean state unreachable. --strict fails
+    on them too, for a caller that wants the whole log chained.
+    """
+    rows = read_all()
+    unchained = [i for i, r in enumerate(rows) if "hash" not in r]
+    breaks = []
+    prev_id = None
+    for i, r in enumerate(rows):
+        if "hash" in r:
+            # Same predicate the read path uses, so verify and the inbox can
+            # never disagree about whether a given row was altered.
+            if row_altered(r):
+                breaks.append((i, r, "content does not match its own hash: the row "
+                                     f"says {r['hash']}, its content hashes to "
+                                     f"{row_hash(r)}"))
+            elif prev_id is not None and r.get("prev", "") != prev_id:
+                breaks.append((i, r, "prev does not name the row before it: the row "
+                                     f"says {r.get('prev', '') or '(empty)'}, the previous "
+                                     f"row is {prev_id}. A row was removed, reordered, "
+                                     "or inserted here."))
+        prev_id = row_id(r)
+
+    print(str(BUS))
+    print("  {} row(s): {} chained, {} predate chaining".format(
+        len(rows), len(rows) - len(unchained), len(unchained)))
+    if unchained:
+        print("  unchained at index: " + ", ".join(str(i) for i in unchained))
+        print("  those rows carry no hash, so nothing can be said about whether")
+        print("  they were altered. Only rows sent after chaining are covered.")
+    print("  not covered either way: truncation of the newest rows, because")
+    print("  nothing outside this file records where the tip should be.")
+
+    if not breaks:
+        print("  chain intact across every chained row")
+        if unchained and a.strict:
+            print()
+            print("FAIL under --strict: {} row(s) are unchained".format(len(unchained)))
+            return 1
+        return 0
+
+    print()
+    print("  {} BREAK(S):".format(len(breaks)))
+    for i, r, why in breaks:
+        print("    row {} [{}] {}->{} {!r}".format(
+            i, r.get("kind", "?"), r.get("from_lane", "?"), r.get("to", "?"),
+            r.get("subject", "")))
+        print("      " + why)
+    return 1
 
 
 def cmd_selftest(_a: argparse.Namespace) -> int:
@@ -236,12 +437,16 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
     import io
     import shutil
     import tempfile
+    import traceback
     from contextlib import redirect_stdout
 
     global BUS, CURSORS
     real_bus, real_cursors = BUS, CURSORS
     tmp = Path(tempfile.mkdtemp(prefix="bus-selftest-"))
     BUS, CURSORS = tmp / "bus.jsonl", tmp / "cursors"
+    # Every throwaway bus this run created, so a case that plants tampering
+    # cannot leak its damage into the next case and every dir gets removed.
+    made: list[Path] = [tmp]
 
     failures: list[str] = []
 
@@ -251,14 +456,90 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
         if not ok:
             failures.append(name)
 
-    def plant(from_lane: str, to: str, subject: str) -> None:
-        # Goes through append_row, the same path cmd_send uses, so the torn-line
-        # case below tests production behaviour and not the test's own writer.
+    def send(**kw) -> tuple[str, dict]:
+        """Run cmd_send against the throwaway bus, turning a crash into a verdict.
+
+        An escaping exception used to take this whole selftest down: the checks
+        below the failing send never ran, and the process still exited nonzero.
+        Under tools/audit/mutate.py that reads as "caught" with no check naming
+        it, which is indistinguishable from being caught for the intended reason
+        and hides however many later checks were never reached. Dropping the
+        origin_lane line from cmd_send is exactly that case: the row is appended,
+        then the summary line raises KeyError reading the field back.
+
+        Returns the traceback text (empty when the send was clean) and the last
+        row on the bus, or an empty dict when the crash happened before append.
+        """
+        crash = ""
+        try:
+            with redirect_stdout(io.StringIO()):
+                cmd_send(argparse.Namespace(ref=None, **kw))
+        except BaseException:            # noqa: BLE001 - a crash is a verdict here
+            crash = traceback.format_exc()
+        rows = read_all()
+        return crash, (rows[-1] if rows else {})
+
+    def fresh_bus() -> None:
+        """Point the module at a brand new empty bus."""
+        global BUS, CURSORS
+        d = Path(tempfile.mkdtemp(prefix="bus-selftest-"))
+        made.append(d)
+        BUS, CURSORS = d / "bus.jsonl", d / "cursors"
+
+    def plant(from_lane: str, to: str, subject: str, body: str = "b") -> None:
+        """Write one row shaped exactly as cmd_send writes it, chain included.
+
+        Goes through append_row, the same path cmd_send uses, so the torn-line
+        case below tests production behaviour rather than the test's own writer,
+        and the integrity cases run against rows shaped like real traffic.
+        """
+        rows = read_all()
+        rec = {
+            "id": subject, "ts": now_iso(), "from_lane": from_lane,
+            "origin_lane": from_lane, "from_session": "", "to": to,
+            "kind": "fact", "subject": subject, "body": body, "refs": [],
+            "prev": row_id(rows[-1]) if rows else "",
+        }
+        rec["hash"] = row_hash(rec)
+        append_row(rec)
+
+    def plant_unchained(from_lane: str, to: str, subject: str) -> None:
+        """A row in the pre-chaining shape, to prove old traffic still reads."""
         append_row({
             "id": subject, "ts": now_iso(), "from_lane": from_lane,
             "from_session": "", "to": to, "kind": "fact",
             "subject": subject, "body": "b", "refs": [],
         })
+
+    def drop(marker: str) -> None:
+        """Remove one row from the file, as a hand-resolved merge conflict does.
+
+        Raises if it did not remove exactly one line. A marker that matches
+        nothing would leave the file intact and every assertion downstream would
+        pass while testing nothing, which is the failure mode of any test that
+        edits its fixture by string match.
+        """
+        lines = [l for l in BUS.read_text(encoding="utf-8").splitlines() if l.strip()]
+        keep = [l for l in lines if marker not in l]
+        if len(lines) - len(keep) != 1:
+            raise AssertionError(
+                "drop({!r}) removed {} lines, expected exactly 1. The fixture was "
+                "not modified as intended.".format(marker, len(lines) - len(keep)))
+        BUS.write_text("\n".join(keep) + "\n", encoding="utf-8")
+
+    def tamper(find: str, repl: str) -> None:
+        """Edit the log in place as a third party would, and prove the edit landed."""
+        text = BUS.read_text(encoding="utf-8")
+        if text.count(find) != 1:
+            raise AssertionError(
+                "tamper({!r}) matched {} times, expected 1".format(find, text.count(find)))
+        BUS.write_text(text.replace(find, repl), encoding="utf-8")
+
+    def verify(strict: bool = False) -> tuple[int, str]:
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_verify(argparse.Namespace(strict=strict))
+        return rc, buf.getvalue()
 
     def inbox(lane: str, peek: bool = False) -> str:
         buf = io.StringIO()
@@ -322,14 +603,210 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
         check("an unmapped cwd falls back to lane A",
               lane_for(r"c:\windows\temp") == "A")
 
-        # A corrupt cursor must not wedge the bus.
-        set_cursor("D", 0)
-        cursor_path("D").write_text("not-a-number", encoding="utf-8")
-        check("a corrupt cursor reads as 0 rather than raising",
-              get_cursor("D") == 0)
+        # A corrupt cursor must not wedge the bus. It names no row in the file,
+        # so the lane replays rather than raising or reading as caught-up.
+        fresh_bus()
+        plant("A", "D", "z1")
+        CURSORS.mkdir(parents=True, exist_ok=True)
+        cursor_path("D").write_text("not-a-row-id", encoding="utf-8")
+        try:
+            check("a corrupt cursor replays rather than raising",
+                  "z1" in inbox("D", peek=True))
+        except Exception as exc:  # noqa: BLE001
+            check("a corrupt cursor replays rather than raising", False, repr(exc))
+
+        # --- integrity ------------------------------------------------------
+        # Reproduced against the unchained version before this existed: a third
+        # party edited a delivered row's body and the bus handed the reader the
+        # edited text with nothing marking it as altered.
+        fresh_bus()
+        plant("B", "C", "verdict", body="gate is RED, do not ship")
+        rc, out = verify()
+        check("a clean chain verifies and exits 0",
+              rc == 0 and "chain intact" in out,
+              "exit {}: {}".format(rc, out[-200:]))
+
+        tamper("gate is RED, do not ship", "gate is GREEN, ship it")
+        rc, out = verify()
+        check("an edited body is caught and the row is named",
+              rc == 1 and "does not match its own hash" in out and "verdict" in out,
+              "exit {}: {}".format(rc, out[-300:]))
+        got = inbox("C", peek=True)
+        check("the tampered row is still addressable, so no message is lost",
+              "GREEN" in got,
+              "verify detects the edit; the cursor must not stop resolving")
+        check("the reader is told the row was altered, at the point of reading",
+              "ALTERED" in got,
+              "the edited text was delivered as ordinary traffic; nothing runs "
+              "verify on every prompt, so detection there is not enough")
+        with redirect_stdout(io.StringIO()) as lbuf:
+            cmd_log(argparse.Namespace(tail=10))
+        check("bus.py log marks an altered row too",
+              "ALTERED" in lbuf.getvalue(),
+              "log: " + repr(lbuf.getvalue()[:160]))
+
+        # The mark must be earned, not decorative: a clean row must not carry it.
+        fresh_bus()
+        plant("B", "C", "clean-row", body="gate is RED, do not ship")
+        got = inbox("C", peek=True)
+        check("an untampered row is NOT marked as altered",
+              "clean-row" in got and "ALTERED" not in got,
+              "a mark that appears on clean rows carries no information")
+        plant_unchained("B", "C", "legacy-row")
+        got = inbox("C", peek=True)
+        check("a row predating the chain is not claimed to be altered",
+              "legacy-row" in got and "ALTERED" not in got,
+              "an unchained row makes no claim about its content either way")
+
+        # The canonical form is a wire format, so it needs a fixed oracle rather
+        # than only self-consistency. Every case above writes and reads with the
+        # same canonical(), so a change to its SHAPE stays invisible to them
+        # while silently invalidating every row already on disk. This vector was
+        # computed once and is pinned: it deliberately omits origin_lane, so the
+        # rule that absent keys are omitted rather than defaulted is what is
+        # being held, not just the digest.
+        want_bytes = ('{"body":"fixed body","from_lane":"B","from_session":"deadbeef",'
+                      '"id":"1753400000-abc123","kind":"claim","prev":"0123456789abcdef",'
+                      '"refs":["a.py","b.py"],"subject":"golden","to":"C",'
+                      '"ts":"2026-07-25T12:00:00+03:00"}')
+        golden = {
+            "id": "1753400000-abc123", "ts": "2026-07-25T12:00:00+03:00",
+            "from_lane": "B", "from_session": "deadbeef", "to": "C",
+            "kind": "claim", "subject": "golden", "body": "fixed body",
+            "refs": ["a.py", "b.py"], "prev": "0123456789abcdef",
+            "hash": "ignored", "sig": "ignored",
+        }
+        got_bytes = canonical(golden).decode("utf-8")
+        check("the canonical form is byte-for-byte what it was when rows were written",
+              got_bytes == want_bytes,
+              "shape changed, so every row already on disk stops verifying:\n"
+              "      want {}\n      got  {}".format(want_bytes, got_bytes))
+        check("the pinned row still hashes to its recorded digest",
+              row_hash(golden) == "1def9c6c00638f23",
+              "got {}".format(row_hash(golden)))
+        check("hash and sig are excluded from what a row commits to",
+              '"hash"' not in got_bytes and '"sig"' not in got_bytes,
+              "a value cannot commit to itself")
+
+        # A row removed from the middle breaks the next row's prev. That is the
+        # property that makes deletion detectable at all. Sent through cmd_send,
+        # not through plant: a mutation test showed plant() computes its own prev,
+        # so planting here would test the test's writer and pass even if cmd_send
+        # stopped writing prev entirely.
+        fresh_bus()
+        crashes = [c for c in (send(to="D", kind="fact", subject=subj, body="b",
+                                    from_lane="A")[0]
+                               for subj in ("k1", "k2", "k3")) if c]
+        check("cmd_send completes without raising",
+              not crashes,
+              "{} of 3 sends RAISED: {}".format(
+                  len(crashes), crashes[0].strip().splitlines()[-1] if crashes else ""))
+        check("cmd_send chains each row to the one before it",
+              all(r.get("prev") for r in read_all()[1:]),
+              "prev values: {}".format([r.get("prev") for r in read_all()]))
+        drop('"subject": "k2"')
+        rc, out = verify()
+        check("a row deleted from the middle of the chain is caught",
+              rc == 1 and "prev does not name the row before it" in out,
+              "exit {}: {}".format(rc, out[-300:]))
+
+        # row_id must return the STORED hash for a chained row, not a fresh
+        # recomputation. Discriminating case: tamper with the exact row the
+        # cursor names. Stored -> the cursor still resolves and only the genuinely
+        # unread row is delivered. Recomputed -> the cursor resolves nothing and
+        # the lane replays traffic it already consumed.
+        fresh_bus()
+        plant("A", "D", "s1")
+        plant("A", "D", "s2")
+        inbox("D")                           # cursor now names s2
+        plant("A", "D", "s3")
+        tamper('"subject": "s2", "body": "b"', '"subject": "s2", "body": "edited"')
+        got = inbox("D")
+        check("tampering with the row the cursor names does not force a replay",
+              "s3" in got and "s1" not in got,
+              "delivered: " + repr(got.strip()[:200]))
+
+        # Pre-chaining traffic must stay readable and must not read as tampering,
+        # or the clean state would be unreachable on the real 12-row log.
+        fresh_bus()
+        plant_unchained("A", "D", "old1")
+        plant_unchained("A", "D", "old2")
+        plant("A", "D", "new1")
+        rc, out = verify()
+        check("rows predating the chain are reported, not counted as breaks",
+              rc == 0 and "unchained at index: 0, 1" in out,
+              "exit {}: {}".format(rc, out[-300:]))
+        rc, out = verify(strict=True)
+        check("--strict fails on unchained rows",
+              rc == 1 and "FAIL under --strict" in out,
+              "exit {}: {}".format(rc, out[-200:]))
+        check("a chained row after unchained ones still delivers",
+              "new1" in inbox("D", peek=True))
+
+        # --- the cursor defect ----------------------------------------------
+        # Reproduced before the fix: cursor D was the offset 2 into a list that
+        # became 2 long, so rows[2:] was empty and a genuinely unread message was
+        # lost with no error at all.
+        fresh_bus()
+        plant("A", "D", "c1")
+        plant("A", "D", "c2")
+        got = inbox("D")
+        check("both messages are delivered on the first read",
+              "c1" in got and "c2" in got)
+        plant("A", "D", "c3")                # genuinely unread
+        drop('"c1"')                         # hand-resolved merge drops a line
+        got = inbox("D")
+        check("an unread message survives an earlier row being dropped",
+              "c3" in got,
+              "delivered instead: " + (repr(got.strip()[:60]) if got.strip()
+                                       else "nothing at all"))
+
+        # When the cursor names a row that is gone, replay beats skip:
+        # over-delivery is visible and recoverable, silent loss is neither.
+        fresh_bus()
+        plant("A", "D", "r1")
+        inbox("D")                           # cursor now names r1
+        plant("A", "D", "r2")
+        drop('"r1"')
+        check("a cursor naming a vanished row replays instead of skipping",
+              "r2" in inbox("D", peek=True))
+
+        # A lane mid-flight when this changed must not replay its whole history.
+        fresh_bus()
+        plant("A", "D", "p1")
+        plant("A", "D", "p2")
+        CURSORS.mkdir(parents=True, exist_ok=True)
+        cursor_path("D").write_text("1", encoding="utf-8")
+        got = inbox("D", peek=True)
+        check("a legacy positional cursor is honoured once",
+              "p2" in got and "p1" not in got,
+              "delivered: " + repr(got.strip()[:120]))
+
+        # --- the declared-lane override -------------------------------------
+        # This module's first design rule is that a lane is derived from cwd and
+        # never declared, and --from-lane exists to break exactly that rule.
+        fresh_bus()
+        derived = lane_for(os.getcwd())
+        declared = "C" if derived != "C" else "D"
+        crash, row = send(to="D", kind="fact", subject="declared-send", body="b",
+                          from_lane=declared)
+        check("--from-lane records the cwd-derived lane beside the declared one",
+              not crash and row.get("from_lane") == declared
+              and row.get("origin_lane") == derived,
+              "from_lane={} origin_lane={} (cwd derives {}){}".format(
+                  row.get("from_lane"), row.get("origin_lane"), derived,
+                  "; RAISED " + crash.strip().splitlines()[-1] if crash else ""))
+        check("a crashing send does not stop the checks after it",
+              True, "reaching this line is the assertion")
+        check("the declared/derived mismatch is visible when the row is read",
+              "declared; sender cwd was lane" in inbox("D", peek=True),
+              "the reader saw no mark that the sender lane was declared")
+        check("a row sent by cmd_send verifies",
+              verify()[0] == 0, verify()[1][-200:])
     finally:
         BUS, CURSORS = real_bus, real_cursors
-        shutil.rmtree(tmp, ignore_errors=True)
+        for d in made:
+            shutil.rmtree(d, ignore_errors=True)
 
     print()
     if failures:
@@ -360,6 +837,11 @@ def main() -> int:
     l = sub.add_parser("log")
     l.add_argument("--tail", type=int, default=20)
     l.set_defaults(func=cmd_log)
+
+    v = sub.add_parser("verify")
+    v.add_argument("--strict", action="store_true",
+                   help="also fail on rows that predate chaining")
+    v.set_defaults(func=cmd_verify)
 
     w = sub.add_parser("whoami")
     w.set_defaults(func=cmd_whoami)

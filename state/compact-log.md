@@ -2058,3 +2058,89 @@ c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
 c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
 361a7fb docs: record the lessons, the audits and the retired surface
 ```
+## compact 2026-07-25 11:52
+```
+## main...origin/main [ahead 10]
+D  dot-claude/skills/code-simplifier
+A  dot-claude/skills/code-simplifier/SKILL.md
+D  dot-claude/skills/commit-push-pr
+A  dot-claude/skills/commit-push-pr/SKILL.md
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:59
+```
+## main...origin/main [ahead 11]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/bus/bus.py
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+```
+## compact 2026-07-25 12:06
+```
+## main...origin/main [ahead 11]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/bus/bus.py
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+```
+## compact 2026-07-25 12:12
+```
+## main...origin/main [ahead 11]
+ M state/bus.jsonl
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+```
+## compact 2026-07-25 12:20
+```
+## main...origin/main [ahead 11]
+ M state/bus.jsonl
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+```
+## compact 2026-07-25 12:27
+```
+## main...origin/main [ahead 11]
+ M .gitignore
+ M state/bus.jsonl
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+```
+## compact 2026-07-25 12:34
+```
+## main...origin/main [ahead 11]
+ M .gitignore
+ M state/bus.jsonl
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+```
+## compact 2026-07-25 12:41
+```
+## main...origin/main [ahead 11]
+ M .gitignore
+ M state/bus.jsonl
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+```

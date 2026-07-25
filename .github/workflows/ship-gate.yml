@@ -1,0 +1,167 @@
+name: Ship gate
+
+# Closes the local-green vs merged-green gap for the "pipeline" domain
+# (tools/gate/gate.py::ci_runs_gate). That builtin greps every workflow file
+# in .github/workflows for the literal pattern `gate\.py\s+run`. The `gate`
+# job below runs `python tools/gate/gate.py run --project .` verbatim, which
+# matches that regex directly -- do not rename/wrap that invocation without
+# re-reading ci_runs_gate(), or this workflow silently stops counting.
+#
+# WHAT A GREEN "gate" JOB COVERS (per quality-contract.json, verified 2026-07-25):
+#   build     -- `cd intent-control-plane && uv sync --frozen`
+#   unit      -- root tests/, gate.py selftest, panel.py selftest,
+#                intent-control-plane's own pytest suite
+#   types     -- compileall + intent-control-plane's ruff/mypy
+#   security  -- secret_scan builtin (repo-wide regex scan)
+#   docs      -- docs_touched builtin (diff vs origin/main)
+#   review    -- panel.py's own diff-review producer, run for real
+#   pipeline  -- this file existing and calling `gate.py run` (see above)
+#
+# WHAT IT DOES NOT COVER:
+#   e2e, a11y_ux -- these require a real browser (tools/browser/cdp.py) driving
+#   a REAL SERVED APPLICATION. claude-setup ships no served app of its own, so
+#   quality-contract.json already carries both as `na_reason` (not `cmd`), and
+#   `gate.py run` on ANY runner treats them as N/A without touching a browser.
+#   That is a fact about this repo's contract today, not something this
+#   workflow arranges -- if a future contract in this repo (or a project this
+#   gate is later pointed at) gives e2e/a11y_ux a real `cmd` and app URL, THIS
+#   workflow does not stand up a served app or a browser for that, and would
+#   need real work at that point. Do not read a green "gate" job as proof e2e
+#   ran; read it as proof the domains above ran and the pipeline domain is
+#   honestly wired.
+#
+# A SEPARATE job, `browser-instrument-selftest`, runs `flow.py selftest`
+# (the flow.py + cdp.py harness's own self-check: serves a page with nine
+# planted defects on an ephemeral local port and asserts each is caught).
+# This is a check of the AUDIT TOOL, not of any served app in this repo, and
+# it is intentionally kept separate from the `gate` job's pass/fail because
+# tools/browser/cdp.py locates Chrome via hardcoded Windows paths only
+# (CHROME_CANDIDATES in cdp.py) -- it cannot run on ubuntu-latest without
+# editing that oracle file, which is out of scope. windows-latest GitHub-
+# hosted runners are documented (actions/runner-images) to ship Google Chrome
+# at the path cdp.py already looks for, but that has NOT been confirmed by an
+# actual run of this exact workflow from this environment -- treat the first
+# real run of this job as the confirmation, and if Chrome is missing at that
+# path, that is a runner-image assumption to fix here, not a reason to touch
+# cdp.py.
+#
+# Neither job uses secrets or credentials.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: ship-gate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    # Covers: build, unit, types, security, docs, review, pipeline (see header).
+    # Does NOT cover: e2e, a11y_ux (see header).
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # Full history: several domains (review, docs, pipeline) diff
+          # against origin/main via gate.py's default_base(); a shallow
+          # checkout would make that ref unavailable.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv (pinned to the version this contract was verified with)
+        run: pip install "uv==0.9.4"
+
+      # Named separately, in addition to being embedded in the contract's own
+      # `unit` domain command below, so a selftest regression is individually
+      # attributable in the CI log rather than buried inside one long &&-chain.
+      - name: gate.py selftest
+        run: python tools/gate/gate.py selftest
+
+      - name: panel.py selftest
+        run: python tools/review/panel.py selftest
+
+      - name: gate.py run (full contract)
+        run: python tools/gate/gate.py run --project . -v
+
+  falsifiability:
+    # Covers ONLY the question "can these checks fail at all". A green selftest is
+    # unfalsified, not verified, and this repo had several whose red path nobody had
+    # ever seen. Kept out of the `gate` job on purpose: the contract's `unit` domain
+    # answers "does the code work", this answers "would we find out if it didn't",
+    # and collapsing them would let one hide behind the other.
+    #
+    # NOT included, with reasons rather than silence:
+    #   tools/gate/enforce_selftest.py -- exits 1 when ~/.claude/hooks/ship_gate_stop.py
+    #     is absent, which is correct locally (nothing enforcing at the Stop boundary
+    #     IS the finding) but is unconditionally true on a hosted runner, so it would
+    #     be permanently red for a reason unrelated to any change. It stays a local
+    #     check until the hook's deployment is itself represented in the repo.
+    #   bus.py verify --strict -- 12 of the 13 rows in state/bus.jsonl predate hash
+    #     chaining and carry no hash, so --strict fails on history, not on a defect.
+    #     Plain `verify` exits 0 and still fails a broken chain among chained rows.
+    #
+    # Every command below is measured exit 0 on Windows as of 2026-07-25. They are
+    # pure-Python or bash-only and should hold on ubuntu, but that has NOT been
+    # confirmed by a real run of this workflow -- treat the first run as the
+    # confirmation, same convention as the Chrome-path assumption noted above.
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: bus.py selftest
+        run: python tools/bus/bus.py selftest
+
+      - name: refute.py selftest
+        run: python tools/refute/refute.py selftest
+
+      - name: skills_sync.py selftest
+        run: python tools/audit/skills_sync.py selftest
+
+      # The committed message log must still verify. This is the one step here that
+      # checks DATA rather than an instrument: a rewritten or reordered history in
+      # state/bus.jsonl fails the chain among the rows that carry hashes.
+      - name: bus.py verify (committed log chain)
+        run: python tools/bus/bus.py verify
+
+      # The expensive one, last: applies every mutation in every spec to a copy of
+      # its target and requires each one to turn its selftest red. Exit 2 if a
+      # baseline copy is not green or a spec is empty, exit 1 if any mutation
+      # survived or a pattern drifted and went unapplied.
+      - name: mutate.py --spec all (prove the selftests can fail)
+        run: python tools/audit/mutate.py --spec all
+
+  browser-instrument-selftest:
+    # Covers ONLY: proving tools/e2e/flow.py + tools/browser/cdp.py still
+    # detect planted UI/accessibility defects, using a real Chrome instance.
+    # This is NOT part of the "pipeline"/gate verdict above and does not run
+    # `gate.py run` -- it is an independent, best-effort check of one
+    # instrument that happens to require Windows (see header comment).
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: flow.py selftest (requires a real Chrome via cdp.py)
+        run: python tools/e2e/flow.py selftest
