@@ -85,6 +85,32 @@ python $S/tools/review/panel.py selftest  # all 32 checks fire, clean code stays
 python $S/tools/audit/pointers.py selftest
 ```
 
+## Is enforcement actually on
+
+Those four are unit-level: they prove each instrument computes correctly when
+something calls it. None of them touches the claim actually relied on, which is
+about live configuration rather than logic, and which can fail while every
+instrument stays perfect. The hook can be deployed stale. It can resolve no
+`gate.py` and fail open. It can read the payload's inline message key while real
+Stop payloads carry the message only in the transcript.
+
+```bash
+python $S/tools/gate/enforce_selftest.py   # 9 cases against the DEPLOYED hook
+```
+
+This drives `~/.claude/hooks/ship_gate_stop.py` with real Stop payloads and
+requires that it block a done-claim on an ungated tree, honour a green the real
+gate earned for that exact tree, and stop honouring that same green after one
+further edit. It points `CLAUDE_SETUP_ROOT` at a temp tree so the ledger it reads
+is a temp file: a test that hand-wrote PASS rows into the real ledger would be
+manufacturing the exact evidence the hook trusts. Registered as claim C-018.
+
+As of 2026-07-25 the Stop hook is registered in the live `~/.claude/settings.json`
+and the deployed copy matches the repo byte for byte, so the gate binds
+automatically at the Stop boundary. It is not a step anyone has to remember. Note
+what that means in practice: the moment a `quality-contract.json` exists at a
+project root, done-claims in that project are gated, including this repo's own.
+
 Setup maintenance, separate from any one project's gate. Run it after touching
 hooks or skills, because a hook that settings.json invokes and that is really a
 path to nowhere will fail open and say nothing:

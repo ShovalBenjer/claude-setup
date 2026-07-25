@@ -1917,3 +1917,144 @@ fb9e6cf feat(calibration): calibrated-claims rule + kernel-anchor v2 + L009
 2bb97a8 chore(config): sync tracked global contract and rules with the live tree
 73cb7d5 chore(meme): remove the meme and visual-explainer surface (MEME-01)
 ```
+## compact 2026-07-25 09:39
+```
+## main...origin/main [ahead 10]
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:03
+```
+## main...origin/main [ahead 10]
+ M state/compact-log.md
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:09
+```
+## main...origin/main [ahead 10]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:11
+```
+## main...origin/main [ahead 10]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:15
+```
+## main...origin/main [ahead 10]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:19
+```
+## main...origin/main [ahead 10]
+ M dot-claude/skills/ship-gate/SKILL.md
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:19
+```
+## main...origin/main [ahead 10]
+ M dot-claude/skills/ship-gate/SKILL.md
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:23
+```
+## main...origin/main [ahead 10]
+ M dot-claude/skills/ship-gate/SKILL.md
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:32
+```
+## main...origin/main [ahead 10]
+ M dot-claude/skills/ship-gate/SKILL.md
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:36
+```
+## main...origin/main [ahead 10]
+ M dot-claude/skills/ship-gate/SKILL.md
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:38
+```
+## main...origin/main [ahead 10]
+ M dot-claude/skills/ship-gate/SKILL.md
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:40
+```
+## main...origin/main [ahead 10]
+ M dot-claude/skills/ship-gate/SKILL.md
+ M state/claims-verify.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:46
+```
+## main...origin/main [ahead 10]
+ D dot-claude/skills/code-simplifier
+ D dot-claude/skills/commit-push-pr
+ D dot-claude/skills/deep-research
+ D dot-claude/skills/eval-runner
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
+## compact 2026-07-25 11:52
+```
+## main...origin/main [ahead 10]
+ D dot-claude/skills/code-simplifier
+ D dot-claude/skills/commit-push-pr
+ D dot-claude/skills/deep-research
+ D dot-claude/skills/eval-runner
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
+361a7fb docs: record the lessons, the audits and the retired surface
+```
