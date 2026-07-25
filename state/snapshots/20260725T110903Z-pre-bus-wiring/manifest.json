@@ -1,0 +1,931 @@
+{
+  "schema": 1,
+  "id": "20260725T110903Z-pre-bus-wiring",
+  "label": "pre-bus-wiring",
+  "taken_utc": "2026-07-25T11:09:04+00:00",
+  "live_root": "C:/Users/shova/.claude",
+  "not_walked": [
+    ".token-flow",
+    "assets",
+    "automation-chrome-profile",
+    "backups",
+    "cache",
+    "chrome",
+    "config",
+    "daemon",
+    "docs",
+    "downloads",
+    "file-history",
+    "ide",
+    "jobs",
+    "paste-cache",
+    "plans",
+    "plugins",
+    "projects",
+    "session-env",
+    "sessions",
+    "shell-snapshots",
+    "style-corpus",
+    "tasks",
+    "uploads"
+  ],
+  "skipped_count": 21,
+  "entries": [
+    {
+      "path": "agents/architecture-office.md",
+      "size": 824,
+      "sha256": "26c7e1458ccf3eb81db73b63699806ba16ac7dcff96de90dd5471f846e09b8ea",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/azure-ops-utility.md",
+      "size": 923,
+      "sha256": "5ccf29b7ded9bc58ef0267d58a159645a2daf40d89ee40445842002b38adc3cf",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/azure-resource-investigator.md",
+      "size": 2313,
+      "sha256": "d143c71537971141e5c4067d6afb1e465ea73770a91053324db2231acb2f096f",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/communications-desk.md",
+      "size": 816,
+      "sha256": "142c74d00decfaaaad1f490e75f04d90bc387c7e4896f2e3228c25d6ff0a4c15",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/conversation-layer.md",
+      "size": 544,
+      "sha256": "4072e3349bc4145c1e2dba62fa8e125d950d564b1c904e62c94f47876b5f8c27",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/data-bureau.md",
+      "size": 823,
+      "sha256": "cff1acc6f3e0666ba007c0849f09c4e19d7f430e95b2ada000bade57d6d81c02",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/engineering-firm.md",
+      "size": 942,
+      "sha256": "088a62a0ae1e407a4dd352260a4788b92ca359c37d269910ee7a3d11562a53a1",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/eval-row-diagnoser.md",
+      "size": 2284,
+      "sha256": "5f52f540585f2ef78ad6ef625fdd80f2ec9acef407dd3daab55cf01a782c11d6",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/evidence-clerk.md",
+      "size": 1237,
+      "sha256": "ec4d3b9386a37352671f0fef4507576f635d53b507b24d1a7c2b77608d3b5815",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/foundry-agent-inspector.md",
+      "size": 2028,
+      "sha256": "cf8fc6e32e031a4224946671a9d43821df1ca5dfe2ba3ea79779f4bff1b0c2b3",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/latent-systems-lab.md",
+      "size": 1779,
+      "sha256": "0dbcd30c44785212f9884a76e1062f3245871e4d6776aff486394ae8d8d3513f",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/learning-desk.md",
+      "size": 646,
+      "sha256": "6f67d5836313a6babf77f95fd34dcc05131247a07c9d40387b57afaa002d4c88",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/mayor-opus.md",
+      "size": 1825,
+      "sha256": "1c6cc8a177a54f82615ab1d45bd2677fae98d8e243750dab504fa4d9398c8f6c",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/mcp-tooling-office.md",
+      "size": 674,
+      "sha256": "589543dbaae0c9f7a3f90c8d4178818ba8fc6469caaaacc090482ceddaa55540",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/product-studio.md",
+      "size": 759,
+      "sha256": "e9eadc57540fb02dd5b3e1d19ef195d4b83d01c0daba6bd930d8e2aeafc0cd91",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/qa-lab.md",
+      "size": 1063,
+      "sha256": "e3a2a803331be076ecc71afa8d6127134aeabdd1750f8af0ff5638b19421f3f8",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/release-bureau.md",
+      "size": 718,
+      "sha256": "bcbbaba1babe75257d2cc39ce2f2983e00abd6657bde8c5b5e5d054dd84cd90c",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/review-board.md",
+      "size": 863,
+      "sha256": "55d51961fbe3f2a3827c3b1e14c80ce6a2878e3a07fb15a94ae16125defd7d3d",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/runtime-agents-division.md",
+      "size": 865,
+      "sha256": "cb786044e65db94ebd7f88451981f3bf773d6a0c8e3664701758b9eadd635255",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/security-compliance-office.md",
+      "size": 758,
+      "sha256": "b2981c312c7d03ab8a6f8c4fce98a4535fa18440c53ef7fa6d61de9c1a35ae5d",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/tdd-slice-planner.md",
+      "size": 2651,
+      "sha256": "dc6cee2709bec8adf8692e9b4e54369138d7302cd50fac88cb55a07f67c7de8c",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/voice-media-studio.md",
+      "size": 730,
+      "sha256": "822f4967174fd283d816c7c16b52774c6ddd3859bc6d3d5970c65e3d3483c5d1",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "agents/workflow-clerk.md",
+      "size": 1111,
+      "sha256": "3218e60f5fa95d0419b6d9bb4d2610bc14fb3460f638174bd83fd156e196d60a",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "bin/a2a-audit.py",
+      "size": 4160,
+      "sha256": "f4a453eeb365a6fee10b5865101eeb3f76dd8785f627bf138309464246c1d28e",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "bin/a2a-codex-call.sh",
+      "size": 4270,
+      "sha256": "5d68131dcd19cf7a67915ee82b22b79e0047c4e1b31273d1979a63d976303509",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "bin/a2a-foundry-call.py",
+      "size": 7998,
+      "sha256": "42d2c696310d7725604d069e74a56074e57008ad4efd97c9ef1e33d729557abe",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "bin/external-review-judge.py",
+      "size": 393,
+      "sha256": "15f19c9e8a78169cf728d6bae5adf431fe915e18b49df5c656021129e0f60ee5",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "bin/generate-voice.py",
+      "size": 6423,
+      "sha256": "d819e88ece4266da6293a4d320c52ad3b805f9921df3c8e3e5cee74d7a69132a",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "bin/pop-voice.sh",
+      "size": 1258,
+      "sha256": "1877357d187f36dee7a63d503991ddffd73125ece94cea38601b1143a490bfd2",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "bin/session-snapshot.sh",
+      "size": 5298,
+      "sha256": "be3996582b97a196b56ab61105e5e376db1af340374a2543ea1cc48a542cb963",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "CLAUDE.md",
+      "size": 3610,
+      "sha256": "3b5751b809add5121d55690146924d994d0bfb3357f8b672841e5280855d03cf",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "commands/cdp.md",
+      "size": 4381,
+      "sha256": "3d79a4618506b77eb5e79ab6bd11cd4bc99984d0a4f08bf8d66ad76b34388a5b",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "commands/commit-push-pr.md",
+      "size": 1284,
+      "sha256": "c7320148a5fc290f97e4324e0cbd8051a1ee2197ad0d8ada9f4268ea3b290940",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "commands/diverge.md",
+      "size": 2382,
+      "sha256": "847d54590c5b782ec64ca947f5e1f8c766f6c22dc5d75a1309c236f8c44989f9",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "commands/slop.md",
+      "size": 1504,
+      "sha256": "7a95c4444fcfa7d4513e1682cf8075007fc83e4b1882af9bc95b03cef371990c",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "hooks/bus-inbox.sh",
+      "size": 1004,
+      "sha256": "d8cd396a48371abd9ba29e1159aee418182f42805d88941d79cda3245633da94",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "hooks/completion_gate.py",
+      "size": 2599,
+      "sha256": "28f7057dd1431167ac6827d5063440051d8940b78c980af86f1b61e51b8a6df1",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "hooks/kernel-anchor.sh",
+      "size": 1184,
+      "sha256": "ed8b31e5ca46768452f478cb9c61c87e00ba8ec3751ef16bf491e9a1b032d5db",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "hooks/notify-toast.ps1",
+      "size": 1282,
+      "sha256": "de49ff3abea4c73de19610949d5421a1199ac88eb05770de12caa3f8845a129c",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "hooks/pre_push_gate.py",
+      "size": 11530,
+      "sha256": "7e250506e45692042f81773b3976f50ee91134d4c057099ab79d14ad907800ae",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "hooks/precompact-handoff.sh",
+      "size": 1306,
+      "sha256": "cf4d7dc8af44d8a642273b5129b2fdaec9b9807c33d11612343d535569387534",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "hooks/safety_gate.py",
+      "size": 6461,
+      "sha256": "1f9c6c353ddae45580fa54aa613eaf709288d43f88a930e4b32d2888f1b60f61",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "hooks/session-recall.sh",
+      "size": 3732,
+      "sha256": "c84edff6b4a33c816d73cbb7812da7ec50907032ee7b34194bff7cfd7c2db062",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "hooks/ship_gate_stop.py",
+      "size": 9702,
+      "sha256": "3c610edc29ff4d3eb1359909c45ad44dfe34aee657faf8b364c77fe086e89f22",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "hooks/voice-explainer-trigger.sh",
+      "size": 2203,
+      "sha256": "15dbae23113c4f2fc63d018744e50ffc4bed69267bbc40f6cf339261494a6249",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/boundary-contracts.md",
+      "size": 488,
+      "sha256": "e0a5e275911a43724f53d3e2227e4c0717b035af0748ce13b4222b14fb599219",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/calibrated-claims.md",
+      "size": 321,
+      "sha256": "4e716580c4b5d3f808e9463044c938a6381c5e911af3927b681619675da185f7",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/docs-control-plane.md",
+      "size": 413,
+      "sha256": "aa8e94439575f62c4e4f88318854abd70464f3b0ef5a58752338e2c054f8fe57",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/foundry-deployment-per-project.md",
+      "size": 435,
+      "sha256": "9c5527ce7a0d1a099eee985ad751c43e07e382176d050b9626cf854e6753df15",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/gastown-company-registry.md",
+      "size": 356,
+      "sha256": "75b3691618c15c0c154ebe9b5fee44a43ef0140e46fe463705ba52e8af134957",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/hive-mind-workflows.md",
+      "size": 459,
+      "sha256": "62cd4e9d870ebc7882d1d47292e99adfc5a9b34bbd5dc300ee61c1ce07852c50",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/jira-comment-drafting.md",
+      "size": 321,
+      "sha256": "c33fd54a413a26e677edf26b28e8125de217aa2148537e3bb2208ff82254fcaa",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/latent-vector-workflows.md",
+      "size": 438,
+      "sha256": "c3a6a0480520f1e2e623dc627c92f6fef3dcac7cebc8af8c9e7ffe4e5eb6746b",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/model-selection.md",
+      "size": 1257,
+      "sha256": "829a0ffa16e9caf4c628f6bdc7684103976cd49fc50d126cbed2ab3a9898f780",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/no-emojis.md",
+      "size": 183,
+      "sha256": "400db25d39d7bb7383d08e66607cbb5aff4c1d979cebff011f7fa3e5da05fbb4",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/no-mocks.md",
+      "size": 179,
+      "sha256": "3a300edeb0c87f83f4cec9c44c28693574bdd956b34b53e4aa73c8082c25dce1",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/pii-handling.md",
+      "size": 310,
+      "sha256": "47ef78478db853ef0d6d2d4c2f8048afd8f429c58f332664322b662acb1b314c",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/production-means-merged-and-smoked.md",
+      "size": 312,
+      "sha256": "6ce45370453f02dd98c8d74624c074e25956090631efdbded78d705c040f6abd",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/read-whole-before-reasoning.md",
+      "size": 341,
+      "sha256": "db1b97933648046887bb5d1e61f3a622daee0bca38dafa3d49d28904ffcec466",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/repo-topology.md",
+      "size": 442,
+      "sha256": "1b3088dde8824b8b6814d4cbd8d54545b3db0d9229769bdc8408e31730d5b167",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/task-verification.md",
+      "size": 186,
+      "sha256": "8cdca2d4a89dc24e0174a87d889ad67e82602e3a4f6016b03097513fb898bed7",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "rules/tdd-enforcement.md",
+      "size": 176,
+      "sha256": "a147824080330d5eaffe3b44bc37fb3af9bf6a91b44edb3c032d1fb71993eeeb",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "settings.json",
+      "size": 4295,
+      "sha256": "88226a9b4aab36a1387f94c296467ce57d90500459aa34a9ec0bcc82fa085992",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "settings.local.json",
+      "size": 67,
+      "sha256": "85e8d344d27419955c3146eb30f2dc68aef587fc2cea6e11d346dddc4bdd1977",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/agent-builder/SKILL.md",
+      "size": 5604,
+      "sha256": "ce0f7bc8ac41152daabe77bd602129d35f0c3bfa16c6ab23a90b5fa203ca3a46",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/azure-activity-watch/run.sh",
+      "size": 2763,
+      "sha256": "e65a31362964400be9963508b1b5c086f9935ba7aaf86d269ad3acf8cee47584",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/azure-activity-watch/SKILL.md",
+      "size": 5561,
+      "sha256": "41ff079e9f54d53636e9933014a6a2c655d2cbe7bfbe8c439d8beb7e9d7e03b4",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/azure-audit/SKILL.md",
+      "size": 7273,
+      "sha256": "84a4876f34f5688798d6e659e49ff3e4ba72d21cb4db321d317ab8c4380ddebf",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/azure-runtime/agent_run.py",
+      "size": 3769,
+      "sha256": "064db4edc27b98296a5376dbd0bfe72d888bf9f4b57eb8ed76a11bbbe0a1230f",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/azure-runtime/SKILL.md",
+      "size": 4477,
+      "sha256": "9e7b1798fd774ef4f554659916bd1e9709d5d2a85e3365d4756752b27416fc17",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/code-simplifier/SKILL.md",
+      "size": 2096,
+      "sha256": "7d026a7ac6852a90dbf07e6c6609377940e1466ca8db5e1b77d6fde81982821e",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/codex-call/SKILL.md",
+      "size": 4128,
+      "sha256": "e76e4bc30cb5634a307945f8a0c4949628f743350d6d21450ca90a2829cbf8d0",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/commit-push-pr/SKILL.md",
+      "size": 2050,
+      "sha256": "b7df382e154105435ec6037688ba745e996eb376d7f6f6e174d38a84f499aa09",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/coverage-enforcer/SKILL.md",
+      "size": 3982,
+      "sha256": "147b53512b4e5ca1b7800b7c7cf5ea91484ad3f2bc8269ba81aee736f405646b",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/README.md",
+      "size": 4832,
+      "sha256": "56a50ed8a0c8f0825130edda5d7237764319854470383b1f8ae7a48ee7dc49e9",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/reference/continuation.md",
+      "size": 4464,
+      "sha256": "b068e083f6f73209c4fd5249ac5ccfdc7c2a0486b03a7bf420054c0bf5699309",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/reference/html-generation.md",
+      "size": 2919,
+      "sha256": "a8ebc64d52b7cd9a78fee69f1f274f1ab791106ebd3449f17800735146ef644f",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/reference/methodology.md",
+      "size": 16040,
+      "sha256": "1b9dad2ae6d3ac9972de811c414394946b7f249419a45393b3c9f062ef7b0d4d",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/reference/quality-gates.md",
+      "size": 5623,
+      "sha256": "568d6fc6350c6c79dc1cccc6f86797e95e74a599db047fa7a745e44cb7495b85",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/reference/report-assembly.md",
+      "size": 3402,
+      "sha256": "0e8b2ada8f48e6785362617c7dd8f1363e92c76a235e5988b21e3bd8645b5cf3",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/reference/weasyprint_guidelines.md",
+      "size": 5814,
+      "sha256": "d70421ea6985664d9fd1feaae94f36e3c749e74eb8703bc67236df9489165cdb",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/requirements.txt",
+      "size": 579,
+      "sha256": "de63fe8300f89040ccfb6229aee53b61345fa478946e043587d7f65d46df4ffa",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/scripts/citation_manager.py",
+      "size": 6018,
+      "sha256": "0333c86beef3d0f09b9bd3004f11a9950a93266bf1696b55d5874a9e32110df1",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/scripts/md_to_html.py",
+      "size": 9965,
+      "sha256": "506c38771d32fbccf931a27b7b64cf20c0df5113b2914b051c17e9d178fc1b17",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/scripts/research_engine.py",
+      "size": 16452,
+      "sha256": "b627ffdce2d3041ac2ab156b38eff294c2e7344e8d4e80dc0c5e17c0e8c9a299",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/scripts/source_evaluator.py",
+      "size": 9492,
+      "sha256": "8421efa7b862bb139108e6da40b285706188cb272843bf39082c8b9888d5050e",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/scripts/validate_report.py",
+      "size": 12406,
+      "sha256": "851c1de275c039b8e5858785010181500960b05a9be463cdd6cecd5bbf101aa3",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/scripts/verify_citations.py",
+      "size": 15468,
+      "sha256": "b77a9430aa2c9aec47a88434237879a02db75f87cd35a2429a5d7584f234f6ef",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/scripts/verify_html.py",
+      "size": 7800,
+      "sha256": "28bbba06906fa2f9bae87ea20b68390ce4f4bc76f00343991a8ad2119e21b36c",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/SKILL.md",
+      "size": 3671,
+      "sha256": "e3e5efbc70828598976e71d7c3382ab5f65acff0729b9cb588182b25ca5bce0f",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/templates/mckinsey_report_template.html",
+      "size": 10394,
+      "sha256": "6b2d742f5279e78df71543bfb6c4fd88d7ee1c726b54fa945616307b2157c1f1",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/templates/report_template.md",
+      "size": 13144,
+      "sha256": "50788e213c78d42a2fcedbfe153e4c34bbea5b7b978f8646f1b4b5c83ba04115",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/tests/fixtures/invalid_report.md",
+      "size": 288,
+      "sha256": "9b5177dbd31b80ea1d1e16f159989f232f6b6875dbc7ea7fddf70ba1fd0ad311",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/deep-research/tests/fixtures/valid_report.md",
+      "size": 3331,
+      "sha256": "e6a24a5deec1ec65279cb446c58f9309a3d6f4e040e37f1bda09c64a73829b5a",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/dispatch/SKILL.md",
+      "size": 5352,
+      "sha256": "bf99198404abe724f83fb628f54b03f1c43fdffe3236958e0ffabb3c433cb44a",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/eval-runner/SKILL.md",
+      "size": 3248,
+      "sha256": "005a42a2907194424d79450a72d02ce5615157514e978c891aa8af2a29567338",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/frontend-design/SKILL.md",
+      "size": 8260,
+      "sha256": "1608ea77fbb6fc30d13a97d12cfa8ebf31358d40f0dd97beed24829d6b3f45dd",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/grill-me/SKILL.md",
+      "size": 635,
+      "sha256": "74147eb6010a65957efef2b9e0f0b3ff935c1def7fc117697151b1d0f3610556",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/gws-gmail/SKILL.md",
+      "size": 2018,
+      "sha256": "d37f41ad13fd3467d430e60dfb985d7818ef6976bae40182f8e46a410b8caa16",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/gws-gmail-read/SKILL.md",
+      "size": 1400,
+      "sha256": "11707bc21b93381fa56a309364002b255b1a90c52aca51afa5965087657a69a5",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/gws-gmail-triage/SKILL.md",
+      "size": 1219,
+      "sha256": "48b0512b3ffa718ab382c3d816d6945cbc9ec6139b50eff0427498a645580600",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/gws-shared/SKILL.md",
+      "size": 2668,
+      "sha256": "87abfb41cdcc300b7f2f733d1558a8af8d3c2a7cca1512f9eba244965fad98b2",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/heidegger-reflect/SKILL.md",
+      "size": 3470,
+      "sha256": "099dc59c350cae82f99191d58e204f4dd6dce767a4b576da7114bff3a3c6a7c4",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/humanize/SKILL.md",
+      "size": 5717,
+      "sha256": "84d00b229508e695030876c682d2765c99d7d491c465c83a49ae2580d1019be6",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/learn-on-demand/agents/openai.yaml",
+      "size": 269,
+      "sha256": "86a61a0a770cc42e56824741b278705cea4b89c7835789ffd282c5fdc5261f05",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/learn-on-demand/references/catalog.json",
+      "size": 47996,
+      "sha256": "9a2647e925c80b394fedca5bbb5c1df90f7e20d4ac25f281480495dc5998ac3c",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/learn-on-demand/references/rights-policy.md",
+      "size": 2031,
+      "sha256": "0df8ea48a21667b4c0c523ad7311c70ed9f5373c863fbe13949785aa774c84a3",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/learn-on-demand/scripts/knowledge.py",
+      "size": 22338,
+      "sha256": "12d559ca497020dc80df0d59a119ee434563d88c9f2a418c9cba94719cde612b",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/learn-on-demand/SKILL.md",
+      "size": 3600,
+      "sha256": "6fcb156279e4d4827a65f0b418cb54927447b3ba89123ffbc96b769e3f37c3c2",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/openai-agents/run.py",
+      "size": 3407,
+      "sha256": "4794dbfbc1a41bf05feade768df1627fc76a71bf1fd16bab3e4f5f07ae005c1b",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/openai-agents/SKILL.md",
+      "size": 4517,
+      "sha256": "604ebbaca2a2df40f1fb79999841554e2e489be8349d4944427d204647bc70e4",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/persona/SKILL.md",
+      "size": 14599,
+      "sha256": "3c5f06846be16adbb425d9c953600abb2cd2243aa23638e0b1046f03daadcfed",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/premortem/SKILL.md",
+      "size": 5262,
+      "sha256": "1b582f1ac83255ef91d4b6d00b0c23207209073b1a55292ac83cd99ff2a5e59e",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/prove-implementation/agents/openai.yaml",
+      "size": 267,
+      "sha256": "dfe43aa6321e9fc82b47fa94eb5250f74bf3dba8ed14d1a2d99be85dcc6b960a",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/prove-implementation/references/failure-modes.md",
+      "size": 3553,
+      "sha256": "1536fa237d0688959f78b9213e006bbac79c6588a9afaed88c99977ccb7d4dd7",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/prove-implementation/scripts/implementation_proof.py",
+      "size": 26880,
+      "sha256": "3645b5d3f1ef278d55d7e1dc7ca0d0f104841a0ba860084df0e8ef23412b418a",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/prove-implementation/scripts/loop_audit.py",
+      "size": 10260,
+      "sha256": "9f03975125fc78a139983fd3aaec6173b128d7763d73c117d217677629fc3343",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/prove-implementation/SKILL.md",
+      "size": 4929,
+      "sha256": "a6aca29fad9403d9adf9e75cdcceecf3a8f9591b03722da451db5e3c2deb4ffe",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/recipe-create-gmail-filter/SKILL.md",
+      "size": 1039,
+      "sha256": "ed50dd3a616f5a628b6990ab840139622448bca654d9a5ba58f0bd03830286c8",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/recipe-label-and-archive-emails/SKILL.md",
+      "size": 959,
+      "sha256": "3613650605507bd62495d7f77b2e43385e0713bcfa3c21c42b450b039044a36c",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/red-team-review/EXAMPLE_SESSION.md",
+      "size": 13737,
+      "sha256": "c5cf19354749ee83ee71988455a44a6c0db9244cf47d0e453dddd90e1a590479",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/red-team-review/PROJECT_TEMPLATE.md",
+      "size": 8033,
+      "sha256": "7aa44d0b89406142663c9ac18718eaa1bd200490c75293239281389043fd0056",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/red-team-review/PROMPT_TEMPLATE.md",
+      "size": 8256,
+      "sha256": "5bec565995ea3d4f39a6c9f02196aa3714f0524e81c88f98daad607b032af04a",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/red-team-review/README.md",
+      "size": 7258,
+      "sha256": "11bbf8c2e5a849f46958fa91029319acba7ab1c82fadbb56cad0e581c8c9f961",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/red-team-review/SKILL.md",
+      "size": 8834,
+      "sha256": "e1d370e7353d531011e2c69cf6a79395b3491a04a5ef2526b58d26e1d99bc636",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/refactor-pre-push/SKILL.md",
+      "size": 3188,
+      "sha256": "88b64df857111a8033d63d60d896b841f90a3f64a3817cac41bd998106576ee6",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/shoval-voice-draft/SKILL.md",
+      "size": 6859,
+      "sha256": "5dc09ab6b72472fb7572d59839e81cca97662e36757225c4823e034268a0f1c0",
+      "captured": true,
+      "reason": ""
+    },
+    {
+      "path": "skills/voice-explainer/SKILL.md",
+      "size": 7829,
+      "sha256": "5d07f5c0e6d59cfad9d524c677ab10ee2be5d32c19cfa995e4dc07087c4c82ad",
+      "captured": true,
+      "reason": ""
+    }
+  ]
+}

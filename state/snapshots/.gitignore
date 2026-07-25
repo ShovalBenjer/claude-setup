@@ -1,0 +1,8 @@
+# Snapshot CONTENT stays local. The live ~/.claude tree can drift to include
+# material that has no business in a git history, and history is exactly where a
+# later delete does not remove it. So the bytes live only on this machine.
+#
+# The MANIFEST is tracked on purpose: paths, sizes and sha256 are what prove the
+# shape of the tree at a moment without carrying the tree, and `snap.py diff`
+# needs only the manifest, so drift detection survives a fresh clone.
+*/files/

@@ -133,6 +133,15 @@ jobs:
       - name: skills_sync.py selftest
         run: python tools/audit/skills_sync.py selftest
 
+      # Runs here rather than in `unit` for the same reason as the rest of this job,
+      # plus one specific to it: this tool is the undo path for writes into
+      # ~/.claude, so the question "would we notice if it silently captured nothing,
+      # or captured a credential" is exactly a falsifiability question. It plants its
+      # own live tree in a temp directory and never touches the real ~/.claude, so it
+      # is portable to a runner that has no such tree at all.
+      - name: snap.py selftest
+        run: python tools/snapshot/snap.py selftest
+
       # The committed message log must still verify. This is the one step here that
       # checks DATA rather than an instrument: a rewritten or reordered history in
       # state/bus.jsonl fails the chain among the rows that carry hashes.
