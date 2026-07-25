@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # pop-voice.sh — fire-and-forget audio playback for generated voice files
 #
-# Same pattern as play-meme.sh / pop-visual.sh. ffplay -nodisp -autoexit
-# plays the audio with no window and exits when done.
+# ffplay -nodisp -autoexit plays the audio with no window and exits when
+# done, so the caller never blocks on playback.
 #
 # Usage: pop-voice.sh <mp3-path>
 

@@ -5,8 +5,13 @@ set +e
 OS_DIR="$HOME/claude-setup"
 LOG="$OS_DIR/state/compact-log.md"
 mkdir -p "$OS_DIR/state" 2>/dev/null
-# Fire-log (L011): durable proof the hook ran inside the harness.
-printf '%s\tPreCompact\n' "$(date '+%Y-%m-%dT%H:%M:%S')" \
+# Fire-log (L011): durable proof the hook ran inside the harness. `trigger` is auto|manual;
+# it separates threshold-driven compaction (a cost of CLAUDE_AUTOCOMPACT_PCT_OVERRIDE) from
+# an operator /compact. Counting the two together tells you nothing about churn.
+INPUT="$(cat 2>/dev/null || true)"
+TRIG="$(printf '%s' "$INPUT" | grep -o '"trigger"[[:space:]]*:[[:space:]]*"[a-z]*"' | head -1 \
+         | sed 's/.*"\([a-z]*\)"$/\1/')"
+printf '%s\tPreCompact\ttrigger=%s\n' "$(date '+%Y-%m-%dT%H:%M:%S')" "${TRIG:-unknown}" \
   >> "$OS_DIR/state/hook-fires.log" 2>/dev/null || true
 {
   echo "## compact $(date '+%Y-%m-%d %H:%M')"

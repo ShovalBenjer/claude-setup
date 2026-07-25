@@ -1,25 +1,11 @@
 {
-  "skillListingBudgetFraction": 0.05,
+  "skillListingBudgetFraction": 0.02,
   "env": {
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-5",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-8",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-haiku-4-5"
+    "API_TIMEOUT_MS": "600000"
   },
   "permissions": {
-    "allow": [
-      "Bash(*)",
-      "Edit(**/*.yml)",
-      "Edit(**/*.yaml)",
-      "Write(**/*.yml)",
-      "Write(**/*.yaml)",
-      "MultiEdit(**/*.yml)",
-      "MultiEdit(**/*.yaml)"
-    ],
+    "defaultMode": "acceptEdits",
+    "disableBypassPermissionsMode": "disable",
     "deny": [
       "Bash(rm -rf /*)",
       "Bash(rm -rf $HOME*)",
@@ -27,279 +13,157 @@
       "Bash(rm -rf .git*)",
       "Bash(git push --force*)",
       "Bash(git push --force-with-lease*)",
-      "Bash(git reset --hard origin/*)",
+      "Bash(git reset --hard*)",
       "Bash(git clean -f*)",
       "Bash(git branch -D *)",
       "Bash(curl * | sh)",
       "Bash(curl * | bash)",
       "Bash(wget * | sh)",
       "Bash(wget * | bash)",
-      "Write(.env)",
-      "Write(.env.*)",
-      "Write(**/.ssh/**)",
-      "Write(**/credentials*)",
-      "Write(**/*.pem)",
-      "Write(**/*.key)"
-    ],
-    "defaultMode": "bypassPermissions"
+      "Edit(.env)",
+      "Edit(.env.local)",
+      "Edit(.env.*.local)",
+      "Edit(.env.production)",
+      "Edit(.env.staging)",
+      "Edit(.env.development)",
+      "Edit(.env.test)",
+      "Edit(**/.ssh/**)",
+      "Edit(~/.ssh/**)",
+      "Edit(~/.claude/.credentials.json)",
+      "Edit(~/.aws/credentials)",
+      "Edit(~/.config/gh/hosts.yml)",
+      "Edit(~/.azure/**)",
+      "Edit(~/.config/gcloud/**)",
+      "Edit(**/credentials.json)",
+      "Edit(**/credentials.yaml)",
+      "Edit(**/credentials.yml)",
+      "Edit(**/service-account*.json)",
+      "Edit(**/*.pem)",
+      "Edit(**/*.key)",
+      "Read(.env)",
+      "Read(.env.local)",
+      "Read(.env.*.local)",
+      "Read(.env.production)",
+      "Read(.env.staging)",
+      "Read(.env.development)",
+      "Read(.env.test)",
+      "Read(**/.ssh/**)",
+      "Read(~/.ssh/**)",
+      "Read(~/.claude/.credentials.json)",
+      "Read(~/.aws/credentials)",
+      "Read(~/.config/gh/hosts.yml)",
+      "Read(~/.azure/**)",
+      "Read(~/.config/gcloud/**)",
+      "Read(**/credentials.json)",
+      "Read(**/credentials.yaml)",
+      "Read(**/credentials.yml)",
+      "Read(**/service-account*.json)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)"
+    ]
   },
   "model": "opus",
-  "fallbackModel": [
-    "haiku"
-  ],
   "hooks": {
     "SessionStart": [
       {
-        "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/session-context.sh"
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/post-compact-reinject.sh"
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/bin/rtk-session-context.sh",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/intent-session-brief.sh",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/bin/session-snapshot.sh start",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/bin/jira-session-banner.sh",
-            "timeout": 30
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/bin/sync-setup.sh",
-            "timeout": 15
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/bin/docs-sync.sh",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/hive-review-bridge.sh session",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/session-recall.sh",
+            "command": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "args": [
+              "/c/Users/shova/.claude/hooks/session-recall.sh"
+            ],
             "timeout": 10
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/hive-review-bridge.sh pickup",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/intent-capture.sh prompt",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/prompt-router.sh",
-            "timeout": 5
           }
         ]
       }
     ],
     "PreToolUse": [
       {
-        "matcher": "Edit|Write|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/protect-infra.sh"
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/watchdog-verify.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "TaskUpdate",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/verification-before-completion.sh"
-          }
-        ]
-      },
-      {
         "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/rtk-bash-guard.sh",
+            "command": "python",
+            "args": [
+              "C:\\Users\\shova\\.claude\\hooks\\safety_gate.py"
+            ],
             "timeout": 5
           },
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/coverage-enforcer.sh"
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/codex-review-on-push.sh",
-            "if": "Bash(git push*)",
-            "timeout": 60
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/eval-gate.sh",
-            "if": "Bash(git push*)",
-            "timeout": 190
+            "command": "python",
+            "args": [
+              "C:\\Users\\shova\\.claude\\hooks\\pre_push_gate.py"
+            ],
+            "timeout": 90
           }
         ]
       }
     ],
     "PreCompact": [
       {
-        "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/snapshot-state.sh"
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/precompact-handoff.sh"
+            "command": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "args": [
+              "/c/Users/shova/.claude/hooks/precompact-handoff.sh"
+            ],
+            "timeout": 10
           }
         ]
       }
     ],
     "Stop": [
       {
-        "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/stop-checklist.sh"
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/bin/session-snapshot.sh end"
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/bin/jira-time-stop.py",
-            "timeout": 10
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/intent-capture.sh stop",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/contract-proof-stop.sh",
+            "command": "python",
+            "args": [
+              "C:\\Users\\shova\\.claude\\hooks\\completion_gate.py"
+            ],
             "timeout": 8
           },
           {
             "type": "command",
-            "command": "$HOME/.claude/bin/pop-sfx.sh",
-            "timeout": 5
+            "command": "python",
+            "args": [
+              "C:\\Users\\shova\\.claude\\hooks\\ship_gate_stop.py"
+            ],
+            "timeout": 20
           }
         ]
       }
     ],
-    "PostToolUse": [
+    "Notification": [
       {
-        "matcher": "Edit|Write|MultiEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/hive-review-bridge.sh post-tool",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Skill",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/skill-usage-logger.sh",
-            "timeout": 5
+            "command": "powershell.exe",
+            "args": [
+              "-NoProfile",
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              "C:\\Users\\shova\\.claude\\hooks\\notify-toast.ps1"
+            ],
+            "timeout": 15,
+            "statusMessage": "Raising Windows toast",
+            "async": true
           }
         ]
       }
     ]
   },
   "workflowKeywordTriggerEnabled": true,
-  "statusLine": {
-    "type": "command",
-    "command": "$HOME/.claude/bin/hud-statusline.sh",
-    "padding": 0
-  },
-  "enabledPlugins": {
-    "understand-anything@understand-anything": true
-  },
-  "extraKnownMarketplaces": {
-    "understand-anything": {
-      "source": {
-        "source": "github",
-        "repo": "Lum1104/Understand-Anything"
-      }
-    }
-  },
   "effortLevel": "xhigh",
-  "ultracode": true,
-  "tui": "fullscreen",
-  "doneMeansMerged": true,
-  "skipDangerousModePermissionPrompt": true,
+  "autoUpdatesChannel": "latest",
+  "skipDangerousModePermissionPrompt": false,
   "theme": "dark",
-  "autoCompactEnabled": true,
-  "wheelScrollAccelerationEnabled": false,
-  "todoFeatureEnabled": true,
-  "skipAutoPermissionPrompt": true,
-  "_meta": {
-    "project": "Axia Seekapa CS Agents",
-    "type": "Azure Functions (Python)",
-    "description": "OTP authentication for Seekapa and AxiaCS AI agents",
-    "settings_revision": "2026-07-06a - first-party Claude with claude-sonnet-5 default, Fable/Opus/Haiku launch aliases, adaptive thinking disabled, SessionStart hooks on all sources including compact, auto-compact enabled, post-compact continuation enforced",
-    "settings_backup": "~/.claude/settings.json.bak-2026-06-07-pre-ultracode",
-    "rollback": "cp ~/.claude/settings.json.bak-2026-05-04-pre-precompact ~/.claude/settings.json"
-  },
-  "spinnerVerbs": {
-    "mode": "replace",
-    "verbs": [
-      "Channeling",
-      "Scrying",
-      "Forging",
-      "Questing",
-      "Casting",
-      "Divining",
-      "Conjuring",
-      "Summoning",
-      "Enchanting",
-      "Runecrafting"
-    ]
-  },
-  "subagentStatusLine": {
-    "type": "command",
-    "command": "$HOME/.claude/bin/subagent-hud.py"
-  }
+  "remoteControlAtStartup": false,
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true
 }

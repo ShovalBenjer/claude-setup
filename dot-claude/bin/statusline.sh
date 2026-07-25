@@ -45,19 +45,12 @@ fi
 BAR="\033[${BAR_COLOR}m$(printf '▓%.0s' $(seq 1 "$FILLED" 2>/dev/null) 2>/dev/null)$(printf '░%.0s' $(seq 1 "$EMPTY" 2>/dev/null) 2>/dev/null)\033[0m"
 
 # ── Desperation Health Indicator ─────────────────────────────
-# Fire desperation_cooldown meme once when crossing T:20 (debounced)
 if [ "$TURNS" -ge 20 ]; then
   HEALTH="\033[31m COOL-DOWN\033[0m"
-  COOLDOWN_MARK="/tmp/.claude-cooldown-fired"
-  if [ ! -f "$COOLDOWN_MARK" ] || [ "$(cat "$COOLDOWN_MARK" 2>/dev/null)" != "$TURNS" ]; then
-    /home/shovalbe/.claude/bin/play-meme.sh desperation_cooldown &>/dev/null &
-    echo "$TURNS" > "$COOLDOWN_MARK"
-  fi
 elif [ "$TURNS" -ge 12 ]; then
   HEALTH="\033[33m ~check\033[0m"
 else
   HEALTH=""
-  : > /tmp/.claude-cooldown-fired 2>/dev/null
 fi
 
 # ── Infinity Logo Color (system health composite) ────────────
@@ -187,13 +180,6 @@ if [ -f /tmp/.claude-health-reminder ]; then
   fi
 fi
 
-# ── Meme Played Counter (lifetime since launch) ──
-MEME_IND=""
-if [ -f /tmp/.claude-meme-count ]; then
-  MC=$(cat /tmp/.claude-meme-count 2>/dev/null)
-  [ -n "$MC" ] && [ "$MC" -gt 0 ] 2>/dev/null && MEME_IND="\033[35mMm:${MC}\033[0m"
-fi
-
 # ── Layer 7 Session Count (cached, refreshed every 60s) ──
 L7_IND=""
 L7_CACHE="/tmp/.claude-layer7-count"
@@ -276,26 +262,10 @@ fi
 # 65%: quality starts degrading — warn early (Issue Map: context rot at 65%, not 85%)
 # 85%: critical — Thanos /clear
 CTX_WARN=""
-CTX_WARN_MARK_65="/tmp/.claude-ctx-warn-65-fired"
-CTX_WARN_MARK_85="/tmp/.claude-ctx-warn-85-fired"
 if [ "$CONTEXT_PCT" -ge 85 ]; then
   CTX_WARN="\033[1;31m /clear!\033[0m"
-  # Fire 85% meme once per crossing
-  if [ ! -f "$CTX_WARN_MARK_85" ]; then
-    touch "$CTX_WARN_MARK_85"
-    /home/shovalbe/.claude/bin/play-meme.sh thanos_clear &>/dev/null &
-  fi
-  rm -f "$CTX_WARN_MARK_65" 2>/dev/null
 elif [ "$CONTEXT_PCT" -ge 65 ]; then
   CTX_WARN="\033[33m ctx!\033[0m"
-  # Fire 65% meme once per crossing
-  if [ ! -f "$CTX_WARN_MARK_65" ]; then
-    touch "$CTX_WARN_MARK_65"
-    /home/shovalbe/.claude/bin/play-meme.sh scope_too_big &>/dev/null &
-  fi
-  rm -f "$CTX_WARN_MARK_85" 2>/dev/null
-else
-  rm -f "$CTX_WARN_MARK_65" "$CTX_WARN_MARK_85" 2>/dev/null
 fi
 
 # ── Time Since Last Commit ───────────────────────────────────
@@ -334,7 +304,7 @@ COUNTERS=""
 [ -n "$MSG_COUNT" ] && COUNTERS="${MSG_COUNT}"
 [ "$TURNS" -gt 0 ] 2>/dev/null && COUNTERS="${COUNTERS:+${COUNTERS} }T:${TURNS}"
 
-# Build indicators group (test, CI, L7, recall, QL phase, codex, meme count)
+# Build indicators group (test, CI, L7, recall, QL phase, usage, codex, jobs)
 INDS=""
 [ -n "$TEST_IND"   ] && INDS="${TEST_IND}"
 [ -n "$CI_IND"     ] && INDS="${INDS:+${INDS} }${CI_IND}"
@@ -343,7 +313,6 @@ INDS=""
 [ -n "$QL_IND"     ] && INDS="${INDS:+${INDS} }${QL_IND}"
 [ -n "$USAGE_IND"  ] && INDS="${INDS:+${INDS} }${USAGE_IND}"
 [ -n "$CODEX_IND"  ] && INDS="${INDS:+${INDS} }${CODEX_IND}"
-[ -n "$MEME_IND"   ] && INDS="${INDS:+${INDS} }${MEME_IND}"
 [ -n "$JOBS_IND"   ] && INDS="${INDS:+${INDS} }${JOBS_IND}"
 
 # ── Ink Daemon: two-row statusline (falls back to single row below if unreachable) ──

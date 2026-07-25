@@ -1,31 +1,21 @@
 #!/usr/bin/env bash
-# UserPromptSubmit hook — enforces the SDLC kernel (ADR-0005: enforcement over prose).
-# Injects, on every prompt, a compact reminder of the deep-work discipline plus the
-# active goal line from the OS TODO. Fail-open: any error => no injection, exit 0.
+# UserPromptSubmit hook: inject only the small, universal evidence contract.
+# Domain knowledge belongs in path-scoped rules or skills, not every prompt.
 set -uo pipefail
 
 OS_DIR="${CLAUDE_OS_DIR:-$HOME/claude-setup}"
-todo="$OS_DIR/TODO.md"
 
 # Fire-log (L011): durable proof the injection actually reached the harness.
 printf '%s\tUserPromptSubmit\n' "$(date '+%Y-%m-%dT%H:%M:%S')" \
   >> "$OS_DIR/state/hook-fires.log" 2>/dev/null || true
 
-active=""
-if [ -f "$todo" ]; then
-  # first unchecked item under the first "## P" (priority) section
-  active=$(grep -m1 -E '^\s*- \[ \]' "$todo" 2>/dev/null | sed 's/^\s*- \[ \] //')
-fi
-
 read -r -d '' CTX <<EOF || true
-[Claude OS kernel] Deep-work discipline is in force:
-- Substantive task => first extract an acceptance checklist from the user's intent (task bus). Judge output against THAT, not "made progress".
-- Loop until intent covered; use full budget. Small-patch-and-report-done is only for explicit quick fixes.
-- "Done" = verification evidence (command + output) + an intent-coverage statement (covered / uncovered + why).
-- Depth is enforced by external checks (tests, postconditions, fresh-eyes review), never by "think harder".
-- RUN CONTRACT: a big-intent request gets a big run — scale fanout/depth to the intent, not to the fastest finish; converging fast on a broad ask is a defect. Clarifying questions happen ONLY at run start; then run to depth uninterrupted. When context runs long, DELEGATE reading/writing to fresh-context agents that write to disk; the lead assembles.
-- CALIBRATED CLAIMS (rules/calibrated-claims.md): tag every claim VERIFIED (command+output shown) / STAGED (exists, unproven) / ASSUMED. Lead with what is broken, unknown, or blocked BEFORE what works. No triumph register ("all done", "everything landed", "fully"). The longer the session, the STRICTER the evidence bar — pressure inflates claims; counter it. A claim later downgraded = calibration loss, logged in state/lessons.jsonl.
-${active:+Active OS goal: ${active}}
+[Claude OS kernel]
+- Convert non-trivial intent into observable acceptance criteria.
+- Inspect repository evidence before choosing an implementation.
+- Compare viable alternatives when the choice affects correctness, scale, or architecture.
+- A completion or quality claim needs an executable oracle; state skipped checks and residual risk.
+- Retrieve domain knowledge just in time with skills; do not expand the prompt speculatively.
 EOF
 
 # Emit as additionalContext; never block.
