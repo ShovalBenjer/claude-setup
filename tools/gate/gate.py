@@ -280,6 +280,18 @@ SECRET_PATTERNS = [
                        r"['\"][A-Za-z0-9/+_\-\.]{16,}['\"]"),
 ]
 
+# KNOWN BLIND SPOT, named rather than left to be discovered. "assigned secret"
+# is the only rule above that keys on the variable NAME instead of the value's
+# own shape, so an author can walk out of it by renaming the left side. `\b`
+# does not match before an underscore, so SECRET_NAME= is silent where SECRET=
+# is not. Measured 2026-07-25: dot-claude/bin/*-launcher.sh held a Key Vault
+# ENTRY NAME in a variable called SECRET, this fired on it correctly, and the
+# repair was to rename the variable -- the same keystroke that would hide a
+# live key. It is deliberately not widened to secret\w*, which would re-flag
+# those launchers and every other honest SECRET_NAME, and a rule that cries
+# wolf on correct code gets waived and then finds nothing at all. The
+# value-shaped rules carry the real weight: AKIA, sk-, ghp_ and a PEM header
+# match whatever they are assigned to.
 SECRET_SKIP = re.compile(
     r"(?i)(^|/)(\.git|node_modules|dist|build|\.next|\.venv|venv|__pycache__|"
     r"coverage|\.turbo|target)(/|$)")
@@ -684,10 +696,29 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
         # A domain that can only ever say "no artifact here" pushes the real work
         # onto a human remembering an incantation, and what humans do with that is
         # waive the domain. So if the contract also names a command that produces the
-        # artifact, run it once and re-read. The verdict still comes from the
+        # artifact, run it and read what it wrote. The verdict still comes from the
         # artifact, never from the command's exit code, because a reviewer that
         # approves by exiting zero is not a reviewer.
-        if st == UNCOVERED and spec.get("cmd"):
+        #
+        # Unconditionally, not only when the artifact is missing. The artifact is
+        # keyed by commit SHA, so on a dirty tree every edit makes a new tree under
+        # the same key and the previous review answers for code it never saw. That
+        # is not theoretical: on 2026-07-25 this domain reported seven high findings
+        # that had already been fixed, from an artifact written before the fix, while
+        # the same producer run by hand reported none. Read the other way it is a
+        # false green, a review from three edits ago standing in for code nobody has
+        # read, which is the one thing this domain exists to prevent. Freshness by
+        # construction beats a staleness check, because the check needs the producer
+        # and the gate to agree on a tree hash and two implementations of one rule
+        # drift.
+        #
+        # The cost is that a richer artifact for this same commit gets overwritten by
+        # the contract's producer: run `panel.py --allow-external` by hand and the
+        # next gate run replaces it with the local panel's. That is the right trade
+        # while external review is unwired, and the wrong one once it is, so when an
+        # external reviewer becomes part of the contract this needs to preserve a
+        # non-approval it did not produce rather than re-running over it.
+        if spec.get("cmd"):
             producer = spec["cmd"].replace(
                 "${APP_URL}", (contract.get("app") or {}).get("url") or "http://localhost:3000")
             if verbose:
@@ -961,6 +992,32 @@ def cmd_selftest(args: argparse.Namespace) -> int:
         ok = got == 1
         print("\n[{}] a producer that writes no artifact leaves review red, got {}".format(
             "ok  " if ok else "MISS", got))
+        rc |= 0 if ok else 1
+
+        # ...and an artifact left over from an earlier tree is not a review of this
+        # one. The artifact is keyed by commit SHA, so on a dirty tree every edit
+        # produces a new tree under the same key and the old review answers for it.
+        #
+        # Measured 2026-07-25: panel.py's false positives were fixed and the panel
+        # passed cleanly when run by hand, while this domain went on reporting the
+        # old 7 high findings from an artifact written before the fix. That direction
+        # is only a false red and it wastes an hour. The same mechanism run the other
+        # way is a false green, where a review written three edits ago is accepted as
+        # a review of code nobody has read, which is the failure this domain exists
+        # to prevent.
+        c["domains"]["review"]["cmd"] = starter_contract(td)["domains"]["review"]["cmd"]
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        json.dump({"commit": sha, "reviewer": "earlier-run/local", "verdict": "fail",
+                   "summary": "STALEMARK a tree that no longer exists"},
+                  open(art, "w", encoding="utf-8"))
+        got = cmd_run(argparse.Namespace(project=td, domain="review", verbose=False, json=None))
+        with open(art, encoding="utf-8") as fh:
+            refreshed = fh.read()
+        ok = got == 0 and "STALEMARK" not in refreshed
+        print("\n[{}] a leftover artifact is refreshed, not trusted, got {}".format(
+            "ok  " if ok else "MISS", got))
+        if not ok:
+            print("      still_stale={}".format("STALEMARK" in refreshed))
         rc |= 0 if ok else 1
 
         # 6. the secret scanner sees a planted credential and does not print it

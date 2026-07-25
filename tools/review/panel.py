@@ -189,7 +189,8 @@ def lang_of(path: str) -> str:
 
 # ------------------------------------------------------------------ the panel
 #
-# Each entry is (id, severity, langs, pattern, why). `langs` empty means any file.
+# Each entry is (id, severity, langs, pattern, why). `langs` empty means any file
+# that is not prose; see run_local for why markdown is the one exclusion.
 # `why` is written for the person who has to decide whether to fix it, so it says
 # what goes wrong, not which rule was violated.
 
@@ -368,8 +369,20 @@ EXEMPT = re.compile(
 # A pattern's own definition contains the thing it looks for, so a file that IS a
 # scanner trips every check in it. That is not a finding, it is the tool reading
 # itself.
+#
+# state/ is the same property one step removed. This reviewer WRITES
+# state/reviews/<sha>.json on every run, quoting each flagged line into a `snippet`
+# field, and the next run reads those quotes back as source. Measured 2026-07-25:
+# the high count went 4 -> 7 across two consecutive runs purely because one review
+# file landed in between, and nothing bounded it. The append-only ledgers beside it
+# are machine-written records of what tools saw, not code anyone can fix.
+#
+# Anchored with ^ and not (^|/) like the alternatives above, deliberately: an
+# unanchored state/ would also exempt src/state/, which is ordinary application
+# code in a very common layout. cmd_selftest plants exactly that file and requires
+# it to still be found.
 SELF_REFERENTIAL = re.compile(r"(?i)(^|/)(?:tools/(?:review|gate|e2e|refute)/|"
-                              r"dot-claude/hooks/)")
+                              r"dot-claude/hooks/)|^state/")
 
 
 def run_local(lines: list[dict]) -> list[dict]:
@@ -380,7 +393,19 @@ def run_local(lines: list[dict]) -> list[dict]:
             for ln in lines:
                 if EXEMPT.search(ln["file"]) or SELF_REFERENTIAL.search(ln["file"]):
                     continue
-                if langs and lang_of(ln["file"]) not in langs:
+                lang = lang_of(ln["file"])
+                if langs:
+                    if lang not in langs:
+                        continue
+                elif lang == "md":
+                    # An empty `langs` means any file, and that used to include prose.
+                    # A document that SHOWS a vulnerable example is the document doing
+                    # its job: red-team-review/EXAMPLE_SESSION.md was reported for the
+                    # injection it exists to demonstrate. Narrowed to md alone rather
+                    # than to CODE_LANGS, because rejectUnauthorized: false in a yaml
+                    # CI config is a real tls-off finding and a json config can carry a
+                    # wildcard CORS origin. No registered check names "md", so nothing
+                    # that exists loses coverage here.
                     continue
                 if not rx.search(ln["text"]):
                     continue
@@ -690,6 +715,67 @@ def cmd_selftest(args: argparse.Namespace) -> int:
         for f in clean:
             print("        false positive: {} {} {}:{}  {}".format(
                 f["persona"], f["check"], f["file"], f["line"], f["snippet"]))
+        rc |= 0 if ok else 1
+
+        # A reviewer must not review its own output, and a ledger is not source.
+        #
+        # Every run writes state/reviews/<sha>.json, and that file QUOTES each line
+        # it flagged in a `snippet` field. The next run reads those quotes back as
+        # source and reports them again. That is not one stale finding, it is a
+        # feedback loop with nothing bounding it: measured on this repo on
+        # 2026-07-25, the high count went 4 -> 7 across two consecutive runs purely
+        # because one review file landed in between. The append-only ledgers under
+        # state/ have the same shape, recording what a tool saw rather than anything
+        # a person wrote, and a prose file has it for a different reason: an example
+        # of an injection in documentation is the documentation working.
+        #
+        # Exempting them costs no credential coverage. gate.py's secret_scan walks
+        # every tracked file and its SECRET_SKIP does not exclude state/, so a key
+        # committed there is still caught by the check meant to catch it. What is
+        # given up is injection review of machine-written logs, which was never
+        # signal.
+        #
+        # Committed first and appended to second, on purpose. Untracked files reach
+        # the reviewer through _collect_file, which filters by extension and would
+        # never have collected a .jsonl at all. The real bus.jsonl finding came
+        # through the diff path, which applies no extension filter whatsoever, so a
+        # fixture that only planted untracked files would pass without the fix.
+        echoed = {
+            "state/reviews/abc123.json":
+                '  "snippet": "db.query(\'SELECT * FROM users WHERE id = \' + id)"',
+            "state/bus.jsonl":
+                '{"level":"warn","text":"SELECT * FROM t WHERE id = \' + uid"}',
+            "docs/EXAMPLE_SESSION.md":
+                "    db.query('SELECT * FROM users WHERE id = ' + id)",
+            # The counter-case, and the reason the exemption is anchored at the repo
+            # root: an unanchored `state/` also swallows src/state/, which is
+            # ordinary application code in a very common layout.
+            "src/state/api.ts":
+                "  return db.query('SELECT * FROM users WHERE id = ' + id);",
+        }
+        for rel in echoed:
+            full = os.path.join(td, rel.replace("/", os.sep))
+            os.makedirs(os.path.dirname(full), exist_ok=True)
+            open(full, "w", encoding="utf-8").write("placeholder\n")
+        sh("git add -A && git -c user.email=t@t -c user.name=t commit -q -m echoed", td)
+        for rel, body in echoed.items():
+            with open(os.path.join(td, rel.replace("/", os.sep)), "a", encoding="utf-8") as fh:
+                fh.write(body + "\n")
+
+        echo_found = run_local(added_lines(td, "HEAD"))
+        noise = [f for f in echo_found if f["file"] != "src/state/api.ts"]
+        ok = not noise
+        print("\n  {}  neither its own output nor a ledger is reviewed as source".format(
+            "ok  " if ok else "MISS"))
+        for f in noise:
+            print("        false positive: {} {} {}:{}".format(
+                f["persona"], f["check"], f["file"], f["line"]))
+        rc |= 0 if ok else 1
+
+        ok = any(f["file"] == "src/state/api.ts" and f["check"] == "sql-concat"
+                 for f in echo_found)
+        print("  {}  an ordinary src/state/ file is still reviewed".format(
+            "ok  " if ok else "MISS"))
         rc |= 0 if ok else 1
 
         # A base that resolves to HEAD yields an empty diff, which reads as "nothing
