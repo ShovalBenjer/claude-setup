@@ -1,1 +1,1 @@
-Claude OS: 21 done / 29 open. Next: ecosystem.db bootstrap from intent-control-plane schema + tools/eco/db. 20 merged branches deletable. 3 open lessons.
+Claude OS: 22 done / 33 open. Next: COMPACTION CHURN (new, from that same log): 11 PreCompact fires in ~10. 20 merged branches deletable. 8 open lessons.
