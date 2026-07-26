@@ -1,0 +1,92 @@
+# Why quality-contract.json says what it says
+
+Rationale for each domain in `quality-contract.json`. Not status. For status run
+`python tools/gate/gate.py run --project .`
+
+The contract used to carry its measured result inside each domain's `_comment`.
+By 2026-07-25 four of the ten were false: `security` and `pipeline` had both been
+fixed and the comments still said FAIL, `unit` named three test failures, `review`
+named a stale verdict. A file that states its own result is out of date the first
+time somebody fixes something and does not think to edit the prose. So the
+comments in the JSON are one line each and hold no result, and the durable half
+lives here.
+
+Same rule as `docs/CODEBASE-MAP.md`: what is measurable is generated, what is
+judgement is written down once.
+
+## Scope of each domain
+
+| domain | what it runs | why that scope |
+| --- | --- | --- |
+| build | `uv sync --frozen` in `intent-control-plane` | the only subproject with an installable manifest. The flat `tools/` toolkit has no manifest anywhere and its four protected oracles import stdlib only, so there is nothing to install; `types` and `unit` cover it instead. |
+| unit | root pytest, `gate.py selftest`, `panel.py selftest`, `intent-control-plane` pytest | every automated-test entrypoint that exists, chained. The two selftests are in the list because a gate whose own oracle is not run is a gate nobody has checked. |
+| types | `compileall` repo-wide, then ruff and mypy in `intent-control-plane` | `compileall` is this gate's documented fallback where no lint config exists at root, which is the case for `tools/`. `intent-control-plane` configures ruff and strict mypy, so it gets the real thing. |
+| e2e | nothing, `na_reason` | `tools/e2e/flow.py` and `tools/browser/cdp.py` drive OTHER repositories' running UIs from whichever contract is being evaluated. claude-setup serves no app of its own, so there is no route to click. Every `.html` in the tree is a static export. |
+| a11y_ux | nothing, `na_reason` | reads the e2e report at a stricter threshold and there is no e2e report, for the reason above. If any part of this repo grows a served UI, both move to a real `cmd`. |
+| security | builtin `secret_scan` | value-shaped patterns plus one name-shaped rule, and a named allowlist for vendors' published test vectors. The blind spot is written into `gate.py` beside the patterns rather than left to be discovered. |
+| docs | builtin `docs_touched` | `TODO.md` is in the path list because this repo demonstrably describes changes there and in `docs/analysis/`, not in `CHANGELOG.md`. |
+| pipeline | builtin `ci_runs_gate` | local-green and CI-green have to be about the same thing. This is the check that they are. |
+| review | `panel.py run`, artifact per commit | the panel writes a verdict per commit sha; only pass/approve/lgtm counts. Known oracle behaviour: the artifact is matched by sha, not by tree, so an artifact written against a dirty tree keeps reading as current for that commit after further edits. |
+| perf | nothing, `na_reason` | no budget is declared for this repo. Every budget-shaped hit in the tree belongs to another project's historical audit or reports p95 without enforcing a threshold. Nobody has set a number, and saying so is more honest than inventing one. |
+| codemap | builtin `dir_map`, runs `tools/map/codemap.py check` | every tracked directory states its purpose somewhere a reader will find it, and `docs/CODEBASE-MAP.md` matches the tree. |
+| prior_art | builtin `prior_art`, runs `tools/map/codemap.py prior-art` | every component over 300 lines of Python carries an unexpired record naming what else could do its job. |
+
+## codemap: where a purpose is allowed to live
+
+Resolution order, first hit wins: the directory's own `SKILL.md` `description:`,
+`README.md` first prose line, `AGENTS.md`, `CLAUDE.md`, then a row in
+`docs/dir-purpose.txt`.
+
+A registry row for a directory that already self-documents is an error, not an
+override. Two copies of a purpose string means one of them is the copy that goes
+stale, and the check refuses to let that happen quietly.
+
+A `README.md` with no prose or a `SKILL.md` with no `description:` documents
+nothing. That is why 181 directories lacking all four files came out as 194
+undocumented.
+
+`docs/CODEBASE-MAP.md` excludes itself from its own inventory, carries no
+timestamp, no commit sha and no line counts. Any of those would make the file
+drift against itself on the next commit and turn every one-line edit into a
+documentation failure.
+
+## prior_art: what a record has to contain
+
+The obligation set is derived, not listed: any directory with 300+ lines of
+Python owes a record. A hand-maintained list would let new code be born exempt.
+
+`docs/prior-art/<name>.json` needs `reviewed`, `recheck_after`, a non-empty
+`alternatives` list with real names, `verdict`, `why`, `evidence`, and a
+`recheck` command. It expires like a waiver: past `recheck_after` is a failure,
+not a warning.
+
+An empty `alternatives` list fails. "There is no alternative" is the cheapest
+claim to type and the most expensive to justify.
+
+`docs/prior-art/out-of-scope.txt` is `prefix | reason`. An unlisted prefix is IN
+scope, so new code is audited by default and has to be argued out. A bare prefix
+with no reason does not count. `codemap.py` prints every exclusion with its line
+count and reason on both the passing and the failing path, because the failing
+path is exactly when a reader is deciding whether the audit is honest.
+
+## Known gaps, dated
+
+These were true when measured. Re-measure before relying on them.
+
+- 2026-07-25, `build`: `tools/whatsapp/cdp_driver.py` imports third-party
+  `websocket` and `tools/setup_token_pty.py` imports `winpty`. Neither is
+  installed on this machine nor declared in any manifest, and both exit 1 with
+  ModuleNotFoundError when run directly. `uv sync --frozen` does not cover them.
+  This domain does not claim those two scripts build.
+- 2026-07-25, `unit`: three tests in `intent-control-plane` fail on Windows
+  (`test_codebase_map.py::test_build_codebase_map_walks_and_prunes`,
+  `test_local_alpha.py::test_foundry_status_retention_and_hive_sync`,
+  `test_local_alpha.py::test_init_creates_local_layout_and_schema`). All three
+  open a sqlite connection that is never closed before a
+  `tempfile.TemporaryDirectory()` teardown, so Windows raises `PermissionError
+  [WinError 32]`. Reproducible, not a flake, deliberately not waived.
+- 2026-07-25, `security`: the `assigned secret` rule keys on the variable name,
+  so renaming the left side walks out of it, and `\b` does not match before an
+  underscore. `SECRET=` fires where `SECRET_NAME=` is silent. Not widened to
+  `secret\w*` on purpose: that re-flags every honest `SECRET_NAME` and a rule
+  that cries wolf gets waived and then finds nothing at all.

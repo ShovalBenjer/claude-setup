@@ -642,10 +642,58 @@ def review_artifact(project: str, contract: dict, spec: dict) -> tuple[str, str]
         art.get("reviewer"), str(art.get("summary") or verdict)[:200])
 
 
+def codemap(project: str, spec: dict, sub: str) -> tuple[str, str]:
+    """Run tools/map/codemap.py and report what it reported.
+
+    Shelling out rather than importing, so the evidence in this report is the
+    output of the command a human runs to reproduce it, and the rule has one
+    implementation instead of two that drift.
+    """
+    tool = "tools/map/codemap.py"
+    if not os.path.exists(os.path.join(project, *tool.split("/"))):
+        return FAIL, ("the contract asks for the {} check and {} is not in this "
+                      "repository. Deleting the tool is the cheapest way to disable a "
+                      "domain, so it reads as a failed domain, not an absent one.".format(
+                          sub, tool))
+    cmd = '"{}" {} {}'.format(sys.executable, tool, sub)
+    rc, out = run(cmd, project, timeout=spec.get("timeout", 300))
+    lines = [l for l in out.splitlines() if l.strip()]
+    if rc == 0:
+        # Everything, not the tail. On the prior-art pass path most of this output
+        # is the list of components excluded from the audit with the reason for
+        # each, and an exclusion the report hides is a silent suppression.
+        return PASS, cap(lines, 20)
+    fails = [l for l in lines if l.startswith("FAIL")]
+    other = [l for l in lines if not l.startswith("FAIL")]
+    body = cap(fails or lines, 14)
+    if fails and other:
+        # The rest is what the tool chose not to check and why. It belongs in the
+        # failing report as much as the passing one: a reader deciding whether the
+        # audit is honest needs the exclusions in front of them either way.
+        body += "\n" + cap(other, 6)
+    return FAIL, body + "\n  reproduce: {} {}".format(tool, sub)
+
+
+def cap(lines: list[str], n: int) -> str:
+    if len(lines) <= n:
+        return "\n".join(lines)
+    return "\n".join(lines[:n] + ["... and {} more".format(len(lines) - n)])
+
+
+def dir_map(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    return codemap(project, spec, "check")
+
+
+def prior_art(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    return codemap(project, spec, "prior-art")
+
+
 BUILTINS = {
     "secret_scan": secret_scan,
     "docs_touched": docs_touched,
     "ci_runs_gate": ci_runs_gate,
+    "dir_map": dir_map,
+    "prior_art": prior_art,
 }
 
 
@@ -785,7 +833,21 @@ def cmd_run(args: argparse.Namespace) -> int:
 
     sha, dirty, fp = tree_fingerprint(project)
     declared = contract.get("domains") or {}
-    todo = [args.domain] if args.domain else DOMAINS
+    # DOMAINS is the floor, not the ceiling. A project may declare more, and until
+    # this line existed the extra ones were read from the contract and then
+    # dropped, so a repository could carry a check that only ever ran as text.
+    # Extras can add failures and can never remove one, which is why widening the
+    # list here does not reopen the "declare three easy domains" hole the fixed
+    # list closes.
+    extra = [k for k in declared if k not in DOMAINS]
+    known = DOMAINS + extra
+    if args.domain and args.domain not in known:
+        print("no domain called {} here. This contract has: {}".format(
+            args.domain, ", ".join(known)))
+        print("VERDICT: CANNOT RUN. Exiting 2 rather than reporting the typo as an "
+              "uncovered domain, which would read as a real gap.")
+        return 2
+    todo = [args.domain] if args.domain else known
 
     print("ship gate: {}".format(contract.get("project") or os.path.basename(project)))
     print("  commit {}{}   tree {}".format(sha[:12], "  (dirty)" if dirty else "", fp))
@@ -806,7 +868,10 @@ def cmd_run(args: argparse.Namespace) -> int:
         print("")
         required = (declared.get(r["domain"]) or {}).get("required")
         if required is None:
-            required = r["domain"] in ALWAYS_REQUIRED
+            # A domain the contract went out of its way to declare is required
+            # unless it says otherwise in as many words. The alternative default
+            # makes writing a check and having its failure ignored the quiet path.
+            required = r["domain"] in ALWAYS_REQUIRED or r["domain"] not in DOMAINS
         if required and r["status"] in (FAIL, UNCOVERED):
             blocking.append(r)
 
@@ -1200,7 +1265,10 @@ def main(argv: list[str]) -> int:
 
     r = sub.add_parser("run", help="run the gate")
     r.add_argument("--project", default=".")
-    r.add_argument("--domain", choices=DOMAINS, help="run one domain only")
+    # No choices= here. The valid set is the fixed list plus whatever the
+    # contract declares, and argparse cannot see the contract. cmd_run validates
+    # the name once it has read one, and names the real options in the error.
+    r.add_argument("--domain", help="run one domain only")
     r.add_argument("--json", help="write the full result here")
     r.add_argument("-v", "--verbose", action="store_true")
     r.set_defaults(fn=cmd_run)

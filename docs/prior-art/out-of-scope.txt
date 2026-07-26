@@ -1,0 +1,17 @@
+# Components over the prior-art line count that owe no build-vs-buy record, with
+# the reason each is out of scope. codemap.py prints every line below on every
+# run, pass or fail: an exclusion nobody reads is a disabled check.
+#
+# format: path prefix | reason
+#
+# A prefix not listed here is IN scope. That direction is deliberate. New code
+# is audited by default and has to be argued out, rather than being exempt until
+# somebody remembers to add it.
+
+dot-claude/skills/deep-research | third-party marketplace skill, not our code; carries its own README and requirements.txt
+dot-agents/skills/deep-research | same third-party skill, second copy; the copies have drifted (28 differing entries) which is a sync defect, not a build-vs-buy question
+dot-claude/skills/ui-ux-pro-max | third-party marketplace skill, not our code
+dot-agents/skills/ui-ux-pro-max | same third-party skill, second copy, 4 differing entries
+dot-codex/skills/.system | ships with the Codex CLI and carries its own LICENSE.txt; installed, not written here
+research-papers/el-vadt | corpus and employer-context material held as evidence; read, not maintained
+work-docs/audits | dated single-run analysis scripts (analyze_jira_2026-05-12.py and one sibling); kept as the evidence behind a dated finding, never re-run

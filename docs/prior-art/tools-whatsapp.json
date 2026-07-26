@@ -1,0 +1,50 @@
+{
+ "component": "tools/whatsapp",
+ "reviewed": "2026-07-25",
+ "recheck_after": "2026-10-23",
+ "verdict": "delete-ours",
+ "why": "0 verified callers (grep) and the tool fails today (websocket-client missing/undeclared). Repo's own docs already name this exact path as a 0-refs-30d kill candidate. Every read approach -- ours, whatsapp-web.js, Baileys, Selenium, Playwright -- hits the same unofficial web.whatsapp.com surface and carries the same 2026-documented ban risk (~1-in-5 unofficial-API accounts banned/yr); none reduces it. The one ToS-safe option, Cloud API, cannot read pre-existing personal groups at all. This is dead, unwired code, not a library-vs-ours tradeoff.",
+ "alternatives": [
+  {
+   "name": "whatsapp-web.js",
+   "covers": "Structured Chat/Message API (getChats, fetchMessages) over Puppeteer-driven Chromium; no manual DOM-selector scraping.",
+   "gap": "Own separate QR-paired session (extra credential-at-rest); needs Node+Puppeteer(~300MB Chromium) not used elsewhere in this repo; identical ToS/ban exposure, no less risky.",
+   "cost": "Free/OSS; adds Node+Puppeteer/Chromium toolchain not currently used by any script in this repo.",
+   "maturity": "Widely used historically; current 2026 maintenance cadence not directly confirmed by search."
+  },
+  {
+   "name": "Baileys",
+   "covers": "Direct multi-device WS protocol client (no browser); reads groups/messages/media with a lighter runtime than browser automation.",
+   "gap": "2026 sources show active ban waves incl. 3-year-old bots now suspended (Baileys#1869); stores its own session creds as disk JSON; Node/TS only, no Python path.",
+   "cost": "Free/OSS; Node dependency; no Chromium needed.",
+   "maturity": "Actively developed (WhiskeySockets fork); 2026 search shows escalating, not decreasing, ban enforcement against it."
+  },
+  {
+   "name": "Playwright (Python)",
+   "covers": "connect_over_cdp attaches to the SAME already-logged-in Chrome/port our cdp_driver.py hand-rolls, with auto-wait/locators replacing manual sleep()+JS-click dispatch.",
+   "gap": "Still requires hand-writing all WA-specific selector/extraction logic; changes nothing about ToS/ban exposure (same unofficial channel).",
+   "cost": "Free; already pip-installed here (v1.56.0) and already the repo's CDP substrate via MCP; marginal cost ~0.",
+   "maturity": "Actively maintained by Microsoft; high adoption; confirmed installed and Windows-compatible here."
+  },
+  {
+   "name": "Selenium",
+   "covers": "Mature WebDriver browser automation; could replace cdp_driver.py's raw JSON-RPC the same way Playwright can.",
+   "gap": "More boilerplate (explicit waits, chromedriver version pinning) than Playwright for the identical job; adopting it would add a 3rd automation convention alongside raw-CDP-here and Playwright-elsewhere.",
+   "cost": "Free/OSS; ongoing chromedriver-version maintenance Playwright already removed elsewhere in this repo.",
+   "maturity": "Extremely mature/stable; industry-standard but older API model than Playwright."
+  },
+  {
+   "name": "WhatsApp Cloud API (official)",
+   "covers": "Fully ToS-compliant Meta API; 2026 sources describe near-zero ban risk when using approved templates.",
+   "gap": "Groups feature requires an Official Business Account and covers API-created/managed groups, not a personal account's pre-existing groups -- cannot do the stated job at all.",
+   "cost": "Free tier capped conversations/mo, then paid; needs a dedicated Business-verified number (loses normal personal use).",
+   "maturity": "Official, Meta-maintained, enterprise-grade -- for a different use case than this tool's."
+  }
+ ],
+ "evidence": "Read all 4 files (311 ln). grep -rIln 'wa_read_group|wa_archive.py|wa_probe.py|cdp_driver' --include={*.ps1,*.yml,*.sh,*.py} . |grep -v tools/whatsapp/ -> 0 hits. `python cdp_driver.py url` -> ModuleNotFoundError: websocket (quality-contract.json:14, 2026-07-25). SYSTEM-MAP.md:44=staged; creativity-wow-gap.md:206/352/386=own kill-candidate example. WebSearched ToS/ban-risk/CloudAPI.",
+ "recheck": "grep -rIln 'wa_read_group|wa_archive.py|wa_probe.py|cdp_driver' --include={*.ps1,*.yml,*.sh,*.py} . |grep -v tools/whatsapp/  (expect 0); python tools/whatsapp/cdp_driver.py url (expect ModuleNotFoundError unless websocket-client installed)",
+ "our_loc": 311,
+ "migration_loc": "-311 deleted, 0 added now. If rebuilt: cdp_driver.py(80 ln)->Playwright connect_over_cdp(~30 ln); ~230 ln of WA-specific scrape logic still hand-written either way.",
+ "what_ours_does": "cdp_driver.py(80 ln) is a raw websocket-client CDP JSON-RPC client (nav/shot/eval/click) for Chrome port 9224. wa_archive.py(54)/wa_probe.py(44)/wa_read_group.py(133) drive an already-logged-in WhatsApp Web tab: click archive, scroll #pane-side, type into search, match a group by Hebrew/English name patterns, scroll history, scrape message DOM into JSON. Read-only; no send path.",
+ "strongest_counterargument": "Deliberate staged scaffolding for a Shoval-approved roadmap item (CLAUDE-OS.md:69-75, scope granted 2026-07-23), proven against the live DOM 3 days before this audit (2026-07-22). Deleting it discards hand-won selector/DOM knowledge (Hebrew archive-label matching, role=grid quirks) that would need rediscovering verbatim if the copilot resumes, to save only 311 lines."
+}

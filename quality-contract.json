@@ -1,62 +1,73 @@
 {
   "project": "claude-setup",
   "created": "2026-07-25",
+  "_rationale": "docs/QUALITY-CONTRACT.md. Notes below hold no measured status on purpose: for status run `python tools/gate/gate.py run --project .`",
   "app": {
     "start": null,
     "url": "http://localhost:3000",
     "routes": [],
-    "_comment": "claude-setup serves no application of its own -- see the e2e and a11y_ux na_reason entries below. This block is left in the shape the gate expects (and unused) rather than deleted, so a future contract that DOES add a served component (e.g. a dashboard inside intent-control-plane) has a place to put start/url/routes without restructuring the file."
+    "_note": "unused; kept in the shape the gate expects so a future served component has somewhere to go"
   },
   "domains": {
     "build": {
       "required": true,
       "cmd": "cd intent-control-plane && uv sync --frozen",
-      "_comment": "Scoped to intent-control-plane, the ONLY subproject in this repo with a real, installable manifest (pyproject.toml, hatchling build backend, uv.lock; 114 files tracked under git, not a submodule). Verified 2026-07-25: `uv sync --frozen` exits 0, installs/audits 18 packages from the lockfile. The flat tools/{gate,e2e,review,browser} toolkit has no manifest anywhere in the repo (no package.json/pyproject.toml/requirements.txt/setup.py at repo root), and its 4 protected oracle files (tools/gate/gate.py, tools/e2e/flow.py, tools/review/panel.py, tools/browser/cdp.py) import only the Python standard library, so there is nothing to install for that part -- it is correctly covered by the types and unit domains instead, not build. KNOWN GAP this command does NOT cover: tools/whatsapp/cdp_driver.py imports the third-party `websocket` package and tools/setup_token_pty.py imports `winpty`; neither is installed anywhere on this machine nor declared in any manifest, and both crash with ModuleNotFoundError when run directly (`python tools/whatsapp/cdp_driver.py --help` exit 1, `python tools/setup_token_pty.py --help` exit 1 -- verified 2026-07-25). This domain does not claim those two peripheral scripts build; a human should add a requirements file for them or remove/quarantine them."
+      "_note": "the only subproject with an installable manifest; tools/ has none and imports stdlib only"
     },
     "unit": {
       "required": true,
       "timeout": 300,
       "cmd": "python -m pytest tests/ -q && python tools/gate/gate.py selftest && python tools/review/panel.py selftest && cd intent-control-plane && uv run pytest -q",
-      "_comment": "Chains every real automated-test entrypoint that exists in this repo: (1) the root harness suite in tests/ (18 tests covering dot-claude/skills/prove-implementation and learn-on-demand scripts, and the pre_push_gate hook), (2) gate.py's own selftest (proves the gate refuses an unconfigured project, honors and expires waivers correctly, treats a deleted domain as UNCOVERED not absent, and runs the review producer for real), (3) panel.py's own selftest (all 32 planted defect patterns caught, a clean diff produces zero findings), (4) intent-control-plane's own pytest suite (420 tests). Verified 2026-07-25: (1) 18/18 passed, (2) and (3) each exit 0 with every internal [ok] assertion printed, (4) exits 1 -- 417 passed, 3 FAILED: test_codebase_map.py::test_build_codebase_map_walks_and_prunes, test_local_alpha.py::LocalAlphaTests::test_foundry_status_retention_and_hive_sync, test_local_alpha.py::LocalAlphaTests::test_init_creates_local_layout_and_schema. All three fail identically: a sqlite connection opened inside the test is not closed before its tempfile.TemporaryDirectory() fixture tears down, so Windows raises PermissionError [WinError 32] deleting the .db file (beads.db / intent.db) during cleanup. This is a real, reproducible, Windows-specific test-isolation defect in intent-control-plane's own test code -- not a flake, not fixed here, and deliberately NOT waived, because it can be and was measured: the combined command legitimately exits 1 today and this domain should report that FAIL honestly until a human closes the sqlite connection (or calls engine.dispose()) before the tempdir context exits in those three tests, or passes ignore_cleanup_errors=True."
+      "_note": "every automated-test entrypoint in the repo, including both oracles' own selftests"
     },
     "types": {
       "required": true,
       "cmd": "python -m compileall -q . && cd intent-control-plane && uv run ruff check . && uv run mypy",
-      "_comment": "Repo-wide `python -m compileall -q .` (this gate's own documented fallback for the types domain when no lint/typecheck config exists at repo root, which is the case for the flat tools/ toolkit) plus intent-control-plane's own configured ruff (select=[E,F,I,UP,B,C4,SIM,PERF,PIE,RUF,ERA] per its pyproject.toml) and strict mypy (strict=true). Verified 2026-07-25: all three exit 0 -- compileall clean across 1471+ tracked files, ruff 'All checks passed!', mypy 'Success: no issues found in 44 source files'."
+      "_note": "compileall is the documented fallback where no root lint config exists; ruff and mypy are configured inside intent-control-plane"
     },
     "e2e": {
       "required": true,
-      "na_reason": "claude-setup has no served web application of its own for tools/e2e/flow.py to audit. tools/e2e/flow.py and tools/browser/cdp.py are generic browser-automation instruments this repo ships to drive and audit OTHER repositories' running UIs -- they take an app.url from whichever CONTRACT is being evaluated, not from a route belonging to claude-setup. Verified 2026-07-25: `python tools/browser/cdp.py status` reports 'debug port 9222 is DOWN', i.e. no live browser or served app; grepping tools/ for Flask/FastAPI/uvicorn/BaseHTTPRequestHandler finds only flow.py's own ephemeral selftest fixture server on an OS-assigned port, torn down at test end; every .html file anywhere in the repo (research-papers/, work-docs/) is a static historical export or diagram, not a live route. claude-setup is a CLI and agent-tooling repo (the gate, the review panel, e2e/browser audit instruments, Claude/Codex configuration, and the intent-control-plane package) with no frontend for a human to click through, so this domain genuinely cannot be measured against this repo's own surface today."
+      "na_reason": "claude-setup serves no application of its own. tools/e2e/flow.py and tools/browser/cdp.py drive other repositories' running UIs from whichever contract is being evaluated; every .html in this tree is a static export, not a route. See docs/QUALITY-CONTRACT.md."
     },
     "a11y_ux": {
       "required": true,
-      "na_reason": "Same underlying fact as e2e above, restated for this domain because it reads the e2e report at a stricter threshold rather than running anything itself: there is no e2e report to read (state/e2e/last.json is never produced, because there is no served app for tools/e2e/flow.py to point at) and no rendered UI belonging to claude-setup for a contrast/tap-target/label audit to apply to. If intent-control-plane or another part of this repo grows a served UI in future, both e2e and a11y_ux need to move from na_reason to a real cmd/read_report pointed at that app, not stay NA by default."
+      "na_reason": "Reads the e2e report at a stricter threshold, and there is no e2e report because there is no served app. If any part of this repo grows a UI, both this and e2e move to a real cmd rather than staying NA by default."
     },
     "security": {
       "required": true,
       "builtin": "secret_scan",
-      "_comment": "Verified 2026-07-25: FAILS today -- 1 finding across 1471 tracked files: dot-claude/bin/elevenlabs-mcp-launcher.sh:9, pattern 'assigned secret'. Inspected with a redaction discipline (the matched value itself was never printed, per this project's PII/credential-handling policy): the line assigns the NAME of an Azure Key Vault secret passed on to `az keyvault secret show` (e.g. SECRET=\"<key-vault-secret-name>\"), not literal key material -- reads as a likely false positive, since the regex cannot distinguish a secret's name from a secret's value. Left FAILING on purpose rather than silently waived by this contract: this builtin's function signature (secret_scan(project, contract)) has no exclude-path or allowlist parameter, so there is no honest way to suppress just this one line from inside the contract. A human who has looked at the raw line needs to either confirm the false positive and rename the variable so the pattern stops matching, or add a domain-level waiver here with their own reason and an until date. This session did not view the unredacted string closely enough to certify that decision itself, so it is left for that human call rather than guessed at."
+      "_note": "known blind spot is documented beside the patterns in gate.py, not here"
     },
     "docs": {
       "required": true,
       "builtin": "docs_touched",
       "paths": ["README.md", "docs/", "CHANGELOG.md", "TODO.md"],
-      "_comment": "Verified 2026-07-25 against the live working tree: PASS -- 55 changed source files, documented in TODO.md plus 5 docs/analysis/*.md files. TODO.md is added to the default path list because this repo demonstrably uses it (alongside docs/analysis/) as where a change gets described, not README.md or CHANGELOG.md, which the docs_touched() builtin's default checks against."
+      "_note": "TODO.md is in the list because this repo describes changes there and in docs/analysis/, not in CHANGELOG.md"
     },
     "pipeline": {
       "required": true,
       "builtin": "ci_runs_gate",
-      "_comment": "Deliberately NOT waived. Verified 2026-07-25 by direct execution of the real builtin against this repo's actual CI config: FAIL -- 'CI does not invoke gate.py run, and these contract commands do not appear in it either'. Neither .github/workflows/claude-code-review.yml nor claude-nightly.yml calls `gate.py run`, and none of pytest/ruff/mypy/compileall/gate.py/panel.py appear in either workflow by name, so even with this contract fully written, local-green and CI-green are currently about different things. This domain is intentionally pointed at the builtin so it keeps reporting that truth until a workflow is added or changed to run these same checks (or `gate.py run` directly) in CI -- fixing that is out of scope for this contract file and belongs to whichever step in this effort authors the CI workflow."
+      "_note": "local-green and CI-green have to be about the same checks"
     },
     "review": {
       "required": true,
       "artifact": "state/reviews/${SHA}.json",
       "cmd": "python tools/review/panel.py run --project .",
-      "_comment": "Verified 2026-07-25 by a real producer run against the actual (dirty) working tree: `python tools/review/panel.py run --project .` wrote state/reviews/2718a075cefef38ca66c8ce82afa39d1b5142991.json with verdict 'changes-requested' (1 high, 8 medium, 6 low across 20296 added lines / 104 files vs origin/main). review_artifact() in gate.py only treats verdict in {pass, approve, approved, lgtm} as a PASS, so an existing 'changes-requested' artifact for the current commit makes this domain FAIL honestly, which is correct: the lone 'high' (state/bus.jsonl:1, sql-concat pattern) reads as a false positive matching the word 'sql' inside a JSONL log line's natural-language text rather than source code -- exactly the failure mode the panel's own coverage_boundary names ('it sees syntax, not intent') -- but the 7 bare-except-pass mediums and the debug-print lows read as real findings worth triaging before this is waived rather than fixed. Note for whoever reads this later: review_artifact() checks that the artifact's commit sha matches HEAD, but does NOT check the artifact's timestamp against a dirty working tree the way read_e2e_report() checks fingerprint staleness -- so an artifact written against a dirty tree keeps being read as current evidence for that same commit even after further uncommitted edits, until a new commit changes HEAD. That is the oracle's existing behaviour, not something this contract works around."
+      "_note": "artifact is matched by commit sha, not by tree, so one written against a dirty tree stays current for that commit"
     },
     "perf": {
       "required": false,
-      "na_reason": "No performance budget is declared anywhere for claude-setup. Verified 2026-07-25 by grep across the repo for budget/lighthouse/p95/latency-budget language: every hit is either a generic mention inside a skill's SKILL.md, historical Lighthouse JSON evidence for a DIFFERENT project (a hedg-com website audit under work-docs/), or an observability function in intent-control-plane that reports p95_ms without enforcing any threshold. This matches the gate's own default starter-contract behaviour for an unset budget and is honest rather than a dodge: nobody has set a number for this repo to be measured against."
+      "na_reason": "No performance budget is declared for claude-setup. Every budget-shaped string in the tree is either another project's historical Lighthouse evidence or code that reports p95 without enforcing a threshold. Nobody has set a number to measure against."
+    },
+    "codemap": {
+      "required": true,
+      "builtin": "dir_map",
+      "_note": "every tracked directory states a purpose, and docs/CODEBASE-MAP.md matches the tree"
+    },
+    "prior_art": {
+      "required": true,
+      "builtin": "prior_art",
+      "_note": "every component over 300 lines of Python carries an unexpired record naming what else could do its job"
     }
   }
 }
