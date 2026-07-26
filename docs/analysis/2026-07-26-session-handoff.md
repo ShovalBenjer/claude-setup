@@ -98,7 +98,7 @@ not amend, because amending could clobber a concurrent session's staged work.
 Their evidence strings begin `DERIVED, not a separate evidence pass` and quote the
 record's own citations. Re-verify first-hand before leaning on either.
 
-**24 em dashes in `docs/CODEBASE-MAP.md`**, all from skills' own `SKILL.md`
+**28 em dashes across 24 lines of `docs/CODEBASE-MAP.md`**, all from skills' own `SKILL.md`
 frontmatter descriptions, zero from the 191 registry rows. A pre-existing
 house-rule violation the map surfaced for the first time. Eight are
 `dot-agents`/`dot-claude` duplicate pairs, so the edits must be coordinated.
