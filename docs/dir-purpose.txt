@@ -15,6 +15,7 @@
 docs | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees
 docs/adr | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate
 docs/analysis | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes
+docs/reflections | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit
 docs/prd | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system)
 docs/specs | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm
 dot-agents | Holds the agent skills tree (dot-agents/skills); a vendored copy of the .claude-style skills directory kept under a different top-level name
@@ -168,6 +169,7 @@ tools/health/out | Generated branch-health report (JSON+markdown) listing merged
 tools/lib | Shared library other tools import: envload.py finds API keys in .env case-insensitively without printing them, quota.py enforces daily/per-minute API ceilings via an append-only ledger
 tools/local | Runs a local qwen2.5:1.5b Ollama classifier to cheaply triage a request's route and risk before escalating to Claude, logging each decision to the flywheel jsonl for later router training
 tools/memory | Writes a research or web finding into a durable typed memory card under the auto-memory dir and appends a pointer to MEMORY.md, so findings survive past session end
+tools/nvidia | NVIDIA NIM preview-endpoint client (nim.py): a second free second-opinion vendor pool beside tools/openrouter, hosted inference only (logprobs at most, never weights or activations), with local-policy quota via tools/lib
 tools/openrouter | OpenRouter HTTP client used as a zero-cost second-opinion model since codex is not installed here, with live free-model discovery and local quota enforcement via tools/lib
 tools/refute | CLI refutation engine that runs each claim's verifier command from state/claims-verify.jsonl and reports HELD/REFUTED/BROKEN, so no claim is asserted without an executable falsifier
 tools/refute/checks | Verifier scripts refute.py invokes per claim: hook wiring/existence/execution, persona front-matter validity, config drift, hiring-ledger rows, and a meta-check that siblings fail closed
@@ -175,7 +177,9 @@ tools/review | Runs a deterministic (plus optional opt-in OpenRouter) persona re
 tools/selfimprove | scan.py reads real signals (open TODOs, git drift, hook health, tool coverage, doc staleness) to generate ranked proposals for the system's own next work; proposals.jsonl is that logged output
 tools/skilleval | run.py grades each skill's own routing-eval fixtures for whether its description text separates trigger from non-trigger prompts, flagging skills with no fixtures as UNCOVERED for CI
 tools/snapshot | snap.py takes, lists, diffs and restores point-in-time backups of the live ~/.claude tree, splitting gitignored content from a git-tracked manifest and hashing out secret-looking files
+tools/transcribe | scribe.py, a stdlib ElevenLabs Scribe client for local meeting audio; resolves the key through tools/lib/envload so it never reaches a command line, hand-builds the multipart body to avoid a dependency, and skips any file whose transcript already exists so a rerun does not re-spend
 tools/whatsapp | CDP scripts (cdp_driver.py plus wa_* callers) that drive the WhatsApp Web tab read-only via simulated clicks to list archived chats, probe search, and read one group's message history
+tools/workspace | Operator-workspace tooling: the lane chooser and the launchers/taskbar pin that reach it (Start-Claude.ps1, make_lane_launchers.py, repoint_taskbar_pin.ps1) with mutate_launcher_check.py proving their test can fail, plus one-off scripts that repair public repositories and measure real per-repo activity
 work-docs/adr | Architecture decision records; currently one accepted ADR (2026-07-10) on unifying the multi-repo platform standard
 work-docs/audits | Dated one-off audits of the Azure/DevOps estate (dormancy, access boundaries, maturity) plus two Jira-analysis scripts and their HTML outputs
 work-docs/audits/2026-06-29-hedg-com-website-engineering-audit | One dated external engineering audit bundle for a customer-facing broker website, passive-observation only, redacted of tokens/PII
