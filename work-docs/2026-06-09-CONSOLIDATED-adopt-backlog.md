@@ -1,5 +1,37 @@
 # Consolidated Adopt Backlog — 2026-06-09
 
+> **STATUS 2026-07-29: NOT LIVE. Do not read the rows below as a queue.**
+>
+> This backlog is 50 days old and was never worked. Adoption measured today by
+> running checks against this machine, not by reading status fields. Coverage is
+> 12 of 26 rows; the other 14 target employer Azure, ADO, or external repos and
+> cannot be checked from here.
+>
+> | row | claim | measured 2026-07-29 |
+> |---|---|---|
+> | 2 | wire dead `UserPromptSubmit` + `PostToolUse` hooks | HALF. `UserPromptSubmit` gained 2 matchers on 2026-07-29, 50 days late and for an unrelated project (intent capture). `PostToolUse` still empty. |
+> | 3 | `NO_COLOR` / `PAGER` / `GIT_PAGER` in agent env | NOT DONE |
+> | 4 | populate `~/.config/rtk/filters.toml` | VOID. File missing, and the `rtk` binary does not exist on this machine, so the row is unexecutable as written. |
+> | 12 | adopt `orjson`, `pandera`, `hypothesis`, `instructor`, `polars`, `structlog` surgically | 0 of 6. Zero import sites across `tools/`, `intent-control-plane/src/`, `tests/`. |
+> | 16 | Beads to Azure Table Storage | NOT DONE. No beads artifact found anywhere in the tree. |
+> | 20 | CJA-cure skills: `requirement-anchor`, `context-bounded-analyst`, `decision-grade`, `pii-scrubber` | **DONE, 4 of 4.** The only row that fully landed. |
+> | 21 | infra skills: `kv-health`, `secretless-pipeline`, `aca-job-deploy`, `mcp-supply-chain-pin` | 0 of 4 |
+> | 22 | Azure / GitHub / ADO / Sentry / Context7 MCP servers | NOT DONE. `mcpServers` is empty in `dot-claude/settings.json`. |
+> | 23 | install `sd`, `mlr`, `hyperfine` via `mise` | 0 of 4 binaries present |
+> | 24 | rtk-first "Agent Shell Defaults" block into CLAUDE.md | NOT DONE. Zero hits in either `CLAUDE.md`. |
+> | 25 | claim AI Skills Fest voucher by June 12 | EXPIRED, deadline passed 47 days ago |
+> | 26 | AI-103 ramp | operator-owned, not measurable from disk |
+>
+> One row of twelve landed. One is void. The rest are open or expired.
+>
+> Reviving any row means re-verifying its premise first: this document names live
+> Azure resources, a `set_manager_role` auth hole, and committed credentials, all
+> as of 2026-06-09. Those facts are 50 days stale and some are security-relevant.
+> Row 1 in particular (rotate P0 creds) should be re-checked against the live
+> estate before it is either worked or dropped, and it is out of lane B.
+>
+> Context for why this sat: `docs/reflections/2026-07-29-what-is-going-wrong.md`.
+
 Single source of truth. Merges four reports (work them top-down):
 - A — CJA rescue: `projects/campaign-analysis/docs/CJA-REQUIREMENT-OF-RECORD.md`
 - B1 — Stack modernization + hive: `docs/audits/2026-06-09-stack-modernization-and-hive-upgrade.md`
