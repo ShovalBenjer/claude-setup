@@ -73,6 +73,37 @@ one touched the file (COMPACTION CHURN closed, DECIDE re-measured to 7 hook even
 AUTO-05 closed on Lane A retirement, model default superseded). None was removed
 by this session.
 
+## Correction: the branch does NOT pass its own oracles in isolation
+
+Earlier in this session I reported `codemap.py check` clean. That was true of the
+working tree and false of the committed tree, which is the distinction that matters.
+Checked out into a clean worktree at HEAD, the branch FAILS two checks:
+
+```
+$ git worktree add /tmp/verify HEAD && cd /tmp/verify
+$ python tools/map/codemap.py check
+FAIL docs/CODEBASE-MAP.md is not what the repository implies.
+  different: docs, docs/analysis, docs/prior-art, docs/specs, dot-claude,
+             dot-claude/hooks, dot-claude/rules, tests, tools/audit/mutations,
+             tools/bus, tools/workspace
+$ python tools/map/codemap.py prior-art
+FAIL tools/workspace is 321 lines of Python with no prior-art record.
+```
+
+Cause, and it is a defect in the tool rather than in this branch: `codemap.py write`
+generates counts from the working tree **including untracked files**. This tree
+carries 60-plus untracked documents from other sessions, so the map it generates can
+never match the committed tree while those files stay uncommitted. Same failure class
+as the gate fingerprint problem: an artifact that describes a state nobody can
+reproduce from the repository. `tools/workspace` fails prior-art for the same reason,
+its record exists only as an untracked file.
+
+Neither failure is caused by the dolt deletion. Verified in the same clean worktree:
+`tools/dolt` is absent and nothing references it.
+
+This is not fixed here, because fixing it means committing 60-plus files belonging to
+other sessions. Filed as the first next action below.
+
 ## Open risks, ranked
 
 1. **Concurrent writers, and it fired during this session's own verification.**
@@ -90,6 +121,12 @@ by this session.
 
 ## Exact next actions
 
+0. Resolve the tree. 60-plus untracked documents from at least three sessions are
+   the reason the committed branch fails `codemap` and `prior_art`. Until they are
+   committed or removed, no branch cut from this tree can pass its own gate, and
+   `codemap.py write` will keep generating a map that only the working tree matches.
+   Consider whether `codemap.py` should count tracked files only, which would make
+   the map reproducible from the repository rather than from one machine's disk.
 1. Run `docs/2026-07-29-external-absorption-brief.md` in Claude Desktop with
    `C:\Users\shova\wa-export-archive\self-chat-links-2026-07-29.csv` attached. This
    is the largest unabsorbed pile: 806 unique URLs, 80 GitHub repos, briefed and
