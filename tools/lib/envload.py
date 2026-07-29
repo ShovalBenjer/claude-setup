@@ -23,7 +23,7 @@ fingerprint identifies a key across machines without disclosing it.
 CLI:
   envload.py paths                 which .env files were found
   envload.py names                 key names only, never values
-  envload.py find dolt             key names containing a substring
+  envload.py find openrouter       key names containing a substring
   envload.py has openrouter_api_key [more...]
 """
 from __future__ import annotations
