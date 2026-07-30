@@ -28,6 +28,7 @@ jobs:
         with:
           github_token: ${{ github.token }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: "*"
           track_progress: true
           prompt: |
             Perform a fresh, full review of this PR (do not assume prior reviews).
