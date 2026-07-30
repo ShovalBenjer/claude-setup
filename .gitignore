@@ -1,12 +1,68 @@
+# Dependencies
+node_modules/
+
+# Python
 __pycache__/
 *.pyc
-*.pdf
+*.pyo
+*.pyd
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Archives
 *.zip
+*.tar.gz
+*.tar.bz2
+*.rar
+*.7z
+
+# Documents
+*.pdf
 *.pptx
 *.docx
 *.xlsx
 *.lnk
-.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build
+dist/
+build/
+*.egg-info/
+*.egg
+
+# State & logs
+state/hook-fires.log
 tools/local/flywheel/router_decisions.jsonl
 tools/selfimprove/proposals.jsonl
-state/hook-fires.log
+
+# Secrets & credentials
+secrets/
+auth.json
+*.key
+*.pem
+*.pfx
+.pgp
+
+# Misc
+*.log
+tmp/
+temp/
+*.tmp
