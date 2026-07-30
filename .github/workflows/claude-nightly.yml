@@ -29,9 +29,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
 
       - name: Cap check (max 3 open auto/* PRs, fail closed)
@@ -51,7 +50,9 @@ jobs:
         if: ${{ steps.cap.outputs.open < 3 }}
         uses: anthropics/claude-code-action@v1
         with:
+          github_token: ${{ github.token }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: "*"
           prompt: |
             You are the nightly autonomy run (AUTO-07, ADR-0012) for this repo.
             Read TODO.md, tools/selfimprove/proposals.jsonl, and state/lessons.jsonl.
@@ -90,14 +91,15 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-      id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
       - name: In-run review (GITHUB_TOKEN PRs never trigger pull_request workflows)
         uses: anthropics/claude-code-action@v1
         with:
+          github_token: ${{ github.token }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: "*"
           prompt: |
             Review PR #${{ needs.nightly.outputs.pr }} in this repo with fresh eyes
             (you did not write it). Post a review comment via gh: correctness,
