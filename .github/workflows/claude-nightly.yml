@@ -50,6 +50,7 @@ jobs:
         if: ${{ steps.cap.outputs.open < 3 }}
         uses: anthropics/claude-code-action@v1
         with:
+          github_token: ${{ github.token }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             You are the nightly autonomy run (AUTO-07, ADR-0012) for this repo.
@@ -95,6 +96,7 @@ jobs:
       - name: In-run review (GITHUB_TOKEN PRs never trigger pull_request workflows)
         uses: anthropics/claude-code-action@v1
         with:
+          github_token: ${{ github.token }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             Review PR #${{ needs.nightly.outputs.pr }} in this repo with fresh eyes
