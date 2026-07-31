@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-392 directories, 1778 tracked files, 0 without a stated purpose.
+414 directories, 1818 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -22,22 +22,23 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `.github` | 0 | Live GitHub Actions root; workflows/ holds the 3 CI YAMLs GitHub actually runs on PRs and cron (newer commit than github/) | registry |
+| `.github` | 1 | Live GitHub Actions root; workflows/ holds the 3 CI YAMLs GitHub actually runs on PRs and cron (newer commit than github/) | registry |
+| `.github/ISSUE_TEMPLATE` | 1 | The one GitHub issue form (task.md); GitHub reads this exact path, so it is a wired location and not a docs folder | registry |
 | `.github/workflows` | 4 | The 3 live workflow files: Claude PR review (every push), Claude nightly job, and ship-gate CI check; Actions reads only this path | registry |
 
 ## docs
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `docs` | 33 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
+| `docs` | 36 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 20 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 30 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 32 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 1 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/prd` | 3 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
 | `docs/prior-art` | 38 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
-| `docs/reflections` | 5 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
-| `docs/specs` | 17 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
+| `docs/specs` | 18 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
 | `docs/standards` | 1 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
 
 ## dot-agents
@@ -160,7 +161,7 @@ the same reason, one level down.
 | `dot-claude/hooks` | 29 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
 | `dot-claude/output-styles` | 1 | Claude Code output styles, the native mechanism that shapes assistant prose BEFORE generation. Deployed to ~/.claude/output-styles. The alternative it replaces is policing the r... | registry |
 | `dot-claude/rules` | 22 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
-| `dot-claude/skills` | 24 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
+| `dot-claude/skills` | 0 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
 | `dot-claude/skills/LTMD` | 1 | "Lead-To-Money-Decision lens. Judge any analysis/notebook/report/plan the way the paying decision-maker (default: Liron, CMO) would: does it end in ONE executable, dollar-valued... | SKILL.md |
 | `dot-claude/skills/advisor` | 1 | "Fast confidence-restoring research pass for when Claude (or the user) is NOT confident about an external, current, or SOTA question. Spawns a scoped web-research sub-agent, res... | SKILL.md |
 | `dot-claude/skills/agent-builder` | 1 | Author and deploy AI agents on Microsoft + Azure platforms — Azure AI Foundry agent CRUD (azure-ai-projects SDK), Microsoft 365 Agents SDK projects (TS via bun, C# via dotnet —... | SKILL.md |
@@ -169,8 +170,11 @@ the same reason, one level down.
 | `dot-claude/skills/azure-runtime` | 2 | Call Azure AI runtime from CLI — Azure OpenAI chat completions against deployed GPT models in brn-azai (gpt-5.5, gpt-4.1, etc.) AND Azure AI Foundry agents (ORM-FLAGGING-AGENT,... | SKILL.md |
 | `dot-claude/skills/blog` | 1 | Draft genuinely human long-form blog content in Shoval Benjer's voice, across platform formats (Medium, LinkedIn, Substack, Dev.to/technical, Jira-as-writeup). Anchors on the em... | SKILL.md |
 | `dot-claude/skills/blonde-designer` | 1 | Creative director + design architect for the Seekapa AR how-to video refresh (DEV-4968). Shapes each video's script and art direction to the locked production standard — real ap... | SKILL.md |
+| `dot-claude/skills/brainstorming` | 2 | "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design... | SKILL.md |
+| `dot-claude/skills/brainstorming/scripts` | 5 | A hand-rolled WebSocket server (RFC 6455 framing implemented inline in server.cjs, no dependency) plus its start/stop scripts and an iframe template, so the brainstorming skill... | registry |
 | `dot-claude/skills/case-ledger-post` | 2 | Turn a long working session into an interactive illustrated case-ledger post: the route taken, dead ends with receipts, measured cost from the session transcript, and lessons. M... | SKILL.md |
 | `dot-claude/skills/case-ledger-post/template` | 3 | HTML template the case-ledger-post skill renders into. Payload for that skill, not a standalone component | registry |
+| `dot-claude/skills/cleanup-crew` | 3 | "Cleanup Crew - SOTA 2026" | SKILL.md |
 | `dot-claude/skills/code-simplifier` | 1 | "/code-simplifier" | SKILL.md |
 | `dot-claude/skills/codex-call` | 1 | Run independent, bounded external code-review judges through Codex CLI and, only for explicitly public non-confidential input, the Gemini Developer API. Use automatically after... | SKILL.md |
 | `dot-claude/skills/commit-push-pr` | 1 | Run pre-commit quality gates (ruff/mypy/tests for Python, knip/eslint for JS), commit with Conventional format, push, open PR, sweep merged branches. Auto-detects bun/uv stack a... | SKILL.md |
@@ -184,9 +188,12 @@ the same reason, one level down.
 | `dot-claude/skills/deep-research/tests` | 0 | Holds only the fixtures subdirectory; there is no test runner file here, just the sample reports fixtures/ provides for validate_report.py | registry |
 | `dot-claude/skills/deep-research/tests/fixtures` | 2 | Sample good and bad research reports used to exercise validate_report.py's quality checks (word count, sections, citations, no TBD/TODO) | registry |
 | `dot-claude/skills/dispatch` | 1 | Sync agent-to-agent dispatch from Claude orchestrator to a registered peer (Codex executor on gpt-5.5, Foundry agents seekapa/AxiaCS, future bridges). Triggers on /dispatch, "as... | SKILL.md |
+| `dot-claude/skills/end-session` | 1 | End-of-session cleanup — security wipe of temp files, context compaction, lessons learned post-mortem, handover for next session. Run before /clear or exiting. | SKILL.md |
 | `dot-claude/skills/eval-runner` | 1 | Run the Foundry-only 4-phase eval pipeline (deterministic gate → smoke 10-row → expanded 40-80 → nightly 80-150) using grok-4-1-fast-reasoning-2-eval primary + DeepSeek-V3.2 aud... | SKILL.md |
 | `dot-claude/skills/explain-simply` | 3 | "Use when the operator asks for a simple, plain, or clear explanation, says he does not follow, asks what is going on in his own words, asks you to explain simply or in plain la... | SKILL.md |
+| `dot-claude/skills/feature-investor` | 1 | Grade a feature, epic, or product concept against a strict 2026 SOTA investment bar with numeric scores, hard rules, and a go/no-go verdict. Use when deciding whether something... | SKILL.md |
 | `dot-claude/skills/frontend-design` | 1 | Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't... | SKILL.md |
+| `dot-claude/skills/grill-me` | 1 | "Interactive Socratic interview protocol. Stress-tests design decisions, architectural plans, and candidate solutions before writing code. Triggers on /grill-me, 'grill me', 'st... | SKILL.md |
 | `dot-claude/skills/gws-gmail` | 2 | "Gmail: Send, read, and manage email." | SKILL.md |
 | `dot-claude/skills/gws-gmail-read` | 2 | "Gmail: Read a message and extract its body or headers." | SKILL.md |
 | `dot-claude/skills/gws-gmail-triage` | 2 | "Gmail: Show unread inbox summary (sender, subject, date)." | SKILL.md |
@@ -195,32 +202,44 @@ the same reason, one level down.
 | `dot-claude/skills/humanize` | 1 | Detect AI-like writing patterns and rewrite flagged content into clearer, more natural human prose. | SKILL.md |
 | `dot-claude/skills/jira-read` | 2 | Read-only Jira access for qboservices.atlassian.net — fetch a single issue (description + comments + attachments, ADF flattened to plain text), list/download attachments, or run... | SKILL.md |
 | `dot-claude/skills/jira-task-draft` | 1 | Draft Jira tasks + subtasks LOCALLY as markdown so Shoval can paste them into Jira by hand. Never calls the Jira API. Saves to ~/docs/jira-tasks/YYYY-MM-DD-<topic>.md. Triggers... | SKILL.md |
+| `dot-claude/skills/kill-stale` | 1 | "/kill-stale" | SKILL.md |
 | `dot-claude/skills/learn-on-demand` | 1 | Retrieve and teach the smallest relevant knowledge pack from rights-cleared books, open standards, official documentation, local project evidence, occupational taxonomies, and r... | SKILL.md |
 | `dot-claude/skills/learn-on-demand/agents` | 1 | OpenAI/Codex-platform manifest (display name, description, default prompt) so this skill can be surfaced on agent platforms other than Claude Code | registry |
 | `dot-claude/skills/learn-on-demand/references` | 2 | The rights-aware source catalog (books/docs/standards with rights_mode, ISBN, verification date) plus the provenance policy that scripts/knowledge.py and SKILL.md's rights gate... | registry |
 | `dot-claude/skills/learn-on-demand/scripts` | 1 | CLI (knowledge.py) that validates, indexes, and queries the rights-aware knowledge catalog, writing any private full-text chunks only to a database under the user's home directo... | registry |
 | `dot-claude/skills/meeting-notes` | 1 | Capture concise meeting notes in Shoval's bottom-line voice. Saves to ~/docs/meetings/YYYY-MM-DD-<topic>.md. Triggers on "/meeting-notes", "/log-meeting", "note this meeting", "... | SKILL.md |
+| `dot-claude/skills/mutation-runner` | 1 | Run mutation testing workflows to measure test suite effectiveness and identify surviving mutants that indicate coverage gaps. | SKILL.md |
 | `dot-claude/skills/openai-agents` | 2 | Call OpenAI agents that live on platform.openai.com — Assistants API and AgentKit-published agents — from the CLI with full step observability. Stream runs with reasoning, tool... | SKILL.md |
+| `dot-claude/skills/ops-status` | 1 | "Ops Status — System State Snapshot Skill" | SKILL.md |
 | `dot-claude/skills/persona` | 1 | Mirror-or-toggle persona/meme channel for 1:1 chat. Triggers on /persona <name>, /kyuubi, /saiyan, /jedi, /gandalf, /thanos, /mossad, /lebowski, /cinematic, /eretz-nehederet, OR... | SKILL.md |
 | `dot-claude/skills/pii-scrubber` | 1 | Scan outputs, deliverables, and staged diffs for PII (names, emails, phone numbers, national-IDs, CRM fields) before they are written or committed. Pseudonymizes or blocks on de... | SKILL.md |
+| `dot-claude/skills/ponytail` | 1 | Forces the laziest solution that actually works, simplest, shortest, most minimal. Channels a senior dev who has seen everything: question whether the task needs to exist at all... | SKILL.md |
+| `dot-claude/skills/ponytail-audit` | 1 | Whole-repo audit for over-engineering. Like ponytail-review, but scans the entire codebase instead of a diff: a ranked list of what to delete, simplify, or replace with stdlib/n... | SKILL.md |
+| `dot-claude/skills/ponytail-help` | 1 | Quick-reference card for all ponytail modes, skills, and commands. One-shot display, not a persistent mode. Trigger: /ponytail-help, "ponytail help", "what ponytail commands", "... | SKILL.md |
+| `dot-claude/skills/ponytail-review` | 1 | Code review focused exclusively on over-engineering. Finds what to delete: reinvented standard library, unneeded dependencies, speculative abstractions, dead flexibility. One li... | SKILL.md |
 | `dot-claude/skills/premortem` | 1 | Force a 5-failure-mode section into any /plan output before code is written. Triggers on "/plan", "/premortem", "let's design", "before we build", "design X", or whenever the us... | SKILL.md |
 | `dot-claude/skills/prior-art-gate` | 1 | "Simpsons did it already. Before claiming anything is novel, missing, unsolved or a gap, run a prior-art search and log it. Blocks unsourced novelty claims. Triggers on /prior-a... | SKILL.md |
 | `dot-claude/skills/prod-deploy-rules` | 1 | Production deployment rules for Azure container Web Apps. Use before any pipeline run, production commit, deploy safety review, or redeploy request. Covers naming, CI flow, ACR... | SKILL.md |
 | `dot-claude/skills/prod-deploy-rules/reference` | 1 | A copy-into-project bash template (notify.sh) implementing the skill's house standard for pipeline success/failure notifications, referenced by SKILL.md rule E | registry |
+| `dot-claude/skills/property-test-gen` | 1 | Generate property-based tests that validate invariants across wide input spaces for JavaScript/TypeScript and Python projects. | SKILL.md |
 | `dot-claude/skills/prove-implementation` | 1 | Compare implementation and architecture alternatives, detect unjustified default loops or libraries, and require executable evidence before calling a coding choice correct, best... | SKILL.md |
 | `dot-claude/skills/prove-implementation/agents` | 1 | OpenAI/Codex-platform manifest (display name, description, default prompt) so this skill can be surfaced on agent platforms other than Claude Code | registry |
 | `dot-claude/skills/prove-implementation/references` | 1 | Failure-modes reference (frequency bias, premature convergence, context rot, reward hacking) with countermeasures, linked from SKILL.md for diagnosing a failed implementation | registry |
 | `dot-claude/skills/prove-implementation/scripts` | 2 | implementation_proof.py builds/validates a verification-evidence record (claim status, risk, strong-claim detection); loop_audit.py flags loop constructs in code needing review | registry |
 | `dot-claude/skills/recipe-create-gmail-filter` | 1 | "Create a Gmail filter to automatically label, star, or categorize incoming messages." | SKILL.md |
 | `dot-claude/skills/recipe-label-and-archive-emails` | 1 | "Apply Gmail labels to matching messages and archive them to keep your inbox clean." | SKILL.md |
+| `dot-claude/skills/red-team` | 1 | TDD-focused quality review skill for test-first discipline, coverage depth, mutation strength, and implementation readiness. | SKILL.md |
 | `dot-claude/skills/red-team-review` | 5 | Multi-persona project review using parallel agent teams (security, architecture, performance, UX, eval). Spawns subagents in worktrees, aggregates findings into a unified report... | SKILL.md |
 | `dot-claude/skills/refactor-pre-push` | 1 | Suggest /simplify on hot-zone changed files immediately before /commit-push-pr runs the push step. Reminder skill, not auto-rewrite — preserves the authorization-scope rule that... | SKILL.md |
+| `dot-claude/skills/reground` | 1 | "Full context reload for Shoval's workstation. Use for /reground, /insights, context drift, stale assumptions, or when asked to reread rules/tools/skills and summarize project s... | SKILL.md |
+| `dot-claude/skills/reground/scripts` | 1 | reground-snapshot.sh, the inventory sweep the reground skill runs to measure repo state before a session plans anything | registry |
 | `dot-claude/skills/requirement-anchor` | 1 | Extract a compact requirement-of-record + answer-map from a spec (PDF/eml/md/verbal) and gate read-before-build. Triggers on "/requirement-anchor", "anchor the requirement", "wh... | SKILL.md |
 | `dot-claude/skills/review` | 1 | PR precheck review — composites codex-call code review + testing-pyramid gap plan + heidegger-reflect into a single structured thread posted to Azure DevOps via the azure-devops... | SKILL.md |
 | `dot-claude/skills/ship-gate` | 1 | The mandatory procedure before calling any implementation done. Runs the real-browser flow audit, the ten-domain SDLC gate (build, unit, types, e2e, a11y/UX, security, docs, pip... | SKILL.md |
 | `dot-claude/skills/shoval-voice-draft` | 1 | Draft messages in Shoval Benjer's natural work style for review before sending. Per-recipient tone (Yasha / Liron / Ali / Adnan / Daniel / Vlad, including Vlad's ultra-compact s... | SKILL.md |
 | `dot-claude/skills/syndication-engine` | 5 | Project one canonical post onto many platforms by selecting semantically-tagged spans, with per-platform hook strategy and A/B variants. Use to draft or publish a POSSE syndicat... | SKILL.md |
 | `dot-claude/skills/testing-pyramid` | 1 | Plan layered test architecture before non-trivial code changes. Covers static, unit, property, component, contract, integration, E2E, non-functional, trajectory, and adversarial... | SKILL.md |
+| `dot-claude/skills/triage-tests` | 1 | "/triage-tests" | SKILL.md |
 | `dot-claude/skills/ui-ux-pro-max` | 1 | "UI/UX design intelligence for web and mobile. Includes 50+ styles, 161 color palettes, 57 font pairings, 161 product types, 99 UX guidelines, and 25 chart types across 10 stack... | SKILL.md |
 | `dot-claude/skills/ui-ux-pro-max/data` | 15 | Searchable CSV knowledge base (styles, colors, charts, typography, products, UX guidelines, fonts) read by core.py's BM25 search; draft.csv's own header says it is an unread des... | registry |
 | `dot-claude/skills/ui-ux-pro-max/data/stacks` | 16 | Per-framework UI/UX guideline CSVs (React, Flutter, Vue, Angular, Laravel, etc.) that search.py filters by when a --stack is given | registry |
@@ -229,7 +248,12 @@ the same reason, one level down.
 | `dot-claude/skills/ui-ux-pro-max/templates/base` | 2 | Shared markdown body fragments (quick-reference cheat sheet, full applicability rules in Chinese) meant to be stitched into a platform's SKILL.md; no assembly script found in th... | registry |
 | `dot-claude/skills/ui-ux-pro-max/templates/platforms` | 18 | Per-agent-platform install manifests for porting ui-ux-pro-max to Cursor, Windsurf, Copilot, Codex, Gemini etc.; vendored from upstream, no generator script uses them in this repo | registry |
 | `dot-claude/skills/voice-explainer` | 1 | Generate short audio narration via ElevenLabs eleven_multilingual_v2 and auto-play it. Triggers on out-of-focus / tired / "read it to me" signals (en/he/ar) detected by the User... | SKILL.md |
+| `dot-claude/skills/voice-metrics` | 11 | Measure a draft against the real corpus before sending it. Per-use-case metric rules, a locally-fitted idiolect embedding, randomised burst variants, and Hebrew/English spell ch... | SKILL.md |
+| `dot-claude/skills/voice-metrics/lexicon` | 4 | Spell-check corpora for the voice gate: 370,105 English words, a 324,329-entry Hebrew lexicon built from hspell 1.4 by build_lexicon.py (ISO-8859-8 in, UTF-8 out), and spellchec... | registry |
+| `dot-claude/skills/watchdog` | 1 | "Watchdog Agent - Quality Gatekeeper" | SKILL.md |
+| `dot-claude/skills/web-inspect` | 1 | "/web-inspect" | SKILL.md |
 | `dot-claude/skills/whatsapp-query` | 4 | Decrypt and query the local WhatsApp Desktop (Windows) message store as a searchable corpus. Full history the linked device holds, by contact / date / text, with contact-name re... | SKILL.md |
+| `dot-claude/skills/workspace-brain` | 1 | "Workspace Brain — Cross-Project Knowledge Index" | SKILL.md |
 | `dot-claude/skills/youtube-distill` | 1 | Analyse a YouTube video by driving Claude in Chrome to Gemini, which reads the video directly from its URL, then distil the answer into a fixed contract with search-ready takeaw... | SKILL.md |
 
 ## dot-codex
@@ -281,14 +305,14 @@ the same reason, one level down.
 | `dot-codex/skills/heygen-mcp` | 1 | Use HeyGen MCP for avatar/video generation flows when agent-driven tool access is required. | SKILL.md |
 | `dot-codex/skills/kill-stale` | 1 | "/kill-stale" | SKILL.md |
 | `dot-codex/skills/mcp-activation` | 1 | Activate only the MCP servers needed for the current Codex session. | SKILL.md |
-| `dot-codex/skills/mutation-runner` | 1 | bun add -D @stryker-mutator/core @stryker-mutator/vitest-runner | SKILL.md |
+| `dot-codex/skills/mutation-runner` | 1 | Codex-side skill definition for mutation testing: introduce code mutations and check the suite catches them, as a measure of test strength rather than coverage | registry |
 | `dot-codex/skills/ops-status` | 1 | "Ops Status — System State Snapshot Skill" | SKILL.md |
 | `dot-codex/skills/ponytail` | 1 | Forces the laziest solution that actually works, simplest, shortest, most minimal. Channels a senior dev who has seen everything: question whether the task needs to exist at all... | SKILL.md |
 | `dot-codex/skills/ponytail-audit` | 1 | Whole-repo audit for over-engineering. Like ponytail-review, but scans the entire codebase instead of a diff: a ranked list of what to delete, simplify, or replace with stdlib/n... | SKILL.md |
 | `dot-codex/skills/ponytail-help` | 1 | Quick-reference card for all ponytail modes, skills, and commands. One-shot display, not a persistent mode. Trigger: /ponytail-help, "ponytail help", "what ponytail commands", "... | SKILL.md |
 | `dot-codex/skills/ponytail-review` | 1 | Code review focused exclusively on over-engineering. Finds what to delete: reinvented standard library, unneeded dependencies, speculative abstractions, dead flexibility. One li... | SKILL.md |
-| `dot-codex/skills/property-test-gen` | 1 | ❌ **Example-based**: "Given input [3,1,2], output should be [1,2,3]" | SKILL.md |
-| `dot-codex/skills/red-team` | 3 | Verify that: | SKILL.md |
+| `dot-codex/skills/property-test-gen` | 1 | Codex-side skill definition for property-based tests: assert invariants over all inputs (bounds, ranges, enumerated tiers) instead of enumerating examples | registry |
+| `dot-codex/skills/red-team` | 3 | Codex-side TDD enforcement skill, explicitly NOT security testing despite the name: it checks that a failing test preceded the implementation. Carries its own .mcp.json | registry |
 | `dot-codex/skills/red-team-review` | 5 | Multi-persona project review using parallel agent teams (security, architecture, performance, UX, eval). Spawns subagents in worktrees, aggregates findings into a unified report... | SKILL.md |
 | `dot-codex/skills/shoval-voice-draft` | 1 | Draft messages in Shoval Benjer's natural work style for review before sending. Per-recipient tone (Yasha / Liron / Ali / Adnan / Daniel / Vlad, including Vlad's ultra-compact s... | SKILL.md |
 | `dot-codex/skills/triage-tests` | 1 | "/triage-tests" | SKILL.md |
@@ -296,13 +320,6 @@ the same reason, one level down.
 | `dot-codex/skills/watchdog` | 1 | "Watchdog Agent - Quality Gatekeeper" | SKILL.md |
 | `dot-codex/skills/web-inspect` | 1 | "/web-inspect" | SKILL.md |
 | `dot-codex/skills/workspace-brain` | 1 | "Workspace Brain — Cross-Project Knowledge Index" | SKILL.md |
-
-## github
-
-| dir | files | purpose | from |
-| --- | ----: | ------- | ---- |
-| `github` | 2 | Dead staging duplicate of .github's workflow (byte-identical yml); this path is invisible to Actions; older commit than .github | registry |
-| `github/scripts` | 1 | gemini_call.py, bridge for github/gemini-review.yml; never promoted to .github and its own script-path reference is wrong, so dead | registry |
 
 ## home-dotfiles
 
@@ -380,7 +397,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `state` | 20 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
+| `state` | 21 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
 | `state/backups` | 1 | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project... | registry |
 | `state/retired-2026-07-25` | 0 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled... | registry |
 | `state/retired-2026-07-25/bin` | 6 | Retired 2026-07-25 meme/visual scripts (download/play memes, generate/pop visual, seed-meme-vectordb), pulled from the live bin/ tree | registry |
@@ -398,7 +415,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `tests` | 18 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `tests` | 23 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
 | `tests/cmd` | 1 | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process self... | registry |
 | `tests/cmd/fixtures` | 1 | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it | registry |
 
@@ -406,7 +423,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `tools` | 6 | Holds this repo's operational tooling: top-level scripts (repo audit, token rollout, slop lint) plus one subdirectory per verification, automation, or coordination tool | registry |
+| `tools` | 7 | Holds this repo's operational tooling: top-level scripts (repo audit, token rollout, slop lint) plus one subdirectory per verification, automation, or coordination tool | registry |
 | `tools/audit` | 4 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
 | `tools/audit/mutations` | 14 | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red | registry |
 | `tools/browser` | 1 | Hand-rolled Chrome DevTools Protocol client that launches a separate Chrome so the assistant can browse authenticated pages, screenshot, and eval JS that anonymous WebFetch cann... | registry |
@@ -426,7 +443,7 @@ the same reason, one level down.
 | `tools/hookgate/bench` | 6 | The measurement scripts behind `tools/hookgate/README.md` and behind | README.md |
 | `tools/hookgate/src` | 2 | Rust source for the compiled PreToolUse gate. rules.rs is GENERATED by regen_rules.py from safety_gate.py::RULES and must never be hand-edited; main.rs carries the literal presc... | registry |
 | `tools/intent` | 5 | Turns an operator prompt into a tracked work item, and keeps a tamper-evident record | README.md |
-| `tools/lib` | 3 | Shared library other tools import: envload.py finds API keys in .env case-insensitively without printing them, quota.py enforces daily/per-minute API ceilings via an append-only... | registry |
+| `tools/lib` | 4 | Shared library other tools import: envload.py finds API keys in .env case-insensitively without printing them, quota.py enforces daily/per-minute API ceilings via an append-only... | registry |
 | `tools/local` | 2 | Runs a local qwen2.5:1.5b Ollama classifier to cheaply triage a request's route and risk before escalating to Claude, logging each decision to the flywheel jsonl for later route... | registry |
 | `tools/map` | 1 | codemap.py, the directory-purpose registry checker and docs/CODEBASE-MAP.md generator; check fails on an undocumented dir, a row beside a self-documenting dir, or a row whose di... | registry |
 | `tools/memory` | 1 | Writes a research or web finding into a durable typed memory card under the auto-memory dir and appends a pointer to MEMORY.md, so findings survive past session end | registry |
@@ -446,13 +463,13 @@ the same reason, one level down.
 | `tools/trycmd` | 1 | Literate CLI snapshot test runner: a stdlib-Python port of the Rust `trycmd` v1.2.1 grammar and the `snapbox` v0.6.21 line matcher. Executes the `$ command` blocks in tests/cmd/... | registry |
 | `tools/whatsapp` | 4 | CDP scripts (cdp_driver.py plus wa_* callers) that drive the WhatsApp Web tab read-only via simulated clicks to list archived chats, probe search, and read one group's message h... | registry |
 | `tools/workspace` | 14 | Operator-workspace tooling: the lane chooser and the launchers/taskbar pin that reach it (Start-Claude.ps1, make_lane_launchers.py, repoint_taskbar_pin.ps1) with mutate_launcher... | registry |
-| `tools/wsl` | 2 | WSL2 migration helpers: Makefile and scripts for moving work onto the ext4 side, where git status is 69ms against 12,018ms across the /mnt/c 9P boundary. The penalty is directio... | registry |
+| `tools/wsl` | 5 | WSL2 migration helpers: Makefile and scripts for moving work onto the ext4 side, where git status is 69ms against 12,018ms across the /mnt/c 9P boundary. The penalty is directio... | registry |
 
 ## work-docs
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `work-docs` | 89 | This folder is the global knowledge surface for setup, operating rules, research, audits, and reusable project context. `reground` should read this file first, then open only th... | README.md |
+| `work-docs` | 93 | This folder is the global knowledge surface for setup, operating rules, research, audits, and reusable project context. `reground` should read this file first, then open only th... | README.md |
 | `work-docs/adr` | 1 | Architecture decision records; currently one accepted ADR (2026-07-10) on unifying the multi-repo platform standard | registry |
 | `work-docs/audits` | 11 | Dated one-off audits of the Azure/DevOps estate (dormancy, access boundaries, maturity) plus two Jira-analysis scripts and their HTML outputs | registry |
 | `work-docs/audits/2026-06-29-hedg-com-website-engineering-audit` | 2 | One dated external engineering audit bundle for a customer-facing broker website, passive-observation only, redacted of tokens/PII | registry |

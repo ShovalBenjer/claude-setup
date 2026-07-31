@@ -102,8 +102,6 @@ dot-codex/skills/.system/skill-creator/scripts | Python tools that scaffold a ne
 dot-codex/skills/.system/skill-installer/agents | Holds openai.yaml declaring the Skill Installer skill's UI metadata for installing curated skills from openai/skills or other GitHub repos
 dot-codex/skills/.system/skill-installer/assets | Icon images (small SVG, large PNG) for the Skill Installer skill's UI tile
 dot-codex/skills/.system/skill-installer/scripts | Python scripts that list skills in a GitHub repo path and download/install a chosen one into $CODEX_HOME/skills, sharing a GitHub-request helper module
-github | Dead staging duplicate of .github's workflow (byte-identical yml); this path is invisible to Actions; older commit than .github
-github/scripts | gemini_call.py, bridge for github/gemini-review.yml; never promoted to .github and its own script-path reference is wrong, so dead
 intent-control-plane/docs | Index the PRD/ADR/analysis/spec spine and give the operational runbook for the control tower and self-improve loop
 intent-control-plane/docs/adr | Record costly-to-reverse architecture decisions: package-not-bash, retrieval delivery, measured self-improving loop, layered-stack proposal
 intent-control-plane/docs/analysis | Hold dated, point-in-time fleet/estate scans (widgora tasks, fleet readiness, implementation-quality audit) as historical evidence, not live status
@@ -221,3 +219,12 @@ dot-claude/skills/case-ledger-post/template | HTML template the case-ledger-post
 state/timetravel | Content-addressed snapshots of the gitignored ledgers, written by tools/timetravel. objects/ is gitignored and the manifest is committed, matching the state/snapshots precedent
 .claude | Project-local Claude Code tree: review artifacts and any project-scoped configuration. Distinct from dot-claude, which is the committed copy of the USER-level ~/.claude payload and is not live until deployed
 tools/wsl | WSL2 migration helpers: Makefile and scripts for moving work onto the ext4 side, where git status is 69ms against 12,018ms across the /mnt/c 9P boundary. The penalty is directional, so the repo lives on ext4 and Windows reaches in, never the reverse
+
+# ── stated 2026-07-31; all seven were tracked with no purpose and blocked the gate ──
+.github/ISSUE_TEMPLATE | The one GitHub issue form (task.md); GitHub reads this exact path, so it is a wired location and not a docs folder
+dot-claude/skills/brainstorming/scripts | A hand-rolled WebSocket server (RFC 6455 framing implemented inline in server.cjs, no dependency) plus its start/stop scripts and an iframe template, so the brainstorming skill can drive a live browser canvas
+dot-claude/skills/reground/scripts | reground-snapshot.sh, the inventory sweep the reground skill runs to measure repo state before a session plans anything
+dot-claude/skills/voice-metrics/lexicon | Spell-check corpora for the voice gate: 370,105 English words, a 324,329-entry Hebrew lexicon built from hspell 1.4 by build_lexicon.py (ISO-8859-8 in, UTF-8 out), and spellcheck.py over both
+dot-codex/skills/mutation-runner | Codex-side skill definition for mutation testing: introduce code mutations and check the suite catches them, as a measure of test strength rather than coverage
+dot-codex/skills/property-test-gen | Codex-side skill definition for property-based tests: assert invariants over all inputs (bounds, ranges, enumerated tiers) instead of enumerating examples
+dot-codex/skills/red-team | Codex-side TDD enforcement skill, explicitly NOT security testing despite the name: it checks that a failing test preceded the implementation. Carries its own .mcp.json
