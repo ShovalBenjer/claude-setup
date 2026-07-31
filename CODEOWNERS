@@ -1,0 +1,7 @@
+# CODEOWNERS
+# Top-level files and directories
+*       @claude-setup/owners
+.github/workflows/ @claude-setup/owners
+docs/   @claude-setup/owners
+work-docs/audits/ @claude-setup/owners
+home-dotfiles/ @claude-setup/owners
