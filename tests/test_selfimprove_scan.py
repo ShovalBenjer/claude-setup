@@ -36,8 +36,21 @@ scan = _load()
 
 class HookTargetResolution(unittest.TestCase):
     def test_an_msys_path_resolves_to_a_windows_path(self) -> None:
-        got = scan.resolve_hook_target("/c/Users/shova/.claude/hooks/session-recall.sh")
-        self.assertEqual(got, Path("C:/Users/shova/.claude/hooks/session-recall.sh"))
+        # Deliberately a path that exists on neither platform. This test's oracle is the
+        # PREFIX MAPPING, not any particular file, and it used to name the real live
+        # session-recall.sh -- which made it contradict the live-hook test below the
+        # moment resolve_hook_target learned the WSL /mnt/c form, since on WSL that file
+        # genuinely does resolve to a mount and not to a drive letter. Naming a live file
+        # in a pure mapping test is what coupled them.
+        got = scan.resolve_hook_target("/c/Users/nobody/no-such-dir/absent.sh")
+        self.assertEqual(got, Path("C:/Users/nobody/no-such-dir/absent.sh"))
+
+    def test_on_wsl_an_msys_path_resolves_to_the_windows_mount(self) -> None:
+        """Same settings.json, read from WSL: C: is at /mnt/c, not addressable as C:."""
+        probe = Path("/mnt/c/Users")
+        if not probe.exists():
+            self.skipTest("no /mnt/c on this machine; not WSL")
+        self.assertEqual(scan.resolve_hook_target("/c/Users"), probe)
 
     def test_the_drive_letter_is_upper_cased(self) -> None:
         self.assertEqual(scan.resolve_hook_target("/d/tmp/x.sh"), Path("D:/tmp/x.sh"))

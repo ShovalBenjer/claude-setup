@@ -50,10 +50,23 @@ def resolve_hook_target(arg: str) -> pathlib.Path:
     bytes and session-recall.sh demonstrably ran at that session's start. A ranking
     tool whose top results are phantom sends every session that trusts it to do
     nothing, which is worse than having no ranking at all.
+
+    The same wiring is read from WSL, where the settings.json is shared but the
+    Windows drive is mounted at `/mnt/c` rather than being addressable as `C:`.
+    Measured 2026-07-31: with only the Windows branch below, this test file's
+    `test_a_real_live_hook_is_not_reported_missing` fails on WSL, because the live
+    hook exists (so the skip guard does not fire) while `Path("C:/Users/...")` is a
+    relative path on Linux that resolves nowhere. Same phantom-missing failure the
+    docstring above describes, one platform over. So try the mount form first and
+    fall back to the drive-letter form, which keeps Windows behaviour byte-identical.
     """
     m = _MSYS_DRIVE.match(arg)
     if m:
-        return pathlib.Path(f"{m.group(1).upper()}:/{m.group(2)}")
+        drive, rest = m.group(1), m.group(2)
+        mounted = pathlib.Path(f"/mnt/{drive.lower()}/{rest}")
+        if mounted.exists():
+            return mounted
+        return pathlib.Path(f"{drive.upper()}:/{rest}")
     return pathlib.Path(arg)
 
 
