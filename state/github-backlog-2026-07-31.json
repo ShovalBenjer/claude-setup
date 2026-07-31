@@ -895,7 +895,13 @@
         "OPEN C-003: 1 of 12 live hook registrations does not resolve. PreToolUse points at tools/hookgate/target/release/hookgate and the checker finds no script path there. A hook that cannot run fails open and reports nothing.",
         "OPEN C-015: mutate --spec bus fails against the current tree, so bus.py's selftest is no longer proven able to fail.",
         "OPEN C-008: hiring_engine/ledger.sqlite is absent at the path the claim names. Lane B owns that ledger, so this is a proposal row for B, not lane A work."
-      ]
+      ],
+      "priority": "P0",
+      "session": "S3",
+      "estimate": "90 min",
+      "lane": "A harness",
+      "autonomy": "operator-only",
+      "evidence_state": "refuted"
     },
     {
       "title": "EPIC: Bind the instruments that already run to a ratchet",
@@ -912,7 +918,13 @@
         "Candidate surface, not a decision: the gate's `docs` domain already passes; a ratchet could live there rather than beside it.",
         "docs/INDEX.md has no generator and nothing fails when it drifts, so its 113-of-114 coverage decays from the next document onward. Either generate it like CODEBASE-MAP and DOCMAP, or ratchet the reachability number docmap already computes. Do not do both.",
         "8 of 18 specs declare no Status line. docmap passes them because it derives a class-based status, which answers what kind of document it is and never whether it is still true. The two architecture-build-plan files supersede each other by title and neither says so."
-      ]
+      ],
+      "priority": "P1",
+      "session": "S4",
+      "estimate": "240 min",
+      "lane": "A harness",
+      "autonomy": "operator-only",
+      "evidence_state": "measured"
     }
   ]
 }
