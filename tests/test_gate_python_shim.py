@@ -127,11 +127,22 @@ class TestTheVirtualenvIsPerPlatform:
     """
 
     def test_posix_gets_a_distinct_project_environment(self):
+        """Same return-shape trap as the override test below, with a nastier trigger.
+
+        This one only fires when the GATE runs the suite, which is the one context
+        that matters and the one a bare `pytest tests/` never reproduces. The gate
+        sets UV_PROJECT_ENVIRONMENT for the unit domain, pytest inherits it, and the
+        nested `_domain_env()` call then sees the variable already present, adds no
+        overlay entry for it, finds `python` already on PATH, and returns None for an
+        empty overlay. Measured 2026-07-31: four legs of the unit domain green run
+        one at a time, red under `gate.py run`, with .venv-linux correctly in force
+        the whole time. Assert the effective value, which is the thing uv reads.
+        """
         if os.name == "nt":
             pytest.skip("Windows keeps the default .venv")
         env = gate._domain_env()
-        assert env is not None
-        assert env.get("UV_PROJECT_ENVIRONMENT") == gate.POSIX_VENV_NAME
+        effective = (os.environ if env is None else env).get("UV_PROJECT_ENVIRONMENT")
+        assert effective == gate.POSIX_VENV_NAME
         assert gate.POSIX_VENV_NAME != ".venv", (
             "sharing one directory is what collided in the first place")
 
