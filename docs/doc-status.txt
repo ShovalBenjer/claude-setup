@@ -76,3 +76,19 @@ startup-scripts/startup.md | living
 # ── tool READMEs added 2026-07-30 by the parallel absorption run ──────────────
 tools/supply/README.md | living
 tools/timetravel/README.md | living
+
+# ── declared 2026-07-31 when the docmap domain was wired into the gate ────────
+# The domain caught these 11 on its first enforced run, six days after the tool was
+# written. Five are operator-supplied research pastes: they are INPUT to this repo, not
+# documents it maintains, so their status is what they are rather than a lifecycle stage.
+CLAUDE.md | living
+dot-claude/output-styles/shoval.md | living
+tools/channel/README.md | living
+tools/intent/README.md | living
+docs/specs/2026-07-31-project-federation.md | accepted
+docs/gemini-code-1785410845331.md | operator-input
+docs/gemini-code-1785455675294.md | operator-input
+docs/gemini-code-1785457549011.md | operator-input
+docs/gemini-code-1785458291930.md | operator-input
+docs/memory-layer--nexus-gemini-code-1785456331041.md | operator-input
+docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md | operator-input

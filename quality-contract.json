@@ -16,9 +16,10 @@
     },
     "unit": {
       "required": true,
-      "timeout": 300,
+      "timeout": 900,
       "cmd": "python -m pytest tests/ -q && python tools/gate/gate.py selftest && python tools/review/panel.py selftest && cd intent-control-plane && uv run pytest -q",
-      "_note": "every automated-test entrypoint in the repo, including both oracles' own selftests"
+      "_note": "every automated-test entrypoint in the repo, including both oracles' own selftests",
+      "_timeout_note": "Raised 300 -> 900 on 2026-07-31 with the measurement rather than by feel. The 300s budget was set when the root suite was 70 tests in about 47s. It is now 331 tests in 182s, and this domain chains FOUR commands: the root suite, the gate selftest, the panel selftest, and the intent-control-plane suite at about 50s. Total is roughly 250s on an idle machine and it timed out at 300s three times on 2026-07-31 under concurrent load, which produced a FAIL that named no failing test and sent two diagnoses down the wrong path. The honest alternative is splitting this into unit and subproject domains so a slow subproject cannot mask a fast regression; that is a contract shape change and is deferred to a ticket rather than done inside a timeout bump. Falsifier: if the suite passes 600s this number is hiding growth again and the split is overdue."
     },
     "types": {
       "required": true,
@@ -73,10 +74,16 @@
       "builtin": "dir_map",
       "_note": "every tracked directory states a purpose, and docs/CODEBASE-MAP.md matches the tree"
     },
+    "docmap": {
+      "required": true,
+      "cmd": "python tools/docmap/docmap.py check",
+      "_note": "Every tracked markdown file has a derivable or declared lifecycle status, and docs/DOCMAP.md matches what the documents imply. Declared 2026-07-31, six days after the tool was written: docmap ran clean the whole time and NOTHING enforced it, which is the same shape as a hook that cannot fire. A hand edit to DOCMAP.md reads as drift and fails, exactly as CODEBASE-MAP.md does, because both are generated. The residue that cannot be derived lives in docs/doc-status.txt, currently 44 rows against a stated ceiling of 37; growth past that means the derivation rules are wrong rather than that the registry should grow."
+    },
     "prior_art": {
       "required": true,
       "builtin": "prior_art",
-      "_note": "every component over 300 lines of Python carries an unexpired record naming what else could do its job"
+      "_note": "every component over 300 lines of Python carries an unexpired record naming what else could do its job",
+      "_waiver_history": "A waiver until 2026-08-01 was added on 2026-07-31 and REMOVED the same day, unexpired, because the thing it excused was done rather than waited out. Its reason was correct when written: commit 8a4217b brought syndication-engine (549 lines), whatsapp-query (1120) and tools/intent (1016) fully into tracking with no prior-art records, and inventing three records to clear a red domain would have fabricated the evidence this domain exists to demand. All three now exist with 7, 8 and 7 fetched-and-cited alternatives and counterarguments that argue against keeping our version. Recorded here rather than deleted, because L-2026-07-31-a is a waiver renewed twice on a reason nobody executed, and the counter-practice worth keeping is that a waiver ends when its reason does."
     }
   }
 }

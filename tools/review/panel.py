@@ -466,8 +466,29 @@ EXEMPT = re.compile(
 # unanchored state/ would also exempt src/state/, which is ordinary application
 # code in a very common layout. cmd_selftest plants exactly that file and requires
 # it to still be found.
-SELF_REFERENTIAL = re.compile(r"(?i)(^|/)(?:tools/(?:review|gate|e2e|refute)/|"
-                              r"dot-claude/hooks/)|^state/")
+#
+# NARROWED 2026-07-31, and the way this was found is the point. A codex review, the
+# first external review this repository has ever completed, reported that `^state/`
+# excludes REAL SOURCE under the root state/ directory and not only generated
+# artifacts (CWE-693, protection mechanism failure). It was right: `git ls-files
+# state/**/*.py` returns tracked Python, so every line of it was silently unreviewed
+# while the panel reported a clean verdict. The anchoring comment above reasoned
+# carefully about src/state/ and never asked what was in state/ itself.
+#
+# The first narrowing attempt exempted only state/reviews/ and state/gate-runs.jsonl,
+# and the selftest rejected it: it plants state/bus.jsonl and requires ledgers to stay
+# exempt. That requirement is right and the comment above already says why. A ledger is
+# a machine-written record of what a tool saw, so a finding against it names nothing a
+# human can fix, and sql-concat duly fired on a bus row the moment ledgers became
+# reviewable.
+#
+# So the split is not by directory and not by tool ownership. It is by whether the file
+# is CODE. Everything under state/ stays exempt except source, which is reviewed like
+# source anywhere else. The negative lookahead carries the whole correction.
+SOURCE_EXT = r"py|pyi|ts|tsx|js|jsx|mjs|cjs|sh|bash|ps1|rs|go|rb|java|kt|swift|php|cs|sql"
+SELF_REFERENTIAL = re.compile(
+    r"(?i)(^|/)(?:tools/(?:review|gate|e2e|refute)/|dot-claude/hooks/)"
+    r"|^state/(?!.*\.(?:" + SOURCE_EXT + r")$)")
 
 
 def run_local(lines: list[dict]) -> list[dict]:

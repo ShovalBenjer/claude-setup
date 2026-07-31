@@ -42,7 +42,7 @@ import json
 import re
 import subprocess
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, replace as dc_replace
 from pathlib import Path
 
 MAP_PATH = "docs/DOCMAP.md"
@@ -452,6 +452,41 @@ def selftest(project: Path) -> int:
 
     # A generated map must not describe itself, or `check` can never converge.
     check("the map excludes itself", MAP_PATH in tracked_docs(project), False)
+
+    # ---- added 2026-07-31, because a mutation control proved these were unguarded ----
+    # tools/audit/mutations/docmap.py applied 8 mutations and FOUR SURVIVED. Everything
+    # above this line asserts on a pure function; nothing reached evaluate() or
+    # problems(), so the two functions that turn derivations into a verdict could each be
+    # replaced with a stub and this selftest stayed green. That is the same defect
+    # tools/trycmd was written to expose in the other five oracles, found here in the
+    # newest one within a day of it becoming a required gate domain.
+
+    # The INLINE form. 15 of 17 ADRs write `Date: X. Status: Y.` on one line, and a
+    # literal 0x08 byte in this regex once reported 6 of them as UNDECLARED while every
+    # one declared a status. The multiline form above does not exercise this path.
+    st, src = status_for("docs/adr/0002-x.md", "adr",
+                         "Date: 2026-07-30. Status: superseded by 0003.\n", {}, "2026-07-30")
+    check("adr status from the INLINE form", src, "header-inline")
+    check("adr inline status value", st.startswith("superseded"), True)
+
+    # evaluate() is what makes DOCMAP.md a projection rather than a wish. Its contract is
+    # three keys, and `rendered` versus `on_disk` is the whole drift comparison.
+    state = evaluate(project)
+    check("evaluate returns a populated inventory", len(state["docs"]) > 100, True)
+    check("evaluate renders the map", state["rendered"].startswith("#"), True)
+    check("a clean tree renders to what is on disk", state["rendered"] == state["on_disk"], True)
+
+    # problems() turns state into what a caller acts on. It reads status off the Doc
+    # objects, so a synthetic undeclared document has to be a Doc, not a path string.
+    docs = state["docs"]
+    broken = dict(state, docs=list(docs) + [dc_replace(
+        docs[0], path="docs/INVENTED-NOT-ON-DISK.md", status="UNDECLARED")])
+    check("an undeclared document becomes a problem",
+          any("INVENTED-NOT-ON-DISK" in msg for msg in problems(broken)), True)
+    check("a drifted map becomes a problem",
+          any("not what the documents imply" in msg
+              for msg in problems(dict(state, on_disk="hand edited"))), True)
+    check("a clean state produces no problems", problems(state), [])
 
     for f in fails:
         print("FAIL " + f)

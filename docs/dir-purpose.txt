@@ -215,3 +215,8 @@ work-docs/root-cleanup-2026-05-28/data | Retired: raw data swept in the same 202
 work-docs/specs | Source-of-truth engineering specs and implementation-delta plans, dated 2026-04-15 through 2026-07-09
 work-docs/wiki | Mirrors an Azure DevOps wiki for a customer-support automation product: architecture, compliance, deployment, FAQ pages
 work-docs/wiki-drafts | One draft wiki page not yet merged into the published wiki, dated 2026-06-30; the drafting lane is thin so far
+.claude/reviews | Review artifacts written by external judges under the project-local .claude tree, distinct from state/reviews which is panel.py's own output. Machine-written, read by the review domain
+dot-claude/output-styles | Claude Code output styles, the native mechanism that shapes assistant prose BEFORE generation. Deployed to ~/.claude/output-styles. The alternative it replaces is policing the response channel with regexes after generation, which completion_gate.py still does
+dot-claude/skills/case-ledger-post/template | HTML template the case-ledger-post skill renders into. Payload for that skill, not a standalone component
+state/timetravel | Content-addressed snapshots of the gitignored ledgers, written by tools/timetravel. objects/ is gitignored and the manifest is committed, matching the state/snapshots precedent
+.claude | Project-local Claude Code tree: review artifacts and any project-scoped configuration. Distinct from dot-claude, which is the committed copy of the USER-level ~/.claude payload and is not live until deployed

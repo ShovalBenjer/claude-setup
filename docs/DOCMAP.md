@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **943**
-- reachable from `docs/INDEX.md`: **29** (3%)
+- documents: **970**
+- reachable from `docs/INDEX.md`: **29** (2%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **23**
@@ -22,7 +22,7 @@ C, content E to D. A document written before that date uses the old letters and 
 correct for its date**. Scheme `1` means read its lane letters through
 `tools/lib/lanes.py`; `n/a` means it never names a lane by letter.
 
-## adr (19)
+## adr (20)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -43,6 +43,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/adr/0015-opus5-default-fable-exceptional.md` | 2026-07-24 | accepted | header-inline | n/a | yes | the Opus-4.8/Fable routing in ADR-0006-e | - |
 | `docs/adr/0016-lane-letters-renumbered-a-through-d.md` | 2026-07-30 | accepted | header | 2 | - | the letter assignments in ADR-0013 only. | - |
 | `docs/adr/0017-intent-control-plane-lives-in-claude-setup.md` | 2026-07-30 | accepted | header | 2 | - | nothing. | - |
+| `docs/adr/0018-two-tier-inter-agent-channel.md` | 2026-07-30 | accepted | header | n/a | - | - | - |
 | `docs/adr/0019-supply-chain-verification.md` | 2026-07-30 | accepted | header | n/a | - | - | - |
 | `docs/adr/0020-agentic-repo-standard.md` | 2026-07-31 | accepted | header | n/a | - | - | - |
 
@@ -74,7 +75,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (30)
+## analysis (31)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -107,6 +108,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-07-30-context-engineering-and-the-absence-claim-class.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-07-30-github-repo-triage.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-07-30-native-surface-audit.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-07-30-point-in-time-reconstruction.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-07-30-self-chat-absorption-batch.md` | 2026-07-30 | dated-snapshot | class | 2 | - | the ABSORB-07 plan. | - |
 
 ## automation-output (126)
@@ -425,13 +427,19 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/docs-shoval/research/2026-05-07-ai-bot-security-best-practices.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/docs-shoval/SHOVAL-BENJER-5MO-CONTEXT-2026-05-08.md` | 2026-05-08 | corpus-material | class | n/a | - | - | - |
 
-## doc (43)
+## doc (52)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `docs/CODEBASE-MAP.md` | - | generated | registry | n/a | - | - | the |
 | `docs/EXECUTION-PLAN.md` | - | living | registry | n/a | yes | - | - |
 | `docs/OPERATOR-RUNBOOK.md` | - | living | registry | n/a | yes | - | - |
+| `docs/gemini-code-1785410845331.md` | - | operator-input | registry | n/a | - | - | - |
+| `docs/gemini-code-1785455675294.md` | - | operator-input | registry | n/a | - | - | - |
+| `docs/gemini-code-1785457549011.md` | - | operator-input | registry | n/a | - | - | - |
+| `docs/gemini-code-1785458291930.md` | - | operator-input | registry | n/a | - | - | - |
+| `docs/memory-layer--nexus-gemini-code-1785456331041.md` | - | operator-input | registry | n/a | - | - | - |
+| `docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` | - | operator-input | registry | n/a | - | - | - |
 | `dot-claude/CLAUDE.md` | - | living | registry | n/a | - | - | - |
 | `dot-codex/AGENTS.md` | - | living | registry | n/a | - | - | - |
 | `dot-codex/automations/README.md` | - | living | registry | n/a | - | - | - |
@@ -441,6 +449,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `intent-control-plane/docs/INDEX.md` | - | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/docs/RUNBOOK.md` | - | subproject | registry | n/a | - | - | - |
 | `startup-scripts/startup.md` | - | living | registry | n/a | - | - | - |
+| `tools/channel/README.md` | - | living | registry | n/a | - | - | - |
+| `tools/intent/README.md` | - | living | registry | n/a | - | - | - |
 | `tools/supply/README.md` | - | living | registry | n/a | - | - | - |
 | `intent-control-plane/CODE-HEALTH-2026-GAPS.md` | 2026-06-29 | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/TESTING-SOTA-2026-GAPS.md` | 2026-06-29 | subproject | registry | n/a | - | - | - |
@@ -466,6 +476,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/QUALITY-CONTRACT.md` | 2026-07-25 | living | registry | n/a | - | - | - |
 | `docs/2026-07-29-external-absorption-brief.md` | 2026-07-29 | dated-snapshot | registry | 1 | - | - | - |
 | `docs/taste.md` | 2026-07-29 | living | registry | n/a | - | it by date and say what changed. | - |
+| `dot-claude/output-styles/shoval.md` | 2026-07-29 | living | registry | n/a | - | - | - |
 | `docs/SESSION-BOOT.md` | 2026-07-30 | living | registry | 2 | yes | - | - |
 | `docs/charters.md` | 2026-07-30 | living | registry | 2 | yes | - | - |
 | `docs/prior-art/living-codex-salvage/README.md` | 2026-07-30 | salvage | registry | n/a | - | - | - |
@@ -480,7 +491,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `tools/digest/out/digest.md` | - | generated | class | n/a | - | - | - |
 | `tools/health/out/branch_health.md` | - | generated | class | n/a | - | - | - |
 
-## handoff (12)
+## handoff (14)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -493,9 +504,11 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/HANDOFF-FROM-LEARNING-2026-07-29.md` | 2026-07-29 | historical-record | class | 1 | - | - | - |
 | `docs/HANDOFF-FROM-NEW-RECRUIT-2026-07-29.md` | 2026-07-29 | historical-record | class | 1 | - | - | - |
 | `docs/HANDOFF-README-OWNERSHIP-2026-07-29.md` | 2026-07-29 | historical-record | class | n/a | - | - | - |
+| `docs/HANDOFF-2026-07-30-latent-channel-and-gastown.md` | 2026-07-30 | historical-record | class | 2 | - | - | - |
 | `docs/HANDOFF-2026-07-30-overnight-run.md` | 2026-07-30 | historical-record | class | n/a | - | - | the |
 | `docs/HANDOFF-2026-07-30-session-close.md` | 2026-07-30 | historical-record | class | 2 | - | - | - |
 | `docs/HANDOFF-TO-LEARNING-2026-07-30-process-cost-and-boundaries.md` | 2026-07-30 | historical-record | class | 2 | - | - | - |
+| `docs/HANDOFF-2026-07-31-review-oracle-repair.md` | 2026-07-31 | historical-record | class | 2 | - | - | - |
 
 ## prd (3)
 
@@ -505,7 +518,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prd/autonomy-ecosystem.md` | 2026-07-24 | living | header | 1 | yes | - | - |
 | `docs/prd/2026-07-30-consolidation-and-migration.md` | 2026-07-30 | approved for autonomous execution (operator, 2026-07-30, "lo | header | 2 | - | it, and whether anything links to it. Or | - |
 
-## prior-art (33)
+## prior-art (35)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -542,22 +555,26 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prior-art/tools-reclaim.json` | 2026-07-30 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-supply.json` | 2026-07-30 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-timetravel.json` | 2026-07-30 | current | arithmetic | 2 | - | - | - |
+| `docs/prior-art/tools-trycmd.json` | 2026-07-30 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/tools-ghpub.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
 
-## reflection (4)
+## reflection (5)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `docs/reflections/2026-07-29-full-scope-and-slop-violation.md` | 2026-07-29 | dated-snapshot | class | 1 | - | - | - |
 | `docs/reflections/2026-07-29-what-is-going-wrong.md` | 2026-07-29 | dated-snapshot | class | 1 | - | - | - |
 | `docs/reflections/2026-07-30-analysis-that-never-becomes-code.md` | 2026-07-30 | dated-snapshot | class | n/a | - | - | - |
+| `docs/reflections/2026-07-30-thesis-and-deck-review.md` | 2026-07-30 | dated-snapshot | class | n/a | - | - | - |
 | `docs/reflections/2026-07-30-what-i-saw.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
 
-## root (3)
+## root (4)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `CLAUDE-OS.md` | 2026-07-23 | active (living document, the spine) | header | n/a | yes | every prior setup plan. Predecessors rem | - |
 | `README.md` | 2026-07-23 | living | registry | n/a | - | every prior plan in this repo. | - |
+| `CLAUDE.md` | 2026-07-30 | living | registry | 2 | - | - | - |
 | `TODO.md` | 2026-07-31 | living | registry | 2 | yes | - | operator |
 
 ## rule (38)
@@ -603,7 +620,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/repo-stack-reasoning.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/hidden-trees.md` | 2026-07-30 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## skill (180)
+## skill (184)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -694,6 +711,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/azure-runtime/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/blog/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/blonde-designer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/case-ledger-post/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/code-simplifier/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/codex-call/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/commit-push-pr/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -718,6 +736,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/persona/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/pii-scrubber/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/premortem/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/prior-art-gate/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/prod-deploy-rules/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/prove-implementation/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/prove-implementation/references/failure-modes.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -732,8 +751,10 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/review/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/ship-gate/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/shoval-voice-draft/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/syndication-engine/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/testing-pyramid/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/voice-explainer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/whatsapp-query/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/youtube-distill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/apify-mcp/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/azure-devops/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -788,7 +809,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-agents/skills/heidegger-reflect/docs/reflections/2026-06-11-review-alert-wrongcompany-provenance.md` | 2026-06-11 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/azure-cert-coach/SKILL.md` | 2026-06-12 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (12)
+## spec (17)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -804,6 +825,11 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-07-29-prompt-to-ticket-lifecycle.md` | 2026-07-29 | active | header | 1 | - | the | - |
 | `docs/specs/2026-07-29-trace-model-sacred-timeline.md` | 2026-07-29 | accepted | registry | 1 | - | - | - |
 | `docs/specs/2026-07-30-data-architecture-and-orchestration.md` | 2026-07-30 | proposal, pending operator approval. nothing here is built | header | n/a | - | nothing. Extends ADR-0010 | - |
+| `docs/specs/2026-07-31-github-native-project-surface.md` | 2026-07-31 | design. nothing in this document has been applied. every wri | header | n/a | - | - | - |
+| `docs/specs/2026-07-31-kanban-four-layer-model.md` | 2026-07-31 | design. nothing here has been applied. every write command i | header | 2 | - | - | - |
+| `docs/specs/2026-07-31-project-federation.md` | 2026-07-31 | accepted | registry | n/a | - | - | - |
+| `docs/specs/2026-07-31-research-corpus-and-cache.md` | 2026-07-31 | proposal | header-inline | n/a | - | text references sources | - |
+| `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | active | header | 2 | - | - | - |
 
 ## standard (1)
 
@@ -884,7 +910,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-codex/skills/.system/skill-installer/SKILL.md` | - | third-party-not-ours | class | n/a | - | - | - |
 | `dot-agents/skills/heygen-skills/CHANGELOG.md` | 2026-05-13 | third-party-not-ours | class | n/a | - | - | - |
 
-## work-doc (176)
+## work-doc (177)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -1064,4 +1090,5 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `work-docs/research/prompts/2026-07-27-rust-vs-python.md` | 2026-07-27 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/research/prompts/README.md` | 2026-07-27 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/Production AI & Software Engineering  The June 2026 State of the Art.md` | 2026-07-28 | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/research/2026-07-29-llm-agents-game-theory-tacit-knowledge-epistemic-governance.md` | 2026-07-29 | dated-snapshot | class | n/a | - | - | - |
 
