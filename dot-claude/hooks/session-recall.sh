@@ -49,7 +49,7 @@ parts = []
 _LANES = {
     "A": "harness (~/claude-setup): rules, hooks, skills, schedulers, review fabric, "
          "intake/routing surfaces (absorbed from the retired concierge lane).",
-    "B": "resume engine (~/Downloads/new-recruit): hiring machine, arms, applications.",
+    "B": "resume engine (~/work/repos/new-recruit): hiring machine, arms, applications.",
     "C": "learning (daily-deep-learning): the PWA, learning cards, study loops.",
     "D": "content & publishing: case ledgers, syndication; posting decisions stay "
          "with the operator.",
