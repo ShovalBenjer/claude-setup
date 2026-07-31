@@ -27,7 +27,7 @@ bootstrap:
 # Deliberately separate from bootstrap and deliberately unprivileged: knowing what is
 # missing should never cost a password.
 doctor:
-	@for t in git $(PY) pip3 pytest uv gh rg fd cargo rustc node claude; do \
+	@for t in git python $(PY) pip3 pytest uv gh rg fd cargo rustc node claude; do \
 		printf '  %-8s ' $$t; \
 		command -v $$t >/dev/null 2>&1 && $$t --version 2>&1 | head -1 | cut -c1-46 || echo MISSING; \
 	done

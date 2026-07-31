@@ -52,6 +52,31 @@ if have fdfind && ! have fd; then
   ln -sf "$(command -v fdfind)" "$HOME/.local/bin/fd"
 fi
 
+# A bare `python` is not cosmetic here. Every command block in CLAUDE.md is written as
+# `python tools/...`, that spelling is correct on Windows where this repo is also used,
+# and Ubuntu ships no bare `python` at all. Measured 2026-07-31 in a fresh WSL session:
+# `python tools/selfimprove/scan.py` died with "command not found" on the first command
+# of the boot path. Fixed on the machine side rather than by rewriting the docs to
+# `python3`, which would break the same block on the Windows clone.
+#
+# NOT in APT_WANT above, deliberately: under `set -e` a package this script cannot install
+# (pinned image, distro without it, apt lock) would abort the whole run at step one, every
+# run, which contradicts the resumability the header promises. Best-effort here, then the
+# symlink catches every case where apt did not land it. Putting it in APT_WANT makes the
+# fallback unreachable in precisely the situations it exists for.
+log "python (CLAUDE.md's command block assumes it; Ubuntu ships only python3)"
+if ! have python; then
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python-is-python3 || true
+fi
+if ! have python && have python3; then
+  # Same idiom as fdfind above, and unprivileged, so it works with no sudo at all.
+  echo "    apt did not supply it; linking python3 -> python"
+  mkdir -p "$HOME/.local/bin"
+  ln -sf "$(command -v python3)" "$HOME/.local/bin/python"
+else
+  have python && echo "    present: $(python --version 2>&1)"
+fi
+
 log "gh (GitHub CLI, not in the default Ubuntu archive)"
 if ! have gh; then
   sudo mkdir -p -m 755 /etc/apt/keyrings
@@ -120,7 +145,7 @@ add_env 'export BROWSER="$HOME/.local/bin/wsl-browser"'
 log "Verification"
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.bun/bin:$PATH"
 fail=0
-for t in git python3 pip3 pytest uv gh rg fd cargo rustc node claude; do
+for t in git python python3 pip3 pytest uv gh rg fd cargo rustc node claude; do
   if have "$t"; then
     printf '  %-8s ok   %s\n' "$t" "$($t --version 2>&1 | head -1 | cut -c1-46)"
   else
@@ -144,4 +169,4 @@ if [ "$fail" -ne 0 ]; then
   echo "Some tools are still missing. Re-run this script; it resumes." >&2
   exit 1
 fi
-log "Done. Open a new shell or run: source ~/.bashrc"
+log "Done. Open a new shell or run: source ~/.profile"
