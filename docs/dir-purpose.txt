@@ -220,3 +220,4 @@ dot-claude/output-styles | Claude Code output styles, the native mechanism that 
 dot-claude/skills/case-ledger-post/template | HTML template the case-ledger-post skill renders into. Payload for that skill, not a standalone component
 state/timetravel | Content-addressed snapshots of the gitignored ledgers, written by tools/timetravel. objects/ is gitignored and the manifest is committed, matching the state/snapshots precedent
 .claude | Project-local Claude Code tree: review artifacts and any project-scoped configuration. Distinct from dot-claude, which is the committed copy of the USER-level ~/.claude payload and is not live until deployed
+tools/wsl | WSL2 migration helpers: Makefile and scripts for moving work onto the ext4 side, where git status is 69ms against 12,018ms across the /mnt/c 9P boundary. The penalty is directional, so the repo lives on ext4 and Windows reaches in, never the reverse

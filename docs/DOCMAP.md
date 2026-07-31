@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **970**
+- documents: **973**
 - reachable from `docs/INDEX.md`: **29** (2%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -518,7 +518,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prd/autonomy-ecosystem.md` | 2026-07-24 | living | header | 1 | yes | - | - |
 | `docs/prd/2026-07-30-consolidation-and-migration.md` | 2026-07-30 | approved for autonomous execution (operator, 2026-07-30, "lo | header | 2 | - | it, and whether anything links to it. Or | - |
 
-## prior-art (35)
+## prior-art (38)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -556,7 +556,10 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prior-art/tools-supply.json` | 2026-07-30 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-timetravel.json` | 2026-07-30 | current | arithmetic | 2 | - | - | - |
 | `docs/prior-art/tools-trycmd.json` | 2026-07-30 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/dot-claude-skills-syndication-engine.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/dot-claude-skills-whatsapp-query.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-ghpub.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/tools-intent.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
 
 ## reflection (5)
 

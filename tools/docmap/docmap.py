@@ -474,7 +474,11 @@ def selftest(project: Path) -> int:
     state = evaluate(project)
     check("evaluate returns a populated inventory", len(state["docs"]) > 100, True)
     check("evaluate renders the map", state["rendered"].startswith("#"), True)
-    check("a clean tree renders to what is on disk", state["rendered"] == state["on_disk"], True)
+    # NOT asserted here: that rendered == on_disk. That is a property of the WORKING TREE,
+    # not of this code, and asserting it made the selftest fail whenever the map was stale,
+    # which broke the unit domain and the trycmd CLI snapshot within an hour of being added.
+    # A selftest tests logic; `check` tests the tree. Drift detection is covered below by
+    # feeding a synthetic on_disk instead.
 
     # problems() turns state into what a caller acts on. It reads status off the Doc
     # objects, so a synthetic undeclared document has to be a Doc, not a path string.
