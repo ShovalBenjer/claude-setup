@@ -186,6 +186,26 @@ def ledger_state(gate, project: str) -> tuple[bool, str]:
                    "has never been gated.".format(len(rows), fp, ", dirty" if dirty else ""))
 
 
+def howto_command(setup_root: str, project: str) -> str:
+    """The one command this hook tells a blocked session to run.
+
+    Resolves both sides before comparing them. `~/claude-setup` is a symlink to
+    `~/work/repos/claude-setup` on the WSL host, and os.path.relpath treats the two
+    spellings as unrelated strings, so the hook printed
+
+        python ../../../claude-setup/tools/gate/gate.py run --project .
+
+    for a gate sitting at `tools/gate/gate.py` inside the project being blocked.
+    Both reach the same file through the link, which is why it survived unnoticed,
+    but the instruction is the hook's entire output when it blocks and it should
+    name the shortest true path. Measured 2026-07-31; the operator quoted the
+    climbing form back as the thing he was being told to run.
+    """
+    target = os.path.realpath(os.path.join(setup_root, "tools", "gate", "gate.py"))
+    rel = os.path.relpath(target, os.path.realpath(project))
+    return "python {} run --project .".format(rel.replace("\\", "/"))
+
+
 def main() -> int:
     try:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -224,8 +244,7 @@ def main() -> int:
         return out({})
 
     text = assistant_text(payload)
-    rel = os.path.relpath(os.path.join(gate.setup_root(), "tools", "gate", "gate.py"), project)
-    howto = "python {} run --project .".format(rel.replace("\\", "/"))
+    howto = howto_command(gate.setup_root(), project)
 
     if completion_claim(text):
         return out({"decision": "block", "reason": (
