@@ -10,8 +10,9 @@ name: Nightly autonomy (pilot, AUTO-07)
 #      not by label (labels depend on model compliance; prefixes don't).
 #   3. Review is guaranteed in-run: a second job reviews the PR in this same
 #      workflow, so the GITHUB_TOKEN no-trigger rule can't silence the fabric.
-#      (claude-code-review.yml + gemini-review.yml once AUTO-10 unblocks also fire
-#      on human synchronize events.)
+#      (claude-code-review.yml + gemini-review.yml also fire on human synchronize
+#      events. gemini-review.yml was written 2026-07-31 and has NEVER RUN, so it
+#      is not yet evidence of anything; it is also advisory and cannot block.)
 on:
   schedule:
     - cron: "17 1 * * *"   # 01:17 UTC nightly

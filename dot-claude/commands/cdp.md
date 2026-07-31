@@ -1,11 +1,84 @@
 ---
 name: cdp
-description: Kickstart browser CDP for UI inspection / scraping. Defaults to Obscura on Linux (port 9222). Pass "edge" for the Windows-side Edge bridge (port 9223, for Entra/domain apps).
+description: Kickstart browser CDP for UI inspection / scraping. On Windows, the live profile is native Chrome on port 9224. Under WSL, defaults to Obscura (9222); pass "edge" for the Windows-side Edge bridge (9223, for Entra/domain apps).
 ---
 
 # /cdp — Kickstart browser CDP for UI work
 
-**Args:** `$ARGUMENTS` — empty (default Obscura), or `edge` (Windows-side MS Edge), or `status` (health check both), or `stop` (tear down Obscura; Edge stays up).
+**Args:** `$ARGUMENTS` — empty (auto-detect the live endpoint), or `edge` (Windows-side MS Edge), or `status` (health check every port), or `stop` (tear down Obscura; Edge and native Chrome stay up).
+
+## Find the live endpoint first
+
+Three different browsers can be listening, on three ports, and which ones exist
+depends on whether this session is win32 or WSL. Probe before assuming: the
+Obscura and Edge flows below are WSL-shaped and their launcher
+(`~/.codex/bin/obscura-cdp`) is not present on a native Windows session, so
+following them there produces "no browser" on a machine where a browser is in
+fact running.
+
+| Port | What it is | Driver |
+|---|---|---|
+| 9224 | **Native Windows Chrome automation profile. On win32 this is normally the only one up.** | `cdp_driver.py` (in new-recruit), or raw CDP over the websocket URL |
+| 9222 | Obscura stealth Chromium, WSL only | `playwright-obscura` MCP |
+| 9223 | MS Edge bridge, for Entra/SSO/domain apps | `playwright-edge` MCP |
+
+### Port 9224 — native Windows Chrome
+
+**Resolve the address first, do not assume `127.0.0.1`.** IPv4 and IPv6 loopback
+are separate sockets on Windows, so two unrelated Chrome instances can both hold
+port 9224 and neither reports a conflict. That happened on 2026-07-27: a
+throwaway profile under `Temp` held `127.0.0.1:9224` and the automation profile
+held `[::1]:9224`, so `curl 127.0.0.1` answered with a valid payload from the
+browser nobody meant to drive. Reachability is not identity.
+
+```bash
+CDP_PORT=9224 python ~/claude-setup/tools/browser/cdp.py status
+```
+
+That prints the address whose listening socket is owned by a Chrome running the
+automation profile, warns when a second browser also answers on the port, and
+refuses rather than adopting a stranger. Use the host it names below:
+
+```bash
+H='[::1]'                                      # whatever status resolved
+curl -fsS http://$H:9224/json/version          # browser build
+curl -fsS http://$H:9224/json/list             # open tabs
+curl -fsS -X PUT "http://$H:9224/json/new?url=https%3A%2F%2Fexample.com"
+curl -fsS "http://$H:9224/json/activate/<targetId>"
+```
+
+Anything that reads or drives a page needs a websocket. Use the repo driver,
+which supplies its own dependency per invocation:
+
+```bash
+cd ~/Downloads/new-recruit
+CDP_TAB=<url-substring> uv run --with websocket-client python cdp_driver.py url
+CDP_TAB=<url-substring> uv run --with websocket-client python cdp_driver.py text
+CDP_TAB=<url-substring> uv run --with websocket-client python cdp_driver.py shot out.png
+```
+
+Two things that will otherwise cost a debugging round:
+
+- `CDP_TAB` substring-matches the tab URL. With no match it silently falls back
+  to the first page, which is usually not the tab you meant. Open a new tab with
+  `/json/new` rather than navigating whatever the user already had open.
+- `Page.captureScreenshot` hangs on a background tab, because Chrome does not
+  render one. Call `/json/activate/<targetId>` first, then screenshot.
+
+If 9224 is down, launch it on the Windows side:
+
+```powershell
+Start-Process "C:\Program Files\Google\Chrome\Application\chrome.exe" `
+  -ArgumentList @(
+    "--remote-debugging-port=9224",
+    "--user-data-dir=C:\Users\shova\AppData\Local\Google\Chrome\CDP-Profile"
+  )
+```
+
+The Claude-in-Chrome MCP tools (`mcp__claude-in-chrome__*`) are a separate path
+and do not use any of these ports. When they report "Browser extension is not
+connected", that says nothing about CDP — probe the ports before concluding
+there is no browser.
 
 ## Default flow — Obscura (Linux, stealth Chromium)
 
@@ -78,16 +151,32 @@ New-NetFirewallRule -DisplayName "WSL Edge CDP" -Direction Inbound -Protocol TCP
 
 Or, tighter: use `socat TCP-LISTEN:9223,fork TCP:127.0.0.1:9223` from PowerShell-as-admin to tunnel localhost-only Edge to WSL.
 
-## `$ARGUMENTS = status` — both sides health check
+## `$ARGUMENTS = status` — every port, both sides
 
 ```bash
-echo "=== Obscura (Linux, port 9222) ==="
-curl -fsS --max-time 1 http://127.0.0.1:9222/json/version 2>&1 | head -c 200 || echo "DOWN"
-echo ""
-echo "=== Edge (Windows, port 9223) ==="
-WIN_HOST="$(ip route show default | awk '{print $3}')"
-curl -fsS --max-time 1 "http://${WIN_HOST}:9223/json/version" 2>&1 | head -c 200 || echo "DOWN — run /cdp edge to get the launch command"
+# Assign, then test. `curl ... | head` reports head's exit status, which is 0
+# even when curl could not connect, so a piped `|| echo DOWN` never fires and
+# every port silently looks the same as a live one.
+probe() {
+  if out=$(curl -fsS --max-time 2 "$2/json/version" 2>/dev/null); then
+    printf '%s -- UP: %s\n' "$1" "$(printf '%s' "$out" | tr -d '\n' | cut -c1-90)"
+  else
+    printf '%s -- DOWN\n' "$1"
+  fi
+}
+
+# 127.0.0.1 on win32; the host gateway address only exists under WSL.
+WIN_HOST=127.0.0.1
+command -v ip >/dev/null 2>&1 && WIN_HOST="$(ip route show default | awk '{print $3}')"
+
+probe "native Chrome  9224" "http://127.0.0.1:9224"
+probe "Obscura        9222" "http://127.0.0.1:9222"
+probe "Edge           9223" "http://${WIN_HOST}:9223"
 ```
+
+Report which ports answered. Do not report "no browser available" unless all
+three are down: on win32, 9222 and 9223 being down is the normal state and 9224
+is the one that matters.
 
 ## `$ARGUMENTS = stop` — tear down Obscura only
 

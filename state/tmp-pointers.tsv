@@ -1,0 +1,77 @@
+severity	kind	file	target	note
+medium	pointer	dot-claude/bin/intent	/home/shovalbe/.local/bin/intent	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/coverage-enforcer.sh	/home/shovalbe/.codex/hooks/coverage-enforcer.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/hive-review-bridge.sh	/home/shovalbe/.codex/hooks/hive-review-bridge.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/intent-capture.sh	/home/shovalbe/.codex/hooks/intent-capture.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/intent-session-brief.sh	/home/shovalbe/.codex/hooks/intent-session-brief.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/post-compact-reinject.sh	/home/shovalbe/.codex/hooks/post-compact-reinject.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/protect-infra.sh	/home/shovalbe/.codex/hooks/protect-infra.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/rtk-bash-guard.sh	/home/shovalbe/.codex/hooks/rtk-bash-guard.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/session-context.sh	/home/shovalbe/.codex/hooks/session-context.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/snapshot-state.sh	/home/shovalbe/.codex/hooks/snapshot-state.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/stop-checklist.sh	/home/shovalbe/.codex/hooks/stop-checklist.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/verification-before-completion.sh	/home/shovalbe/.codex/hooks/verification-before-completion.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/voice-explainer-trigger.sh	/home/shovalbe/.codex/hooks/voice-explainer-trigger.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/hooks/watchdog-verify.sh	/home/shovalbe/.codex/hooks/watchdog-verify.sh	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/apify-mcp	/home/shovalbe/.codex/skills/apify-mcp	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/azure-devops	/home/shovalbe/.codex/skills/azure-devops	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/azure-keyvault-secrets	/home/shovalbe/.codex/skills/azure-keyvault-secrets	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/cleanup-crew	/home/shovalbe/.codex/skills/cleanup-crew	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/elevenlabs-mcp	/home/shovalbe/.codex/skills/elevenlabs-mcp	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/end-session	/home/shovalbe/.agents/skills/end-session	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/feature-investor	/home/shovalbe/.codex/skills/feature-investor	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/grill-me	/home/shovalbe/.agents/skills/grill-me	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/heygen-mcp	/home/shovalbe/.codex/skills/heygen-mcp	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/kill-stale	/home/shovalbe/.codex/skills/kill-stale	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/mcp-activation	/home/shovalbe/.codex/skills/mcp-activation	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/mutation-runner	/home/shovalbe/.codex/skills/mutation-runner	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/ops-status	/home/shovalbe/.codex/skills/ops-status	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/ponytail	/home/shovalbe/.codex/skills/ponytail	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/ponytail-audit	/home/shovalbe/.codex/skills/ponytail-audit	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/ponytail-help	/home/shovalbe/.codex/skills/ponytail-help	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/ponytail-review	/home/shovalbe/.codex/skills/ponytail-review	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/property-test-gen	/home/shovalbe/.codex/skills/property-test-gen	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/red-team	/home/shovalbe/.codex/skills/red-team	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/reground	/home/shovalbe/.agents/skills/reground	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/triage-tests	/home/shovalbe/.codex/skills/triage-tests	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/watchdog	/home/shovalbe/.codex/skills/watchdog	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/web-inspect	/home/shovalbe/.codex/skills/web-inspect	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+medium	pointer	dot-claude/skills/workspace-brain	/home/shovalbe/.codex/skills/workspace-brain	whole file is a path to nowhere; basename matches, so this was a link that got flattened
+low	doc-ref	dot-claude/agents/eval-row-diagnoser.md:15	~/.claude/research_output/	document names a path that is not on this machine
+low	doc-ref	dot-claude/agents/evidence-clerk.md:12	~/.claude/corpus/sources.json	document names a path that is not on this machine
+low	doc-ref	dot-claude/agents/evidence-clerk.md:18	~/.claude/corpus/best_practices.sqlite3	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/cdp.md:12	/home/shovalbe/.codex/bin/playwright-mcp-visual	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/cdp.md:15	~/.codex/bin/obscura-cdp	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/commit-push-pr.md:6	~/.agents/skills/commit-push-pr/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/insights.md:16	/home/shovalbe/.agents/skills/reground/scripts/reground-snapshot.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/insights.md:6	/home/shovalbe/.agents/skills/reground/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/pickup-reviews.md:13	~/.claude/docs/ENGINEERING_REVIEW_*.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/pickup-reviews.md:14	~/.claude/docs/CLAUDEMD_DRIFT_*.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/pickup-reviews.md:15	~/.claude/docs/HOT_ZONES_*.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/reground.md:16	/home/shovalbe/.agents/skills/reground/scripts/reground-snapshot.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/commands/reground.md:6	/home/shovalbe/.agents/skills/reground/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/azure-activity-watch/SKILL.md:14	~/.claude/projects/-home-shovalbe/memory/project_yasha_stop_incident.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/blog/SKILL.md:20	/home/shovalbe/work/shoval-style-finetune/voice-fingerprint.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/coverage-enforcer/SKILL.md:3	~/.codex/hooks/coverage-enforcer.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/deep-research/reference/continuation.md:21	~/.claude/research_output/continuation_state_[report_id	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/deep-research/reference/report-assembly.md:104	~/.claude/research_output/	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/dispatch/SKILL.md:3	~/.claude/cache/a2a/audit.jsonl	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/eval-runner/SKILL.md:93	~/.codex/hooks/stop-checklist.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/jira-read/SKILL.md:31	~/.claude/skills/jira-read/jira_read.py	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/jira-read/SKILL.md:53	~/.claude/jira/reminders.json	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/meeting-notes/SKILL.md:90	~/.claude/projects/-home-shovalbe/memory/	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/persona/SKILL.md:52	~/.claude/docs/*	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/persona/SKILL.md:52	~/.codex/automations/last-messages/*	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/pii-scrubber/SKILL.md:130	~/.claude/bin/pii-scrub.py	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/pii-scrubber/SKILL.md:162	~/.claude/hooks/pii-scrubber-hook.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/premortem/SKILL.md:18	~/.codex/automations/prompts/a09-forge-loop-compliance-score.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/red-team-review/README.md:9	~/.codex/settings.json	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/red-team-review/README.md:95	~/.codex/skills/red-team-review/	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/refactor-pre-push/SKILL.md:37	~/.claude/docs/HOT_ZONES_*.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/review/SKILL.md:208	~/.claude/bin/work-item.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/ship-gate/SKILL.md:21	~/.codex/hooks/coverage-enforcer.sh	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/testing-pyramid/SKILL.md:229	~/.claude/skills/tdd-slice-planner/SKILL.md	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/voice-explainer/SKILL.md:100	~/.claude/assets/voice/morning-brief-YYYY-MM-DD.mp3	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/voice-explainer/SKILL.md:101	~/.claude/bin/walking-mode	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/voice-explainer/SKILL.md:118	~/.claude/assets/voice/	document names a path that is not on this machine
+low	doc-ref	dot-claude/skills/voice-explainer/SKILL.md:44	~/.claude/assets/voice/<slug>-<unix>.mp3	document names a path that is not on this machine

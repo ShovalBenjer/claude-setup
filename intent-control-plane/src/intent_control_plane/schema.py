@@ -58,8 +58,28 @@ class _ClosingConnection(sqlite3.Connection):
 
 
 def connect(base_dir: Path) -> sqlite3.Connection:
+    """A connection configured for the concurrency this store actually sees.
+
+    Two pragmas, both about more than one writer existing at once. Neither was needed
+    while the only caller was a test with the store to itself; both are needed the
+    moment a prompt hook writes on every turn of every parallel session.
+
+    `journal_mode=WAL` lets readers proceed during a write instead of blocking on the
+    rollback journal. It is persistent, stored in the database header, so setting it
+    per-connection is idempotent rather than repeated work.
+
+    `busy_timeout` is the load-bearing one. SQLite's default is 0: a second writer
+    that finds the database locked raises `database is locked` immediately rather than
+    waiting. The capture hook catches broadly and returns success, so that exception
+    would be swallowed and the prompt silently dropped. Two sessions prompting in the
+    same second would lose one, which is the complaint this whole slice exists to fix,
+    reintroduced by the fix for it. Five seconds is chosen to exceed any write here by
+    orders of magnitude; every statement in this package is a single small insert.
+    """
     conn = sqlite3.connect(base_paths(base_dir)["db"], factory=_ClosingConnection)
     conn.row_factory = sqlite3.Row
+    conn.execute("pragma journal_mode = WAL")
+    conn.execute("pragma busy_timeout = 5000")
     return conn
 
 

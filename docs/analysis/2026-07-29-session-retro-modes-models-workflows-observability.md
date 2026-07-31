@@ -26,31 +26,61 @@ Practical composition that follows from the measurements:
   Stop gate already does the latter. Adding /loop to mask handbacks would pay
   tokens to hide a defect the gate now measures (state/handback-log.jsonl).
 
-## 2. Fable / opus / effort levels: an experiment with a due date
+## 2. Fable / opus / effort levels: the experiment ended early, with no verdict
 
-The saved default is claude-fable-5, recorded in model-selection.md (both
-copies) as a one-week EXPERIMENT, falsifier due 2026-08-05: fable keeps the
-default only if handback blocks, restart turns, refusals, and throttling
-measurably improve on the opus baseline enough to justify 2x token price.
-Until then the routing table stands: fable for longest-horizon and hardest
-design; opus for day-to-day harness and oracle work; sonnet for bounded
-fan-out; haiku only with a cheap oracle.
+SUPERSEDED the same evening this was written. When this section was drafted the
+saved default was claude-fable-5, held as a one-week experiment with a
+falsifier due 2026-08-05. The operator set `opus[1m]` as the saved default that
+evening, ending the experiment after part of one day. It therefore produced NO
+verdict, and model-selection.md now says so in both copies rather than quietly
+deleting the row: an experiment abandoned early and an experiment that failed
+are different facts, and only the second is evidence about a model.
 
-Effort: the rule says default `high` because fable at `low` already matches
-prior models at `xhigh` on many tasks, and reserve `xhigh`/`max` for the
-hardest problems. Live settings run `xhigh` globally. That is a rule/config
-mismatch to resolve on 2026-08-05 with the same falsifier data: if xhigh shows
-no measured advantage on routine sessions, drop live to high and keep xhigh
-per-call.
+The routing table is unaffected: opus for day-to-day harness and oracle work,
+sonnet for bounded fan-out, haiku only with a cheap oracle, fable reserved for
+longest-horizon and hardest-design work rather than as a default.
+
+Effort: the rule prescribes `high` as the default and live settings run `xhigh`
+globally. That contradiction is now recorded IN the rule instead of being
+resolved by editing whichever side is easier, because nobody has measured what
+xhigh buys on routine work here. Closing a contradiction by rewriting the
+losing side is how a rule stops describing anything. What would settle it is a
+week on high compared against the xhigh sessions already in
+state/handback-log.jsonl and state/gate-runs.jsonl.
 
 ## 3. Workflows: what objective, against what cost
 
 The operator's question, restated: what is the objective a Workflow fan-out is
-driven against, and is it worth the tokens. Honest state: this repo has never
-measured a workflow's yield. The one workflow fact in the ledger is negative
-infrastructure evidence: workflow selftests appended scratch rows to the real
-gate ledger and produced a FAIL-then-PASS on tree 842125e6 (risk row 1 in the
-07-29 handoff; isolation is an open TODO).
+driven against, and is it worth the tokens.
+
+CORRECTION, made 2026-07-29 in the evening. This section originally said "this
+repo has never measured a workflow's yield." That was false, and false against
+evidence sitting in this repo's own message bus, unread since 2026-07-25:
+
+    2026-07-25T03:05:29 B->B [warn] workflow wf_4d739b98-873 burned 2.66h and
+    3.64M subagent tokens and produced nothing usable
+
+    2026-07-27T05:32:42 D->B [warn] one fan-out exhausted the session WebSearch
+    budget and everything after it degraded silently
+
+So the yield HAS been measured twice, and both measurements are negative: one
+workflow spent 2.66 hours and 3.64 million subagent tokens for no usable
+output, and one fan-out exhausted a shared session budget in a way that
+silently degraded everything downstream. The reason the section claimed
+otherwise is the same defect this retro documents elsewhere: the bus inbox hook
+had been dropped from live settings, so nineteen messages addressed to this
+lane were never delivered. This is the second occurrence in one week of an
+absence claim made against evidence already in hand (L-2026-07-29-a).
+
+The negative infrastructure evidence stands alongside it: workflow selftests
+appended scratch rows to the real gate ledger and produced a FAIL-then-PASS on
+tree 842125e6 (risk row 1 in the 07-29 handoff; isolation is an open TODO).
+
+What follows from three negative data points and zero positive ones is not
+"workflows are bad", it is that no workflow in this repo has yet been run with
+its yield instrumented, and two that ran uninstrumented were expensive
+failures. The KPI list below is therefore the precondition for the next
+workflow, not a nice-to-have after it.
 
 KPIs that make the question answerable, most already fed by instruments that
 exist as of today:
@@ -126,17 +156,25 @@ it repeats L017's class.
 
 ## 6. Free-tier judges: wired today, and the next highest-yield candidates
 
-Wired and verified this session:
+Wired and verified this session (updated same evening after the operator
+ruled out interactive logins; every live channel proved by a real completion):
 - NVIDIA NIM (tools/nvidia/nim.py): live selftest 9/9 including a real
   completion; separate vendor pool, local 100/day policy ceiling. Inference
   only; logprobs are the sole interior signal. Weights live on Hugging Face,
   a different project.
-- qwen-code 0.21.1 installed; needs one operator OAuth login before first
-  use (advertised ~2000 requests/day free; unverified until we log in).
-- gemini-cli 0.52.0 present with config; free tier is real but the standing
-  rule holds: only explicitly public, non-confidential input.
-- codex 0.145.0 authed; not free (ChatGPT subscription), stays the
-  /codex-call reviewer.
+- Gemini: LIVE non-interactively. The .env GEMINI_API_KEY (39 chars, AI
+  Studio shape) was simply never exported to the CLI; with it set in-process,
+  `gemini -p` returned PONG, exit 0. Standing rule holds: only explicitly
+  public, non-confidential input on this channel.
+- Codex: LIVE. The failure was a stale `gpt-5.6-sol` model pin plus CLI
+  0.145; after update to 0.146 and unpinning (config .bak kept), default
+  `codex exec` returned PONG. Paid ChatGPT subscription, stays /codex-call.
+- GitHub Models: LIVE via gh-models extension on existing gh auth; 36-model
+  free catalog; PONG from openai/gpt-4o-mini and meta/llama-3.3-70b-instruct.
+- qwen-code 0.21.1: PARKED. Its OAuth requires a browser login the operator
+  declined to do, and the on-disk QWEN_API_KEY is a 116-char non-key. The
+  qwen family is already served by the OpenRouter and NVIDIA preference
+  lists, so the CLI adds no capability worth the login.
 
 Highest-yield candidates worth one probe each, not yet wired (quotas are
 advertised numbers, to be verified at wiring time): GitHub Models via the gh

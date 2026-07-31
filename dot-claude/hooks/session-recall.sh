@@ -37,11 +37,62 @@ if payload.get("source", "") not in {"startup", "resume", "compact", "clear"}:
 osdir = Path(os.environ.get("CLAUDE_OS_DIR", str(Path.home() / "claude-setup")))
 parts = []
 
-mem = Path.home() / ".claude" / "projects" / "C--Users-shova" / "memory" / "MEMORY.md"
-if mem.exists():
-    lines = [l for l in mem.read_text(errors="ignore").splitlines() if l.startswith("- [")][:12]
-    if lines:
-        parts.append("Memory index (curated):\n" + "\n".join("  " + l for l in lines))
+# The lane is DECLARED by the launcher, not inferred from cwd. Inferring it was
+# wrong by construction: the desktop shortcut pinned every session to
+# Downloads/new-recruit with `wt -d`, so a session doing pure harness work still
+# looked like lane C. The lane launchers export CLAUDE_LANE; when it is absent
+# (a bare `claude` in some directory) say so rather than guessing, because a
+# confidently wrong lane is worse than an unknown one.
+# Renumbered 2026-07-30 from B/C/D/E to A/B/C/D. Scopes unchanged; the old Lane A
+# (concierge) was retired 2026-07-29 and left a hole at the front, so the letters
+# shifted down to close it. tools/lib/lanes.py owns the scheme and the cutover.
+_LANES = {
+    "A": "harness (~/claude-setup): rules, hooks, skills, schedulers, review fabric, "
+         "intake/routing surfaces (absorbed from the retired concierge lane).",
+    "B": "resume engine (~/Downloads/new-recruit): hiring machine, arms, applications.",
+    "C": "learning (daily-deep-learning): the PWA, learning cards, study loops.",
+    "D": "content & publishing: case ledgers, syndication; posting decisions stay "
+         "with the operator.",
+}
+_lane = (os.environ.get("CLAUDE_LANE") or "").strip().upper()
+if _lane in _LANES:
+    parts.append("LANE {}: {}\nA lane implements ONLY inside its charter. Cross-lane "
+                 "needs become a proposal row, never the other lane's work. Claim in "
+                 "state/claims.jsonl before starting (docs/charters.md)."
+                 .format(_lane, _LANES[_lane]))
+else:
+    parts.append("LANE: UNDECLARED. CLAUDE_LANE is not set, so this session has no "
+                 "charter. Do not infer one from the working directory: the desktop "
+                 "shortcut pins cwd regardless of the work. Name the lane before "
+                 "implementing, or open from a lane launcher.")
+
+# Memory is per-project. This used to hardcode the C--Users-shova tree, so every
+# session recalled the home tree regardless of which project it ran in: working
+# in new-recruit surfaced Gastown and Kith notes and never its own. Derive the
+# slug from the session cwd the way Claude Code names these directories, read
+# this project's index FIRST, then top up from home for cross-project notes.
+def _slug(p):
+    return p.replace(":", "-").replace("\\", "-").replace("/", "-")
+
+_proj_root = Path.home() / ".claude" / "projects"
+_cwd = payload.get("cwd") or os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
+_here = _proj_root / _slug(str(_cwd)) / "memory" / "MEMORY.md"
+_home = _proj_root / "C--Users-shova" / "memory" / "MEMORY.md"
+
+_sources = [p for p in (_here, _home) if p.exists()]
+_sources = list(dict.fromkeys(_sources))  # _here == _home when run from home
+
+_lines, _seen = [], set()
+for _mem in _sources:
+    for _l in _mem.read_text(errors="ignore").splitlines():
+        if _l.startswith("- [") and _l not in _seen:
+            _seen.add(_l)
+            _lines.append(_l)
+if _lines:
+    _label = "project + home" if len(_sources) > 1 else (
+        "project" if _sources and _sources[0] == _here else "home")
+    parts.append(f"Memory index ({_label}):\n"
+                 + "\n".join("  " + l for l in _lines[:12]))
 
 todo = osdir / "TODO.md"
 if todo.exists():
@@ -49,6 +100,38 @@ if todo.exists():
                   if l.strip().startswith("- [ ]")][:6]
     if open_items:
         parts.append("Open OS work (next):\n" + "\n".join("  - " + i for i in open_items))
+
+# Open lessons. Added 2026-07-29 after measuring that this hook referenced the lessons
+# ledger zero times: 28 entries, 20 of them open, and nothing ever put one in front of a
+# session. A ledger nobody reads is a diary, not a reflex, and it fails the same way as
+# every other mechanism audited here, by existing and reporting nothing.
+#
+# The `class` field is injected rather than the lesson body, because class is the
+# transferable part: "an accountability field that is required but never verified"
+# generalises to the next accountability field, while the incident that produced it does
+# not. Six is a deliberate cap; a wall of history is the same as no history.
+lessons = osdir / "state" / "lessons.jsonl"
+try:
+    if lessons.exists():
+        _open = []
+        for _line in lessons.read_text(encoding="utf-8", errors="ignore").splitlines():
+            _line = _line.strip()
+            if not _line:
+                continue
+            try:
+                _row = json.loads(_line)
+            except Exception:
+                continue
+            if _row.get("status") == "open" and _row.get("class"):
+                _open.append((_row.get("id", "?"), _row["class"]))
+        if _open:
+            parts.append(
+                "Mistakes this system has already made (open lessons, newest last). "
+                "These are failure CLASSES, not incidents: check whether the thing you "
+                "are about to build repeats one.\n"
+                + "\n".join(f"  {i}: {c[:150]}" for i, c in _open[-6:]))
+except Exception:
+    pass
 
 rp = Path.home() / ".claude" / "cache" / "resume-prompt.md"
 try:
@@ -60,7 +143,8 @@ except Exception:
 
 parts.append(
     "BOOT PATH (ADR-0010, read before acting): docs/SESSION-BOOT.md -> docs/charters.md "
-    "(NAME YOUR LANE: A concierge / B setup / C resume / D learning; claim work in "
+    "(NAME YOUR LANE: B setup / C resume / D learning / E content — A retired "
+    "2026-07-29; claim work in "
     "state/claims.jsonl before starting). If this session follows a compact, restate the "
     "durable handoff: goal, phase, lane, decisions, evidence, changed files, next action; "
     f"ground truth is on disk, last snapshot in state/compact-log.md.\n"

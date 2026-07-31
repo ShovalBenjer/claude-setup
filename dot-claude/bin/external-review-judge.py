@@ -26,7 +26,14 @@ from pathlib import Path
 from typing import Any
 
 
-CODEX_MODEL = "gpt-5.6-sol"
+# Measured 2026-07-31: this harness had never produced a finding, because it named
+# `gpt-5.6-sol`, and a ChatGPT-account Codex login rejects that model outright with
+# HTTP 400 "not supported when using Codex with a ChatGPT account". `status` reported
+# installed=true and chatgpt_auth=true the whole time, so the actor read as ready and
+# every actual review died at the API. Readiness that does not check the model is not
+# readiness. `gpt-5.6-terra` is what codex-cli 0.146.0 selects by default under this
+# login and is confirmed to answer. Overridable so a tier change is a config edit.
+CODEX_MODEL = os.environ.get("CODEX_REVIEW_MODEL") or "gpt-5.6-terra"
 GEMINI_MODEL = "gemini-3.6-flash"
 MAX_BUNDLE_BYTES = 300_000
 MAX_UNTRACKED_FILES = 100

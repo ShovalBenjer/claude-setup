@@ -6,6 +6,8 @@ import os
 import random
 import sqlite3
 import sys
+from collections.abc import Iterator
+from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any, cast
@@ -71,19 +73,128 @@ ILLEGAL_TRANSITIONS = {
 
 
 
+@contextmanager
+def _ledger_lock(ledger: Path) -> Iterator[None]:
+    """Hold an exclusive advisory lock for the duration of one ledger append.
+
+    This is not belt-and-braces around an already-atomic append. It was added because
+    the append is NOT atomic on this platform, which was measured rather than assumed:
+    24 threads each appending one line through `open(path, "ab")` produced 18 lines on
+    disk and a file 246 bytes shorter than the bytes handed to `write`. Six rows were
+    destroyed, not misfiled. The Windows CRT implements `_O_APPEND` as a seek-to-end
+    followed by a write, and the two are separable, so a second writer that seeks in
+    between lands on the same offset and overwrites.
+
+    POSIX `O_APPEND` really is atomic, so there the lock only serialises the offset
+    accounting. Both platforms pay one uncontended lock per prompt, which is nothing
+    next to losing a prompt.
+
+    The lock lives on a sidecar file rather than on the ledger itself. `msvcrt.locking`
+    locks a byte range starting at the current file position, and the ledger handle's
+    position is owned by the append; sharing one handle between the lock and the write
+    would couple two things that must not move together.
+    """
+    lock_path = ledger.with_name(ledger.name + ".lock")
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    # `sys.platform`, not `os.name`: mypy narrows on the former and type-checks each
+    # branch against the right stdlib stubs. With `os.name` it checks both branches on
+    # both platforms and reports fcntl.flock as missing on Windows, which is true and
+    # irrelevant, and the usual response to that noise is a blanket ignore that also
+    # hides real errors.
+    fd = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o600)
+    try:
+        if sys.platform == "win32":
+            import msvcrt
+
+            while True:
+                os.lseek(fd, 0, os.SEEK_SET)
+                try:
+                    # LK_LOCK blocks, but gives up after 10 retries at 1s. A prompt is
+                    # worth more than 10 seconds of patience, so keep asking.
+                    msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
+                    break
+                except OSError:
+                    continue
+        else:
+            import fcntl
+
+            fcntl.flock(fd, fcntl.LOCK_EX)
+        yield
+    finally:
+        try:
+            if sys.platform == "win32":
+                import msvcrt
+
+                os.lseek(fd, 0, os.SEEK_SET)
+                msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
+
+
 def ledger_append(base_dir: Path, event: dict[str, Any]) -> str:
+    """Append one event and return `<ledger path>:<byte offset of this row>`.
+
+    The offset replaces a line number, for two reasons that are really one reason.
+
+    Counting lines read the entire file on every append, so capturing N prompts cost
+    O(N^2) bytes read. A 587-row backfill would have paid that in full.
+
+    Worse, the count was a read-then-write with a gap in the middle. Two writers each
+    counted N and each returned N+1, so two events cited one location and at least one
+    citation was false. The fix is not a lock: it is to stop predicting where the row
+    will land and instead measure where it did. `O_APPEND` puts our bytes at the end
+    atomically no matter who else wrote meanwhile, and `tell()` afterwards reports the
+    end of OUR write, so subtracting our own byte length yields our own true start.
+    Another writer's row can land before ours or after it, and neither moves us.
+
+    Binary mode is not incidental. Text mode on Windows rewrites `\\n` as `\\r\\n`, so a
+    byte offset computed against a text handle drifts by one byte per preceding row,
+    and the encoded length of a non-ASCII prompt differs from its length in characters
+    on every platform. Both are silent, and both make the citation point into the
+    middle of a row rather than at its start.
+    """
     ledger = base_paths(base_dir)["ledger"]
-    line_no = 1
-    if ledger.exists():
-        with ledger.open("r", encoding="utf-8") as handle:
-            line_no = sum(1 for _ in handle) + 1
-    with ledger.open("a", encoding="utf-8") as handle:
-        handle.write(json.dumps(event, sort_keys=True) + "\n")
-    return f"{ledger}:{line_no}"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    payload = (json.dumps(event, sort_keys=True) + "\n").encode("utf-8")
+    with _ledger_lock(ledger), ledger.open("ab") as handle:
+        handle.write(payload)
+        handle.flush()
+        end = handle.tell()
+    return f"{ledger}:{end - len(payload)}"
+
+
+def _parse_metadata(raw: str | None) -> dict[str, Any]:
+    """Decode `--metadata`, rejecting anything that is not a JSON object.
+
+    The previous code hardcoded `{}` in the event dict and the literal string `"{}"` in
+    the insert. That one literal is what blocked every per-turn field the trace model
+    needs: the vendor prompt id, the transcript message uuid, the causal parents, the
+    text hash, the per-session sequence number.
+
+    A malformed value fails loudly here rather than being stored as a quoted string. A
+    metadata column holding `"{not json"` is worse than an empty one, because a reader
+    cannot tell a corrupt row from a row that legitimately carries a string.
+    """
+    if raw is None or raw == "":
+        return {}
+    try:
+        parsed = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"capture: --metadata is not valid JSON: {exc}") from exc
+    if not isinstance(parsed, dict):
+        raise SystemExit(
+            f"capture: --metadata must be a JSON object, got {type(parsed).__name__}"
+        )
+    return parsed
 
 
 def capture(args: argparse.Namespace) -> dict[str, Any]:
     initialize(args.base_dir)
+    metadata = _parse_metadata(getattr(args, "metadata", None))
     model_text, redaction_state = redact(args.text)
     event_id = stable_id("evt")
     event = {
@@ -99,7 +210,7 @@ def capture(args: argparse.Namespace) -> dict[str, Any]:
         "raw_text": args.text,
         "redaction_state": redaction_state,
         "authority": args.authority,
-        "metadata": {},
+        "metadata": metadata,
     }
     raw_text_ref = ledger_append(args.base_dir, event)
     with connect(args.base_dir) as conn:
@@ -125,7 +236,7 @@ def capture(args: argparse.Namespace) -> dict[str, Any]:
                 model_text,
                 redaction_state,
                 args.authority,
-                "{}",
+                json.dumps(metadata, sort_keys=True),
             ),
         )
         conn.commit()
@@ -1069,6 +1180,11 @@ def build_parser() -> argparse.ArgumentParser:
     capture_parser.add_argument("--actor", default="shoval")
     capture_parser.add_argument("--authority", default="raw_user_prompt")
     capture_parser.add_argument("--text", required=True)
+    capture_parser.add_argument(
+        "--metadata",
+        help="JSON object stored on the event: prompt_id, message_uuid, parents, "
+             "text_sha, seq, cwd. Must decode to an object.",
+    )
     capture_parser.set_defaults(func=capture)
 
     extract_parser = subparsers.add_parser("extract")

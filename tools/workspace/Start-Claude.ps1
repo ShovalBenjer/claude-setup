@@ -13,8 +13,9 @@
 
   Two levels, in this order:
 
-    GLOBAL   one of the four charter lanes (A concierge, B harness,
-             C resume engine, D learning). Lane is declared, cwd follows.
+    GLOBAL   one of the four charter lanes (B harness, C resume engine,
+             D learning, E content; A retired 2026-07-29). Lane is declared,
+             cwd follows.
     PROJECT  an existing repo, or a new one scaffolded on the spot.
 
   Whatever is chosen, CLAUDE_LANE is exported before claude starts, so
@@ -27,7 +28,7 @@ param(
     # '' is in the set because -File binds every declared parameter, so an unpassed
     # [string] arrives as empty and would otherwise fail ValidateSet before the
     # script body runs. An empty lane means undeclared, which is a real state here.
-    [ValidateSet('A', 'B', 'C', 'D', '')] [string] $Lane,
+    [ValidateSet('B', 'C', 'D', 'E', '')] [string] $Lane,
     [string] $Path,
     [switch] $NoLaunch          # print the resolved choice and exit; for testing
 )
@@ -36,14 +37,14 @@ $ErrorActionPreference = 'Stop'
 $Home_ = [Environment]::GetFolderPath('UserProfile')
 
 $Lanes = [ordered]@{
-    A = @{ Dir = Join-Path $Home_ 'claude-setup'
-           Desc = 'concierge: intake, routing, notifications. NEVER implements' }
     B = @{ Dir = Join-Path $Home_ 'claude-setup'
            Desc = 'harness: rules, hooks, skills, schedulers, review fabric' }
     C = @{ Dir = Join-Path $Home_ 'Downloads\new-recruit'
            Desc = 'resume engine: hiring machine, arms, applications' }
     D = @{ Dir = Join-Path $Home_ 'Downloads\daily-deep-learning'
            Desc = 'learning: the PWA, learning cards, study loops' }
+    E = @{ Dir = Join-Path $Home_ 'Downloads\daily-deep-learning'
+           Desc = 'content & publishing: case ledgers, syndication; operator posts' }
 }
 
 # Where a project may live. Bounded on purpose: an unbounded scan of the home

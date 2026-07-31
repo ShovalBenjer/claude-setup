@@ -234,8 +234,14 @@ def chat(prompt: str, *, model: str | None = None, system: str | None = None,
 
         if status == 200:
             choices = data.get("choices") or []
-            text = (choices[0].get("message", {}).get("content", "")
-                    if choices else "")
+            # `.get("content", "")` is not enough: a reasoning model returns the key
+            # PRESENT and set to null, so the default never fires and None escapes
+            # into every caller. Measured 2026-07-31 with z-ai/glm-4.7-flash, which
+            # crashed extract_json's re.search with "expected string or bytes-like
+            # object, got 'NoneType'". Some reasoning models put the answer in
+            # `reasoning` instead, so fall back to it before giving up.
+            message = (choices[0].get("message") or {}) if choices else {}
+            text = message.get("content") or message.get("reasoning") or ""
             return {"model": data.get("model", attempt_model), "text": text,
                     "usage": usage, "elapsed_s": elapsed, "id": data.get("id"),
                     "tried": tried}

@@ -80,10 +80,15 @@ MUTATIONS = [
      '        if unchained and a.strict:',
      '        if unchained and False:'),
 
+    # Re-aimed 2026-07-29 when canonical() gained the self-describing path and the
+    # loop began reading `fields` rather than CHAIN_FIELDS directly. The old
+    # pattern stopped matching, which mutate.py reported as "pattern did not
+    # match; NOT applied". That is the quiet way a mutation dies: still listed,
+    # never applied, and counted by nobody.
     ("canonical stops omitting absent keys",
-     "adding a CHAIN_FIELD silently rehashes every older row",
-     'payload = {k: rec[k] for k in CHAIN_FIELDS if k in rec}',
-     'payload = {k: rec.get(k, "") for k in CHAIN_FIELDS}'),
+     "adding a covered field silently rehashes every older row",
+     'payload = {k: rec[k] for k in fields if k in rec}',
+     'payload = {k: rec.get(k, "") for k in fields}'),
 
     ("canonical stops sorting keys",
      "a row hashes differently depending on how it was serialized",
@@ -109,4 +114,34 @@ MUTATIONS = [
      "content is checked but deletion and reordering become invisible",
      'elif prev_id is not None and r.get("prev", "") != prev_id:',
      'elif False:'),
+
+    ("canonical ignores a row's declared coverage",
+     "a self-describing row falls back to CHAIN_FIELDS, so a prompt ticket "
+     "commits to id, ts and prev only and every content field goes uncovered",
+     'declared = rec.get("chain_fields")',
+     'declared = None'),
+
+    ("the declaration is left out of what it covers",
+     "coverage can then be narrowed after the fact without moving the digest, "
+     "so dropping a field from chain_fields un-covers it and the row still verifies",
+     'fields = (*declared, "chain_fields")',
+     'fields = tuple(declared)'),
+
+    ("a declared field is covered only when CHAIN_FIELDS also names it",
+     "the intersection bug this path exists to remove, reintroduced as a filter",
+     'payload = {k: rec[k] for k in fields if k in rec}',
+     'payload = {k: rec[k] for k in fields if k in rec and k in CHAIN_FIELDS}'),
+
+    ("append_row stops taking the lock",
+     "the state this module shipped in until 2026-07-29: concurrent appends "
+     "overwrite each other and destroy whole rows, and read_all's torn-line "
+     "skip means the loss leaves nothing on disk to find",
+     '    with file_lock(BUS):',
+     '    if True:'),
+
+    ("the lock is released before the write instead of after",
+     "the window shrinks but does not close, which is the shape of a fix that "
+     "makes a race rare enough to stop reproducing and not rare enough to be gone",
+     'with file_lock(BUS):\n        try:',
+     'with file_lock(BUS):\n        pass\n    if True:\n        try:'),
 ]

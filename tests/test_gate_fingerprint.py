@@ -43,6 +43,8 @@ def repo(tmp_path):
     state = tmp_path / "state"
     state.mkdir()
     (state / "gate-runs.jsonl").write_text('{"verdict": "PASS"}\n', encoding="utf-8")
+    (state / "prompt-tickets.jsonl").write_text('{"ticket": "t0"}\n', encoding="utf-8")
+    (state / "skill-use.jsonl").write_text('{"skill": "s0"}\n', encoding="utf-8")
     _run(["git", "add", "-A"], tmp_path)
     _run(["git", "commit", "-qm", "initial"], tmp_path)
     return tmp_path
@@ -79,6 +81,65 @@ class TestGateOutputIsNotHashed:
         (reviews / "deadbeef.json").write_text('{"verdict": "approve"}\n',
                                                encoding="utf-8")
         assert fp(repo) == before
+
+
+class TestHarnessPerTurnOutputIsNotHashed:
+    """The same defect by a second route, measured 2026-07-30.
+
+    state/prompt-tickets.jsonl is tracked on purpose and the UserPromptSubmit hook
+    appends to it once per operator turn. Four consecutive turns of one session
+    produced four fingerprints (76378e5f, 05fdfc73, b10cfce6, 9f0ccd38) with a green
+    run recorded against each and the Stop boundary rejecting all four, while
+    nothing in the repository changed between the second and third. Continuing a
+    conversation is not a change to the tree being gated.
+    """
+
+    def test_appending_a_prompt_ticket_does_not_move_the_fingerprint(self, repo):
+        before = fp(repo)
+        led = repo / "state" / "prompt-tickets.jsonl"
+        led.write_text(led.read_text(encoding="utf-8") + '{"ticket": "t1"}\n',
+                       encoding="utf-8")
+        assert fp(repo) == before
+
+    def test_a_turn_of_conversation_alone_leaves_the_verdict_valid(self, repo):
+        """The end-to-end shape of the bug: gate, then one more turn, then check."""
+        recorded = fp(repo)
+        led = repo / "state" / "prompt-tickets.jsonl"
+        for i in range(3):
+            led.write_text(led.read_text(encoding="utf-8") + '{"t": %d}\n' % i,
+                           encoding="utf-8")
+        assert fp(repo) == recorded, "a passing run must survive the next prompt"
+
+    def test_the_skill_use_ledger_is_exempt_too(self, repo):
+        """Second instance of the same defect, found 2026-07-30 an hour after the first.
+
+        state/skill-use.jsonl is tracked and the live PostToolUse hook
+        skill-usage-log.sh appends to it once per TOOL CALL, so it moves the
+        fingerprint faster than the per-turn ticket ledger does. One exempt path was a
+        fix for one file; two make it a class, and the class is 'a tracked ledger the
+        harness writes on its own schedule'.
+        """
+        before = fp(repo)
+        led = repo / "state" / "skill-use.jsonl"
+        for i in range(4):
+            led.write_text(led.read_text(encoding="utf-8") + '{"n": %d}\n' % i,
+                           encoding="utf-8")
+        assert fp(repo) == before
+
+    def test_both_harness_ledgers_moving_together_still_leaves_it_stable(self, repo):
+        before = fp(repo)
+        for name, key in (("prompt-tickets.jsonl", "t"), ("skill-use.jsonl", "s")):
+            led = repo / "state" / name
+            led.write_text(led.read_text(encoding="utf-8") + '{"%s": 1}\n' % key,
+                           encoding="utf-8")
+        assert fp(repo) == before
+
+    def test_the_exemption_is_the_exact_path_and_not_its_neighbours(self, repo):
+        """Guard against the exemption widening into all of state/ by accident."""
+        before = fp(repo)
+        (repo / "state" / "prompt-tickets-archive.jsonl").write_text(
+            '{"ticket": "old"}\n', encoding="utf-8")
+        assert fp(repo) != before
 
 
 class TestRealChangesStillMoveTheFingerprint:

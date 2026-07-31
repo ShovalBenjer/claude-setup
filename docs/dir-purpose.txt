@@ -16,8 +16,10 @@ docs | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-
 docs/adr | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate
 docs/analysis | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes
 docs/analysis/reference | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conventions
-docs/reflections | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit
 docs/prd | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system)
+docs/prior-art | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempted and why
+docs/reflections | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit
+docs/standards | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020)
 docs/specs | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm
 dot-agents | Holds the agent skills tree (dot-agents/skills); a vendored copy of the .claude-style skills directory kept under a different top-level name
 dot-agents/skills | Library of individually-invocable Claude Code skill packages (SKILL.md plus scripts/references/templates each), one subdirectory per skill, read by Claude when a skill name or trigger matches
@@ -144,6 +146,7 @@ research-papers/el-vadt/sales-agents-summary/prompts/conversation-scripts | Scen
 research-papers/el-vadt/specify-memory | Holds only the memory/ subdirectory, which documents itself with its own README.md; this folder itself carries no files of its own beyond that child
 startup-scripts | Per-project bootstrap scripts and prompts (MCP env, kilocode, security setup) for campaign-analysis, qc-telephony, siu, vision projects
 state | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log
+state/backups | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project 3) field schema and every item field value, captured 2026-07-31 before the Lane retype and the Evidence field replacement
 state/retired-2026-07-25 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled from ~/.claude
 state/retired-2026-07-25/bin | Retired 2026-07-25 meme/visual scripts (download/play memes, generate/pop visual, seed-meme-vectordb), pulled from the live bin/ tree
 state/retired-2026-07-25/config | Retired 2026-07-25 memes.json, the config for the removed meme-control feature
@@ -153,6 +156,8 @@ state/reviews | Generated cache of 2 PR-review result JSONs keyed by commit SHA,
 state/snapshots | Tracked manifests (path+size+sha256) of point-in-time ~/.claude captures; actual file bytes stay untracked per its .gitignore
 state/snapshots/20260725T110903Z-pre-bus-wiring | One snapshot: manifest of ~/.claude taken 2026-07-25T11:09 UTC, labeled pre-bus-wiring, for drift diffing before that change
 tests | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills)
+tests/cmd | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process selftests never execute
+tests/cmd/fixtures | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it
 tools | Holds this repo's operational tooling: top-level scripts (repo audit, token rollout, slop lint) plus one subdirectory per verification, automation, or coordination tool
 tools/audit | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs from mutations/
 tools/audit/mutations | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red
@@ -160,17 +165,23 @@ tools/browser | Hand-rolled Chrome DevTools Protocol client that launches a sepa
 tools/bus | Cross-terminal message bus (bus.py): append-only hash-chained JSONL with per-lane read cursors so parallel Claude Code sessions in different terminals can send each other durable messages
 tools/digest | Builds the daily digest (push line plus digest.md) from TODO, git, and branch-health state for a cron job to send via PushNotification; out/ holds the generated digest.md and push.txt
 tools/digest/out | Generated daily-digest output (digest.md TODO/lessons rollup, push.txt); written by the digest tool, not source
+tools/docmap | Generated document map: classifies all 929 tracked markdown files, derives each one's lifecycle status from its class or its own header, and records which lane-letter scheme (pre or post ADR-0016) it was written under. docs/doc-status.txt holds only the residue that cannot be derived
 tools/e2e | Real-browser end-to-end flow auditor (flow.py) that drives tools/browser/cdp.py at phone size, presses every control on every route, and feeds the ship gate's e2e and a11y_ux domains
 tools/gate | Ship-gate contract enforcer (gate.py: coverage checklist plus a run ledger) and enforce_selftest.py, proving the live deployed Stop hook actually blocks an ungated done-claim
+tools/ghpub | Publishes state/github-backlog-*.json to GitHub milestones, labels, issues and a project board. Idempotent by issue title so a re-run is safe and a partial failure resumes rather than restarts; dry-run by default, --execute to write
 tools/graph | Repo graphing: blast_radius.py finds a changed file's transitive import blast radius for PR-review fanout, repo_graph.py builds a cross-repo portfolio graph via gh; out/ holds generated db/diagram
 tools/graph/out | Generated repo-portfolio graph output: portfolio.d2 diagram source plus a portfolio.db sqlite file, built by the graph tool
 tools/health | Read-only git branch health sweep (branch_sweep.py) across GitHub source repos via gh, classifying branches merged/stale/active; out/ holds the generated branch_health.json and .md
 tools/health/out | Generated branch-health report (JSON+markdown) listing merged-deletable and default-branch-drifted branches across 22 repos
+tools/hookgate/src | Rust source for the compiled PreToolUse gate. rules.rs is GENERATED by regen_rules.py from safety_gate.py::RULES and must never be hand-edited; main.rs carries the literal prescan and the push delegation to pre_push_gate.py
 tools/lib | Shared library other tools import: envload.py finds API keys in .env case-insensitively without printing them, quota.py enforces daily/per-minute API ceilings via an append-only ledger
 tools/local | Runs a local qwen2.5:1.5b Ollama classifier to cheaply triage a request's route and risk before escalating to Claude, logging each decision to the flywheel jsonl for later router training
+tools/map | codemap.py, the directory-purpose registry checker and docs/CODEBASE-MAP.md generator; check fails on an undocumented dir, a row beside a self-documenting dir, or a row whose dir is gone
 tools/memory | Writes a research or web finding into a durable typed memory card under the auto-memory dir and appends a pointer to MEMORY.md, so findings survive past session end
 tools/nvidia | NVIDIA NIM preview-endpoint client (nim.py): a second free second-opinion vendor pool beside tools/openrouter, hosted inference only (logprobs at most, never weights or activations), with local-policy quota via tools/lib
 tools/openrouter | OpenRouter HTTP client used as a zero-cost second-opinion model since codex is not installed here, with live free-model discovery and local quota enforcement via tools/lib
+tools/recall | Reconstructs a session from its transcript on disk: operator turns in full, assistant turns truncated to their first N lines, harness chatter filtered out. Exists because Claude's internal compaction replaces the thread with a model-written summary that drops the operator's exact words, and every correction in a session turns on those words. state/prompt-tickets.jsonl cannot substitute: it stores text_sha and no prompt text
+tools/reclaim | Executes a verified reclamation plan (archive/delete) for the 2026-07-30 filesystem reorganization. Dry-run by default; re-runs each row's invariants immediately before acting and writes the manifest row before the action, never after
 tools/refute | CLI refutation engine that runs each claim's verifier command from state/claims-verify.jsonl and reports HELD/REFUTED/BROKEN, so no claim is asserted without an executable falsifier
 tools/refute/checks | Verifier scripts refute.py invokes per claim: hook wiring/existence/execution, persona front-matter validity, config drift, hiring-ledger rows, and a meta-check that siblings fail closed
 tools/review | Runs a deterministic (plus optional opt-in OpenRouter) persona review over a git diff's added lines and writes the verdict artifact tools/gate/gate.py reads before merge
@@ -178,6 +189,7 @@ tools/selfimprove | scan.py reads real signals (open TODOs, git drift, hook heal
 tools/skilleval | run.py grades each skill's own routing-eval fixtures for whether its description text separates trigger from non-trigger prompts, flagging skills with no fixtures as UNCOVERED for CI
 tools/snapshot | snap.py takes, lists, diffs and restores point-in-time backups of the live ~/.claude tree, splitting gitignored content from a git-tracked manifest and hashing out secret-looking files
 tools/transcribe | scribe.py, a stdlib ElevenLabs Scribe client for local meeting audio; resolves the key through tools/lib/envload so it never reaches a command line, hand-builds the multipart body to avoid a dependency, and skips any file whose transcript already exists so a rerun does not re-spend
+tools/trycmd | Literate CLI snapshot test runner: a stdlib-Python port of the Rust `trycmd` v1.2.1 grammar and the `snapbox` v0.6.21 line matcher. Executes the `$ command` blocks in tests/cmd/*.trycmd and compares merged stdout+stderr and exit code, with [..] and ... wildcards and an `overwrite` update mode
 tools/whatsapp | CDP scripts (cdp_driver.py plus wa_* callers) that drive the WhatsApp Web tab read-only via simulated clicks to list archived chats, probe search, and read one group's message history
 tools/workspace | Operator-workspace tooling: the lane chooser and the launchers/taskbar pin that reach it (Start-Claude.ps1, make_lane_launchers.py, repoint_taskbar_pin.ps1) with mutate_launcher_check.py proving their test can fail, plus one-off scripts that repair public repositories and measure real per-repo activity
 work-docs/adr | Architecture decision records; currently one accepted ADR (2026-07-10) on unifying the multi-repo platform standard
@@ -203,5 +215,3 @@ work-docs/root-cleanup-2026-05-28/data | Retired: raw data swept in the same 202
 work-docs/specs | Source-of-truth engineering specs and implementation-delta plans, dated 2026-04-15 through 2026-07-09
 work-docs/wiki | Mirrors an Azure DevOps wiki for a customer-support automation product: architecture, compliance, deployment, FAQ pages
 work-docs/wiki-drafts | One draft wiki page not yet merged into the published wiki, dated 2026-06-30; the drafting lane is thin so far
-docs/prior-art | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempted and why
-tools/map | codemap.py, the directory-purpose registry checker and docs/CODEBASE-MAP.md generator; check fails on an undocumented dir, a row beside a self-documenting dir, or a row whose dir is gone

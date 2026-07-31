@@ -21,6 +21,26 @@ BANNED_PHRASES = [
 DASH = re.compile(r" [—–] ")                       # em/en dash as connector (Shoval rule)
 RULE_OF_THREE = re.compile(r"\b(\w+), (\w+),? and (\w+)\b")  # heuristic; reported as soft
 
+# Ritual acknowledgement, added 2026-07-30. Kept byte-identical to the copies in
+# dot-claude/hooks/completion_gate.py so the file channel and the response channel
+# cannot correct the operator differently. tests/test_completion_gate.py pins the pair.
+RITUAL = re.compile(
+    r"(?i)(?:"
+    r"\byou(?:'re| are|r)\s+(?:absolutely\s+|completely\s+|totally\s+|quite\s+|so\s+)?"
+    r"(?:right|correct)\b"
+    r"|\bthat'?s\s+(?:absolutely\s+|completely\s+)?(?:right|correct|fair|a fair point)\b"
+    r"|\b(?:good|great|fair|excellent|nice)\s+(?:catch|point|call|question|spot)\b"
+    r"|\bmy apolog(?:y|ies)\b|\bi apologi[sz]e\b"
+    r"|\b(?:thanks|thank you)\s+for\s+(?:the\s+)?(?:catch|correction|pointing|flagging)"
+    r")"
+)
+# Anchored to line start so "perfect for this" survives and "Perfect." does not.
+RITUAL_OPENER = re.compile(
+    r"^\s*(?:Perfect|Great|Excellent|Amazing|Wonderful|Fantastic|Awesome|Brilliant|"
+    r"Absolutely|Certainly|Indeed|Nice|Exactly|Spot on|Good news)\b[\s!.,:;]",
+    re.MULTILINE,
+)
+
 
 def scan(text):
     hits = []
@@ -29,6 +49,9 @@ def scan(text):
             hits.append(("phrase", m.group(0), text[:m.start()].count("\n") + 1))
     for m in DASH.finditer(text):
         hits.append(("em/en-dash", m.group(0).strip(), text[:m.start()].count("\n") + 1))
+    for pat in (RITUAL, RITUAL_OPENER):
+        for m in pat.finditer(text):
+            hits.append(("ritual", m.group(0).strip(), text[:m.start()].count("\n") + 1))
     return hits
 
 

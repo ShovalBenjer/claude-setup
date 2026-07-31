@@ -43,15 +43,24 @@ WT = HOME / "AppData" / "Local" / "Microsoft" / "WindowsApps" / "wt.exe"
 
 # (lane, label, working dir, one-line charter scope)
 LANES = [
-    ("B", "Claude B - harness", HOME / "claude-setup",
+    ("A", "Claude A - harness", HOME / "claude-setup",
      "rules, hooks, skills, schedulers, review fabric, a2a bridges, autonomy rails"),
-    ("C", "Claude C - resume engine", HOME / "Downloads" / "new-recruit",
+    ("B", "Claude B - resume engine", HOME / "Downloads" / "new-recruit",
      "hiring machine, arms, applications, job scans"),
-    ("D", "Claude D - learning", HOME / "Downloads" / "daily-deep-learning",
+    ("C", "Claude C - learning", HOME / "Downloads" / "daily-deep-learning",
      "the PWA, learning cards, study loops"),
-    ("A", "Claude A - concierge", HOME / "claude-setup",
-     "intent intake, routing, notifications. NEVER implements"),
+    ("D", "Claude D - content", HOME / "Downloads" / "daily-deep-learning",
+     "case ledgers, syndication; posting decisions stay with the operator"),
 ]
+# Renumbered 2026-07-30 from B/C/D/E to A/B/C/D (operator decision). The old Lane A
+# was the concierge lane, retired 2026-07-29 having never been used once, and its
+# intake/routing scope folded into the harness lane. That left the live set starting
+# at B with a hole at the front, so the letters were shifted down to close it. No
+# charter's scope changed in the renumber. tools/lib/lanes.py owns the scheme and is
+# the only correct way to read a lane letter out of a pre-cutover ledger row, because
+# the letters collide across the boundary. The desktop .lnk files are REGENERATED
+# from this list, so the labels above are what the operator will actually see, and a
+# stale shortcut naming an old letter is the drift this comment exists to flag.
 
 
 def plan() -> list[dict]:

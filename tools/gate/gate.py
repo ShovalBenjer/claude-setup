@@ -119,21 +119,88 @@ def git(args: str, cwd: str) -> str:
     return out.strip() if rc == 0 else ""
 
 
+# Paths this gate WRITES while running. They are its output, never the change
+# being gated, and hashing them makes the gate unable to pass at the Stop
+# boundary: `gate.py run` records a fingerprint and then appends its verdict to
+# state/gate-runs.jsonl, which is tracked here, so the recorded fingerprint no
+# longer describes the tree the run left behind. Measured 2026-07-27 on this
+# repository: one appended ledger row moved the fingerprint from 5dad68ca to
+# 62951e50, so no run could ever match the tree it produced, green or not.
+#
+# state/reviews/ is here for the same reason one level out: the review domain
+# shells out to panel.py, which writes state/reviews/<sha>.json. That file
+# arrives untracked, so it entered the fingerprint through `git status` rather
+# than through the diff, by a different route to the same effect.
+#
+# Nothing else belongs in this tuple. Every other path under state/ is ordinary
+# content, and a change to it is a change to the tree. tests/test_gate_
+# fingerprint.py asserts both halves: appends here are invisible, and edits
+# anywhere else, tracked or untracked, still move the fingerprint.
+GATE_OUTPUTS = ("state/gate-runs.jsonl", "state/reviews/")
+
+# A SECOND class, kept separate because the reason is different and collapsing the
+# two would lose it. These are not written by the gate. They are written by the
+# harness on a schedule the gated change does not control: the UserPromptSubmit
+# hook appends one row to state/prompt-tickets.jsonl for every operator turn, and
+# that file is tracked on purpose (content-covered hashes, no prompt text in git),
+# so it sits inside the fingerprint and moves it whenever the conversation
+# continues.
+#
+# Measured 2026-07-30 across four consecutive turns of one session, each with a
+# fully green run recorded against it: 76378e5f, 05fdfc73, b10cfce6, 9f0ccd38.
+# Nothing in the repository changed between the second and third. The gate passed
+# every time and the Stop boundary rejected every pass, which is the same
+# unsatisfiable-check defect GATE_OUTPUTS above was written to fix, arriving by a
+# different route. TODO.md records the same class fixed once already for
+# state/handback-log.jsonl, there by untracking it. Untracking is wrong here: the
+# ticket ledger is audit evidence and is meant to be in git.
+#
+# The distinction that keeps this from becoming a blanket state/ exemption: a path
+# belongs here only if a turn of conversation alone can change it. An edit any
+# agent or operator makes to content is still a change to the tree, including
+# under state/.
+#
+# Found the same way twice on 2026-07-30: the ticket ledger first, then
+# state/skill-use.jsonl, written by the live PostToolUse hook skill-usage-log.sh once
+# per tool call, which moves the fingerprint faster than the ticket ledger does. The
+# reproducible way to find the rest, rather than waiting for each one to block a turn:
+#
+#   git ls-files -z state/ | (report mtimes)     # tracked ledgers touched this turn
+#   grep -rn "state/" ~/.claude/hooks/*.sh *.py  # what the live hooks write
+#
+# state/hook-fires.log is written by three hooks and is correctly gitignored, so it
+# never enters the fingerprint and needs no entry here.
+HARNESS_OUTPUTS = (
+    "state/prompt-tickets.jsonl",
+    "state/skill-use.jsonl",
+)
+
+_EXCLUDE = " ".join('":(exclude){}"'.format(p)
+                    for p in GATE_OUTPUTS + HARNESS_OUTPUTS)
+
+
 def tree_fingerprint(cwd: str) -> tuple[str, bool, str]:
     """Commit, dirty flag, and a hash of the working tree's tracked content.
 
     The fingerprint is what makes a green run non-reusable. Without it an agent
     can pass the gate, make three more edits, and cite the earlier pass; the
     fingerprint changes the moment the tree does, so the Stop hook can tell.
+
+    It covers the gate's INPUTS only. See GATE_OUTPUTS above for why, and for
+    the one way this can go wrong: an over-broad exclusion buys a satisfiable
+    gate by going blind, which is the same defect wearing the opposite sign.
     """
     sha = git("rev-parse HEAD", cwd) or "no-commit"
-    status = git("status --porcelain", cwd)
-    dirty = bool(status.strip())
+    # `dirty` keeps reporting the whole tree. It is shown to a human, not
+    # matched against anything, and hiding the gate's own writes from it would
+    # make a tree with uncommitted output read as clean.
+    dirty = bool(git("status --porcelain", cwd).strip())
+    status = git("status --porcelain -- . " + _EXCLUDE, cwd)
     h = hashlib.sha256()
     h.update(sha.encode())
     # git diff of tracked files plus the names of untracked ones: enough to
     # notice any edit, cheap enough to run on every gate invocation.
-    h.update(git("diff HEAD", cwd).encode("utf-8", "replace"))
+    h.update(git("diff HEAD -- . " + _EXCLUDE, cwd).encode("utf-8", "replace"))
     h.update(status.encode("utf-8", "replace"))
     return sha, dirty, h.hexdigest()[:16]
 
@@ -1246,6 +1313,31 @@ def cmd_selftest(args: argparse.Namespace) -> int:
                 st, ev.replace("\n", " | ")[:300],
                 git("status --porcelain", td3).replace("\n", " | ")))
         rc |= 0 if ok else 1
+
+    # expired() decides whether a waiver is still live, and the docstring calls a
+    # permanent waiver "a disabled check with better manners". Until 2026-07-27 the
+    # only coverage was one whole-gate run with an obviously-past date, so mutation
+    # testing walked straight through the two cases that actually bite: a malformed
+    # date, and the boundary day itself.
+    def check(cond: bool, what: str, detail: str = "") -> None:
+        nonlocal rc
+        print("\n[{}] {}{}".format("ok  " if cond else "FAIL", what,
+                                   "" if cond else "  <- " + detail))
+        rc |= 0 if cond else 1
+
+    today = datetime.date.today()
+    check(expired((today - datetime.timedelta(days=1)).isoformat()),
+          "a waiver that ran out yesterday is expired")
+    check(not expired((today + datetime.timedelta(days=1)).isoformat()),
+          "a waiver good until tomorrow is live")
+    # The boundary is the day it matters: `until` is inclusive, so today is live.
+    check(not expired(today.isoformat()),
+          "a waiver expiring today is still live on the day itself")
+    # Fail CLOSED on garbage. If a malformed date read as live, the cheapest way to
+    # disable a domain forever would be to typo the date.
+    for bad in ("soon", "", "2026-13-45", "next tuesday", "2026/08/01"):
+        check(expired(bad),
+              "an unparseable until-date {!r} is treated as EXPIRED, not live".format(bad))
 
     print("\nVERDICT: {}".format(
         "gate refuses unconfigured and expired-waiver projects, and its scanner works"

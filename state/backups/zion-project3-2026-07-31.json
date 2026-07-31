@@ -1,0 +1,972 @@
+{
+ "dumped": "2026-07-30T23:26:37.816993+00:00",
+ "why": "pre-change snapshot of Zion project 3 field schema and every item field value, taken before any field retype or delete",
+ "fields": {
+  "fields": [
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzgkkYdg",
+    "name": "Title",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzgkkYdk",
+    "name": "Assignees",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTSSF_lAHOBTKVvM4At4WJzgkkYdo",
+    "name": "Status",
+    "options": [
+     {
+      "id": "f75ad846",
+      "name": "Todo"
+     },
+     {
+      "id": "47fc9ee4",
+      "name": "In Progress"
+     },
+     {
+      "id": "98236657",
+      "name": "Done"
+     }
+    ],
+    "type": "ProjectV2SingleSelectField"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzgkkYds",
+    "name": "Labels",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzgkkYdw",
+    "name": "Linked pull requests",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzgkkYd0",
+    "name": "Milestone",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzgkkYd4",
+    "name": "Repository",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzgkkYeE",
+    "name": "Reviewers",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzgkkYeI",
+    "name": "Parent issue",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzgkkYeM",
+    "name": "Sub-issues progress",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzhJvhQs",
+    "name": "Created",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzhJvhQ8",
+    "name": "Updated",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzhJvhRI",
+    "name": "Closed",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTSSF_lAHOBTKVvM4At4WJzhZTCrg",
+    "name": "Priority",
+    "options": [
+     {
+      "id": "e0aab20d",
+      "name": "P0"
+     },
+     {
+      "id": "c5072973",
+      "name": "P1"
+     },
+     {
+      "id": "d20a35a0",
+      "name": "P2"
+     },
+     {
+      "id": "8335e9f6",
+      "name": "P3"
+     }
+    ],
+    "type": "ProjectV2SingleSelectField"
+   },
+   {
+    "id": "PVTSSF_lAHOBTKVvM4At4WJzhZTCrk",
+    "name": "Ingestion",
+    "options": [
+     {
+      "id": "bfcc07cf",
+      "name": "S1 25min"
+     },
+     {
+      "id": "9581f648",
+      "name": "S2 45min"
+     },
+     {
+      "id": "549b647c",
+      "name": "S3 60min"
+     },
+     {
+      "id": "c5e09e2f",
+      "name": "S4 90min"
+     },
+     {
+      "id": "e7564c21",
+      "name": "S5 half-day"
+     },
+     {
+      "id": "95296a70",
+      "name": "S6 full-day"
+     }
+    ],
+    "type": "ProjectV2SingleSelectField"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzhZTCro",
+    "name": "Estimate (min)",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTSSF_lAHOBTKVvM4At4WJzhZTCtU",
+    "name": "Lane",
+    "options": [
+     {
+      "id": "1da3f54a",
+      "name": "B harness"
+     },
+     {
+      "id": "2afacf53",
+      "name": "C resume"
+     },
+     {
+      "id": "9e490094",
+      "name": "D learning"
+     },
+     {
+      "id": "9d5f7a9e",
+      "name": "E content"
+     }
+    ],
+    "type": "ProjectV2SingleSelectField"
+   },
+   {
+    "id": "PVTSSF_lAHOBTKVvM4At4WJzhZTCtY",
+    "name": "Autonomy",
+    "options": [
+     {
+      "id": "63b6feee",
+      "name": "operator-only"
+     },
+     {
+      "id": "cb95e745",
+      "name": "agent-drafts"
+     },
+     {
+      "id": "9d04e1d4",
+      "name": "agent-ships-behind-gate"
+     }
+    ],
+    "type": "ProjectV2SingleSelectField"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzhZTCtc",
+    "name": "Evidence",
+    "type": "ProjectV2Field"
+   },
+   {
+    "id": "PVTF_lAHOBTKVvM4At4WJzhZTCtg",
+    "name": "Target date",
+    "type": "ProjectV2Field"
+   }
+  ],
+  "totalCount": 20
+ },
+ "items": {
+  "items": [
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P0**  |  **Ingestion S2**  |  ~45 min\n\nThe gate must be able to fail, and its verdict must describe the tree it was recorded against. Two instances of the self-invalidating class were fixed on 2026-07-30; the rest of this epic is what is still unproven.\n\n## Tasks\n\n- [x] DONE 2026-07-30: HARNESS_OUTPUTS excludes state/prompt-tickets.jsonl and state/skill-use.jsonl from the tree fingerprint. Four fingerprints across four turns of one session (76378e5f, 05fdfc73, b10cfce6, 9f0ccd38) each had a green run rejected at the Stop boundary. Two mutants, 12 tests, round-trip verified identical before and after a run\n- [ ] Wire tools/docmap into the gate docs domain. It exists, checks clean on 929 documents, and nothing enforces it on future commits\n- [ ] Mutation control proving the docmap selftest can go red, so it meets the repo's own four-layer standard\n- [x] DONE 2026-07-31: closed by fixing the oracle, not renewing the waiver. Two defects and neither was comments. sql-concat required a SQL verb and a concatenation but never required SQL, so English prose (Delete ~380 lines ... + their selftest) was a HIGH; and added_lines reported lines this branch added and later deleted, which is what both py-shell-true hits were, cited against line numbers now holding the comment about the deletion. Fixed with two lookaheads and drop_stale_lines. 20 pinned cases, mutate --spec panel 10/10 caught, panel 5 high to 0 high. The rewrite also closed a hole: an f-string SQL query never matched before. Waiver replaced 2026-08-12 to 2026-08-02, recording the old reason as measurably wrong rather than deleting it\n- [ ] Selftest ledger pollution: workflow-spawned selftests wrote 5 scratch-repo rows into the real state/gate-runs.jsonl and produced FAIL-then-PASS on one tree fingerprint. Selftests need an isolated ledger\n- [ ] C-025 is REFUTED as of 2026-07-30: six __pycache__ files sit in the pre-write snapshot and are absent from its own manifest, so the pending live settings.json write is no longer provably revertable\n- [ ] Two broken verifiers in the refutation run: 26 claims, 22 held, 2 refuted, 2 broken. A broken verifier is unknown, not a pass. Identify and repair both\n- [ ] Print the joint claim under gate.py run VERDICT: which domains were N/A, why, and what a PASS does not assert (RT-3)\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 4,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Gate and fingerprint integrity",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/4"
+    },
+    "estimate (min)": 45,
+    "evidence": "closed: DONE 2026-07-30: HARNESS_OUTPUTS excludes state/prompt-tickets.jsonl and state/skill-use.jsonl from the tree fingerprint. Four fingerprints across four turns of one session (76378e",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rB7Y",
+    "ingestion": "S2 45min",
+    "labels": [
+     "epic",
+     "instrument",
+     "measured",
+     "P0"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The harness's own oracles can be believed: no self-invalidating gate, no unproven selftest, no dead pointer reporting success.",
+     "dueOn": "",
+     "title": "M1 Instruments trustworthy"
+    },
+    "priority": "P0",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "target date": "2026-08-02",
+    "title": "EPIC: Gate and fingerprint integrity"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P1**  |  **Ingestion S3**  |  ~60 min\n\nEach row is a place where a file in this repo asserts something measurably false. Corrections are appended, never rewritten, per the repo's own convention.\n\n## Tasks\n\n- [ ] Root CLAUDE.md is UNTRACKED. The file governing every session is not in the repository\n- [ ] CLAUDE.md claims 70 tests. pytest --collect-only reports 219. The number moved twice in one day, which is the argument for deriving it rather than asserting it\n- [ ] Append a correcting row to state/claims.jsonl for the 2026-07-30 row that says lane B for harness work\n- [ ] Correct the 993-gate-verdicts figure: 59 real runs, with 748 of 1648 ledger rows being selftest scratch\n- [ ] docs/INDEX.md line 8 still describes the pre-ADR-0016 lane letters\n- [ ] docs/HANDOFF-2026-07-30-overnight-run.md is stale: it says Phase A5 is next when A5 and B are done, and carries the retracted 9 percent coverage figure. Defensible figure is 31 percent, 23 of 74 lifecycle documents\n- [x] DONE 2026-07-30: model-selection.md effort correction. Live effortLevel is low, not the xhigh the rule asserts\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 5,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Reconcile the contradictions the repo states about itself",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/5"
+    },
+    "estimate (min)": 60,
+    "evidence": "closed: DONE 2026-07-30: model-selection.md effort correction. Live effortLevel is low, not the xhigh the rule asserts",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rB8g",
+    "ingestion": "S3 60min",
+    "labels": [
+     "epic",
+     "instrument",
+     "P1"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The harness's own oracles can be believed: no self-invalidating gate, no unproven selftest, no dead pointer reporting success.",
+     "dueOn": "",
+     "title": "M1 Instruments trustworthy"
+    },
+    "priority": "P1",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Reconcile the contradictions the repo states about itself"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P1**  |  **Ingestion S3**  |  ~60 min\n\nA hook that cannot run fails open and reports nothing. These are the paths that do not exist and the units that are not deployed.\n\n## Tasks\n\n- [ ] 261 distinct absent paths from pointers.py scan. Most-referenced is ~/.claude/bin/work-item.sh at 40 references\n- [ ] skills_sync.py check reports DRIFT, 52 items needing a decision. A visible cluster are 37 to 44 byte stubs whose contents point at /home/shovalbe/.codex/..., a Linux path that has never existed on this machine\n- [ ] 14 hook bodies are 44 to 61 byte pointers with recoverable bodies in dot-codex/; 24 skill stubs likewise\n- [ ] dot-agents has no deploy target: ~/.agents is absent, 0 of 231 units live. The ecosystem moved from .claude to .agents in six weeks, evidenced by mattpocock/skills changing its own description between the operator's two saves\n- [ ] out-of-distribution.md instructs loading a dataviz skill that does not exist anywhere. Only work-docs/data-viz-skill.txt\n- [ ] blonde-designer, ui-ux-pro-max and requirement-anchor are in the repo and not deployed, so no session can load them\n- [ ] github/ without the dot is a dead staging duplicate. Actions reads .github/ only. Delete\n- [ ] whatsapp-query leaves 86.9 MB of decrypted plaintext on disk after a query. Measured 2026-07-30, second occurrence. Fix belongs in the skill, not in a habit\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 6,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Dead pointers, stubs, and repo-versus-live drift",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/6"
+    },
+    "estimate (min)": 60,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rB90",
+    "ingestion": "S3 60min",
+    "labels": [
+     "epic",
+     "drift",
+     "measured",
+     "P1"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The harness's own oracles can be believed: no self-invalidating gate, no unproven selftest, no dead pointer reporting success.",
+     "dueOn": "",
+     "title": "M1 Instruments trustworthy"
+    },
+    "priority": "P1",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Dead pointers, stubs, and repo-versus-live drift"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P2**  |  **Ingestion S5**  |  ~half day\n\ntools/reclaim/reclaim.py is written, dry-run by default, requires --execute plus a separate --allow-delete, re-runs invariants immediately before acting, and writes its manifest row before the action then fsyncs.\n\n## Tasks\n\n- [ ] Dry-run over the full candidate set and read the manifest before executing\n- [ ] Execute with Pictures EXCLUDED ENTIRELY per operator instruction, which withdrew a verified 13.58 GiB row\n- [ ] Documents untouched: it holds the only copy of coursework and a passport scan\n- [ ] wa-export-archive: 681,703,931 bytes are genuinely disposable, not the ~156 MB first reported, because the 519 MB claude-setup-FULL-20260508.zip became disposable once its 10 unique files were extracted\n- [ ] oren-roast-hq: delete only .claude/worktrees/button-rewire/node_modules, reclaiming 541 MB of 543 MB. Do not touch the worktree itself, its tree carries a modified .env\n- [ ] Keep state/reclaim-manifest.jsonl current\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 7,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Phase D reclamation",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/7"
+    },
+    "estimate (min)": 240,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rB-8",
+    "ingestion": "S5 half-day",
+    "labels": [
+     "epic",
+     "P2"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "One canonical tree, GitHub-backed clones removed, 1682 tracked files down under 600, licensing blockers resolved.",
+     "dueOn": "",
+     "title": "M2 Consolidation and shrinkage"
+    },
+    "priority": "P2",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Phase D reclamation"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P2**  |  **Ingestion S4**  |  ~90 min\n\nThe operator's read is that a repo of this size for what it does needs heavy shrinkage. These are the measured targets, largest first.\n\n## Tasks\n\n- [ ] 126 tracked automations/last-messages/*.md are cron run outputs, one per firing, with a single sweep accounting for roughly 45. They are logs\n- [ ] 237 vendored third-party files are tracked. The prior-art gate already marks seven of these directories out of scope\n- [ ] Collapse the dot-* triplication: 59 paths have drifted between dot-claude, dot-codex and dot-agents copies. Drift is a correctness defect, not only waste\n- [ ] Split research-papers/ and work-docs/ out. 176 work-docs and 135 corpus files carry no lifecycle status\n- [ ] deep-research and ui-ux-pro-max exist twice with 28 and 4 differing entries respectively, which is a sync defect rather than a build-versus-buy question\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 8,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Shrink 1682 tracked files to under 600",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/8"
+    },
+    "estimate (min)": 90,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCAo",
+    "ingestion": "S4 90min",
+    "labels": [
+     "epic",
+     "measured",
+     "P2"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "One canonical tree, GitHub-backed clones removed, 1682 tracked files down under 600, licensing blockers resolved.",
+     "dueOn": "",
+     "title": "M2 Consolidation and shrinkage"
+    },
+    "priority": "P2",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Shrink 1682 tracked files to under 600"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P3**  |  **Ingestion S6**  |  ~full day\n\nMeasured boundary cost: git status 109ms native Windows, 12,018ms across /mnt/c from Linux, 69ms on ext4. The penalty is directional, not symmetric.\n\n## Tasks\n\n- [ ] Move work projects, global and project level, from Windows to WSL2 ext4, never /mnt/c\n- [ ] tools/workspace/start-claude.sh is written: ext4 first with a /mnt/c fallback and a visible 9P warning. Keep the chooser, do not pin a lane\n- [ ] Kitty as the terminal, customized, reachable for Linux via the wsl.localhost path\n- [ ] Update the Desktop shortcut to launch Kitty into WSL with the new setup\n- [ ] Rust-first convention for new code; bun and bunx rather than npm\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 9,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: WSL2 migration and the terminal launcher",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/9"
+    },
+    "estimate (min)": 480,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCBs",
+    "ingestion": "S6 full-day",
+    "labels": [
+     "epic",
+     "measured",
+     "P3"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "One canonical tree, GitHub-backed clones removed, 1682 tracked files down under 600, licensing blockers resolved.",
+     "dueOn": "",
+     "title": "M2 Consolidation and shrinkage"
+    },
+    "priority": "P3",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: WSL2 migration and the terminal launcher"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P0**  |  **Ingestion S1**  |  ~25 min\n\nADR-0017 settled that claude-setup holds the authoritative intent-control-plane, with a runnable falsifier. That makes the uncommitted edits the only genuinely at-risk work in the tree.\n\n## Tasks\n\n- [ ] Commit intent-control-plane cli.py and schema.py: 125 and 48 net lines, newer than the new-recruit copy\n- [ ] 56 of 57 saved GitHub repos are resolved with stars, license, archived and fork status in state/saved-repos-2026-07-30.json. Record a four-state verdict per repo in a durable ledger, not a dated analysis\n- [ ] Metadata triage is not a reading pass. 14 repos are LEAVE on archived, fork or stale evidence; the ranked file-by-file pass is still owed\n- [ ] Resolve or retire covibes/zerosho, the one name that resolves to nothing\n- [ ] Regenerate the link extract from the message store rather than self-chat-links-2026-07-29.csv, which is a day stale and misses ACP, goose and no-ai-slop\n- [ ] ABSORB-01: the prior-art schema cannot express absorption. All 27 records share 14 fields and none names what was taken. Add absorbed and absorption_status, backfill, and fail on unset\n- [ ] ABSORB-02: point-in-time reconstruction for the gitignored ledgers that have no history at all\n- [ ] ABSORB-03: albert's two mechanisms, rebuilt not copied under PolyForm Noncommercial. Worktree isolation per concurrent producer, and producers never grading themselves\n- [ ] ABSORB-07: the saved-link corpus, 806 unique URLs over 14 months, still unwired\n- [ ] ABSORB-08: vulture adopted, 0 findings at 80 percent confidence and 70 at 60 percent, 57 of them inside intent-control-plane. Triage the 70, measure whole-module connectivity, wire uvx vulture into the gate\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 10,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Commit the at-risk work and settle absorption verdicts",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/10"
+    },
+    "estimate (min)": 25,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCC8",
+    "ingestion": "S1 25min",
+    "labels": [
+     "epic",
+     "absorption",
+     "P0"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "One canonical tree, GitHub-backed clones removed, 1682 tracked files down under 600, licensing blockers resolved.",
+     "dueOn": "",
+     "title": "M2 Consolidation and shrinkage"
+    },
+    "priority": "P0",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "target date": "2026-08-02",
+    "title": "EPIC: Commit the at-risk work and settle absorption verdicts"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P1**  |  **Ingestion S4**  |  ~90 min\n\nBranch protection on a private repo needs GitHub Pro, so the alternative is publishing. These are the things that must be resolved before this repository can be public.\n\n## Tasks\n\n- [ ] docs/analysis/reference/coherence-governor-AGENTS.md is a tracked verbatim 17,923-byte copy of Master0fFate/just-my-skills AGENTS.md, which carries NO LICENSE. All rights reserved. Summarise and link, request a license, or accept the repo stays private. OPERATOR DECISION\n- [ ] research-papers/el-vadt holds Arabic sales-call transcript analysis, third-party PII\n- [ ] 17 of 56 saved repos carry no usable license, so they are concepts-only. amirfish1/claude-command-center is one of them, and AUTO-19 plans to take from it\n- [ ] Do not vendor brand-derived design systems (apple, bmw, bugatti, binance, cisco) from open-design. Apache-2.0 covers their code, not third-party trademarks\n- [ ] No push of any no-remote repo until a credential audit has run over EVERY commit tree, not just HEAD\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 11,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Licensing and privacy blockers on going public",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/11"
+    },
+    "estimate (min)": 90,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCEI",
+    "ingestion": "S4 90min",
+    "labels": [
+     "epic",
+     "blocked-operator",
+     "licensing",
+     "P1"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "One canonical tree, GitHub-backed clones removed, 1682 tracked files down under 600, licensing blockers resolved.",
+     "dueOn": "",
+     "title": "M2 Consolidation and shrinkage"
+    },
+    "priority": "P1",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Licensing and privacy blockers on going public"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P1**  |  **Ingestion S3**  |  ~60 min\n\nAudited 2026-07-30 from live settings and the live tree: 7 of 9 hook events wired, 23 subagents, 36 live skills, custom statusline. See docs/analysis/2026-07-30-native-surface-audit.md.\n\n## Tasks\n\n- [ ] SubagentStop hook. The only native point that can gate a subagent's output BEFORE it returns, which is exactly where the agreement gate belongs. Referenced nowhere except three 2026-05 master plans\n- [ ] An output style. ~/.claude/output-styles is absent and no output-style file exists in the repo, while completion_gate.py polices the response channel with regexes after generation\n- [ ] CLAUDE.md @import. Never used. open-design ships an 11-byte CLAUDE.md containing @AGENTS.md; we hand-maintain five overlapping files\n- [ ] Project-scoped .mcp.json so MCP configuration is versioned with the repo instead of user-global\n- [ ] SessionEnd hook, so durable handoff no longer depends on PreCompact firing\n- [ ] Install at least one plugin. The claude-plugins-official marketplace was registered 2026-07-30T12:43 and zero plugins are installed\n- [ ] ctrl+b backgrounding friction and the other harness behaviours the operator wants customized\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 12,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Wire the Claude Code native surface we already pay for",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/12"
+    },
+    "estimate (min)": 60,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCFA",
+    "ingestion": "S3 60min",
+    "labels": [
+     "epic",
+     "native-surface",
+     "measured",
+     "P1"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "Native hook wiring, ACP over the bespoke bridge, personas as files with reputation, and one measured workflow run.",
+     "dueOn": "",
+     "title": "M3 Delegation that has actually run"
+    },
+    "priority": "P1",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Wire the Claude Code native surface we already pay for"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P2**  |  **Ingestion S5**  |  ~half day\n\n~/.claude/cache/a2a/audit.jsonl DOES NOT EXIST. The dispatch skill declares it the canonical record of every agent-to-agent call, so zero external dispatches have ever happened. The bridge is fully deployed and has never fired.\n\n## Tasks\n\n- [ ] Evaluate agentclientprotocol/agent-client-protocol, Apache-2.0, JSON-RPC 2.0 over stdin/stdout, published by Zed August 2025, adopted by JetBrains, GitHub Copilot CLI in January 2026, Gemini CLI as first external integration, and Microsoft Intelligent Terminal 0.1 on 2 June 2026\n- [ ] kilo acp already exists in the installed Kilo CLI 7.3.12, so ACP can be tested without writing an adapter\n- [ ] aaif-goose/goose, Apache-2.0, is a native ACP server and a candidate second actor\n- [ ] Reconcile ADR-0007. Its amendment moved the reviewer role off Codex because the subscription was cancelled, but Codex is included in ChatGPT Free at zero cost with CLI access via sign-in, and the codex CLI plus a2a-codex-call.sh are already installed here\n- [ ] An oracle that fails when the agreement gate is claimed and audit.jsonl shows no call for the current commit. Today the absence was only discoverable by thinking to look\n- [ ] Correct the claim that Claude Code speaks ACP. What is documented is Zed running Claude Code as an external agent, which is Zed adapting\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 13,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Replace the bespoke agent bridge with ACP",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/13"
+    },
+    "estimate (min)": 240,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCGY",
+    "ingestion": "S5 half-day",
+    "labels": [
+     "epic",
+     "absorption",
+     "measured",
+     "P2"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "Native hook wiring, ACP over the bespoke bridge, personas as files with reputation, and one measured workflow run.",
+     "dueOn": "",
+     "title": "M3 Delegation that has actually run"
+    },
+    "priority": "P2",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Replace the bespoke agent bridge with ACP"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P2**  |  **Ingestion S5**  |  ~half day\n\ndocs/specs/2026-07-23-persona-review-economy.md is a complete design with seven unchecked acceptance boxes, zero implementation, and a Status field that says active. dot-claude/personas/ does not exist and neither does ~/.claude/personas/.\n\n## Tasks\n\n- [ ] Persona contracts as one YAML per persona under dot-claude/personas/, with no model named in any of them\n- [ ] Separate persona_rep and model_rep ledgers, because the question is whether the ROLE is wrong or the ACTOR is weak\n- [ ] Thompson allocator per aspect, with a minimum-exploration floor so the market cannot collapse to one persona\n- [ ] The hard decorrelation constraint: personas whose findings are compared must be enacted by different model families\n- [ ] PIP quarantine with a sandbox re-admit, firing as proposal plus operator approval, and coverage-gap driven recruitment\n- [ ] Leaderboard in the daily digest, which is the spec's own final acceptance line\n- [ ] Reconcile the taxonomies. The spec enum is correctness, security, boundary, simplicity, perf, slop, tests, a11y. The operator's 2026-07-30 axes are safety, correctness, usability, compatibility, performance. usability and compatibility are additions; safety must be reconciled against security\n- [ ] Add a compatibility domain to quality-contract.json, or state why not\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 14,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Implement the persona review economy",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/14"
+    },
+    "estimate (min)": 240,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCHk",
+    "ingestion": "S5 half-day",
+    "labels": [
+     "epic",
+     "instrument",
+     "P2"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "Native hook wiring, ACP over the bespoke bridge, personas as files with reputation, and one measured workflow run.",
+     "dueOn": "",
+     "title": "M3 Delegation that has actually run"
+    },
+    "priority": "P2",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Implement the persona review economy"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P2**  |  **Ingestion S4**  |  ~90 min\n\nKilo emailed on 2026-07-30 at 12:50: Code Reviewer custom instructions move to a REVIEW.md file in the repo and the UI text box is REMOVED FOR EVERYONE ON 31 AUGUST. Their trigger UI is browser-only; kilo CLI 7.3.12 has no trigger, webhook or cloud command.\n\n## Tasks\n\n- [ ] Migrate custom instructions to REVIEW.md before 2026-08-31. Their automated path spawns one cloud agent per repo that writes the file and opens a PR\n- [ ] Existing trigger verified: one Active webhook created 2026-07-30, targeting ShovalBenjer/daily-deep-learning. That scoping keeps claude-setup out of reach of an auto-committing agent\n- [ ] Harden the trigger template. Their docs warn webhook payloads are a prompt-injection surface, so {{body}} must not land in instruction position, and the secret header name must match what the trigger actually has set\n- [ ] Auto and YOLO mode is not optional for cloud agents per their docs: the agent modifies code without confirmation and can auto-commit. Decide reviewer contract versus implementer contract. OPERATOR DECISION\n- [ ] Compute is free during limited beta but Kilo Code credits are still consumed\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 15,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Kilo Code integration with a deadline",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/15"
+    },
+    "estimate (min)": 90,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCJE",
+    "ingestion": "S4 90min",
+    "labels": [
+     "epic",
+     "blocked-operator",
+     "P2"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "Native hook wiring, ACP over the bespoke bridge, personas as files with reputation, and one measured workflow run.",
+     "dueOn": "",
+     "title": "M3 Delegation that has actually run"
+    },
+    "priority": "P2",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Kilo Code integration with a deadline"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P1**  |  **Ingestion S2**  |  ~45 min\n\nworkflowKeywordTriggerEnabled is true in live settings and Workflow is a first-party tool routed through the same agent registry as the Agent tool, so the 23 agent definitions here are eligible for free. A grep for ultracode returns only prose, never code.\n\n## Tasks\n\n- [ ] Write and run one workflow under model-selection.md's prescribed routing: measurement and mechanical stages on sonnet or haiku at low effort, adversarial verify and judge on opus or fable at xhigh\n- [ ] Record the run so the gate has a concept of it. No ledger of workflow runs exists\n- [ ] Measure the result against the axes the fable falsifier named, so that routing row stops being a hypothesis\n- [ ] GEPA-style prompt optimizer: chosen by the operator, not started\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 16,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Run one workflow under the routing the rules prescribe",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/16"
+    },
+    "estimate (min)": 45,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCKQ",
+    "ingestion": "S2 45min",
+    "labels": [
+     "epic",
+     "native-surface",
+     "P1"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "Native hook wiring, ACP over the bespoke bridge, personas as files with reputation, and one measured workflow run.",
+     "dueOn": "",
+     "title": "M3 Delegation that has actually run"
+    },
+    "priority": "P1",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Run one workflow under the routing the rules prescribe"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P2**  |  **Ingestion S5**  |  ~half day\n\nout-of-distribution.md requires anchoring picks to a real reference and locking approved directions into DESIGN.md. No DESIGN.md exists anywhere in this repository, and docs/taste.md has two rows, neither about UI.\n\n## Tasks\n\n- [ ] Create DESIGN.md. Adopt open-design's section skeleton: theme and atmosphere, colour with per-token rationale, typography with families and weights, spacing scale, layout, components, motion with an explicit state list, voice\n- [ ] A token file plus a parity guard, so DESIGN.md cannot silently drift from the tokens it claims to describe. This is open-design's A2 defaults parity idea and it is what makes a DESIGN.md an oracle rather than a wish\n- [ ] Run /diverge on a real UI decision and write the first taste.md UI row. Rule 1 forbids the mode as a final answer and it has never been enforced on a visual choice\n- [ ] Create the dataviz skill the out-of-distribution rule already instructs sessions to load\n- [ ] Deploy blonde-designer, ui-ux-pro-max and requirement-anchor, or delete them\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 17,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Design foundations that do not exist yet",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/17"
+    },
+    "estimate (min)": 240,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCLk",
+    "ingestion": "S5 half-day",
+    "labels": [
+     "epic",
+     "design",
+     "P2"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "DESIGN.md and tokens with a parity guard, taste ledger rows for UI, The Construct bound to real ledgers.",
+     "dueOn": "",
+     "title": "M4 Design with an anchor"
+    },
+    "priority": "P2",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Design foundations that do not exist yet"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P3**  |  **Ingestion S6**  |  ~full day\n\nv3 fabricated every number, which its own Tweaks panel exposed through tickMs and critRate sliders. The refactor brief is written. This epic is the implementation of it.\n\n## Tasks\n\n- [ ] Decide the medium and commit. v3 targets Python Textual and shipped web HTML, and its own fix log reads 'added flex:none', which Textual CSS does not have\n- [ ] Three named directions with stated p_conventional, at least two below 0.30, operator picks before implementation\n- [ ] Every panel names its source file: gate-runs.jsonl, refutations.jsonl, bus.jsonl, reviews/<sha>.json, claims.jsonl, skill-use.jsonl, prompt-tickets.jsonl\n- [ ] Three states per panel: populated, stale against a different tree fingerprint, and never-run. The third is the state this system is in most often and v3 cannot draw it\n- [ ] Signature panel is the reliability diagram from 03-llm-agent-eval.md, shipped in its EMPTY state first, because RT-1 says the inputs are not logged so the curve is not computable\n- [ ] Coverage view from 02-coverage-metrics.md: PaCMAP projection, covered green, uncovered red, ground truth as stars, white gaps as the visible backlog\n- [ ] Resolve the reward inversion. A failed assertion currently triggers a critical hit, loot and HP loss, so progress means more failing tests\n- [ ] Scope fail-fast: asserts in pure logic and the test pipeline, displayed faults in ledger readers and the render path\n- [ ] Correct four factual errors in the brief: OKF is Open Knowledge Format from Google Cloud on 12 June 2026 and is a document format not a dependency graph; ACP is editor-to-agent JSON-RPC not a telemetry bus; the aspect enum already exists; the repo matrix should be claude-setup and new-recruit, not solosolve-ai\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 18,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: The Construct v4, bound to real ledgers",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/18"
+    },
+    "estimate (min)": 480,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCNc",
+    "ingestion": "S6 full-day",
+    "labels": [
+     "epic",
+     "instrument",
+     "design",
+     "P3"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "DESIGN.md and tokens with a parity guard, taste ledger rows for UI, The Construct bound to real ledgers.",
+     "dueOn": "",
+     "title": "M4 Design with an anchor"
+    },
+    "priority": "P3",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: The Construct v4, bound to real ledgers"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P3**  |  **Ingestion S6**  |  ~full day\n\nTwo candidates reviewed 2026-07-30. open-design: 82,683 stars, Apache-2.0, created 2026-04-28, pushed today, 48 CI workflows. OpenGame: 2,763 stars, Apache-2.0, three contributors, LAST PUSH 2026-04-22.\n\n## Tasks\n\n- [ ] open-design verdict INSTALL AS IS. It ships as a Claude Code plugin exposing 139 skills over stdio via a local od daemon. Verify od has a Windows path first, since brew and DMG are macOS and only npm would work here\n- [ ] Absorb three patterns from its 152-system corpus: the fixed v1 filenames per package, the DESIGN.md convention, and the guard that fails when the human-readable mirror drifts from the machine source\n- [ ] Do not adopt figma-plugin. The operator has not used Figma since leaving his job, and this repo IS the Figma alternative rather than a bridge to it\n- [ ] OpenGame verdict CONCEPTS ONLY, two concepts. It is dormant, three contributors, and GameCoder-27B is infrastructure we do not have\n- [ ] Concept one: OpenGame-Bench scores agentic generation on Build Health, Visual Usability and Intent Alignment via headless browser execution plus VLM judging. That is a concrete shape for our e2e and a11y_ux domains, both currently N/A and therefore failing by our own rule\n- [ ] Concept two: their Debug Skill maintains a living protocol of VERIFIED FIXES. We accumulate failure classes in lessons.jsonl and falsifiers in refutations.jsonl and accumulate no fixes\n- [ ] petergyang/no-ai-slop, MIT, 20-plus slop patterns: compare against tools/slop_lint.py and take what MIT permits\n- [ ] JuliusBrussee/caveman claims 65 percent token reduction and belongs in the RTK prior-art record as a direct alternative\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 19,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Absorb open-design and OpenGame",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/19"
+    },
+    "estimate (min)": 480,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCOw",
+    "ingestion": "S6 full-day",
+    "labels": [
+     "epic",
+     "absorption",
+     "measured",
+     "P3"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "DESIGN.md and tokens with a parity guard, taste ledger rows for UI, The Construct bound to real ledgers.",
+     "dueOn": "",
+     "title": "M4 Design with an anchor"
+    },
+    "priority": "P3",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Absorb open-design and OpenGame"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P1**  |  **Ingestion S2**  |  ~45 min\n\nThe twelve-domain gate has never run in CI. ship-gate.yml was never pushed and local main is 25 commits ahead. ADR-0012 says autonomy ships only through the PR gate, which makes this the load-bearing gap in the autonomy story.\n\n## Tasks\n\n- [ ] Push ship-gate.yml and observe one real CI run. Note the pipeline domain greps the workflow files for a literal gate.py run invocation, so renaming or wrapping it breaks the check\n- [ ] Write gemini-review.yml. AUTO-10 unblocked on 2026-07-24 when the secret landed and the workflow has still never been written, so ADR-0004's decorrelated agreement gate is prose\n- [ ] Branch protection costs money on a private repo or requires publishing. Not money alone, which is how it was first reported. OPERATOR DECISION\n- [ ] Wire Codex against ADR-0007, which the free-tier finding makes cheaper than it looked. OPERATOR DECISION\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 20,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Get the gate running in CI",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/20"
+    },
+    "estimate (min)": 45,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCQE",
+    "ingestion": "S2 45min",
+    "labels": [
+     "epic",
+     "instrument",
+     "blocked-operator",
+     "P1"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The gate runs in CI, releases are structured, repo standards maintained by an agent.",
+     "dueOn": "",
+     "title": "M5 Autonomy and CI"
+    },
+    "priority": "P1",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Get the gate running in CI"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P2**  |  **Ingestion S4**  |  ~90 min\n\nOperator standard: use all of GitHub's free features and maintain them with an agent as part of repo standards. Reference point measured 2026-07-30: open-design runs 48 workflows, a 152,736-byte CHANGELOG, a separate release-notes file, and cut-release, cut-patch-release, backport, backport-label-guard and backport-automerge workflows.\n\n## Tasks\n\n- [ ] Discussions as the public brainstorming surface agents can post to\n- [ ] SemVer with a hand-written CHANGELOG and structured tags and releases. Not a release every six hours\n- [ ] PR-to-issue linking enforced by CI\n- [ ] Full free-feature inventory with a named maintenance owner per feature\n- [ ] Every ticket that has a repo on GitHub should have issues, which is the gap this backlog publish is closing\n- [ ] Wire codex, kilocode, Claude code review, gemini, qwen and nvidia to the Zion project board\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 21,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: GitHub repo standards maintained by an agent",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/21"
+    },
+    "estimate (min)": 90,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCRk",
+    "ingestion": "S4 90min",
+    "labels": [
+     "epic",
+     "P2"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The gate runs in CI, releases are structured, repo standards maintained by an agent.",
+     "dueOn": "",
+     "title": "M5 Autonomy and CI"
+    },
+    "priority": "P2",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: GitHub repo standards maintained by an agent"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P2**  |  **Ingestion S5**  |  ~half day\n\nThe AUTO rows from docs/prd/autonomy-ecosystem.md that remain open. AUTO-05 was closed by retiring lane A; ADR-0016 renumbered the letters on 2026-07-30.\n\n## Tasks\n\n- [ ] AUTO-06 ecosystem.db bootstrap from the intent-control-plane schema, unblocked now that ADR-0017 settled which copy is authoritative. Unblocks work-claims and FleetView\n- [ ] AUTO-11 merge-policy labels and auto-merge for auto:low\n- [ ] AUTO-09 scale the nightly to tier-1 repos after seven clean days\n- [ ] AUTO-12, 13, 14 social: excavate the bundle into a draft-first pipeline\n- [ ] AUTO-17 research stage in the weekly self-improve cron\n- [ ] AUTO-18 register the real scheduled tasks and observe one unattended fire. The S4U passwordless probe already succeeded and was removed\n- [ ] AUTO-19 FleetView: specced with a 12-row feature table, five premortems and an 18-item checklist, zero code\n- [ ] AUTO-20 reputation routing once runs-table volume exists\n- [ ] AUTO-15 split the resume rails into verifiable rows\n- [ ] Decide the undeployed enforcement layer: PreToolUse protect-infra and rtk-bash-guard, Stop stop-checklist and verification-before-completion and contract-proof-stop, PostToolUse skill-usage-logger. These are the checks that would have caught L003 and L009 mechanically\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 22,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Autonomy ecosystem backlog",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/22"
+    },
+    "estimate (min)": 240,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCS0",
+    "ingestion": "S5 half-day",
+    "labels": [
+     "epic",
+     "P2"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The gate runs in CI, releases are structured, repo standards maintained by an agent.",
+     "dueOn": "",
+     "title": "M5 Autonomy and CI"
+    },
+    "priority": "P2",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Autonomy ecosystem backlog"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P2**  |  **Ingestion S5**  |  ~half day\n\nFrom docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md, ranked by value over effort. RT-1 blocks the reliability diagram in the dashboard epic.\n\n## Tasks\n\n- [ ] RT-1 log {claimed_confidence, action, verified_outcome} so the CLAUDE-OS.md autonomous threshold can be calibrated at all. The literature says self-reported confidence sits at 80 to 100 regardless of accuracy, which would make that threshold inert rather than protective\n- [ ] RT-2 decision ledger and rejection rate on the daily digest. Three ADRs rest on human approval and nothing records an approve or reject, so rubber-stamping is undetectable. A ratio that has never seen a rejection IS the finding\n- [ ] RT-3 print the joint claim under VERDICT\n- [ ] RT-4 fixture provenance for tools/skilleval plus one independent audit of the existing five before writing the next 42. Self-annotated labels are the BIRD defect at 52.8 percent annotation errors\n- [ ] RT-5 first metamorphic relation. Start with codemap: renaming one directory must change exactly one row. A grep for metamorphic across tools/ returns zero implementations\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 23,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Research transfer, five findings owed",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/23"
+    },
+    "estimate (min)": 240,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCUE",
+    "ingestion": "S5 half-day",
+    "labels": [
+     "epic",
+     "instrument",
+     "P2"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The harness's own oracles can be believed: no self-invalidating gate, no unproven selftest, no dead pointer reporting success.",
+     "dueOn": "",
+     "title": "M1 Instruments trustworthy"
+    },
+    "priority": "P2",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Research transfer, five findings owed"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P3**  |  **Ingestion S6**  |  ~full day\n\nInstalled 2026-07-30. rtk-ai/rtk v0.44.1, Apache-2.0, 73,967 stars, pushed 2026-07-28. Release zip verified against published SHA256 rather than piping their install script to a shell, rtk.exe placed in ~/.local/bin.\n\n## Tasks\n\n- [ ] MEASURED on this tree: 20 percent total saving across four commands, not the advertised 60 to 90. git status 25 percent, git diff --stat 11 percent, git log --oneline 0 percent, ls -la 68 percent. The win concentrates in directory listings\n- [ ] home-dotfiles/RTK.md states as a rule 'always prefix shell commands with rtk' and the binary was absent until today, so every command run before then violated a rule in our own dotfiles\n- [ ] Decide rtk-bash-guard.sh: deploy it, or delete the rule and the guard. A mandatory prefix nobody can enforce is the worst of the three\n- [ ] Add JuliusBrussee/caveman to the RTK prior-art record as the named alternative\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 24,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: RTK adoption, measured rather than advertised",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/24"
+    },
+    "estimate (min)": 480,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0rCVI",
+    "ingestion": "S6 full-day",
+    "labels": [
+     "epic",
+     "measured",
+     "P3"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "One canonical tree, GitHub-backed clones removed, 1682 tracked files down under 600, licensing blockers resolved.",
+     "dueOn": "",
+     "title": "M2 Consolidation and shrinkage"
+    },
+    "priority": "P3",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: RTK adoption, measured rather than advertised"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P1**  |  **Ingestion S4**  |  ~90 min\n\nPosition corrected 2026-07-30. Refusing `curl | sh` is not a policy, it is the absence of one, and it blocks adoption of a field that moves weekly. The operator's framing is right: use the open-source equivalents of JFrog Artifactory and Xray, then adopt safely. RTK was installed correctly the same day (release zip, SHA256 verified against the published checksums file, e9f2e26c...). Oak was refused because its documented install is a pipe to a shell. The difference between those two outcomes should be a process, not a mood.\n\n## Tasks\n\n- [ ] tools/supply/verify.py: record provenance (source URL, sha256, size, signature status, scanner verdict, decision, ts) to an append-only state/supply-chain.jsonl, and REFUSE to mark an artifact adopted with no recorded hash. Selftest plus mutation entry per the repo's four-layer convention\n- [ ] Evaluate and pick from the open-source Xray equivalents: Trivy, Grype plus Syft for SBOM, OSV-Scanner, cargo-audit, cargo-deny, cargo-vet, pip-audit, and sigstore cosign with SLSA provenance for signing\n- [ ] ADR stating the rule for a pipe-to-shell install: when it is acceptable, what the substitute is, and what evidence must exist before an artifact counts as adopted\n- [ ] A supply_chain domain in quality-contract.json so an unverified artifact FAILS the gate rather than passing because nobody looked\n- [ ] Backfill what is already installed: rtk.exe (hash on record), the claude-plugins-official marketplace clone, and whatever the WSL2 migration installs\n- [ ] Then reopen Oak against a verified artifact path, because the objection was never the tool and the operator is right that we cannot avoid adopting the new scene\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 25,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Supply-chain verification so adopting new tools is safe rather than refused",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/25"
+    },
+    "estimate (min)": 90,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0uV60",
+    "ingestion": "S4 90min",
+    "labels": [
+     "epic",
+     "instrument",
+     "measured",
+     "P1"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The harness's own oracles can be believed: no self-invalidating gate, no unproven selftest, no dead pointer reporting success.",
+     "dueOn": "",
+     "title": "M1 Instruments trustworthy"
+    },
+    "priority": "P1",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Supply-chain verification so adopting new tools is safe rather than refused"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P2**  |  **Ingestion S5**  |  ~half day\n\nABSORB-02, deferred on 2026-07-25 as roughly 150 lines to be built 'only when a concrete need appears'. The need appeared three times in one session, which is the argument for building it now rather than the argument for deferring again.\n\n## Tasks\n\n- [ ] Driver 1: the review domain's waiver in quality-contract.json changed mid-session from 'until 2026-08-12' to 'until 2026-08-02' with an entirely different stated reason, and nothing on disk can say when it changed or by what\n- [ ] Driver 2: tools/review/panel.py line 11 asserted 'the codex binary is not installed' while codex-cli 0.146.0 was installed and ChatGPT-authenticated, for an unknown length of time, and two subagents read it as fact during one session\n- [ ] Driver 3: a git-repo census reported 1,870 repositories. 1,884 directories were our own leaked test fixtures and the true count is 28, so every conclusion drawn from that walk came from a number our own broken test produced\n- [ ] tools/timetravel/snapshot.py: content-addressed snapshots of the GITIGNORED ledgers with a committed manifest, so a ledger's value at a past moment is recoverable. Do not rebuild what git already gives for tracked files\n- [ ] The original need is still open and belongs to another lane: hiring_engine/ledger.sqlite holds 272 jobs, 4 applications and 21 approvals with zero history. That is a proposal row from here, not this lane's work\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 26,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Point-in-time reconstruction for state that has no history",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/26"
+    },
+    "estimate (min)": 240,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0uV78",
+    "ingestion": "S5 half-day",
+    "labels": [
+     "epic",
+     "instrument",
+     "measured",
+     "P2"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The harness's own oracles can be believed: no self-invalidating gate, no unproven selftest, no dead pointer reporting success.",
+     "dueOn": "",
+     "title": "M1 Instruments trustworthy"
+    },
+    "priority": "P2",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Point-in-time reconstruction for state that has no history"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P1**  |  **Ingestion S3**  |  ~60 min\n\nL-2026-07-31-b. The operator read a 5.4k-word deliverable that had passed tools/slop_lint.py and said it read as machine written, naming dashes. Measured: zero em dashes, zero en dashes, two non-ASCII characters in the file and both were quoted from the artifact under review. So the accusation was falsifiable and false, and the intuition behind it was still pointing at something the gate cannot see: hyphen-compound density 2.8 percent and sentence-length standard deviation 14.8. voice-metrics/SKILL.md:21 already classifies no-em-dashes as RULED, a decision with no corpus behind it. The harness gates the ruled proxy and leaves the measured property ungated, the same shape as L-2026-07-29-g.\n\n## Tasks\n\n- [ ] Port a hyphen-density and sentence-length-variance check from ~/.claude/skills/voice-metrics/voice_score.py into tools/slop_lint.py\n- [ ] Fit the thresholds against the operator's own corpus (n=35,472 messages, voice-metrics profiles.json). Do not guess them; a guessed threshold is a second ruled rule wearing a number\n- [ ] Regression tests in both directions: a file that passes today and reads as generated must go red, and the operator's own prose must stay green\n- [ ] Mutation control proving the new check can go red, per the repo's four-layer standard\n- [ ] Warn before it blocks. Collect a week of scores first, then decide the threshold from the distribution rather than from taste\n- [ ] Until this lands, stop citing a clean slop_lint as evidence that prose does not read as generated. It is evidence of one banned list and one dash rule\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 27,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: The prose gate measures the ruled form, not the property",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/27"
+    },
+    "estimate (min)": 60,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0ui0w",
+    "ingestion": "S3 60min",
+    "labels": [
+     "epic",
+     "instrument",
+     "measured",
+     "P1",
+     "prose-gate"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The harness's own oracles can be believed: no self-invalidating gate, no unproven selftest, no dead pointer reporting success.",
+     "dueOn": "",
+     "title": "M1 Instruments trustworthy"
+    },
+    "priority": "P1",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: The prose gate measures the ruled form, not the property"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P0**  |  **Ingestion S2**  |  ~45 min\n\nL-2026-07-31-a. The review domain carried a waiver through three renewals whose stated reason was that the blocking findings were matches against comments and docstrings. Measured 2026-07-30, that reason was wrong for all five. The waiver shipped its own falsifier, an AST walk of the final file, and it PASSED. It passed for a different reason than the one written beside it, which launders a wrong diagnosis into an audited one. A falsifier that cannot distinguish its stated mechanism from every other reason the same command could pass is not a falsifier.\n\n## Tasks\n\n- [x] DONE 2026-07-31: both underlying defects fixed in tools/review/panel.py; waiver replaced with one that records the old reason as wrong; panel 5 high to 0 high\n- [ ] The review waiver expires 2026-08-02 and committing this branch is what clears it. Decide before then: commit, or renew with a reason that is true\n- [ ] Audit every other waiver in quality-contract.json against the same test: does the reason name a mechanism, and can its falsifier tell that mechanism from the alternatives\n- [ ] Report a waiver past its second renewal as a class rather than as a fresh decision. Three renewals happened here before anyone re-read the reason\n- [ ] Audit the 1,260 lines drop_stale_lines now removes (75,932 to 74,672 reviewed). Each should be a line the tree does not contain at the claimed position; none has been checked individually\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 28,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: A waiver's reason must name the mechanism its falsifier tests",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/28"
+    },
+    "estimate (min)": 45,
+    "evidence": "closed: DONE 2026-07-31: both underlying defects fixed in tools/review/panel.py; waiver replaced with one that records the old reason as wrong; panel 5 high to 0 high",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0ui2Q",
+    "ingestion": "S2 45min",
+    "labels": [
+     "epic",
+     "instrument",
+     "measured",
+     "P0"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The harness's own oracles can be believed: no self-invalidating gate, no unproven selftest, no dead pointer reporting success.",
+     "dueOn": "",
+     "title": "M1 Instruments trustworthy"
+    },
+    "priority": "P0",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "target date": "2026-08-02",
+    "title": "EPIC: A waiver's reason must name the mechanism its falsifier tests"
+   },
+   {
+    "autonomy": "agent-ships-behind-gate",
+    "content": {
+     "body": "**P2**  |  **Ingestion S4**  |  ~90 min\n\nL-2026-07-31-c. An 11k-word review of two external artifacts presented about fifteen measured quantities in the same flat voice as its inferences. An independent recount with no access to the reasoning found four wrong, including a decimal-to-hex slip (2500134 is 262626, not 2625A6) that turned 'the anchor has no text accent colour at all' into 'it has a link colour', weakening the argument it was cited for. Separately, rendering the artifact in a browser overturned three findings derived from CSS text, one of them simply wrong about a laptop.\n\n## Tasks\n\n- [ ] Make the recount a step, not a virtue: any deliverable with more than five derived numbers gets a verification pass by something that cannot see the reasoning\n- [ ] Any claim about a rendered artifact stays inference until rendered. The cdp path works (native Chrome 9224 with --remote-allow-origins=*) and took four minutes; there was no excuse\n- [ ] A convention for marking a measured number apart from an inferred one inside a deliverable, so a reader can tell without reading a methods section\n- [ ] Extend tools/refute to accept a deliverable's numeric claims as falsifiers, so a review can be re-checked by running it rather than by re-reading it\n\n---\n\nGenerated from `state\\github-backlog-2026-07-31.json` by `tools/ghpub/publish_backlog.py`. Edit the JSON, not this body: a hand edit here will not survive a regeneration and will read as drift.",
+     "number": 29,
+     "repository": "ShovalBenjer/claude-setup",
+     "title": "EPIC: Review work must recompute its own numbers and render what it judges",
+     "type": "Issue",
+     "url": "https://github.com/ShovalBenjer/claude-setup/issues/29"
+    },
+    "estimate (min)": 90,
+    "evidence": "python tools/gate/gate.py run --project .",
+    "id": "PVTI_lAHOBTKVvM4At4WJzg0ui3U",
+    "ingestion": "S4 90min",
+    "labels": [
+     "epic",
+     "instrument",
+     "measured",
+     "P2"
+    ],
+    "lane": "B harness",
+    "milestone": {
+     "description": "The harness's own oracles can be believed: no self-invalidating gate, no unproven selftest, no dead pointer reporting success.",
+     "dueOn": "",
+     "title": "M1 Instruments trustworthy"
+    },
+    "priority": "P2",
+    "repository": "https://github.com/ShovalBenjer/claude-setup",
+    "title": "EPIC: Review work must recompute its own numbers and render what it judges"
+   }
+  ],
+  "totalCount": 26
+ }
+}

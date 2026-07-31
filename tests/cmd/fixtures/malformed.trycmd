@@ -1,0 +1,7 @@
+Fixture for the parse-error path. The fenced line below is not a command, which the
+grammar rejects. Lives under fixtures/ so the default `tests/cmd/*.trycmd` glob does
+not pick it up as a real case.
+
+```console
+this line has no $ prefix
+```

@@ -7,10 +7,14 @@ The gate's `review` domain wants an artifact saying somebody other than the
 author looked at this commit. Left to a human that step gets skipped, and left to
 the author's own model it is worthless, because a model reviewing its own diff
 agrees with itself. There is already an external-review harness in this setup
-(dot-claude/bin/external-review-judge.py) and both of its backends are shut on
-this machine: the codex binary is not installed, and Gemini Free Tier is barred
-for this repository's content by the project contract. So the default reviewer
-here has to be one that always works and never sends anything anywhere.
+(dot-claude/bin/external-review-judge.py). CORRECTED 2026-07-30: this docstring
+claimed both of its backends were shut, "the codex binary is not installed". That
+is false and had been for long enough that two subagents read it as fact this
+session. `python ~/.claude/bin/external-review-judge.py status` returns codex
+installed true, chatgpt_auth true, codex-cli 0.146.0. Only the Gemini leg is shut,
+barred for this repository's content by the project contract. The default reviewer
+is still the local one, because it always works and never sends anything anywhere,
+but that is now a choice rather than the only option.
 
 WHAT A PERSONA IS HERE
 
@@ -155,7 +159,61 @@ def added_lines(project: str, base: str) -> list[dict]:
                         _collect_file(project, os.path.join(root, f), out, seen)
             else:
                 _collect_file(project, full, out, seen)
-    return out
+    return drop_stale_lines(project, out)
+
+
+def drop_stale_lines(project: str, rows: list[dict]) -> list[dict]:
+    """Keep only lines the tree still contains at the position they claim.
+
+    added_lines unions three diffs and dedupes by (path, lineno). The branch diff
+    holds every line this branch ever ADDED, including ones a later commit on the
+    same branch removed, and the first diff wins the dedupe. So a line that no
+    longer exists is reported against a line number now occupied by other text.
+
+    Measured 2026-07-30: both remaining HIGH findings were this. Line 66 of
+    tools/map/codemap.py carried the snippet `subprocess.run("git " + args, ...
+    shell=True` while the file's line 66 is a comment recording that the helper was
+    deleted on 2026-07-27, and an AST walk for a shell=True keyword returns [].
+    The reviewer was blocking on a vulnerability the change under review removes.
+
+    This is the mirror of a rule the panel already enforces: cmd_selftest requires
+    that findings citing a line the change did not add are discarded, because an
+    invented file:line is unactionable. A line the change added and then removed is
+    unactionable for the same reason.
+
+    Fail-open by design. If the file cannot be read, the line is kept: a reviewer
+    that goes silent on what it cannot check is worse than one that over-reports.
+    Comparison ignores leading and trailing whitespace so a reindent or a CRLF does
+    not read as a deleted line.
+    """
+    # A file that is GONE and a file that is unreadable are different facts and get
+    # opposite answers. Gone means the change deleted it, so its lines are not in the
+    # tree and must not be reported. Unreadable means we do not know, so we report.
+    # Both raise OSError, which is why existence is checked separately rather than
+    # inferred from the exception.
+    MISSING: list[str] = []
+    cache: dict[str, list[str] | None] = {}
+    kept: list[dict] = []
+    for row in rows:
+        rel = row["file"]
+        if rel not in cache:
+            full = os.path.join(project, rel)
+            if not os.path.isfile(full):
+                cache[rel] = MISSING
+            else:
+                try:
+                    with open(full, encoding="utf-8", errors="replace") as fh:
+                        cache[rel] = fh.read().splitlines()
+                except Exception:          # noqa: BLE001 - unreadable: fail open
+                    cache[rel] = None
+        body = cache[rel]
+        if body is None:
+            kept.append(row)
+            continue
+        i = row["line"] - 1
+        if 0 <= i < len(body) and body[i].strip() == row["text"].strip():
+            kept.append(row)
+    return kept
 
 
 def _collect_file(project: str, full: str, out: list, seen: set) -> None:
@@ -208,15 +266,42 @@ PERSONAS: dict[str, dict] = {
             ("py-shell-true", HIGH, ["py"],
              r"subprocess\.(?:run|call|Popen|check_output)\([^)]*shell\s*=\s*True",
              "shell=True with any non-literal argument is command injection"),
+            # Two lookaheads, deliberately, and neither is optional: the line must
+            # carry SQL STRUCTURE and DYNAMIC ASSEMBLY. The earlier single pattern
+            # asked only for a verb followed later by a concatenation, so any English
+            # sentence that deletes one thing and adds another matched. Measured on
+            # the 2026-07-30 tree, all three of its sql-concat HIGHs were prose:
+            #   "Delete ~380 lines (... checks + their selftest); add ~150-200 lines"
+            #   print("  delete .env: " + ("done" if rc == 0 else "FAILED " + out))
+            # Both survive the verb test and neither contains FROM, INTO or SET.
+            # Third waiver for this class; tests/test_panel_sql_concat.py now pins it.
+            #
+            # The rewrite also closes a hole the old pattern had: it required the
+            # assembly marker to come AFTER the verb, so f"SELECT * FROM t WHERE a =
+            # {x}" did not match, because the f-prefix sits before SELECT. That is the
+            # commonest Python injection shape and it was going unreported.
             ("sql-concat", HIGH, [],
-             r"(?i)(?:SELECT|INSERT|UPDATE|DELETE)\s+.*(?:\+\s*\w+|\$\{|%\s*\(|%s['\"]\s*%|f['\"])",
+             r"(?i)(?=.*(?:SELECT\s+.*\s+FROM|INSERT\s+INTO|UPDATE\s+.*\s+SET|"
+             r"DELETE\s+FROM))"
+             r"(?=.*(?:\+\s*\w+|\$\{|%\s*\(|%s['\"]\s*%|f['\"]|\{\w+\}))",
              "SQL assembled from variables instead of bound parameters"),
             ("dangerous-html", HIGH, ["js", "ts"],
              r"dangerouslySetInnerHTML|\.innerHTML\s*=\s*[^'\"`]",
              "unsanitized markup insertion is stored XSS if the value ever comes "
              "from a user"),
+            # No whitespace allowed between `eval` and `(`, deliberately. The
+            # tolerant `eval\s*\(` also matches the English noun followed by a
+            # parenthetical -- "built BrainTrust eval (300 scenarios)" in an HTML
+            # text node was reported as a HIGH and cost a waiver on 2026-07-26.
+            # Excluding html wholesale was rejected: `<script>eval(src)</script>`
+            # is a real finding, so the separation belongs in the pattern.
+            # Coverage boundary, stated rather than discovered later: `eval (x)`
+            # written with a space is not matched. Every JS formatter emits
+            # `eval(`, and ESLint's func-call-spacing defaults to "never", so the
+            # unmatched form is one nothing in a normal toolchain produces.
+            # `new Function` keeps `\s*` -- prose does not say "new Function (".
             ("eval-added", HIGH, [],
-             r"(?<![\w.])eval\s*\(|new\s+Function\s*\(",
+             r"(?<![\w.])eval\(|new\s+Function\s*\(",
              "eval executes whatever it is handed"),
             ("tls-off", HIGH, [],
              r"NODE_TLS_REJECT_UNAUTHORIZED\s*=\s*['\"]?0|verify\s*=\s*False|"
@@ -419,6 +504,95 @@ def run_local(lines: list[dict]) -> list[dict]:
 
 # ------------------------------------------------------------------ external
 
+# A judge that can read the SKILL.md it is grading grades the INTENT rather than
+# the artifact: the definition states what the skill is supposed to do, so a model
+# holding both tends to confirm the description instead of testing the output.
+# CoEvoSkills runs its surrogate verifier blind to the generator's reasoning and to
+# the skill content for this reason. run_local is unaffected, being pattern matching
+# over code, and prose is already skipped by the md branch in it.
+SKILL_DEFINITION = re.compile(
+    r"(?i)(^|/)SKILL\.md$|(^|/)(?:dot-claude|dot-codex|dot-agents|\.claude)/"
+    r"(?:skills|agents|commands)/")
+
+
+def judge_blind(lines: list[dict]) -> tuple[list[dict], int]:
+    """Remove skill and agent DEFINITIONS from what an external judge is shown.
+
+    Returns (kept, stripped). The count is returned rather than swallowed so the
+    note can say it out loud: a silent filter is indistinguishable from a filter
+    that stopped working, which is the failure this whole tool exists to prevent.
+    """
+    kept = [ln for ln in lines if not SKILL_DEFINITION.search(ln["file"])]
+    return kept, len(lines) - len(kept)
+
+
+def screen_for_send(lines: list[dict]) -> tuple[list[dict], int, list[str]]:
+    """Decide what may be transmitted. Pure, so it can be tested without a call.
+
+    Returns (sendable, blinded, leaks). A non-empty `leaks` means send NOTHING.
+
+    Order is the guarantee: the credential scan runs over every line BEFORE any
+    blinding, so filtering can never remove a key from its own leak check. Both
+    halves lived inline in run_external, fused to a network call, which is why
+    mutation testing on 2026-07-27 found them completely unguarded.
+    """
+    leaks = redactable(lines)
+    if leaks:
+        return [], 0, leaks
+    sendable, blinded = judge_blind(lines)
+    return sendable, blinded, []
+
+
+def validate_findings(raw: object, valid: set, model: str) -> tuple[list[dict], int]:
+    """Keep only findings citing a line this change actually added.
+
+    Returns (kept, dropped). An invented file:line is the normal failure mode of a
+    model reviewer, and an unverifiable finding cannot be acted on, so it is
+    discarded and counted. The count is returned rather than logged because a
+    reviewer that quietly discards half its own output while reporting the rest as
+    clean is worse than one that reports nothing.
+    """
+    out: list[dict] = []
+    dropped = 0
+    for f in raw if isinstance(raw, list) else []:
+        if not isinstance(f, dict):
+            dropped += 1
+            continue
+        try:
+            fl, li = str(f.get("file")), int(f.get("line"))
+        except (TypeError, ValueError):
+            dropped += 1
+            continue
+        if (fl, li) not in valid:
+            dropped += 1
+            continue
+        sev = str(f.get("severity", MED)).lower()
+        out.append({"persona": "external", "check": "model-review",
+                    "severity": sev if sev in (HIGH, MED, LOW) else MED,
+                    "file": fl, "line": li, "why": str(f.get("why", ""))[:400],
+                    "snippet": "", "source": "openrouter:{}".format(model)})
+    return out, dropped
+
+
+def build_note(model: str, kept: int, dropped: int, model_note: str,
+               truncated: bool, blinded: int) -> str:
+    """The note that ships with the artifact. Pure, so the counts can be asserted.
+
+    Every number here is a thing a reader would otherwise have to take on trust:
+    how many findings survived, how many were discarded for citing a line that
+    does not exist, whether the input was cut short, and how much was withheld
+    from the judge on purpose. Dropping any of them turns a partial review into
+    one that reads as complete.
+    """
+    return (
+        "model {} returned {} finding(s), {} dropped for citing a line this change "
+        "did not add. {}{}{}".format(
+            model, kept, dropped, str(model_note)[:300],
+            "  Input was truncated at 60k chars." if truncated else "",
+            "  {} skill/agent definition line(s) withheld from the judge.".format(blinded)
+            if blinded else ""))
+
+
 def redactable(lines: list[dict]) -> list[str]:
     """Credential-shaped content in the change. Fail closed if any is present."""
     pats = [
@@ -436,17 +610,31 @@ def redactable(lines: list[dict]) -> list[str]:
     return hits
 
 
-def run_external(lines: list[dict], project: str, verbose: bool) -> tuple[list[dict], str]:
+def run_external(lines: list[dict], project: str, verbose: bool,
+                 model: str | None = None) -> tuple[list[dict], str]:
     """A free model reads the change for what a pattern cannot see.
+
+    `model` names the model to try FIRST; the client falls back to zero-priced
+    alternates behind it. Left as None the client picks a free model itself, which
+    is the historical behaviour. Exposed 2026-07-31 so a specific decorrelated
+    family can be requested (tools/review/actors.json), because the client always
+    accepted a model argument and this function was the reason nobody could pass
+    one. Passing a PRICED model id here leaves the free tier: the client's daily
+    quota counts requests, not dollars, so it will not stop a paid model from
+    billing. Check the price before naming one.
 
     Returns (findings, note). Any finding whose citation is not a line this change
     actually added is dropped, because an invented file:line is the normal failure
     mode here and an unverifiable finding cannot be acted on.
     """
-    leaks = redactable(lines)
+    lines, blinded, leaks = screen_for_send(lines)
     if leaks:
         return [], ("refused to send: the change contains credential-shaped content at {}. "
                     "Nothing was transmitted.".format(", ".join(leaks[:5])))
+    if not lines:
+        return [], ("nothing sent: every added line was a skill or agent definition, "
+                    "which the judge is deliberately blind to. {} line(s) withheld."
+                    .format(blinded))
     sys.path.insert(0, os.path.join(SETUP, "openrouter"))
     try:
         import client as orc  # type: ignore
@@ -474,32 +662,43 @@ def run_external(lines: list[dict], project: str, verbose: bool) -> tuple[list[d
         "If the change looks correct, return an empty findings array and say in note "
         "what you checked.\n\n" + "\n".join(body))
     try:
-        text, model = orc.chat(prompt, system=(
+        # orc.chat returns a DICT ({model, text, usage, elapsed_s, id, tried}), not a
+        # pair. This line read `text, model = orc.chat(...)` from the day the external
+        # backend was written, so every --allow-external run died inside the try with
+        # "too many values to unpack (expected 2)" and was reported as the polite
+        # "external review call failed", one line of note text under a PASS verdict.
+        # The leg has therefore never once returned a finding. Measured 2026-07-31.
+        # 4000, not the client's 1200 default. A reasoning model bills its thinking
+        # against the same completion budget, and z-ai/glm-4.7-flash was measured on
+        # 2026-07-31 spending 564 to 904 tokens reasoning before writing a character
+        # of the answer, so 1200 left too little to finish the JSON. The ceiling is
+        # not the cost driver here: the answer itself is a few hundred tokens, and an
+        # unfinished answer costs the same as a finished one while being worthless.
+        reply = orc.chat(prompt, model=model, max_tokens=4000, system=(
             "You are a reviewer who did not write this code. Cite a real line number for "
             "every finding. An empty findings array is a valid and common answer."))
+        text, model = reply["text"], reply["model"]
     except Exception as exc:
         return [], "external review call failed: {}".format(exc)
 
-    data = orc.extract_json(text) or {}
-    raw = data.get("findings") or []
-    out, dropped = [], 0
-    for f in raw if isinstance(raw, list) else []:
-        try:
-            fl, li = str(f.get("file")), int(f.get("line"))
-        except (TypeError, ValueError):
-            dropped += 1
-            continue
-        if (fl, li) not in valid:
-            dropped += 1
-            continue
-        sev = str(f.get("severity", MED)).lower()
-        out.append({"persona": "external", "check": "model-review",
-                    "severity": sev if sev in (HIGH, MED, LOW) else MED,
-                    "file": fl, "line": li, "why": str(f.get("why", ""))[:400],
-                    "snippet": "", "source": "openrouter:{}".format(model)})
-    note = "model {} returned {} finding(s), {} dropped for citing a line this change did " \
-           "not add. {}{}".format(model, len(out), dropped, str(data.get("note", ""))[:300],
-                                  "  Input was truncated at 60k chars." if truncated else "")
+    # A reasoning model can spend the whole completion budget thinking and return no
+    # parseable object. Measured 2026-07-31 with z-ai/glm-4.7-flash: at the budget
+    # this function asks for, 904 of the completion tokens were reasoning tokens, the
+    # content came back null, and the old code turned that into `findings: []`. The
+    # panel then printed "0 finding(s), 0 dropped", which is character-for-character
+    # what a genuinely clean change prints. A reviewer that failed to answer must not
+    # be indistinguishable from a reviewer that found nothing, so an unparseable
+    # non-empty reply is now reported as a failure instead of as silence.
+    data = orc.extract_json(text)
+    if data is None:
+        if (text or "").strip():
+            return [], ("external review UNUSABLE: {} returned {} character(s) that "
+                        "contained no JSON object. This is not a clean result. A "
+                        "reasoning model starved of completion budget looks exactly "
+                        "like this.".format(model, len(text)))
+        return [], "external review UNUSABLE: {} returned an empty reply.".format(model)
+    out, dropped = validate_findings(data.get("findings") or [], valid, model)
+    note = build_note(model, len(out), dropped, data.get("note", ""), truncated, blinded)
     if verbose:
         print("    " + note, file=sys.stderr)
     return out, note
@@ -528,7 +727,8 @@ def cmd_run(args: argparse.Namespace) -> int:
     findings = run_local(lines)
     ext_note = "external backend not requested"
     if args.allow_external:
-        ext, ext_note = run_external(lines, project, args.verbose)
+        ext, ext_note = run_external(lines, project, args.verbose,
+                                     getattr(args, "external_model", None))
         findings += ext
 
     blocking = [f for f in findings if f["severity"] == HIGH]
@@ -586,6 +786,8 @@ def cmd_run(args: argparse.Namespace) -> int:
     with open(dest, "w", encoding="utf-8") as fh:
         json.dump(artifact, fh, indent=1)
 
+    emit_github_annotations(findings)
+
     print("\nVERDICT: {}  ({} high, {} medium, {} low)".format(
         verdict.upper(), len(blocking), len(med), len(low)))
     print("  " + coverage)
@@ -597,6 +799,59 @@ def cmd_run(args: argparse.Namespace) -> int:
               "naming commit {}. The gate's review domain wants an artifact for a committed "
               "tree; commit first and rerun.".format(sha[:12]))
     return 0 if verdict == "pass" else 1
+
+
+ANNOTATION_CAP = 10
+
+
+def _wc_escape(s: str, prop: bool) -> str:
+    """Escape a GitHub workflow-command field.
+
+    GitHub parses `::error k=v,k=v::message`, so a raw newline ends the command and a
+    raw comma or colon inside a property silently splits it. The documented escapes are
+    %25 for percent, %0D and %0A for the line endings, and additionally %3A and %2C
+    inside property values. Percent goes first or it double-escapes the others.
+    """
+    s = s.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+    if prop:
+        s = s.replace(":", "%3A").replace(",", "%2C")
+    return s
+
+
+def emit_github_annotations(findings: list, stream=None) -> int:
+    """Print findings as GitHub workflow commands so they land on the PR diff.
+
+    Written 2026-07-30 INSTEAD OF adopting reviewdog. That evaluation proposed
+    panel.py -> to_rdjson.py -> reviewdog.exe to get findings onto a pull request, and
+    reviewdog's own README documents its `github-annotations` reporter emitting exactly
+    `::error line=,col=,file=::message`, the same string this function prints. The
+    binary, the translator and the supply-chain surface were all carrying a payload we
+    can emit directly from the artifact we already build.
+
+    No-op outside Actions, so it is invisible locally and in the gate's own selftest.
+    Capped because GitHub renders at most 10 annotations per level per step and
+    silently drops the rest, and a silent drop reads as "nothing else was found".
+    """
+    if os.environ.get("GITHUB_ACTIONS") != "true":
+        return 0
+    out = stream or sys.stdout
+    levels = (("high", "error"), ("medium", "warning"))
+    written = 0
+    for sev, level in levels:
+        rows = [f for f in findings if str(f.get("severity", "")).lower() == sev]
+        for f in rows[:ANNOTATION_CAP]:
+            print("::{} file={},line={},title={}::{}".format(
+                level,
+                _wc_escape(str(f.get("file", "")), True),
+                str(f.get("line", 0)),
+                _wc_escape("panel/" + str(f.get("check", "review")), True),
+                _wc_escape(str(f.get("why", "")), False)), file=out)
+            written += 1
+        if len(rows) > ANNOTATION_CAP:
+            print("::notice::{} {} finding(s) not annotated; GitHub renders {} per "
+                  "level per step. Full set in the review artifact.".format(
+                      len(rows) - ANNOTATION_CAP, sev, ANNOTATION_CAP), file=out)
+    return written
 
 
 def cmd_selftest(args: argparse.Namespace) -> int:
@@ -706,6 +961,18 @@ def cmd_selftest(args: argparse.Namespace) -> int:
                 ".btn:focus-visible { outline: 2px solid var(--ring); }",
                 ".card { max-width: 100%; font-size: 1rem; }",
             ],
+            # Prose that happens to contain the English noun "eval". The first line
+            # is verbatim from new-recruit's 00001061-AUDIT_DASHBOARD.html:333, which
+            # eval-added reported as a HIGH on 2026-07-26 and cost a waiver: there is
+            # no JavaScript on it at all. HTML is not excluded the way markdown is,
+            # because `<script>eval(src)</script>` in a page is a real finding, so the
+            # separation has to come from the pattern rather than the file type.
+            "page.html": [
+                "<div class=\"kcard-desc\">Oded built BrainTrust eval (300 scenarios)."
+                " Needs dev environment before connecting to live.</div>",
+                "<p>We ran the eval (twice) and the medical eval (again).</p>",
+                "<li>Retrieval eval (nDCG@10) beat the baseline.</li>",
+            ],
         }
         for name, body in innocent.items():
             open(os.path.join(td, name), "w", encoding="utf-8").write("\n".join(body) + "\n")
@@ -796,6 +1063,112 @@ def cmd_selftest(args: argparse.Namespace) -> int:
             "ok  " if ok else "MISS", n))
         rc |= 0 if ok else 1
 
+    def assert_(ok: bool, msg: str) -> int:
+        """Print one assertion. On failure also emit a `[FAIL] ` line.
+
+        tools/audit/mutate.py decides whether a mutation was caught by a NAMED
+        check by scanning stdout for lines starting with `[FAIL]` (mutate.py:174).
+        This selftest printed only `MISS`, so every mutation against this file was
+        recorded as a weak signal no matter how well covered the behaviour was.
+        """
+        print("  {}  {}".format("ok  " if ok else "MISS", msg))
+        if not ok:
+            print("[FAIL] {}".format(msg))
+        return 0 if ok else 1
+
+    # A judge that reads the SKILL.md it is grading grades the intent, not the
+    # artifact. These assertions exist because that filter is invisible from
+    # outside: a filter that silently stopped working looks exactly like one that
+    # had nothing to remove.
+    probe = [
+        {"file": "dot-claude/skills/explain-simply/SKILL.md", "line": 1, "text": "x"},
+        {"file": ".claude/agents/reviewer.md", "line": 1, "text": "x"},
+        {"file": "hiring_engine/today.py", "line": 1, "text": "x"},
+        {"file": "docs/SKILL-notes.md", "line": 1, "text": "x"},
+    ]
+    kept, blinded = judge_blind(probe)
+    kept_files = {ln["file"] for ln in kept}
+
+    ok = "dot-claude/skills/explain-simply/SKILL.md" not in kept_files \
+        and ".claude/agents/reviewer.md" not in kept_files
+    print("  {}  a skill or agent definition is withheld from the external judge".format(
+        "ok  " if ok else "MISS"))
+
+    ok = "hiring_engine/today.py" in kept_files and "docs/SKILL-notes.md" in kept_files
+    rc |= assert_(ok, "ordinary code and prose are still sent (a doc merely NAMING a skill "
+          "is not a definition)")
+
+    ok = blinded == 2
+    rc |= assert_(ok, "the withheld count is returned, not swallowed ({} of 4)".format(blinded))
+
+    # A SKILL.md is a skill definition wherever it lives. Covering only the
+    # skills-directory form would leave a plugin or a vendored pack unfiltered.
+    loose, _ = judge_blind([{"file": "plugins/mypack/SKILL.md", "line": 1, "text": "x"}])
+    ok = not loose
+    rc |= assert_(ok, "a bare SKILL.md outside a skills directory is still withheld")
+
+    # These two guard the fail-closed credential path, which had no coverage at all
+    # before 2026-07-27 despite being the only thing standing between a private key
+    # and a third-party model.
+    planted = [{"file": "src/cfg.ts", "line": 3,
+                "text": 'const k = "AKIA' + "A" * 16 + '";'}]
+    ok = bool(redactable(planted))
+    rc |= assert_(ok, "a credential-shaped literal is detected before anything is sent")
+
+    # Ordering matters: the scan must run over EVERYTHING, before blinding. If it
+    # ran after, a key inside a SKILL.md would be filtered out of its own leak check.
+    in_skill = [{"file": "dot-claude/skills/x/SKILL.md", "line": 1,
+                 "text": 'token = "' + "b" * 40 + '"  # sk-' + "c" * 24}]
+    ok = bool(redactable(in_skill))
+    rc |= assert_(ok, "a credential inside a skill definition is still scanned "
+          "(scan precedes blinding)")
+
+    # screen_for_send and validate_findings were extracted from run_external on
+    # 2026-07-27 for one reason: fused to a network call they could not be tested,
+    # and mutation testing showed both were completely unguarded.
+    key_in_skill = [{"file": "dot-claude/skills/x/SKILL.md", "line": 1,
+                     "text": 'AKIA' + "A" * 16}]
+    sendable, _, leaks = screen_for_send(key_in_skill)
+    rc |= assert_(bool(leaks) and not sendable,
+                  "a credential inside a blinded file still stops the send "
+                  "(scan precedes blinding, inside the real send path)")
+
+    mixed = [{"file": "src/a.ts", "line": 1, "text": "const x = 1;"},
+             {"file": "dot-claude/skills/y/SKILL.md", "line": 1, "text": "# y"}]
+    sendable, blinded, leaks = screen_for_send(mixed)
+    rc |= assert_(not leaks and blinded == 1
+                  and [ln["file"] for ln in sendable] == ["src/a.ts"],
+                  "a clean mixed change sends only the code and reports 1 withheld")
+
+    valid = {("src/a.ts", 1)}
+    kept, dropped = validate_findings(
+        [{"file": "src/a.ts", "line": 1, "severity": "high", "why": "real"},
+         {"file": "src/a.ts", "line": 999, "severity": "high", "why": "invented line"},
+         {"file": "nope.ts", "line": 1, "severity": "high", "why": "invented file"},
+         {"file": "src/a.ts", "line": "NaN", "severity": "high", "why": "unparseable"},
+         "not even a dict"],
+        valid, "test-model")
+    rc |= assert_(len(kept) == 1 and kept[0]["line"] == 1,
+                  "only findings citing a line the change added survive")
+    rc |= assert_(dropped == 4,
+                  "every discarded finding is counted, not silently dropped "
+                  "({} of 4)".format(dropped))
+    rc |= assert_(kept and kept[0]["severity"] == "high"
+                  and validate_findings([{"file": "src/a.ts", "line": 1,
+                                          "severity": "bogus"}], valid, "m")[0][0]
+                  ["severity"] == MED,
+                  "an unknown severity falls back to medium rather than passing through")
+
+    n = build_note("m", 2, 5, "could not assess the css", True, 3)
+    rc |= assert_("5 dropped" in n,
+                  "the note states how many findings were discarded")
+    rc |= assert_("3 skill/agent definition line(s) withheld" in n,
+                  "the note states how much was withheld from the judge")
+    rc |= assert_("truncated" in n,
+                  "the note states when the input was cut short")
+    rc |= assert_("  0 skill" not in build_note("m", 1, 0, "", False, 0),
+                  "a review that withheld nothing does not claim it withheld zero")
+
     print("\nVERDICT: {}".format(
         "every planted defect is caught and a clean change passes clean" if rc == 0
         else "panel selftest has failures above"))
@@ -819,6 +1192,10 @@ def main(argv: list[str]) -> int:
     r.add_argument("--allow-external", action="store_true",
                    help="also send the change to a free OpenRouter model; refuses if the "
                         "change contains credential-shaped content")
+    r.add_argument("--external-model",
+                   help="OpenRouter model id to try first, e.g. z-ai/glm-4.7-flash. "
+                        "Omitted, the client picks a zero-priced model. A priced id "
+                        "here bills; the daily quota counts requests, not dollars")
     r.add_argument("-v", "--verbose", action="store_true")
     r.set_defaults(fn=cmd_run)
     t = sub.add_parser("selftest")

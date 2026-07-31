@@ -1,0 +1,65 @@
+{
+  "component": "tools/docmap",
+  "reviewed": "2026-07-30",
+  "recheck_after": "2026-10-28",
+  "verdict": "keep-ours",
+  "why": "The job is narrower than any documentation tool addresses, and the narrowness is the whole point. This does not render, publish, search or theme anything. It answers three questions about 929 tracked markdown files: which of them are LIFECYCLE documents rather than definitions, what each one's status is, and which lane-letter scheme it was written under. Every alternative found solves publishing or navigation, which this estate does not need, and none of them solves the third question at all because it is specific to a renumbering this repo performed on 2026-07-30. The measured problem it was built for: docs/INDEX.md is hand-curated and reaches 23 of 74 lifecycle documents, 31%. Replacing a decayed hand-curated index with a better hand-curated index would decay identically, which is why this is a generator with a gate check, mirroring the contract tools/map/codemap.py already enforces for directories. The scoping was wrong twice before it was right, and both errors are recorded in the source: it first demanded a lifecycle status from 480 definition files (SKILL.md, rules, agents, commands) whose real state is deployment and is already measured by tools/audit/skills_sync.py, and it separately failed to parse the inline `Date: X. Status: Y.` form that 15 of 17 ADRs use, reporting 6 ADRs as UNDECLARED when every one of them declares a status.",
+  "what_ours_does": "Classifies every tracked markdown file plus docs/prior-art/*.json into one of 19 classes, derives a lifecycle status from the class or from the document's own header, computes prior-art expiry arithmetically, records supersession where a document names it, and tags each document with the lane-letter scheme it was written under by reusing tools/lib/lanes.py rather than re-deriving the 2026-07-30 cutover. Writes docs/DOCMAP.md, which a hand edit invalidates. docs/doc-status.txt carries only the residue that cannot be derived, currently 37 rows of 929.",
+  "our_loc": 493,
+  "strongest_counterargument": "A generated inventory of 929 files is not what anybody actually wanted; the operator asked for visibility and order, and 855 of those rows are definitions, corpus, run logs and vendored third-party files that nobody will ever read in a map. The useful output is 74 rows, and 74 rows is small enough that a hand-curated index COULD stay correct if it had an expiry check on it, which is roughly 20 lines against this 493. The honest answer to that is the measurement: the hand-curated index had already decayed to 31% coverage before anyone noticed, and nothing in the estate would have detected that, because there was no check. The 855 non-lifecycle rows are the price of being able to prove the 74 are complete. If the operator would rather have the 20-line version, the argument for this one weakens considerably.",
+  "alternatives": [
+    {
+      "name": "log4brains",
+      "url": "https://github.com/thomvaill/log4brains",
+      "why_not": "Genuinely the closest fit and rejected on scope rather than quality. It is purpose-built for ADRs: it parses status, tracks supersession, and generates a searchable static site. It would handle 17 of the 74 lifecycle documents better than this does. It handles none of the other 57, has no concept of specs, handoffs, analyses or prior-art records, and cannot express the lane-scheme column. Adopting it would mean two document maps, one for ADRs and one for everything else, and the ADR portion is the part that already works because ADRs declare their own status."
+    },
+    {
+      "name": "Backstage TechDocs and the software catalog",
+      "url": "https://backstage.io/docs/features/techdocs/",
+      "why_not": "The enterprise answer to exactly this problem, and disproportionate by orders of magnitude. It requires a running Node service, a Postgres database, and catalog-info.yaml per entity. dot-claude/rules/repo-stack-reasoning.md forbids a server process without an owner, and this estate is one operator on one machine with 9 MB of structured data. Backstage exists to make hundreds of services legible to hundreds of engineers."
+    },
+    {
+      "name": "MkDocs or Sphinx with an explicit nav tree",
+      "url": "https://www.mkdocs.org/",
+      "why_not": "Solves publishing and navigation, not status. The nav tree is hand-maintained, so it is docs/INDEX.md with a build step, and it would decay the same way for the same reason. Also inverts the problem: mkdocs FAILS on a document missing from nav, which sounds useful until you have 855 definition files that legitimately do not belong in a reading order."
+    },
+    {
+      "name": "adr-tools",
+      "url": "https://github.com/npryce/adr-tools",
+      "why_not": "Shell scripts for creating and superseding ADRs, and it writes the supersession links this tool reads. Complementary rather than competing, and not adopted because the ADRs here already carry status and supersession by hand and the parsing works. Worth revisiting if ADR count grows past roughly 40, where hand-maintaining supersession chains starts to slip."
+    },
+    {
+      "name": "Obsidian, Foam or any backlink-graph wiki",
+      "url": "https://foambubble.github.io/foam/",
+      "why_not": "Gives a link graph, which is a real capability this lacks, and gives no status and no gate. The memory directory already uses [[name]] links for exactly that purpose at a scale of 2 files. A graph would answer 'what references this', which is a genuinely useful question this tool punts on: it records only whether docs/INDEX.md reaches a document, not the full reference graph. That is the honest gap and it is in improvement_owed."
+    },
+    {
+      "name": "Keep docs/INDEX.md hand-curated, add an expiry or coverage check to it",
+      "url": "https://github.com/npryce/adr-tools",
+      "why_not": "The simplest correct option and the one this record is obliged to compare against. Roughly 20 lines: count lifecycle documents, count those INDEX reaches, fail below a threshold. It would have caught the decay to 31%. It would NOT derive status, would not compute prior-art expiry, and would not carry the lane-scheme column, so the four specs that declare no status and the 24 documents written under the old lane letters would stay invisible. Rejected, but it is close enough that if the operator disagrees with this component's existence, this is the fallback to build instead."
+    }
+  ],
+  "improvement_owed": "Record the full reference graph, not just whether docs/INDEX.md reaches a document. The question 'what else points at this file' is what makes a superseded document safe to move or delete, and this tool cannot answer it. A grep-based backlink pass over the 74 lifecycle documents is cheap and would turn the map into something that can drive the shrinkage work rather than only describe it.",
+  "evidence": {
+    "measured": "2026-07-30",
+    "tracked_markdown": 929,
+    "lifecycle_documents": 74,
+    "reachable_from_INDEX": 23,
+    "index_coverage_of_lifecycle": "31%",
+    "non_lifecycle": {
+      "skill": 179, "work-doc": 176, "corpus": 135, "automation-output": 126,
+      "vendored": 68, "doc": 41, "rule": 38, "prior-art": 29, "automation-prompt": 28,
+      "agent": 23, "command": 7, "generated-output": 2
+    },
+    "registry_rows_needed": 37,
+    "adrs_undeclared_before_the_inline_fix": 6,
+    "adrs_undeclared_after": 0,
+    "corrections": "Two coverage figures were published before this and both were wrong: 9% measured only docs/ and work-docs, and 3% measured against all 929 markdown files including definitions that have no lifecycle. 31% against the 74 lifecycle documents is the defensible number.",
+    "commands": [
+      "python tools/docmap/docmap.py selftest",
+      "python tools/docmap/docmap.py check",
+      "python tools/docmap/docmap.py write"
+    ]
+  },
+  "recheck": "Re-run: python tools/docmap/docmap.py selftest && python tools/docmap/docmap.py check. Then re-search whether log4brains has grown beyond ADRs, and whether anything now generates a document map WITH a status field from arbitrary markdown classes; that combination is what would make this component redundant. Also check whether docs/doc-status.txt has grown much past 37 rows, because that would mean the derivation rules are wrong and are being papered over by the registry, which is the failure mode this design is most exposed to."
+}

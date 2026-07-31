@@ -1,0 +1,78 @@
+# Document status registry, read by tools/docmap/docmap.py.
+#
+# One `path | status` per line. This holds ONLY the residue: documents whose status cannot be
+# derived from their class or from a `Status:` line in the document itself. Everything else is
+# derived, and adding a row here for a document that declares its own status is a duplication that
+# will drift.
+#
+# The registry started at 37 rows out of 929 tracked markdown files. If it grows much past that,
+# the derivation rules are wrong and should be fixed rather than papered over here.
+#
+# Statuses used, and what each means:
+#   living              a document that is continuously edited and has no version. Correct by
+#                       construction or it gets fixed; it is never "stale", it is just current.
+#   generated           written by a tool. Its truth is the tool's exit code, not a field here.
+#   subproject          belongs to intent-control-plane, which has its own docs/ tree and its own
+#                       lifecycle. ADR-0017 made claude-setup's copy authoritative.
+#   salvage             extracted from something deleted. Frozen by definition; never updated.
+#   superseded-by X     a real supersession, with the successor named.
+
+# ── Root-level living documents ───────────────────────────────────────────────
+README.md | living
+TODO.md | living
+docs/INDEX.md | living
+docs/SESSION-BOOT.md | living
+docs/charters.md | living
+docs/QUALITY-CONTRACT.md | living
+docs/OPERATOR-RUNBOOK.md | living
+docs/EXECUTION-PLAN.md | living
+docs/taste.md | living
+dot-claude/CLAUDE.md | living
+dot-codex/AGENTS.md | living
+dot-codex/automations/README.md | living
+docs/CODEBASE-MAP.md | generated
+state/compact-log.md | living
+
+# ── The four specs that declare no status ─────────────────────────────────────
+# 2026-07-29 build plans: v2 supersedes v1, and v2 is itself superseded in the parts the
+# 2026-07-30 PRD and data-architecture spec now cover. Recorded as a chain rather than flattened,
+# because the reasoning in v1 is what v2 is arguing against.
+docs/specs/2026-07-29-architecture-build-plan.md | superseded-by docs/specs/2026-07-29-architecture-build-plan-v2.md
+docs/specs/2026-07-29-architecture-build-plan-v2.md | partly-superseded-by docs/prd/2026-07-30-consolidation-and-migration.md
+docs/specs/2026-07-29-intent-traceability.md | accepted
+docs/specs/2026-07-29-trace-model-sacred-timeline.md | accepted
+
+# ── The absorption brief ──────────────────────────────────────────────────────
+docs/2026-07-29-external-absorption-brief.md | dated-snapshot
+
+# ── living-codex salvage, frozen ──────────────────────────────────────────────
+# Extracted 2026-07-30 from a repo with no remote and one commit, before deletion. Never updated:
+# updating a salvage record would make it no longer a record of what was salvaged.
+docs/prior-art/living-codex-salvage/README.md | salvage
+docs/prior-art/living-codex-salvage/.openai_hosting.json | salvage
+
+# ── intent-control-plane, a subproject with its own docs tree ─────────────────
+intent-control-plane/README.md | subproject
+intent-control-plane/TODO.md | subproject
+intent-control-plane/CODE-HEALTH-2026-GAPS.md | subproject
+intent-control-plane/TESTING-SOTA-2026-GAPS.md | subproject
+intent-control-plane/docs/INDEX.md | subproject
+intent-control-plane/docs/RUNBOOK.md | subproject
+intent-control-plane/docs/analysis/2026-07-11-fleet-human-tasks.md | subproject
+intent-control-plane/docs/analysis/2026-07-11-fleet-init-phase0.md | subproject
+intent-control-plane/docs/analysis/2026-07-11-widgora-tasks.md | subproject
+intent-control-plane/docs/analysis/2026-07-12-implementation-audit.md | subproject
+
+# ── home-dotfiles, the deployed-config payload tree ──────────────────────────
+home-dotfiles/AGENTS.md | living
+home-dotfiles/RTK.md | living
+home-dotfiles/TESTING-SOTA-2026-GAPS.md | dated-snapshot
+
+# ── tool READMEs ─────────────────────────────────────────────────────────────
+tools/hookgate/README.md | living
+tools/hookgate/bench/README.md | living
+startup-scripts/startup.md | living
+
+# ── tool READMEs added 2026-07-30 by the parallel absorption run ──────────────
+tools/supply/README.md | living
+tools/timetravel/README.md | living

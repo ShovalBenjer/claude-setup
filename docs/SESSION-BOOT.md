@@ -3,7 +3,8 @@
 Read in this order, nothing else needed:
 
 1. `CLAUDE-OS.md` §0-§2 — what the system is (skim; you likely know it).
-2. `docs/charters.md` — name your lane. Default for harness work: lane B.
+2. `docs/charters.md` names your lane. Default for harness work: lane A (renumbered
+   from B on 2026-07-30, ADR-0016; pre-cutover ledger rows still say B).
 3. `TODO.md` — current state by phase; DONE list = what exists.
 4. `docs/prd/autonomy-ecosystem.md` — the live acceptance table (AUTO-*).
 5. `tools/selfimprove/proposals.jsonl` — ranked open work; claim before starting.

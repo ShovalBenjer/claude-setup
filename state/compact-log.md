@@ -2144,3 +2144,1096 @@ c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
 2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
 c7ad4f6 fix(bus): deliver the messages this bus was silently dropping
 ```
+## compact 2026-07-25 13:44
+```
+## main...origin/main [ahead 12]
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+```
+## compact 2026-07-25 13:46
+```
+## main...origin/main [ahead 12]
+ M state/compact-log.md
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+```
+## compact 2026-07-25 13:55
+```
+## main...origin/main [ahead 12]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+?? state/snapshots/
+?? tools/snapshot/
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+```
+## compact 2026-07-25 13:55
+```
+## main...origin/main [ahead 12]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+?? state/snapshots/
+?? tools/audit/mutations/snap.py
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+```
+## compact 2026-07-25 14:00
+```
+## main...origin/main [ahead 12]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+?? state/snapshots/
+?? tools/audit/mutations/snap.py
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+```
+## compact 2026-07-25 14:12
+```
+## main...origin/main [ahead 12]
+ M .github/workflows/ship-gate.yml
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+?? state/snapshots/
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+2718a07 fix(refute): replace C-001's substring grep with a check that can actually fail
+```
+## compact 2026-07-25 19:27
+```
+## main...origin/main [ahead 13]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+```
+## compact 2026-07-25 19:29
+```
+## main...origin/main [ahead 13]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+```
+## compact 2026-07-25 19:39
+```
+## main...origin/main [ahead 13]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+```
+## compact 2026-07-25 19:40
+```
+## main...origin/main [ahead 13]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+```
+## compact 2026-07-25 19:42
+```
+## main...origin/main [ahead 13]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+```
+## compact 2026-07-25 19:42
+```
+## main...origin/main [ahead 13]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+```
+## compact 2026-07-25 19:53
+```
+## main...origin/main [ahead 13]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+?? dot-claude/skills/explain-simply/
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+```
+## compact 2026-07-25 19:55
+```
+## main...origin/main [ahead 13]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+?? dot-claude/skills/explain-simply/
+?? tools/audit/mutations/plain.py
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+4940617 feat(skills): import 16 live-only skills, fix locate_body's three-state triage
+```
+## compact 2026-07-25 20:09
+```
+## main...origin/main [ahead 14]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+c55a401 feat(skills): explain-simply, a plain-language skill with an executable checker
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+```
+## compact 2026-07-25 20:10
+```
+## main...origin/main [ahead 14]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+c55a401 feat(skills): explain-simply, a plain-language skill with an executable checker
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+```
+## compact 2026-07-25 20:21
+```
+## main...origin/main [ahead 14]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+c55a401 feat(skills): explain-simply, a plain-language skill with an executable checker
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+```
+## compact 2026-07-25 20:29
+```
+## main...origin/main [ahead 14]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+c55a401 feat(skills): explain-simply, a plain-language skill with an executable checker
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+```
+## compact 2026-07-25 20:43
+```
+## main...origin/main [ahead 14]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+c55a401 feat(skills): explain-simply, a plain-language skill with an executable checker
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+0eb1639 feat(audit): prove the selftests can fail, and wire that proof into CI
+```
+## compact 2026-07-25 20:59
+```
+## main...origin/main [ahead 15]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+?? docs/analysis/2026-07-25-our-own-dolt.md
+?? docs/analysis/2026-07-25-repo-benchmark-and-star-forensics.md
+1edffe0 fix(gate): pass security on measurement, and stop counting deleted docs as docs
+c55a401 feat(skills): explain-simply, a plain-language skill with an executable checker
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+```
+## compact 2026-07-25 21:11
+```
+## main...origin/main [ahead 15]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+?? docs/analysis/2026-07-25-our-own-dolt.md
+?? docs/analysis/2026-07-25-repo-benchmark-and-star-forensics.md
+1edffe0 fix(gate): pass security on measurement, and stop counting deleted docs as docs
+c55a401 feat(skills): explain-simply, a plain-language skill with an executable checker
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+```
+## compact 2026-07-25 21:25
+```
+## main...origin/main [ahead 15]
+ M .github/workflows/ship-gate.yml
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+?? docs/analysis/2026-07-25-our-own-dolt.md
+1edffe0 fix(gate): pass security on measurement, and stop counting deleted docs as docs
+c55a401 feat(skills): explain-simply, a plain-language skill with an executable checker
+db654d2 feat(snapshot): revertable undo for writes into ~/.claude, mutation-proven
+```
+## compact 2026-07-25 21:39
+```
+## main...origin/main [ahead 17]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+1edffe0 fix(gate): pass security on measurement, and stop counting deleted docs as docs
+```
+## compact 2026-07-25 21:55
+```
+## main...origin/main [ahead 17]
+ M dot-claude/bin/elevenlabs-mcp-launcher.sh
+ M dot-claude/bin/mcp-atlassian-launcher.sh
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+1edffe0 fix(gate): pass security on measurement, and stop counting deleted docs as docs
+```
+## compact 2026-07-25 22:05
+```
+## main...origin/main [ahead 17]
+ M dot-claude/bin/elevenlabs-mcp-launcher.sh
+ M dot-claude/bin/mcp-atlassian-launcher.sh
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+1edffe0 fix(gate): pass security on measurement, and stop counting deleted docs as docs
+```
+## compact 2026-07-25 22:35
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:39
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:46
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:47
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:48
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:48
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:49
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:49
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:49
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:50
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:50
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:51
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:52
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:53
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:53
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:53
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:53
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:54
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:54
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:54
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:55
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:56
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:56
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:57
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:57
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:58
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:58
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:58
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 22:59
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:00
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:00
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:00
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:01
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:01
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:02
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+?? tests/test_codemap.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:03
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:03
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:04
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:04
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:04
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:05
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:05
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:05
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:06
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:07
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:07
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:08
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:09
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:09
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:11
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:11
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:13
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:14
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+?? docs/prior-art/
+?? state/reviews/1edffe033f1924b63af71586f91630e41a2f3b98.json
+?? state/reviews/90780b5db7b0326164c85be82682482bfd5f2c91.json
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:15
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:15
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:16
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:18
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:18
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:19
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:19
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:21
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:22
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:23
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:23
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:23
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:25
+```
+## main...origin/main [ahead 18]
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+?? docs/prior-art/
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:25
+```
+## main...origin/main [ahead 18]
+ M quality-contract.json
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:26
+```
+## main...origin/main [ahead 18]
+ M quality-contract.json
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:30
+```
+## main...origin/main [ahead 18]
+ M quality-contract.json
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:30
+```
+## main...origin/main [ahead 18]
+ M quality-contract.json
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:30
+```
+## main...origin/main [ahead 18]
+ M quality-contract.json
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:31
+```
+## main...origin/main [ahead 18]
+ M quality-contract.json
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:36
+```
+## main...origin/main [ahead 18]
+ M quality-contract.json
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-25 23:37
+```
+## main...origin/main [ahead 18]
+ M quality-contract.json
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-26 16:12
+```
+## main...origin/main [ahead 18]
+ M quality-contract.json
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-26 16:13
+```
+## main...origin/main [ahead 18]
+ M quality-contract.json
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M tools/gate/gate.py
+2fdb2f0 fix(gate,review): stop the reviewer reviewing itself, and stop the gate trusting a stale review
+90780b5 fix(icp): release the sqlite handle the with-block only pretended to
+1750afe feat(skilleval): grade skill routing, and prove every grader can fail
+```
+## compact 2026-07-27 16:26
+```
+## main...origin/main [ahead 21]
+ M docs/CODEBASE-MAP.md
+ M dot-claude/commands/cdp.md
+ M state/bus.jsonl
+ M state/claims.jsonl
+fce6007 fix the em-dash count in the session handoff: 28 occurrences across 24 lines
+c8ec3b9 document the 2026-07-26 session, leading with two corrections
+8d40794 map every tracked directory and start the standing prior-art audit
+```
+## compact 2026-07-30 12:34
+```
+## chore/delete-dolt
+A  .gitattributes
+ M .gitignore
+M  CLAUDE-OS.md
+ M TODO.md
+d4c5541 fix(codemap): regenerate the map after this session's two docs/ additions
+92705fd docs(handoff): correct the clean-oracle claim, the committed tree fails two
+f0f6730 fix(codemap): commit the purpose row for the directory ed87ed0 started tracking
+```
+## compact 2026-07-30 12:46
+```
+## chore/delete-dolt
+A  .gitattributes
+ M .gitignore
+M  CLAUDE-OS.md
+ M TODO.md
+d4c5541 fix(codemap): regenerate the map after this session's two docs/ additions
+92705fd docs(handoff): correct the clean-oracle claim, the committed tree fails two
+f0f6730 fix(codemap): commit the purpose row for the directory ed87ed0 started tracking
+```

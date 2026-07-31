@@ -1,0 +1,88 @@
+# CLI surface of the harness tools
+
+Every tool here carries a `selftest` that asserts on internal functions in-process.
+None of them executes its own command line, so the argparse contract has never been
+checked: the mode list a caller is allowed to pass, the exit code on a bad one, and
+the error text a human reads. These are those checks. Output is matched with `[..]`
+and `...` because argparse wraps to the terminal width and the docstrings are long.
+
+Run: `python tools/trycmd/trycmd.py check`
+
+## An unknown mode is exit 2 and names the modes that exist
+
+This is the check that would have caught a mode being renamed out from under a hook.
+
+```console
+$ python tools/docmap/docmap.py bogus
+? 2
+usage: docmap.py [..]
+docmap.py: error: argument mode: invalid choice: 'bogus' (choose from [..]
+```
+
+```console
+$ python tools/map/codemap.py bogus
+? 2
+usage: codemap.py [..]
+...
+codemap.py: error: argument command: invalid choice: 'bogus' (choose from [..]
+```
+
+Note the positional is named `command` here and `mode` in every other tool. That
+inconsistency was invisible until a test executed the command line; it is recorded
+rather than fixed, because renaming a positional changes the error text hooks and
+docs may already quote.
+
+```console
+$ python tools/trycmd/trycmd.py bogus
+? 2
+usage: trycmd.py [-h] [--project PROJECT] [-v]
+                 {check,overwrite,selftest} [paths ...]
+trycmd.py: error: argument mode: invalid choice: 'bogus' (choose from [..]
+```
+
+## A missing required argument is exit 2, not a traceback
+
+```console
+$ python tools/docmap/docmap.py
+? 2
+usage: docmap.py [..]
+docmap.py: error: the following arguments are required: mode
+```
+
+## The declared modes are reachable and `--help` exits 0
+
+The mode tuple is the tool's public contract. If a mode disappears the usage line
+changes and this block fails, which is the point.
+
+```console
+$ python tools/trycmd/trycmd.py --help
+usage: trycmd.py [-h] [--project PROJECT] [-v]
+                 {check,overwrite,selftest} [paths ...]
+...
+```
+
+## Selftests report their own failure count and exit 0 when clean
+
+The count is load-bearing: a selftest that prints nothing and exits 0 is
+indistinguishable from one that ran no checks.
+
+```console
+$ python tools/trycmd/trycmd.py selftest
+trycmd selftest: 0 checks failed
+```
+
+```console
+$ python tools/docmap/docmap.py selftest
+docmap selftest: 0 checks failed
+```
+
+## A case file that is not valid `.trycmd` is a parse error, not a silent pass
+
+A snapshot harness that skips files it cannot read reports green on an empty suite.
+
+```console
+$ python tools/trycmd/trycmd.py check tests/cmd/fixtures/malformed.trycmd
+? 1
+FAIL malformed.trycmd: Expected `$` on line 6, got `this line has no $ prefix`
+trycmd: 1 step(s), 1 failed
+```

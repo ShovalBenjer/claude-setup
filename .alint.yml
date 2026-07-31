@@ -1,0 +1,260 @@
+# Root agentic repository standard, enforced.
+#
+# Reasoning: docs/standards/agentic-repo-standard.md. Decision: ADR-0020.
+# Written against alint v0.14.1 (89 rule kinds, 22 bundled rulesets).
+#
+# This file is the normative form of the standard. The prose document explains
+# why each row exists; a row that is not here is not enforced, whatever the
+# document says.
+#
+#   alint check          report violations
+#   alint check --fix    apply the auto-fix operations declared below
+#
+# Rule ids are prefixed by the row they implement in the standard (r1..r6) so a
+# violation names its own justification.
+
+version: 1
+
+extends:
+  # Shape and content baselines we would otherwise reimplement: README/LICENSE
+  # presence, pinned action shas, no tracked build output, ADR numbering.
+  - url: "alint://bundled/oss-baseline@v1"
+  - url: "alint://bundled/ci/github-actions@v1"
+  - url: "alint://bundled/docs/adr@v1"
+  - url: "alint://bundled/hygiene/no-tracked-artifacts@v1"
+  # Aimed at the AGENTS.md problem directly. Adopted rather than hand-written.
+  - url: "alint://bundled/agent-hygiene@v1"
+  - url: "alint://bundled/agent-context@v1"
+
+ignore:
+  # Vendored dependency trees and build output. Linting them measures somebody
+  # else's conventions.
+  - "**/node_modules/**"
+  - "**/.venv/**"
+  - "**/target/**"
+  - "**/__pycache__/**"
+  # Verbatim offline copies of external documents, saved so a citation survives
+  # the source moving. Editing them to match our conventions would destroy the
+  # thing they exist to preserve. Stated in docs/dir-purpose.txt.
+  - "docs/analysis/reference/**"
+  # Dated snapshots of other repositories' prose, imported as research. Not ours
+  # to reshape.
+  - "research-papers/**"
+  - "work-docs/**"
+
+facts:
+  # Globs, not literal root paths: this repository keeps its Python under
+  # tools/ and intent-control-plane/ with no root manifest, so a root-only
+  # probe reported "no code" for a repo that is almost entirely code.
+  - id: has_code
+    any_file_exists: ["pyproject.toml", "Cargo.toml", "package.json",
+                      "**/*.py", "**/*.rs", "**/*.ts"]
+
+rules:
+
+  # --- Row 1: required root files ----------------------------------------
+
+  - id: r1-readme-exists
+    kind: file_exists
+    paths: ["README.md", "README.rst", "README"]
+    root_only: true
+    level: error
+    message: >-
+      A root README is required. Measured 2026-07-31: 58.1% of this estate's 31
+      repositories have one, against 95.3% of the 10,000 repositories in
+      arXiv:2605.16701.
+
+  - id: r1-license-exists
+    kind: file_exists
+    paths: ["LICENSE", "LICENSE.md", "LICENSE.txt", "COPYING"]
+    root_only: true
+    level: error
+    message: >-
+      A root LICENSE is required. This is the estate's largest gap against the
+      population: 29.0% here against 73.1% in the 10K study. A repository with no
+      license is legally closed to the collaborators and review bots it wants.
+
+  - id: r1-gitignore-exists
+    kind: file_exists
+    paths: [".gitignore"]
+    root_only: true
+    level: error
+
+  - id: r1-agents-md-exists
+    kind: file_exists
+    paths: ["AGENTS.md"]
+    root_only: true
+    level: error
+    message: >-
+      AGENTS.md at the root is the single authority an arriving agent reads.
+      Every other agent-instruction file points at it.
+    fix:
+      file_create: { content: "# AGENTS.md\n" }
+
+  # The pointer is the whole file. Anchored at both ends so a file that merely
+  # mentions @AGENTS.md somewhere in 6 KB of prose does not pass: that is exactly
+  # the current root CLAUDE.md, 6,229 bytes and untracked.
+  - id: r1-claude-md-is-a-pointer
+    kind: file_content_matches
+    paths: ["CLAUDE.md"]
+    pattern: '\A@AGENTS\.md\s*\z'
+    level: error
+    message: >-
+      Root CLAUDE.md must be exactly the 11 bytes "@AGENTS.md" plus a newline.
+      Five hand-maintained agent files in this repo drift against each other;
+      one authority with pointers into it cannot.
+
+  # dot-codex/AGENTS.md is 31 bytes of "@/home/shovalbe/.codex/RTK.md", a WSL
+  # path absent from this machine. A pointer out of the repository is a dead
+  # pointer the moment the checkout moves.
+  - id: r1-pointer-target-is-in-repo
+    kind: file_content_forbidden
+    paths: ["**/AGENTS.md", "**/CLAUDE.md"]
+    pattern: '\A@(/|[A-Za-z]:[\\/]|~)'
+    level: error
+    message: >-
+      An agent-file pointer must name a path inside this repository. Absolute and
+      home-relative targets die on the next clone; tools/audit/pointers.py scan
+      exists because they already did.
+
+  - id: r1-no-competing-root-agent-files
+    kind: file_absent
+    paths: ["CLAUDE-OS.md", "AGENT.md", "AGENTS.MD", ".cursorrules", "GEMINI.md"]
+    root_only: true
+    level: warning
+    message: >-
+      One agent authority per repository root. A second file at the root is read
+      by some agents and not others, which is how two agents get different rules
+      from the same checkout.
+
+  # --- Row 2: REVIEW.md ---------------------------------------------------
+
+  - id: r2-review-md-exists
+    kind: file_exists
+    paths: ["REVIEW.md", "REVIEWS.md"]
+    root_only: true
+    level: error
+    message: >-
+      REVIEW.md carries the policy for agents that judge a change, as distinct
+      from AGENTS.md which carries the policy for agents that make one. Filename
+      per https://kilo.ai/docs/automate/code-reviews/overview; the vendor's own
+      launch post says REVIEWS.md, so either satisfies this rule until they
+      settle it.
+
+  # Kilo truncates past 10,000 characters and notes the truncation in the review
+  # summary footer. A REVIEW.md over the cap is silently half-applied, which is
+  # worse than not having one, because it reads as enforced.
+  - id: r2-review-md-under-vendor-cap
+    kind: file_max_size
+    paths: ["REVIEW.md", "REVIEWS.md"]
+    max_bytes: 10000
+    level: error
+    message: "REVIEW.md past 10,000 characters is truncated by the reviewer."
+
+  - id: r2-review-md-defers-to-agents-md
+    kind: file_content_matches
+    paths: ["REVIEW.md", "REVIEWS.md"]
+    pattern: 'AGENTS\.md'
+    level: warning
+    message: >-
+      REVIEW.md must link AGENTS.md for build facts rather than restate them.
+      Two copies of the same fact means one of them is the stale copy.
+
+  # --- Row 3: expected directory set --------------------------------------
+
+  - id: r3-docs-dir-exists
+    kind: dir_exists
+    paths: ["docs"]
+    level: error
+    message: "docs/ is the most common directory in the estate (13 of 31)."
+
+  - id: r3-tests-dir-when-code
+    when: facts.has_code
+    kind: dir_exists
+    paths: ["tests", "test", "spec"]
+    level: error
+    message: "A repository with code owes an executable oracle directory."
+
+  - id: r3-no-tracked-build-output
+    kind: dir_absent
+    paths: ["**/dist", "**/node_modules", "**/build"]
+    level: error
+    message: >-
+      Tracked build output and dependencies. 5 of 31 repositories track dist/
+      and 3 track node_modules/. Both are defects, not directories.
+
+  # --- Row 4: .github contents --------------------------------------------
+
+  - id: r4-workflows-exist
+    kind: dir_exists
+    paths: [".github/workflows"]
+    level: error
+
+  - id: r4-codeowners-exists
+    kind: file_exists
+    paths: [".github/CODEOWNERS", "CODEOWNERS", "docs/CODEOWNERS"]
+    level: error
+    message: >-
+      CODEOWNERS is what assigns a reviewer without a human remembering to. This
+      repository has three live workflows and no CODEOWNERS.
+
+  - id: r4-issue-template-exists
+    kind: dir_exists
+    paths: [".github/ISSUE_TEMPLATE"]
+    level: error
+    message: >-
+      An issue template is what makes an agent-filed issue parseable by the next
+      agent. Issue #21 scoped this standard and nothing enforced its shape.
+
+  - id: r4-no-dotless-github-dir
+    kind: dir_absent
+    paths: ["github"]
+    level: error
+    message: >-
+      A top-level github/ directory is never read by Actions. This repository
+      carries one as dead staging duplicate of .github/, and its files are older
+      than the live ones, so a reader who finds it first reads stale CI.
+
+  # --- Row 5: state and ledger conventions --------------------------------
+
+  # A ledger that is not .jsonl is not append-only in practice: somebody will
+  # rewrite the whole document to change one row.
+  - id: r5-state-ledgers-are-jsonl
+    kind: filename_regex
+    paths: "state/*"
+    stem: true
+    pattern: "[a-z][a-z0-9-]*"
+    level: warning
+    message: "state/ ledger names are lowercase-kebab, one topic per file."
+
+  # An ignored tree and an absent tree are indistinguishable from a search, which
+  # is how tools/audit/pointers.py called a live 1,626-file project missing five
+  # times. A manifest is the difference.
+  - id: r5-ignored-state-has-manifest
+    kind: file_exists
+    paths: ["state/*manifest*"]
+    level: warning
+    message: >-
+      Gitignored state needs a committed manifest naming what should exist, so
+      that absent is distinguishable from ignored.
+
+  - id: r5-no-tracked-secrets
+    kind: git_no_denied_paths
+    denied: [id_rsa, id_dsa, "*.pem", "*.p12", "*.pfx", ".env"]
+    level: error
+
+  # --- Row 6: per-repository GitHub Project -------------------------------
+
+  # The only row a filesystem linter cannot see. Fails soft when gh is absent or
+  # unauthenticated, so an offline clone still lints.
+  - id: r6-repo-has-linked-project
+    kind: command
+    paths: README.md
+    command: ["python", "tools/audit/repo_project.py", "check"]
+    timeout: 60
+    level: warning
+    message: >-
+      Every repository with a GitHub remote owes a linked Project, and every open
+      issue owes a board row. The board of record is Zion (project 3, owner
+      ShovalBenjer). Issue #21 sits on it with no status, which is the defect: a
+      board items reach without status is an inbox, not a plan.

@@ -1,0 +1,46 @@
+{
+  "component": "tools/timetravel",
+  "reviewed": "2026-07-30",
+  "recheck_after": "2026-10-28",
+  "verdict": "keep-ours-narrowly",
+  "why": "The margin here is THIN and the record says so rather than manufacturing a moat. A shadow bare git repository whose work-tree is this repo covers the whole capability, and I ran it rather than assuming: `git init --bare state/tt/shadow.git`, then GIT_DIR/GIT_WORK_TREE plus `git add -f state/ignored.jsonl` produced real history for a gitignored file, `git log` listed both versions, and `git show <first-commit>:state/ignored.jsonl` printed the superseded content. Fifteen lines of shell, content-addressed, deduplicated, with diff and blame included, against 691 lines here. Anyone reading this record should start from the assumption that the shell wins. ONE property separates them and it is the one the operator specified as a hard requirement: content stays off git history while the EVIDENCE is committed, matching state/snapshots/.gitignore (`*/files/`). A shadow repository cannot express that split. Its evidence IS its object store: binary zlib packs plus a binary index, so there is nothing plaintext to commit into the main repository, and a fresh clone therefore learns nothing about when a ledger moved. This tool's manifest.jsonl is one JSON line per run carrying path, size and sha256, readable in a PR diff, so `log` and `changed` answer from any clone while only `at --content` needs the machine that took the snapshot. Second, measured, difference: a nested .git inside the work tree perturbs the main repository's own reporting. In the test above `git status --porcelain --ignored` collapsed to a single `!! state/` line once the shadow existed, which is a real cost for a repo whose gate reads git status. Third, targets are DERIVED from `git status --ignored` and `git diff HEAD` rather than from a hand-kept path list, so a ledger added tomorrow is covered without anyone remembering, the same principle codemap.py uses to make prior-art obligations derive from line count instead of a list. What is NOT claimed: no diff verb, no branching, no merge, no blame, and the store duplicates roughly 3.4 MB of tracked-but-dirty ledgers that git will absorb at the next commit. If the operator drops the committed-manifest requirement, this component should be DELETED and replaced by the shell, and that is the recheck condition.",
+  "alternatives": [
+    {
+      "name": "shadow bare git repository (git init --bare + GIT_DIR/GIT_WORK_TREE + git add -f)",
+      "covers": "The strongest candidate by a wide margin and the one that should be the default answer. Verified by running it on 2026-07-30 in a scratch repo: it produced real commits for a path listed in .gitignore, `git log --oneline -- state/ignored.jsonl` returned both versions, and `git show <rev>:state/ignored.jsonl` reconstructed the superseded bytes exactly. Gives content addressing, deduplication, history, diff and blame with zero new code and seven years more hardening than anything written here.",
+      "why_not": "Cannot separate committed evidence from local content. Its manifest is its object store, which is binary and would have to be committed whole or not at all, so the state/snapshots/ split the operator required is not expressible. Measured second cost: with the shadow present, the main repo's `git status --porcelain --ignored` collapsed to one `!! state/` row, degrading a signal the gate reads. A wrapper that emits a plaintext manifest from `git ls-tree` after each shadow commit would close the first gap in roughly 60 lines and is the honest cheaper design; it is named here as the thing to build if this component is ever rewritten."
+    },
+    {
+      "name": "etckeeper (joeyh/etckeeper, Debian)",
+      "covers": "The established prior art for exactly this shape: auto-commit a directory of machine-local state into git on a hook or a timer, with history and reconstruction. Proves the pattern is not novel.",
+      "why_not": "Targets /etc on Unix package-manager hooks, is not packaged for Windows, and commits content into git history unconditionally, which is the property being avoided here."
+    },
+    {
+      "name": "restic (restic/restic) and borgbackup",
+      "covers": "Content-defined chunking, deduplication, point-in-time restore, snapshot listing, integrity check. Strictly more capable at the storage layer, cross-platform, and heavily hardened.",
+      "why_not": "The index lives inside an encrypted repository, so nothing about a snapshot is readable in a PR diff without the repo and its password, which inverts the committed-evidence requirement. Adds a Go binary and a password to a repo whose tools are stdlib-only Python. Correct choice for backup; wrong shape for evidence."
+    },
+    {
+      "name": "Dolt (dolthub/dolt), the original 2026-07-25 comparison",
+      "covers": "Versioned tables with commits, branches, diff and merge; this ticket exists because option (c) of docs/analysis/2026-07-25-our-own-dolt.md deferred the reconstruction half of it.",
+      "why_not": "Rejected on 2026-07-25 and the reasoning is unchanged: 334k LOC, a second query dialect, a migration, and DoltHub free accounts host public databases only. At a few thousand single-writer rows there is nothing it buys that git plus this manifest does not."
+    },
+    {
+      "name": "sqlite audit table plus a reconstruction script (option 4c as originally framed)",
+      "covers": "The literal shape the 2026-07-25 deferral described, roughly 150 lines, and still the right answer for hiring_engine/ledger.sqlite, which is a database rather than a file.",
+      "why_not": "Wrong unit for this repo. Every target here is a whole file (JSONL, JSON, TSV, a plain log, a 16-byte cursor), not rows in a schema, so a row-level audit table would need a schema per target and would still not cover state/sessions/ or the cursors. That option belongs to lane B and its own ledger, and this record does not claim to have absorbed it."
+    },
+    {
+      "name": "Windows Volume Shadow Copy / ZFS or btrfs snapshots",
+      "covers": "Filesystem-level point-in-time capture of everything, no application code at all, and on Windows VSS is already present.",
+      "why_not": "Whole-volume granularity with no per-path manifest, nothing committable, nothing that survives a fresh clone on another machine, and retention governed by system policy rather than by this repo. Answers 'restore the disk', not 'what did this ledger say'."
+    },
+    {
+      "name": "git stash or a WIP commit on a scratch branch for the dirty-tracked case",
+      "covers": "The transient half only. A WIP commit of the working tree does preserve an intermediate quality-contract.json inside real git history, reachable by sha.",
+      "why_not": "Requires someone to decide, before the overwrite, that this particular intermediate state will matter later. The 2026-07-30 waiver incident is precisely the case where nobody knew that at the time. Also cannot touch gitignored files at all without -f, which puts them in the history being avoided."
+    }
+  ],
+  "evidence": "Ran the shadow-git alternative end to end in a scratch repo on 2026-07-30 (bare repo, add -f on a gitignored path, log, show <rev>:path) and confirmed it reconstructs superseded content; the why_not fields quote that run rather than recalling what git does. Ran this component end to end in a second scratch repo reproducing both measured incidents: git reported 0 occurrences of the superseded waiver string across --all history while `snapshot.py at <ts> --content` printed it, and the same for a gitignored cursor file. selftest is 33 assertions, exit 0, and it found two real defects during construction (second-resolution timestamps colliding between two runs in one pipeline, and parse_when unable to read the tool's own printed stamps). Dolt and option 4c reasoning carried forward from docs/analysis/2026-07-25-our-own-dolt.md sections 1 and 4. etckeeper, restic, borg and VSS assessed from their documented design, NOT run.",
+  "recheck": "Delete this component and replace it with the shadow-git shell if the committed-manifest requirement is ever dropped, since that requirement is the only thing keeping the verdict. Also revisit if state/timetravel/objects/ exceeds a few hundred MB, if the manifest's per-run row count makes the tracked file noisy in PR diffs, or if the 60-line ls-tree wrapper named above gets written."
+}

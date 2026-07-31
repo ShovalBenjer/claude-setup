@@ -80,7 +80,7 @@ def _resolved(out: str) -> tuple[str | None, str | None]:
 @unittest.skipIf(PWSH is None, "pwsh not installed")
 class LaneResolution(unittest.TestCase):
     def test_declared_lane_resolves_to_that_lane(self):
-        for letter in ("A", "B", "C", "D"):
+        for letter in ("B", "C", "D", "E"):
             with self.subTest(lane=letter):
                 rc, out = _run("-Lane", letter)
                 cwd, lane = _resolved(out)
@@ -90,6 +90,12 @@ class LaneResolution(unittest.TestCase):
                 self.assertEqual(lane, letter, out)
                 self.assertIsNotNone(cwd, out)
                 self.assertTrue(Path(cwd).is_dir(), f"lane {letter} cwd missing: {cwd}")
+
+    def test_retired_lane_a_is_rejected(self):
+        """Lane A was retired 2026-07-29 (operator decision, docs/charters.md).
+        ValidateSet must refuse it, or the retirement is prose."""
+        rc, out = _run("-Lane", "A")
+        self.assertNotEqual(rc, 0, out)
 
     def test_lanes_are_not_one_directory(self):
         """B is the harness repo and C is the resume engine. If a change ever made

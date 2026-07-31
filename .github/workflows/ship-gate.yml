@@ -133,6 +133,15 @@ jobs:
       - name: skills_sync.py selftest
         run: python tools/audit/skills_sync.py selftest
 
+      # Row 6 of the agentic repo standard (ADR-0020). Only the pure decision
+      # function is exercised: the selftest never calls gh, git, or the network,
+      # so it is deterministic in CI. Its job is to keep "the API did not answer"
+      # and "there are no linked projects" from collapsing into one verdict,
+      # which is what would file a violation against every repository at once
+      # during a GitHub outage.
+      - name: repo_project.py selftest (repo standard, row 6)
+        run: python tools/audit/repo_project.py selftest
+
       # A style rule nothing measures is a wish, and a style CHECKER nobody runs is
       # the same thing one layer down. This is the only step in this job guarding
       # prose rather than an instrument, and it belongs here because the question is

@@ -1,0 +1,9 @@
+# Snapshot CONTENT stays local, matching state/snapshots/.gitignore and for the
+# same reason: these blobs are copies of ledgers that were gitignored in the
+# first place, several of them machine-local telemetry, and a git history is
+# where a later delete does not remove anything.
+#
+# manifest.jsonl is tracked ON PURPOSE. path + size + sha256 prove WHEN a ledger
+# changed without carrying WHAT it said, so `log` and `changed` answer from a
+# fresh clone; only `at --content` needs this machine's objects/.
+objects/

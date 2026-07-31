@@ -30,6 +30,33 @@ def sh(*a, cwd=OS):
         return ""
 
 
+#: Extensions a hook `args` entry can name. `.py` was absent until 2026-07-29, so
+#: every Python hook in settings.json was exempt from the health check entirely.
+HOOK_SUFFIXES = (".sh", ".ps1", ".py")
+
+#: `/c/Users/...` written by Git Bash, as MSYS drive-prefix form.
+_MSYS_DRIVE = re.compile(r"^/([a-zA-Z])/(.*)$")
+
+
+def resolve_hook_target(arg: str) -> pathlib.Path:
+    """Return the real filesystem path a hook `args` entry names.
+
+    settings.json wires bash hooks with MSYS paths (`/c/Users/shova/.claude/...`)
+    because the interpreter is Git Bash. On Windows, `Path("/c/Users/x").exists()`
+    resolves against the current drive root as `C:\\c\\Users\\x` and is always False,
+    so before this existed the scanner reported EVERY bash hook as missing. Measured
+    2026-07-29: its three highest-ranked proposals were SessionStart, PostToolUse and
+    PreCompact "broken", while all three files existed live at 7941, 2519 and 1306
+    bytes and session-recall.sh demonstrably ran at that session's start. A ranking
+    tool whose top results are phantom sends every session that trusts it to do
+    nothing, which is worse than having no ranking at all.
+    """
+    m = _MSYS_DRIVE.match(arg)
+    if m:
+        return pathlib.Path(f"{m.group(1).upper()}:/{m.group(2)}")
+    return pathlib.Path(arg)
+
+
 def proposal(title, why, risk, auto, evidence, kind):
     pid = hashlib.sha1(title.encode("utf-8", "replace")).hexdigest()[:10]
     # priority: high-impact + low-risk + auto-actionable float to the top
@@ -73,8 +100,8 @@ def scan():
                 for group in arr:
                     for h in group.get("hooks", []):
                         args = h.get("args", [])
-                        target = next((a for a in args if a.endswith(".sh") or a.endswith(".ps1")), None)
-                        if target and not pathlib.Path(target).exists():
+                        target = next((a for a in args if a.endswith(HOOK_SUFFIXES)), None)
+                        if target and not resolve_hook_target(target).exists():
                             props.append(proposal(f"Fix broken {ev} hook (missing {os.path.basename(target)})",
                                                   "a wired hook points at a missing file (silent failure)",
                                                   "med", True, target, "health"))

@@ -62,10 +62,13 @@ class Dir:
     source: str
 
 
-def git(args: str, cwd: str) -> str:
-    p = subprocess.run("git " + args, cwd=cwd, shell=True, capture_output=True,
-                       text=True, encoding="utf-8", errors="replace", timeout=120)
-    return p.stdout.strip() if p.returncode == 0 else ""
+# A `git(args: str, cwd: str)` helper used to live here. It ran
+# `subprocess.run("git " + args, shell=True)`, which is command injection the
+# moment any caller passes a string it did not write itself. It had ZERO callers
+# anywhere in the repository, so on 2026-07-27 it was deleted rather than
+# hardened: dead code carrying a security finding is a liability that only ever
+# grows a caller later. tracked_files() below makes the one git call this module
+# actually needs, with a literal argv and no shell.
 
 
 def read(path: str) -> str:
@@ -154,7 +157,9 @@ def tracked(project: str) -> list[str]:
     there is nothing to unescape and a path containing a newline cannot split a
     record either.
     """
-    p = subprocess.run("git ls-files -z", cwd=project, shell=True,
+    # Literal argv, no shell. The argument list is fixed and contains nothing
+    # caller-supplied, so a shell buys nothing here and only widens the surface.
+    p = subprocess.run(["git", "ls-files", "-z"], cwd=project, shell=False,
                        capture_output=True, timeout=120)
     if p.returncode != 0:
         return []
@@ -413,14 +418,102 @@ def cmd_prior_art(args) -> int:
     return 1
 
 
+def cmd_selftest(args) -> int:
+    """Plant one defect per guarantee this module makes, and prove each is caught.
+
+    Added 2026-07-27. Until then codemap.py owned two required gate domains
+    (`codemap` and `prior_art`) with no selftest verb at all, which meant
+    tools/audit/mutate.py had nothing to run against it and its checks were
+    unfalsified: a check that can never fail and a check that never fires are
+    indistinguishable from outside.
+
+    Every assertion below is over a pure function. Nothing here touches git, the
+    filesystem or the network, so this verb is safe to run anywhere.
+    """
+    rc = 0
+
+    def ok(cond: bool, what: str, detail: str = "") -> None:
+        nonlocal rc
+        print(("[ok]   " if cond else "[FAIL] ") + what
+              + (f"  <- {detail}" if not cond and detail else ""))
+        if not cond:
+            rc = 1
+
+    # cell(): a purpose string containing a pipe must not gain a column. The
+    # comment at its definition is explicit that backslash-escaping is wrong
+    # because the pipe character survives it.
+    piped = cell("takes a|b and returns c")
+    ok("|" not in piped and "&#124;" in piped,
+       "a pipe in a purpose is entity-escaped, not backslash-escaped", repr(piped))
+    long = cell("x" * (RENDER_CAP + 50))
+    ok(len(long) <= RENDER_CAP and long.endswith("..."),
+       "an over-long purpose is capped and marked elided", str(len(long)))
+
+    # render()/map_rows() round trip: the map is parsed back by check(), so a
+    # rendering the parser cannot read makes every comparison silently empty.
+    d = Dir(path="tools/map", files=3, purpose="draws the map", source="README.md")
+    text = render([d])
+    rows = map_rows(text)
+    ok("tools/map" in rows, "a rendered row is parseable by the checker", str(list(rows)[:3]))
+    ok(rows.get("tools/map", "").startswith("3 |"),
+       "the parsed row carries the file count", rows.get("tools/map", ""))
+
+    piped_dir = Dir(path="a/b", files=1, purpose="reads a|b", source="README.md")
+    ok("a/b" in map_rows(render([piped_dir])),
+       "a row whose purpose contains a pipe still parses as ONE row")
+
+    # render() must state the undocumented count, because that number is the
+    # entire point of the map.
+    undoc = Dir(path="x/y", files=2, purpose=UNDOCUMENTED, source="none")
+    ok("1 without a stated purpose" in render([undoc]),
+       "the header counts directories with no stated purpose")
+
+    # problems(): each state key must produce a message. A state that reports a
+    # fault silently is the failure mode the gate exists to prevent.
+    base = {"undocumented": [], "stale_rows": [], "shadow_rows": [], "drifted": False,
+            "map_present": True, "missing_rows": [], "extra_rows": [], "changed_rows": []}
+    ok(problems(dict(base)) == [], "a clean state reports no problems")
+
+    for key, label in (("undocumented", "undocumented directories"),
+                       ("stale_rows", "registry rows naming a missing directory"),
+                       ("shadow_rows", "registry rows shadowing a self-documenting dir")):
+        st = dict(base)
+        st[key] = ["a/b"]
+        ok(len(problems(st)) == 1, "{} are reported".format(label))
+
+    st = dict(base)
+    st.update(drifted=True, changed_rows=["docs/analysis"])
+    msgs = problems(st)
+    ok(len(msgs) == 1 and "docs/analysis" in msgs[0],
+       "a drifted map NAMES the differing row, not just 'drifted'",
+       msgs[0][:80] if msgs else "no message")
+
+    st = dict(base)
+    st.update(drifted=True, map_present=False)
+    absent = problems(st)
+    # Substring matching on "missing" is not enough: a mutation that renders
+    # "not missing" satisfies it. Mutation testing found exactly that hole in the
+    # first version of this assertion, so the check is on the whole phrase and on
+    # the absence of the drift wording it must NOT use.
+    ok(any("is missing." in m for m in absent)
+       and not any("not what the repository implies" in m for m in absent),
+       "a map that does not exist says 'is missing', not the drift wording",
+       absent[0][:90] if absent else "no message")
+
+    print("\nVERDICT: {}".format(
+        "every planted defect is caught" if rc == 0 else "codemap selftest has failures above"))
+    return rc
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("command", choices=("write", "check", "prior-art"))
+    ap.add_argument("command", choices=("write", "check", "prior-art", "selftest"))
     ap.add_argument("--project", default=".")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args(argv)
     args.project = os.path.abspath(args.project)
-    return {"write": cmd_write, "check": cmd_check, "prior-art": cmd_prior_art}[args.command](args)
+    return {"write": cmd_write, "check": cmd_check, "prior-art": cmd_prior_art,
+            "selftest": cmd_selftest}[args.command](args)
 
 
 if __name__ == "__main__":

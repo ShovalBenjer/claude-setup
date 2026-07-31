@@ -24,6 +24,7 @@ import importlib.util
 import json
 import os
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -48,10 +49,40 @@ gate = _load(GATE_PATH)
 FIXED = list(gate.DOMAINS)
 
 
+def _rmtree_or_fail(path: str) -> None:
+    """Delete a scratch repo and RAISE if it survives.
+
+    Replaces `shutil.rmtree(path, ignore_errors=True)`, which measured on 2026-07-30 had
+    leaked 1,879 directories into %LOCALAPPDATA%\\Temp. The mechanism: git marks pack
+    files read-only, rmtree fails with PermissionError on Windows, and ignore_errors
+    swallows it. So the cleanup ran on every test, always reported success, and could
+    not fail. That is the same class as L-2026-07-27-d, here in test hygiene.
+
+    The onexc/onerror handler chmods the offending path and retries once, which is the
+    standard Windows fix. The final assertion is the part that matters: if the directory
+    is still there, the test fails loudly instead of leaving litter behind.
+    """
+    def _retry(func, p, _exc):
+        try:
+            os.chmod(p, stat.S_IWRITE)
+            func(p)
+        except OSError:
+            pass
+
+    if sys.version_info >= (3, 12):
+        shutil.rmtree(path, onexc=lambda f, p, e: _retry(f, p, e))
+    else:  # pragma: no cover - depends on the interpreter running the suite
+        shutil.rmtree(path, onerror=lambda f, p, e: _retry(f, p, e))
+    if os.path.exists(path):
+        raise AssertionError(
+            "scratch repo survived cleanup: {}. Leaving it silently is how 1,879 of "
+            "these accumulated.".format(path))
+
+
 class GateCase(unittest.TestCase):
     def setUp(self) -> None:
         self.td = tempfile.mkdtemp(prefix="gate-extra-")
-        self.addCleanup(shutil.rmtree, self.td, ignore_errors=True)
+        self.addCleanup(_rmtree_or_fail, self.td)
         self.root = Path(self.td)
         for cmd in ("git init -q .",
                     "git config user.email t@t",

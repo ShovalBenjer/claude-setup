@@ -1,5 +1,5 @@
 {
-  "recorded": "2026-07-25T09:12:27",
+  "recorded": "2026-07-29T20:28:19",
   "files": {
     "CLAUDE.md": {
       "present": true,
@@ -9,9 +9,9 @@
     },
     "settings.json": {
       "present": true,
-      "sha256": "88226a9b4aab36a1387f94c296467ce57d90500459aa34a9ec0bcc82fa085992",
-      "bytes": 4295,
-      "mtime": "2026-07-25T09:09:56"
+      "sha256": "08d1e595f2a39a04963c8205b690768b561401c0b9bf896a4da01e10973b7d95",
+      "bytes": 7440,
+      "mtime": "2026-07-29T20:04:54"
     }
   }
 }

@@ -30,6 +30,11 @@ Libraries and methods:
 
 Rules:
 - Do not claim true hidden-state or gradient-level communication between closed models.
+- Open-weight legs are the exception and are governed by ADR-0018, not by this
+  ban: `kv` is allowed only where both endpoints are open-weight and ours, and no
+  dense or `kv` channel ships until `tools/channel/roundtrip.py` clears its floor
+  for that specific compressor-reader pair. A silent downgrade to text is an
+  error, not a fallback.
 - Use vector state for routing and recall, not proof.
 - Keep human-readable evidence mandatory through Evidence Clerk.
 - Never index secrets or raw sensitive customer data.

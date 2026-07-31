@@ -136,6 +136,51 @@ RULES: tuple[tuple[re.Pattern[str], str], ...] = (
         ),
         "An interpreter command may expose credential material to model-visible output.",
     ),
+    (
+        re.compile(
+            # A long foreground sleep CHAINED into another command is the polling
+            # shape: `sleep 90; grep ...`, `sleep 60 && curl ...`. A bare short settle
+            # is legitimate (this session used `sleep 8` correctly to let a page mount),
+            # so the threshold is two digits or more AND a following command.
+            r"(?is)(?:^|[;&|]\s*)sleep\s+\d{2,}(?:\.\d+)?\s*[;&|]"
+        ),
+        "Polling with a long foreground sleep is blocked. It burns the full duration "
+        "whether or not the condition is met, cannot react early, and holds the turn "
+        "open. Use the event-driven path: Monitor with an until-loop to wait on a "
+        "condition, or run_in_background so completion re-invokes the session. If a "
+        "fixed settle really is what you want, keep it under ten seconds and do not "
+        "chain a check onto it.",
+    ),
+)
+
+
+# Appended to every denial, added 2026-07-30. Not a rule change: nothing about what is
+# matched or blocked is affected, and RULES is untouched, so the generated Rust copy in
+# tools/hookgate/src/rules.rs stays byte-identical.
+#
+# WHY. On 2026-07-30 a session was blocked three times in one sitting, not by running a
+# dangerous command, but by WRITING TEXT that contained one: a module doc comment
+# explaining a rule, and twice a test harness whose fixtures were the trigger strings. Each
+# time it re-derived the workaround from scratch. That is lesson L-2026-07-29-d, an oracle
+# that cannot distinguish code from prose about code, and the tempting fix is to exempt
+# heredoc bodies and quoted strings.
+#
+# That fix is refused deliberately, because it is a bypass rather than a repair. A heredoc
+# redirected to a file is a write, but the identical syntax piped to a shell is an
+# execution, and telling those apart is precisely the completeness problem this module's
+# docstring already concedes regex cannot solve. Exempting heredoc bodies would let a
+# recursive delete inside one execute unchallenged.
+#
+# So the guard keeps its false positives and instead stops making the caller rediscover the
+# way around them. The Write tool is not gated by this hook, which is the correct path for
+# writing text that happens to contain a trigger, and it is now named at the point of
+# refusal instead of being folklore.
+GUIDANCE = (
+    " If you were WRITING this text rather than executing it, for example a heredoc, a doc "
+    "comment, or a test fixture, use the Write tool instead: it is not gated by this hook. "
+    "This guard cannot tell a heredoc bound for a file from one piped to a shell, and "
+    "exempting heredoc bodies would create a real bypass, so the false positive is kept on "
+    "purpose."
 )
 
 
@@ -146,7 +191,7 @@ def emit_denial(reason: str) -> None:
                 "hookSpecificOutput": {
                     "hookEventName": "PreToolUse",
                     "permissionDecision": "deny",
-                    "permissionDecisionReason": reason,
+                    "permissionDecisionReason": reason + GUIDANCE,
                 }
             }
         )

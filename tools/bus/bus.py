@@ -9,8 +9,16 @@ Design constraints that came from real failures:
   - Lane is DERIVED from cwd, never declared. A session that must remember to
     announce itself will forget (23 personas sat undeployed for the same
     reason: the step that required someone to remember never ran).
-  - Append-only JSONL. No lock, no db, no daemon. Concurrent appends of a
-    single short line are atomic enough on NTFS at this volume.
+  - Append-only JSONL. No db, no daemon. It DOES take a lock, and the reason is
+    a correction: this line used to read "no lock ... concurrent appends of a
+    single short line are atomic enough on NTFS at this volume", and that was
+    measured false on 2026-07-29. Twenty-four threads each appending one short
+    line through `open(path, "a")` left EIGHTEEN lines on disk and a file 246
+    bytes shorter than the bytes handed to write. Six rows were destroyed
+    outright, not torn: the Windows CRT implements append as a seek-to-end
+    followed by a write, and a second writer that seeks in between lands on the
+    same offset. `read_all` skipping torn lines hid the survivors of this, which
+    is why it went unnoticed. See file_lock().
   - Per-lane read cursor, so a session sees each message exactly once and a
     long-running session does not re-read its whole inbox every prompt.
   - Reading is a hook, not a habit. If it needs the operator to run a command,
@@ -73,6 +81,7 @@ import os
 import sys
 import time
 import uuid
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -82,19 +91,43 @@ CURSORS = ROOT / "state" / "bus-cursors"
 
 # cwd prefix -> lane. Longest match wins, so a nested dir cannot be stolen by
 # a shorter prefix. Lowercase compare: Windows paths vary in case.
+# Letters renumbered 2026-07-30 (B/C/D/E -> A/B/C/D). Scopes are unchanged; only the
+# labels moved. tools/lib/lanes.py owns the scheme and the cutover instant, and is the
+# only thing that can read a pre-cutover ledger row correctly, because the letters
+# collide across the boundary: "B" here now means the resume engine, while "B" in a
+# 2026-07-29 row meant the harness. Nothing in this file rewrites history.
 LANE_MAP = {
-    r"c:\users\shova\claude-setup": "B",
-    r"c:\users\shova\downloads\new-recruit": "C",
-    r"c:\users\shova\daily-deep-learning": "D",
-    r"c:\users\shova\projects\daily-deep-learning": "D",
+    r"c:\users\shova\claude-setup": "A",
+    r"c:\users\shova\downloads\new-recruit": "B",
+    # The real checkout is under Downloads. Its absence here is why the learning lane
+    # reported itself unaddressable on 2026-07-27 (bus row D->B under the old letters,
+    # "LANE_MAP misses downloads\daily-deep-learning"): every message it sent derived
+    # the fallback lane, and every message addressed to it landed in a lane nobody
+    # read. The two paths below it were aspirational locations that have never existed
+    # on this machine; they are kept because a stale prefix costs nothing and removing
+    # one that turns out to be real costs a lane.
+    r"c:\users\shova\downloads\daily-deep-learning": "C",
+    r"c:\users\shova\daily-deep-learning": "C",
+    r"c:\users\shova\projects\daily-deep-learning": "C",
 }
-DEFAULT_LANE = "A"
 
+# An unmapped cwd is UNKNOWN, not a lane. This was "A" until 2026-07-29, which was
+# wrong twice over: it silently attributed every unmapped session's messages to a
+# real lane that would then be blamed for them, and lane A was retired that same day
+# (docs/charters.md), so the default named a lane that no longer exists. Deriving a
+# confidently wrong lane is worse than admitting the cwd is not on the map, which is
+# the same reasoning session-recall.sh already applies to CLAUDE_LANE.
+DEFAULT_LANE = "?"
+
+# Mirrors tools/lib/lanes.py::LANE_NAMES. Duplicated rather than imported to keep this
+# oracle importable from any cwd without sys.path surgery; tests/test_lane_renumber.py
+# asserts the two stay identical, so the copy cannot drift silently.
 LANE_NAMES = {
-    "A": "concierge",
-    "B": "claude-setup harness",
-    "C": "resume / hiring engine",
-    "D": "learning (hasadna)",
+    "?": "unmapped cwd (not a lane)",
+    "A": "claude-setup harness",
+    "B": "resume / hiring engine",
+    "C": "learning (hasadna)",
+    "D": "content and publishing",
 }
 
 KINDS = ("fact", "ask", "answer", "claim", "warn", "done")
@@ -128,8 +161,34 @@ def canonical(rec: dict) -> bytes:
     json.dumps was configured when it was written. Absent keys are omitted
     rather than defaulted to empty, so adding a field to CHAIN_FIELDS later
     cannot silently change the hash of every row that predates the field.
+
+    A row may instead DECLARE its own coverage by carrying `chain_fields`. That
+    exists because CHAIN_FIELDS is this bus's vocabulary, and a second ledger
+    reusing this function gets a hash over the intersection of its own schema
+    with a message-passing one. For a prompt-ticket row carrying id, ts, session,
+    repo, branch, text_sha, state and prev, that intersection is three keys: the
+    hash would commit to the row's id, its time and its predecessor, and to
+    nothing about the ticket. row_altered() would then return False after an edit
+    to `state`. A tamper-evidence mechanism that cannot detect tampering is the
+    failure class this repo keeps logging, so the alternative is offered here
+    rather than left to each caller to get wrong.
+
+    The declaration is itself inside the payload. That is the whole point: if
+    coverage could be narrowed without changing the hash, an attacker or a
+    careless refactor would drop `state` from the list and every existing row
+    would keep verifying. Because `chain_fields` is covered, shrinking it changes
+    the digest and reads as tampering, which is what it is.
+
+    Rows with no `chain_fields` key take the original path byte-for-byte, so
+    every row already on `bus.jsonl` hashes exactly as it did. The pinned golden
+    vector in cmd_selftest holds that.
     """
-    payload = {k: rec[k] for k in CHAIN_FIELDS if k in rec}
+    declared = rec.get("chain_fields")
+    if declared is None:
+        fields: tuple[str, ...] = CHAIN_FIELDS
+    else:
+        fields = (*declared, "chain_fields")
+    payload = {k: rec[k] for k in fields if k in rec}
     return json.dumps(payload, sort_keys=True, separators=(",", ":"),
                       ensure_ascii=False).encode("utf-8")
 
@@ -190,8 +249,55 @@ def read_all() -> list[dict]:
     return out
 
 
+@contextmanager
+def file_lock(target: Path):
+    """An exclusive advisory lock for one append to `target`.
+
+    Held on a sidecar `<name>.lock` rather than on the data file, because
+    `msvcrt.locking` locks a byte range starting at the current file position and
+    the data handle's position belongs to the append. Two things that must move
+    independently should not share a handle.
+
+    Blocking, and deliberately patient: `LK_LOCK` gives up after ten retries at
+    one second, and a message is worth more waiting than that, so the retry is
+    wrapped in a loop. Uncontended cost is one open and one close.
+
+    Public because the prompt-ticket ledger in tools/intent needs exactly this
+    guarantee over a different file, and a second hand-rolled copy of a lock is
+    how two files end up with two different bugs.
+    """
+    lock_path = target.with_name(target.name + ".lock")
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    fd = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o600)
+    try:
+        if sys.platform == "win32":
+            import msvcrt
+            while True:
+                os.lseek(fd, 0, os.SEEK_SET)
+                try:
+                    msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
+                    break
+                except OSError:
+                    continue
+        else:
+            import fcntl
+            fcntl.flock(fd, fcntl.LOCK_EX)
+        yield
+    finally:
+        try:
+            if sys.platform == "win32":
+                import msvcrt
+                os.lseek(fd, 0, os.SEEK_SET)
+                msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+            else:
+                import fcntl
+                fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
+
+
 def append_row(rec: dict) -> None:
-    """Append one message, healing a torn predecessor first.
+    """Append one message under an exclusive lock, healing a torn predecessor first.
 
     A crashed write leaves a partial line with no trailing newline. The next
     append would concatenate onto it, so the combined line fails to parse and
@@ -199,20 +305,32 @@ def append_row(rec: dict) -> None:
     successor. Writing a newline first confines the damage to the fragment.
     Found by bus.py selftest; the docstring had claimed torn lines were already
     handled, and they were only half handled.
+
+    The lock is the second correction to the same paragraph. Torn-line healing
+    addresses a write that CRASHED; it does nothing for two writes that merely
+    overlapped, and on Windows those destroy whole rows rather than tearing them.
+    The heal-then-write sequence also has to be inside the lock, or one writer
+    can append its newline between another's check and its write.
+
+    Binary mode, so the byte on disk is the byte counted. Text mode rewrites
+    `\\n` as `\\r\\n` here, which is what made the torn-line check read a `\\n`
+    that was really the tail of a `\\r\\n`.
     """
     BUS.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        if BUS.exists() and BUS.stat().st_size:
-            with BUS.open("rb") as fh:
-                fh.seek(-1, os.SEEK_END)
-                torn = fh.read(1) != b"\n"
-            if torn:
-                with BUS.open("ab") as fh:
-                    fh.write(b"\n")
-    except OSError:
-        pass
-    with BUS.open("a", encoding="utf-8") as fh:
-        fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    payload = (json.dumps(rec, ensure_ascii=False) + "\n").encode("utf-8")
+    with file_lock(BUS):
+        try:
+            if BUS.exists() and BUS.stat().st_size:
+                with BUS.open("rb") as fh:
+                    fh.seek(-1, os.SEEK_END)
+                    torn = fh.read(1) != b"\n"
+                if torn:
+                    with BUS.open("ab") as fh:
+                        fh.write(b"\n")
+        except OSError:
+            pass
+        with BUS.open("ab") as fh:
+            fh.write(payload)
 
 
 def cursor_path(lane: str) -> Path:
@@ -596,12 +714,26 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
             check("a torn line is skipped, not fatal", False, repr(exc))
 
         # Lane derivation is by longest prefix, so a nested path is not stolen.
-        check("cwd inside claude-setup derives lane B",
-              lane_for(r"c:\users\shova\claude-setup\tools\bus") == "B")
-        check("cwd inside new-recruit derives lane C",
-              lane_for(r"c:\users\shova\downloads\new-recruit") == "C")
-        check("an unmapped cwd falls back to lane A",
-              lane_for(r"c:\windows\temp") == "A")
+        # Letters are the post-2026-07-30 scheme (harness A, resume B, learning C,
+        # content D). These three assertions are what would have caught the renumber
+        # being applied to the map and not to the derivation contract, or vice versa.
+        check("cwd inside claude-setup derives lane A",
+              lane_for(r"c:\users\shova\claude-setup\tools\bus") == "A")
+        check("cwd inside new-recruit derives lane B",
+              lane_for(r"c:\users\shova\downloads\new-recruit") == "B")
+        # Changed 2026-07-29 from "falls back to lane A". The old contract attributed
+        # every unmapped session to a real lane, so lane A carried messages it never
+        # sent, and after lane A was retired the fallback named a lane that no longer
+        # exists. UNKNOWN is the honest answer and the loud one.
+        check("an unmapped cwd derives UNKNOWN, not a real lane",
+              lane_for(r"c:\windows\temp") == "?")
+        # The regression the learning lane reported on 2026-07-27: its real checkout
+        # lives under Downloads and was absent from the map, so it was unaddressable
+        # and its own messages derived the fallback lane. It was lane D then and is
+        # lane C now; the bug it guards against is the map missing a real checkout,
+        # which the renumber does nothing to fix.
+        check("the real daily-deep-learning checkout derives lane C",
+              lane_for(r"c:\users\shova\downloads\daily-deep-learning") == "C")
 
         # A corrupt cursor must not wedge the bus. It names no row in the file,
         # so the lane replays rather than raising or reading as caught-up.
@@ -687,6 +819,111 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
         check("hash and sig are excluded from what a row commits to",
               '"hash"' not in got_bytes and '"sig"' not in got_bytes,
               "a value cannot commit to itself")
+
+        # A row that declares its own coverage. Same reasoning as the vector
+        # above: this is a wire format, so it needs a fixed oracle and not only
+        # agreement with itself. The declaration is inside the payload on
+        # purpose, and the two checks after the vector are the ones that matter,
+        # because a hash that cannot notice its own coverage shrinking is
+        # decoration.
+        # The declaration deliberately does NOT list itself. A writer states its
+        # content fields and canonical() guarantees the declaration is covered on
+        # top; a self-listing fixture would pass whether or not canonical adds
+        # the key, which is a fixture testing itself. Caught by mutation: the
+        # first version of this vector self-listed and the mutation that drops
+        # the guarantee survived against it.
+        pt_want = ('{"branch":"main","chain_fields":["branch","id","prev","repo",'
+                   '"session","state","text_sha","ts"],'
+                   '"id":"PT-4f2a9c1e77b0","prev":"0123456789abcdef",'
+                   '"repo":"claude-setup","session":"deadbeef","state":"CAPTURED",'
+                   '"text_sha":"9f2c1e77","ts":"2026-07-29T12:00:00+03:00"}')
+        pt_fields = ["branch", "id", "prev", "repo", "session",
+                     "state", "text_sha", "ts"]
+        pt = {
+            "id": "PT-4f2a9c1e77b0", "ts": "2026-07-29T12:00:00+03:00",
+            "session": "deadbeef", "repo": "claude-setup", "branch": "main",
+            "text_sha": "9f2c1e77", "state": "CAPTURED",
+            "chain_fields": list(pt_fields), "prev": "0123456789abcdef",
+            "hash": "ignored", "sig": "ignored",
+        }
+        pt_bytes = canonical(pt).decode("utf-8")
+        check("a self-describing row has the canonical form it was written with",
+              pt_bytes == pt_want,
+              "want {}\n      got  {}".format(pt_want, pt_bytes))
+        check("the self-describing vector still hashes to its recorded digest",
+              row_hash(pt) == "31683b641761dc1c", "got {}".format(row_hash(pt)))
+
+        # The defect this path exists to prevent: under CHAIN_FIELDS these rows
+        # would hash over id, ts and prev only, so state and text_sha would be
+        # uncovered and an edit to either would read as clean.
+        edited_state = dict(pt, state="CLOSED_VERIFIED", hash=row_hash(pt))
+        check("a declared field outside CHAIN_FIELDS is actually covered",
+              row_altered(edited_state),
+              "state changed and row_altered called it clean, so the chain "
+              "commits to nothing about the ticket")
+        edited_sha = dict(pt, text_sha="ffffffff", hash=row_hash(pt))
+        check("text_sha is covered too, so the prompt cannot be swapped",
+              row_altered(edited_sha))
+
+        # Coverage cannot be narrowed quietly. Drop "state" from the declaration
+        # and the digest has to move, because the declaration is in the payload.
+        narrowed = dict(pt, chain_fields=[f for f in pt_fields if f != "state"])
+        check("shrinking the declared coverage changes the digest",
+              row_hash(narrowed) != row_hash(pt),
+              "coverage was reduced without moving the hash, so a row can be "
+              "un-covered after the fact and keep verifying")
+        check("a narrowed row is marked altered rather than accepted",
+              row_altered(dict(narrowed, hash=row_hash(pt))))
+
+        # The discriminating case. Both rows carry identical values for every key
+        # they actually cover; they differ only in the declaration, because the
+        # extra name matches no key in the row. If the digest moves, the
+        # declaration is genuinely in the payload. If it does not, the earlier
+        # checks were passing only because narrowing happened to drop a real key
+        # out of the payload, which is a weaker property wearing the same name.
+        decl_wide = dict(pt, chain_fields=[*pt_fields, "field_not_in_this_row"])
+        check("the declaration is covered in its own right, not via its effect",
+              row_hash(decl_wide) != row_hash(pt),
+              "two rows agreeing on every covered value hashed the same despite "
+              "declaring different coverage, so chain_fields is not in the payload")
+
+        # Concurrent appends must not destroy rows. This is a COUNT check, not a
+        # content check, because the failure it guards against is not corruption:
+        # the losing row leaves nothing behind to inspect. read_all() skips torn
+        # lines silently, so without counting, a bus that ate six of twenty-four
+        # messages looks exactly like a bus that received eighteen.
+        import threading
+        fresh_bus()
+        writers, barrier = 24, threading.Barrier(24)
+
+        def concurrent_append(i: int) -> None:
+            barrier.wait()  # maximise overlap; without it the writes serialise
+            append_row({"id": "c{}".format(i), "ts": now_iso(), "from_lane": "B",
+                        "origin_lane": "B", "from_session": "", "to": "C",
+                        "kind": "note", "subject": "concurrent", "body": str(i),
+                        "refs": [], "prev": ""})
+
+        threads = [threading.Thread(target=concurrent_append, args=(i,))
+                   for i in range(writers)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+        landed = read_all()
+        check("concurrent appends do not destroy rows",
+              len(landed) == writers,
+              "{} of {} rows survived; the rest were overwritten, and nothing on "
+              "disk records that they existed".format(len(landed), writers))
+        check("every concurrent row is individually readable",
+              {r.get("body") for r in landed} == {str(i) for i in range(writers)},
+              "a row landed corrupt or duplicated")
+
+        # Opt-in is real: the mechanism only engages when the key is present.
+        check("declaring coverage changes a row that previously had none",
+              row_hash(dict(golden, chain_fields=["id", "ts"])) != row_hash(golden),
+              "the declaration was ignored")
+        check("rows without a declaration are untouched by this path",
+              row_hash(golden) == "1def9c6c00638f23")
 
         # A row removed from the middle breaks the next row's prev. That is the
         # property that makes deletion detectable at all. Sent through cmd_send,

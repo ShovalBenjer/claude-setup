@@ -1,0 +1,110 @@
+name: Gemini diff review (decorrelated second reviewer)
+
+# DATA BOUNDARY. Read this before changing a single step below.
+#
+# This workflow sends the PULL REQUEST DIFF and nothing else to the Gemini
+# Developer API. It never sends a repository checkout, a file tree, or the
+# content of any file the pull request did not touch. That is not a performance
+# choice, it is a rights and privacy constraint with two independent causes:
+#
+#   1. The operator's global contract bars sending employer or customer code,
+#      recruiting material, credentials, or PII to Gemini Free Tier, whose terms
+#      permit Google to use submitted content to improve its products.
+#   2. This repository contains third-party PII under research-papers/el-vadt.
+#      A whole-repo reviewer would ship it. A diff reviewer cannot, unless a
+#      pull request edits those files, which is why the job also excludes them
+#      from the diff explicitly rather than trusting that it will never happen.
+#
+# The checkout below is therefore deliberately NOT given to the model. It exists
+# only so the runner has tools/review/gemini_diff_review.py to execute; the
+# script's own `looks_like_diff` guard refuses any input that is not a unified
+# diff, so a future edit that tries to pass a file tree fails instead of leaking.
+#
+# WHY A SECOND REVIEWER AT ALL (ADR-0004): value comes from information
+# asymmetry, not from more opinions. Gemini is a different model family from the
+# claude-code-review.yml incumbent (see tools/review/actors.json) and sees a
+# deliberately smaller context. It never sees Claude's output and Claude never
+# sees its output, because two reviewers that read each other stop being two.
+#
+# This job is ADVISORY. It has pull-requests: read and cannot approve, request
+# changes, or block a merge. Findings surface as annotations on the diff.
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+
+concurrency:
+  group: gemini-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  gemini-review:
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify the secret is present before doing anything else
+        id: secret
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          # Presence only. A value is never echoed, never written to a file, and
+          # never passed on a command line where `ps` would show it.
+          if [ -z "${GEMINI_API_KEY}" ]; then
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=gemini-review skipped::GEMINI_API_KEY is not set for this repository; the second reviewer did not run."
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build the pull request diff
+        if: ${{ steps.secret.outputs.present == 'true' }}
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          # Excludes enforce the data boundary at the source. research-papers holds
+          # third-party PII; state/ and docs/CODEBASE-MAP.md are generated ledgers
+          # and map output that carry no reviewable intent and would only spend
+          # context. The ':(exclude)' pathspecs are why this is a diff command and
+          # not `gh pr diff`, which offers no way to withhold a path.
+          git diff --no-color "${BASE}" "${HEAD}" -- . \
+            ':(exclude)research-papers/**' \
+            ':(exclude)state/**' \
+            ':(exclude)docs/CODEBASE-MAP.md' \
+            > pr.diff
+          echo "diff bytes: $(wc -c < pr.diff)"
+
+      - name: Gemini review
+        if: ${{ steps.secret.outputs.present == 'true' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          # --soft-fail: an unreachable second reviewer degrades this job to a
+          # warning rather than a red check. ADR-0004 requires the degradation be
+          # logged and not silent, which the script's ::warning does; it must not
+          # be able to block a pull request that the primary reviewer passed.
+          python tools/review/gemini_diff_review.py review \
+            --diff-file pr.diff \
+            --json-out gemini-findings.json \
+            --soft-fail
+
+      - name: Upload findings
+        if: ${{ steps.secret.outputs.present == 'true' && hashFiles('gemini-findings.json') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: gemini-review-findings
+          path: gemini-findings.json

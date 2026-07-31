@@ -50,3 +50,20 @@ _mutant_*.py
 # mkdir, holding the pid of the run that owns it. Two concurrent runs would
 # overwrite each other's mutants and the verdicts would be meaningless.
 .mutate-lock/
+
+# Stop-hook telemetry (dot-claude/hooks/completion_gate.py). One row per turn, written
+# as a side effect of ENDING a turn, which is why it cannot be part of the tree the gate
+# fingerprints: the hook fires while reporting a green gate and thereby invalidates it,
+# so the next turn is told to gate again, forever. Same reasoning as GATE_OUTPUTS in
+# tools/gate/gate.py, applied at the ignore layer instead of by widening that exclusion,
+# because narrowing what an oracle can see is a worse trade than not committing
+# telemetry. The rate it measures is computed locally and reported, not audited from git.
+state/handback-log.jsonl
+
+# Chain locks (tools/bus/bus.py::file_lock). Zero-byte sidecars held for the duration of
+# one append. They carry no state and exist only so concurrent writers serialise.
+*.jsonl.lock
+# Per-session statusline snapshots (the FleetView v0 tap). Runtime state written
+# on every statusline refresh; tracking it would make the gate fingerprint
+# self-invalidating, the same class as the per-turn telemetry fixed 2026-07-29.
+state/sessions/

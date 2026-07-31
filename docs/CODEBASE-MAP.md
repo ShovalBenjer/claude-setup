@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-365 directories, 1634 tracked files, 0 without a stated purpose.
+381 directories, 1705 tracked files, 0 without a stated purpose.
 
 ## .github
 
@@ -22,14 +22,16 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `docs` | 19 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
-| `docs/adr` | 15 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 25 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs` | 24 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
+| `docs/adr` | 19 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
+| `docs/analysis` | 29 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 1 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
-| `docs/prd` | 2 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
-| `docs/prior-art` | 28 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
-| `docs/reflections` | 2 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
-| `docs/specs` | 10 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/prd` | 3 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
+| `docs/prior-art` | 33 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
+| `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
+| `docs/reflections` | 4 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
+| `docs/specs` | 12 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/standards` | 1 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
 
 ## dot-agents
 
@@ -149,7 +151,7 @@ the same reason, one level down.
 | `dot-claude/commands` | 7 | Slash-command markdown definitions (/diverge, /reground, /cdp, /commit-push-pr, /insights, /pickup-reviews, /slop) that Claude Code loads as user-invokable commands | registry |
 | `dot-claude/corpus` | 2 | Script and source whitelist that build a local SQLite FTS best-practices corpus (Google eng practices, Azure Well-Architected, OpenSSF, private docs) for Gastown/Claude retrieval | registry |
 | `dot-claude/hooks` | 28 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
-| `dot-claude/rules` | 21 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
+| `dot-claude/rules` | 22 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
 | `dot-claude/skills` | 24 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
 | `dot-claude/skills/LTMD` | 1 | "Lead-To-Money-Decision lens. Judge any analysis/notebook/report/plan the way the paying decision-maker (default: Liron, CMO) would: does it end in ONE executable, dollar-valued... | SKILL.md |
 | `dot-claude/skills/advisor` | 1 | "Fast confidence-restoring research pass for when Claude (or the user) is NOT confident about an external, current, or SOTA question. Spawns a scoped web-research sub-agent, res... | SKILL.md |
@@ -216,6 +218,7 @@ the same reason, one level down.
 | `dot-claude/skills/ui-ux-pro-max/templates/base` | 2 | Shared markdown body fragments (quick-reference cheat sheet, full applicability rules in Chinese) meant to be stitched into a platform's SKILL.md; no assembly script found in th... | registry |
 | `dot-claude/skills/ui-ux-pro-max/templates/platforms` | 18 | Per-agent-platform install manifests for porting ui-ux-pro-max to Cursor, Windsurf, Copilot, Codex, Gemini etc.; vendored from upstream, no generator script uses them in this repo | registry |
 | `dot-claude/skills/voice-explainer` | 1 | Generate short audio narration via ElevenLabs eleven_multilingual_v2 and auto-play it. Triggers on out-of-focus / tired / "read it to me" signals (en/he/ar) detected by the User... | SKILL.md |
+| `dot-claude/skills/youtube-distill` | 1 | Analyse a YouTube video by driving Claude in Chrome to Gemini, which reads the video directly from its URL, then distil the answer into a fixed contract with search-ready takeaw... | SKILL.md |
 
 ## dot-codex
 
@@ -365,7 +368,8 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `state` | 10 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
+| `state` | 16 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
+| `state/backups` | 1 | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project... | registry |
 | `state/retired-2026-07-25` | 0 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled... | registry |
 | `state/retired-2026-07-25/bin` | 6 | Retired 2026-07-25 meme/visual scripts (download/play memes, generate/pop visual, seed-meme-vectordb), pulled from the live bin/ tree | registry |
 | `state/retired-2026-07-25/config` | 1 | Retired 2026-07-25 memes.json, the config for the removed meme-control feature | registry |
@@ -381,40 +385,52 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `tests` | 10 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `tests` | 14 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `tests/cmd` | 1 | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process self... | registry |
+| `tests/cmd/fixtures` | 1 | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it | registry |
 
 ## tools
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
 | `tools` | 6 | Holds this repo's operational tooling: top-level scripts (repo audit, token rollout, slop lint) plus one subdirectory per verification, automation, or coordination tool | registry |
-| `tools/audit` | 3 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
+| `tools/audit` | 4 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
 | `tools/audit/mutations` | 10 | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red | registry |
 | `tools/browser` | 1 | Hand-rolled Chrome DevTools Protocol client that launches a separate Chrome so the assistant can browse authenticated pages, screenshot, and eval JS that anonymous WebFetch cann... | registry |
 | `tools/bus` | 2 | Cross-terminal message bus (bus.py): append-only hash-chained JSONL with per-lane read cursors so parallel Claude Code sessions in different terminals can send each other durabl... | registry |
 | `tools/digest` | 1 | Builds the daily digest (push line plus digest.md) from TODO, git, and branch-health state for a cron job to send via PushNotification; out/ holds the generated digest.md and pu... | registry |
 | `tools/digest/out` | 2 | Generated daily-digest output (digest.md TODO/lessons rollup, push.txt); written by the digest tool, not source | registry |
+| `tools/docmap` | 1 | Generated document map: classifies all 929 tracked markdown files, derives each one's lifecycle status from its class or its own header, and records which lane-letter scheme (pr... | registry |
 | `tools/e2e` | 1 | Real-browser end-to-end flow auditor (flow.py) that drives tools/browser/cdp.py at phone size, presses every control on every route, and feeds the ship gate's e2e and a11y_ux do... | registry |
 | `tools/gate` | 2 | Ship-gate contract enforcer (gate.py: coverage checklist plus a run ledger) and enforce_selftest.py, proving the live deployed Stop hook actually blocks an ungated done-claim | registry |
+| `tools/ghpub` | 1 | Publishes state/github-backlog-*.json to GitHub milestones, labels, issues and a project board. Idempotent by issue title so a re-run is safe and a partial failure resumes rathe... | registry |
 | `tools/graph` | 2 | Repo graphing: blast_radius.py finds a changed file's transitive import blast radius for PR-review fanout, repo_graph.py builds a cross-repo portfolio graph via gh; out/ holds g... | registry |
 | `tools/graph/out` | 2 | Generated repo-portfolio graph output: portfolio.d2 diagram source plus a portfolio.db sqlite file, built by the graph tool | registry |
 | `tools/health` | 1 | Read-only git branch health sweep (branch_sweep.py) across GitHub source repos via gh, classifying branches merged/stale/active; out/ holds the generated branch_health.json and .md | registry |
 | `tools/health/out` | 2 | Generated branch-health report (JSON+markdown) listing merged-deletable and default-branch-drifted branches across 22 repos | registry |
-| `tools/lib` | 2 | Shared library other tools import: envload.py finds API keys in .env case-insensitively without printing them, quota.py enforces daily/per-minute API ceilings via an append-only... | registry |
+| `tools/hookgate` | 6 | The `PreToolUse` deny rules, compiled. Replaces two Python hook processes on the hot path | README.md |
+| `tools/hookgate/bench` | 6 | The measurement scripts behind `tools/hookgate/README.md` and behind | README.md |
+| `tools/hookgate/src` | 2 | Rust source for the compiled PreToolUse gate. rules.rs is GENERATED by regen_rules.py from safety_gate.py::RULES and must never be hand-edited; main.rs carries the literal presc... | registry |
+| `tools/lib` | 3 | Shared library other tools import: envload.py finds API keys in .env case-insensitively without printing them, quota.py enforces daily/per-minute API ceilings via an append-only... | registry |
 | `tools/local` | 2 | Runs a local qwen2.5:1.5b Ollama classifier to cheaply triage a request's route and risk before escalating to Claude, logging each decision to the flywheel jsonl for later route... | registry |
 | `tools/map` | 1 | codemap.py, the directory-purpose registry checker and docs/CODEBASE-MAP.md generator; check fails on an undocumented dir, a row beside a self-documenting dir, or a row whose di... | registry |
 | `tools/memory` | 1 | Writes a research or web finding into a durable typed memory card under the auto-memory dir and appends a pointer to MEMORY.md, so findings survive past session end | registry |
 | `tools/nvidia` | 1 | NVIDIA NIM preview-endpoint client (nim.py): a second free second-opinion vendor pool beside tools/openrouter, hosted inference only (logprobs at most, never weights or activati... | registry |
 | `tools/openrouter` | 1 | OpenRouter HTTP client used as a zero-cost second-opinion model since codex is not installed here, with live free-model discovery and local quota enforcement via tools/lib | registry |
+| `tools/recall` | 1 | Reconstructs a session from its transcript on disk: operator turns in full, assistant turns truncated to their first N lines, harness chatter filtered out. Exists because Claude... | registry |
+| `tools/reclaim` | 2 | Executes a verified reclamation plan (archive/delete) for the 2026-07-30 filesystem reorganization. Dry-run by default; re-runs each row's invariants immediately before acting a... | registry |
 | `tools/refute` | 1 | CLI refutation engine that runs each claim's verifier command from state/claims-verify.jsonl and reports HELD/REFUTED/BROKEN, so no claim is asserted without an executable falsi... | registry |
 | `tools/refute/checks` | 7 | Verifier scripts refute.py invokes per claim: hook wiring/existence/execution, persona front-matter validity, config drift, hiring-ledger rows, and a meta-check that siblings fa... | registry |
 | `tools/review` | 1 | Runs a deterministic (plus optional opt-in OpenRouter) persona review over a git diff's added lines and writes the verdict artifact tools/gate/gate.py reads before merge | registry |
 | `tools/selfimprove` | 1 | scan.py reads real signals (open TODOs, git drift, hook health, tool coverage, doc staleness) to generate ranked proposals for the system's own next work; proposals.jsonl is tha... | registry |
 | `tools/skilleval` | 1 | run.py grades each skill's own routing-eval fixtures for whether its description text separates trigger from non-trigger prompts, flagging skills with no fixtures as UNCOVERED f... | registry |
 | `tools/snapshot` | 1 | snap.py takes, lists, diffs and restores point-in-time backups of the live ~/.claude tree, splitting gitignored content from a git-tracked manifest and hashing out secret-lookin... | registry |
+| `tools/supply` | 2 | Provenance ledger for third-party artifacts, so this repo can adopt outside tools | README.md |
+| `tools/timetravel` | 2 | Point-in-time reconstruction for the bytes git never sees: files matched by | README.md |
 | `tools/transcribe` | 1 | scribe.py, a stdlib ElevenLabs Scribe client for local meeting audio; resolves the key through tools/lib/envload so it never reaches a command line, hand-builds the multipart bo... | registry |
+| `tools/trycmd` | 1 | Literate CLI snapshot test runner: a stdlib-Python port of the Rust `trycmd` v1.2.1 grammar and the `snapbox` v0.6.21 line matcher. Executes the `$ command` blocks in tests/cmd/... | registry |
 | `tools/whatsapp` | 4 | CDP scripts (cdp_driver.py plus wa_* callers) that drive the WhatsApp Web tab read-only via simulated clicks to list archived chats, probe search, and read one group's message h... | registry |
-| `tools/workspace` | 13 | Operator-workspace tooling: the lane chooser and the launchers/taskbar pin that reach it (Start-Claude.ps1, make_lane_launchers.py, repoint_taskbar_pin.ps1) with mutate_launcher... | registry |
+| `tools/workspace` | 14 | Operator-workspace tooling: the lane chooser and the launchers/taskbar pin that reach it (Start-Claude.ps1, make_lane_launchers.py, repoint_taskbar_pin.ps1) with mutate_launcher... | registry |
 
 ## work-docs
 

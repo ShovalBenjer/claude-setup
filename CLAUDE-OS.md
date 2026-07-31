@@ -330,7 +330,13 @@ loops are the build frontier.
 
 ## 6. Pending Shoval decisions
 
-1. Global default model change (fable[1m] → sonnet per own rule) — config edit awaits OK.
-2. API key in תזכורת לעצמי — rotate.
+1. ~~Global default model change~~ CLOSED 2026-07-29: operator set `opus[1m]` as
+   the saved default directly. The fable experiment ran part of one day and was
+   ended before its 2026-08-05 falsifier, so it produced no verdict; see
+   rules/model-selection.md. Effort level stays an open contradiction on purpose
+   (rule says high, live runs xhigh, nobody has measured the difference).
+2. API key in תזכורת לעצמי — rotate. Still unconfirmed since 2026-07-24; the CDP
+   sweep of that group found zero credential-shaped strings, which does not clear
+   it, because deletion-from-view and wrong-chat both look identical to that probe.
 3. PR-fabric opt-in repo list.
 4. WhatsApp copilot cadence (2x daily proposed) + coaching retro frequency.

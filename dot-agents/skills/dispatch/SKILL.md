@@ -2,7 +2,7 @@
 name: dispatch
 description: Sync agent-to-agent dispatch from Codex orchestrator to a registered peer (Codex executor on gpt-5.5, Foundry agents seekapa/AxiaCS, future bridges). Triggers on /dispatch, "ask seekapa", "have AxiaCS check", "send to codex for review", "second-opinion from gpt-5.5". Default timeout 60s, sync only in v1, one peer per call. Logs every call to ~/.Codex/cache/a2a/audit.jsonl.
 model: sonnet
-allowed-tools: ["Bash($HOME/.Codex/bin/a2a-codex-call.sh *)", "Bash($HOME/.Codex/bin/a2a-foundry-call.py *)", "Bash($HOME/.Codex/bin/a2a-audit.py *)"]
+allowed-tools: ["Bash($HOME/.claude/bin/a2a-codex-call.sh *)", "Bash($HOME/.claude/bin/a2a-foundry-call.py *)", "Bash($HOME/.claude/bin/a2a-audit.py *)"]
 ---
 
 # /dispatch — sync A2A bridge to one peer

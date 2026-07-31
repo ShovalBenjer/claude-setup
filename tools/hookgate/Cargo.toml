@@ -1,0 +1,22 @@
+[package]
+name = "hookgate"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "hookgate"
+path = "src/main.rs"
+
+[dependencies]
+# Lookaround support. Rust's `regex` crate omits it by design, and six of the ported
+# rules require it. See the module docstring in src/main.rs.
+fancy-regex = "0.14"
+serde_json = "1"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+# No panic = "abort": a rule that errors at match time is caught and reported rather
+# than taking the process down, and that path wants unwinding available.
