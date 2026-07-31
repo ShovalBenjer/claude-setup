@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1005**
-- reachable from `docs/INDEX.md`: **38** (3%)
+- documents: **1006**
+- reachable from `docs/INDEX.md`: **114** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **24**
@@ -75,43 +75,44 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (33)
+## analysis (34)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
-| `docs/analysis/reference/coherence-governor-AGENTS.md` | - | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/reference/coherence-governor-AGENTS.md` | - | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-23-local-model-stress-test.md` | 2026-07-23 | dated-snapshot | class | n/a | yes | - | - |
-| `docs/analysis/2026-07-24-creativity-wow-gap.md` | 2026-07-24 | dated-snapshot | class | 1 | - | - | - |
-| `docs/analysis/2026-07-24-deployment-gap-audit.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-24-fleet-verification-gap.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-24-reference-repos-excavation.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-24-research-wiring-audit.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-24-setup-holding-us-back.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-24-skills-wiring-audit.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-07-24-creativity-wow-gap.md` | 2026-07-24 | dated-snapshot | class | 1 | yes | - | - |
+| `docs/analysis/2026-07-24-deployment-gap-audit.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-24-fleet-verification-gap.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-24-reference-repos-excavation.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-24-research-wiring-audit.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-24-setup-holding-us-back.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-24-skills-wiring-audit.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-24-work-archive-import.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
-| `docs/analysis/2026-07-25-claude-mastery-audit.md` | 2026-07-25 | dated-snapshot | class | n/a | - | the older Gemini CLI free-quota | - |
-| `docs/analysis/2026-07-25-claude-mastery-research-prompt.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-25-cloudflare-fit.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-25-dynamic-setup-decisions.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-25-effort-and-thinking.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-25-free-tier-exploitables.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-25-other-resources.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-25-our-own-dolt.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-25-repo-benchmark-and-star-forensics.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-26-session-handoff.md` | 2026-07-26 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md` | 2026-07-27 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-29-albert-prior-art-verdict.md` | 2026-07-29 | dated-snapshot | class | 1 | - | - | - |
-| `docs/analysis/2026-07-29-local-dependency-audit.md` | 2026-07-29 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-29-long-context-kernel-critique-response.md` | 2026-07-29 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-29-session-retro-modes-models-workflows-observability.md` | 2026-07-29 | dated-snapshot | class | 1 | - | - | - |
-| `docs/analysis/2026-07-29-where-our-system-stands.md` | 2026-07-29 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-30-context-engineering-and-the-absence-claim-class.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/2026-07-30-github-repo-triage.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/2026-07-30-native-surface-audit.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/2026-07-30-point-in-time-reconstruction.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/2026-07-30-self-chat-absorption-batch.md` | 2026-07-30 | dated-snapshot | class | 2 | - | the ABSORB-07 plan. | - |
-| `docs/analysis/2026-07-31-density-gate-measurement.md` | 2026-07-31 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-07-31-the-green-test-gradient.md` | 2026-07-31 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-07-25-claude-mastery-audit.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | the older Gemini CLI free-quota | - |
+| `docs/analysis/2026-07-25-claude-mastery-research-prompt.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-25-cloudflare-fit.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-25-dynamic-setup-decisions.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-25-effort-and-thinking.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-25-free-tier-exploitables.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-25-other-resources.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-25-our-own-dolt.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-25-repo-benchmark-and-star-forensics.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-26-session-handoff.md` | 2026-07-26 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md` | 2026-07-27 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-29-albert-prior-art-verdict.md` | 2026-07-29 | dated-snapshot | class | 1 | yes | - | - |
+| `docs/analysis/2026-07-29-local-dependency-audit.md` | 2026-07-29 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-29-long-context-kernel-critique-response.md` | 2026-07-29 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-29-session-retro-modes-models-workflows-observability.md` | 2026-07-29 | dated-snapshot | class | 1 | yes | - | - |
+| `docs/analysis/2026-07-29-where-our-system-stands.md` | 2026-07-29 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-30-context-engineering-and-the-absence-claim-class.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
+| `docs/analysis/2026-07-30-github-repo-triage.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
+| `docs/analysis/2026-07-30-native-surface-audit.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
+| `docs/analysis/2026-07-30-point-in-time-reconstruction.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
+| `docs/analysis/2026-07-30-self-chat-absorption-batch.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | the ABSORB-07 plan. | - |
+| `docs/analysis/2026-07-31-density-gate-measurement.md` | 2026-07-31 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-07-31-inventory-reconciliation-and-the-docs-control-plane.md` | 2026-07-31 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-07-31-the-green-test-gradient.md` | 2026-07-31 | dated-snapshot | class | 2 | yes | - | - |
 
 ## automation-output (126)
 
@@ -434,16 +435,16 @@ correct for its date**. Scheme `1` means read its lane letters through
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `.github/ISSUE_TEMPLATE/task.md` | - | living | registry | n/a | - | - | - |
-| `docs/CODEBASE-MAP.md` | - | generated | registry | n/a | - | - | the |
-| `docs/ESTATE-DIRECTORY-CATALOG.md` | - | dated-snapshot | registry | n/a | - | - | - |
+| `docs/CODEBASE-MAP.md` | - | generated | registry | n/a | yes | - | the |
+| `docs/ESTATE-DIRECTORY-CATALOG.md` | - | dated-snapshot | registry | n/a | yes | - | - |
 | `docs/EXECUTION-PLAN.md` | - | living | registry | n/a | yes | - | - |
 | `docs/OPERATOR-RUNBOOK.md` | - | living | registry | n/a | yes | - | - |
-| `docs/gemini-code-1785410845331.md` | - | operator-input | registry | n/a | - | - | - |
-| `docs/gemini-code-1785455675294.md` | - | operator-input | registry | n/a | - | - | - |
-| `docs/gemini-code-1785457549011.md` | - | operator-input | registry | n/a | - | - | - |
-| `docs/gemini-code-1785458291930.md` | - | operator-input | registry | n/a | - | - | - |
-| `docs/memory-layer--nexus-gemini-code-1785456331041.md` | - | operator-input | registry | n/a | - | - | - |
-| `docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` | - | operator-input | registry | n/a | - | - | - |
+| `docs/gemini-code-1785410845331.md` | - | operator-input | registry | n/a | yes | - | - |
+| `docs/gemini-code-1785455675294.md` | - | operator-input | registry | n/a | yes | - | - |
+| `docs/gemini-code-1785457549011.md` | - | operator-input | registry | n/a | yes | - | - |
+| `docs/gemini-code-1785458291930.md` | - | operator-input | registry | n/a | yes | - | - |
+| `docs/memory-layer--nexus-gemini-code-1785456331041.md` | - | operator-input | registry | n/a | yes | - | - |
+| `docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` | - | operator-input | registry | n/a | yes | - | - |
 | `dot-claude/CLAUDE.md` | - | living | registry | n/a | - | - | - |
 | `dot-codex/AGENTS.md` | - | living | registry | n/a | - | - | - |
 | `dot-codex/automations/README.md` | - | living | registry | n/a | - | - | - |
@@ -474,11 +475,11 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `intent-control-plane/docs/analysis/2026-07-12-implementation-audit.md` | 2026-07-12 | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/docs/prd/legible-harness.md` | 2026-07-12 | active | header | n/a | - | our modules but we delete them before it | - |
 | `intent-control-plane/docs/specs/2026-07-12-coding-style-standard.md` | 2026-07-12 | active | header | n/a | - | - | - |
-| `docs/SYSTEM-MAP.md` | 2026-07-24 | living map (re-audit when a phase lands). created 2026-07-24 | header | 1 | - | - | - |
+| `docs/SYSTEM-MAP.md` | 2026-07-24 | living map (re-audit when a phase lands). created 2026-07-24 | header | 1 | yes | - | - |
 | `state/compact-log.md` | 2026-07-24 | living | registry | 1 | - | - | - |
-| `docs/QUALITY-CONTRACT.md` | 2026-07-25 | living | registry | n/a | - | - | - |
-| `docs/2026-07-29-external-absorption-brief.md` | 2026-07-29 | dated-snapshot | registry | 1 | - | - | - |
-| `docs/taste.md` | 2026-07-29 | living | registry | n/a | - | it by date and say what changed. | - |
+| `docs/QUALITY-CONTRACT.md` | 2026-07-25 | living | registry | n/a | yes | - | - |
+| `docs/2026-07-29-external-absorption-brief.md` | 2026-07-29 | dated-snapshot | registry | 1 | yes | - | - |
+| `docs/taste.md` | 2026-07-29 | living | registry | n/a | yes | it by date and say what changed. | - |
 | `dot-claude/output-styles/shoval.md` | 2026-07-29 | living | registry | n/a | - | - | - |
 | `docs/SESSION-BOOT.md` | 2026-07-30 | living | registry | 2 | yes | - | - |
 | `docs/charters.md` | 2026-07-30 | living | registry | 2 | yes | - | - |
@@ -486,7 +487,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `tools/hookgate/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `tools/hookgate/bench/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `tools/timetravel/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
-| `docs/INDEX.md` | 2026-07-31 | living | registry | n/a | - | - | - |
+| `docs/INDEX.md` | 2026-07-31 | living | registry | 2 | - | v1 the same day | - |
 
 ## generated-output (2)
 
@@ -499,21 +500,21 @@ correct for its date**. Scheme `1` means read its lane letters through
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
-| `docs/HANDOFF-2026-07-27-research-transfer.md` | 2026-07-27 | historical-record | class | 1 | - | - | - |
-| `docs/HANDOFF-2026-07-27-session-close.md` | 2026-07-27 | historical-record | class | 1 | - | - | - |
-| `docs/HANDOFF-FROM-LEARNING-2026-07-27.md` | 2026-07-27 | historical-record | class | n/a | - | - | - |
-| `docs/HANDOFF-TO-LEARNING-2026-07-27.md` | 2026-07-27 | historical-record | class | n/a | - | - | - |
-| `docs/HANDOFF-2026-07-29-absorption-session.md` | 2026-07-29 | historical-record | class | 1 | - | - | - |
-| `docs/HANDOFF-2026-07-29-session-close.md` | 2026-07-29 | historical-record | class | 1 | - | - | - |
-| `docs/HANDOFF-FROM-LEARNING-2026-07-29.md` | 2026-07-29 | historical-record | class | 1 | - | - | - |
-| `docs/HANDOFF-FROM-NEW-RECRUIT-2026-07-29.md` | 2026-07-29 | historical-record | class | 1 | - | - | - |
-| `docs/HANDOFF-README-OWNERSHIP-2026-07-29.md` | 2026-07-29 | historical-record | class | n/a | - | - | - |
-| `docs/HANDOFF-2026-07-30-latent-channel-and-gastown.md` | 2026-07-30 | historical-record | class | 2 | - | - | - |
-| `docs/HANDOFF-2026-07-30-overnight-run.md` | 2026-07-30 | historical-record | class | n/a | - | - | the |
-| `docs/HANDOFF-2026-07-30-session-close.md` | 2026-07-30 | historical-record | class | 2 | - | - | - |
-| `docs/HANDOFF-TO-LEARNING-2026-07-30-process-cost-and-boundaries.md` | 2026-07-30 | historical-record | class | 2 | - | - | - |
-| `docs/HANDOFF-2026-07-31-review-oracle-repair.md` | 2026-07-31 | historical-record | class | 2 | - | - | - |
-| `docs/HANDOFF-2026-07-31-session-close.md` | 2026-07-31 | historical-record | class | 2 | - | - | - |
+| `docs/HANDOFF-2026-07-27-research-transfer.md` | 2026-07-27 | historical-record | class | 1 | yes | - | - |
+| `docs/HANDOFF-2026-07-27-session-close.md` | 2026-07-27 | historical-record | class | 1 | yes | - | - |
+| `docs/HANDOFF-FROM-LEARNING-2026-07-27.md` | 2026-07-27 | historical-record | class | n/a | yes | - | - |
+| `docs/HANDOFF-TO-LEARNING-2026-07-27.md` | 2026-07-27 | historical-record | class | n/a | yes | - | - |
+| `docs/HANDOFF-2026-07-29-absorption-session.md` | 2026-07-29 | historical-record | class | 1 | yes | - | - |
+| `docs/HANDOFF-2026-07-29-session-close.md` | 2026-07-29 | historical-record | class | 1 | yes | - | - |
+| `docs/HANDOFF-FROM-LEARNING-2026-07-29.md` | 2026-07-29 | historical-record | class | 1 | yes | - | - |
+| `docs/HANDOFF-FROM-NEW-RECRUIT-2026-07-29.md` | 2026-07-29 | historical-record | class | 1 | yes | - | - |
+| `docs/HANDOFF-README-OWNERSHIP-2026-07-29.md` | 2026-07-29 | historical-record | class | n/a | yes | - | - |
+| `docs/HANDOFF-2026-07-30-latent-channel-and-gastown.md` | 2026-07-30 | historical-record | class | 2 | yes | - | - |
+| `docs/HANDOFF-2026-07-30-overnight-run.md` | 2026-07-30 | historical-record | class | n/a | yes | - | the |
+| `docs/HANDOFF-2026-07-30-session-close.md` | 2026-07-30 | historical-record | class | 2 | yes | - | - |
+| `docs/HANDOFF-TO-LEARNING-2026-07-30-process-cost-and-boundaries.md` | 2026-07-30 | historical-record | class | 2 | yes | - | - |
+| `docs/HANDOFF-2026-07-31-review-oracle-repair.md` | 2026-07-31 | historical-record | class | 2 | yes | - | - |
+| `docs/HANDOFF-2026-07-31-session-close.md` | 2026-07-31 | historical-record | class | 2 | yes | - | - |
 
 ## prd (3)
 
@@ -521,7 +522,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 |---|---|---|---|---|---|---|---|
 | `docs/prd/claude-os.md` | 2026-07-23 | active | header | n/a | yes | all prior plans | - |
 | `docs/prd/autonomy-ecosystem.md` | 2026-07-24 | living | header | 1 | yes | - | - |
-| `docs/prd/2026-07-30-consolidation-and-migration.md` | 2026-07-30 | approved for autonomous execution (operator, 2026-07-30, "lo | header | 2 | - | it, and whether anything links to it. Or | - |
+| `docs/prd/2026-07-30-consolidation-and-migration.md` | 2026-07-30 | approved for autonomous execution (operator, 2026-07-30, "lo | header | 2 | yes | it, and whether anything links to it. Or | - |
 
 ## prior-art (39)
 
@@ -571,12 +572,12 @@ correct for its date**. Scheme `1` means read its lane letters through
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
-| `docs/reflections/2026-07-29-full-scope-and-slop-violation.md` | 2026-07-29 | dated-snapshot | class | 1 | - | - | - |
-| `docs/reflections/2026-07-29-what-is-going-wrong.md` | 2026-07-29 | dated-snapshot | class | 1 | - | - | - |
-| `docs/reflections/2026-07-30-analysis-that-never-becomes-code.md` | 2026-07-30 | dated-snapshot | class | n/a | - | - | - |
-| `docs/reflections/2026-07-30-thesis-and-deck-review.md` | 2026-07-30 | dated-snapshot | class | n/a | - | - | - |
-| `docs/reflections/2026-07-30-what-i-saw.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
-| `docs/reflections/2026-07-31-session-close-what-the-instruments-caught.md` | 2026-07-31 | dated-snapshot | class | 2 | - | - | - |
+| `docs/reflections/2026-07-29-full-scope-and-slop-violation.md` | 2026-07-29 | dated-snapshot | class | 1 | yes | - | - |
+| `docs/reflections/2026-07-29-what-is-going-wrong.md` | 2026-07-29 | dated-snapshot | class | 1 | yes | - | - |
+| `docs/reflections/2026-07-30-analysis-that-never-becomes-code.md` | 2026-07-30 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/reflections/2026-07-30-thesis-and-deck-review.md` | 2026-07-30 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/reflections/2026-07-30-what-i-saw.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
+| `docs/reflections/2026-07-31-session-close-what-the-instruments-caught.md` | 2026-07-31 | dated-snapshot | class | 2 | yes | - | - |
 
 ## root (6)
 
@@ -849,20 +850,20 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-07-23-slm-swarm.md` | 2026-07-23 | active | header | n/a | yes | - | - |
 | `docs/specs/2026-07-24-autonomy-implementation.md` | 2026-07-24 | active | header | 1 | yes | - | - |
 | `docs/specs/2026-07-24-command-center-superior.md` | 2026-07-24 | active | header | n/a | yes | - | - |
-| `docs/specs/2026-07-29-architecture-build-plan-v2.md` | 2026-07-29 | partly-superseded-by docs/prd/2026-07-30-consolidation-and-migration.md | registry | 1 | - | v1 the same day | - |
-| `docs/specs/2026-07-29-architecture-build-plan.md` | 2026-07-29 | superseded-by docs/specs/2026-07-29-architecture-build-plan-v2.md | registry | 1 | - | - | - |
-| `docs/specs/2026-07-29-decision-rules.md` | 2026-07-29 | proposed. written 2026-07-29 for lane b (claude-setup) | header | 1 | - | - | - |
-| `docs/specs/2026-07-29-deterministic-preflight.md` | 2026-07-29 | proposal, operator-originated 2026-07-29, needs /diverge on | header | n/a | - | - | - |
-| `docs/specs/2026-07-29-intent-traceability.md` | 2026-07-29 | accepted | registry | n/a | - | - | - |
-| `docs/specs/2026-07-29-prompt-to-ticket-lifecycle.md` | 2026-07-29 | active | header | 1 | - | the | - |
-| `docs/specs/2026-07-29-trace-model-sacred-timeline.md` | 2026-07-29 | accepted | registry | 1 | - | - | - |
+| `docs/specs/2026-07-29-architecture-build-plan-v2.md` | 2026-07-29 | partly-superseded-by docs/prd/2026-07-30-consolidation-and-migration.md | registry | 1 | yes | v1 the same day | - |
+| `docs/specs/2026-07-29-architecture-build-plan.md` | 2026-07-29 | superseded-by docs/specs/2026-07-29-architecture-build-plan-v2.md | registry | 1 | yes | - | - |
+| `docs/specs/2026-07-29-decision-rules.md` | 2026-07-29 | proposed. written 2026-07-29 for lane b (claude-setup) | header | 1 | yes | - | - |
+| `docs/specs/2026-07-29-deterministic-preflight.md` | 2026-07-29 | proposal, operator-originated 2026-07-29, needs /diverge on | header | n/a | yes | - | - |
+| `docs/specs/2026-07-29-intent-traceability.md` | 2026-07-29 | accepted | registry | n/a | yes | - | - |
+| `docs/specs/2026-07-29-prompt-to-ticket-lifecycle.md` | 2026-07-29 | active | header | 1 | yes | the | - |
+| `docs/specs/2026-07-29-trace-model-sacred-timeline.md` | 2026-07-29 | accepted | registry | 1 | yes | - | - |
 | `docs/specs/2026-07-30-data-architecture-and-orchestration.md` | 2026-07-30 | proposal, pending operator approval. nothing here is built | header | n/a | yes | nothing. Extends ADR-0010 | - |
 | `docs/specs/2026-07-31-agentic-directory-standard-sota.md` | 2026-07-31 | specification & architectural comparison | header | n/a | yes | - | - |
-| `docs/specs/2026-07-31-github-native-project-surface.md` | 2026-07-31 | design. nothing in this document has been applied. every wri | header | n/a | - | - | - |
-| `docs/specs/2026-07-31-kanban-four-layer-model.md` | 2026-07-31 | design. nothing here has been applied. every write command i | header | 2 | - | - | - |
+| `docs/specs/2026-07-31-github-native-project-surface.md` | 2026-07-31 | design. nothing in this document has been applied. every wri | header | n/a | yes | - | - |
+| `docs/specs/2026-07-31-kanban-four-layer-model.md` | 2026-07-31 | design. nothing here has been applied. every write command i | header | 2 | yes | - | - |
 | `docs/specs/2026-07-31-project-federation.md` | 2026-07-31 | accepted | registry | n/a | yes | - | - |
-| `docs/specs/2026-07-31-research-corpus-and-cache.md` | 2026-07-31 | proposal | header-inline | n/a | - | text references sources | - |
-| `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | active | header | 2 | - | - | - |
+| `docs/specs/2026-07-31-research-corpus-and-cache.md` | 2026-07-31 | proposal | header-inline | n/a | yes | text references sources | - |
+| `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | active | header | 2 | yes | - | - |
 
 ## standard (1)
 

@@ -146,10 +146,54 @@ deletes an existing row; these are the rows that were silently dropped.
 
 ## Filed 2026-07-29 (reflection: ungated channel + false-scope plan)
 - [ ] Response-channel slop gate: Stop hook runs the slop patterns over the TURN'S RESPONSE TEXT, one corrective turn on a hit. Measured driver: 33 connector violations across 17 of 28 text turns (61%) in session dfcabe1b while every .md written passed slop_lint. Must tolerate dashes inside quoted code/data or it repeats the panel.py false-positive class (L-2026-07-29-d). Lesson L-2026-07-29-g
-- [ ] scan.py false positives: top 3 ranked proposals (score 8) claim SessionStart/PostToolUse/PreCompact hooks are missing; all three exist live (7941/2519/1306 bytes) and session-recall.sh fires every session. The tool CLAUDE.md names for choosing work ranks phantom defects highest. Fix the path resolution, add a positive test per L017
-- [ ] Bus inbox is never read: 19 unread messages to lane A (written as B under the pre-2026-07-30 scheme), oldest 2026-07-25, carrying live findings (160 canonical files never deployed, deploy-setup.sh false-greens, stale-rules warning now resolved-by-time with nothing recording it). Either surface unread count at SessionStart (session-recall.sh already runs) or accept the bus is write-only and say so
+- [x] CLOSED 2026-07-31 by measurement. scan.py false positives: top 3 ranked proposals claimed SessionStart/PostToolUse/PreCompact hooks were missing; all three exist live (7941/2519/1306 bytes) and session-recall.sh fires every session. The tool CLAUDE.md names for choosing work ranks phantom defects highest. Fix the path resolution, add a positive test per L017
+- [x] CLOSED 2026-07-31 by measurement: `bus.py inbox` returns EMPTY and `bus.py verify` reports the chain intact, so the 19-unread figure is stale. The underlying question (is the bus write-only) is NOT closed and is re-filed below. Original row: bus inbox is never read, 19 unread messages to lane A (written as B under the pre-2026-07-30 scheme), oldest 2026-07-25, carrying live findings (160 canonical files never deployed, deploy-setup.sh false-greens, stale-rules warning now resolved-by-time with nothing recording it). Either surface unread count at SessionStart (session-recall.sh already runs) or accept the bus is write-only and say so
 - [ ] /reground is hollow in BOTH trees: absent from ~/.claude/commands/, and the canonical dot-claude/commands/reground.md dispatches to /home/shovalbe/.agents/skills/reground/SKILL.md which does not exist on this machine. Operator typed /reground tonight and got nothing. Either write a real Windows-native reground (the 7-command reconciliation sweep is its natural body) or delete the command
 - [ ] Inventory reconciliation BEFORE the next build plan: bus inbox, scan.py, refute run, skills_sync (52 drift), pointers (261 absent paths), lane B/C backlogs, gh open work, CLAUDE-OS + INDEX read. Lesson L-2026-07-29-h. The competing frame this evidence supports, and which the architecture plan suppressed, is that inventory bloat is the core problem and adding tickets is the wrong shape
 - [ ] No retrieval layer over state/: measured 130M transcript tokens/week and ~20M in one session, so our own state exceeds every context window. Ledgers are append-only and read by tail or grep; nothing indexes them. Surfaced during the long-context critique response and walked past
 - [ ] Statusline never observed rendering in a live terminal: unit-tested against synthetic payloads only. FleetView v0 rests on it. Verify in a real session before building on the tap
 - [x] STALE 2026-07-29 evening: the fable-vs-opus falsifier due 08-05 was overtaken by the operator setting opus[1m] as the saved default tonight. model-selection.md still records the fable experiment as live; it needs rewriting to say the experiment was ended by operator decision before its falsifier date, and what that means for the effort-level row
+
+## Filed 2026-07-31 (lane A: inventory reconciliation, docs sweep, refutation repair)
+
+Source: `docs/analysis/2026-07-31-inventory-reconciliation-and-the-docs-control-plane.md`.
+Every row below was produced by running something today, not by reading a document.
+Two rows above were CLOSED by the same measurement and are marked in place.
+
+### Closed by this session
+
+- [x] REFUTE-01 CLOSED 2026-07-31. The falsifier layer returned zero information on Linux: `refute.py run` reported `26 claims: 0 held, 0 REFUTED, 26 broken verifier`, one cause, every row declared `shell: "pwsh"` and neither pwsh nor powershell exists under WSL. The tool never lied (broken is not a pass, and it exits nonzero) but the layer was inert on the host the operator now works from. Two of the seven PowerShell-native verifiers were also AIMED at `$env:USERPROFILE\claude-setup`, the Windows clone, a different working tree. Now `21 held, 5 REFUTED, 0 broken`. Commit `aeaecd3`; 8 tests red before the fix; `mutate --spec refute` 12 of 12 caught
+- [x] DOCS-01 CLOSED 2026-07-31. `docs/INDEX.md` listed 22 of 112 prose documents. Rewritten to 113 of 114 (it does not list itself), titles and declared statuses extracted from the files rather than written from memory, and it now passes `slop_lint` where before it had 43 em-dash hits
+
+### Refutations, now visible. Each is a claim this repo makes that its own checker rejects
+
+- [ ] REFUTE-02 C-012: live `~/.claude/CLAUDE.md` is DELETED and `settings.json` was rewritten (7440b to 6807b) since the 2026-07-29 baseline. The global instruction file the harness reasons about is gone and nothing noticed for two days. Decide: re-baseline (accepting the deletion as intended) or restore. NOT a code fix; needs the operator to say which
+- [ ] REFUTE-03 C-025: the pre-write snapshot for the pending settings.json write is INCOMPLETE, many `agents/*.md` MISSING, so that write is not revertable from it. A rollback source recorded as present and measured as partial is the same class as C-012
+- [ ] REFUTE-04 C-003: 1 of 12 live hook registrations does not resolve. `PreToolUse` points at `tools/hookgate/target/release/hookgate` and the checker finds no script path there. A hook that cannot run fails open and reports nothing
+- [ ] REFUTE-05 C-015: `mutate --spec bus` fails against the current tree, so bus.py's selftest is no longer proven able to fail
+- [ ] REFUTE-06 C-008: `hiring_engine/ledger.sqlite` is absent at the path the claim names. Lane B owns that ledger, so this is a proposal row for B, not lane A work
+
+### The pattern the sweep found, and the phase it implies
+
+- [ ] RATCHET-01 DECIDE, needs /diverge first (charters rule 2). Every defect found today is the same shape: **a number that is produced and then bound to nothing that stops.** `docmap` prints INDEX reachability at 3% and nothing fails. `pointers.py` counts 271 absent paths, exits FAIL, and is not a gate domain. `skills_sync` reports 49 drifted items and nothing fails. `refute` returned "unknown" 26 times for days. The proposal is a RATCHET (a number that may not get worse) attached to checks that already run, NOT a fourteenth gate domain: the count is already 13 and `docs/reflections/2026-07-29-what-is-going-wrong.md` section 4.2 warns against adding one
+- [ ] RATCHET-02 `pointers.py` absent-path count moved 261 to 271 between 2026-07-29 and 2026-07-31, the only reconciled number that got WORSE, and it got worse with nobody watching. First ratchet candidate
+
+### Docs control plane
+
+- [ ] DOCS-02 `tools/slop_lint.py` has no notion of fenced code blocks. Confirmed by reading it: no `fence`, no backtick handling. It lints mermaid diagrams and code samples as prose, so `docs/SYSTEM-MAP.md` carries 5 unfixable hits inside its diagram's `subgraph` labels. Same false-positive class as the panel.py defect (L-2026-07-29-d), in this repo's own prose gate. Oracle edit: needs a regression test that pins a dash inside a fence as CLEAN and the identical dash outside it as a HIT
+- [ ] DOCS-03 8 of 18 specs declare no `Status:` line: architecture-build-plan and its -v2, intent-traceability, trace-model-sacred-timeline, data-architecture-and-orchestration, agentic-directory-standard-sota, project-federation, research-corpus-and-cache. `docmap` passes them because it derives a class-based status, which answers what kind of document it is and never whether it is still true. The two architecture-build-plan files supersede each other by title and neither carries the fact
+- [ ] DOCS-04 `docs/INDEX.md` has no generator and nothing fails when it drifts, so today's 113-of-114 coverage decays from the next document onward. Either generate it (like CODEBASE-MAP and DOCMAP) or ratchet the reachability number docmap already computes. Do not do both
+- [ ] DOCS-05 `CLAUDE.md` says "the full 12-domain contract"; `quality-contract.json` declares 13. One-word fix, filed rather than done because CLAUDE.md is the file every session reads first and it deserves its own pass
+
+### Prior art
+
+- [ ] ABSORB-01 UPDATED 2026-07-31: the record count is 39, not the 27 the original row states, and the finding is unchanged. 0 of 39 carry an absorption field, including the one written this morning. Original row stands as written
+- [ ] ABSORB-09 (new) `verdict` in the prior-art schema is FREE TEXT. 39 records carry 13 distinct values and four are sentences, including `keep-provisionally, and it is the weakest of the three records written today`. The prose is good and ungroupable, so "how many components did we decide to replace" needs 39 file reads. This is the identical defect `docs/specs/2026-07-31-zion-board-as-product-instrument.md` diagnosed on the board, where hierarchy lived in an `EPIC:` title prefix GitHub could not group on. Same fix: keep the sentence, add the enumerated field beside it. Do this WITH ABSORB-01, one schema change, one backfill, one oracle edit
+- [ ] ABSORB-10 (new) `tools/whatsapp` carries verdict `delete-ours` and still exists with 4 tracked files. A decision recorded and not executed is indistinguishable from a decision not taken. Either execute it or record why it was reversed
+
+### Zion
+
+- [ ] ZION-01 BLOCKED(operator): the gh token has no `read:project` scope, so the live board could not be read or written this session. Unblock with `gh auth refresh -s read:project,project`, which needs an interactive browser step. `$BROWSER` is now bridged to Windows Chrome by `tools/wsl/bootstrap.sh`, so the device-code URL will open
+- [ ] ZION-02 Once ZION-01 clears, publish the rows above through the JSON, never by hand: edit `state/github-backlog-<date>.json`, then `python tools/ghpub/publish_backlog.py --update` (dry run), then `--execute`, then `zion_fields.py`. Rule from the Zion spec section 6: the JSON is edited, never the issue body, and a hand-set field is drift with no diff
+- [ ] ZION-03 The board's `Lane` field is a select of `B/C/D/E`. ADR-0016 renumbered the lanes to A/B/C/D on 2026-07-30. The board is one cutover behind the ADR, so every lane value on it is ambiguous in exactly the way `docs/charters.md` warns about
+
