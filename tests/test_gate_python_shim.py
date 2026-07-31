@@ -136,11 +136,25 @@ class TestTheVirtualenvIsPerPlatform:
             "sharing one directory is what collided in the first place")
 
     def test_an_operator_override_is_not_clobbered(self, monkeypatch):
+        """The contract is the value a domain ends up running under, not the shape
+        of the return.
+
+        `_domain_env()` returns None to mean "inherit os.environ unchanged", which
+        preserves the override perfectly, so asserting `env.get(...)` on the return
+        only worked while something ELSE forced a non-empty overlay. On a host that
+        already provides `python`, python_shim_dir() correctly returns None, the
+        override suppresses the venv entry, the overlay is empty, and the old
+        assertion died with AttributeError on None. Measured 2026-07-31 on WSL after
+        tools/wsl/bootstrap.sh supplied `python`: green before the shim existed, red
+        after, with the production code correct throughout. Resolve the effective
+        value instead, which is what the domain actually sees.
+        """
         if os.name == "nt":
             pytest.skip("posix-only injection")
         monkeypatch.setenv("UV_PROJECT_ENVIRONMENT", "/tmp/my-own-venv")
         env = gate._domain_env()
-        assert env.get("UV_PROJECT_ENVIRONMENT") == "/tmp/my-own-venv"
+        effective = (os.environ if env is None else env).get("UV_PROJECT_ENVIRONMENT")
+        assert effective == "/tmp/my-own-venv"
 
     def test_the_posix_venv_is_gitignored(self):
         """Asked of git, not of a .gitignore file: the rule that matters lives in
