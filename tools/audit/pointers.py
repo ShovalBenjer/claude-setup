@@ -82,14 +82,48 @@ def win(path: str) -> str:
     that form, so testing it literally on Windows reports a live hook as missing.
     A /home/... path gets no translation on purpose: it is genuinely absent here,
     and pretending otherwise is what let these files sit for months.
+
+    The reverse direction was missing until 2026-07-31 and it cost twelve false
+    HIGH findings. Read from WSL, every hook in `dot-claude/settings.json` reported
+    `wired-missing`, because that file is the committed copy of a WINDOWS ~/.claude
+    and its `C:\\Users\\shova\\...` paths were tested against the Linux filesystem.
+    All twelve exist under /mnt/c; checked by hand before this was changed. A missing
+    hook is a believable defect, so twelve of them read as rot rather than as a bug
+    in the reader, `pointers scan` exits FAIL on them, and the genuinely dead
+    pointers in the same report sit underneath.
+
+    Translation happens only where the drive is actually MOUNTED, which is the whole
+    safety property: on bare Linux `C:\\Users\\x` stays unreachable, because a
+    translator that rewrites unconditionally is a machine for making absent paths
+    look present. See tools/lib/hostpaths.py.
     """
     p = path.strip().strip('"').strip("'")
     if p.startswith("~"):
         p = os.path.expanduser(p)
     m = re.match(r"^/([A-Za-z])/(.*)$", p)
     if m and os.name == "nt":
-        p = "{}:\\{}".format(m.group(1).upper(), m.group(2).replace("/", "\\"))
+        return "{}:\\{}".format(m.group(1).upper(), m.group(2).replace("/", "\\"))
+    if os.name != "nt":
+        return str(_hostpaths().translate(p))
     return p
+
+
+def _hostpaths():
+    """Imported by path rather than by name: tools/ is not a package, and this is
+    the same directory-shaped import the rest of this tree uses."""
+    global _HOSTPATHS
+    if _HOSTPATHS is None:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "hostpaths", os.path.join(os.path.dirname(os.path.dirname(
+                os.path.abspath(__file__))), "lib", "hostpaths.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _HOSTPATHS = mod
+    return _HOSTPATHS
+
+
+_HOSTPATHS = None
 
 
 def exists(path: str) -> bool:
