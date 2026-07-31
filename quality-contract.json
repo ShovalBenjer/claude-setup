@@ -23,7 +23,7 @@
     },
     "types": {
       "required": true,
-      "cmd": "python -m compileall -q . && cd intent-control-plane && uv run ruff check . && uv run mypy",
+      "cmd": "python -m compileall -q -x \"\\\\.venv|venv\" . && cd intent-control-plane && uv run ruff check . && uv run mypy",
       "_note": "compileall is the documented fallback where no root lint config exists; ruff and mypy are configured inside intent-control-plane"
     },
     "e2e": {

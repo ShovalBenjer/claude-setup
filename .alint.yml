@@ -183,6 +183,15 @@ rules:
       Tracked build output and dependencies. 5 of 31 repositories track dist/
       and 3 track node_modules/. Both are defects, not directories.
 
+  - id: r3-directory-depth-cap
+    kind: max_directory_depth
+    paths: ["src/**", "tools/**", "docs/**", "tests/**", "scripts/**"]
+    max_depth: 4
+    level: warning
+    message: >-
+      Directory structure exceeds maximum allowed depth cap (4 levels).
+      Deeply nested directories obscure codebase navigation for AI agents.
+
   # --- Row 4: .github contents --------------------------------------------
 
   - id: r4-workflows-exist

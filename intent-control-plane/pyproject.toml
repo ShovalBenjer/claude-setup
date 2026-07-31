@@ -6,6 +6,12 @@ requires-python = ">=3.12"
 dependencies = [
     "tree-sitter>=0.26.0",
     "tree-sitter-language-pack>=1.12.5",
+    "pytest>=8",
+    "hypothesis>=6.156.5",
+    "py>=1.11.0",
+    "pygments>=2.15.0",
+    "ruff>=0.6",
+    "mypy>=1.11",
 ]
 
 [project.scripts]
@@ -17,6 +23,8 @@ dev = [
     "mypy>=1.11",
     "pytest>=8",
     "hypothesis>=6.156.5",
+    "py>=1.11.0",
+    "pygments>=2.15.0",
 ]
 
 [build-system]

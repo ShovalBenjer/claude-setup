@@ -80,12 +80,42 @@ else
   echo "    present"
 fi
 
-log "PATH"
-BASHRC="$HOME/.bashrc"
-add_path() {
-  grep -qF "$1" "$BASHRC" 2>/dev/null || { echo "$1" >> "$BASHRC"; echo "    added: $1"; }
+log "browser bridge (WSL has no Linux browser, gh auth needs one)"
+# `gh auth login` calls xdg-open, which walks a list of Linux browsers and finds none
+# under WSL, so the device-code URL never opens and the flow dead-ends. Bouncing to the
+# Windows browser fixes it for gh and for anything else that honours $BROWSER. A URL is
+# not a filesystem path, so handing it to a Windows binary is safe; do not extend this
+# to files.
+for cand in   "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"   "/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+do
+  if [ -x "$cand" ]; then WINBROWSER="$cand"; break; fi
+done
+if [ -n "${WINBROWSER:-}" ]; then
+  mkdir -p "$HOME/.local/bin"
+  {
+    echo '#!/usr/bin/env bash'
+    echo "exec \"$WINBROWSER\" \"\$@\""
+  } > "$HOME/.local/bin/wsl-browser"
+  chmod +x "$HOME/.local/bin/wsl-browser"
+  echo "    bridged to $(basename "$WINBROWSER")"
+else
+  echo "    no Windows browser found; enter the gh device code by hand"
+fi
+
+log "environment"
+# ~/.profile, NOT ~/.bashrc. Ubuntu's stock .bashrc returns at line 8 for any
+# non-interactive shell:
+#     case $- in *i*) ;; *) return;; esac
+# so anything appended to its tail never runs under `bash -lc`, which is exactly how
+# the WSL lane shortcuts and every scripted invocation start a shell. Measured
+# 2026-07-31: BROWSER was written to .bashrc and came back empty from `bash -lc`,
+# while PATH still worked only because .profile:25 adds ~/.local/bin independently.
+PROFILE="$HOME/.profile"
+add_env() {
+  grep -qF "$1" "$PROFILE" 2>/dev/null || { echo "$1" >> "$PROFILE"; echo "    added: $1"; }
 }
-add_path 'export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.bun/bin:$PATH"'
+add_env 'export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.bun/bin:$PATH"'
+add_env 'export BROWSER="$HOME/.local/bin/wsl-browser"'
 
 log "Verification"
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.bun/bin:$PATH"

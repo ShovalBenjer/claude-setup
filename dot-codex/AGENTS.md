@@ -1,1 +1,1 @@
-@/home/shovalbe/.codex/RTK.md
+@AGENTS.md

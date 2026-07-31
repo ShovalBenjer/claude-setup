@@ -16,10 +16,16 @@ Generated-from-docs wiki spine (docs-control-plane rule). One TODO, one INDEX.
   repo autonomy, social pipeline, resume rails, ecosystem.db, lessons+research loops.
 
 ## Specs
+- [specs/2026-07-31-agentic-directory-standard-sota.md](specs/2026-07-31-agentic-directory-standard-sota.md) — SOTA agent repo directory standard & estate architecture (active).
+- [specs/2026-07-31-project-federation.md](specs/2026-07-31-project-federation.md) — single board vs per-repo federation for Zion (active).
+- [specs/2026-07-30-data-architecture-and-orchestration.md](specs/2026-07-30-data-architecture-and-orchestration.md) — ecosystem.db & state orchestration (active).
 - [specs/2026-07-24-autonomy-implementation.md](specs/2026-07-24-autonomy-implementation.md) — phased build w/ premortem (active).
 - [specs/2026-07-24-command-center-superior.md](specs/2026-07-24-command-center-superior.md) — FleetView, CCC-superior dashboard (active).
 - [specs/2026-07-23-persona-review-economy.md](specs/2026-07-23-persona-review-economy.md) — reviewer labor market (active).
 - [specs/2026-07-23-slm-swarm.md](specs/2026-07-23-slm-swarm.md) — SLM leaf executors + flywheel (active).
+
+## Standards
+- [standards/agentic-repo-standard.md](standards/agentic-repo-standard.md) — ADR-0020 normative repository standard ruleset.
 
 ## ADRs
 - [0001](adr/0001-claude-setup-as-canonical-os-repo.md) — claude-setup = canonical OS repo
@@ -36,7 +42,12 @@ Generated-from-docs wiki spine (docs-control-plane rule). One TODO, one INDEX.
 - [0012](adr/0012-autonomy-ships-only-via-pr-gate.md) — autonomy ships only via PR gate
 - [0013](adr/0013-session-topology-concierge-plus-lanes.md) — concierge + three chartered lanes
 - [0014](adr/0014-social-publish-draft-first-hard-gate.md) — social publish behind phone-approval gate
-- [0015](adr/0015-opus5-default-fable-exceptional.md) — Opus 5 is the lead default; Fable exceptional-only (out-of-Fable-credits fix, 2026-07-24)
+- [0015](adr/0015-opus5-default-fable-exceptional.md) — Opus 5 is lead default; Fable exceptional-only
+- [0016](adr/0016-lane-letters-renumbered-a-through-d.md) — lane letters renumbered A through D
+- [0017](adr/0017-intent-control-plane-lives-in-claude-setup.md) — intent control plane lives in claude-setup
+- [0018](adr/0018-two-tier-inter-agent-channel.md) — two-tier inter-agent communication channel
+- [0019](adr/0019-supply-chain-verification.md) — supply chain verification gate
+- [0020](adr/0020-agentic-repo-standard.md) — agentic repository standard & .alint.yml contract
 
 ## Analysis (point-in-time; inputs to TODO)
 - [analysis/2026-07-24-work-archive-import.md](analysis/2026-07-24-work-archive-import.md) — full work-setup import inventory.

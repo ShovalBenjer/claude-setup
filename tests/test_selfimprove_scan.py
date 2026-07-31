@@ -35,12 +35,27 @@ scan = _load()
 
 
 class HookTargetResolution(unittest.TestCase):
-    def test_an_msys_path_resolves_to_a_windows_path(self) -> None:
-        got = scan.resolve_hook_target("/c/Users/shova/.claude/hooks/session-recall.sh")
-        self.assertEqual(got, Path("C:/Users/shova/.claude/hooks/session-recall.sh"))
+    """The MSYS form has TWO correct answers, and which one depends on the host.
 
-    def test_the_drive_letter_is_upper_cased(self) -> None:
-        self.assertEqual(scan.resolve_hook_target("/d/tmp/x.sh"), Path("D:/tmp/x.sh"))
+    These two cases asserted the Windows form unconditionally until 2026-07-31,
+    which was right while every session started from a Windows shell. From WSL
+    the same `/c/...` entry names a file at `/mnt/c/...`, and `C:/...` is not
+    reachable at all, so an unconditional assertion here would force the fix to
+    be wrong on one host or the other. The Windows arm is unchanged; the WSL arm
+    is new. Neither is weakened: each host still gets an exact expected path.
+    """
+
+    WSL = scan._under_wsl()
+
+    def test_an_msys_path_resolves_to_the_hosts_form(self) -> None:
+        got = scan.resolve_hook_target("/c/Users/shova/.claude/hooks/session-recall.sh")
+        want = ("/mnt/c/Users/shova/.claude/hooks/session-recall.sh" if self.WSL
+                else "C:/Users/shova/.claude/hooks/session-recall.sh")
+        self.assertEqual(got, Path(want))
+
+    def test_the_drive_letter_case_matches_the_hosts_convention(self) -> None:
+        want = "/mnt/d/tmp/x.sh" if self.WSL else "D:/tmp/x.sh"
+        self.assertEqual(scan.resolve_hook_target("/d/tmp/x.sh"), Path(want))
 
     def test_a_windows_path_passes_through_unchanged(self) -> None:
         raw = r"C:\Users\shova\.claude\hooks\safety_gate.py"

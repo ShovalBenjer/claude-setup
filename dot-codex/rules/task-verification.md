@@ -54,7 +54,7 @@ Pass: YES/NO
 ### Pattern: Premature Completion
 ```
 ❌ BAD: "I created the component. Task done."
-✅ GOOD: "Created component at X. Ran `bun run type-check` - 0 errors. 
+✅ GOOD: "Created component at X. Ran `bun run type-check` - 0 errors.
          Added test at Y. Ran `bun test` - all pass. Screenshot: Z"
 ```
 

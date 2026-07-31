@@ -1,4 +1,10 @@
 .venv/
+# The Windows venv and the Linux one cannot be the same directory: .venv here was
+# built by Windows uv (Lib/, Scripts/, pyvenv.cfg naming Python313 under C:\) and
+# uv on WSL cannot remove that tree over DrvFs, so `uv sync --frozen` fails with
+# os error 39 and takes the gate's build, unit and types domains down with it.
+# tools/gate/gate.py sets UV_PROJECT_ENVIRONMENT to this name on posix.
+.venv-linux/
 __pycache__/
 *.pyc
 .pytest_cache/

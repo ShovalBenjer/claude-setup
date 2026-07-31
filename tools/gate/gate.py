@@ -76,9 +76,12 @@ import datetime
 import hashlib
 import json
 import os
+import pathlib
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
 
 CONTRACT_NAME = "quality-contract.json"
 LEDGER = os.path.join("state", "gate-runs.jsonl")
@@ -102,11 +105,73 @@ ALWAYS_REQUIRED = [d for d in DOMAINS if d != "perf"]
 
 # ------------------------------------------------------------------ repo facts
 
+#: The name every domain command in quality-contract.json spells. Ubuntu ships
+#: `python3` and no `python`, so on WSL that name resolved to nothing and three
+#: required domains returned exit 127 with no failing test behind them. The
+#: contract text stays as `python` (see tests/test_gate_python_shim.py for why
+#: rewriting it to `python3` just moves the breakage to Windows); the name is
+#: supplied on PATH instead, pointing at whatever interpreter is running the gate.
+PYTHON_SHIM_NAME = "python"
+_SHIM_DIR: str | None = None
+_SHIM_RESOLVED = False
+
+
+def python_shim_dir(which=None, tmpdir=None) -> str | None:
+    """A directory providing `python`, or None when the host already has one.
+
+    `which`/`tmpdir` are injectable so the tests can drive both branches on a
+    host that happens to disagree with the one being simulated.
+    """
+    which = shutil.which if which is None else which
+    if which(PYTHON_SHIM_NAME):
+        return None
+    if os.name == "nt":
+        # A Windows box without `python` on PATH is a broken install, not a
+        # translation problem, and a .bat shim would hide it.
+        return None
+    d = pathlib.Path(tempfile.mkdtemp(prefix="gate-python-shim-")
+                     if tmpdir is None else tmpdir)
+    shim = d / PYTHON_SHIM_NAME
+    shim.write_text('#!/bin/sh\nexec "{}" "$@"\n'.format(sys.executable),
+                    encoding="utf-8")
+    shim.chmod(0o755)
+    return str(d)
+
+
+#: `intent-control-plane/.venv` is a Windows virtualenv (Lib/, Scripts/, a
+#: pyvenv.cfg naming Python313 under C:\). uv on Linux replaces the environment
+#: before syncing and cannot remove that tree over DrvFs, so `build` died with
+#: `os error 39` and `unit` and `types` inherited it. Two hosts, two directories.
+POSIX_VENV_NAME = ".venv-linux"
+
+
+def _domain_env() -> dict | None:
+    """os.environ plus whatever this host needs, or None when it needs nothing.
+
+    Cached, because run() is called once per domain and creating a temp dir each
+    time would leave a trail of them. Never mutates os.environ: the parent's PATH
+    is the operator's, and a gate that edits it has changed the machine.
+    """
+    global _SHIM_DIR, _SHIM_RESOLVED
+    if not _SHIM_RESOLVED:
+        _SHIM_DIR = python_shim_dir()
+        _SHIM_RESOLVED = True
+
+    overlay: dict[str, str] = {}
+    if _SHIM_DIR is not None:
+        overlay["PATH"] = _SHIM_DIR + os.pathsep + os.environ.get("PATH", "")
+    if os.name != "nt" and not os.environ.get("UV_PROJECT_ENVIRONMENT"):
+        overlay["UV_PROJECT_ENVIRONMENT"] = POSIX_VENV_NAME
+    if not overlay:
+        return None
+    return dict(os.environ, **overlay)
+
+
 def run(cmd: str, cwd: str, timeout: int = 900) -> tuple[int, str]:
     try:
         p = subprocess.run(cmd, cwd=cwd, shell=True, capture_output=True,
                            text=True, timeout=timeout, encoding="utf-8",
-                           errors="replace")
+                           errors="replace", env=_domain_env())
         return p.returncode, ((p.stdout or "") + (p.stderr or ""))
     except subprocess.TimeoutExpired:
         return 124, "timed out after {}s: {}".format(timeout, cmd)

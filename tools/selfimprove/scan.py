@@ -15,9 +15,15 @@ Signals (all real, all local):
   - test presence (tools/ modules without any test)
 Run: python tools/selfimprove/scan.py  ->  prints top proposals, writes proposals.jsonl
 """
-import json, os, re, subprocess, pathlib, hashlib
+import json, os, re, subprocess, sys, pathlib, hashlib
 
-OS = pathlib.Path(os.environ.get("CLAUDE_OS_DIR", pathlib.Path.home() / "claude-setup"))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+from lib import repo_root  # noqa: E402
+
+# Not `Path.home() / "claude-setup"`: under WSL that is the stale migration clone
+# at /home/shov/claude-setup, and this scanner would rank work from it and write
+# proposals.jsonl there. See tools/lib/repo_root.py.
+OS = repo_root.resolve()
 OUT = OS / "tools" / "selfimprove"
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -38,6 +44,17 @@ HOOK_SUFFIXES = (".sh", ".ps1", ".py")
 _MSYS_DRIVE = re.compile(r"^/([a-zA-Z])/(.*)$")
 
 
+def _under_wsl() -> bool:
+    """A Linux kernel that says microsoft. Bare Linux has no drive to reach."""
+    if os.name == "nt":
+        return False
+    try:
+        return "microsoft" in pathlib.Path("/proc/version").read_text(
+            encoding="utf-8", errors="replace").lower()
+    except OSError:
+        return False
+
+
 def resolve_hook_target(arg: str) -> pathlib.Path:
     """Return the real filesystem path a hook `args` entry names.
 
@@ -50,10 +67,18 @@ def resolve_hook_target(arg: str) -> pathlib.Path:
     bytes and session-recall.sh demonstrably ran at that session's start. A ranking
     tool whose top results are phantom sends every session that trusts it to do
     nothing, which is worse than having no ranking at all.
+
+    Second host, same defect, found 2026-07-31: the `C:/...` form this returns is
+    itself unreachable from WSL, where the same file is `/mnt/c/...`. So the
+    translation target depends on who is asking, and `/proc/version` is what
+    distinguishes a WSL kernel from a bare Linux one that has no C: at all.
     """
     m = _MSYS_DRIVE.match(arg)
     if m:
-        return pathlib.Path(f"{m.group(1).upper()}:/{m.group(2)}")
+        drive, rest = m.group(1).lower(), m.group(2)
+        if _under_wsl():
+            return pathlib.Path(f"/mnt/{drive}/{rest}")
+        return pathlib.Path(f"{drive.upper()}:/{rest}")
     return pathlib.Path(arg)
 
 
@@ -124,7 +149,7 @@ def scan():
             continue
         has_test = any((OS / "tools").rglob(f"*test*{name}*")) or (OS / "tests").exists() and any((OS / "tests").rglob(f"*{name}*"))
         # cheap heuristic: no test file referencing the module name
-        if not list((OS).rglob(f"test_{name}.py")):
+        if not list((OS / "tests").rglob(f"test_{name}.py")):
             props.append(proposal(f"Add a test for tools/{t.relative_to(OS/'tools')}",
                                   "tool has no test; coverage discipline (ADR-0005)",
                                   "low", True, str(t.relative_to(OS)), "gap"))

@@ -336,7 +336,7 @@ For `commit-push-pr` specifically there are **3 copies** (`.agents/`, `.codex/`,
 ~/.dotfiles/                                        # private repo, github.com/ShovalBenjer/dotfiles
 ├── skills/                                         # ~67 skills total
 │   ├── # Tier 1: 37 high-value
-│   ├── # Tier 2: 28 utilities  
+│   ├── # Tier 2: 28 utilities
 │   ├── # Tier 5 fix: perplexity-mcp (promoted from figma)
 │   └── # Tier 7 NEW: microsoft-agent-365, azure-foundry-cli (replacing azure-foundry)
 ├── hooks/                                          # 8 hooks (2 Claude + 6 Codex)

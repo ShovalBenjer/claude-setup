@@ -1,6 +1,6 @@
 # Claude Code mastery research prompt
 
-Date boundary: 2026-07-25  
+Date boundary: 2026-07-25
 Primary user environment: native Windows, Claude Code, Claude.ai first-party Max
 
 ## Role

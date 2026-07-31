@@ -32,7 +32,7 @@ jobs:
       pull-requests: write
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
 
       - name: Cap check (max 3 open auto/* PRs, fail closed)
@@ -93,7 +93,7 @@ jobs:
       pull-requests: write
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
       - name: In-run review (GITHUB_TOKEN PRs never trigger pull_request workflows)
         uses: anthropics/claude-code-action@v1

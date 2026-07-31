@@ -78,6 +78,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import sys
 import time
 import uuid
@@ -133,12 +134,35 @@ LANE_NAMES = {
 KINDS = ("fact", "ask", "answer", "claim", "warn", "done")
 
 
+_WSL_MOUNT = re.compile(r"^/mnt/([a-z])(/|$)")
+
+
+def canon_path(p: str) -> str:
+    """One spelling for a directory, whichever host is naming it.
+
+    `C:\\Users\\x`, `c:/users/x` and WSL's `/mnt/c/Users/x` are the same directory
+    and must compare equal, so everything is lowercased into forward-slash
+    drive-letter form. A path with no drive (`/home/shov/...`, a real Linux tree)
+    is left alone rather than invented into one.
+
+    `Path.resolve()` is deliberately NOT used. It is host-relative: under Linux
+    it reads `c:\\users\\x` as an ordinary relative filename and joins it onto the
+    cwd, which is how every lane derived UNKNOWN from WSL while the Windows-shaped
+    selftest inputs still looked like they were being exercised.
+    """
+    c = p.strip().replace("\\", "/").lower().rstrip("/")
+    m = _WSL_MOUNT.match(c)
+    if m:
+        c = m.group(1) + ":" + c[len("/mnt/x"):]
+    return c or "/"
+
+
 def lane_for(cwd: str) -> str:
-    c = str(Path(cwd).resolve()).lower().rstrip("\\/")
+    c = canon_path(cwd)
     best, best_len = DEFAULT_LANE, -1
     for prefix, lane in LANE_MAP.items():
-        p = prefix.lower().rstrip("\\/")
-        if (c == p or c.startswith(p + "\\") or c.startswith(p + "/")) and len(p) > best_len:
+        p = canon_path(prefix)
+        if (c == p or c.startswith(p + "/")) and len(p) > best_len:
             best, best_len = lane, len(p)
     return best
 
@@ -734,6 +758,32 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
         # which the renumber does nothing to fix.
         check("the real daily-deep-learning checkout derives lane C",
               lane_for(r"c:\users\shova\downloads\daily-deep-learning") == "C")
+
+        # Added 2026-07-31, the first session run from WSL. Every one of the three
+        # checks above passed on Windows while lane_for returned "?" for EVERY
+        # input on this host, including the Windows-shaped literals they pass,
+        # because `Path(r"c:\...").resolve()` under Linux is not a drive letter but
+        # a relative name joined onto the cwd. The result was the exact defect the
+        # daily-deep-learning check exists to catch -- a live checkout deriving no
+        # lane, so its messages are unaddressable -- reached through a different
+        # door: not a missing prefix, a cwd spelling the map cannot see.
+        check("the WSL spelling of the harness checkout derives lane A",
+              lane_for("/mnt/c/Users/shova/claude-setup") == "A")
+        check("a WSL path nested inside a lane still derives that lane",
+              lane_for("/mnt/c/Users/shova/claude-setup/tools/bus") == "A")
+        check("the WSL spelling of new-recruit derives lane B",
+              lane_for("/mnt/c/Users/shova/Downloads/new-recruit") == "B")
+        # The migration left a second checkout at /home/shov/claude-setup, two
+        # commits behind the one under /mnt/c (measured 2026-07-31). It is NOT
+        # mapped to lane A. Which of the two is authoritative is an operator
+        # question, and until it is answered, deriving a real lane from the stale
+        # clone would attribute its messages to the harness lane -- the same
+        # "confidently wrong beats admitting ignorance" trade this file already
+        # rejected once when it removed the lane-A fallback.
+        check("the stale WSL clone under /home derives UNKNOWN, not lane A",
+              lane_for("/home/shov/claude-setup") == "?")
+        check("an unmapped WSL path derives UNKNOWN",
+              lane_for("/mnt/c/Windows/Temp") == "?")
 
         # A corrupt cursor must not wedge the bus. It names no row in the file,
         # so the lane replays rather than raising or reading as caught-up.

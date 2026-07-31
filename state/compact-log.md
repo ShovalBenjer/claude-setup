@@ -3237,3 +3237,53 @@ d4c5541 fix(codemap): regenerate the map after this session's two docs/ addition
 92705fd docs(handoff): correct the clean-oracle claim, the committed tree fails two
 f0f6730 fix(codemap): commit the purpose row for the directory ed87ed0 started tracking
 ```
+
+## 2026-07-31 session handoff (lane C work, opened under a stale 'LANE E' banner)
+
+**Goal as given:** fold game and UI depth into the curriculum plan and add deep-dive
+custom skills to the talent tree, anchored on gameuidatabase.com. Operator answered
+"1+3" to a two-part question.
+
+**Shipped, in daily-deep-learning, validated:** `tools/validate_links.py` exits 0 with
+nodes=48 skills=49 concepts=214 units=355 bodies=13 errors=0.
+- `tools/build_curriculum.py`: new blocks S5 (node frontend, 12 topics, sourced from the
+  Game UI Database screen-type taxonomy) and S6 (node aiux, 10 topics, render paradigms).
+  Both moscow=should so they land in the `between` tree.
+- `curriculum.json` rebuilt 322 -> 355 units. S5=17 S6=16. 13 written bodies carried.
+- `skills.json` 45 -> 49: game-ui, game-feel, render-modes (target 4), realtime-viz.
+- `talents.json`: frontend and aiux gained those skills plus 5-rung quest ladders shaped
+  like rag-search. New synergy frontend -> evals-obs. Node-count note corrected from a
+  false "42 per tree" to the measured 16 per tree, 48 total.
+- `course_plan.json`: world_scan_sources 11 -> 14 (gameuidatabase, egui, wgpu).
+
+**Not done, deliberately:** no `units/<id>.md` bodies for the 33 new units.
+`build_curriculum.py` never writes bodies; the generator does, one at a time. Nothing
+committed, so `sw.js` V is unbumped, which is correct until deploy.
+
+**Charter violation, logged as L-2026-07-31-d.** The banner said LANE E, retired by the
+2026-07-30 renumbering; content is D and the work above is C. No claim was appended
+before starting. daily-deep-learning has no `state/` directory at all, so the claim path
+a Lane C session would use does not exist in the repo that lane owns.
+
+**Measurement correction the operator should carry forward.** Asked why performance
+degraded, the tempting number was per-session handbacks rising 8.5 -> 53.1 across the
+effortLevel xhigh -> low change. That ratio is confounded: sessions/day fell 37 -> 12 on
+the same day. The unconfounded measure is block RATE, and it is flat: 17.8%, 20.1%,
+18.8%. The ledger as shaped cannot separate reasoning effort from context length.
+
+**Review of the intent-to-done artifact (owned by operator, built concurrently).**
+Recounted all ten ledgers; five drifted within the hour, five were static, and the
+static five are exactly the ones nothing writes (bus.jsonl 25, claims.jsonl 13 mean
+cross-lane coordination is inert). It draws 9 of 12 deployed hook commands. Its nodes
+carry evidence and its 37 edges carry none, which inverts the value of a flow diagram.
+
+**Hardest finding, filed as a proposal at score 9:** `ship-gate.yml` returns HTTP 404,
+workflow not found on the default branch. Not "never ran": never registered. 12,248
+bytes locally, edited 2026-07-31 03:04, triggers on push:[main] plus four pull_request
+types, never merged. ADR-0012 names the PR gate as the only path autonomy ships through.
+Three sibling workflows do run, so Actions is healthy and this is one unmerged file.
+
+**Six proposal rows appended to `tools/selfimprove/proposals.jsonl` (11 -> 17), lane A.**
+
+**Next action:** merge `ship-gate.yml` to main, or state plainly that ADR-0012 is
+aspirational. Everything else on this list is smaller than that one.

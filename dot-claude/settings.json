@@ -189,7 +189,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "C:\\Users\\shova\\claude-setup\\intent-control-plane\\.venv\\Scripts\\python.exe",
+            "command": "python",
             "args": [
               "C:\\Users\\shova\\claude-setup\\tools\\intent\\capture_turn.py"
             ],
@@ -200,11 +200,13 @@
     ]
   },
   "workflowKeywordTriggerEnabled": true,
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
   "autoUpdatesChannel": "latest",
   "skipDangerousModePermissionPrompt": false,
   "theme": "dark",
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "_effort_note": "Set to high on 2026-07-31. Three sources disagreed: this committed payload said xhigh, live ~/.claude/settings.json said low, and dot-claude/rules/model-selection.md prescribes high while recording the live value as the untested status quo. The low value was an operator trial opened 2026-07-29T22:39 whose stated acceptance condition was his own satisfaction; on 2026-07-31 he reported it at the floor, so the trial returned its verdict. Every failure it produced was one class, attention under a verification claim: a 350-line artifact published without ever being rendered while a browser was connected, mutation patterns written against guessed function names, three reads of a hook's `command` when the path lives in `args`, str.split fragmenting filenames with spaces, Preferences read instead of Secure Preferences, and three absence claims against namespaces never enumerated.",
+  "_pre_push_timeout_note": "REVERTED to 90s on 2026-07-31 the same hour it was cut to 10s. The 10s was sized from three samples averaging 161ms, and those samples measured the BAIL-OUT path: the hook's own internal subprocess timeouts are 5s, 20s and 8s, totalling 33s on the validation path, so a 10s outer budget would kill a credential audit midway and a truncated security gate fails open. Same error class as the hookgate benchmark earlier this session, which reported 14.85ms because the payload failed JSON parsing and main returned before doing any work. Twice in one session: measuring the cheap path and reporting it as the cost. 90s is not justified by a measurement either; it is justified by 33s of internal budget plus headroom, and the real number needs a timed run of an actual push against a repo with commits to audit."
 }

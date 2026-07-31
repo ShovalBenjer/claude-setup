@@ -1,8 +1,8 @@
 # Claude Code Mastery, Evidence, and Learning-Corpus Audit
 
-Verified: 2026-07-25, Asia/Jerusalem  
-Primary target: `claw-army/awesome-claude-code-mastery`  
-Local Claude Code: 2.1.220, first-party subscription routing  
+Verified: 2026-07-25, Asia/Jerusalem
+Primary target: `claw-army/awesome-claude-code-mastery`
+Local Claude Code: 2.1.220, first-party subscription routing
 Research prompt written before the deep pass:
 [`2026-07-25-claude-mastery-research-prompt.md`](2026-07-25-claude-mastery-research-prompt.md)
 

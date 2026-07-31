@@ -7,7 +7,11 @@ Sources (all real, all local): TODO.md, branch health json, repo graph db, git s
 """
 import json, os, re, subprocess, sys, pathlib
 
-OS = pathlib.Path(os.environ.get("CLAUDE_OS_DIR", pathlib.Path.home() / "claude-setup"))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+from lib import repo_root  # noqa: E402
+
+# See tools/lib/repo_root.py: the home-relative default reads the stale WSL clone.
+OS = repo_root.resolve()
 OUT = OS / "tools" / "digest" / "out"
 OUT.mkdir(parents=True, exist_ok=True)
 

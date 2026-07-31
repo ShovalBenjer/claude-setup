@@ -1,0 +1,119 @@
+{
+  "namespace": "claude-setup",
+  "tagGroups": [
+    { "id": "role", "name": "Role" },
+    { "id": "evidence", "name": "Evidence state" }
+  ],
+  "tags": [
+    { "id": "t-actor", "name": "actor", "groupId": "role" },
+    { "id": "t-gate", "name": "blocking gate", "groupId": "role" },
+    { "id": "t-oracle", "name": "oracle", "groupId": "role" },
+    { "id": "t-ledger", "name": "append-only ledger", "groupId": "role" },
+    { "id": "t-generated", "name": "generated artifact", "groupId": "role" },
+    { "id": "t-external", "name": "external service", "groupId": "role" },
+    { "id": "t-live", "name": "runs on every turn", "groupId": "evidence" },
+    { "id": "t-never", "name": "never fired", "groupId": "evidence" },
+    { "id": "t-rare", "name": "fires rarely", "groupId": "evidence" }
+  ],
+
+  "modelObjects": [
+    { "id": "d-capture",  "name": "1. Capture",  "type": "domain" },
+    { "id": "d-guard",    "name": "2. Guard",    "type": "domain" },
+    { "id": "d-execute",  "name": "3. Execute",  "type": "domain" },
+    { "id": "d-stop",     "name": "4. Stop gates", "type": "domain" },
+    { "id": "d-verify",   "name": "5. Verify",   "type": "domain" },
+    { "id": "d-ship",     "name": "6. Ship",     "type": "domain" },
+    { "id": "d-memory",   "name": "State and ledgers", "type": "domain" },
+
+    { "id": "operator", "name": "Operator", "type": "system", "tagIds": ["t-actor"] },
+
+    { "id": "session-recall", "name": "session-recall.sh (SessionStart, 10s)", "type": "system", "parentId": "d-capture", "tagIds": ["t-live"] },
+    { "id": "bus-inbox", "name": "bus inbox (SessionStart + UserPromptSubmit)", "type": "system", "parentId": "d-capture", "tagIds": ["t-rare"] },
+    { "id": "capture-turn", "name": "capture_turn.py (UserPromptSubmit, 10s)", "type": "system", "parentId": "d-capture", "tagIds": ["t-live"] },
+
+    { "id": "safety-gate", "name": "safety_gate.py (PreToolUse on Bash, 5s)", "type": "system", "parentId": "d-guard", "tagIds": ["t-gate", "t-live"] },
+    { "id": "pre-push-gate", "name": "pre_push_gate.py (PreToolUse on Bash, 5s)", "type": "system", "parentId": "d-guard", "tagIds": ["t-gate"] },
+    { "id": "hookgate", "name": "tools/hookgate (Rust, 49ms Linux / 92ms Windows)", "type": "system", "parentId": "d-guard", "tagIds": ["t-never"] },
+
+    { "id": "model", "name": "Model: plan and act", "type": "system", "parentId": "d-execute" },
+    { "id": "subagents", "name": "Subagents and Workflow fan-out", "type": "system", "parentId": "d-execute", "tagIds": ["t-rare"] },
+    { "id": "skill-log", "name": "skill-usage-log.sh (PostToolUse on Skill, 5s)", "type": "system", "parentId": "d-execute", "tagIds": ["t-live"] },
+    { "id": "precompact", "name": "precompact-handoff.sh (PreCompact, 10s)", "type": "system", "parentId": "d-execute" },
+
+    { "id": "completion-gate", "name": "completion_gate.py (Stop, 8s)", "type": "system", "parentId": "d-stop", "tagIds": ["t-gate", "t-live"] },
+    { "id": "ship-gate-stop", "name": "ship_gate_stop.py (Stop, 8s)", "type": "system", "parentId": "d-stop", "tagIds": ["t-gate", "t-live"] },
+    { "id": "prior-art-gate", "name": "prior_art_gate.py (Stop, 8s)", "type": "system", "parentId": "d-stop", "tagIds": ["t-gate", "t-live"] },
+
+    { "id": "gate", "name": "tools/gate: 11 domains", "type": "system", "parentId": "d-verify", "tagIds": ["t-oracle", "t-live"] },
+    { "id": "panel", "name": "tools/review/panel.py", "type": "system", "parentId": "d-verify", "tagIds": ["t-oracle"] },
+    { "id": "codemap", "name": "tools/map/codemap.py", "type": "system", "parentId": "d-verify", "tagIds": ["t-oracle"] },
+    { "id": "docmap", "name": "tools/docmap (domain since 2026-07-31)", "type": "system", "parentId": "d-verify", "tagIds": ["t-oracle"] },
+    { "id": "mutate", "name": "tools/audit/mutate.py: 13 specs", "type": "system", "parentId": "d-verify", "tagIds": ["t-oracle"] },
+    { "id": "refute", "name": "tools/refute: per-claim falsifiers", "type": "system", "parentId": "d-verify", "tagIds": ["t-oracle"] },
+    { "id": "trycmd", "name": "tools/trycmd: CLI snapshots", "type": "system", "parentId": "d-verify", "tagIds": ["t-oracle"] },
+
+    { "id": "commit", "name": "git commit on a branch", "type": "system", "parentId": "d-ship" },
+    { "id": "ghpub", "name": "tools/ghpub: backlog to issues", "type": "system", "parentId": "d-ship" },
+    { "id": "ci", "name": "ship-gate.yml in Actions", "type": "system", "parentId": "d-ship", "tagIds": ["t-never"] },
+    { "id": "reviewers", "name": "External reviewers: codex, gemini, glm", "type": "system", "parentId": "d-ship", "tagIds": ["t-external", "t-rare"] },
+
+    { "id": "l-tickets", "name": "prompt-tickets.jsonl (215)", "type": "system", "parentId": "d-memory", "tagIds": ["t-ledger"] },
+    { "id": "l-skill", "name": "skill-use.jsonl (46)", "type": "system", "parentId": "d-memory", "tagIds": ["t-ledger"] },
+    { "id": "l-gate", "name": "gate-runs.jsonl (4723)", "type": "system", "parentId": "d-memory", "tagIds": ["t-ledger"] },
+    { "id": "l-handback", "name": "handback-log.jsonl (1135)", "type": "system", "parentId": "d-memory", "tagIds": ["t-ledger"] },
+    { "id": "l-refute", "name": "refutations.jsonl (469)", "type": "system", "parentId": "d-memory", "tagIds": ["t-ledger"] },
+    { "id": "l-lessons", "name": "lessons.jsonl (39, 29 open)", "type": "system", "parentId": "d-memory", "tagIds": ["t-ledger"] },
+    { "id": "l-claims", "name": "claims.jsonl (13)", "type": "system", "parentId": "d-memory", "tagIds": ["t-ledger"] },
+    { "id": "l-bus", "name": "bus.jsonl (25, hash-chained)", "type": "system", "parentId": "d-memory", "tagIds": ["t-ledger"] },
+    { "id": "l-compact", "name": "compact-log.md (3239)", "type": "system", "parentId": "d-memory", "tagIds": ["t-ledger"] },
+    { "id": "a-codemap", "name": "CODEBASE-MAP.md (393 dirs)", "type": "system", "parentId": "d-memory", "tagIds": ["t-generated"] },
+    { "id": "a-docmap", "name": "DOCMAP.md (973 docs)", "type": "system", "parentId": "d-memory", "tagIds": ["t-generated"] },
+    { "id": "a-review", "name": "state/reviews/<sha>.json", "type": "system", "parentId": "d-memory", "tagIds": ["t-generated"] }
+  ],
+
+  "modelConnections": [
+    { "id": "c01", "direction": "outgoing", "originId": "operator", "targetId": "capture-turn", "name": "types a prompt" },
+    { "id": "c02", "direction": "outgoing", "originId": "session-recall", "targetId": "l-claims", "name": "reads lane and lessons" },
+    { "id": "c03", "direction": "outgoing", "originId": "session-recall", "targetId": "l-lessons", "name": "surfaces open failure classes" },
+    { "id": "c04", "direction": "outgoing", "originId": "capture-turn", "targetId": "l-tickets", "name": "writes text_sha, NOT the text" },
+    { "id": "c05", "direction": "outgoing", "originId": "bus-inbox", "targetId": "l-bus", "name": "advances a cursor, so reading consumes" },
+    { "id": "c06", "direction": "outgoing", "originId": "capture-turn", "targetId": "model", "name": "prompt reaches the model" },
+
+    { "id": "c07", "direction": "outgoing", "originId": "model", "targetId": "safety-gate", "name": "every Bash call" },
+    { "id": "c08", "direction": "outgoing", "originId": "safety-gate", "targetId": "pre-push-gate", "name": "then" },
+    { "id": "c09", "direction": "outgoing", "originId": "pre-push-gate", "targetId": "model", "name": "allow, or deny with the reason" },
+    { "id": "c10", "direction": "outgoing", "originId": "hookgate", "targetId": "safety-gate", "name": "would replace, never deployed" },
+
+    { "id": "c11", "direction": "outgoing", "originId": "model", "targetId": "subagents", "name": "fan out" },
+    { "id": "c12", "direction": "outgoing", "originId": "model", "targetId": "skill-log", "name": "on every Skill call" },
+    { "id": "c13", "direction": "outgoing", "originId": "skill-log", "targetId": "l-skill", "name": "outcome field never written" },
+    { "id": "c14", "direction": "outgoing", "originId": "precompact", "targetId": "l-compact", "name": "snapshot before compaction" },
+
+    { "id": "c15", "direction": "outgoing", "originId": "model", "targetId": "completion-gate", "name": "turn ends" },
+    { "id": "c16", "direction": "outgoing", "originId": "completion-gate", "targetId": "l-handback", "name": "logs every blocked stop" },
+    { "id": "c17", "direction": "outgoing", "originId": "completion-gate", "targetId": "ship-gate-stop", "name": "then" },
+    { "id": "c18", "direction": "outgoing", "originId": "ship-gate-stop", "targetId": "prior-art-gate", "name": "then" },
+    { "id": "c19", "direction": "outgoing", "originId": "ship-gate-stop", "targetId": "gate", "name": "demands a run for THIS tree fingerprint" },
+    { "id": "c20", "direction": "outgoing", "originId": "prior-art-gate", "targetId": "model", "name": "blocks a novelty claim with no search" },
+
+    { "id": "c21", "direction": "outgoing", "originId": "gate", "targetId": "l-gate", "name": "records verdict + tree fingerprint" },
+    { "id": "c22", "direction": "outgoing", "originId": "gate", "targetId": "panel", "name": "review domain" },
+    { "id": "c23", "direction": "outgoing", "originId": "gate", "targetId": "codemap", "name": "codemap domain" },
+    { "id": "c24", "direction": "outgoing", "originId": "gate", "targetId": "docmap", "name": "docmap domain" },
+    { "id": "c25", "direction": "outgoing", "originId": "panel", "targetId": "a-review", "name": "artifact keyed by commit sha" },
+    { "id": "c26", "direction": "outgoing", "originId": "codemap", "targetId": "a-codemap", "name": "generated, hand edit reads as drift" },
+    { "id": "c27", "direction": "outgoing", "originId": "docmap", "targetId": "a-docmap", "name": "generated, hand edit reads as drift" },
+    { "id": "c28", "direction": "outgoing", "originId": "mutate", "targetId": "gate", "name": "proves each selftest can go red" },
+    { "id": "c29", "direction": "outgoing", "originId": "trycmd", "targetId": "gate", "name": "proves the CLI surface, across the process boundary" },
+    { "id": "c30", "direction": "outgoing", "originId": "refute", "targetId": "l-refute", "name": "runs each claim's own falsifier" },
+
+    { "id": "c31", "direction": "outgoing", "originId": "gate", "targetId": "commit", "name": "green tree is the commit point" },
+    { "id": "c32", "direction": "outgoing", "originId": "commit", "targetId": "ci", "name": "ADR-0012: autonomy ships only via the PR gate" },
+    { "id": "c33", "direction": "outgoing", "originId": "ci", "targetId": "reviewers", "name": "second opinion, decorrelated by model family" },
+    { "id": "c34", "direction": "outgoing", "originId": "reviewers", "targetId": "a-review", "name": "findings join the artifact" },
+    { "id": "c35", "direction": "outgoing", "originId": "ghpub", "targetId": "operator", "name": "backlog to issues and the board" },
+
+    { "id": "c36", "direction": "outgoing", "originId": "l-lessons", "targetId": "session-recall", "name": "the loop: a failure class returns next session" },
+    { "id": "c37", "direction": "outgoing", "originId": "l-handback", "targetId": "operator", "name": "measures how often the model hands back" }
+  ]
+}

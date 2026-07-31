@@ -5,7 +5,40 @@ harness-side banlist). Not a style suggestion — a gate: exit 1 on hits.
 
 Usage: slop_lint.py <file.md> [...]   (or - for stdin)
 """
-import re, sys
+import json, os, re, sys, datetime
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import prose_metrics  # noqa: E402
+
+# Density and variance, added 2026-07-31 for L-2026-07-31-b. WARN ONLY, and it
+# stays warn-only until a fitted band exists: the file this gate cleared while
+# reading as machine written had zero dashes, so the banlist above is evidence
+# about one list and one dash rule and nothing more. Scores are appended to
+# state/prose-scores.jsonl so the threshold comes from a week of distribution
+# rather than from taste. See prose_metrics.py for why no number is asserted here.
+SCORES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                      "state", "prose-scores.jsonl")
+
+
+def log_prose(path, text):
+    """Measure and record. Never fails the run: a broken collector must not
+    start rejecting prose that the gate itself has no rule against."""
+    try:
+        m = prose_metrics.measure(text)
+        if m["words"] < 200 or m["sentences"] < 5:
+            return None
+        if os.environ.get("SLOP_NO_LOG") or not os.path.isdir(os.path.dirname(SCORES)):
+            return m
+        row = {"ts": datetime.datetime.now(datetime.timezone.utc)
+               .strftime("%Y-%m-%dT%H:%M:%SZ"), "file": os.path.basename(path)}
+        row.update({k: (round(v, 6) if isinstance(v, float) else v)
+                    for k, v in m.items()})
+        with open(SCORES, "a", encoding="utf-8") as f:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+        return m
+    except Exception as e:                       # collector, not gate
+        print(f"prose_metrics unavailable: {e}", file=sys.stderr)
+        return None
 
 # Lexical slop: phrases far more common in LLM text than human writing.
 BANNED_PHRASES = [
@@ -64,6 +97,12 @@ def main():
         for kind, frag, line in hits:
             print(f"{a}:{line}: [{kind}] {frag!r}")
         total += len(hits)
+        m = log_prose(a, text)
+        if m:
+            print(f"{a}: [density] hyphen {m['hyphen_rate']*100:.2f}% of "
+                  f"{m['words']} words | sentence sd {m['sent_words_sd']:.1f}w "
+                  f"{m['sent_chars_sd']:.1f}c over {m['sentences']} sentences "
+                  f"(no band fitted; measurement only)", file=sys.stderr)
     if total:
         print(f"\nSLOP: {total} hit(s). Regenerate the flagged spans with the constraint named.", file=sys.stderr)
         sys.exit(1)

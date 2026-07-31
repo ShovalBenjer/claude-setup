@@ -52,6 +52,13 @@ $Lanes = [ordered]@{
 $ProjectRoots = @(
     (Join-Path $Home_ 'Downloads'),
     (Join-Path $Home_ 'projects'),
+    # Added 2026-07-31. Sub-projects live INSIDE new-recruit, in its gitignored
+    # projects/ tree, so the depth-0 scan above could never see them. Measured
+    # before adding: exactly one git repo is down there today
+    # (projects/nexus-engine-rs), so this widens the menu by one entry, not by a
+    # flood. Note that the 'projects' root on the line above does not exist on
+    # this machine, so the launcher was already scanning one dead path.
+    (Join-Path $Home_ 'Downloads\new-recruit\projects'),
     $Home_
 )
 

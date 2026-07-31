@@ -15,6 +15,9 @@ import sys
 from pathlib import Path
 from typing import Any, Iterable
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from lib import repo_root  # noqa: E402
+
 
 SEVERITY_ORDER = {"critical": 0, "high": 1, "medium": 2, "info": 3}
 SECRET_KEY = re.compile(
@@ -186,7 +189,9 @@ def audit_rule_context(rule_root: Path, findings: list[dict[str, str]]) -> dict[
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--live-root", default=str(Path.home() / ".claude"))
-    parser.add_argument("--canonical-root", default=str(Path.home() / "claude-setup" / "dot-claude"))
+    # repo_root, not Path.home(): see tools/lib/repo_root.py for the WSL clone.
+    parser.add_argument("--canonical-root",
+                        default=str(repo_root.resolve() / "dot-claude"))
     parser.add_argument("--project-root", default=str(Path.cwd()))
     args = parser.parse_args()
 

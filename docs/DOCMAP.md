@@ -9,11 +9,11 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **973**
-- reachable from `docs/INDEX.md`: **29** (2%)
+- documents: **972**
+- reachable from `docs/INDEX.md`: **37** (3%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
-- written under the pre-2026-07-30 lane scheme: **23**
+- written under the pre-2026-07-30 lane scheme: **24**
 
 ### Lane scheme, and why the column exists
 
@@ -41,11 +41,11 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/adr/0013-session-topology-concierge-plus-lanes.md` | 2026-07-24 | accepted | header-inline | 1 | yes | - | - |
 | `docs/adr/0014-social-publish-draft-first-hard-gate.md` | 2026-07-24 | accepted | header-inline | n/a | yes | - | - |
 | `docs/adr/0015-opus5-default-fable-exceptional.md` | 2026-07-24 | accepted | header-inline | n/a | yes | the Opus-4.8/Fable routing in ADR-0006-e | - |
-| `docs/adr/0016-lane-letters-renumbered-a-through-d.md` | 2026-07-30 | accepted | header | 2 | - | the letter assignments in ADR-0013 only. | - |
-| `docs/adr/0017-intent-control-plane-lives-in-claude-setup.md` | 2026-07-30 | accepted | header | 2 | - | nothing. | - |
-| `docs/adr/0018-two-tier-inter-agent-channel.md` | 2026-07-30 | accepted | header | n/a | - | - | - |
-| `docs/adr/0019-supply-chain-verification.md` | 2026-07-30 | accepted | header | n/a | - | - | - |
-| `docs/adr/0020-agentic-repo-standard.md` | 2026-07-31 | accepted | header | n/a | - | - | - |
+| `docs/adr/0016-lane-letters-renumbered-a-through-d.md` | 2026-07-30 | accepted | header | 2 | yes | the letter assignments in ADR-0013 only. | - |
+| `docs/adr/0017-intent-control-plane-lives-in-claude-setup.md` | 2026-07-30 | accepted | header | 2 | yes | nothing. | - |
+| `docs/adr/0018-two-tier-inter-agent-channel.md` | 2026-07-30 | accepted | header | n/a | yes | - | - |
+| `docs/adr/0019-supply-chain-verification.md` | 2026-07-30 | accepted | header | n/a | yes | - | - |
+| `docs/adr/0020-agentic-repo-standard.md` | 2026-07-31 | accepted | header | n/a | yes | - | - |
 
 ## agent (23)
 
@@ -470,9 +470,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `intent-control-plane/docs/analysis/2026-07-12-implementation-audit.md` | 2026-07-12 | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/docs/prd/legible-harness.md` | 2026-07-12 | active | header | n/a | - | our modules but we delete them before it | - |
 | `intent-control-plane/docs/specs/2026-07-12-coding-style-standard.md` | 2026-07-12 | active | header | n/a | - | - | - |
-| `docs/INDEX.md` | 2026-07-24 | living | registry | n/a | - | - | - |
 | `docs/SYSTEM-MAP.md` | 2026-07-24 | living map (re-audit when a phase lands). created 2026-07-24 | header | 1 | - | - | - |
-| `state/compact-log.md` | 2026-07-24 | living | registry | n/a | - | - | - |
+| `state/compact-log.md` | 2026-07-24 | living | registry | 1 | - | - | - |
 | `docs/QUALITY-CONTRACT.md` | 2026-07-25 | living | registry | n/a | - | - | - |
 | `docs/2026-07-29-external-absorption-brief.md` | 2026-07-29 | dated-snapshot | registry | 1 | - | - | - |
 | `docs/taste.md` | 2026-07-29 | living | registry | n/a | - | it by date and say what changed. | - |
@@ -483,6 +482,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `tools/hookgate/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `tools/hookgate/bench/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `tools/timetravel/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
+| `docs/INDEX.md` | 2026-07-31 | living | registry | n/a | - | - | - |
 
 ## generated-output (2)
 
@@ -575,9 +575,9 @@ correct for its date**. Scheme `1` means read its lane letters through
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
+| `CLAUDE.md` | - | living | registry | n/a | - | - | - |
 | `CLAUDE-OS.md` | 2026-07-23 | active (living document, the spine) | header | n/a | yes | every prior setup plan. Predecessors rem | - |
 | `README.md` | 2026-07-23 | living | registry | n/a | - | every prior plan in this repo. | - |
-| `CLAUDE.md` | 2026-07-30 | living | registry | 2 | - | - | - |
 | `TODO.md` | 2026-07-31 | living | registry | 2 | yes | - | operator |
 
 ## rule (38)
@@ -623,7 +623,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/repo-stack-reasoning.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/hidden-trees.md` | 2026-07-30 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## skill (184)
+## skill (183)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -810,7 +810,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-agents/skills/heidegger-reflect/docs/reflections/2026-06-02-review-ebook-multilingual.md` | 2026-06-02 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-agents/skills/heidegger-reflect/docs/reflections/2026-06-08-ms-accelerator-eval-reconciliation.md` | 2026-06-08 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-agents/skills/heidegger-reflect/docs/reflections/2026-06-11-review-alert-wrongcompany-provenance.md` | 2026-06-11 | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/skills/azure-cert-coach/SKILL.md` | 2026-06-12 | definition-see-skills_sync | class | n/a | - | - | - |
 
 ## spec (17)
 
@@ -827,10 +826,10 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-07-29-intent-traceability.md` | 2026-07-29 | accepted | registry | n/a | - | - | - |
 | `docs/specs/2026-07-29-prompt-to-ticket-lifecycle.md` | 2026-07-29 | active | header | 1 | - | the | - |
 | `docs/specs/2026-07-29-trace-model-sacred-timeline.md` | 2026-07-29 | accepted | registry | 1 | - | - | - |
-| `docs/specs/2026-07-30-data-architecture-and-orchestration.md` | 2026-07-30 | proposal, pending operator approval. nothing here is built | header | n/a | - | nothing. Extends ADR-0010 | - |
+| `docs/specs/2026-07-30-data-architecture-and-orchestration.md` | 2026-07-30 | proposal, pending operator approval. nothing here is built | header | n/a | yes | nothing. Extends ADR-0010 | - |
 | `docs/specs/2026-07-31-github-native-project-surface.md` | 2026-07-31 | design. nothing in this document has been applied. every wri | header | n/a | - | - | - |
 | `docs/specs/2026-07-31-kanban-four-layer-model.md` | 2026-07-31 | design. nothing here has been applied. every write command i | header | 2 | - | - | - |
-| `docs/specs/2026-07-31-project-federation.md` | 2026-07-31 | accepted | registry | n/a | - | - | - |
+| `docs/specs/2026-07-31-project-federation.md` | 2026-07-31 | accepted | registry | n/a | yes | - | - |
 | `docs/specs/2026-07-31-research-corpus-and-cache.md` | 2026-07-31 | proposal | header-inline | n/a | - | text references sources | - |
 | `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | active | header | 2 | - | - | - |
 
@@ -838,7 +837,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
-| `docs/standards/agentic-repo-standard.md` | 2026-07-31 | active. owner: lane a. decided by adr-0020. first written 20 | header | 2 | - | - | - |
+| `docs/standards/agentic-repo-standard.md` | 2026-07-31 | active. owner: lane a. decided by adr-0020. first written 20 | header | 2 | yes | - | - |
 
 ## vendored (68)
 

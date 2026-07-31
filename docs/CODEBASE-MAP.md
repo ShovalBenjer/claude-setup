@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-393 directories, 1779 tracked files, 0 without a stated purpose.
+392 directories, 1778 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -166,7 +166,6 @@ the same reason, one level down.
 | `dot-claude/skills/agent-builder` | 1 | Author and deploy AI agents on Microsoft + Azure platforms — Azure AI Foundry agent CRUD (azure-ai-projects SDK), Microsoft 365 Agents SDK projects (TS via bun, C# via dotnet —... | SKILL.md |
 | `dot-claude/skills/azure-activity-watch` | 2 | Surface Azure Activity-Log events where someone other than the owner (default shoval.be@i-sdd.com) has stopped, restarted, deleted, or resized a resource in AZAI_group. Use afte... | SKILL.md |
 | `dot-claude/skills/azure-audit` | 1 | Weekly dormancy + cost audit of Azure (functions, web apps, container apps, storage), Azure DevOps repos + wikis, and Foundry agents. Produces a dated markdown report under ~/do... | SKILL.md |
-| `dot-claude/skills/azure-cert-coach` | 1 | Coach toward AI-103 (Azure AI Apps and Agents Developer Associate). Delivers Socratic predict-then-verify drills, tracks the 4-week ramp from ~/docs/ai-103-study-tracker.md, sur... | SKILL.md |
 | `dot-claude/skills/azure-runtime` | 2 | Call Azure AI runtime from CLI — Azure OpenAI chat completions against deployed GPT models in brn-azai (gpt-5.5, gpt-4.1, etc.) AND Azure AI Foundry agents (ORM-FLAGGING-AGENT,... | SKILL.md |
 | `dot-claude/skills/blog` | 1 | Draft genuinely human long-form blog content in Shoval Benjer's voice, across platform formats (Medium, LinkedIn, Substack, Dev.to/technical, Jira-as-writeup). Anchors on the em... | SKILL.md |
 | `dot-claude/skills/blonde-designer` | 1 | Creative director + design architect for the Seekapa AR how-to video refresh (DEV-4968). Shapes each video's script and art direction to the locked production standard — real ap... | SKILL.md |
@@ -219,7 +218,7 @@ the same reason, one level down.
 | `dot-claude/skills/requirement-anchor` | 1 | Extract a compact requirement-of-record + answer-map from a spec (PDF/eml/md/verbal) and gate read-before-build. Triggers on "/requirement-anchor", "anchor the requirement", "wh... | SKILL.md |
 | `dot-claude/skills/review` | 1 | PR precheck review — composites codex-call code review + testing-pyramid gap plan + heidegger-reflect into a single structured thread posted to Azure DevOps via the azure-devops... | SKILL.md |
 | `dot-claude/skills/ship-gate` | 1 | The mandatory procedure before calling any implementation done. Runs the real-browser flow audit, the ten-domain SDLC gate (build, unit, types, e2e, a11y/UX, security, docs, pip... | SKILL.md |
-| `dot-claude/skills/shoval-voice-draft` | 1 | Draft messages in Shoval Benjer's natural work style for review before sending. Per-recipient tone (Yasha / Liron / Ali / Adnan / Daniel), Hebrew/English code-switching rules, "... | SKILL.md |
+| `dot-claude/skills/shoval-voice-draft` | 1 | Draft messages in Shoval Benjer's natural work style for review before sending. Per-recipient tone (Yasha / Liron / Ali / Adnan / Daniel / Vlad, including Vlad's ultra-compact s... | SKILL.md |
 | `dot-claude/skills/syndication-engine` | 5 | Project one canonical post onto many platforms by selecting semantically-tagged spans, with per-platform hook strategy and A/B variants. Use to draft or publish a POSSE syndicat... | SKILL.md |
 | `dot-claude/skills/testing-pyramid` | 1 | Plan layered test architecture before non-trivial code changes. Covers static, unit, property, component, contract, integration, E2E, non-functional, trajectory, and adversarial... | SKILL.md |
 | `dot-claude/skills/ui-ux-pro-max` | 1 | "UI/UX design intelligence for web and mobile. Includes 50+ styles, 161 color palettes, 57 font pairings, 161 product types, 99 UX guidelines, and 25 chart types across 10 stack... | SKILL.md |
@@ -237,7 +236,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `dot-codex` | 1 | @/home/shovalbe/.codex/RTK.md | AGENTS.md |
+| `dot-codex` | 1 | @AGENTS.md | AGENTS.md |
 | `dot-codex/automations` | 2 | This directory contains local systemd-backed Codex automations migrated from: | README.md |
 | `dot-codex/automations/last-messages` | 126 | Archived final-output message from each scheduled Codex automation run, one timestamped file per run, so a past sweep's actual report can be audited | registry |
 | `dot-codex/automations/prompts` | 28 | Source prompt/spec for each scheduled Codex automation (memory-curator-sweep, engineering-review-sweep, etc) that the scheduler executes; outputs land in ../last-messages | registry |

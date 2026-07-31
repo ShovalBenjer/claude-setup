@@ -11,8 +11,12 @@ Usage: reflex_router.py "request text"  -> {"route","risk","source","escalate"}
 import hashlib, json, os, sys, time, pathlib
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-LOG = pathlib.Path(os.environ.get("CLAUDE_OS_DIR", pathlib.Path.home() / "claude-setup")) \
-    / "tools" / "local" / "flywheel" / "router_decisions.jsonl"
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+from lib import repo_root  # noqa: E402
+
+# See tools/lib/repo_root.py: the home-relative default splits this ledger across
+# two checkouts under WSL, which is the one thing an append-only log must not do.
+LOG = repo_root.resolve() / "tools" / "local" / "flywheel" / "router_decisions.jsonl"
 LOG.parent.mkdir(parents=True, exist_ok=True)
 
 # high-risk always escalates to the frontier regardless of the small model's confidence

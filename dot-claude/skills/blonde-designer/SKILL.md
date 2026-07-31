@@ -94,7 +94,7 @@ specifics (e.g. Open Position: 1 lot Gold = 100 oz, 1 pip = $10) — that is the
 ### Worked example — Video #1, "كيفية إنشاء حساب على Seekapa" (~61s)
 - **Intro 0–3.5** — logo sting, title, mascot; phone slides in (R→ rest) on the welcome screen; music only.
 - **1 · 3.5–10.6** — "افتح التطبيق واضغط على **إنشاء حساب**" · welcome screen, tap Sign Up · headline "ابدأ الآن" · ring: Sign Up button · phone LEFT, push-in.
-- **2 · 11–24** — "أدخل **معلوماتك**: الاسم، البريد، ورقم الهاتف ‎+966" · register form, fields fill · headline "أدخل بياناتك" · rings cycle name→email→phone · phone RIGHT, slow scroll.
+- **2 · 11–24** — "أدخل **معلوماتك**: الاسم، البريد، ورقم الهاتف +966" · register form, fields fill · headline "أدخل بياناتك" · rings cycle name→email→phone · phone RIGHT, slow scroll.
 - **3 · 24.5–34.5** — "أنشئ **كلمة مرور قوية**" · password field + strength · ring: password · phone LEFT, push-in.
 - **4 · 35–40.7** — "**أكّد** كلمة المرور" · confirm field · ring: confirm · phone RIGHT.
 - **5 · 41–47.3** — "**وافق** على الشروط والأحكام" · terms checkbox ticks green · ring: checkbox · phone LEFT.
