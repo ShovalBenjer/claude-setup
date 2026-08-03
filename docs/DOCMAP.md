@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1006**
+- documents: **1015**
 - reachable from `docs/INDEX.md`: **114** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -75,7 +75,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (34)
+## analysis (38)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -113,6 +113,10 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-07-31-density-gate-measurement.md` | 2026-07-31 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-31-inventory-reconciliation-and-the-docs-control-plane.md` | 2026-07-31 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-07-31-the-green-test-gradient.md` | 2026-07-31 | dated-snapshot | class | 2 | yes | - | - |
+| `docs/analysis/2026-08-01-fog-of-war.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-01-pocock-skills-teardown.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-01-ponytail-audit-prompt-archaeology.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-03-math-trends-and-model-stack.md` | 2026-08-03 | dated-snapshot | class | 2 | - | - | - |
 
 ## automation-output (126)
 
@@ -524,7 +528,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prd/autonomy-ecosystem.md` | 2026-07-24 | living | header | 1 | yes | - | - |
 | `docs/prd/2026-07-30-consolidation-and-migration.md` | 2026-07-30 | approved for autonomous execution (operator, 2026-07-30, "lo | header | 2 | yes | it, and whether anything links to it. Or | - |
 
-## prior-art (39)
+## prior-art (40)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -567,6 +571,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prior-art/dot-claude-skills-whatsapp-query.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-ghpub.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-intent.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/tools-wsl.json` | 2026-08-03 | current | arithmetic | n/a | - | - | - |
 
 ## reflection (6)
 
@@ -588,7 +593,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `CLAUDE-OS.md` | 2026-07-23 | active (living document, the spine) | header | n/a | yes | every prior setup plan. Predecessors rem | - |
 | `README.md` | 2026-07-23 | living | registry | n/a | - | every prior plan in this repo. | - |
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
-| `TODO.md` | 2026-07-31 | living | registry | 2 | yes | - | operator |
+| `TODO.md` | 2026-08-01 | living | registry | 2 | yes | - | operator |
 
 ## rule (38)
 
@@ -633,7 +638,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/repo-stack-reasoning.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/hidden-trees.md` | 2026-07-30 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## skill (204)
+## skill (208)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -779,16 +784,18 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/requirement-anchor/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/review/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/ship-gate/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/skills/shoval-voice-draft/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/skillmap/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/syndication-engine/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/testing-pyramid/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/triage-tests/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/voice-explainer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/voice-metrics/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/watchdog/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/wayfinder/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/web-inspect/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/whatsapp-query/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/workspace-brain/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/writing-great-skills/GLOSSARY.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/youtube-distill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/apify-mcp/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/azure-devops/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -841,6 +848,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-agents/skills/heidegger-reflect/docs/reflections/2026-06-02-review-ebook-multilingual.md` | 2026-06-02 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-agents/skills/heidegger-reflect/docs/reflections/2026-06-08-ms-accelerator-eval-reconciliation.md` | 2026-06-08 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-agents/skills/heidegger-reflect/docs/reflections/2026-06-11-review-alert-wrongcompany-provenance.md` | 2026-06-11 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/shoval-voice-draft/SKILL.md` | 2026-07-26 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/writing-great-skills/SKILL.md` | 2026-07-31 | definition-see-skills_sync | class | n/a | - | - | - |
 
 ## spec (18)
 

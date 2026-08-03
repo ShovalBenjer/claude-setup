@@ -1,6 +1,7 @@
 ---
 name: syndication-engine
 description: Project one canonical post onto many platforms by selecting semantically-tagged spans, with per-platform hook strategy and A/B variants. Use to draft or publish a POSSE syndication of a blog post across dev.to, X, Bluesky, Medium, Reddit, LinkedIn, GitHub. Never auto-publishes anything live.
+disable-model-invocation: true
 ---
 
 # syndication-engine

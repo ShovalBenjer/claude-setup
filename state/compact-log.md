@@ -3287,3 +3287,14 @@ Three sibling workflows do run, so Actions is healthy and this is one unmerged f
 
 **Next action:** merge `ship-gate.yml` to main, or state plainly that ADR-0012 is
 aspirational. Everything else on this list is smaller than that one.
+## compact 2026-08-01 10:20
+```
+## main...gh/main [ahead 2]
+ M .github/workflows/ship-gate.yml
+ M AGENTS.md
+ M TODO.md
+ M docs/CODEBASE-MAP.md
+749ec19 chore(codemap): state what hostpaths.py adds to tools/lib, and regenerate
+613c2aa fix(pointers): twelve HIGH "wired-missing" hooks that all exist, and the third instance of one bug
+9d94efb chore(state): ledger rows from the status measurement, and the loop they exposed
+```

@@ -2,6 +2,7 @@
 name: red-team-review
 description: Multi-persona project review using parallel agent teams (security, architecture, performance, UX, eval). Spawns subagents in worktrees, aggregates findings into a unified report. Triggers on "/red-team-review", "comprehensive review", "second opinion on this PR", "audit this codebase".
 model: claude-opus-4-7
+disable-model-invocation: true
 ---
 
 # Red Team Review Skill
