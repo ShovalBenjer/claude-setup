@@ -1127,6 +1127,68 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
               "the reader saw no mark that the sender lane was declared")
         check("a row sent by cmd_send verifies",
               verify()[0] == 0, verify()[1][-200:])
+
+        # The lock, asserted STRUCTURALLY against this file's own source.
+        #
+        # mutate.py --spec bus had exactly two survivors out of 23 for weeks:
+        # "append_row stops taking the lock" and "the lock is released before
+        # the write instead of after". Everything above races nothing, so
+        # nothing above could ever notice.
+        #
+        # A concurrency check is the wrong instrument and would have been worse
+        # than this gap. append_row's docstring says the lock exists because
+        # overlapping writes destroy whole rows ON WINDOWS; on Linux an O_APPEND
+        # write below PIPE_BUF is atomic, so two racing appends both land intact
+        # with the lock deleted. That test passes here, passes in CI, and asserts
+        # nothing: L-2026-07-31-g, a host-shaped oracle answering a different
+        # question on the other host.
+        #
+        # So this asserts what CAN be checked on any host: the bytes go to disk
+        # inside the `with file_lock(...)` block. It cannot prove the lock
+        # excludes anyone. It proves nobody moved the write out from under it,
+        # which is precisely what both survivors do. Reading __file__ is what
+        # makes it work under mutation, since mutate.py runs a mutated COPY of
+        # this file and the parse therefore sees the mutant.
+        try:
+            import ast as _ast
+            _src = Path(__file__).read_text(encoding="utf-8")
+            _fn = next((n for n in _ast.walk(_ast.parse(_src))
+                        if isinstance(n, _ast.FunctionDef)
+                        and n.name == "append_row"), None)
+            if _fn is None:
+                check("append_row still exists to be checked", False,
+                      "no append_row in this module")
+            else:
+                _locks = []
+                for _n in _ast.walk(_fn):
+                    if not isinstance(_n, _ast.With):
+                        continue
+                    for _it in _n.items:
+                        _c = _it.context_expr
+                        if isinstance(_c, _ast.Call) and (
+                                getattr(_c.func, "id", None)
+                                or getattr(_c.func, "attr", None)) == "file_lock":
+                            _locks.append(_n)
+                check("append_row takes the file lock", bool(_locks),
+                      "the hash-chained ledger is appended with no exclusion")
+
+                _inside = set()
+                for _lk in _locks:
+                    for _st in _lk.body:
+                        for _n in _ast.walk(_st):
+                            _inside.add(id(_n))
+                _writes = [n for n in _ast.walk(_fn)
+                           if isinstance(n, _ast.Call)
+                           and isinstance(n.func, _ast.Attribute)
+                           and n.func.attr == "write"]
+                _out = [w for w in _writes if id(w) not in _inside]
+                check("append_row performs a write at all", bool(_writes),
+                      "the function no longer writes; its shape changed")
+                check("every append_row write is inside the lock", not _out,
+                      "write(s) at line {} run with the lock released".format(
+                          sorted(w.lineno for w in _out)))
+        except Exception as _e:  # a parse failure is a FAIL, never a silent skip
+            check("the structural lock check ran", False, repr(_e))
     finally:
         BUS, CURSORS = real_bus, real_cursors
         for d in made:

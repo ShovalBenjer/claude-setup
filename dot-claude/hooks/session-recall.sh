@@ -143,8 +143,13 @@ except Exception:
 
 parts.append(
     "BOOT PATH (ADR-0010, read before acting): docs/SESSION-BOOT.md -> docs/charters.md "
-    "(NAME YOUR LANE: B setup / C resume / D learning / E content — A retired "
-    "2026-07-29; claim work in "
+    # These four letters must match _LANES above. They did not until 2026-08-03:
+    # this string still carried the pre-ADR-0016 scheme and told every session that
+    # lane A was retired, while _LANES ninety lines up already assigned A to harness.
+    # A banner naming a retired lane is L-2026-07-31-d, logged once already.
+    "(NAME YOUR LANE: A harness / B resume / C learning / D content; "
+    "renumbered from B/C/D/E by ADR-0016 on 2026-07-30, so an older row saying B "
+    "means lane A. Claim work in "
     "state/claims.jsonl before starting). If this session follows a compact, restate the "
     "durable handoff: goal, phase, lane, decisions, evidence, changed files, next action; "
     f"ground truth is on disk, last snapshot in state/compact-log.md.\n"

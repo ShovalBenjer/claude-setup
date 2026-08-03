@@ -254,7 +254,7 @@ the same reason, one level down.
 | `dot-claude/skills/web-inspect` | 1 | "/web-inspect" | SKILL.md |
 | `dot-claude/skills/whatsapp-query` | 4 | Decrypt and query the local WhatsApp Desktop (Windows) message store as a searchable corpus. Full history the linked device holds, by contact / date / text, with contact-name re... | SKILL.md |
 | `dot-claude/skills/workspace-brain` | 1 | "Workspace Brain — Cross-Project Knowledge Index" | SKILL.md |
-| `dot-claude/skills/youtube-distill` | 1 | Analyse a YouTube video by driving Claude in Chrome to Gemini, which reads the video directly from its URL, then distil the answer into a fixed contract with search-ready takeaw... | SKILL.md |
+| `dot-claude/skills/youtube-distill` | 1 | Analyse a YouTube video by driving Claude in Chrome to Gemini, which reads the video directly from its URL, then interrogate that reading over up to five differentiated follow-u... | SKILL.md |
 
 ## dot-codex
 

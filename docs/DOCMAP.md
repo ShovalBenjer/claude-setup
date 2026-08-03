@@ -588,7 +588,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `CLAUDE-OS.md` | 2026-07-23 | active (living document, the spine) | header | n/a | yes | every prior setup plan. Predecessors rem | - |
 | `README.md` | 2026-07-23 | living | registry | n/a | - | every prior plan in this repo. | - |
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
-| `TODO.md` | 2026-07-31 | living | registry | 2 | yes | - | operator |
+| `TODO.md` | 2026-08-01 | living | registry | 2 | yes | - | operator |
 
 ## rule (38)
 

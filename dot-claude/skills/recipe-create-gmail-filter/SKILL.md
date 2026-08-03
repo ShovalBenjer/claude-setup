@@ -11,6 +11,7 @@ metadata:
         - gws
       skills:
         - gws-gmail
+disable-model-invocation: true
 ---
 
 # Create a Gmail Filter

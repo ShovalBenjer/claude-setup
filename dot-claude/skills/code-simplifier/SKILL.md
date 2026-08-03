@@ -1,6 +1,7 @@
 ---
 name: code-simplifier
 description: "/code-simplifier"
+disable-model-invocation: true
 ---
 
 # /code-simplifier

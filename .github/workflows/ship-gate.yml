@@ -77,8 +77,16 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install uv (pinned to the version this contract was verified with)
-        run: pip install "uv==0.9.4"
+      # pytest is NOT optional here and its absence is why this job was red on every
+      # run from 2026-07-31 onward. The contract's `unit` domain shells out to
+      # `python -m pytest tests/ -q`, which resolves against the runner's setup-python
+      # interpreter, not against uv's environment. Without this line the domain reports
+      # `No module named pytest`, the gate reports `unit FAIL`, and the failure reads
+      # like a test regression rather than a missing dependency. Measured on run
+      # 30626429824. Keep pytest listed explicitly rather than relying on uv sync,
+      # because the intent-control-plane sync happens later and in a different cwd.
+      - name: Install uv (pinned to the version this contract was verified with) and pytest
+        run: pip install "uv==0.9.4" pytest
 
       # Named separately, in addition to being embedded in the contract's own
       # `unit` domain command below, so a selftest regression is individually
