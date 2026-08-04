@@ -1,0 +1,37 @@
+{
+  "component": "tools/antigravity",
+  "reviewed": "2026-08-04",
+  "recheck_after": "2026-11-02",
+  "verdict": "build, narrowly, and delete on the first upstream release that ships an agy binary",
+  "why": "The thing this replaces does not exist. The operator supplied a note describing `agy -p \"...\"` as an installed Antigravity CLI. It is not installed: `command -v agy` is empty in WSL and in Windows PowerShell, and the only Antigravity executable on the machine is `Antigravity IDE/bin/antigravity-ide`, whose .cmd body invokes `resources/app/out/cli.js` and whose sh shim carries a Microsoft copyright and a VSCODE_PATH variable. That is a VS Code fork's editor CLI, the `code` equivalent; it opens files and takes no -p. The same note's MCP path is also absent: importlib.util.find_spec(\"google.antigravity.mcp_server\") returns None on google-antigravity 0.1.9, so `claude mcp add antigravity -- python -m google.antigravity.mcp_server` would register a server that cannot start. So the build-vs-buy question is not whether to reimplement an existing CLI, it is whether to provide the one-file adapter that makes the operator's documented invocation form work against the one integration path that does exist, the Python SDK. 303 lines, of which the SDK call itself is about 20; the rest is a preflight that reports every missing piece at once, a data-boundary refusal, and a selftest.",
+  "alternatives": [
+    {
+      "name": "the vendor agy CLI",
+      "url": "https://github.com/Google-Antigravity/antigravity-sdk-python",
+      "why_not": "Does not exist as of google-antigravity 0.1.9. The PyPI wheel installs no `agy` console script; the venv's bin/ contains only dependency entry points (mcp, httpx, jsonschema, websockets). If a future release ships one, this component should be deleted rather than maintained, and that is the recheck condition."
+    },
+    {
+      "name": "dot-claude/bin/a2a-gemini-call.py, already in this repo",
+      "why_not": "Genuinely overlaps and was checked first. It calls generativelanguage.googleapis.com directly with urllib and returns a JSON blob. It is the right tool for a one-shot decorrelated review and it is what the agreement gate uses. It is not an Antigravity agent: no agent loop, no capabilities config, no streaming, no tool use, no session. Sharing its GEMINI_API_KEY convention rather than inventing a second one is the deliberate reuse here."
+    },
+    {
+      "name": "tools/review/gemini_diff_review.py, also in this repo",
+      "why_not": "Solves the data-boundary half well and the invocation half not at all. Its `looks_like_diff` refusal is the model this component's `--public` attestation and credential scan are copied from, and that reuse is the point. It is hard-wired to review a unified diff against a fixed schema, so it cannot carry an arbitrary prompt."
+    },
+    {
+      "name": "the google-genai SDK directly, no wrapper",
+      "url": "https://pypi.org/project/google-genai/",
+      "why_not": "Different product. It is a model client, not the Antigravity agent runtime the operator asked for, and it would not give Agent/LocalAgentConfig/CapabilitiesConfig. Choosing it would answer a question nobody asked."
+    },
+    {
+      "name": "an MCP server, so Claude Code calls Antigravity as native tools",
+      "why_not": "This is the better shape and it is blocked, not rejected. The upstream module does not exist (see above), so building it would mean writing an MCP server around the SDK as well as this CLI. Worth revisiting at recheck: if the SDK ships mcp_server, the MCP path supersedes this file for in-session use and the CLI keeps only its shell/pipe role."
+    },
+    {
+      "name": "no adapter at all, write the SDK snippet inline each time",
+      "why_not": "This is the honest baseline and it loses on exactly one thing: the credential and classification gates. An inline snippet has no --public attestation and no secret scan, so every ad-hoc use is one paste away from sending employer or customer code to a free tier that the global contract forbids. The gates are the reason this is a file rather than a habit."
+    }
+  ],
+  "measured": "Selftest passes with no credential and no network: 5 checks covering detection of a planted key shape, no false positive on prose, a refusal that names the kind of secret rather than echoing it, a missing-variable report, and a missing-venv report that includes the command that fixes it. Refusal order verified end to end: no attestation exits 4, a planted Google key under --public exits 5, clean attested text with no credential exits 3. One defect found and fixed during that run: with -p supplied and stdin an inherited pipe that nobody writes to, the first version blocked forever on read(); a terminal user never hits it and an automation user hits it every time.",
+  "open": "Never executed against the live service. GEMINI_API_KEY is unset and no ADC file exists, so the SDK path is verified only as far as import and config construction. Vertex/ADC is supported by the SDK and is not wired here."
+}
