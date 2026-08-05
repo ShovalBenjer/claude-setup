@@ -76,6 +76,28 @@ class AgyError(RuntimeError):
     pass
 
 
+def gemini_key() -> str:
+    """The key, from the environment or from the repo's own .env reader.
+
+    Added after this CLI reported "no credential" while a working GEMINI_API_KEY sat
+    in ~/work/repos/new-recruit/.env the whole time. `tools/lib/envload.py` exists
+    precisely because the keys live in a different repository and nothing exports
+    them into a shell, and its docstring names this exact failure: a false absence
+    produced by a wrong probe. Checking os.environ alone reproduced it.
+
+    The value is returned in-process and never printed or logged.
+    """
+    key = os.environ.get("GEMINI_API_KEY", "").strip()
+    if key:
+        return key
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        from lib import envload  # noqa: PLC0415
+        return (envload.get("GEMINI_API_KEY") or "").strip()
+    except Exception:  # noqa: BLE001
+        return ""
+
+
 def scan_for_secrets(text: str) -> list[str]:
     """Return the human-readable names of any credential shapes found.
 
@@ -96,7 +118,9 @@ def preflight() -> dict:
         "venv_present": VENV_PY.exists(),
         "sdk_importable": False,
         "sdk_error": None,
-        "api_key_set": bool(os.environ.get("GEMINI_API_KEY", "").strip()),
+        "api_key_set": bool(gemini_key()),
+        "api_key_source": ("environment" if os.environ.get("GEMINI_API_KEY", "").strip()
+                            else ("tools/lib/envload.py" if gemini_key() else None)),
         "adc_present": (Path.home() / ".config/gcloud/application_default_credentials.json").exists(),
     }
     if state["venv_present"]:
@@ -153,10 +177,16 @@ asyncio.run(main())
 
 def run(prompt: str, system: str, timeout: int) -> int:
     """Stream the agent's answer to stdout. Returns a process exit code."""
+    # The key is injected into the child rather than assumed inherited, because the
+    # usual source is a .env in another repository, not this process's environment.
+    child_env = dict(os.environ)
+    key = gemini_key()
+    if key:
+        child_env["GEMINI_API_KEY"] = key
     proc = subprocess.run(
         [str(VENV_PY), "-c", RUNNER],
         input=json.dumps({"prompt": prompt, "system": system}),
-        text=True, timeout=timeout,
+        text=True, timeout=timeout, env=child_env,
     )
     return proc.returncode
 
