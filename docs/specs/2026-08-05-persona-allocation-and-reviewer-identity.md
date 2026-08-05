@@ -96,6 +96,73 @@ slop     qwen-dashscope [alibaba-qwen], gemini [google-gemini]
 `a11y`. That is a registry gap, not an allocator gap, and it was invisible before
 anything read `may_enact`.
 
+
+## 3a. Prior art, searched 2026-08-05, and the claim it retracts
+
+The Stop hook was right to stop this. §3 called the allocator "the missing joint"
+and presented the family-decorrelation rule as something this session discovered by
+failing. The failure was real; the rule is published, older, and better developed.
+
+**Exact queries run**, across academic, practitioner and product vocabulary:
+
+1. `LLM ensemble correlated errors diversity model family selection judge decorrelation survey`
+2. `automatic code reviewer recommendation assign reviewers by expertise pull request tool`
+3. `multi-agent LLM code review router assign specialist agent per review dimension framework awesome list`
+
+**Not-a-gap signals checked.** A survey FIRES: `Large language models for automated
+scholarly paper review: A survey` (arXiv 2501.10326) and `Deploying Foundation
+Model Powered Agent Services: A Survey` (arXiv 2412.13437). No curated awesome-list
+for reviewer routing surfaced, no recurring workshop and no three benchmarks
+sharing a name for the problem. One signal firing is enough. **This is not a gap
+and nothing here is novel.**
+
+What the searches found that is directly upstream of §3:
+
+- `Nine Judges, Two Effective Votes: Correlated Errors Undermine LLM Evaluation
+  Panels` (arXiv 2605.29800). Family-correlated errors reduce a nine-judge panel to
+  **2.5 to 3.6 effective independent voters**. This is the decorrelation rule, with
+  a number on it.
+- `Hidden Clones: Exposing and Fixing Family Bias in Vision-Language Model
+  Ensembles` (arXiv 2603.17111). Hierarchical Family Voting aggregates WITHIN
+  families before voting ACROSS them, recovering 18 to 26 points; QualRCCV weights
+  by calibration, family quality and **inverse family size**. Strictly stronger
+  than this allocator's binary "never pair two of one family".
+- `Don't Always Pick the Highest-Performing Model: An Information Theoretic View of
+  LLM Ensemble Selection`. Budget-constrained selection by mutual information,
+  where **correlation matters and accuracy does not**, which is the opposite of how
+  a reader would naturally rank `actors.json`.
+- Practitioner and product: GitHub CODEOWNERS routes reviewers by file path, and
+  Aviator FlexReview and LinearB gitStream route dynamically by domain expertise,
+  complexity and availability. §3's `PATH_ASPECTS` is CODEOWNERS with fewer
+  features.
+
+**The correction that matters, and it changes the design.** The literature treats
+error correlation as the quantity and model family as a PROXY for it. This spec
+had the proxy hard-coded in a JSON file and declared by hand. Two consequences:
+
+1. The `VARIES-BY-MODEL` wrinkle that §3 treats as a special case is not special.
+   It is the general case of unknown correlation, and the information-theoretic
+   answer is to MEASURE pairwise disagreement between actors rather than to declare
+   a family string.
+2. This repo can measure it. `state/reviews/*.json` is exactly the substrate:
+   run two actors on the same diff, record whether they flag the same lines, and
+   the correlation is observed rather than asserted. Until that runs, every
+   decorrelation claim here is ASSUMED.
+
+So the allocator survives as a cheap first cut with its justification demoted: it
+implements a published proxy, badly, and the honest next step is PERSONA-10.
+
+Sources:
+[Nine Judges, Two Effective Votes](https://arxiv.org/html/2605.29800) |
+[Hidden Clones](https://arxiv.org/html/2603.17111) |
+[Are Diversity Metrics Measuring Diversity?](https://arxiv.org/html/2607.20768v1) |
+[Wisdom of LLM Crowds](https://arxiv.org/html/2607.18269v2) |
+[LLMs as a Jury](https://arxiv.org/html/2607.10139) |
+[Scholarly paper review survey](https://arxiv.org/pdf/2501.10326) |
+[Auto-assign reviewers in GitHub](https://blog.pullnotifier.com/blog/how-to-automatically-assign-reviewers-in-github) |
+[LinearB find code experts](https://linearb.io/blog/find-code-experts) |
+[AgentRouter](https://aclanthology.org/2026.acl-long.33/)
+
 ## 4. Who approves, who reviews, and the gap between the ADRs and the code
 
 | question | ADR says | code does |
@@ -167,6 +234,7 @@ principle.
 | 6 | two allocated actors review one PR blind to each other | a `state/reviews/*.json` with `reviewer` other than `persona-panel/local` | OPEN |
 | 7 | their findings are compared and disagreements go to the digest, not the PR | an `agreement` domain in `quality-contract.json` | OPEN |
 | 8 | at least two actors declare every aspect in the enum | `allocate.py plan` over all 8 with no "found 1" note | OPEN, `a11y` has one |
+| 11 | decorrelation is MEASURED, not declared | pairwise disagreement rate between two actors on one diff | OPEN, and until it runs every decorrelation claim here is ASSUMED |
 | 9 | a feed comment carries a `[bot]` identity that is not the operator | `gh issue view 38 --comments` | OPEN |
 | 10 | `from_session` is populated on new bus rows | `bus.py log` | OPEN |
 
