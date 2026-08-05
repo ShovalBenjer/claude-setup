@@ -32,6 +32,11 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 
 ## PRDs
 
+- [analysis/2026-08-03-code-audit-analysis-sweep-and-research-provenance.md](analysis/2026-08-03-code-audit-analysis-sweep-and-research-provenance.md): Code audit, the 37-file analysis sweep, and where this session's research landed *(status: measurement)*
+- [specs/2026-08-03-detail-passes-teleology-and-creativity.md](specs/2026-08-03-detail-passes-teleology-and-creativity.md): Spec: dynamic detail passes, the teleological gap, and measured creativity *(status: DESIGN)*
+- [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
+- [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
+- [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*
 - [prd/2026-07-30-consolidation-and-migration.md](prd/2026-07-30-consolidation-and-migration.md): PRD: Consolidation, document mapping, and the Linux migration *(status: APPROVED for autonomous execution )*
 - [prd/autonomy-ecosystem.md](prd/autonomy-ecosystem.md): PRD: Autonomy Ecosystem (Claude OS v2) *(status: living)*
 - [prd/claude-os.md](prd/claude-os.md): PRD: Claude OS (personal Claude control plane) *(status: active)*
@@ -62,6 +67,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [0018](adr/0018-two-tier-inter-agent-channel.md): inter-agent messages get two channels, and the dense one carries an oracle
 - [0019](adr/0019-supply-chain-verification.md): third-party tools are adopted on recorded evidence, not refused on principle
 - [0020](adr/0020-agentic-repo-standard.md): one repository standard for the estate, enforced by adopted alint
+- [0021](adr/0021-rust-for-hot-paths-python-for-oracles.md): Rust for hot paths and boundaries, Python for oracles; first named rewrite is bus.py
 
 ## Specs
 

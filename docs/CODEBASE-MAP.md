@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-415 directories, 1810 tracked files, 0 without a stated purpose.
+415 directories, 1829 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -33,13 +33,13 @@ the same reason, one level down.
 | `docs` | 35 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 20 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
 | `docs/analysis` | 37 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
-| `docs/analysis/reference` | 1 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
+| `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/prd` | 3 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
 | `docs/prior-art` | 42 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
 | `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
-| `docs/specs` | 18 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
-| `docs/standards` | 1 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
+| `docs/specs` | 19 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/standards` | 7 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
 
 ## dot-agents
 
@@ -452,7 +452,7 @@ the same reason, one level down.
 | `tools/reclaim` | 2 | Executes a verified reclamation plan (archive/delete) for the 2026-07-30 filesystem reorganization. Dry-run by default; re-runs each row's invariants immediately before acting a... | registry |
 | `tools/refute` | 1 | CLI refutation engine that runs each claim's verifier command from state/claims-verify.jsonl and reports HELD/REFUTED/BROKEN, so no claim is asserted without an executable falsi... | registry |
 | `tools/refute/checks` | 8 | Verifier scripts refute.py invokes per claim: hook wiring/existence/execution, persona front-matter validity, config drift, hiring-ledger rows, and a meta-check that siblings fa... | registry |
-| `tools/review` | 3 | Runs a deterministic (plus optional opt-in OpenRouter) persona review over a git diff's added lines and writes the verdict artifact tools/gate/gate.py reads before merge | registry |
+| `tools/review` | 4 | Runs a deterministic (plus optional opt-in OpenRouter) persona review over a git diff's added lines and writes the verdict artifact tools/gate/gate.py reads before merge | registry |
 | `tools/selfimprove` | 1 | scan.py reads real signals (open TODOs, git drift, hook health, tool coverage, doc staleness) to generate ranked proposals for the system's own next work; proposals.jsonl is tha... | registry |
 | `tools/skilleval` | 1 | run.py grades each skill's own routing-eval fixtures for whether its description text separates trigger from non-trigger prompts, flagging skills with no fixtures as UNCOVERED f... | registry |
 | `tools/snapshot` | 1 | snap.py takes, lists, diffs and restores point-in-time backups of the live ~/.claude tree, splitting gitignored content from a git-tracked manifest and hashing out secret-lookin... | registry |

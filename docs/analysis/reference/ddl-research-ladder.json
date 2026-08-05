@@ -1,0 +1,70 @@
+{
+  "source": "Futuristic Learning Stack (April 2026) + ai-103-study-tracker (new-recruit)",
+  "hire_goal": { "deadline": "2026-09-30", "line": "חוזה חתום עד סוף ספטמבר. כל פריט כאן קיים כי הוא מקרב לחוזה, או שהוא לא כאן." },
+  "phases": [
+    { "id": "interview", "name": "ראיונות: הציר שקובע (כל יום, במקביל)", "note": "3 ראיונות איכותיים בשבוע הם ה-KPI של מכונת הגיוס. הסדנה קיימת כדי שלא תיכנס לאף אחד מהם קר.",
+      "items": [
+        { "id": "iv-daily-drill", "t": "תרגול קוד יומי בדף (תרגול + algviz)", "why": "from-scratch תחת לחץ הוא הפער המוצהר שלך; הדף סוגר אותו יום-יום", "action": "לסיים את מדור תרגול של היום, כולל בדיקת הריצה", "min": 25, "level": 1, "url": "https://daily-deep-learning.pages.dev" },
+        { "id": "iv-mock-teacher", "t": "מוק-ראיון עם המורה, פעמיים בשבוע", "why": "המורה מדרג תשובות חופשיות 1-10 עם מה חסר, על הידע שנלמד השבוע", "action": "פתח את הצ'אט, בקש: ראיין אותי על החומר של השבוע, דרג כל תשובה", "min": 30, "level": 2, "url": "https://daily-deep-learning.pages.dev" },
+        { "id": "iv-system-design", "t": "תרגיל system design שבועי", "why": "שיקול הדעת מהמפה הוא בדיוק החומר; ראיון סיסטם דיזיין = שרשרת הכרעות כאלה", "action": "קח תרחיש שיקול-דעת מהשבוע והרחב אותו ל-45 דקות עיצוב מלא מול המורה", "min": 45, "level": 3, "url": "https://daily-deep-learning.pages.dev" },
+        { "id": "iv-star-stories", "t": "בנק סיפורי STAR: שמונה סיפורים", "why": "24->64%, ה-KB, הטלפוניה, ה-merger: הסיפורים קיימים, צריך ניסוח קבוע", "action": "כתוב 8 סיפורים בפורמט STAR מתוך PROJECTS-MANIFEST; שנן שניים בשבוע", "min": 90, "level": 1, "url": "https://daily-deep-learning.pages.dev" },
+        { "id": "iv-ai103-sit", "t": "לקבוע מועד AI-103 לאמצע ספטמבר", "why": "הסמכה ביד לפני גל ההצעות של סוף ספטמבר, לא אחריו (חלון עד 18/10 אבל היעד שלנו קודם)", "action": "קבע מבחן ל-15/09 בערך אחרי שבוע 4 של הקשת", "min": 10, "level": 2, "url": "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-apps-and-agents-developer-associate/" }
+      ] },
+    { "id": "foundations", "name": "יסודות תשתית: מ-L0 ל-L3 מהר (הבסיס הכן)", "note": "אלה הרמות האמיתיות היום, ואין בושה: לומדים מהר עם הצ'יטשיט שלך (docs/assets) ועם ידיים על המקלדת. Resume לא נוגע בזה עד L4.",
+      "items": [
+        { "id": "fn-toml", "t": "TOML: pyproject ותצורה", "why": "רמה נוכחית 1; כל פרויקט פייתון מודרני מוגדר בו", "action": "פתח את pyproject של פרויקט קיים, הסבר כל בלוק, ואז כתוב אחד מאפס ל-script קטן עם uv", "min": 30, "level": 1, "url": "https://toml.io/en/" },
+        { "id": "fn-yaml", "t": "YAML: pipelines ו-compose", "why": "רמה 1; שפת ה-CI/CD וה-K8s", "action": "קרא את deploy.yml של הסדנה שורה-שורה, ואז כתוב job שני שמריץ את בדיקות ה-boundaries", "min": 40, "level": 1, "url": "https://learnxinyminutes.com/docs/yaml/" },
+        { "id": "fn-make", "t": "Makefile: אוטומציית פקודות", "why": "רמה 0; ממשק הפקודות של כל repo רציני", "action": "כתוב Makefile להסדנה: make test, make deploy, make daemon; targets עם תלויות", "min": 30, "level": 0, "url": "https://makefiletutorial.com/" },
+        { "id": "fn-sdlc", "t": "SDLC end-to-end: המפה השלמה", "why": "רמה 2; הצ'יטשיט שיצרת הוא הסילבוס", "action": "עבור על docs/assets/sdlc-devops-iac-cheatsheet.png ומפה כל שלב לפרויקט אמיתי שלך (הסדנה או Seekapa)", "min": 25, "level": 2, "url": "https://daily-deep-learning.pages.dev/docs/assets/sdlc-devops-iac-cheatsheet.png" },
+        { "id": "fn-cicd", "t": "אנטומיית CI/CD: מ-commit ל-deploy", "why": "רמה 2 עם claims ברזומה = פער בסיכון", "action": "צייר את הצינור של הסדנה (push→Action→Pages) והוסף שלב test אמיתי; אחר כך הסבר caching ו-artifacts", "min": 45, "level": 2, "url": "https://docs.github.com/en/actions" },
+        { "id": "fn-iac", "t": "IaC ראשון: Terraform על Azure", "why": "רמה 1; היעד L4 בקשת ה-DevOps", "action": "התקן terraform, הרם resource group + storage account ב-Azure, עשה plan/apply/destroy, הסבר state ו-drift", "min": 60, "level": 1, "url": "https://developer.hashicorp.com/terraform/tutorials/azure-get-started" },
+        { "id": "fn-docker", "t": "Docker לבעלות: מ-run ל-debug", "why": "רמה 2 מול claim פעיל = סיכון ראיון", "action": "כתוב Dockerfile ל-daemon של הסדנה, הרם, דבג לוגים, הסבר layers ו-cache", "min": 60, "level": 2, "url": "https://docs.docker.com/get-started/" },
+        { "id": "fn-datalemur", "t": "בנק ראיונות DA: DataLemur יומי", "why": "SQL ברמה 2 מול claim בכל 7 הזרועות; זו הדרך המהירה ל-L4", "action": "3 שאלות DataLemur ביום (SQL: joins→windows→CTEs, ואז Python/pandas); סמן קשות לחזרה", "min": 30, "level": 2, "url": "https://datalemur.com/questions" }
+      ] },
+    { "id": "build", "name": "לבנות השבוע", "note": "הסטאק הזה רץ בפרודקשן אצל Cursor ו-CodeRabbit. זו לא תוכנית עתידית.",
+      "items": [
+        { "id": "measure-v1", "t": "Measurement stack v1", "why": "בלי מדידה אין למידה מסתגלת; זה הבסיס לכל השאר", "action": "פתח פרויקט: embeddings + LanceDB, TF-IDF דדופ, UMAP/KDE לזיהוי פערים, G-Eval על 5% מדגם", "min": 180, "level": 4, "url": "https://www.lancedb.com/blog/hybrid-search-rag-for-real-life-production-grade-applications-e1e727b3965a" },
+        { "id": "skills-corpus", "t": "טקסונומיית סקילים אישית", "why": "לומדים מקריאת פרומפטים ברמת פרודקשן", "action": "סרוק את anthropics/skills, הרץ דדופ UMAP+HDBSCAN, תייג מול הפרויקטים שלך", "min": 120, "level": 3, "url": "https://github.com/anthropics/skills" }
+      ] },
+    { "id": "now", "name": "מיד: לסגור את הפער מ-MDP",
+      "items": [
+        { "id": "rm-icarte", "t": "Reward Machines (Icarte 2018)", "why": "הגשר מ-MDP ליעדים לא-מרקוביים; קצר ובר-מימוש", "action": "קרא את המאמר, ממש את הדוגמה כאוטומט 4 מצבים בפייתון", "min": 90, "level": 2, "url": "https://proceedings.mlr.press/v80/icarte18a.html" },
+        { "id": "omega-hahn", "t": "Omega-regular RL (Hahn 2019)", "why": "הפתרון הראשון model-free ליעדי LTL", "action": "קרא סעיפים 1-4; סכם ב-5 שורות איך ההמרה לאוטומט עובדת", "min": 75, "level": 3, "url": "https://ris.utwente.nl/ws/files/247405321/Hahn2019omega_regular.pdf" },
+        { "id": "ltl-primer", "t": "LTL primer", "why": "השפה הלוגית שמעל מרקוב; דרושה לשני הקודמים", "action": "קרא את הפריימר של סטנפורד; כתוב 3 דוגמאות LTL על סוכן קוד", "min": 45, "level": 1, "url": "https://web.stanford.edu/class/cs357/" }
+      ] },
+    { "id": "soon", "name": "חודש-חודשיים",
+      "items": [
+        { "id": "critic-upgrade", "t": "החל את דוח ה-AI PR Review על ה-critic של הסדנה", "why": "הדוח החדש בקורפוס מגדיר actionability gates, עוגני CWE ו-CoT scaffold; ה-critic שלנו הוא בדיוק reviewer כזה", "action": "קרא את הדוח, שכתב את פרומפט ה-critic: persona ממוקד, שלב חשיבה לפני ממצאים, שער actionability", "min": 45, "level": 3, "url": "#/doc/ai-pr-review" },
+        { "id": "mcp-pii-tokenize", "t": "שכבת PII tokenization ל-mcp-guard", "why": "דוח ה-MCP Sensitive Data בקורפוס: regex לתבניות קבועות + NLP (Presidio) לטקסט חופשי, tokenize לפני שה-PII מגיע למודל; mcp-guard הוא בדיוק שכבת היירוט הזו", "action": "קרא את הדוח; ממש interception ב-mcp-guard: זיהוי regex, החלפה ל-[EMAIL_1]/[PHONE_1], untokenize בקריאת הכלי הבאה; בדוק על תמלול שיחה אמיתי", "min": 120, "level": 3, "url": "#/doc/mcp-sensitive-data" },
+        { "id": "mcp-trust-tiers", "t": "trust-tiers + audit schema ל-MCP המרכזי (Seekapa: CRM, טלפוניה, WhatsApp)", "why": "התרחיש בדוח הוא אחד-לאחד המערכת בעבודה; הכלל: שרת Tier-3 לעולם לא מפעיל כלי Tier-1, נאכף ב-gateway ולא בפרומפט", "action": "כתוב מסמך עמוד: שלוש דרגות אמון לערוצים, identity propagation (OAuth OBO), סכמת audit-log מובנית וחתומה ל-SIEM עם רדקציה של PII מהלוגים", "min": 90, "level": 3, "url": "#/doc/mcp-sensitive-data" },
+        { "id": "grpo", "t": "GRPO (DeepSeek-Math)", "why": "האלגוריתם החשוב מאז PPO; בלי מודל critic", "action": "קרא את סעיף האלגוריתם; גזור ידנית את ה-advantage היחסי-לקבוצה", "min": 90, "level": 4, "url": "https://arxiv.org/abs/2402.03300" },
+        { "id": "panini", "t": "Panini: זיכרון מובנה בטוקנים", "why": "הלמידה המתמשכת הכי עקרונית של 2026", "action": "קרא; שרטט את ה-GSW כגרף; חשוב איך זה משרת את ההרנס שלך", "min": 90, "level": 4, "url": "https://arxiv.org/abs/2602.15156" },
+        { "id": "geval", "t": "G-Eval + תיקון הטיות", "why": "שופט LLM מכויל, לשלב 5 של הסדנה", "action": "קרא את נוסחת התיקון; חשב דוגמה עם q1=0.9, q0=0.8", "min": 60, "level": 4, "url": "https://arxiv.org/abs/2511.21140" },
+        { "id": "tf-grpo", "t": "Training-Free GRPO", "why": "שיפור RL בלי GPU, ישים על הסוכנים שלך היום", "action": "קרא; רשום איך prior בטוקנים מחליף עדכון משקלים", "min": 60, "level": 4, "url": "https://arxiv.org/abs/2510.08191" }
+      ] },
+    { "id": "deep", "name": "עד חצי שנה",
+      "items": [
+        { "id": "avg-omega", "t": "Average-reward omega-regular (JAIR 2025)", "why": "סוכנים לא-אפיזודיים, ההגדרה הנכונה לסוכן קוד רץ", "action": "קריאה עמוקה + סיכום עמוד", "min": 120, "level": 5, "url": "https://arxiv.org/abs/2505.15693" },
+        { "id": "pref-morl", "t": "Preference-Controllable RL (ICML 2025)", "why": "כל חזית פארטו במדיניות אחת: מהירות מול נכונות מול עלות", "action": "קריאה + מיפוי ל-tradeoffs של ההרנס", "min": 120, "level": 5, "url": "https://icml.cc/virtual/2025/poster/46501" },
+        { "id": "alma", "t": "ALMA: מטא-למידת זיכרון", "why": "לומדת את ארכיטקטורת הזיכרון, לא רק את התוכן", "action": "קריאה + השוואה ל-Panini", "min": 90, "level": 5, "url": "https://arxiv.org/abs/2602.07755" },
+        { "id": "oxford", "t": "Oxford: Self-Programming Agents", "why": "הקורס האקדמי היחיד על סוכנים שמתכנתים את עצמם", "action": "עבור על הסילבוס; בחר 3 הרצאות", "min": 60, "level": 5, "url": "https://www.cs.ox.ac.uk/teaching/courses/2025-2026/foundagent/" }
+      ] },
+    { "id": "ongoing", "name": "מתמשך",
+      "items": [
+        { "id": "letta", "t": "Letta: continual learning בטוקנים", "why": "הבלוג החי של התחום", "action": "עקוב; פוסט חדש = כרטיס מעקב", "min": 20, "level": 3, "url": "https://www.letta.com/blog/continual-learning" },
+        { "id": "whitemech", "t": "WhiteMech: temporal RL", "why": "הקבוצה של reward machines ו-restraining bolts", "action": "סמן את דפי הקורסים; חזור כשמגיעים ל-RM", "min": 20, "level": 3, "url": "https://whitemech.github.io/courses" },
+        { "id": "arxiv-filter", "t": "פילטרי arXiv יומיים", "why": "reward machine, omega-regular, token-space, non-Markovian", "action": "המדור מעקב עושה זאת; ודא שהוא חי", "min": 5, "level": 1, "url": "https://arxiv.org/list/cs.LG/recent" }
+      ] }
+  ],
+  "cert": {
+    "name": "AI-103: Azure AI Apps and Agents Developer",
+    "facts": "לממש שובר עד 2026-08-18, לגשת עד 2026-10-18, עובר 700/1000. שעה ביום, שישה ימים בשבוע.",
+    "weeks": [
+      { "id": "ai103-w1", "t": "שבוע 1: Plan and manage (25-30%)", "why": "הבסיס: Foundry, זהויות, אחריות", "action": "מודול Learn ביום לפי המדריך + שאלות היום בדף", "min": 60, "level": 2, "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103" },
+      { "id": "ai103-w2", "t": "שבוע 2: Generative + agentic (30-35%)", "why": "החלק הכבד במבחן, והכי קרוב לעבודה שלך", "action": "RAG, agents, evals: מודול + לאב יומי", "min": 60, "level": 3, "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103" },
+      { "id": "ai103-w3", "t": "שבוע 3: הזנב: CV, טקסט, Search", "why": "הדומיין החלש; הכי הרבה נקודות אבודות", "action": "מודול + לאב; רשום פערים ל-raid", "min": 60, "level": 3, "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103" },
+      { "id": "ai103-w4", "t": "שבוע 4: מוכנות מבחן", "why": "סימולציה לפני אמת", "action": "סימולציה מלאה דרך exam sandbox + מאגרי שאלות (practice assessment רשמי ל-AI-103: לא זמין נכון ל-2026-07-22, לוודא שוב) + סגירת פערים", "min": 120, "level": 3, "url": "https://aka.ms/examdemo" }
+    ]
+  },
+  "levels_note": "level = הרמה המומלצת להתחיל את הפריט (ראה רמות בספסיפיקציה)."
+}

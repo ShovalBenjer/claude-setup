@@ -9,9 +9,116 @@ docs/SESSION-BOOT.md first.
 Every row here was produced by opening the file or calling the API, not by reading a
 PASS. Ordered by how badly the recorded status disagreed with the disk.
 
-- [ ] **CI has been red on every run and nothing says so.** `gh run list` returns four Ship gate runs, all `failure`, none referenced in any ledger, doc, or issue. The `gate` job's cause is one missing dependency: it runs `pip install "uv==0.9.4"` and never installs pytest, so the contract's `unit` domain reports `No module named pytest` and the gate reports `unit FAIL`. That reads like a test regression and is not one. FIXED in this pass by adding pytest to that step; UNVERIFIED until a run goes green, because a local gate PASS is not evidence about the runner. Zion #20's first item, "observe one real CI run", is not undone. It happened four times and nobody looked
-- [ ] **The mutation control is red on `bus.py` and the two survivors are both the lock.** `mutate.py --spec all` reports 12 of 13 specs at 0 survived and `spec bus: 23 of 23 applied, 21 caught, 2 survived`. The survivors are `append_row stops taking the lock` and `the lock is released before the write instead of after`. So the file's own selftest cannot tell a locked append from an unlocked one, on the one ledger the repo treats as tamper-evident and reads with `bus.py verify`. There is no `tests/test_bus*.py` at all
+- [ ] **90 of 96 open TODO items are invisible at session boot, and this row exists to say so.**
+  Measured 2026-08-05. `~/.claude/hooks/session-recall.sh:112` selects
+  `l.strip().startswith("- [ ]")` and slices `[:6]`. TODO.md carries **96** matching rows,
+  so **six reach a new session and ninety do not.** The cap is deliberate and correct
+  ("a wall of history is the same as no history"); what is not correct is that nothing
+  orders the file, so which six survive is an accident of line number. Two of the six
+  were findings refuted on 2026-08-04 and had been injected into every session since.
+  **The fix is ordering, not raising the cap**: the first six rows under FOG are the
+  boot surface and must be the six things a fresh session most needs, re-picked whenever
+  one closes. A second, cheaper fix: recall could prefer rows carrying a marker such as
+  `[boot]`, which is a four-character change to the hook's predicate.
+  **Also measured: rows written as `- **` instead of `- [ ]` are invisible entirely.**
+  Ten rows added during the 2026-08-03/04 session had that defect and are corrected below.
+
+- [x] **CI has been red on every run and nothing says so.** `gh run list` returns four Ship gate runs, all `failure`, none referenced in any ledger, doc, or issue. The `gate` job's cause is one missing dependency: it runs `pip install "uv==0.9.4"` and never installs pytest, so the contract's `unit` domain reports `No module named pytest` and the gate reports `unit FAIL`. That reads like a test regression and is not one. FIXED in this pass by adding pytest to that step; UNVERIFIED until a run goes green, because a local gate PASS is not evidence about the runner. Zion #20's first item, "observe one real CI run", is not undone. It happened four times and nobody looked
+  **CLOSED 2026-08-04 by re-measurement, and it was closed by drift, not by anyone reading it.** `gh run list` now shows Ship gate **success on `main` 2026-08-03**. What fails is two lane branches: `lane-a/config-incident-and-oracle-repair` (08-03) and `lane-a/panel-comment-strip` (08-04 12:52, Ship gate + Claude Code Review, still open). The pytest fix landed. **The successor row is the branch, not the workflow.**
+- [x] **The mutation control is red on `bus.py` and the two survivors are both the lock.** `mutate.py --spec all` reports 12 of 13 specs at 0 survived and `spec bus: 23 of 23 applied, 21 caught, 2 survived`. The survivors are `append_row stops taking the lock` and `the lock is released before the write instead of after`. So the file's own selftest cannot tell a locked append from an unlocked one, on the one ledger the repo treats as tamper-evident and reads with `bus.py verify`. There is no `tests/test_bus*.py` at all
+  **CLOSED 2026-08-04.** `python tools/audit/mutate.py --spec bus` now reports **23 of 23 applied, 23 caught, 0 survived**. Both lock survivors are gone. Consequence recorded in `docs/adr/0021-rust-for-hot-paths-python-for-oracles.md`: the ADR named `bus.py` as its first rewrite candidate on the strength of these two survivors, so **that rewrite's evidence is now historical**.
 - [x] **and the obvious fix for it would be a test that cannot fail here.** `append_row`'s docstring states the lock exists because overlapping writes "on Windows destroy whole rows rather than tearing them". On Linux `O_APPEND` makes a small append atomic, so a concurrency test written on this machine stays green with the lock deleted. Writing one would be L-2026-07-31-e (scope drifting to whatever goes green) sitting on top of L-2026-07-31-g (a host-shaped oracle answering the wrong question on the other host). CLOSED 2026-08-01 by the structural option, not the Windows leg: `bus.py selftest` now parses its own `__file__` with `ast` and asserts every write in `append_row` is lexically inside the `with file_lock(...)` block. Reading `__file__` is what makes it work under mutation, since `mutate.py` runs a mutated COPY and the parse therefore sees the mutant. Evidence, from the control rather than from this row: `spec bus: 23 of 23 applied, 23 caught, 0 survived`, previously 21 caught / 2 survived. `tests/test_bus_lock.py` pins the same property in pytest with a fourth case asserting the structural check itself can go red, since a helper that silently stops matching would make the other three pass on any input. WHAT THIS STILL DOES NOT DO: it cannot prove the lock excludes a concurrent writer, which no test on Linux can. A Windows CI leg remains the only way to test the behaviour rather than the structure
+- [ ] **A. `skills_sync.py check` exists, CI runs only its selftest, and the check exits 0 while reporting drift.**
+  Measured 2026-08-05. `.github/workflows/ship-gate.yml:239` runs `skills_sync.py selftest`
+  and never `skills_sync.py check`. Run by hand, `check` prints **`DRIFT: 55 item(s) need a
+  decision`** and **exits 0**, so wiring it in as-is would produce a green job reporting 55
+  problems. The working pattern is one line away: the `rules` domain, added 2026-08-04,
+  binds `python tools/audit/rules_sync.py check` and the gate prints `rules clean: 22
+  rule(s), repo and live identical`. **Acceptance: `check` exits non-zero on drift, a
+  `skills` domain in `quality-contract.json` runs it, and the gate goes red at 55 and green
+  only at 0.** Same treatment for `tools/audit/pointers.py scan`. **Do this alone and first:
+  until it exists, B and C produce numbers nothing enforces.**
+- [ ] **B. Three skill trees hold 45 FORKS, not 45 copies.**
+  Measured 2026-08-05 by hashing every skill directory: **118 distinct names across
+  `dot-agents/skills` (70), `dot-claude/skills` (74), `dot-codex/skills` (61) and live
+  `~/.claude/skills` (40). 67 names appear in more than one tree: 22 byte-identical, 45
+  DIVERGED.** `deep-research`, `dispatch`, `azure-runtime`, `openai-agents` and `premortem`
+  are each three different files; `commit-push-pr` exists in all four. **78 skills sit in a
+  repo tree and are not live; zero live skills are missing from the repo**, so live is a
+  clean subset and the redundancy is entirely upstream. `dot-claude/` is canonical **by
+  evidence, not preference**, because it is the only tree with a live counterpart.
+  **Acceptance: one tree, and each of the 45 forks carries a recorded decision (merged,
+  superseded, or archived with a reason). Picking by timestamp is not a decision** and
+  destroys whatever the divergence was for.
+- [ ] **48 definition-of-done rows exist and zero tools read them.** Measured 2026-08-04:
+  `grep -rl "definition of done\|DoD" tools/` returns nothing, against 48 rows in
+  `docs/prd/2026-08-03-unified-architecture.md` and
+  `docs/specs/2026-08-03-detail-passes-teleology-and-creativity.md`. **Classify the 48
+  before building a checker**, because some are prose and some measure things that do not
+  exist yet, so the count of mechanically checkable rows is unknown and is below 48. A
+  `dod.py` that reports mostly "not checkable" is another instrument that runs and says
+  little.
+- [ ] **`docs-control-plane` rule 1 is enforced for one field of three.** `strand.py` checks
+  `Status:` and reachability. It does not check the `PRD:` / `Ticket:` header the rule
+  names first: **6 of 19 specs carry one**. Rule 3 says superseded specs move to
+  `docs/specs/archive/`, and **that directory does not exist**, so the rule is
+  unenforceable by construction. Both are extensions to a tool that already parses every
+  spec.
+- [ ] **new-recruit declares a 10-domain contract and has no run ledger.** `.alint.yml`,
+  `quality-contract.json`, two workflows and the full docs taxonomy (prd 3, specs 26,
+  analysis 10, adr 2) are all present; `state/` holds three entries and no `gate-runs`.
+  That is consistent with never having run and is NOT proof, since its contract differs
+  from this repo's. **One command settles it: `gate.py run --project ../new-recruit`.**
+- [ ] **C. Prior-art pass before writing a fourth unused-code checker.**
+  This repo already has three hand-rolled partial ones: `pointers.py` (dead paths),
+  `skills_sync.py` (repo versus live drift), `strand.py` (unreferenced documents). The
+  operator named **knip**, which is the mature tool for "declared and never used" and is
+  JS/TS-oriented, so it may not fit a Python and markdown estate. **Acceptance: a
+  `docs/prior-art/` record comparing knip, vulture, deptry and dead against what the three
+  local tools already do, with a named verdict per candidate, per ADR-0019 (adopt on
+  recorded evidence).** Do not extend the local three before that record exists.
+- [ ] **D. Generalise the one mechanism here that does not rot.**
+  `docs/prior-art/` records carry `recheck_after` and `codemap.py prior-art` fails when one
+  expires. **That is the only category in this repo with an expiry, and the only one that
+  has not silently accumulated.** Everything that has (23 of 29 hooks wired nowhere, 78
+  unlive skills, 6 standards bound to nothing, `atlas.py` built and wired to nothing until
+  2026-08-05) shares one property: arrival created no obligation. **Acceptance: an adopted
+  artifact declares who binds it and when that binding is rechecked; unbound past its date
+  is a gate failure.** This is a design claim and has had no prior-art pass; run one before
+  building. It is the structural answer to "how does this become mature and handled", and it
+  is fourth because A, B and C are measurements it would otherwise sit on top of.
+- [ ] **Two analysis documents are stranded, and both have live work behind them.**
+  `docs/analysis/2026-07-24-creativity-wow-gap.md` (457 lines) names the creativity and
+  deliberation-texture gap and is the direct ancestor of the measured-`p_conventional`
+  design in `docs/specs/2026-08-03-detail-passes-teleology-and-creativity.md` §4; nothing
+  linked them until now. `docs/analysis/2026-07-24-research-wiring-audit.md` designed
+  `tools/selfimprove/research_sweep.py`, which is **still unbuilt** and is imbalance #8 in
+  `docs/SYSTEM-MAP.md`. Found by `strand.py` on 2026-08-05, **after** fixing the bug that
+  had made R2 vacuous. A hand pass on 2026-08-04 named seven stranded documents; five of
+  those became referenced because this session wrote about them, and these two are what
+  remains. **Do the work or supersede them; do not exempt them, because the exemption file
+  is for evidence held and not maintained, and these are designs waiting on a build.**
+- [ ] **Six standards were imported from other repos and are bound to nothing here.**
+  Measured 2026-08-05: `docs/standards/nr-adr-0001-unified-platform-standard.md`,
+  `docs/standards/nr-repo-standards-2026-07-09.md`,
+  `docs/standards/nr-harness-structure-standard-2026-07-09.md`,
+  `docs/standards/nr-code-quality-standard-2026-07.md`,
+  `docs/standards/nr-prd-2026-07-10-platform-standard.md`,
+  `docs/standards/ddl-engineering-standards-2026-07-26.md`. Each was
+  referenced by **zero** files outside its own directory, and **17 of the 18 imported files
+  were untracked**, so no oracle could see them at all. Fixed in this pass: tracked, moved
+  from `docs/analysis/` (which the taxonomy defines as point-in-time scans) into
+  `docs/standards/`, given declared statuses, and `docs/standards/` is now governed by
+  `strand.py`. **What is still open is the binding itself.** `nr-harness-structure-standard`
+  and `docs/standards/agentic-repo-standard.md` are two structure standards that have never
+  been reconciled, and `nr-repo-standards` declares five per-project dimensions that no gate
+  domain reads. Reconcile or supersede; do not leave two.
+- [ ] **A branch has been failing Ship gate since 2026-08-04 12:52 and nobody has read it.**
+  `lane-a/panel-comment-strip`: Ship gate FAILED, Claude Code Review FAILED, Gemini diff
+  review passed. Almost certainly the other clone's session. This is the successor to the
+  closed "CI red on every run" row, and it is the same shape as the lesson that produced
+  that row: **a failing signal that exists and that nobody reads.** Not lane A's to fix
+  blind; it needs whoever owns that branch.
 - [ ] **Zion #20 says gemini-review.yml "has still never been written".** It is on disk at `.github/workflows/gemini-review.yml`, 4868 bytes, and the gate's `pipeline` domain names it among the workflows invoking `gate.py run`. Correct the issue item; do not delete it, because whether the workflow RUNS is a separate question from whether it exists
 - [ ] **Zion #27 item 1 is done and unchecked.** `tools/slop_lint.py` already emits hyphen density and sentence standard deviation. What is genuinely undone is item 2: the output says `no band fitted`, so it measures and never judges. The correction to the epic is that this is now a threshold-fitting task, not a porting task
 - [ ] **Zion board throughput is zero.** 31 open epics, 0 closed, 184 checklist items with 5 checked (2%). The checklists are real and specific, so this is unstarted work rather than scaffold. Worth deciding whether an epic-only board with no task issues is the surface that gets used, since nothing has ever moved on it
@@ -212,3 +319,59 @@ Two rows above were CLOSED by the same measurement and are marked in place.
 - [ ] ZION-02 Once ZION-01 clears, publish the rows above through the JSON, never by hand: edit `state/github-backlog-<date>.json`, then `python tools/ghpub/publish_backlog.py --update` (dry run), then `--execute`, then `zion_fields.py`. Rule from the Zion spec section 6: the JSON is edited, never the issue body, and a hand-set field is drift with no diff
 - [ ] ZION-03 The board's `Lane` field is a select of `B/C/D/E`. ADR-0016 renumbered the lanes to A/B/C/D on 2026-07-30. The board is one cutover behind the ADR, so every lane value on it is ambiguous in exactly the way `docs/charters.md` warns about
 
+- [ ] **Doc structure and reachability are now enforced; absorption is not.** `tools/docmap/strand.py`
+  landed 2026-08-03 with a selftest (5 assertions), 9 tests, and two CI steps. First real run
+  found 10 structure violations (6 specs with no declared status, 4 with a status outside the
+  vocabulary), all fixed, and **0 reachability strandings across 59 governed documents**. That
+  zero is the finding: a hand pass the same day judged 7 of 37 analysis documents STRANDED by
+  the stronger test, whether their findings ever reached a mechanism. **Link-counting cannot see
+  a document that is linked and ignored**, which is stated in the tool's own docstring and in its
+  report output. What would close the gap is an edge from a finding to the rule, hook or gate
+  domain it produced, which is the cross-artifact graph row below, not more link checking.
+- [ ] **The cross-artifact graph, not a code graph.** Prompted 2026-08-03 by Graphify (tree-sitter
+  AST to knowledge graph, `EXTRACTED` vs `INFERRED` edge provenance, explicit refusal of a vector
+  store). Code navigation is not this repo's measured failure: `codemap.py` covers 417 directories
+  and ripgrep covers 23,736 lines. The measured failures are hidden trees and unabsorbed findings.
+  The edges worth having are `file -> test that covers it`, `finding -> rule it produced`,
+  `claim -> falsifier`, `directory -> prior-art record`. Three of those four already exist as
+  one-off scripts; none is queryable. Adopt Graphify's edge-provenance tagging if this is built.
+- [ ] **Metamorphic testing is absent, and it is the stronger check for the prose gate.** T5 of
+  `docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md`, stranded since it was
+  written. `mutate.py` asks "if I break the check, does it notice". Metamorphic asks "if the input
+  changes in a way that must not change the verdict, does the verdict hold". For `slop_lint` and
+  `panel.py` that is the question that matters, and nothing asks it.
+
+- [ ] **ADR-0021 landed; two preconditions it names are open.** Rust for hot paths, Python for
+  oracles, criterion by failure mode. (1) `tools/hookgate` is the reference case and has **no
+  selftest verb and is named in no test file**, measured 2026-08-03. A reference case with no
+  oracle is the wrong reference. (2) A Rust `bus.py` would move the ledger from mutation-covered
+  to mutation-uncovered, because `mutate.py` operates on Python source. `cargo-mutants` is named
+  as the candidate and is **not adopted**. Both are blocking preconditions on the rewrite, not
+  notes beside it.
+
+- [ ] **57 saved repos captured, triaged once, never compared.**
+  `state/saved-repos-2026-07-30.json`, referenced only by
+  `docs/analysis/2026-07-30-github-repo-triage.md`. Nothing consumes it, nothing resyncs
+  it, and the comparison against current specs was scoped in that document and never run.
+- [ ] **ShellCheck belongs in the new `supply-chain` CI job.** The recall hook calls bare
+  `python`, which resolves to a `bootstrap.sh` shim; in a bare env `command -v python`
+  finds nothing and the block ends in `|| echo '{}'`, so it fails silent. Prior-art
+  checked 2026-08-04: this is the named fail-silent class, and the standard fixes are
+  `set -euo pipefail`, a `#!/usr/bin/env bash` shebang, and ShellCheck in CI.
+- [ ] **The model-selection rule's live-value rows are both stale, and its prescribed row is
+  now right.** Live `effortLevel` is `high`, which is what the rule prescribes. The
+  2026-07-29 section records live as `xhigh` and the 2026-07-30 correction records `low`.
+  **The contradiction that rule exists to hold open closed by drift, not by measurement,
+  and nothing recorded that it closed.**
+
+## SETUP-PERSONA: reviewer allocation and identity (spec: docs/specs/2026-08-05-persona-allocation-and-reviewer-identity.md)
+
+- [x] PERSONA-01: the allocator. `tools/review/allocate.py` maps a change to aspects and aspects to actors, decorrelating on `model_family` and never on `host`. Selftest green, 8 checks. It found its own defect on the first real run: it paired `nvidia-nim [VARIES-BY-MODEL]` with `qwen-dashscope [alibaba-qwen]` for `slop`, which is precisely the correlated pair `actors.json`'s contract forbids, because nvidia-nim serves qwen. A reseller family is now admissible only as a solitary reviewer
+- [ ] PERSONA-02: **only ONE actor declares `a11y`**, so accessibility can never receive a decorrelated second opinion. This is a registry gap and it was invisible until something read `may_enact`. Either a second actor declares it or the enum admits that a11y is single-opinion by construction. Do not fix it by having the allocator pretend
+- [ ] PERSONA-03: `panel.py` runs all five local personas on every change regardless of what changed. Wire it to consume `allocate.py`, so a diff touching only `.md` does not pay for the security rule set. Acceptance is a review artifact naming its allocated actors
+- [ ] PERSONA-04: **the two persona vocabularies share 2 words out of 11.** panel has `data`, `ops_release`, `ux_frontend` that no external actor can enact; the registry has `boundary`, `simplicity`, `perf`, `slop`, `tests` that no local rule set covers. Decide whether they converge or stay deliberately separate, and write the reason down either way. `PANEL_TO_ASPECT` currently records two holes as `None` rather than guessing
+- [ ] PERSONA-05: **ADR-0012's `auto:low` auto-merge is gated on a both-model approval that does not exist.** No `agreement` domain in the 14-domain contract, no implementation in `tools/`. Either build it on top of PERSONA-01, or amend ADR-0004 and ADR-0012 to record that it is designed and unbuilt. Doing neither leaves the governance docs describing a system nobody has, which is worse than having no docs
+- [ ] PERSONA-06: run two allocated actors blind to each other on one real PR. Acceptance is a `state/reviews/*.json` whose `reviewer` is not `persona-panel/local`; all 11 existing artifacts say `external backend not requested`
+- [ ] PERSONA-07: **every agent is `ShovalBenjer (User)`.** A GitHub App per lane gives feed comments and PRs a `[bot]` identity; free on a private repo and it sidesteps the free-plan branch-protection constraint ADR-0012 worked around. Attribute the action to the agent, record the owner as the accountable principal
+- [ ] PERSONA-08: `from_session` is the empty string in all 25 bus rows. `bus.py:39` already documents why: `CLAUDE_SESSION_ID` is not exported into the hook environment. Settings change, not a design change. Note the field is inside `CHAIN_FIELDS`, so populating it changes what the chain covers going forward but not retroactively
+- [ ] PERSONA-09: NOT a task, recorded so it is not proposed again. Do not build JWS signing over bus rows. Hash-chaining gives tamper-evidence and not authorship, which is a real gap, but the value here is attribution and not authentication: one human, one machine, no adversary. A2A's signature layer solves a cross-organisation trust problem this estate does not have (ADR-0019: adopt on recorded evidence)
