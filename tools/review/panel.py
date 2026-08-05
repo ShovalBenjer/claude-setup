@@ -508,6 +508,23 @@ PERSONAS: dict[str, dict] = {
     # external actors already declare may_enact boundary; now something local does
     # too, so tools/review/allocate.py can plan both halves of the same dimension.
     #
+    # PRIOR ART, searched 2026-08-05 after the gate stopped a claim that these were
+    # unenforced. They are unenforced HERE and thoroughly solved elsewhere, and the
+    # difference matters for whoever reads this next:
+    #   errcheck with `check-blank: true` is go-discarded-marshal and
+    #     go-discarded-read, done with type information rather than a regex. Its own
+    #     documentation uses `num, _ := strconv.Atoi(numStr)` as the example.
+    #     golangci-lint bundles it; `dogsled` covers the multi-blank form.
+    #   @typescript-eslint/no-unsafe-assignment already flags the JSON.parse case,
+    #     because JSON.parse returns `any`. zod is the community answer to the
+    #     underlying problem: decode at the boundary against a schema.
+    #   The Semgrep Registry (2000+ rules) would express all three natively.
+    # WHAT THESE THREE ADD is one property none of those has: the panel reads ADDED
+    # DIFF LINES with no toolchain, no compilable package and no node_modules,
+    # against repositories it does not build. That is the whole of the case for
+    # them. For any repository that actually builds, run golangci-lint and
+    # typescript-eslint and delete these. See TODO PERSONA-12.
+    #
     # NOT in COMMENT_AWARE, deliberately. A commented-out `payload, _ := json.Marshal`
     # is dead code and not a live discarded error, and the comment-strip pass added
     # 2026-08-04 already removes it before these patterns see the line. Registering
