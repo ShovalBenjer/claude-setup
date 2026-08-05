@@ -546,7 +546,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prior-art/tools-intent.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-wsl.json` | 2026-08-03 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-antigravity.json` | 2026-08-04 | current | arithmetic | n/a | - | this file for in-session use and the CLI | - |
-| `docs/prior-art/tools-telemetry.json` | 2026-08-04 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/tools-telemetry.json` | 2026-08-05 | current | arithmetic | n/a | - | - | - |
 
 ## reflection (6)
 

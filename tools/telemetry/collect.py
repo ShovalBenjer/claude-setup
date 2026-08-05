@@ -84,6 +84,58 @@ def _iso(value) -> str:
 
 
 
+def first_of(r: dict, *keys: str, default: str = "") -> str:
+    """First non-empty value among `keys`, so one extractor reads both ledger generations.
+
+    Measured 2026-08-05: 52 of 516 notable events reached the feed with an EMPTY subject
+    payload and no timestamp, and every one of them came from `lessons` or `claims`. The
+    cause is not a bug in the extractor's logic, it is that each extractor named ONE
+    spelling of a field the ledger writes under two:
+
+        lessons.jsonl  43 rows: id 43, status 43, lesson 33, ts 25, lane 25, class 20,
+                                date 18, incident 18
+        claims.jsonl   22 rows: lane 22, note 16, proposal_id 15, ts 15,
+                                id 7, claimed_at 7, scope 7
+
+    So `r.get("class")` finds nothing on 23 of 43 lesson rows and `r.get("scope")` finds
+    nothing on 15 of 22 claim rows. The rows were carried, published, and said nothing.
+
+    An empty string is treated as absent, not as a value. A ledger that writes `"ts": ""`
+    is saying it does not know, and preferring it over a populated `date` would be reading
+    the placeholder as data.
+    """
+    for k in keys:
+        v = r.get(k)
+        if v not in (None, ""):
+            s = str(v).strip()
+            if s:
+                return s
+    return default
+
+
+def is_worktree(child: Path) -> bool:
+    """True when `child/.git` is a FILE rather than a directory.
+
+    Measured 2026-08-05: `.wt-rules-sync` contributed 212 of 516 notable events, byte
+    identical to claude-setup's own rows. It is a git WORKTREE of claude-setup, created
+    by this session to work around a concurrent writer in the main tree. A worktree's
+    `.git` is a pointer file (`gitdir: .../worktrees/<name>`) rather than a directory, and
+    its `state/*.jsonl` are tracked, so they are checked out a second time and read as if
+    they belonged to a second repository.
+
+    Nothing downstream can undo that. `fingerprint()` includes `repo`, deliberately,
+    because the same lesson in two repos is two facts. So a duplicated repo name produces
+    duplicated feed items that no dedupe is allowed to collapse.
+
+    Keyed on the `.git` TYPE rather than on a dot prefix or a name pattern, because a
+    worktree may be named anything and a real repository may be hidden. A submodule also
+    writes a pointer file and is skipped for the same reason: its ledgers, if any, belong
+    to the superproject's sweep of it, not to this one.
+    """
+    dotgit = child / ".git"
+    return dotgit.is_file()
+
+
 def row_repo(r: dict, fallback: str) -> str:
     """The repo a row is ABOUT, which is usually not the repo the file sits in.
 
@@ -162,10 +214,13 @@ def _from_gate_runs(r: dict) -> dict | None:
 def _from_lessons(r: dict) -> dict | None:
     if str(r.get("status", "")).lower() in {"closed", "resolved"}:
         return None
-    return event(ts=_iso(r.get("ts")), lane=r.get("lane", ""), source="lessons",
+    # `class` on 20 of 43 rows, `lesson` on 33, `incident` on 18; `ts` on 25, `date` on 18.
+    # Naming one spelling each is what published 22 lessons that said only "L006:".
+    return event(ts=_iso(first_of(r, "ts", "date")), lane=r.get("lane", ""), source="lessons",
                  kind="lesson", severity=ALERT,
-                 subject="{}: {}".format(r.get("id", "?"), str(r.get("class", ""))[:160]),
-                 ref=str(r.get("id", "")))
+                 subject="{}: {}".format(first_of(r, "id", default="?"),
+                                         first_of(r, "class", "lesson", "incident")[:160]),
+                 ref=first_of(r, "id"))
 
 
 def _from_refutations(r: dict) -> dict | None:
@@ -187,10 +242,15 @@ def _from_plan_deviations(r: dict) -> dict | None:
 
 
 def _from_claims(r: dict) -> dict | None:
-    return event(ts=_iso(r.get("claimed_at")), lane=r.get("lane", ""), source="claims",
+    # `scope` on 7 of 22 rows, `note` on 16; `claimed_at` on 7, `ts` on 15; `id` on 7,
+    # `proposal_id` on 15. Three fields, three spellings each, and the older generation
+    # uses the second of every pair, which is why 30 claim rows published as
+    # "lane B claimed:" with nothing after the colon.
+    return event(ts=_iso(first_of(r, "claimed_at", "ts")), lane=r.get("lane", ""), source="claims",
                  kind="claim", severity=NOTE,
-                 subject="lane {} claimed: {}".format(r.get("lane", "?"), str(r.get("scope", ""))[:140]),
-                 ref=str(r.get("id", "")))
+                 subject="lane {} claimed: {}".format(first_of(r, "lane", default="?"),
+                                                      first_of(r, "scope", "note")[:140]),
+                 ref=first_of(r, "id", "proposal_id"))
 
 
 def _from_handback(r: dict) -> dict | None:
@@ -236,15 +296,25 @@ EXTRACTORS = {
 }
 
 
-def discover_repos() -> list[Path]:
-    """Every git repo with a state/ directory, under the configured roots."""
+def discover_repos(skipped: list[str] | None = None) -> list[Path]:
+    """Every git repo with a state/ directory, under the configured roots.
+
+    Worktrees are excluded and RECORDED. A skip that leaves no trace is the failure this
+    file's own docstring is about: a repo that silently stops being swept looks exactly
+    like a repo that went quiet. `--audit` prints what was skipped and why.
+    """
     out = []
     for root in REPO_ROOTS:
         if not root.is_dir():
             continue
         for child in sorted(root.iterdir()):
-            if (child / ".git").exists() and (child / "state").is_dir():
-                out.append(child)
+            if not ((child / ".git").exists() and (child / "state").is_dir()):
+                continue
+            if is_worktree(child):
+                if skipped is not None:
+                    skipped.append(child.name)
+                continue
+            out.append(child)
     return out
 
 
@@ -279,10 +349,20 @@ def read_ledger(path: Path) -> list[dict]:
 
 
 def collect(since: dt.datetime | None = None) -> tuple[list[dict], dict]:
-    """Return (events, per-source audit)."""
+    """Return (events, per-source audit).
+
+    UNDATED ROWS AND A WINDOW. Until 2026-08-05 the filter read `if since and ev["ts"]`,
+    so a row with no derivable timestamp skipped the comparison and passed EVERY window
+    forever. That is why the same blank claims rows appeared in all 12 published posts:
+    they were not recent, they were permanent residents. A windowed query now excludes an
+    undated row and counts it, because "I do not know when this happened" cannot answer
+    "what happened in the last 24 hours". Unwindowed queries still carry them.
+    """
     events: list[dict] = []
     audit: dict[str, dict] = {}
-    for repo in discover_repos():
+    skipped_worktrees: list[str] = []
+    undated_dropped = 0
+    for repo in discover_repos(skipped_worktrees):
         for name, extract in EXTRACTORS.items():
             path = repo / "state" / name
             key = "{}/{}".format(repo.name, name)
@@ -303,7 +383,10 @@ def collect(since: dt.datetime | None = None) -> tuple[list[dict], dict]:
                 attributed = row_repo(r, repo.name)
                 ev["repo"] = attributed
                 ev["origin"] = "row" if attributed != repo.name else "file-location"
-                if since and ev["ts"]:
+                if since:
+                    if not ev["ts"]:
+                        undated_dropped += 1
+                        continue
                     try:
                         stamp = dt.datetime.fromisoformat(ev["ts"])
                         if stamp.tzinfo:
@@ -316,6 +399,9 @@ def collect(since: dt.datetime | None = None) -> tuple[list[dict], dict]:
                 got += 1
             audit[key] = {"rows": len(rows), "events": got, "skipped": skipped, "present": True}
     events.sort(key=lambda e: (e["ts"] or "", e["source"]))
+    audit["__meta__"] = {"rows": 0, "events": 0, "skipped": 0, "present": False,
+                         "skipped_worktrees": sorted(skipped_worktrees),
+                         "undated_dropped": undated_dropped}
     return events, audit
 
 
@@ -328,6 +414,26 @@ def parse_since(spec: str | None) -> dt.datetime | None:
     n, unit = int(m.group(1)), m.group(2)
     delta = {"h": dt.timedelta(hours=n), "d": dt.timedelta(days=n), "w": dt.timedelta(weeks=n)}[unit]
     return dt.datetime.now() - delta
+
+
+def corpus_verdict(corpus_present: bool) -> tuple[list[str], str]:
+    """Pure. What a run may assert, given whether a live corpus was found.
+
+    Extracted so BOTH branches are reachable from a selftest that necessarily runs on
+    one host at a time. Two mutations survived while this logic was inline: the machine
+    running the tests has a corpus, so the no-corpus path was never executed and
+    breaking it changed nothing observable. A branch that cannot be exercised cannot be
+    defended, and the fix is to make it a value rather than a control flow.
+
+    Returns (extra_failures, verdict_line). An absent corpus is NEVER a failure: a CI
+    runner has no ~/work/repos and never will.
+    """
+    if corpus_present:
+        return [], ("VERDICT: the collector reads every live ledger, no source is "
+                    "silently empty, and nothing is published that says nothing")
+    return [], ("VERDICT (narrowed): every extraction and attribution rule holds on "
+                "fixtures. NO live corpus was present, so per-source yield, alert "
+                "plausibility and emptiness were NOT measured.")
 
 
 def selftest() -> int:
@@ -375,18 +481,169 @@ def selftest() -> int:
     if _iso("2026-08-04T12:00:00+03:00") != "2026-08-04T12:00:00+03:00":
         failures.append("_iso rewrote an offset-aware stamp")
 
+    # Both ledger generations, from real rows. The OLD spelling is the one that was
+    # dropped, so it is the one asserted; testing only the new spelling would pass
+    # against the very code that shipped 52 empty rows.
+    old_lesson = _from_lessons({"status": "open", "id": "L006", "date": "2026-07-27",
+                                "incident": "a gate PASS was claimed from a stale ledger"})
+    if not old_lesson["ts"]:
+        failures.append("a lessons row that dates itself with `date` yields no timestamp, "
+                        "so it passes every --since window forever")
+    if old_lesson["subject"].rstrip().endswith(":"):
+        failures.append("a lessons row that describes itself with `incident` publishes as "
+                        "an id and an empty colon, which is what 22 of them did")
+    old_claim = _from_claims({"lane": "B", "ts": "2026-07-31T14:05:00",
+                              "proposal_id": "session-x", "note": "cross-lane, approved"})
+    if not old_claim["ts"] or not old_claim["ref"]:
+        failures.append("a claims row using `ts`/`proposal_id` yields no timestamp or no ref")
+    if old_claim["subject"].rstrip().endswith(":"):
+        failures.append("a claims row that describes itself with `note` publishes as "
+                        "'lane B claimed:' and nothing else, which is what 30 of them did")
+    if first_of({"a": "", "b": "   ", "c": "x"}, "a", "b", "c") != "x":
+        failures.append("first_of read an empty or whitespace field as a value, so a "
+                        "placeholder wins over a populated fallback")
+
+    # The worktree rule, proved on a synthetic tree rather than on the live one, because
+    # the live answer changes the moment somebody removes the worktree.
+    import tempfile  # noqa: PLC0415
+
+    with tempfile.TemporaryDirectory() as td:
+        wt, real = Path(td) / "wt", Path(td) / "real"
+        (wt / "state").mkdir(parents=True)
+        (wt / ".git").write_text("gitdir: /elsewhere/.git/worktrees/wt\n", encoding="utf-8")
+        (real / "state").mkdir(parents=True)
+        (real / ".git").mkdir()
+        if not is_worktree(wt):
+            failures.append("a .git POINTER FILE was read as a real repository, so a "
+                            "worktree's checked-out ledgers are collected a second time")
+        if is_worktree(real):
+            failures.append("a real clone was skipped as a worktree, so a whole repo "
+                            "goes silent with nothing reporting it")
+
+        # The skip must be RECORDED. Proved against discover_repos itself, on a synthetic
+        # root, because a skip that leaves no trace is indistinguishable from a tree that
+        # went quiet and that ambiguity is what this file exists to remove.
+        global REPO_ROOTS  # noqa: PLW0603
+        saved_roots = REPO_ROOTS
+        try:
+            REPO_ROOTS = [Path(td)]
+            noted: list[str] = []
+            found = discover_repos(noted)
+        finally:
+            REPO_ROOTS = saved_roots
+        if [p.name for p in found] != ["real"]:
+            failures.append("discover_repos returned {} where it should have returned "
+                            "only the real clone".format([p.name for p in found]))
+        if noted != ["wt"]:
+            failures.append("a skipped worktree was not recorded, so --audit cannot "
+                            "report it and the omission reads as coverage")
+
     # The load-bearing check: yield is asserted PER SOURCE, not in total. A total
     # stays healthy while one ledger silently contributes nothing, which is the
     # exact failure this file's docstring is about.
+    #
+    # NO CORPUS IS NOT A FAILURE. A CI runner has no ~/work/repos and never will, so
+    # asserting that ledgers were found makes this selftest red on every runner for a
+    # condition that is correct there. That is L-2026-07-31-g, and it was written into
+    # THIS file on 2026-08-05, hours after the same defect was fixed in rules_sync.py by
+    # the same session. Knowing the lesson is not the same as not repeating it.
+    #
+    # The split is between what needs a corpus and what does not. Every check above runs
+    # on fixtures and is host-independent. The three below read the live ledgers, so with
+    # no corpus they report NOT RUN by name and the run narrows rather than passing
+    # silently. The planted-fixture checks that follow still exercise the same code paths
+    # on synthetic input, so a runner is not verifying nothing.
     events, audit = collect()
     present = {k: v for k, v in audit.items() if v["present"] and v["rows"] > 0}
-    silent = [k for k, v in present.items() if v["events"] == 0]
-    if not present:
-        failures.append("no ledger was found at all, so this proves nothing")
-    if silent:
-        failures.append("ledger(s) with rows produced zero events: " + ", ".join(sorted(silent)))
-    if events and not any(e["severity"] == ALERT for e in events):
-        failures.append("not one alert across the whole corpus, which is implausible")
+    corpus_present = bool(present)
+    if not corpus_present:
+        print("  NOT RUN  live-corpus checks: no ledger found under {}. Yield, alert "
+              "plausibility and emptiness are unmeasurable here; the fixture checks "
+              "above and below still ran.".format(", ".join(str(r) for r in REPO_ROOTS)))
+    else:
+        silent = [k for k, v in present.items() if v["events"] == 0]
+        if silent:
+            failures.append("ledger(s) with rows produced zero events: " + ", ".join(sorted(silent)))
+        if events and not any(e["severity"] == ALERT for e in events):
+            failures.append("not one alert across the whole corpus, which is implausible")
+
+    # EMPTINESS, per source. The assertion above counts events and passed while 52 of
+    # them carried nothing a reader could act on. A row that is carried and says nothing
+    # is worse than a row that is dropped, because it consumes a feed slot and looks like
+    # coverage.
+    def _blank_sources(evs: list[dict]) -> dict:
+        out: dict[str, int] = {}
+        for e in evs:
+            if e["severity"] not in (ALERT, NOTE):
+                continue
+            body = e["subject"]
+            for sep in (": ", " -> ", "] "):
+                if sep in body:
+                    body = body.split(sep, 1)[1]
+                    break
+            if not body.strip():
+                out[e["source"]] = out.get(e["source"], 0) + 1
+        return out
+
+    # POSITIVE CONTROL, and it is the load-bearing half. The live corpus now has zero
+    # blank rows, so an assertion that only reads the corpus passes whether the detector
+    # works or has been deleted. Feed it a known-blank event first: a checker that cannot
+    # be seen finding anything is a checker nobody can trust to find nothing.
+    planted = [event(source="planted", severity=ALERT, subject="L006: ")]
+    if _blank_sources(planted) != {"planted": 1}:
+        failures.append("the empty-subject detector did not flag a planted blank row, so "
+                        "its clean verdict on the real corpus proves nothing")
+
+    if corpus_present:
+        blank = _blank_sources(events)
+        if blank:
+            failures.append("source(s) emitted an alert or note with an empty subject: "
+                            + ", ".join("{}={}".format(k, v) for k, v in sorted(blank.items())))
+
+    # The window, exercised against a PLANTED undated row rather than against the live
+    # corpus. Asserting the corpus still contains undated rows would make this oracle
+    # depend on the ledgers staying broken: the extractor fix above removed all 52 of
+    # them, so a corpus-based assertion would have to be deleted the moment it started
+    # being true. Plant one instead, so the rule is proved on input it must handle.
+    with tempfile.TemporaryDirectory() as td2:
+        planted_repo = Path(td2) / "planted"
+        (planted_repo / "state").mkdir(parents=True)
+        (planted_repo / ".git").mkdir()
+        (planted_repo / "state" / "lessons.jsonl").write_text(
+            json.dumps({"id": "L-UNDATED", "status": "open",
+                        "lesson": "no timestamp anywhere on this row"}) + "\n",
+            encoding="utf-8")
+        saved_roots2 = REPO_ROOTS
+        try:
+            REPO_ROOTS = [Path(td2)]
+            unwindowed, _ = collect()
+            _, windowed_audit = collect(dt.datetime.now() - dt.timedelta(days=3650))
+        finally:
+            REPO_ROOTS = saved_roots2
+        meta = windowed_audit.get("__meta__", {})
+        if len(unwindowed) != 1:
+            failures.append("an undated row is dropped even without a window, so the "
+                            "rule is not a window rule at all")
+        if meta.get("undated_dropped") != 1:
+            failures.append("a windowed collect did not exclude a planted undated row "
+                            "(reported {}), so such a row passes every window forever "
+                            "and becomes a permanent feed resident".format(
+                                meta.get("undated_dropped")))
+
+    # BOTH host shapes, asserted as values. The machine running this has one shape at a
+    # time, so the other branch is only reachable through the pure function.
+    absent_failures, absent_verdict = corpus_verdict(False)
+    present_failures, present_verdict = corpus_verdict(True)
+    if absent_failures:
+        failures.append("an absent corpus is reported as a FAILURE, which turns every CI "
+                        "runner red for a condition that is correct there")
+    if present_failures:
+        failures.append("a present corpus produced failures out of nothing")
+    if "NOT measured" not in absent_verdict or "narrowed" not in absent_verdict.lower():
+        failures.append("a narrowed run reports the full verdict, so a pass that measured "
+                        "no live ledger reads exactly like one that measured every ledger")
+    if absent_verdict == present_verdict:
+        failures.append("the two host shapes report the same verdict, so scope is invisible")
 
     for line in failures:
         print("  FAIL  " + line)
@@ -400,9 +657,17 @@ def selftest() -> int:
     print("  ok    every extractor survives a row shaped like nothing")
     print("  ok    a row is attributed to the repo it is about, not the file it sits in")
     print("  ok    no timestamp is invented and none is rewritten")
-    print("  ok    every ledger that has rows yields events ({} sources, {} events)".format(
-        len(present), len(events)))
-    print("VERDICT: the collector reads every live ledger and no source is silently empty")
+    print("  ok    both ledger generations are read: date/incident and ts/proposal_id/note")
+    print("  ok    an empty or whitespace field never wins over a populated fallback")
+    print("  ok    a .git pointer file is a worktree and a .git directory is a repo")
+    if corpus_present:
+        print("  ok    every ledger that has rows yields events ({} sources, {} events)".format(
+            len(present), len(events)))
+    print("  ok    no alert or note carries an empty subject, and a planted blank IS flagged")
+    print("  ok    a skipped worktree is recorded, not dropped silently")
+    print("  ok    a planted undated row survives an unwindowed query and is excluded from a windowed one")
+    print("  ok    an absent corpus narrows the verdict and never fails the run")
+    print(corpus_verdict(corpus_present)[1])
     return 0
 
 
@@ -421,12 +686,24 @@ def main(argv: list[str]) -> int:
     events, audit = collect(parse_since(args.since))
 
     if args.audit:
+        meta = audit.get("__meta__", {})
         print("{:<44} {:>7} {:>8} {:>8}".format("source", "rows", "events", "skipped"))
         for k in sorted(audit):
+            if k == "__meta__":
+                continue
             v = audit[k]
             flag = "" if not v["present"] else ("   <- SILENT" if v["rows"] and not v["events"] else "")
             print("{:<44} {:>7} {:>8} {:>8}{}".format(
                 k, v["rows"], v["events"], v["skipped"], flag))
+        # Named, not silent. A worktree checks out the same tracked ledgers a second
+        # time, so sweeping it double-counts every row under a repo name that no
+        # fingerprint may merge.
+        for name in meta.get("skipped_worktrees", []):
+            print("skipped worktree: {} (its .git is a pointer file; its ledgers belong "
+                  "to the repo it points at)".format(name))
+        if meta.get("undated_dropped"):
+            print("undated rows excluded by --since: {} (a row with no timestamp cannot "
+                  "answer a question about a time window)".format(meta["undated_dropped"]))
         return 0
 
     if args.notable:
