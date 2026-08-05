@@ -378,3 +378,120 @@ Two rows above were CLOSED by the same measurement and are marked in place.
 - [ ] PERSONA-09: NOT a task, recorded so it is not proposed again. Do not build JWS signing over bus rows. Hash-chaining gives tamper-evidence and not authorship, which is a real gap, but the value here is attribution and not authentication: one human, one machine, no adversary. A2A's signature layer solves a cross-organisation trust problem this estate does not have (ADR-0019: adopt on recorded evidence)
 
 - [x] **WITHDRAWN, filed and retracted within ten minutes on 2026-08-05.** I reported that `strand.py` declares `NOT_A_CONSUMER` and never applies it. It does apply it, at line 199 inside `evaluate()`, one layer after `build_reference_index` where I was looking. The reason I filed it at all is the useful part: my fixture written to reproduce the bug PASSED BEFORE my fix, which is the signal that there was no bug, and I nearly shipped an oracle edit plus two tests that passed for the wrong reason. A parallel session had already pinned the real behaviour properly in `test_generated_inventories_are_not_consumers` and `test_the_exemption_ledger_is_not_a_consumer`. Left in the ledger rather than deleted, because a retraction that vanishes teaches nothing.
+
+## 2026-08-05 session close (lane A): what is red, what is proven, what is next
+
+Ordered by whether it currently blocks a session. Every claim below names the command
+that produced it; where a number is asserted rather than measured it says so.
+
+### Blocking now
+
+- [ ] **The `review` CI job posts "Claude encountered an error after ~40s" on every run
+      and exits 1, with the error swallowed by the action.** Four theories tested and
+      discarded: the `CLAUDE_CODE_OAUTH_TOKEN` secret exists (set 2026-07-23), the action
+      resolves, the repo ships no project-level `.claude/settings.json` so its own Stop
+      hooks are not blocking its reviewer, and the action completes its GitHub-side work
+      (it posts and updates the PR comment) before failing. `ANTHROPIC_LOG=debug` is now
+      set on the step so the next red run names its own cause. NEXT ACTION: read that run,
+      do not add a fifth theory. Most likely remaining candidate is the OAuth token, which
+      only the operator can rotate.
+- [ ] **`skills` domain is waived to 2026-08-12 at 51 items, and 34 of them are the real
+      problem.** 34 skills are COMMITTED BUT NOT DEPLOYED, so no session can invoke or read
+      them: `ui-ux-pro-max` 527 body lines, `review` 244, `testing-pyramid` 175,
+      `pii-scrubber` 172. Seven of those additionally carry dead paths into `~/.codex/` or
+      `/home/shovalbe`. The other 17 are genuine repo-vs-live content differences needing a
+      per-skill decision. Deploying 34 skills is a live-tree change; `skills_sync.py`'s own
+      docstring argues a hollow deployed skill is worse than an absent one, so the seven
+      dead-path ones must be repaired before deploy, not deployed as-is.
+      Confirm with `python tools/audit/skills_sync.py check`, expect `DRIFT: 51`.
+
+### Refuted claims, measured 2026-08-05 by `python tools/refute/refute.py run` (22 held, 4 refuted)
+
+- [ ] **C-012 refuted for the second time today.** `~/.claude/settings.json` was rewritten
+      again at 16:08:19 (6808b to 7001b) against a baseline taken 2026-08-03T13:43:21. Six
+      concurrent sessions is normal here. Re-read live config from disk before trusting
+      injected context; `--record` only after reading what changed.
+- [ ] **C-009: a cdp doc still points at the other machine's `shoval.be` profile.**
+- [ ] **C-025: the pre-write snapshot is missing six `agents/` files**, so the
+      2026-08-01 `settings.json` rewrite is still not revertable.
+- [ ] **C-008: the hiring funnel's phantom `ab_results.csv` ledger.** Lane B, not lane A.
+
+### Proven fixed this session, listed so nobody re-opens them
+
+- [x] **`supply-chain` CI job.** Asked for `google/osv-scanner-action@v2`, a tag that project
+      has never published, so it died on action resolution before running a step.
+      `continue-on-error` did not help: that governs a step's outcome, not the runner's
+      ability to resolve an action. Pinned to `v2.3.8`. It now passes, 1m13s, first time ever.
+- [x] **codemap flipping red on the gate's own next run.** `state/reviews` carried a file
+      count in `CODEBASE-MAP.md` and `panel.py` writes one JSON per commit sha, so every
+      commit moved the count. Cost four regenerate-commit cycles before the mechanism was
+      named. NOTE a correction: I "disproved" this earlier by running `panel.py` against a
+      sha that already had an artifact, so it overwrote and the count never moved. That test
+      did not discriminate and my disproof was wrong. Fixed by gitignoring
+      `state/reviews/*.json` plus a `.gitkeep`, since `gate.py:204` already treats the
+      directory as its own exhaust and `ship-gate.yml:116` regenerates it in CI. PROVEN: two
+      consecutive `gate.py run` invocations, codemap red in neither.
+- [x] **Four of the 55 skills-drift items were comparator bugs.** `sha()` hashed raw bytes,
+      so a CRLF live file and an LF repo file that are character-identical read as drift:
+      `brainstorming`, `explain-simply`, `persona`, `shoval-voice-draft`. Now reported under
+      LINE ENDINGS ONLY and excluded from the failing count. Selftest case 14 pins both
+      directions and was red before the fix.
+- [x] **`rules.rs` was generated from a file that was not the committed one.**
+      `regen_rules.py` prefers the LIVE `~/.claude/hooks/safety_gate.py`, which had been
+      refined to allow `--force-with-lease` while blocking bare `--force`; the repo copy
+      still blocked both. Regenerated and the repo copy imported so source and output agree
+      in-tree. `diff_oracle.py`: exact agreement on all 128 commands, 0 security regressions.
+- [x] **`pointers` waiver deleted rather than renewed.** I had wired the domain on a local
+      exit 0 that became exit 1 on the runner. A parallel session implemented the fix the
+      waiver named and improved it, keying the guard on `~/.claude/settings.json` existing
+      rather than the directory, because a runner creates the empty directory. Verified
+      against `HOME=/tmp/fakehome-no-claude`.
+
+### Withdrawn, kept visible
+
+- [x] **WITHDRAWN: `strand.py` `NOT_A_CONSUMER` declared-but-unapplied.** It is applied, at
+      line 199 in `evaluate()`, one layer past where I was reading. The tell was that my
+      fixture passed BEFORE my fix. I nearly shipped an oracle edit plus two tests that
+      passed for the wrong reason. A parallel session had already pinned the real behaviour.
+
+### The imported research corpus, which is the reason this section cites paths
+
+Ten documents arrived from `new-recruit` and `daily-deep-learning` as evidence and were
+stranded: nothing outside `docs/INDEX.md` referenced them, and an exemption block for them
+was added and then removed by a parallel session. `docs/strand-exempt.txt` says not to add a
+line to make a check go green but to link the document from a surface that gets read. This
+is that surface, and each is named with what it is for.
+
+- [ ] **Bind the imported standards to something.** They are read, not maintained, and
+      nothing in this repo's oracles consults any of them.
+      Speech and research provenance: [ddl-deep-research-2026-07-27.md](analysis/reference/ddl-deep-research-2026-07-27.md),
+      [ddl-design-research-nextgen-2026-07.md](analysis/reference/ddl-design-research-nextgen-2026-07.md),
+      [ddl-engine-research-prompt-2026-07-24-v3.md](analysis/reference/ddl-engine-research-prompt-2026-07-24-v3.md),
+      [ddl-standard-and-grade-2026-07-29.md](analysis/reference/ddl-standard-and-grade-2026-07-29.md),
+      [ddl-ui-deep-research-arkheron.md](analysis/reference/ddl-ui-deep-research-arkheron.md).
+      Harness and tooling research: [nr-claudecode-tui-research-2026-06-14.md](analysis/reference/nr-claudecode-tui-research-2026-06-14.md),
+      [nr-commit-bug-tracing-research-2026-07-05.md](analysis/reference/nr-commit-bug-tracing-research-2026-07-05.md),
+      [nr-coverage-aware-eval-research-2026-06-28.md](analysis/reference/nr-coverage-aware-eval-research-2026-06-28.md),
+      [nr-technology-corpus-master-prompt-2026-07-24.md](analysis/reference/nr-technology-corpus-master-prompt-2026-07-24.md),
+      [nr-technology-corpus-research-report-2026-07-25.md](analysis/reference/nr-technology-corpus-research-report-2026-07-25.md).
+- [ ] **The size standard those documents carry is not enforced anywhere.** Module hard
+      limit 500 lines, function target 20, hard limit 50. Measured against `tools/**/*.py`
+      by AST, 96 modules and 678 functions: 14 modules over 500, 71 functions over 50
+      (10.5%), 447 within the 20 target (65.9%). Nine of the ten longest functions are
+      `cmd_selftest`, headed by `tools/bus/bus.py:589` at **614 lines** with 37 branches and
+      330 calls, 56% literal. The fixture-table defence predicts the longest should be the
+      most literal; measured, it is the least. `quality-contract.json` has no size or
+      complexity domain at all, and the 300-line `prior_art` threshold is a build-vs-buy
+      trigger rather than a size budget despite sharing a number.
+
+### Still open from the prior handoff, unchanged
+
+- [ ] **Row B: 45 skills forked across three trees**, `dot-claude/` canonical because it is
+      the only tree with a live counterpart. Each fork needs a recorded decision; picking by
+      timestamp is not a decision. Expect a session on its own.
+- [ ] **`state/claims.jsonl` has two incompatible row shapes.** Older rows key on
+      `proposal_id` with `ts`, newer on `id` with `claimed_at`. A reader expecting one
+      silently drops the other.
+- [ ] **Three bodies of work landed unclaimed today.** The four 2026-08-03 PRD/spec
+      documents, the `tools/antigravity` component, and the docmap strand tooling. Charters
+      rule 1 is claim-before-starting and it is the most-logged lesson in the repo.
