@@ -364,7 +364,33 @@ def cmd_scan(a: argparse.Namespace) -> int:
     print("scanned {} tree(s) and {} settings file(s)".format(
         len([r for r in roots if os.path.isdir(r)]),
         len([s for s in settings if os.path.exists(s)])))
-    report(findings, a.out)
+
+    # A POINTER INTO THE LIVE HOME IS UNANSWERABLE WHERE THERE IS NO LIVE HOME.
+    # Added 2026-08-05, the same day the `rules` domain was fixed for the identical
+    # reason and one hour before this domain repeated it. On a GitHub runner this
+    # scan reported 304 distinct absent paths, headed by `~/.claude/bin/work-item.sh`
+    # at 40 references and `~/.claude/rules/gastown-company-registry.md` at 6, every
+    # one of which resolves on the operator's machine. That is L-2026-07-31-g:
+    # a host-shaped question that is correct on the host it was written on and
+    # answers something else entirely on the other.
+    #
+    # The split is by ANSWERABILITY, not by severity. A pointer at a path inside the
+    # repository is checkable anywhere and stays blocking. A pointer into ~ is
+    # demoted to a reported observation when ~/.claude is absent, and the demotion is
+    # printed, because a domain that quietly stops checking half of its subject is
+    # worse than one that fails.
+    live_home = os.path.isdir(os.path.join(os.path.expanduser("~"), ".claude"))
+    if not live_home:
+        home_prefix = os.path.expanduser("~") + os.sep
+        deferred = [f for f in findings
+                    if str(f.get("target", "")).startswith(("~/", home_prefix))]
+        if deferred:
+            print("\n  SKIP {} finding(s) pointing into the live home: no ~/.claude on this "
+                  "host, so their absence is a fact about the runner and not about the "
+                  "repository. Repo-internal pointers below still block."
+                  .format(len(deferred)))
+            findings = [f for f in findings if f not in deferred]
+
     worst = max([SEV_ORDER[f["severity"]] for f in findings], default=0)
     threshold = SEV_ORDER[a.fail_on]
     verdict = "PASS" if worst < threshold else "FAIL"
