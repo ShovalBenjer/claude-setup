@@ -18,3 +18,23 @@
 # The six binding STANDARDS from the same import are deliberately NOT here. They moved to
 # docs/standards/, which is now governed, because a standard that nothing references is a
 # defect and a research paper that nothing references is a library.
+
+# RESTORED 2026-08-05, after being deleted the same day on a reading that strand.py
+# itself has now been corrected for. The deletion followed the tool's own message,
+# "is exempt and is now referenced. Remove the exemption." The thing referencing all
+# ten was state/reviews/bca1d6942e6075ce4d89bf6b9a07b397c14f616c.json, a panel.py
+# artifact written per commit that names every file the diff added. So committing a
+# document marked it reached, and obeying the message recorded ten genuinely stranded
+# imports as consumed. strand.py now excludes state/reviews/ as a consumer prefix,
+# which is the fourth instance of the rule already stated in its own comment, and
+# these ten are stranded again because they always were.
+docs/analysis/reference/ddl-deep-research-2026-07-27.md | imported research, lane C, read not maintained
+docs/analysis/reference/ddl-design-research-nextgen-2026-07.md | imported research, lane C, read not maintained
+docs/analysis/reference/ddl-engine-research-prompt-2026-07-24-v3.md | imported prompt, lane C, read not maintained
+docs/analysis/reference/ddl-standard-and-grade-2026-07-29.md | imported grading pass, lane C, read not maintained
+docs/analysis/reference/ddl-ui-deep-research-arkheron.md | imported research, lane C, read not maintained
+docs/analysis/reference/nr-claudecode-tui-research-2026-06-14.md | imported research, lane B, read not maintained
+docs/analysis/reference/nr-commit-bug-tracing-research-2026-07-05.md | imported research, lane B, read not maintained
+docs/analysis/reference/nr-coverage-aware-eval-research-2026-06-28.md | imported research, lane B, read not maintained
+docs/analysis/reference/nr-technology-corpus-master-prompt-2026-07-24.md | imported prompt, lane B, read not maintained
+docs/analysis/reference/nr-technology-corpus-research-report-2026-07-25.md | imported research, lane B, read not maintained

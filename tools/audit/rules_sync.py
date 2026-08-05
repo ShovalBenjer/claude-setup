@@ -44,6 +44,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import tempfile
 import subprocess
 import sys
 from pathlib import Path
@@ -235,7 +236,14 @@ def selftest() -> int:
         with contextlib.redirect_stdout(io.StringIO()):
             return report(res)
 
-    base = {"payload_dir": str(PAYLOAD), "live_dir": str(LIVE), "counted": 1,
+    # live_dir MUST be a directory that exists, and str(LIVE) is not one on a CI
+    # runner. report() decides whether to run the drift loops by testing this path,
+    # so with an absent one the next four cases exercise the skip branch and every
+    # one of them "passes" by never being checked. Measured 2026-08-05: the named CI
+    # step reported exactly that, three drift assertions failing on the runner and
+    # green here. Same lesson as the bug this file was corrected for, one layer up.
+    _live_probe = tempfile.TemporaryDirectory()
+    base = {"payload_dir": str(PAYLOAD), "live_dir": _live_probe.name, "counted": 1,
             "only_payload": [], "only_live": [], "differing": [], "shrunk": []}
     if _quiet_report(dict(base, only_payload=["x.md"])) == 0:
         failures.append("an undeployed rule passes")
@@ -272,6 +280,8 @@ def selftest() -> int:
         failures.append("with no live tree the shrink half examined {} of {} payload "
                         "rules, so the one check that still runs on CI is not running "
                         "over all of them".format(res_ci.get("shrink_checked"), n_payload))
+
+    _live_probe.cleanup()
 
     for line in failures:
         print("  FAIL  " + line)
