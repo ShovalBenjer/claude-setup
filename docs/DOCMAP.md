@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **991**
-- reachable from `docs/INDEX.md`: **113** (11%)
+- documents: **997**
+- reachable from `docs/INDEX.md`: **119** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -22,7 +22,7 @@ C, content E to D. A document written before that date uses the old letters and 
 correct for its date**. Scheme `1` means read its lane letters through
 `tools/lib/lanes.py`; `n/a` means it never names a lane by letter.
 
-## adr (20)
+## adr (21)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -46,6 +46,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/adr/0018-two-tier-inter-agent-channel.md` | 2026-07-30 | accepted | header | n/a | yes | - | - |
 | `docs/adr/0019-supply-chain-verification.md` | 2026-07-30 | accepted | header | n/a | yes | - | - |
 | `docs/adr/0020-agentic-repo-standard.md` | 2026-07-31 | accepted | header | n/a | yes | - | - |
+| `docs/adr/0021-rust-for-hot-paths-python-for-oracles.md` | 2026-08-03 | accepted | header-inline | n/a | yes | nothing. | - |
 
 ## agent (23)
 
@@ -75,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (48)
+## analysis (49)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -126,6 +127,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-01-fog-of-war.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-01-pocock-skills-teardown.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-01-ponytail-audit-prompt-archaeology.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-03-code-audit-analysis-sweep-and-research-provenance.md` | 2026-08-03 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-08-03-math-trends-and-model-stack.md` | 2026-08-03 | dated-snapshot | class | 2 | - | - | - |
 
 ## automation-output (126)
@@ -467,7 +469,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `tools/digest/out/digest.md` | - | generated | class | n/a | - | - | - |
 | `tools/health/out/branch_health.md` | - | generated | class | n/a | - | - | - |
 
-## handoff (15)
+## handoff (16)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -486,14 +488,17 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/HANDOFF-TO-LEARNING-2026-07-30-process-cost-and-boundaries.md` | 2026-07-30 | historical-record | class | 2 | yes | - | - |
 | `docs/HANDOFF-2026-07-31-review-oracle-repair.md` | 2026-07-31 | historical-record | class | 2 | yes | - | - |
 | `docs/HANDOFF-2026-07-31-session-close.md` | 2026-07-31 | historical-record | class | 2 | yes | - | - |
+| `docs/HANDOFF-2026-08-05-session-close.md` | 2026-08-05 | historical-record | class | 2 | yes | - | - |
 
-## prd (3)
+## prd (5)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `docs/prd/claude-os.md` | 2026-07-23 | active | header | n/a | yes | all prior plans | - |
 | `docs/prd/autonomy-ecosystem.md` | 2026-07-24 | living | header | 1 | yes | - | - |
 | `docs/prd/2026-07-30-consolidation-and-migration.md` | 2026-07-30 | approved for autonomous execution (operator, 2026-07-30, "lo | header | 2 | yes | it, and whether anything links to it. Or | - |
+| `docs/prd/2026-08-03-boundary-termination-instrument.md` | 2026-08-03 | proposed | header | 2 | yes | - | - |
+| `docs/prd/2026-08-03-unified-architecture.md` | 2026-08-03 | proposed | header | n/a | yes | - | - |
 
 ## prior-art (42)
 
@@ -820,7 +825,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/shoval-voice-draft/SKILL.md` | 2026-07-26 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/writing-great-skills/SKILL.md` | 2026-07-31 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (19)
+## spec (20)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -842,6 +847,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-07-31-project-federation.md` | 2026-07-31 | accepted | registry | n/a | yes | - | - |
 | `docs/specs/2026-07-31-research-corpus-and-cache.md` | 2026-07-31 | proposed. corpus and cache design, 2026-07-31. not built | header | n/a | yes | text references sources | - |
 | `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | active | header | 2 | yes | - | - |
+| `docs/specs/2026-08-03-detail-passes-teleology-and-creativity.md` | 2026-08-03 | design, 2026-08-03. nothing here is built. extends | header | n/a | yes | - | - |
 | `docs/specs/2026-08-05-persona-allocation-and-reviewer-identity.md` | 2026-08-05 | active, 2026-08-05. `active` is the vocabulary's word for th | header | n/a | - | - | - |
 
 ## standard (7)
