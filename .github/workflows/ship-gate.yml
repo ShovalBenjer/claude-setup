@@ -141,6 +141,14 @@ jobs:
       - name: skills_sync.py selftest
         run: python tools/audit/skills_sync.py selftest
 
+      # The runner has no ~/.claude/rules and never will, which is the condition this
+      # selftest asserts is a NARROWED run and not a failure. Naming it as its own step
+      # is what makes the distinction observable: the drift half reports NOT RUN here,
+      # the shrink half runs in full and can still turn the step red, and if those two
+      # ever swap places the step says which one moved.
+      - name: rules_sync.py selftest
+        run: python tools/audit/rules_sync.py selftest
+
       # Row 6 of the agentic repo standard (ADR-0020). Only the pure decision
       # function is exercised: the selftest never calls gh, git, or the network,
       # so it is deterministic in CI. Its job is to keep "the API did not answer"
