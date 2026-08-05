@@ -416,6 +416,26 @@ def parse_since(spec: str | None) -> dt.datetime | None:
     return dt.datetime.now() - delta
 
 
+def corpus_verdict(corpus_present: bool) -> tuple[list[str], str]:
+    """Pure. What a run may assert, given whether a live corpus was found.
+
+    Extracted so BOTH branches are reachable from a selftest that necessarily runs on
+    one host at a time. Two mutations survived while this logic was inline: the machine
+    running the tests has a corpus, so the no-corpus path was never executed and
+    breaking it changed nothing observable. A branch that cannot be exercised cannot be
+    defended, and the fix is to make it a value rather than a control flow.
+
+    Returns (extra_failures, verdict_line). An absent corpus is NEVER a failure: a CI
+    runner has no ~/work/repos and never will.
+    """
+    if corpus_present:
+        return [], ("VERDICT: the collector reads every live ledger, no source is "
+                    "silently empty, and nothing is published that says nothing")
+    return [], ("VERDICT (narrowed): every extraction and attribution rule holds on "
+                "fixtures. NO live corpus was present, so per-source yield, alert "
+                "plausibility and emptiness were NOT measured.")
+
+
 def selftest() -> int:
     failures = []
 
@@ -521,15 +541,31 @@ def selftest() -> int:
     # The load-bearing check: yield is asserted PER SOURCE, not in total. A total
     # stays healthy while one ledger silently contributes nothing, which is the
     # exact failure this file's docstring is about.
+    #
+    # NO CORPUS IS NOT A FAILURE. A CI runner has no ~/work/repos and never will, so
+    # asserting that ledgers were found makes this selftest red on every runner for a
+    # condition that is correct there. That is L-2026-07-31-g, and it was written into
+    # THIS file on 2026-08-05, hours after the same defect was fixed in rules_sync.py by
+    # the same session. Knowing the lesson is not the same as not repeating it.
+    #
+    # The split is between what needs a corpus and what does not. Every check above runs
+    # on fixtures and is host-independent. The three below read the live ledgers, so with
+    # no corpus they report NOT RUN by name and the run narrows rather than passing
+    # silently. The planted-fixture checks that follow still exercise the same code paths
+    # on synthetic input, so a runner is not verifying nothing.
     events, audit = collect()
     present = {k: v for k, v in audit.items() if v["present"] and v["rows"] > 0}
-    silent = [k for k, v in present.items() if v["events"] == 0]
-    if not present:
-        failures.append("no ledger was found at all, so this proves nothing")
-    if silent:
-        failures.append("ledger(s) with rows produced zero events: " + ", ".join(sorted(silent)))
-    if events and not any(e["severity"] == ALERT for e in events):
-        failures.append("not one alert across the whole corpus, which is implausible")
+    corpus_present = bool(present)
+    if not corpus_present:
+        print("  NOT RUN  live-corpus checks: no ledger found under {}. Yield, alert "
+              "plausibility and emptiness are unmeasurable here; the fixture checks "
+              "above and below still ran.".format(", ".join(str(r) for r in REPO_ROOTS)))
+    else:
+        silent = [k for k, v in present.items() if v["events"] == 0]
+        if silent:
+            failures.append("ledger(s) with rows produced zero events: " + ", ".join(sorted(silent)))
+        if events and not any(e["severity"] == ALERT for e in events):
+            failures.append("not one alert across the whole corpus, which is implausible")
 
     # EMPTINESS, per source. The assertion above counts events and passed while 52 of
     # them carried nothing a reader could act on. A row that is carried and says nothing
@@ -558,10 +594,11 @@ def selftest() -> int:
         failures.append("the empty-subject detector did not flag a planted blank row, so "
                         "its clean verdict on the real corpus proves nothing")
 
-    blank = _blank_sources(events)
-    if blank:
-        failures.append("source(s) emitted an alert or note with an empty subject: "
-                        + ", ".join("{}={}".format(k, v) for k, v in sorted(blank.items())))
+    if corpus_present:
+        blank = _blank_sources(events)
+        if blank:
+            failures.append("source(s) emitted an alert or note with an empty subject: "
+                            + ", ".join("{}={}".format(k, v) for k, v in sorted(blank.items())))
 
     # The window, exercised against a PLANTED undated row rather than against the live
     # corpus. Asserting the corpus still contains undated rows would make this oracle
@@ -593,6 +630,21 @@ def selftest() -> int:
                             "and becomes a permanent feed resident".format(
                                 meta.get("undated_dropped")))
 
+    # BOTH host shapes, asserted as values. The machine running this has one shape at a
+    # time, so the other branch is only reachable through the pure function.
+    absent_failures, absent_verdict = corpus_verdict(False)
+    present_failures, present_verdict = corpus_verdict(True)
+    if absent_failures:
+        failures.append("an absent corpus is reported as a FAILURE, which turns every CI "
+                        "runner red for a condition that is correct there")
+    if present_failures:
+        failures.append("a present corpus produced failures out of nothing")
+    if "NOT measured" not in absent_verdict or "narrowed" not in absent_verdict.lower():
+        failures.append("a narrowed run reports the full verdict, so a pass that measured "
+                        "no live ledger reads exactly like one that measured every ledger")
+    if absent_verdict == present_verdict:
+        failures.append("the two host shapes report the same verdict, so scope is invisible")
+
     for line in failures:
         print("  FAIL  " + line)
     if failures:
@@ -608,13 +660,14 @@ def selftest() -> int:
     print("  ok    both ledger generations are read: date/incident and ts/proposal_id/note")
     print("  ok    an empty or whitespace field never wins over a populated fallback")
     print("  ok    a .git pointer file is a worktree and a .git directory is a repo")
-    print("  ok    every ledger that has rows yields events ({} sources, {} events)".format(
-        len(present), len(events)))
+    if corpus_present:
+        print("  ok    every ledger that has rows yields events ({} sources, {} events)".format(
+            len(present), len(events)))
     print("  ok    no alert or note carries an empty subject, and a planted blank IS flagged")
     print("  ok    a skipped worktree is recorded, not dropped silently")
     print("  ok    a planted undated row survives an unwindowed query and is excluded from a windowed one")
-    print("VERDICT: the collector reads every live ledger, no source is silently empty, "
-          "and nothing is published that says nothing")
+    print("  ok    an absent corpus narrows the verdict and never fails the run")
+    print(corpus_verdict(corpus_present)[1])
     return 0
 
 

@@ -125,6 +125,24 @@ MUTATIONS = [
      "                if since and ev[\"ts\"]:\n                    if False:\n"
      "                        undated_dropped += 1\n                        continue"),
 
+    # ---- the host shape, which this file got wrong twice in one day ----
+    ("an absent corpus fails the selftest again",
+     "a CI runner has no ~/work/repos and never will, so asserting that ledgers were "
+     "found turns this red on every runner for a condition that is correct there. "
+     "L-2026-07-31-g, written INTO this file on 2026-08-05 hours after the same defect "
+     "was fixed in rules_sync.py by the same session. Knowing a lesson is not the same "
+     "as not repeating it, which is the argument for a mutation rather than a comment",
+     "    if corpus_present:\n        return [], (\"VERDICT: the collector reads every live ledger, no source is \"",
+     "    if not corpus_present:\n        return [\"no ledger found\"], (\"VERDICT: x\")\n"
+     "    if corpus_present:\n        return [], (\"VERDICT: the collector reads every live ledger, no source is \""),
+
+    ("a narrowed run reports the full verdict",
+     "the false-green class. A pass whose reduced scope is invisible reads exactly like "
+     "a pass that measured everything, and on the one host where nobody is watching it "
+     "would claim to have read every live ledger having read none",
+     '    return [], ("VERDICT (narrowed): every extraction and attribution rule holds on "',
+     '    return [], ("VERDICT: the collector reads every live ledger, no source is "'),
+
     # ---- attribution, which the feed's cross-repo claim rests on ----
     ("a row is attributed to the file it sits in rather than the repo it is about",
      "every hook writes to $CLAUDE_OS_DIR, so a session in new-recruit lands its rows in "
