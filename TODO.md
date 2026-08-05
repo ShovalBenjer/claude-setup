@@ -387,6 +387,16 @@ that produced it; where a number is asserted rather than measured it says so.
 
 ### Blocking now
 
+- [ ] **Nothing enforces the imported standards, and the topology is now measured.**
+      See [analysis/2026-08-05-enforcement-topology-measured.md](analysis/2026-08-05-enforcement-topology-measured.md)
+      for the five diagrams and the numbers. Headline: 22 global rules and 7 hook events
+      load in every session in every repo; all three repos declare a `quality-contract.json`
+      and only `claude-setup` has ever run one, with `new-recruit` and `daily-deep-learning`
+      at ZERO rows in `state/gate-runs.jsonl`. `code-quality-standard`, `harness-structure`
+      and `repo-standards` have zero executable references each, so a standard here must
+      have a status and be reachable while nothing reads what it says. 8 of 21 ADRs are
+      named by an oracle; 13 by nothing.
+
 - [ ] **The `review` CI job posts "Claude encountered an error after ~40s" on every run
       and exits 1, with the error swallowed by the action.** Four theories tested and
       discarded: the `CLAUDE_CODE_OAUTH_TOKEN` secret exists (set 2026-07-23), the action
