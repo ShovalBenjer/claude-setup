@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-415 directories, 1833 tracked files, 0 without a stated purpose.
+415 directories, 1836 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -413,7 +413,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `tests` | 29 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `tests` | 31 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
 | `tests/cmd` | 1 | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process self... | registry |
 | `tests/cmd/fixtures` | 1 | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it | registry |
 
@@ -424,7 +424,7 @@ the same reason, one level down.
 | `tools` | 7 | Holds this repo's operational tooling: top-level scripts (repo audit, token rollout, slop lint) plus one subdirectory per verification, automation, or coordination tool | registry |
 | `tools/antigravity` | 1 | The `agy` CLI, a local reimplementation of an Antigravity command line that does not exist as a binary on this machine; wraps the google-antigravity Python SDK behind the repo's... | registry |
 | `tools/audit` | 5 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
-| `tools/audit/mutations` | 14 | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red | registry |
+| `tools/audit/mutations` | 15 | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red | registry |
 | `tools/browser` | 1 | Hand-rolled Chrome DevTools Protocol client that launches a separate Chrome so the assistant can browse authenticated pages, screenshot, and eval JS that anonymous WebFetch cann... | registry |
 | `tools/bus` | 2 | Cross-terminal message bus (bus.py): append-only hash-chained JSONL with per-lane read cursors so parallel Claude Code sessions in different terminals can send each other durabl... | registry |
 | `tools/channel` | 2 | Purpose: measure whether a compressed inter-agent channel actually carried the | README.md |
