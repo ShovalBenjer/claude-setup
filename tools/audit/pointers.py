@@ -379,7 +379,14 @@ def cmd_scan(a: argparse.Namespace) -> int:
     # demoted to a reported observation when ~/.claude is absent, and the demotion is
     # printed, because a domain that quietly stops checking half of its subject is
     # worse than one that fails.
-    live_home = os.path.isdir(os.path.join(os.path.expanduser("~"), ".claude"))
+    # Keyed on settings.json rather than on the DIRECTORY existing. First attempt
+    # tested `isdir(~/.claude)` and CI still failed, because something on the
+    # runner creates that directory: an empty or near-empty ~/.claude satisfied the
+    # guard while containing none of the files the pointers reference, which is the
+    # worst of both readings. A DEPLOYED live tree has a settings.json; a runner
+    # that merely has the folder does not.
+    live_home = os.path.isfile(os.path.join(os.path.expanduser("~"), ".claude",
+                                            "settings.json"))
     if not live_home:
         home_prefix = os.path.expanduser("~") + os.sep
         deferred = [f for f in findings
