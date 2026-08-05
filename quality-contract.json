@@ -59,11 +59,7 @@
       "required": true,
       "artifact": "state/reviews/${SHA}.json",
       "cmd": "python tools/review/panel.py run --project .",
-      "_note": "artifact is matched by commit sha, not by tree, so one written against a dirty tree stays current for that commit",
-      "waived": {
-        "until": "2026-08-05",
-        "reason": "RENEWAL 4, and the renewal itself is now the finding. Chain so far: 2026-08-12, then 2026-08-02 (which recorded the 08-12 reason as measurably wrong), then that one EXPIRED unused on 2026-08-02 and the gate went FAIL on 2026-08-03. A one-day expiry was set twice specifically to force the tree to be committed rather than the waiver renewed. It did not work either time, so the expiry length is not the mechanism and pretending otherwise is the trap this repo logs as L-2026-07-31-e. RE-RAN THE COMMAND THIS WAIVER'S PREVIOUS TEXT DEMANDED, and writing down what it printed rather than what was hoped: `python tools/review/panel.py run --project .` prints 'VERDICT: CHANGES-REQUESTED  (3 high, 19 medium, 57 low)', 764,828 added lines across 411 files, artifact state/reviews/749ec19255e13a2226a51560431197cf4fedd89b.json. Identical to the 2026-08-01 run: same three highs, nothing regressed and nothing was fixed. THE THREE, unchanged: (1) tools/map/codemap.py:66 py-shell-true, matched against a COMMENT that quotes the dangerous form while explaining why it is not used; an oracle defect of the L-2026-07-31-b class, filed in TODO.md against the deferred token-aware pass. (2) and (3) dot-claude/skills/brainstorming/scripts/helper.js:57 and :59, dangerous-html, real innerHTML concatenation in vendored third-party skill code, not suppressed because suppressing a true finding to move a number is worse than carrying it. WHY THIS CANNOT BE CLEARED BY THIS SESSION: the domain refuses to certify a dirty tree ('_note' above), and the tree carries uncommitted work from other sessions (skills, state ledgers, three new skill directories) that is not this session's to commit. ADR-0012 says work ships through a PR, and committing another session's work to clear a gate is worse than the red gate. NEEDS OPERATOR: commit or PR the tree, or say explicitly that this session may. Fixing all three highs would still leave the domain red, because dirty-tree is the blocking condition, not the finding count."
-      }
+      "_note": "artifact is matched by commit sha, not by tree, so one written against a dirty tree stays current for that commit"
     },
     "perf": {
       "required": false,
