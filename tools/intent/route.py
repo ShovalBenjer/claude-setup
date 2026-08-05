@@ -191,6 +191,22 @@ def render_context(decision: dict) -> str:
     return "\n".join(lines)
 
 
+def emit(decision: dict) -> str:
+    """The exact stdout payload, or "" when nothing should be injected.
+
+    A function rather than an inline dict in main(), so the selftest can assert its shape
+    without spawning a subprocess. The harness keys on hookSpecificOutput.hookEventName
+    to decide what the output means; a payload missing it is ignored, and the hook would
+    then run on every turn, cost time, log, and inject nothing. That is exactly what
+    capture_turn.py already is, and it is the failure this file exists to not repeat.
+    """
+    ctx = render_context(decision)
+    if not ctx:
+        return ""
+    return json.dumps({"hookSpecificOutput": {
+        "hookEventName": "UserPromptSubmit", "additionalContext": ctx}})
+
+
 def log(decision: dict, prompt_len: int) -> None:
     """Append one routing row. No prompt text, only its length and the decision.
 
@@ -263,6 +279,78 @@ def selftest() -> int:
         failures.append("the rendered context does not name a persona and the delegation "
                         "mechanism, so it cannot move the 0-of-19 number")
 
+    # ORDERING, with a fixture whose insertion order DISAGREES with weight order. The
+    # previous fixture had them agree, so `list(tally)` and the weighted sort returned the
+    # same answer and the mutation survived.
+    # `deploy` sits at ROUTES[0] so Release Bureau is INSERTED first with 2 skills;
+    # Review Board owns 4 of the matched skills and must therefore be NAMED first. The
+    # two orderings must disagree or the mutation that replaces the weighted sort with
+    # insertion order is a no-op and survives, which is exactly what happened first.
+    ord_owners = {"prod-deploy-rules": "Release Bureau", "deploy-prod": "Release Bureau",
+                  "review": "Review Board", "heidegger-reflect": "Review Board",
+                  "testing-pyramid": "Review Board", "coverage-enforcer": "Review Board",
+                  "tdd": "Engineering Firm"}
+    ord_d = route("deploy this after you review it and check the tdd coverage", ord_owners)
+    counts = ord_d["counts"]
+    if list(counts)[:1] == ["Review Board"]:
+        failures.append("the ordering fixture no longer disagrees with insertion order, "
+                        "so it cannot detect an order-dependent router")
+    elif ord_d["personas"][:1] != ["Review Board"]:
+        failures.append("the persona named first is not the one owning the most matched "
+                        "skills: {} with counts {}".format(ord_d["personas"], counts))
+
+    # SINGLE OWNERSHIP. The registry states it as a rule; setdefault is what enforces it.
+    dup = parse_registry("### First\n- `shared`\n\n### Second\n- `shared`\n")
+    if dup.get("shared") != "First":
+        failures.append("a skill listed under two personas resolved to the LATER one, so "
+                        "editing an unrelated section silently changes routing")
+
+    # THE EMITTED PAYLOAD. Without hookEventName the harness ignores it and the hook is
+    # a no-op that still costs time on every turn.
+    payload = emit(route("review this before merge", owners))
+    if "hookEventName" not in payload or "UserPromptSubmit" not in payload:
+        failures.append("the emitted payload does not name the hook event, so the "
+                        "harness ignores it and the router injects nothing")
+    if emit(route("", owners)) != "":
+        failures.append("a non-match still emits a payload")
+
+    # THE LEDGER MUST NOT CARRY PROMPT TEXT. state/routing.jsonl is committed.
+    import tempfile  # noqa: PLC0415
+
+    global LEDGER  # noqa: PLW0603
+    saved_ledger = LEDGER
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            LEDGER = Path(td) / "routing.jsonl"
+            log(route("deploy to prod", owners), len("deploy to prod"))
+            written = LEDGER.read_text(encoding="utf-8")
+    finally:
+        LEDGER = saved_ledger
+    if "deploy to prod" in written:
+        failures.append("the prompt TEXT was written to the routing ledger, which is "
+                        "committed to git; tickets.py stores a sha for this reason")
+    if '"prompt_chars"' not in written:
+        failures.append("the routing ledger does not record the prompt length, so no "
+                        "row can be sanity-checked against the turn it came from")
+
+    # THE HOOK EDGE MUST FAIL OPEN. It runs before every prompt.
+    import io  # noqa: PLC0415
+
+    saved_stdin = sys.stdin
+    try:
+        sys.stdin = io.StringIO("this is not json at all")
+        rc_bad = main([])
+        sys.stdin = io.StringIO('{"prompt": 12345}')
+        rc_odd = main([])
+    except Exception as exc:  # noqa: BLE001
+        rc_bad = rc_odd = -1
+        failures.append("the hook edge RAISED on malformed input, so a bad payload "
+                        "breaks the turn it was supposed to enrich: {}".format(exc))
+    finally:
+        sys.stdin = saved_stdin
+    if rc_bad != 0 or rc_odd != 0:
+        failures.append("the hook edge returned nonzero on malformed input")
+
     for line in failures:
         print("  FAIL  " + line)
     if failures:
@@ -276,6 +364,10 @@ def selftest() -> int:
           "when the registry is empty")
     print("  ok    the LIVE registry parses to {} owned skill(s)".format(len(live)))
     print("  ok    the rendered context names a persona and the Agent tool")
+    print("  ok    a skill listed twice keeps its FIRST owner, so ownership stays single")
+    print("  ok    the emitted payload names the hook event, and a non-match emits nothing")
+    print("  ok    the routing ledger records length, never prompt text")
+    print("  ok    the hook edge fails open on malformed and odd-typed input")
     print("VERDICT: routing is deterministic, silent on no match, and names a real owner")
     return 0
 
@@ -300,10 +392,9 @@ def main(argv: list[str]) -> int:
         prompt = str(payload.get("prompt", ""))
         decision = route(prompt)
         log(decision, len(prompt))
-        ctx = render_context(decision)
-        if ctx:
-            print(json.dumps({"hookSpecificOutput": {
-                "hookEventName": "UserPromptSubmit", "additionalContext": ctx}}))
+        payload = emit(decision)
+        if payload:
+            print(payload)
     except Exception:  # noqa: BLE001
         pass
     return 0
