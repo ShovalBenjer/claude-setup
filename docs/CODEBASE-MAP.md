@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-415 directories, 1829 tracked files, 0 without a stated purpose.
+415 directories, 1843 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -30,15 +30,15 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `docs` | 35 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
-| `docs/adr` | 20 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 37 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs` | 37 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
+| `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
+| `docs/analysis` | 38 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
-| `docs/prd` | 3 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
+| `docs/prd` | 5 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
 | `docs/prior-art` | 42 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
 | `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
-| `docs/specs` | 19 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/specs` | 20 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
 | `docs/standards` | 7 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
 
 ## dot-agents
@@ -395,7 +395,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `state` | 22 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
+| `state` | 23 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
 | `state/backups` | 1 | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project... | registry |
 | `state/retired-2026-07-25` | 0 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled... | registry |
 | `state/retired-2026-07-25/bin` | 6 | Retired 2026-07-25 meme/visual scripts (download/play memes, generate/pop visual, seed-meme-vectordb), pulled from the live bin/ tree | registry |
@@ -404,7 +404,7 @@ the same reason, one level down.
 | `state/retired-2026-07-25/skills` | 0 | Holds the retired meme-control/ and visual-explainer/ skill folders, each self-documented by its own SKILL.md, removed from the live Claude Code skill set | registry |
 | `state/retired-2026-07-25/skills/meme-control` | 1 | Toggle Codex meme playback on/off and report current meme state (session + durable config). | SKILL.md |
 | `state/retired-2026-07-25/skills/visual-explainer` | 1 | Generate a diagram or visual via Azure Foundry gpt-image-2-general and embed inline. Triggers on "i don't understand" / "show me" / "draw it" signals (en/he/ar) detected by the... | SKILL.md |
-| `state/reviews` | 9 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
+| `state/reviews` | 12 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
 | `state/snapshots` | 1 | Tracked manifests (path+size+sha256) of point-in-time ~/.claude captures; actual file bytes stay untracked per its .gitignore | registry |
 | `state/snapshots/20260725T110903Z-pre-bus-wiring` | 1 | One snapshot: manifest of ~/.claude taken 2026-07-25T11:09 UTC, labeled pre-bus-wiring, for drift diffing before that change | registry |
 | `state/timetravel` | 2 | Content-addressed snapshots of the gitignored ledgers, written by tools/timetravel. objects/ is gitignored and the manifest is committed, matching the state/snapshots precedent | registry |
@@ -413,7 +413,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `tests` | 28 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `tests` | 29 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
 | `tests/cmd` | 1 | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process self... | registry |
 | `tests/cmd/fixtures` | 1 | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it | registry |
 
@@ -430,7 +430,7 @@ the same reason, one level down.
 | `tools/channel` | 2 | Purpose: measure whether a compressed inter-agent channel actually carried the | README.md |
 | `tools/digest` | 1 | Builds the daily digest (push line plus digest.md) from TODO, git, and branch-health state for a cron job to send via PushNotification; out/ holds the generated digest.md and pu... | registry |
 | `tools/digest/out` | 2 | Generated daily-digest output (digest.md TODO/lessons rollup, push.txt); written by the digest tool, not source | registry |
-| `tools/docmap` | 1 | Generated document map: classifies all 929 tracked markdown files, derives each one's lifecycle status from its class or its own header, and records which lane-letter scheme (pr... | registry |
+| `tools/docmap` | 3 | Generated document map: classifies all 929 tracked markdown files, derives each one's lifecycle status from its class or its own header, and records which lane-letter scheme (pr... | registry |
 | `tools/e2e` | 1 | Real-browser end-to-end flow auditor (flow.py) that drives tools/browser/cdp.py at phone size, presses every control on every route, and feeds the ship gate's e2e and a11y_ux do... | registry |
 | `tools/gate` | 2 | Ship-gate contract enforcer (gate.py: coverage checklist plus a run ledger) and enforce_selftest.py, proving the live deployed Stop hook actually blocks an ungated done-claim | registry |
 | `tools/ghpub` | 1 | Publishes state/github-backlog-*.json to GitHub milestones, labels, issues and a project board. Idempotent by issue title so a re-run is safe and a partial failure resumes rathe... | registry |
