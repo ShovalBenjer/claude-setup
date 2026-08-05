@@ -389,14 +389,26 @@ def cmd_scan(a: argparse.Namespace) -> int:
                                             "settings.json"))
     if not live_home:
         home_prefix = os.path.expanduser("~") + os.sep
+        # Deferral goes through normalize(), not the raw string. A pointer written
+        # as /home/shov/.claude/... names the same unanswerable live home as one
+        # written ~/.claude/..., and on a runner it starts with neither "~/" nor
+        # the runner's own home prefix, so the raw test let it through to FAIL.
+        # That was the residual red on PR #37 after the first two hardenings
+        # (bus msg 1785935801-ef3acc, run 31008726876).
         deferred = [f for f in findings
-                    if str(f.get("target", "")).startswith(("~/", home_prefix))]
+                    if str(f.get("target", "")).startswith(("~/", home_prefix))
+                    or normalize(str(f.get("target", ""))).startswith("~/")]
         if deferred:
             print("\n  SKIP {} finding(s) pointing into the live home: no ~/.claude on this "
                   "host, so their absence is a fact about the runner and not about the "
                   "repository. Repo-internal pointers below still block."
                   .format(len(deferred)))
             findings = [f for f in findings if f not in deferred]
+
+    # Print what remains AFTER the deferral, because the verdict is computed over
+    # exactly this list. Before this call existed, CI printed "scanned 3 trees"
+    # and "VERDICT: FAIL" with nothing in between: a red nobody could act on.
+    report(findings, a.out)
 
     worst = max([SEV_ORDER[f["severity"]] for f in findings], default=0)
     threshold = SEV_ORDER[a.fail_on]
