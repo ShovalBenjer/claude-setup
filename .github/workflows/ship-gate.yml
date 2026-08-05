@@ -138,7 +138,10 @@ jobs:
 
       - name: osv-scanner (dependency advisories, SARIF to the security tab)
         continue-on-error: true
-        uses: google/osv-scanner-action/osv-scanner-action@v2
+        # Pinned to a real tag: the repo publishes semver tags only, and `@v2`
+        # resolved to nothing, which failed the whole job in 3s at Set up job --
+        # before continue-on-error on the step could soften anything.
+        uses: google/osv-scanner-action/osv-scanner-action@v2.3.8
         with:
           scan-args: |-
             --output=results.sarif
@@ -247,6 +250,19 @@ jobs:
 
       - name: skills_sync.py selftest
         run: python tools/audit/skills_sync.py selftest
+
+      # selftest and check answer different questions and neither replaces the
+      # other: selftest proves the checker can still fail, check asks whether the
+      # trees actually agree. Until 2026-08-05 CI ran only the first, so a checker
+      # that correctly returned 1 on 51 real items had nothing calling it.
+      # continue-on-error while the skills domain carries its dated waiver; drop
+      # this line when the waiver is cleared rather than renewed.
+      - name: skills_sync.py check
+        continue-on-error: true
+        run: python tools/audit/skills_sync.py check
+
+      - name: pointers.py scan
+        run: python tools/audit/pointers.py scan
 
       # Row 6 of the agentic repo standard (ADR-0020). Only the pure decision
       # function is exercised: the selftest never calls gh, git, or the network,
