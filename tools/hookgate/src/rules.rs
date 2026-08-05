@@ -51,8 +51,8 @@ pub const RULES: &[Rule] = &[
         literal_groups: &[&[r#"git"#], &[r#"branch"#]],
     },
     Rule {
-        pattern: r#"(?i)\bgit\b[^\r\n;&|]{0,400}\bpush\b[^\r\n;&|]*(?:--force(?:-with-lease)?|-f)\b"#,
-        reason: r#"Force-push is blocked."#,
+        pattern: r#"(?i)\bgit\b[^\r\n;&|]{0,400}\bpush\b[^\r\n;&|]*(?:--force(?!-with-lease)|(?:^|\s)-f)\b"#,
+        reason: r#"Bare force-push is blocked. Use --force-with-lease, which refuses if the remote moved since your last fetch."#,
         literal_groups: &[&[r#"git"#], &[r#"push"#]],
     },
     Rule {
