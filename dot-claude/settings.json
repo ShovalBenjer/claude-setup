@@ -11,8 +11,6 @@
       "Bash(rm -rf $HOME*)",
       "Bash(rm -rf ~/*)",
       "Bash(rm -rf .git*)",
-      "Bash(git push --force*)",
-      "Bash(git push --force-with-lease*)",
       "Bash(git reset --hard*)",
       "Bash(git clean -f*)",
       "Bash(git branch -D *)",
@@ -60,6 +58,18 @@
       "Read(**/service-account*.json)",
       "Read(**/*.pem)",
       "Read(**/*.key)"
+    ],
+    "allow": [
+      "Bash(git push*)",
+      "Bash(git rebase*)",
+      "Bash(git branch*)",
+      "Bash(git stash*)",
+      "Bash(git worktree*)",
+      "Bash(git fetch*)",
+      "Bash(git checkout*)",
+      "Bash(git merge*)",
+      "Bash(gh pr*)",
+      "Bash(gh run*)"
     ]
   },
   "model": "opus",

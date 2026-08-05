@@ -44,6 +44,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import tempfile
 import subprocess
 import sys
 from pathlib import Path
@@ -93,8 +94,16 @@ def scan() -> dict:
     only_payload = sorted(set(payload_files) - set(live_files))
     only_live = sorted(set(live_files) - set(payload_files))
     differing, shrunk = [], []
+    # Counted, not inferred. An empty `shrunk` is the healthy answer AND the answer a
+    # loop that never ran gives, so the two are indistinguishable from the output
+    # alone. That is not hypothetical: `mutate.py --spec rules` reports the seeding
+    # line above as load-bearing, and with it removed the loop below iterates an empty
+    # intersection on any runner while the report still prints "rules clean (shrink
+    # only)". This counter is what the selftest reads to tell those two apart.
+    shrink_checked = 0
 
     for name in sorted(set(payload_files) & set(live_files)):
+        shrink_checked += 1
         pb = payload_files[name].read_bytes()
         lb = live_files[name].read_bytes()
         if pb != lb:
@@ -106,6 +115,7 @@ def scan() -> dict:
 
     return {"payload_dir": str(PAYLOAD), "live_dir": str(LIVE),
             "counted": len(set(payload_files) | set(live_files)),
+            "shrink_checked": shrink_checked,
             "only_payload": only_payload, "only_live": only_live,
             "differing": differing, "shrunk": shrunk}
 
@@ -156,14 +166,14 @@ def report(res: dict) -> int:
         print("rules clean: {} rule(s), repo and live identical, none below {:.0%} of its "
               "recorded maximum".format(res["counted"], SHRINK_FLOOR))
     else:
-        print("rules clean (shrink only): {} rule(s), none below {:.0%} of its recorded "
-              "maximum. Drift against a live tree was NOT checked."
-              .format(res["counted"], SHRINK_FLOOR))
+        print("rules clean (shrink only): {} rule(s) examined, none below {:.0%} of its "
+              "recorded maximum. Drift against a live tree was NOT checked."
+              .format(res.get("shrink_checked", 0), SHRINK_FLOOR))
     return 0
 
 
 
-def _report_without_live_tree() -> tuple[int, str]:
+def _report_without_live_tree() -> tuple[int, str, dict]:
     """Run the domain as a CI runner would see it: no ~/.claude at all.
 
     In its own function because rebinding the module-level LIVE inside selftest()
@@ -178,10 +188,11 @@ def _report_without_live_tree() -> tuple[int, str]:
     saved = LIVE
     try:
         LIVE = Path("/nonexistent-ci-runner-home/.claude/rules")
+        res = scan()
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf):
-            rc = report(scan())
-        return rc, buf.getvalue()
+            rc = report(res)
+        return rc, buf.getvalue(), res
     finally:
         LIVE = saved
 
@@ -199,6 +210,15 @@ def selftest() -> int:
         failures.append("an unchanged file trips the floor")
     if 6273 < 4565 * SHRINK_FLOOR:
         failures.append("growth trips the floor, so appending a correction would fail the gate")
+    # The upper bound, which the first two versions of this file both left open and
+    # which `mutate.py --spec rules` reported as SURVIVED. 2bb97a8 also trimmed four
+    # rules legitimately and none fell below 0.9, so a floor above that flags healthy
+    # files on every run. An oracle that fires on correct input gets waived, and a
+    # waived domain is not a weaker guard, it is no guard.
+    if 0.90 * 5557 < 5557 * SHRINK_FLOOR:
+        failures.append("the floor is above 0.90, so the legitimate trims in the same "
+                        "commit (no-emojis, no-mocks, task-verification, "
+                        "tdd-enforcement) would all be reported as damage")
 
     res = scan()
     if res["counted"] == 0:
@@ -216,7 +236,14 @@ def selftest() -> int:
         with contextlib.redirect_stdout(io.StringIO()):
             return report(res)
 
-    base = {"payload_dir": str(PAYLOAD), "live_dir": str(LIVE), "counted": 1,
+    # live_dir MUST be a directory that exists, and str(LIVE) is not one on a CI
+    # runner. report() decides whether to run the drift loops by testing this path,
+    # so with an absent one the next four cases exercise the skip branch and every
+    # one of them "passes" by never being checked. Measured 2026-08-05: the named CI
+    # step reported exactly that, three drift assertions failing on the runner and
+    # green here. Same lesson as the bug this file was corrected for, one layer up.
+    _live_probe = tempfile.TemporaryDirectory()
+    base = {"payload_dir": str(PAYLOAD), "live_dir": _live_probe.name, "counted": 1,
             "only_payload": [], "only_live": [], "differing": [], "shrunk": []}
     if _quiet_report(dict(base, only_payload=["x.md"])) == 0:
         failures.append("an undeployed rule passes")
@@ -234,13 +261,27 @@ def selftest() -> int:
     # with "live rules directory does not exist". Both halves are asserted: no live
     # tree must NOT fail, and the shrink half must still be evaluated, because a
     # domain that quietly checks half of its name is worse than one that fails.
-    rc_ci, out = _report_without_live_tree()
+    rc_ci, out, res_ci = _report_without_live_tree()
     if rc_ci != 0:
         failures.append("no live tree fails the domain, which is the CI regression itself")
     if "SKIP drift" not in out:
         failures.append("the skipped drift half was not stated out loud")
     if "shrink" not in out.lower():
         failures.append("the shrink half did not report, so the domain checked nothing")
+    # The assertion above is satisfied by the word "shrink" in the clean message
+    # itself, so it holds whether the loop examined 22 rules or zero. `mutate.py
+    # --spec rules` proved that: removing the live_files seeding in scan() left this
+    # selftest green while the domain checked nothing on every runner. The count is
+    # the only thing that separates the two.
+    n_payload = len(list(PAYLOAD.glob("*.md"))) if PAYLOAD.is_dir() else 0
+    if n_payload == 0:
+        failures.append("no payload rules found, so every shrink assertion is vacuous")
+    elif res_ci.get("shrink_checked") != n_payload:
+        failures.append("with no live tree the shrink half examined {} of {} payload "
+                        "rules, so the one check that still runs on CI is not running "
+                        "over all of them".format(res_ci.get("shrink_checked"), n_payload))
+
+    _live_probe.cleanup()
 
     for line in failures:
         print("  FAIL  " + line)
@@ -255,6 +296,8 @@ def selftest() -> int:
     print("  ok    a repo/live byte difference fails, and a truncated rule fails")
     print("  ok    a clean tree passes, so the oracle can go green as well as red")
     print("  ok    no live tree skips drift, still runs shrink, and says which half ran")
+    print("  ok    the shrink half examined every payload rule with no live tree")
+    print("  ok    the floor sits at or below 0.90, so legitimate trims are not flagged")
     print("  ok    the live tree was actually read ({} rules)".format(res["counted"]))
     print("VERDICT: rules drift and rule truncation both fail closed")
     return 0
