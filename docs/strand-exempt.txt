@@ -1,0 +1,30 @@
+# Reachability exemptions for tools/docmap/strand.py.
+#
+# One line per governed document that nothing outside docs/INDEX.md references,
+# with the reason after `|`. This file is the visible backlog: an empty file
+# means no debt, and every line is a document whose findings reach nobody.
+#
+# EMPTY ON PURPOSE as of 2026-08-03. The repository passes R2 with zero
+# exemptions. Do not add a line to make a check go green; link the document
+# from a surface that gets read, which is the thing the rule is protecting.
+
+# --- imported research corpus, 2026-08-05 ---
+# These arrived from new-recruit and daily-deep-learning as EVIDENCE, not as documents
+# this repo maintains. Same class the gate already grants research-papers/: "corpus and
+# employer-context material held as evidence; read, not maintained." They are exempt from
+# reachability and they are NOT exempt from being read: each is cited from the TODO row
+# that says the imported standards are bound to nothing.
+#
+# The six binding STANDARDS from the same import are deliberately NOT here. They moved to
+# docs/standards/, which is now governed, because a standard that nothing references is a
+# defect and a research paper that nothing references is a library.
+docs/analysis/reference/ddl-deep-research-2026-07-27.md | imported research, lane C, read not maintained
+docs/analysis/reference/ddl-design-research-nextgen-2026-07.md | imported research, lane C, read not maintained
+docs/analysis/reference/ddl-engine-research-prompt-2026-07-24-v3.md | imported prompt, lane C, read not maintained
+docs/analysis/reference/ddl-standard-and-grade-2026-07-29.md | imported grading pass, lane C, read not maintained
+docs/analysis/reference/ddl-ui-deep-research-arkheron.md | imported research, lane C, read not maintained
+docs/analysis/reference/nr-claudecode-tui-research-2026-06-14.md | imported research, lane B, read not maintained
+docs/analysis/reference/nr-commit-bug-tracing-research-2026-07-05.md | imported research, lane B, read not maintained
+docs/analysis/reference/nr-coverage-aware-eval-research-2026-06-28.md | imported research, lane B, read not maintained
+docs/analysis/reference/nr-technology-corpus-master-prompt-2026-07-24.md | imported prompt, lane B, read not maintained
+docs/analysis/reference/nr-technology-corpus-research-report-2026-07-25.md | imported research, lane B, read not maintained
