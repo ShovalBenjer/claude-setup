@@ -1,5 +1,7 @@
 # Repo Standards: five dimensions - 2026-07-09
 
+Status: reference. Imported from new-recruit 2026-08-04. Five per-project dimensions; not yet wired to a gate domain here.
+
 Five per-project standards, one per dimension, each a machine-checkable bar scored by
 `intent_control_plane.standards` (the compliance scorecard). Derived from the `~/docs`
 research cluster. The scorer emits `project-scorecard-2026-07-09.md`; this doc defines

@@ -1,4 +1,6 @@
 # Python Code Implementation Quality Standard — July 2026
+
+Status: reference. Imported from new-recruit 2026-08-04. Python implementation quality control document; no oracle reads it here.
 **Control document for zero-runtime-dep Python package**
 **Stack: uv · ruff · mypy --strict · pytest · tree-sitter (only external dep)**
 **Last updated: 2026-07-12 | Agent-legible, primary-sourced**

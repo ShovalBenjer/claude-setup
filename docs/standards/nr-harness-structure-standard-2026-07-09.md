@@ -1,5 +1,7 @@
 # Harness Structure Standard + REPO-MAP - 2026-07-09
 
+Status: reference. Imported from new-recruit 2026-08-04. Companion to docs/standards/agentic-repo-standard.md, not yet reconciled with it.
+
 The structure standard for the local Gastown harness/TUI/control-plane, plus a map of
 where everything lives and the work items left. Companion to
 `repo-enterprise-maturity-todo-2026-07-09.md` (product repos) and the ADR at

@@ -1,5 +1,7 @@
 # Engineering standards for הסדנה
 
+Status: reference. Imported from daily-deep-learning 2026-08-04. Lane C standards, held here as cross-lane evidence.
+
 Regrounded 2026-07-26 against the research corpus in `new-recruit/docs` rather
 than asserted from memory. This file is the engineering half of
 SYSTEM-SPEC-2026-07-26.md: what we build with, how it moves from local to

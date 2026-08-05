@@ -84,6 +84,11 @@ def git_max_size(rel: str) -> tuple[int, str]:
 def scan() -> dict:
     payload_files = {p.name: p for p in PAYLOAD.glob("*.md")} if PAYLOAD.is_dir() else {}
     live_files = {p.name: p for p in LIVE.glob("*.md")} if LIVE.is_dir() else {}
+    # With no live tree, every payload rule would read as "not deployed". That is a
+    # true statement about a runner and a useless one, so the comparison sets are
+    # emptied here and report() states the skip.
+    if not LIVE.is_dir():
+        live_files = dict(payload_files)
 
     only_payload = sorted(set(payload_files) - set(live_files))
     only_live = sorted(set(live_files) - set(payload_files))
@@ -107,20 +112,37 @@ def scan() -> dict:
 
 def report(res: dict) -> int:
     problems = 0
-    if not Path(res["live_dir"]).is_dir():
-        print("FAIL live rules directory does not exist: " + res["live_dir"])
-        return 1
 
-    for name in res["only_payload"]:
-        print("FAIL {} is in the repo and NOT deployed; every session is missing it".format(name))
-        problems += 1
-    for name in res["only_live"]:
-        print("FAIL {} is live and NOT tracked; it vanishes on a fresh machine".format(name))
-        problems += 1
-    for d in res["differing"]:
-        print("FAIL {} differs between repo and live ({} vs {} bytes)".format(
-            d["rule"], d["payload_bytes"], d["live_bytes"]))
-        problems += 1
+    # NO LIVE TREE IS NOT A FAILURE. Corrected 2026-08-05 after this domain turned
+    # the Ship gate red on every GitHub runner with
+    # "FAIL live rules directory does not exist: /home/runner/.claude/rules".
+    # That is L-2026-07-31-g exactly: a host-shaped default, correct on the machine
+    # it was written on, silently answering the wrong question on the other. A CI
+    # runner has no ~/.claude and never will; asking whether the repo matches a
+    # deployment that does not exist is not a question with a right answer.
+    #
+    # The SHRINK half is host-independent, because it compares the payload against
+    # its own git history, and it is the half that matters: it is the check that
+    # would have caught 2bb97a8. So drift is skipped and shrink still runs, and the
+    # skip is stated rather than assumed, because a domain that silently checks half
+    # of what its name implies is worse than one that fails.
+    live_present = Path(res["live_dir"]).is_dir()
+    if not live_present:
+        print("SKIP drift: no live rules tree at {} (expected on CI). The deployment "
+              "half is unanswerable here; the shrink half below still runs."
+              .format(res["live_dir"]))
+
+    if live_present:
+        for name in res["only_payload"]:
+            print("FAIL {} is in the repo and NOT deployed; every session is missing it".format(name))
+            problems += 1
+        for name in res["only_live"]:
+            print("FAIL {} is live and NOT tracked; it vanishes on a fresh machine".format(name))
+            problems += 1
+        for d in res["differing"]:
+            print("FAIL {} differs between repo and live ({} vs {} bytes)".format(
+                d["rule"], d["payload_bytes"], d["live_bytes"]))
+            problems += 1
     for s in res["shrunk"]:
         print("FAIL {} is {} bytes against {} at {} (ratio {}). A rule that lost most of "
               "itself is the 2bb97a8 failure; restore it or record why it shrank.".format(
@@ -130,9 +152,38 @@ def report(res: dict) -> int:
     if problems:
         print("\n{} problem(s) across {} rule(s)".format(problems, res["counted"]))
         return 1
-    print("rules clean: {} rule(s), repo and live identical, none below {:.0%} of its "
-          "recorded maximum".format(res["counted"], SHRINK_FLOOR))
+    if live_present:
+        print("rules clean: {} rule(s), repo and live identical, none below {:.0%} of its "
+              "recorded maximum".format(res["counted"], SHRINK_FLOOR))
+    else:
+        print("rules clean (shrink only): {} rule(s), none below {:.0%} of its recorded "
+              "maximum. Drift against a live tree was NOT checked."
+              .format(res["counted"], SHRINK_FLOOR))
     return 0
+
+
+
+def _report_without_live_tree() -> tuple[int, str]:
+    """Run the domain as a CI runner would see it: no ~/.claude at all.
+
+    In its own function because rebinding the module-level LIVE inside selftest()
+    needs a `global` declaration ahead of every other use of the name in that
+    function, and putting one there is a footgun aimed at whoever edits the
+    selftest next.
+    """
+    import contextlib
+    import io
+
+    global LIVE
+    saved = LIVE
+    try:
+        LIVE = Path("/nonexistent-ci-runner-home/.claude/rules")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = report(scan())
+        return rc, buf.getvalue()
+    finally:
+        LIVE = saved
 
 
 def selftest() -> int:
@@ -179,6 +230,18 @@ def selftest() -> int:
     if _quiet_report(base) != 0:
         failures.append("a clean tree fails, so the oracle cannot go green")
 
+    # The CI regression, pinned. This domain reddened every GitHub runner for a day
+    # with "live rules directory does not exist". Both halves are asserted: no live
+    # tree must NOT fail, and the shrink half must still be evaluated, because a
+    # domain that quietly checks half of its name is worse than one that fails.
+    rc_ci, out = _report_without_live_tree()
+    if rc_ci != 0:
+        failures.append("no live tree fails the domain, which is the CI regression itself")
+    if "SKIP drift" not in out:
+        failures.append("the skipped drift half was not stated out loud")
+    if "shrink" not in out.lower():
+        failures.append("the shrink half did not report, so the domain checked nothing")
+
     for line in failures:
         print("  FAIL  " + line)
     if failures:
@@ -191,6 +254,7 @@ def selftest() -> int:
     print("  ok    a rule live but not tracked fails")
     print("  ok    a repo/live byte difference fails, and a truncated rule fails")
     print("  ok    a clean tree passes, so the oracle can go green as well as red")
+    print("  ok    no live tree skips drift, still runs shrink, and says which half ran")
     print("  ok    the live tree was actually read ({} rules)".format(res["counted"]))
     print("VERDICT: rules drift and rule truncation both fail closed")
     return 0
