@@ -125,6 +125,20 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
 - [ ] **The scaffold is in the hooks tree, not the tools tree.** Measured: 1 orphan of 91 files under `tools/` (only `tools/refute/checks/portable_claims.py` is named nowhere outside its own directory). Against that, 23 of 29 `dot-claude/hooks` entries are wired nowhere in the live settings, and 12 of those are one-line pointers into `/home/shovalbe/`, a home that does not exist. If the question is what fraction is garbage, the answer differs by tree by two orders of magnitude, and the instruments are the healthy part
 - [ ] **AGENTS.md was wrong about its own skills tree** and is corrected in this pass: it claimed about a dozen skill stubs, and there are 0 across 73 entries
 
+- [ ] **`dot-claude/settings.json` describes a different machine, and no oracle checks it.**
+  Measured 2026-08-06 while wiring a hook: the tracked payload carries **10 hooks, 10 of
+  10 with Windows paths** (`C:\Users\shova\claude-setup\...`); the live
+  `~/.claude/settings.json` carries **13 hooks, 0 with a Windows path**. The payload still
+  wires `safety_gate.py`, the Python gate that `hookgate` replaced, and is missing
+  `prior_art_gate.py`, `skill-usage-log.sh` and `route.py` entirely. So the committed copy
+  of the harness contract is a snapshot of a host this repo no longer runs on. I nearly
+  made it worse by mirroring one live Linux path into it, which would have produced a file
+  correct on neither host; reverted. **`rules_sync.py` guards rules drift and
+  `skills_sync.py` guards skills drift; settings has neither**, which is why this went
+  unnoticed while both of those were being repaired in the same week. The fix is a third
+  oracle in the same shape, and it must compare hook SETS and script basenames rather than
+  paths, because the two hosts legitimately disagree about paths and only about paths.
+
 ## SETUP-OS — oracle repair (opened 2026-07-31, docs/HANDOFF-2026-07-31-review-oracle-repair.md)
 - [x] review domain: sql-concat required a verb and a concatenation and never required SQL, so English prose ("Delete ~380 lines ... + their selftest") was a HIGH; and added_lines reported lines this branch added and then deleted. Both fixed in tools/review/panel.py, 20 pinned cases, mutate --spec panel 10/10 caught, panel 5 high -> 0 high. Waiver replaced (2026-08-12 -> 2026-08-02) recording the old reason as wrong rather than deleting it (closed 2026-07-31). **THE "0 high" HALF OF THIS ROW IS FALSIFIED, 2026-08-01.** The waiver it wrote carried its own falsifier, the falsifier was run, and `panel.py run --project .` returns CHANGES-REQUESTED with 3 high. Two are real (vendored innerHTML in dot-claude/skills/brainstorming/scripts/helper.js:57,59) and one is the comment-matching mechanism this row claimed was eliminated, still live in a different check. The two fixes landed; the generalisation did not, and the row said otherwise. Waiver text corrected in quality-contract.json rather than the number being chased
 - [ ] slop_lint measures the ruled form, not the property (L-2026-07-31-b). It passes prose that reads as machine written: zero em dashes but 2.8% hyphen compounds and sentence stdev 14.8. Port a density + variance check from ~/.claude/skills/voice-metrics/voice_score.py into tools/slop_lint.py, thresholds FITTED against the operator's corpus, not guessed. Until then a clean slop_lint is not evidence
