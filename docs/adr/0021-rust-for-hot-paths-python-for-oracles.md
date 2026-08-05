@@ -139,3 +139,9 @@ doing what we were doing" with extra steps.
 **And the `bus.py` claim is refuted if `cargo-mutants` on a Rust port leaves survivors of
 the same class.** If a borrow checker does not in fact eliminate the lock-ordering defect,
 the one piece of evidence behind this ADR's named rewrite is gone and the rewrite closes.
+
+## Applied per file
+
+`docs/analysis/2026-08-05-implementation-reasoning-per-file.md` applies this criterion to
+each source file over 300 lines: why each is a flat script of functions with a selftest,
+where the loops are and why they are plain, and the one place a class earns its keep.
