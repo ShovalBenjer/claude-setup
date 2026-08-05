@@ -102,3 +102,12 @@ auth.json
 tmp/
 temp/
 *.tmp
+
+# Generated review artifacts. panel.py writes one per commit sha, so the file count
+# moves on every commit, and docs/CODEBASE-MAP.md records a count per directory. The
+# result was that a green gate turned codemap red on its own next run, which cost four
+# regenerate-commit cycles on 2026-08-05 before the mechanism was named. gate.py already
+# treats this directory as its own exhaust (GATE_OUTPUTS, gate.py:204) and CI regenerates
+# the artifact for the exact commit it is testing (ship-gate.yml:116), so nothing needs
+# the committed copy.
+state/reviews/*.json

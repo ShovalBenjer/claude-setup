@@ -9,11 +9,11 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1015**
-- reachable from `docs/INDEX.md`: **114** (11%)
+- documents: **998**
+- reachable from `docs/INDEX.md`: **120** (12%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
-- written under the pre-2026-07-30 lane scheme: **24**
+- written under the pre-2026-07-30 lane scheme: **25**
 
 ### Lane scheme, and why the column exists
 
@@ -22,7 +22,7 @@ C, content E to D. A document written before that date uses the old letters and 
 correct for its date**. Scheme `1` means read its lane letters through
 `tools/lib/lanes.py`; `n/a` means it never names a lane by letter.
 
-## adr (20)
+## adr (21)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -46,6 +46,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/adr/0018-two-tier-inter-agent-channel.md` | 2026-07-30 | accepted | header | n/a | yes | - | - |
 | `docs/adr/0019-supply-chain-verification.md` | 2026-07-30 | accepted | header | n/a | yes | - | - |
 | `docs/adr/0020-agentic-repo-standard.md` | 2026-07-31 | accepted | header | n/a | yes | - | - |
+| `docs/adr/0021-rust-for-hot-paths-python-for-oracles.md` | 2026-08-03 | accepted | header-inline | n/a | yes | nothing. | - |
 
 ## agent (23)
 
@@ -75,12 +76,17 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (38)
+## analysis (50)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `docs/analysis/reference/coherence-governor-AGENTS.md` | - | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/reference/nr-claudecode-tui-research-2026-06-14.md` | 2026-06-14 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/reference/nr-coverage-aware-eval-research-2026-06-28.md` | 2026-06-28 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/reference/nr-commit-bug-tracing-research-2026-07-05.md` | 2026-07-05 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/reference/ddl-ui-deep-research-arkheron.md` | 2026-07-22 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-23-local-model-stress-test.md` | 2026-07-23 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/reference/ddl-design-research-nextgen-2026-07.md` | 2026-07-23 | dated-snapshot | class | n/a | - | UI-DEEP-RESEARCH-ARKHERON.md as the desi | - |
 | `docs/analysis/2026-07-24-creativity-wow-gap.md` | 2026-07-24 | dated-snapshot | class | 1 | yes | - | - |
 | `docs/analysis/2026-07-24-deployment-gap-audit.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-24-fleet-verification-gap.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
@@ -89,6 +95,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-07-24-setup-holding-us-back.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-24-skills-wiring-audit.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-24-work-archive-import.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/reference/ddl-engine-research-prompt-2026-07-24-v3.md` | 2026-07-24 | dated-snapshot | class | n/a | - | v1/v2 | - |
+| `docs/analysis/reference/nr-technology-corpus-master-prompt-2026-07-24.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-25-claude-mastery-audit.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | the older Gemini CLI free-quota | - |
 | `docs/analysis/2026-07-25-claude-mastery-research-prompt.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-25-cloudflare-fit.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
@@ -98,13 +106,16 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-07-25-other-resources.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-25-our-own-dolt.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-25-repo-benchmark-and-star-forensics.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/reference/nr-technology-corpus-research-report-2026-07-25.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-26-session-handoff.md` | 2026-07-26 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md` | 2026-07-27 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/reference/ddl-deep-research-2026-07-27.md` | 2026-07-27 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-29-albert-prior-art-verdict.md` | 2026-07-29 | dated-snapshot | class | 1 | yes | - | - |
 | `docs/analysis/2026-07-29-local-dependency-audit.md` | 2026-07-29 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-29-long-context-kernel-critique-response.md` | 2026-07-29 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-29-session-retro-modes-models-workflows-observability.md` | 2026-07-29 | dated-snapshot | class | 1 | yes | - | - |
 | `docs/analysis/2026-07-29-where-our-system-stands.md` | 2026-07-29 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/reference/ddl-standard-and-grade-2026-07-29.md` | 2026-07-29 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-30-context-engineering-and-the-absence-claim-class.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
 | `docs/analysis/2026-07-30-github-repo-triage.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
 | `docs/analysis/2026-07-30-native-surface-audit.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
@@ -116,7 +127,9 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-01-fog-of-war.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-01-pocock-skills-teardown.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-01-ponytail-audit-prompt-archaeology.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-03-code-audit-analysis-sweep-and-research-provenance.md` | 2026-08-03 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-08-03-math-trends-and-model-stack.md` | 2026-08-03 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-08-05-implementation-reasoning-per-file.md` | 2026-08-05 | dated-snapshot | class | n/a | yes | - | - |
 
 ## automation-output (126)
 
@@ -294,7 +307,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/commands/cdp.md` | 2026-07-27 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/commands/reground.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## corpus (135)
+## corpus (92)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -315,15 +328,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/Prompts/Anti-AI Writing Style Guide.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/Prompts/Q-Learning, Deep RL & March 2026 Research  Auditing MiroFish & AutoResearch.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/Prompts/data-scientist-xlsx-SKILL.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/ARCHITECTURE.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/KNOWLEDGE-BASE.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/auth-setup.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/prompt_v96_optimization_suggestions.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/wiki/Architecture.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/wiki/Compliance.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/docs-shoval/wiki/Conversation-Design.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/wiki/Deployment.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/wiki/Getting-Started.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/docs-shoval/wiki/Home.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/docs/11labs_compared2research.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/docs/Eleven v3_ Most Expressive.md` | - | corpus-material | class | n/a | - | - | - |
@@ -339,7 +344,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/el-vadt/docs/prompts/self_review.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/docs/reference__Azure_Databases.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/README.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/el-vadt/sales-agents-summary/prompts/archive/maryam-v6-system-prompt.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/prompts/archive/maryam-v6.8-fast-optimized.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6-system-prompt.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.5.2-system-prompt.md` | - | corpus-material | class | n/a | - | - | - |
@@ -363,8 +367,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/el-vadt/specify-memory/memory/README.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/Claude Code  Complete Issue Map & User Fixes.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/Claude Code bwrap Bash Tool Failure on WSL2  Root Cause & Fixes.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/FIX-BWRAP-WSL.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/Q-Learning, Deep RL & March 2026 Research  Auditing MiroFish & AutoResearch.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/README.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/RTK.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/agent_prompt_v38_mind.md` | - | corpus-material | class | n/a | - | - | - |
@@ -376,63 +378,31 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/el-vadt/docs/Selling to VITO.md` | 2017-09-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/FINAL_REPORT.md` | 2026-01-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/HANDOVER.md` | 2026-01-07 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/DEBUG_HANDOVER_20260112.md` | 2026-01-12 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/CLAUDE.md` | 2026-01-19 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/specify-memory/memory/INDEX.md` | 2026-02-18 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/specify-memory/memory/MEMORY.md` | 2026-02-18 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/specify-memory/memory/PROJECT-STRUCTURE.md` | 2026-02-18 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/specify-memory/memory/RULES.md` | 2026-02-18 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/COMPLIANCE-AUDIT.md` | 2026-03-02 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/REPO-AUDIT.md` | 2026-03-02 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-03-22-chatwoot-production-hardening.md` | 2026-03-22 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/FOUNDRY-EVAL-CI-PLAN.md` | 2026-03-30 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-03-30-escalation-perf-v39.md` | 2026-03-30 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-04-01-chatwoot-conversation-event-handler.md` | 2026-04-01 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/CS_Agent_Eval_SOTA_Audit_20260406/cs_agent_eval_sota_audit.md` | 2026-04-06 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/MODEL-MIGRATION-PLAN.md` | 2026-04-06 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Football_Analytics_ML_Research_20260412/00-index.md` | 2026-04-12 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Football_Analytics_ML_Research_20260412/07-bibliography.md` | 2026-04-12 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-04-13-v99-session-analysis-fixes.md` | 2026-04-13 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/CS_Agent_Eval_Research_20260415/research_report_20260415_cs-agent-eval.md` | 2026-04-15 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/SOTA_DS_Methods_Research_20260415/00-index.md` | 2026-04-15 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/specs/2026-04-15-silver-eval-dataset.md` | 2026-04-15 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/foundry-chatwoot-alignment-2026-04-16.md` | 2026-04-16 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Foundry_Workflows_Research_20260419/report.md` | 2026-04-19 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/ElevenLabs_Scribe_Research_20260427/report.md` | 2026-04-27 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/eval-results/baseline-2026-04-27-agent-endpoint-v105.md` | 2026-04-27 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/eval-results/baseline-2026-04-27-app-endpoint.md` | 2026-04-27 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/eval-results/baseline-2026-04-27-yasha-v2-app-endpoint.md` | 2026-04-27 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/wiki/Handover-Notes.md` | 2026-04-27 | corpus-material | class | n/a | - | - | 111 |
 | `research-papers/Documents/ElevenLabs_Scribe_Research_20260428/report.md` | 2026-04-28 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/specs/2026-04-28-v108-yasha-intake-flow.md` | 2026-04-28 | corpus-material | class | n/a | - | - | - |
 | `master-plans/claude-code-experimental-features.md` | 2026-04-30 | corpus-material | class | n/a | - | - | - |
 | `master-plans/cleanup-proposal.md` | 2026-04-30 | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/claude-code-experimental-features.md` | 2026-04-30 | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/cleanup-proposal.md` | 2026-04-30 | corpus-material | class | n/a | - | - | - |
 | `master-plans/claude-setup-master-plan-2026-05-02.md` | 2026-05-02 | corpus-material | class | n/a | - | - | - |
 | `master-plans/claude-setup-tasks-2026-05-02.md` | 2026-05-02 | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/claude-setup-master-plan-2026-05-02.md` | 2026-05-02 | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/claude-setup-tasks-2026-05-02.md` | 2026-05-02 | corpus-material | class | n/a | - | - | - |
 | `master-plans/CLAUDE-CODE-MASTER-PLAN-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | prior planning docs | 14.6 |
 | `master-plans/claude-skills-scatter-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
 | `master-plans/claude-skills-triage-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/audits/2026-05-03-dor-cohen-sentimark-email.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/audits/2026-05-03-dormancy-audit.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/AGENTS.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/CLAUDE-CODE-MASTER-PLAN-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | prior planning docs | 14.6 |
-| `research-papers/home-md/claude-skills-scatter-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/claude-skills-triage-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-05-04-a2a-v1-and-wire-gap-closure.md` | 2026-05-04 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-05-04-claude-setup-session-structure-and-wire-gaps.md` | 2026-05-04 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-05-04-pst-extraction-path-a-run.md` | 2026-05-04 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/specs/2026-05-04-frontier-governance-axes.md` | 2026-05-04 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/specs/2026-05-04-pst-extraction-v1-run.md` | 2026-05-04 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/SIU_InHouse_Video_Research_20260506/research_report_20260506_siu_inhouse_video.md` | 2026-05-06 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/CDP_Kick_Research_20260507/CDP_Kick_Strategic_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Executive_MCP_Research_20260507/Executive_MCP_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/audits/2026-05-07-cs-agent-access-boundaries.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/research/2026-05-07-ai-bot-security-best-practices.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/SHOVAL-BENJER-5MO-CONTEXT-2026-05-08.md` | 2026-05-08 | corpus-material | class | n/a | - | - | - |
 
 ## doc (54)
 
@@ -447,7 +417,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/gemini-code-1785455675294.md` | - | operator-input | registry | n/a | yes | - | - |
 | `docs/gemini-code-1785457549011.md` | - | operator-input | registry | n/a | yes | - | - |
 | `docs/gemini-code-1785458291930.md` | - | operator-input | registry | n/a | yes | - | - |
-| `docs/memory-layer--nexus-gemini-code-1785456331041.md` | - | operator-input | registry | n/a | yes | - | - |
 | `docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` | - | operator-input | registry | n/a | yes | - | - |
 | `dot-claude/CLAUDE.md` | - | living | registry | n/a | - | - | - |
 | `dot-codex/AGENTS.md` | - | living | registry | n/a | - | - | - |
@@ -492,6 +461,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `tools/hookgate/bench/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `tools/timetravel/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `docs/INDEX.md` | 2026-07-31 | living | registry | 2 | - | v1 the same day | - |
+| `tools/telemetry/systemd/README.md` | 2026-08-04 | live, 2026-08-04. the units below are deployed and the timer | header | n/a | - | - | - |
 
 ## generated-output (2)
 
@@ -500,7 +470,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `tools/digest/out/digest.md` | - | generated | class | n/a | - | - | - |
 | `tools/health/out/branch_health.md` | - | generated | class | n/a | - | - | - |
 
-## handoff (15)
+## handoff (16)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -519,16 +489,19 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/HANDOFF-TO-LEARNING-2026-07-30-process-cost-and-boundaries.md` | 2026-07-30 | historical-record | class | 2 | yes | - | - |
 | `docs/HANDOFF-2026-07-31-review-oracle-repair.md` | 2026-07-31 | historical-record | class | 2 | yes | - | - |
 | `docs/HANDOFF-2026-07-31-session-close.md` | 2026-07-31 | historical-record | class | 2 | yes | - | - |
+| `docs/HANDOFF-2026-08-05-session-close.md` | 2026-08-05 | historical-record | class | 2 | yes | - | - |
 
-## prd (3)
+## prd (5)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `docs/prd/claude-os.md` | 2026-07-23 | active | header | n/a | yes | all prior plans | - |
 | `docs/prd/autonomy-ecosystem.md` | 2026-07-24 | living | header | 1 | yes | - | - |
 | `docs/prd/2026-07-30-consolidation-and-migration.md` | 2026-07-30 | approved for autonomous execution (operator, 2026-07-30, "lo | header | 2 | yes | it, and whether anything links to it. Or | - |
+| `docs/prd/2026-08-03-boundary-termination-instrument.md` | 2026-08-03 | proposed | header | 2 | yes | - | - |
+| `docs/prd/2026-08-03-unified-architecture.md` | 2026-08-03 | proposed | header | n/a | yes | - | - |
 
-## prior-art (40)
+## prior-art (42)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -572,6 +545,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prior-art/tools-ghpub.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-intent.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-wsl.json` | 2026-08-03 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/tools-antigravity.json` | 2026-08-04 | current | arithmetic | n/a | - | this file for in-session use and the CLI | - |
+| `docs/prior-art/tools-telemetry.json` | 2026-08-04 | current | arithmetic | n/a | - | - | - |
 
 ## reflection (6)
 
@@ -600,9 +575,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `dot-claude/rules/boundary-contracts.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/rules/calibrated-claims.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/docs-control-plane.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/rules/foundry-deployment-per-project.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/gastown-company-registry.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/hive-mind-workflows.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/jira-comment-drafting.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -610,9 +583,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/no-emojis.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/no-mocks.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/numerical-stack.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/rules/pii-handling.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/rules/production-means-merged-and-smoked.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/rules/read-whole-before-reasoning.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/repo-topology.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/task-verification.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/tdd-enforcement.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -633,6 +603,11 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-codex/rules/repo-topology.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/rules/task-verification.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/rules/tdd-enforcement.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/pii-handling.md` | 2026-06-10 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/production-means-merged-and-smoked.md` | 2026-06-29 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/foundry-deployment-per-project.md` | 2026-07-01 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/read-whole-before-reasoning.md` | 2026-07-08 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/calibrated-claims.md` | 2026-07-24 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/model-selection.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/out-of-distribution.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/repo-stack-reasoning.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
@@ -851,7 +826,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/shoval-voice-draft/SKILL.md` | 2026-07-26 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/writing-great-skills/SKILL.md` | 2026-07-31 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (18)
+## spec (20)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -860,25 +835,33 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-07-24-autonomy-implementation.md` | 2026-07-24 | active | header | 1 | yes | - | - |
 | `docs/specs/2026-07-24-command-center-superior.md` | 2026-07-24 | active | header | n/a | yes | - | - |
 | `docs/specs/2026-07-29-architecture-build-plan-v2.md` | 2026-07-29 | partly-superseded-by docs/prd/2026-07-30-consolidation-and-migration.md | registry | 1 | yes | v1 the same day | - |
-| `docs/specs/2026-07-29-architecture-build-plan.md` | 2026-07-29 | superseded-by docs/specs/2026-07-29-architecture-build-plan-v2.md | registry | 1 | yes | - | - |
+| `docs/specs/2026-07-29-architecture-build-plan.md` | 2026-07-29 | superseded-by docs/specs/2026-07-29-architecture-build-plan-v2.md | registry | 1 | yes | - | 2026-07-29-architecture-build-plan-v2.md |
 | `docs/specs/2026-07-29-decision-rules.md` | 2026-07-29 | proposed. written 2026-07-29 for lane b (claude-setup) | header | 1 | yes | - | - |
-| `docs/specs/2026-07-29-deterministic-preflight.md` | 2026-07-29 | proposal, operator-originated 2026-07-29, needs /diverge on | header | n/a | yes | - | - |
+| `docs/specs/2026-07-29-deterministic-preflight.md` | 2026-07-29 | proposed. operator-originated 2026-07-29, needs /diverge on | header | n/a | yes | - | - |
 | `docs/specs/2026-07-29-intent-traceability.md` | 2026-07-29 | accepted | registry | n/a | yes | - | - |
 | `docs/specs/2026-07-29-prompt-to-ticket-lifecycle.md` | 2026-07-29 | active | header | 1 | yes | the | - |
 | `docs/specs/2026-07-29-trace-model-sacred-timeline.md` | 2026-07-29 | accepted | registry | 1 | yes | - | - |
-| `docs/specs/2026-07-30-data-architecture-and-orchestration.md` | 2026-07-30 | proposal, pending operator approval. nothing here is built | header | n/a | yes | nothing. Extends ADR-0010 | - |
-| `docs/specs/2026-07-31-agentic-directory-standard-sota.md` | 2026-07-31 | specification & architectural comparison | header | n/a | yes | - | - |
+| `docs/specs/2026-07-30-data-architecture-and-orchestration.md` | 2026-07-30 | proposed. design document, 2026-07-30. nothing here is built | header | n/a | yes | nothing. Extends ADR-0010 | - |
+| `docs/specs/2026-07-31-agentic-directory-standard-sota.md` | 2026-07-31 | design. specification and architectural comparison, 2026-07- | header | n/a | yes | - | - |
 | `docs/specs/2026-07-31-github-native-project-surface.md` | 2026-07-31 | design. nothing in this document has been applied. every wri | header | n/a | yes | - | - |
 | `docs/specs/2026-07-31-kanban-four-layer-model.md` | 2026-07-31 | design. nothing here has been applied. every write command i | header | 2 | yes | - | - |
 | `docs/specs/2026-07-31-project-federation.md` | 2026-07-31 | accepted | registry | n/a | yes | - | - |
-| `docs/specs/2026-07-31-research-corpus-and-cache.md` | 2026-07-31 | proposal | header-inline | n/a | yes | text references sources | - |
+| `docs/specs/2026-07-31-research-corpus-and-cache.md` | 2026-07-31 | proposed. corpus and cache design, 2026-07-31. not built | header | n/a | yes | text references sources | - |
 | `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | active | header | 2 | yes | - | - |
+| `docs/specs/2026-08-03-detail-passes-teleology-and-creativity.md` | 2026-08-03 | design, 2026-08-03. nothing here is built. extends | header | n/a | yes | - | - |
+| `docs/specs/2026-08-05-persona-allocation-and-reviewer-identity.md` | 2026-08-05 | active, 2026-08-05. `active` is the vocabulary's word for th | header | n/a | - | - | - |
 
-## standard (1)
+## standard (7)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
+| `docs/standards/nr-harness-structure-standard-2026-07-09.md` | 2026-07-09 | reference. imported from new-recruit 2026-08-04. companion t | header | n/a | - | - | - |
+| `docs/standards/nr-repo-standards-2026-07-09.md` | 2026-07-09 | reference. imported from new-recruit 2026-08-04. five per-pr | header | n/a | - | - | - |
+| `docs/standards/nr-adr-0001-unified-platform-standard.md` | 2026-07-10 | accepted | header | n/a | - | - | - |
+| `docs/standards/nr-prd-2026-07-10-platform-standard.md` | 2026-07-10 | active | header | n/a | - | - | - |
+| `docs/standards/ddl-engineering-standards-2026-07-26.md` | 2026-07-26 | reference. imported from daily-deep-learning 2026-08-04. lan | header | 1 | - | - | - |
 | `docs/standards/agentic-repo-standard.md` | 2026-07-31 | active. owner: lane a. decided by adr-0020. first written 20 | header | 2 | yes | - | - |
+| `docs/standards/nr-code-quality-standard-2026-07.md` | 2026-08-04 | reference. imported from new-recruit 2026-08-04. python impl | header | n/a | - | - | - |
 
 ## vendored (68)
 

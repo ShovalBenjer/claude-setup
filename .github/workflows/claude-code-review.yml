@@ -25,7 +25,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Every run since at least 2026-08-05 has posted "Claude encountered an error
+      # after ~40s" to the PR and exited 1, with the underlying error swallowed by the
+      # action. Four theories were tested and discarded before adding this: the OAuth
+      # secret exists (set 2026-07-23), the action resolves, the repo ships no
+      # project-level .claude/settings.json so its own Stop hooks are not blocking the
+      # reviewer, and the action completes its GitHub-side work (it posts and updates
+      # the comment) before failing. ANTHROPIC_LOG surfaces the API-level error so the
+      # next red run names its own cause instead of needing a fifth theory.
       - uses: anthropics/claude-code-action@v1
+        env:
+          ANTHROPIC_LOG: debug
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # Gastown's Polecat agents open their PRs as kilo-code-bot, and the action

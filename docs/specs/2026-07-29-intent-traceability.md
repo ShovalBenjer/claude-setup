@@ -1,5 +1,7 @@
 # Intent traceability: wiring, not building
 
+Status: proposed. Wiring design, 2026-07-29. Not built.
+
 Spec date 2026-07-29. Scope: turn operator prompts into tracked work items, and trace
 every session and every turn.
 

@@ -97,8 +97,118 @@ jobs:
       - name: panel.py selftest
         run: python tools/review/panel.py selftest
 
+      - name: strand.py selftest
+        run: python tools/docmap/strand.py selftest
+
+      - name: strand.py check (doc structure + reachability)
+        run: python tools/docmap/strand.py check
+
+      - name: atlas.py selftest (corpus structure + near-duplicate detection)
+        run: python tools/docmap/atlas.py selftest
+
+      # The review domain wants state/reviews/<HEAD sha>.json for the exact
+      # commit being checked, and on a pull_request that HEAD is an ephemeral
+      # merge ref no local session can have reviewed in advance. So the panel
+      # runs HERE, against the checkout, and the gate then reads its verdict.
+      # This step fails on a changes-requested verdict, which is the point:
+      # before 2026-08-05 this coverage was a waiver, not a run.
+      - name: panel.py run (produce the review artifact for this exact commit)
+        run: python tools/review/panel.py run --project .
+
       - name: gate.py run (full contract)
         run: python tools/gate/gate.py run --project . -v
+
+  supply-chain:
+    # Added 2026-08-04 after measuring this repo's CI against nousresearch/hermes-agent:
+    # 21 workflows there, 1 here, and these three jobs were the cheapest of the gap.
+    # None of them duplicates an existing domain: the contract's `security` domain is
+    # a source scan, this is a DEPENDENCY scan, and they fail for different reasons.
+    #
+    # Deliberately NOT blocking on first landing. A supply-chain scanner that goes red
+    # on day one against pre-existing transitive advisories teaches the reader to
+    # ignore it, which is worse than not having it. `continue-on-error` comes off once
+    # one real run has been read, same convention the header uses for the Chrome path.
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: osv-scanner (dependency advisories, SARIF to the security tab)
+        continue-on-error: true
+        # Pinned to a real tag: the repo publishes semver tags only, and `@v2`
+        # resolved to nothing, which failed the whole job in 3s at Set up job --
+        # before continue-on-error on the step could soften anything.
+        uses: google/osv-scanner-action/osv-scanner-action@v2.3.8
+        with:
+          scan-args: |-
+            --output=results.sarif
+            --format=sarif
+            --recursive
+            ./
+
+      - name: upload SARIF
+        if: always()
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
+
+      - name: lockfile-diff (a lock change is a supply-chain change and must be visible)
+        if: github.event_name == 'pull_request'
+        run: |
+          set -u
+          git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+          CHANGED=$(git diff --name-only "origin/${{ github.base_ref }}"...HEAD -- \
+                      '**/uv.lock' '**/Cargo.lock' '**/package-lock.json' || true)
+          if [ -z "$CHANGED" ]; then
+            echo "no lockfile changed in this PR"
+            exit 0
+          fi
+          echo "LOCKFILES CHANGED:"; echo "$CHANGED"
+          for f in $CHANGED; do
+            echo "--- $f ---"
+            git diff "origin/${{ github.base_ref }}"...HEAD -- "$f" | head -200
+          done
+          echo
+          echo "A lockfile moved. Read the diff above before merging: this is the one"
+          echo "place a dependency enters the estate without anyone writing an import."
+
+  affected:
+    # Change-scoped reporting, taken from hermes-agent's `detect affected areas`.
+    # It does NOT gate anything and must not: scoping WHICH checks run by changed
+    # paths is how a repo stops running the check that would have caught the thing.
+    # It reports the blast radius so a reviewer knows what a diff touched, which is
+    # the half that is safe to automate.
+    if: ${{ !github.event.pull_request.draft && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: which areas did this change touch
+        run: |
+          set -u
+          BASE="origin/${{ github.base_ref }}"
+          git fetch --no-tags --depth=50 origin "${{ github.base_ref }}"
+          FILES=$(git diff --name-only "$BASE"...HEAD)
+          echo "changed files: $(echo "$FILES" | grep -c . || true)"
+          echo
+          for area in tools/ tests/ docs/ dot-claude/ dot-codex/ dot-agents/ \
+                      state/ .github/ intent-control-plane/ research-papers/ work-docs/; do
+            n=$(echo "$FILES" | grep -c "^$area" || true)
+            [ "$n" -gt 0 ] && printf "  %-24s %s file(s)\n" "$area" "$n"
+          done
+          echo
+          echo "python blast radius of changed tool files:"
+          for f in $(echo "$FILES" | grep '^tools/.*\.py$' || true); do
+            python tools/graph/blast_radius.py . --changed "$f" 2>/dev/null | head -6
+          done
 
   falsifiability:
     # Covers ONLY the question "can these checks fail at all". A green selftest is
@@ -140,6 +250,19 @@ jobs:
 
       - name: skills_sync.py selftest
         run: python tools/audit/skills_sync.py selftest
+
+      # selftest and check answer different questions and neither replaces the
+      # other: selftest proves the checker can still fail, check asks whether the
+      # trees actually agree. Until 2026-08-05 CI ran only the first, so a checker
+      # that correctly returned 1 on 51 real items had nothing calling it.
+      # continue-on-error while the skills domain carries its dated waiver; drop
+      # this line when the waiver is cleared rather than renewed.
+      - name: skills_sync.py check
+        continue-on-error: true
+        run: python tools/audit/skills_sync.py check
+
+      - name: pointers.py scan
+        run: python tools/audit/pointers.py scan
 
       # Row 6 of the agentic repo standard (ADR-0020). Only the pure decision
       # function is exercised: the selftest never calls gh, git, or the network,

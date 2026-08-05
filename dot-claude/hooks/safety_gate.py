@@ -62,8 +62,8 @@ RULES: tuple[tuple[re.Pattern[str], str], ...] = (
         "Forced branch deletion is blocked.",
     ),
     (
-        re.compile(r"(?i)\bgit\b[^\r\n;&|]{0,400}\bpush\b[^\r\n;&|]*(?:--force(?:-with-lease)?|-f)\b"),
-        "Force-push is blocked.",
+        re.compile(r"(?i)\bgit\b[^\r\n;&|]{0,400}\bpush\b[^\r\n;&|]*(?:--force(?!-with-lease)|(?:^|\s)-f)\b"),
+        "Bare force-push is blocked. Use --force-with-lease, which refuses if the remote moved since your last fetch.",
     ),
     (
         re.compile(

@@ -364,7 +364,69 @@ def cmd_scan(a: argparse.Namespace) -> int:
     print("scanned {} tree(s) and {} settings file(s)".format(
         len([r for r in roots if os.path.isdir(r)]),
         len([s for s in settings if os.path.exists(s)])))
+
+    # A POINTER INTO THE LIVE HOME IS UNANSWERABLE WHERE THERE IS NO LIVE HOME.
+    # Added 2026-08-05, the same day the `rules` domain was fixed for the identical
+    # reason and one hour before this domain repeated it. On a GitHub runner this
+    # scan reported 304 distinct absent paths, headed by `~/.claude/bin/work-item.sh`
+    # at 40 references and `~/.claude/rules/gastown-company-registry.md` at 6, every
+    # one of which resolves on the operator's machine. That is L-2026-07-31-g:
+    # a host-shaped question that is correct on the host it was written on and
+    # answers something else entirely on the other.
+    #
+    # The split is by ANSWERABILITY, not by severity. A pointer at a path inside the
+    # repository is checkable anywhere and stays blocking. A pointer into ~ is
+    # demoted to a reported observation when ~/.claude is absent, and the demotion is
+    # printed, because a domain that quietly stops checking half of its subject is
+    # worse than one that fails.
+    # Keyed on settings.json rather than on the DIRECTORY existing. First attempt
+    # tested `isdir(~/.claude)` and CI still failed, because something on the
+    # runner creates that directory: an empty or near-empty ~/.claude satisfied the
+    # guard while containing none of the files the pointers reference, which is the
+    # worst of both readings. A DEPLOYED live tree has a settings.json; a runner
+    # that merely has the folder does not.
+    live_home = os.path.isfile(os.path.join(os.path.expanduser("~"), ".claude",
+                                            "settings.json"))
+    if not live_home:
+        home_prefix = os.path.expanduser("~") + os.sep
+        # Deferral goes through normalize(), not the raw string. A pointer written
+        # as /home/shov/.claude/... names the same unanswerable live home as one
+        # written ~/.claude/..., and on a runner it starts with neither "~/" nor
+        # the runner's own home prefix, so the raw test let it through to FAIL.
+        # That was the residual red on PR #37 after the first two hardenings
+        # (bus msg 1785935801-ef3acc, run 31008726876).
+        deferred = [f for f in findings
+                    if str(f.get("target", "")).startswith(("~/", home_prefix))
+                    or normalize(str(f.get("target", ""))).startswith("~/")]
+        if deferred:
+            print("\n  SKIP {} finding(s) pointing into the live home: no ~/.claude on this "
+                  "host, so their absence is a fact about the runner and not about the "
+                  "repository. Repo-internal pointers below still block."
+                  .format(len(deferred)))
+            findings = [f for f in findings if f not in deferred]
+
+    # A WINDOWS DRIVE PATH IS UNANSWERABLE ON A POSIX HOST, unconditionally.
+    # The payload settings.json wires hooks through C:\Program Files\Git\bin\bash.exe,
+    # which is correct on the Windows host it deploys to and cannot exist on a
+    # Linux runner or under WSL. os.path.exists("C:\\...") on POSIX asks whether
+    # a file named "C:\..." sits in the current directory, which is not the
+    # question. Same answerability split as the live-home rule above, keyed on
+    # the platform rather than on deployment: on Windows these stay blocking.
+    if os.name != "nt":
+        win = [f for f in findings
+               if re.match(r"(?i)^[a-z]:[\\/]", str(f.get("target", "")))]
+        if win:
+            print("\n  SKIP {} finding(s) targeting Windows drive paths: this host is not "
+                  "Windows, so their absence here is a fact about the host and not about "
+                  "the configuration. They stay blocking when the scan runs on Windows."
+                  .format(len(win)))
+            findings = [f for f in findings if f not in win]
+
+    # Print what remains AFTER the deferral, because the verdict is computed over
+    # exactly this list. Before this call existed, CI printed "scanned 3 trees"
+    # and "VERDICT: FAIL" with nothing in between: a red nobody could act on.
     report(findings, a.out)
+
     worst = max([SEV_ORDER[f["severity"]] for f in findings], default=0)
     threshold = SEV_ORDER[a.fail_on]
     verdict = "PASS" if worst < threshold else "FAIL"

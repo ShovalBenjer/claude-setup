@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-417 directories, 1839 tracked files, 0 without a stated purpose.
+415 directories, 1833 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -30,16 +30,16 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `docs` | 36 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
-| `docs/adr` | 20 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 37 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
-| `docs/analysis/reference` | 1 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
-| `docs/prd` | 3 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
-| `docs/prior-art` | 40 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
+| `docs` | 37 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
+| `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
+| `docs/analysis` | 39 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
+| `docs/prd` | 5 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
+| `docs/prior-art` | 42 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
 | `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
-| `docs/specs` | 18 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
-| `docs/standards` | 1 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
+| `docs/specs` | 20 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/standards` | 7 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
 
 ## dot-agents
 
@@ -369,25 +369,20 @@ the same reason, one level down.
 | `research-papers/Documents/SIU_InHouse_Video_Research_20260506` | 2 | Build-vs-buy research on an in-house AI video pipeline to replace a ChatGPT-agent+HeyGen chain for SIU | registry |
 | `research-papers/Documents/SOTA_DS_Methods_Research_20260415` | 7 | Multi-module research index on cross-validation, coverage metrics, and scalable LLM-agent-eval methods | registry |
 | `research-papers/Prompts` | 6 | Loose standalone prompt/skill text files (anti-AI writing guide, xlsx-skill definition, data-scientist prompt set) | registry |
-| `research-papers/docs-shoval` | 12 | Snapshot mirror of the axia-seekapa-cs-agents repo docs tree (architecture, compliance, audits) plus loose planning docs | registry |
-| `research-papers/docs-shoval/audits` | 3 | Dated Azure/DevOps dormancy and CS-agent access-boundary audit reports for the Seekapa/Axia infrastructure | registry |
+| `research-papers/docs-shoval` | 1 | Snapshot mirror of the axia-seekapa-cs-agents repo docs tree (architecture, compliance, audits) plus loose planning docs | registry |
 | `research-papers/docs-shoval/diagrams` | 9 | Architecture diagrams (d2 source plus rendered svg/interactive html) for the CS-agents system | registry |
-| `research-papers/docs-shoval/eval-results` | 3 | Dated smoke-test baseline output reports comparing agent vs application endpoint latency and pass rate | registry |
-| `research-papers/docs-shoval/reflections` | 7 | Dated Heidegger-reflection-style retrospectives on hardening/perf/session work for the CS-agents repo | registry |
-| `research-papers/docs-shoval/research` | 1 | Single dated research memo synthesizing AI-bot security best practices for the regulated-finance CS bot | registry |
-| `research-papers/docs-shoval/specs` | 4 | Dated feature/eval specs (deliverables, acceptance criteria) for the CS-agents repo | registry |
-| `research-papers/docs-shoval/wiki` | 7 | Mirror of the CS-agents Azure DevOps wiki pages (Home, Architecture, Compliance, Deployment, Getting-Started) | registry |
+| `research-papers/docs-shoval/wiki` | 2 | Mirror of the CS-agents Azure DevOps wiki pages (Home, Architecture, Compliance, Deployment, Getting-Started) | registry |
 | `research-papers/el-vadt` | 2 | Root of the EL-VADT (ElevenLabs Voice Agent Domain Transfer) project corpus: sales-agent prompts, transcript analysis, docs | registry |
 | `research-papers/el-vadt/analysis` | 11 | Python scripts/notebook and CSV/JSON outputs mining Arabic sales-call transcripts for dark-pattern/persuasion features | registry |
 | `research-papers/el-vadt/docs` | 21 | Mixed project docs (strategy, linguistics wiki pages, Azure reference); role also holds four commercial sales/marketing books, metadata-only | registry |
 | `research-papers/el-vadt/docs/prompts` | 2 | Two standalone accuracy/self-review meta-prompt templates (Heidegger-style verification instructions) | registry |
 | `research-papers/el-vadt/sales-agents-summary` | 5 | Production-ready Arabic voice agent for relationship restoration with former trading platform clients. Built on ElevenLabs Conversational AI. | README.md |
 | `research-papers/el-vadt/sales-agents-summary/prompts` | 11 | Current deployed and gender-handling system-prompt versions for the Maryam/Nouf voice agents | registry |
-| `research-papers/el-vadt/sales-agents-summary/prompts/archive` | 8 | Retired, superseded prompt versions (v6 through v6.8) for Maryam/Nouf, kept only for diffing against current prompts | registry |
+| `research-papers/el-vadt/sales-agents-summary/prompts/archive` | 7 | Retired, superseded prompt versions (v6 through v6.8) for Maryam/Nouf, kept only for diffing against current prompts | registry |
 | `research-papers/el-vadt/sales-agents-summary/prompts/conversation-scripts` | 1 | Scenario-based Arabic conversation script library used to script/test the Maryam voice agent | registry |
 | `research-papers/el-vadt/specify-memory` | 0 | Holds only the memory/ subdirectory, which documents itself with its own README.md; this folder itself carries no files of its own beyond that child | registry |
 | `research-papers/el-vadt/specify-memory/memory` | 5 | This directory contains the unified knowledge system for el-vadt. | README.md |
-| `research-papers/home-md` | 24 | <p align="center"> | README.md |
+| `research-papers/home-md` | 16 | <p align="center"> | README.md |
 | `research-papers/knowledge` | 1 | Auto-embedded into `~/.claude/cache/sessions.db` → `knowledge_docs` table. | README.md |
 
 ## startup-scripts
@@ -400,7 +395,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `state` | 21 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
+| `state` | 23 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
 | `state/backups` | 1 | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project... | registry |
 | `state/retired-2026-07-25` | 0 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled... | registry |
 | `state/retired-2026-07-25/bin` | 6 | Retired 2026-07-25 meme/visual scripts (download/play memes, generate/pop visual, seed-meme-vectordb), pulled from the live bin/ tree | registry |
@@ -409,7 +404,7 @@ the same reason, one level down.
 | `state/retired-2026-07-25/skills` | 0 | Holds the retired meme-control/ and visual-explainer/ skill folders, each self-documented by its own SKILL.md, removed from the live Claude Code skill set | registry |
 | `state/retired-2026-07-25/skills/meme-control` | 1 | Toggle Codex meme playback on/off and report current meme state (session + durable config). | SKILL.md |
 | `state/retired-2026-07-25/skills/visual-explainer` | 1 | Generate a diagram or visual via Azure Foundry gpt-image-2-general and embed inline. Triggers on "i don't understand" / "show me" / "draw it" signals (en/he/ar) detected by the... | SKILL.md |
-| `state/reviews` | 9 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
+| `state/reviews` | 1 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
 | `state/snapshots` | 1 | Tracked manifests (path+size+sha256) of point-in-time ~/.claude captures; actual file bytes stay untracked per its .gitignore | registry |
 | `state/snapshots/20260725T110903Z-pre-bus-wiring` | 1 | One snapshot: manifest of ~/.claude taken 2026-07-25T11:09 UTC, labeled pre-bus-wiring, for drift diffing before that change | registry |
 | `state/timetravel` | 2 | Content-addressed snapshots of the gitignored ledgers, written by tools/timetravel. objects/ is gitignored and the manifest is committed, matching the state/snapshots precedent | registry |
@@ -418,7 +413,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `tests` | 27 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `tests` | 29 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
 | `tests/cmd` | 1 | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process self... | registry |
 | `tests/cmd/fixtures` | 1 | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it | registry |
 
@@ -427,14 +422,15 @@ the same reason, one level down.
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
 | `tools` | 7 | Holds this repo's operational tooling: top-level scripts (repo audit, token rollout, slop lint) plus one subdirectory per verification, automation, or coordination tool | registry |
-| `tools/audit` | 4 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
+| `tools/antigravity` | 1 | The `agy` CLI, a local reimplementation of an Antigravity command line that does not exist as a binary on this machine; wraps the google-antigravity Python SDK behind the repo's... | registry |
+| `tools/audit` | 5 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
 | `tools/audit/mutations` | 14 | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red | registry |
 | `tools/browser` | 1 | Hand-rolled Chrome DevTools Protocol client that launches a separate Chrome so the assistant can browse authenticated pages, screenshot, and eval JS that anonymous WebFetch cann... | registry |
 | `tools/bus` | 2 | Cross-terminal message bus (bus.py): append-only hash-chained JSONL with per-lane read cursors so parallel Claude Code sessions in different terminals can send each other durabl... | registry |
 | `tools/channel` | 2 | Purpose: measure whether a compressed inter-agent channel actually carried the | README.md |
 | `tools/digest` | 1 | Builds the daily digest (push line plus digest.md) from TODO, git, and branch-health state for a cron job to send via PushNotification; out/ holds the generated digest.md and pu... | registry |
 | `tools/digest/out` | 2 | Generated daily-digest output (digest.md TODO/lessons rollup, push.txt); written by the digest tool, not source | registry |
-| `tools/docmap` | 1 | Generated document map: classifies all 929 tracked markdown files, derives each one's lifecycle status from its class or its own header, and records which lane-letter scheme (pr... | registry |
+| `tools/docmap` | 3 | Generated document map: classifies all 929 tracked markdown files, derives each one's lifecycle status from its class or its own header, and records which lane-letter scheme (pr... | registry |
 | `tools/e2e` | 1 | Real-browser end-to-end flow auditor (flow.py) that drives tools/browser/cdp.py at phone size, presses every control on every route, and feeds the ship gate's e2e and a11y_ux do... | registry |
 | `tools/gate` | 2 | Ship-gate contract enforcer (gate.py: coverage checklist plus a run ledger) and enforce_selftest.py, proving the live deployed Stop hook actually blocks an ungated done-claim | registry |
 | `tools/ghpub` | 1 | Publishes state/github-backlog-*.json to GitHub milestones, labels, issues and a project board. Idempotent by issue title so a re-run is safe and a partial failure resumes rathe... | registry |
@@ -456,17 +452,19 @@ the same reason, one level down.
 | `tools/reclaim` | 2 | Executes a verified reclamation plan (archive/delete) for the 2026-07-30 filesystem reorganization. Dry-run by default; re-runs each row's invariants immediately before acting a... | registry |
 | `tools/refute` | 1 | CLI refutation engine that runs each claim's verifier command from state/claims-verify.jsonl and reports HELD/REFUTED/BROKEN, so no claim is asserted without an executable falsi... | registry |
 | `tools/refute/checks` | 8 | Verifier scripts refute.py invokes per claim: hook wiring/existence/execution, persona front-matter validity, config drift, hiring-ledger rows, and a meta-check that siblings fa... | registry |
-| `tools/review` | 3 | Runs a deterministic (plus optional opt-in OpenRouter) persona review over a git diff's added lines and writes the verdict artifact tools/gate/gate.py reads before merge | registry |
+| `tools/review` | 4 | Runs a deterministic (plus optional opt-in OpenRouter) persona review over a git diff's added lines and writes the verdict artifact tools/gate/gate.py reads before merge | registry |
 | `tools/selfimprove` | 1 | scan.py reads real signals (open TODOs, git drift, hook health, tool coverage, doc staleness) to generate ranked proposals for the system's own next work; proposals.jsonl is tha... | registry |
 | `tools/skilleval` | 1 | run.py grades each skill's own routing-eval fixtures for whether its description text separates trigger from non-trigger prompts, flagging skills with no fixtures as UNCOVERED f... | registry |
 | `tools/snapshot` | 1 | snap.py takes, lists, diffs and restores point-in-time backups of the live ~/.claude tree, splitting gitignored content from a git-tracked manifest and hashing out secret-lookin... | registry |
 | `tools/supply` | 2 | Provenance ledger for third-party artifacts, so this repo can adopt outside tools | README.md |
+| `tools/telemetry` | 2 | Cross-repo agent telemetry: normalises the ten state/ ledgers into one event stream with per-source yield auditing, and publishes only the notable ones to a GitHub issue acting... | registry |
+| `tools/telemetry/systemd` | 3 | Status: live, 2026-08-04. The units below are deployed and the timer is enabled; | README.md |
 | `tools/timetravel` | 2 | Point-in-time reconstruction for the bytes git never sees: files matched by | README.md |
 | `tools/transcribe` | 1 | scribe.py, a stdlib ElevenLabs Scribe client for local meeting audio; resolves the key through tools/lib/envload so it never reaches a command line, hand-builds the multipart bo... | registry |
 | `tools/trycmd` | 1 | Literate CLI snapshot test runner: a stdlib-Python port of the Rust `trycmd` v1.2.1 grammar and the `snapbox` v0.6.21 line matcher. Executes the `$ command` blocks in tests/cmd/... | registry |
 | `tools/whatsapp` | 4 | CDP scripts (cdp_driver.py plus wa_* callers) that drive the WhatsApp Web tab read-only via simulated clicks to list archived chats, probe search, and read one group's message h... | registry |
 | `tools/workspace` | 14 | Operator-workspace tooling: the lane chooser and the launchers/taskbar pin that reach it (Start-Claude.ps1, make_lane_launchers.py, repoint_taskbar_pin.ps1) with mutate_launcher... | registry |
-| `tools/wsl` | 7 | WSL2 migration helpers: Makefile and scripts for moving work onto the ext4 side, where git status is 69ms against 12,018ms across the /mnt/c 9P boundary. The penalty is directio... | registry |
+| `tools/wsl` | 11 | WSL2 migration helpers: Makefile and scripts for moving work onto the ext4 side, where git status is 69ms against 12,018ms across the /mnt/c 9P boundary. The penalty is directio... | registry |
 
 ## work-docs
 
