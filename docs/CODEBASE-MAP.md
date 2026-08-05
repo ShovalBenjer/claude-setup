@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-415 directories, 1845 tracked files, 0 without a stated purpose.
+415 directories, 1847 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -32,7 +32,7 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `docs` | 37 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 38 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 39 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/prd` | 5 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
 | `docs/prior-art` | 42 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
@@ -404,7 +404,7 @@ the same reason, one level down.
 | `state/retired-2026-07-25/skills` | 0 | Holds the retired meme-control/ and visual-explainer/ skill folders, each self-documented by its own SKILL.md, removed from the live Claude Code skill set | registry |
 | `state/retired-2026-07-25/skills/meme-control` | 1 | Toggle Codex meme playback on/off and report current meme state (session + durable config). | SKILL.md |
 | `state/retired-2026-07-25/skills/visual-explainer` | 1 | Generate a diagram or visual via Azure Foundry gpt-image-2-general and embed inline. Triggers on "i don't understand" / "show me" / "draw it" signals (en/he/ar) detected by the... | SKILL.md |
-| `state/reviews` | 14 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
+| `state/reviews` | 15 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
 | `state/snapshots` | 1 | Tracked manifests (path+size+sha256) of point-in-time ~/.claude captures; actual file bytes stay untracked per its .gitignore | registry |
 | `state/snapshots/20260725T110903Z-pre-bus-wiring` | 1 | One snapshot: manifest of ~/.claude taken 2026-07-25T11:09 UTC, labeled pre-bus-wiring, for drift diffing before that change | registry |
 | `state/timetravel` | 2 | Content-addressed snapshots of the gitignored ledgers, written by tools/timetravel. objects/ is gitignored and the manifest is committed, matching the state/snapshots precedent | registry |
