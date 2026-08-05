@@ -405,6 +405,23 @@ def cmd_scan(a: argparse.Namespace) -> int:
                   .format(len(deferred)))
             findings = [f for f in findings if f not in deferred]
 
+    # A WINDOWS DRIVE PATH IS UNANSWERABLE ON A POSIX HOST, unconditionally.
+    # The payload settings.json wires hooks through C:\Program Files\Git\bin\bash.exe,
+    # which is correct on the Windows host it deploys to and cannot exist on a
+    # Linux runner or under WSL. os.path.exists("C:\\...") on POSIX asks whether
+    # a file named "C:\..." sits in the current directory, which is not the
+    # question. Same answerability split as the live-home rule above, keyed on
+    # the platform rather than on deployment: on Windows these stay blocking.
+    if os.name != "nt":
+        win = [f for f in findings
+               if re.match(r"(?i)^[a-z]:[\\/]", str(f.get("target", "")))]
+        if win:
+            print("\n  SKIP {} finding(s) targeting Windows drive paths: this host is not "
+                  "Windows, so their absence here is a fact about the host and not about "
+                  "the configuration. They stay blocking when the scan runs on Windows."
+                  .format(len(win)))
+            findings = [f for f in findings if f not in win]
+
     # Print what remains AFTER the deferral, because the verdict is computed over
     # exactly this list. Before this call existed, CI printed "scanned 3 trees"
     # and "VERDICT: FAIL" with nothing in between: a red nobody could act on.
