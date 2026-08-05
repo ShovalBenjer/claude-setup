@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-415 directories, 1806 tracked files, 0 without a stated purpose.
+415 directories, 1810 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -464,7 +464,7 @@ the same reason, one level down.
 | `tools/trycmd` | 1 | Literate CLI snapshot test runner: a stdlib-Python port of the Rust `trycmd` v1.2.1 grammar and the `snapbox` v0.6.21 line matcher. Executes the `$ command` blocks in tests/cmd/... | registry |
 | `tools/whatsapp` | 4 | CDP scripts (cdp_driver.py plus wa_* callers) that drive the WhatsApp Web tab read-only via simulated clicks to list archived chats, probe search, and read one group's message h... | registry |
 | `tools/workspace` | 14 | Operator-workspace tooling: the lane chooser and the launchers/taskbar pin that reach it (Start-Claude.ps1, make_lane_launchers.py, repoint_taskbar_pin.ps1) with mutate_launcher... | registry |
-| `tools/wsl` | 7 | WSL2 migration helpers: Makefile and scripts for moving work onto the ext4 side, where git status is 69ms against 12,018ms across the /mnt/c 9P boundary. The penalty is directio... | registry |
+| `tools/wsl` | 11 | WSL2 migration helpers: Makefile and scripts for moving work onto the ext4 side, where git status is 69ms against 12,018ms across the /mnt/c 9P boundary. The penalty is directio... | registry |
 
 ## work-docs
 
