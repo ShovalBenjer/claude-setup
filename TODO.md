@@ -507,3 +507,40 @@ is that surface, and each is named with what it is for.
 - [ ] **Three bodies of work landed unclaimed today.** The four 2026-08-03 PRD/spec
       documents, the `tools/antigravity` component, and the docmap strand tooling. Charters
       rule 1 is claim-before-starting and it is the most-logged lesson in the repo.
+
+### Modules over the imported 500-line hard limit (14, measured by AST 2026-08-05)
+
+The standard is `docs/standards/nr-code-quality-standard-2026-07.md`: module hard limit
+500, function target 20, hard limit 50. `quality-contract.json` has no size domain, so
+none of this is enforced. Filed as rows because a finding in prose is not a backlog.
+
+- [ ] `tools/gate/gate.py` is **1451 lines**, over the 500 limit by 951. worst function `cmd_selftest` at 305 lines
+- [ ] `tools/review/panel.py` is **1387 lines**, over the 500 limit by 887. worst function `cmd_selftest` at 330 lines
+- [ ] `tools/bus/bus.py` is **1244 lines**, over the 500 limit by 744. worst function `cmd_selftest` at 614 lines
+- [ ] `tools/e2e/flow.py` is **1144 lines**, over the 500 limit by 644. worst function `cmd_selftest` at 93 lines
+- [ ] `tools/snapshot/snap.py` is **827 lines**, over the 500 limit by 327. worst function `cmd_selftest` at 354 lines
+- [ ] `tools/supply/verify.py` is **808 lines**, over the 500 limit by 308. worst function `cmd_selftest` at 158 lines
+- [ ] `tools/audit/skills_sync.py` is **752 lines**, over the 500 limit by 252. worst function `cmd_selftest` at 253 lines
+- [ ] `tools/browser/cdp.py` is **739 lines**, over the 500 limit by 239. worst function `launch` at 60 lines
+- [ ] `tools/timetravel/snapshot.py` is **725 lines**, over the 500 limit by 225. worst function `cmd_selftest` at 174 lines
+- [ ] `tools/skilleval/run.py` is **579 lines**, over the 500 limit by 79. worst function `selftest` at 200 lines
+- [ ] `tools/audit/pointers.py` is **571 lines**, over the 500 limit by 71. worst function `cmd_selftest` at 103 lines
+- [ ] `tools/docmap/docmap.py` is **533 lines**, over the 500 limit by 33. worst function `selftest` at 98 lines
+- [ ] `tools/map/codemap.py` is **521 lines**, over the 500 limit by 21. worst function `cmd_selftest` at 85 lines
+- [ ] `tools/refute/refute.py` is **510 lines**, over the 500 limit by 10. worst function `cmd_selftest` at 183 lines
+
+- [ ] **daily-deep-learning's contract reaches into a STALE clone.** Its `review` and `e2e`
+      domains shell out to `C:/Users/shova/claude-setup/tools/...`, which resolves through
+      `/mnt/c` to the third clone, HEAD `f5d697e`. That clone predates today's panel.py
+      fixes, so ddl's review domain runs an oracle without the comment-strip or sql-concat
+      corrections. Superseded by the central-sweep decision in docs/taste.md 2026-08-05.
+- [ ] **Two daily-deep-learning waivers expire today, 2026-08-05: `e2e` and `a11y_ux`.**
+      A third, `pipeline`, expires 2026-08-10. Nobody will notice, because that repo has
+      never run its contract: zero rows in its `state/gate-runs.jsonl`.
+- [ ] **Required reviewers are impossible on this plan, not merely unconfigured.**
+      `gh api repos/.../branches/main/protection` returns 403 "Upgrade to GitHub Pro or make
+      this repository public". `.github/CODEOWNERS` exists and does nothing without branch
+      protection. Decide: pay, go public, or drop the pretence and delete CODEOWNERS.
+- [ ] **GitHub Discussions and Wiki are both disabled**; Issues (32 open) and Projects are
+      on. If Zion is the board, `gh` needs `read:project` scope before any session can read
+      it: `gh auth refresh -s read:project`.
