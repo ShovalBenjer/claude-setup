@@ -72,7 +72,8 @@
     "codemap": {
       "required": true,
       "builtin": "dir_map",
-      "_note": "every tracked directory states a purpose, and docs/CODEBASE-MAP.md matches the tree"
+      "_note": "every tracked directory states a purpose, and docs/CODEBASE-MAP.md matches the tree",
+      "_waiver_history": "A waiver until 2026-08-06 was added and REMOVED the same hour, unexpired. It excused 5 registry rows naming research-papers/docs-shoval subdirectories that another session had staged for deletion, and its stated reason was that removing the rows would finish half of somebody else's uncommitted change. Then `python tools/map/codemap.py write` was run to register a new directory and it removed those 5 rows as a side effect, which is exactly what the waiver said not to do. The pre-run backup diff reported no change to dir-purpose.txt and was wrong; `git diff` shows 5 deletions and 1 insertion. Recording the sequence rather than the outcome, because the outcome (map clean) looks identical whether the rows were removed deliberately or by a regeneration nobody inspected. Restore with `git checkout docs/dir-purpose.txt` and re-add the tools/antigravity row if the deletion is reverted upstream."
     },
     "docmap": {
       "required": true,
@@ -84,6 +85,12 @@
       "builtin": "prior_art",
       "_note": "every component over 300 lines of Python carries an unexpired record naming what else could do its job",
       "_waiver_history": "A waiver until 2026-08-01 was added on 2026-07-31 and REMOVED the same day, unexpired, because the thing it excused was done rather than waited out. Its reason was correct when written: commit 8a4217b brought syndication-engine (549 lines), whatsapp-query (1120) and tools/intent (1016) fully into tracking with no prior-art records, and inventing three records to clear a red domain would have fabricated the evidence this domain exists to demand. All three now exist with 7, 8 and 7 fetched-and-cited alternatives and counterarguments that argue against keeping our version. Recorded here rather than deleted, because L-2026-07-31-a is a waiver renewed twice on a reason nobody executed, and the counter-practice worth keeping is that a waiver ends when its reason does."
+    },
+    "rules": {
+      "required": true,
+      "cmd": "python tools/audit/rules_sync.py check",
+      "timeout": 300,
+      "_note": "the global rules loaded into every session are deployed AND intact. Added 2026-08-04 after twelve of them were found at roughly a tenth of their original size, having been overwritten by commit 2bb97a8 which synced a degraded live tree back over the good repo copy and removed 986 lines. Nothing in the repo could see it: skills_sync.py covers dot-claude/skills and never mentioned rules. The shrink half of this check is the part that matters, because a byte count is the only signal left once the content is gone."
     }
   }
 }
