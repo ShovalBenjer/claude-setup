@@ -10,12 +10,12 @@ description: Break a plan, spec, or PRD into independently-grabbable work items 
 Detect the backend before any issue/PR command:
 
 ```bash
-backend=$(~/.Codex/bin/work-item.sh detect)  # "ado" | "gh"
+backend=$(~/.claude/bin/work-item.sh detect)  # "ado" | "gh"
 ```
 
-Use `~/.Codex/bin/work-item.sh create` instead of literal `gh issue create`. It maps to `az boards work-item create --type 'User Story'` on Azure DevOps repos. Full mapping: `~/.Codex/rules/ado-issue-mapping.md`.
+Use `~/.claude/bin/work-item.sh create` instead of literal `gh issue create`. It maps to `az boards work-item create --type 'User Story'` on Azure DevOps repos. Full mapping: `~/.claude/rules/ado-issue-mapping.md`.
 
-For each work item created, the implementing agent should later create a feature branch and open a PR via `~/.Codex/bin/work-item.sh pr-create --link <work-item-id>` — on ADO this auto-links the work item and triggers the build pipeline.
+For each work item created, the implementing agent should later create a feature branch and open a PR via `~/.claude/bin/work-item.sh pr-create --link <work-item-id>` — on ADO this auto-links the work item and triggers the build pipeline.
 
 # To Issues
 
@@ -25,7 +25,7 @@ Break a plan into independently-grabbable work items using vertical slices (trac
 
 ### 1. Gather context
 
-Work from whatever is already in the conversation context. If the user passes an issue/work-item ID or URL as an argument, fetch it with `~/.Codex/bin/work-item.sh view <id>` (auto-routes to `gh issue view` or `az boards work-item show`).
+Work from whatever is already in the conversation context. If the user passes an issue/work-item ID or URL as an argument, fetch it with `~/.claude/bin/work-item.sh view <id>` (auto-routes to `gh issue view` or `az boards work-item show`).
 
 ### 2. Explore the codebase (optional)
 
@@ -63,7 +63,7 @@ Iterate until the user approves the breakdown.
 
 ### 5. Create the work items (ADO work items / GitHub issues)
 
-For each approved slice, create a work item using `~/.Codex/bin/work-item.sh create --title "<slice>" --body "$BODY" --type "User Story" --tags "tracer-bullet"`. Use the issue body template below. On ADO, the work item ID returned should be passed as `--link` to `work-item.sh pr-create` later so the PR triggers the linked-work-item pipeline.
+For each approved slice, create a work item using `~/.claude/bin/work-item.sh create --title "<slice>" --body "$BODY" --type "User Story" --tags "tracer-bullet"`. Use the issue body template below. On ADO, the work item ID returned should be passed as `--link` to `work-item.sh pr-create` later so the PR triggers the linked-work-item pipeline.
 
 Create issues in dependency order (blockers first) so you can reference real issue numbers in the "Blocked by" field.
 

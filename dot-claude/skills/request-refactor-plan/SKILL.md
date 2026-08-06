@@ -6,7 +6,7 @@ description: Create a detailed refactor plan with tiny commits via user intervie
 ## Backend — auto-detect (ADO or GitHub)
 
 ```bash
-~/.Codex/bin/work-item.sh create --title "Refactor: <area>" --body "$RFC_BODY" --type "User Story" --tags "refactor,rfc"
+~/.claude/bin/work-item.sh create --title "Refactor: <area>" --body "$RFC_BODY" --type "User Story" --tags "refactor,rfc"
 ```
 
 Maps to `az boards work-item create --type 'User Story' --fields "System.Tags=refactor;rfc"` on ADO. The implementing agent later opens a PR per tiny commit batch via `work-item.sh pr-create --link <work-item-id> --target stage`, which fires the ADO build pipeline.
@@ -27,7 +27,7 @@ This skill will be invoked when the user wants to create a refactor request. You
 
 7. Break the implementation into a plan of tiny commits. Remember Martin Fowler's advice to "make each refactoring step as small as possible, so that you can always see the program working."
 
-8. Create a work item via `~/.Codex/bin/work-item.sh create` with the refactor plan. Use the following template for the body:
+8. Create a work item via `~/.claude/bin/work-item.sh create` with the refactor plan. Use the following template for the body:
 
 <refactor-plan-template>
 

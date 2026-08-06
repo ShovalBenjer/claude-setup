@@ -8,11 +8,11 @@ description: Turn the current conversation context into a PRD and submit it as a
 Before filing anything, detect the backend and use the dispatcher:
 
 ```bash
-backend=$(~/.Codex/bin/work-item.sh detect)  # "ado" | "gh"
-~/.Codex/bin/work-item.sh create --title "PRD: <name>" --body "$PRD_BODY" --type "User Story" --tags "prd"
+backend=$(~/.claude/bin/work-item.sh detect)  # "ado" | "gh"
+~/.claude/bin/work-item.sh create --title "PRD: <name>" --body "$PRD_BODY" --type "User Story" --tags "prd"
 ```
 
-This maps to `az boards work-item create --type 'User Story'` on Azure DevOps repos and `gh issue create` on GitHub repos. Full field mapping: `~/.Codex/rules/ado-issue-mapping.md`.
+This maps to `az boards work-item create --type 'User Story'` on Azure DevOps repos and `gh issue create` on GitHub repos. Full field mapping: `~/.claude/rules/ado-issue-mapping.md`.
 
 This skill takes the current conversation context and codebase understanding and produces a PRD. Do NOT interview the user — just synthesize what you already know.
 
@@ -26,7 +26,7 @@ A deep module (as opposed to a shallow module) is one which encapsulates a lot o
 
 Check with the user that these modules match their expectations. Check with the user which modules they want tests written for.
 
-3. Write the PRD using the template below and submit it via `~/.Codex/bin/work-item.sh create` (auto-routes to ADO work item or GitHub issue based on remote).
+3. Write the PRD using the template below and submit it via `~/.claude/bin/work-item.sh create` (auto-routes to ADO work item or GitHub issue based on remote).
 
 <prd-template>
 

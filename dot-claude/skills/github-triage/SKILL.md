@@ -5,7 +5,7 @@ description: Triage issues/work-items through a label-based state machine (ADO a
 
 # Issue / Work Item Triage
 
-Triage items in the current repo using a label-based state machine. Infer the repo from `git remote`. Use `~/.Codex/bin/work-item.sh` for all create/comment/close operations — it dispatches to `gh` (GitHub) or `az boards` (Azure DevOps) automatically.
+Triage items in the current repo using a label-based state machine. Infer the repo from `git remote`. Use `~/.claude/bin/work-item.sh` for all create/comment/close operations — it dispatches to `gh` (GitHub) or `az boards` (Azure DevOps) automatically.
 
 ## Backend mapping (ADO)
 
@@ -21,7 +21,7 @@ On Azure DevOps repos, the GitHub-flavored labels in this skill map to ADO field
 | `ready-for-human` | Tag `ready-for-human` + State `Active` |
 | `wontfix` | State `Closed` + reason `Won't Fix` |
 
-State transitions use `az boards work-item update --id N --state X --fields "System.Tags=tag1;tag2"`. The state machine semantics below stay the same; only the underlying commands differ. Full mapping: `~/.Codex/rules/ado-issue-mapping.md`.
+State transitions use `az boards work-item update --id N --state X --fields "System.Tags=tag1;tag2"`. The state machine semantics below stay the same; only the underlying commands differ. Full mapping: `~/.claude/rules/ado-issue-mapping.md`.
 
 ## AI Disclaimer
 
