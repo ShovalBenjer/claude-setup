@@ -40,3 +40,12 @@ MUTATIONS = [
         '"evidence": {}',
     ),
 ]
+
+MUTATIONS.append((
+    "--strict never fails",
+    "The one path proposed for a gate domain (TODO SKILLDEP-03) always exits 0, so "
+    "wiring it in would add a domain that can only ever pass. A check that cannot "
+    "go red is worse than no check, because it reports coverage.",
+    'return 1 if a.strict and counts["blocked"] else 0',
+    "return 0",
+))

@@ -133,7 +133,10 @@ hash-chained and verified.
 ## What was skipped, and what stays unknown
 
 Roughly 370 skills were enumerated across 17 saved repositories, and 24 carry a
-decision row. The remainder are unreviewed, not rejected. The largest unreviewed
+decision row. Six of those rows are collection-level and now say so: each carries
+`scope: collection` and a `covers_skills` count, so the 24 rows account for at
+least 307 of the 370 rather than reading as 24 individual judgements. The
+remainder are unreviewed, not rejected. The largest unreviewed
 block is `K-Dense-AI/scientific-agent-skills` at 158 skills, marked leave at
 collection level because several entries are laboratory vendor connectors
 (benchling, dnanexus, latchbio, opentrons) and no lane in `docs/charters.md` is

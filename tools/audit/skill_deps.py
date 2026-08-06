@@ -35,14 +35,19 @@ requirement a skill never writes down: a skill whose SKILL.md says "use the API"
 without naming a binary reads as unbound and is not. Detection is by named
 invocation, so the count is a floor on blockage, never a ceiling.
 
-Probes are local only. No network call, no auth attempt, nothing that could
-mutate a remote. Absence here means absent on THIS host, which is the whole
-question being asked.
+A binary on PATH is not a binary that is authenticated, and `runnable` must not be
+read as "verified to start". `gh` present with no login passes probe_binary and
+fails at first call; the same is true of az, gcloud and docker. Probes are local
+only: no network call, no auth attempt, nothing that could mutate a remote.
+Absence here means absent on THIS host, which is the whole question being asked,
+and presence here means installed, not ready.
 """
 
 from __future__ import annotations
 
 import argparse
+import contextlib
+import io
 import json
 import os
 import re
@@ -290,6 +295,27 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
             mention = "This skill talks about Azure and az generally."
             if requirements_of(mention):
                 fails.append("a bare mention counted as an invocation")
+            # --strict is the only path proposed for a gate domain (TODO SKILLDEP-03),
+            # so it is the last one that may go unexercised. Exit code, not output.
+            quiet = contextlib.redirect_stdout(io.StringIO())
+            strict = argparse.Namespace(tree=[str(root)], json=False, strict=True)
+            with quiet:
+                rc_strict = cmd_scan(strict)
+            if rc_strict != 1:
+                fails.append("--strict exited 0 with a blocked skill present")
+            lax = argparse.Namespace(tree=[str(root)], json=False, strict=False)
+            with contextlib.redirect_stdout(io.StringIO()):
+                rc_lax = cmd_scan(lax)
+            if rc_lax != 0:
+                fails.append("a blocked skill failed the run without --strict")
+            clean = Path(td) / "clean"
+            (clean / "prose-only").mkdir(parents=True)
+            (clean / "prose-only" / "SKILL.md").write_text("A method. No tooling.")
+            ok = argparse.Namespace(tree=[str(clean)], json=False, strict=True)
+            with contextlib.redirect_stdout(io.StringIO()):
+                rc_ok = cmd_scan(ok)
+            if rc_ok != 0:
+                fails.append("--strict exited nonzero with nothing blocked")
             wordlist = "\n".join(["notion", "obsidian"] + [f"word{i}" for i in range(400)])
             if requirements_of("" if looks_like_wordlist(wordlist) else wordlist):
                 fails.append("a dictionary wordlist counted as a product dependency")
