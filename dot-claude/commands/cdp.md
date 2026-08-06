@@ -113,6 +113,16 @@ Neither restart is skippable: quit Chrome from the system tray rather than closi
 the window, and start Claude Code with `--chrome`. A session already running cannot
 attach, and this is the step most likely to look like the bridge failing.
 
+What `verify` proves and what it does not. It proves the host starts and the socket
+opens. It does not prove the extension connects, because that handshake only happens
+after both restarts, and a session cannot restart itself to watch it. Until a session
+shows `mcp__claude-in-chrome__*` tools, this is wiring-verified and handshake-unconfirmed.
+If it still reports "not connected" after both restarts, check three things in order:
+`wsl-chrome-bridge verify`, that `CLAUDE_CODE_OAUTH_TOKEN` is unset in the shell profile
+(it forces an account mismatch), and that the extension is signed into the same claude.ai
+account as Claude Code. The binary carries a distinct message for that last case, so a
+generic "not connected" means it is one of the first two.
+
 ### Port 9224 from WSL: unreachable, and the firewall is not why
 
 Everything above about 9224 assumes a win32 session. From WSL that port is up and

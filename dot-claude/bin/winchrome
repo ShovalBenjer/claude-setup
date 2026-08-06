@@ -83,8 +83,13 @@ case "${1:-start}" in
     "$PS" -NoProfile -Command \
       "Get-CimInstance Win32_Process -Filter \"name='python.exe'\" | Where-Object {\$_.CommandLine -like '*cdp-relay*'} | ForEach-Object { Stop-Process -Id \$_.ProcessId -Force }" \
       >/dev/null 2>&1
-    /mnt/c/Windows/System32/taskkill.exe /F /IM chrome.exe >/dev/null 2>&1
-    echo "stopped chrome + relay"
+    # Only the automation profile. `taskkill /IM chrome.exe` would take the
+    # operator's real browser down with it, and once this script has been used
+    # once that is no longer a throwaway window: it is every tab they had open.
+    "$PS" -NoProfile -Command \
+      "Get-CimInstance Win32_Process -Filter \"name='chrome.exe'\" | Where-Object {\$_.CommandLine -like '*ClaudeChromeAutomation*'} | ForEach-Object { Stop-Process -Id \$_.ProcessId -Force }" \
+      >/dev/null 2>&1
+    echo "stopped the automation-profile chrome + relay (your normal Chrome is untouched)"
     ;;
   env) echo "export CDP_HOST=${HOST} CDP_PORT=${RELAY_PORT}" ;;
   *) sed -n '2,14p' "$0"; exit 2 ;;
