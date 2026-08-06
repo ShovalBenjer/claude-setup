@@ -59,4 +59,10 @@ jobs:
             - Do not report style that CI already enforces.
           claude_args: |
             --model claude-sonnet-5
-            --max-turns 10
+            # Raised from 10 on 2026-08-06. At 10 this job FAILED on 29 of its 40 runs
+            # with "Reached maximum number of turns": a full multi-category review of a
+            # 500-line diff spends its budget reading files and dies before writing the
+            # comment. That is not a code-quality signal, it is a spend limit, and every
+            # one of those failures showed as a red check on a PR that was fine. Gemini,
+            # doing a diff-only review over the same period, is 38 of 38 green.
+            --max-turns 40
