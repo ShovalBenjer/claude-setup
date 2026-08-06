@@ -33,3 +33,6 @@
 {"ts": "2026-08-06T12:51:46", "prompt_chars": 370, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-06T12:54:17", "prompt_chars": 382, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-06T13:14:00", "prompt_chars": 393, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-06T13:17:39", "prompt_chars": 425, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-06T13:21:48", "prompt_chars": 45, "personas": ["MCP and Tooling Office"], "skills": ["mcp-activation", "web-inspect"], "matched": true, "session": ""}
+{"ts": "2026-08-06T13:23:42", "prompt_chars": 48, "personas": [], "skills": [], "matched": false, "session": ""}
