@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# Point the Claude-in-Chrome native messaging host at WSL instead of Windows.
+#
+# The extension talks to Claude Code over Chrome native messaging, which launches
+# a local process named by a manifest in the Windows registry. Chrome runs on
+# Windows, so it can only launch a Windows process, and the stock manifest points
+# at claude.exe. That wires the extension to the WINDOWS Claude Code. A session
+# running in WSL is a different process on a different filesystem and never sees
+# it, which is why the extension reports "not connected" no matter how many times
+# it is reinstalled.
+#
+# The native host's job is to open a unix socket that a Claude Code session then
+# connects to. So the host has to run INSIDE WSL for the socket to land where the
+# WSL session can reach it. This rewrites the .bat to call wsl.exe. Measured
+# 2026-08-06: wsl.exe takes the raw stdin/stdout handles, so the 4-byte
+# length-prefixed native messaging frames cross the .bat without CRLF translation.
+#
+# Verified on Claude Code 2.1.223, where `claude --chrome-native-host` runs on
+# Linux and opens /tmp/claude-mcp-browser-bridge-$USER/<pid>.sock. Older builds
+# refused with "Claude in Chrome Native Host not supported on this platform"; if
+# that string comes back, the platform gate has returned and this cannot work.
+#
+# TRADE-OFF, deliberate and not a bug: while bridged, Claude Code ON WINDOWS can
+# no longer drive the extension, because one manifest cannot point two ways. The
+# original is kept beside it as .windows-native.bak. Run `wsl-chrome-bridge revert`
+# to hand the extension back to Windows.
+#
+# Re-run this after any Claude Code upgrade. Upgrades and `/chrome` setup
+# regenerate the .bat pointing back at claude.exe, which silently unbridges the
+# extension: it keeps reporting "not connected" and nothing names the cause.
+
+set -uo pipefail
+
+WIN_USER="${WIN_USER:-$(cmd.exe /c 'echo %USERNAME%' 2>/dev/null | tr -d '\r\n')}"
+DISTRO="${WSL_DISTRO_NAME:-Ubuntu}"
+CLAUDE_BIN="${CLAUDE_BIN:-$HOME/.local/bin/claude}"
+BAT="/mnt/c/Users/${WIN_USER}/.claude/chrome/chrome-native-host.bat"
+BAK="${BAT}.windows-native.bak"
+EXT_ID=fcoeoabgfenejglbffodgkkbkcdhcgfn
+WIN_EXT_DIR="/mnt/c/Users/${WIN_USER}/AppData/Local/Google/Chrome/User Data/Default/Extensions"
+
+die() { echo "FAILED: $*" >&2; exit 1; }
+
+write_bridge() {
+  [ -f "$CLAUDE_BIN" ] || die "no claude at $CLAUDE_BIN (set CLAUDE_BIN)"
+  [ -f "$BAT" ] || die "no native host at $BAT. Run /chrome in Claude Code on Windows once so it generates the manifest and registry key, then re-run this."
+  # Keep the FIRST backup taken. Re-running after an upgrade would otherwise
+  # overwrite the real Windows original with our own bridged copy, and revert
+  # would then restore the bridge it was meant to undo.
+  [ -f "$BAK" ] || cp "$BAT" "$BAK"
+  # CRLF throughout: this is a batch file read by cmd.exe.
+  printf '@echo off\r\nREM Bridged to WSL by wsl-chrome-bridge. Original: %s\r\nwsl.exe -d %s -- %s --chrome-native-host\r\n' \
+    "$(basename "$BAK")" "$DISTRO" "$CLAUDE_BIN" > "$BAT"
+  # Claude detects the extension by reading a Linux-side Chrome profile that does
+  # not exist under WSL. The parent must be a real directory: if the profile dir
+  # itself is a symlink, Node's readdir with withFileTypes does not follow it.
+  mkdir -p "$HOME/.config/google-chrome/Default"
+  local link="$HOME/.config/google-chrome/Default/Extensions"
+  [ -e "$link" ] || ln -s "$WIN_EXT_DIR" "$link"
+}
+
+case "${1:-setup}" in
+  setup)
+    write_bridge
+    echo "bridged: $BAT -> wsl.exe -d $DISTRO -- $CLAUDE_BIN --chrome-native-host"
+    [ -d "$WIN_EXT_DIR/$EXT_ID" ] \
+      && echo "extension present: $(ls "$WIN_EXT_DIR/$EXT_ID" | head -1)" \
+      || echo "WARNING: extension $EXT_ID not in the Default profile. Install it and re-run."
+    echo
+    echo "Two restarts are still required, and neither is optional:"
+    echo "  1. Quit Chrome fully (system tray, not just the window) and reopen it."
+    echo "  2. Restart Claude Code with --chrome. A running session cannot attach."
+    ;;
+  verify)
+    printf 'bat points at wsl: '
+    grep -qi "wsl.exe" "$BAT" 2>/dev/null && echo YES || echo "NO (unbridged; re-run setup)"
+    printf 'native host starts in wsl: '
+    # Empty stdin: the host opens its socket, sees EOF and exits. That is a
+    # successful start, not a failure, and the socket is gone by the time this
+    # prints, so match on the log line rather than on the socket surviving.
+    if printf '' | timeout 25 "$CLAUDE_BIN" --chrome-native-host 2>&1 | grep -q "Socket server listening"; then
+      echo YES
+    else
+      echo "NO (platform gate back, or binary moved)"
+    fi
+    printf 'extension installed: '
+    [ -d "$WIN_EXT_DIR/$EXT_ID" ] && echo YES || echo NO
+    ;;
+  revert)
+    [ -f "$BAK" ] || die "no backup at $BAK"
+    cp "$BAK" "$BAT" && echo "reverted to the Windows-native host. Restart Chrome fully."
+    ;;
+  *) sed -n '2,12p' "$0"; exit 2 ;;
+esac
