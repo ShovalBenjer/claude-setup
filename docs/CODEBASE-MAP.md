@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-414 directories, 1819 tracked files, 0 without a stated purpose.
+414 directories, 1823 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -155,7 +155,7 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `dot-claude` | 5 | Keep this file stable, short, and project-neutral. Current employment, branches, | CLAUDE.md |
 | `dot-claude/agents` | 23 | Frontmatter subagent persona files the Task tool spawns for Gastown's virtual-company routing, each scoped to its own owned skills, tools, and model | registry |
-| `dot-claude/bin` | 40 | Executable CLI scripts (shell/python/node) for provider switching, statusline rendering, Jira/PII/session utilities, and Gastown spawning; a few are stub pointers into the Codex... | registry |
+| `dot-claude/bin` | 44 | Executable CLI scripts (shell/python/node) for provider switching, statusline rendering, Jira/PII/session utilities, and Gastown spawning; a few are stub pointers into the Codex... | registry |
 | `dot-claude/commands` | 7 | Slash-command markdown definitions (/diverge, /reground, /cdp, /commit-push-pr, /insights, /pickup-reviews, /slop) that Claude Code loads as user-invokable commands | registry |
 | `dot-claude/corpus` | 2 | Script and source whitelist that build a local SQLite FTS best-practices corpus (Google eng practices, Azure Well-Architected, OpenSSF, private docs) for Gastown/Claude retrieval | registry |
 | `dot-claude/hooks` | 29 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
