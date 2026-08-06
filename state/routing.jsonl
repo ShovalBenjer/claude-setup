@@ -26,3 +26,10 @@
 {"ts": "2026-08-06T11:33:07", "prompt_chars": 1, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-06T11:33:16", "prompt_chars": 1, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-06T11:33:32", "prompt_chars": 1, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-06T12:43:54", "prompt_chars": 185, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-06T12:44:16", "prompt_chars": 187, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-06T12:44:50", "prompt_chars": 159, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-06T12:48:56", "prompt_chars": 444, "personas": ["Evidence Clerk"], "skills": ["deep-research", "decision-grade"], "matched": true, "session": ""}
+{"ts": "2026-08-06T12:51:46", "prompt_chars": 370, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-06T12:54:17", "prompt_chars": 382, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-06T13:14:00", "prompt_chars": 393, "personas": [], "skills": [], "matched": false, "session": ""}

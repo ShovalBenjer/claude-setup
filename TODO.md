@@ -522,7 +522,7 @@ is that surface, and each is named with what it is for.
       documents, the `tools/antigravity` component, and the docmap strand tooling. Charters
       rule 1 is claim-before-starting and it is the most-logged lesson in the repo.
 
-### Modules over the imported 500-line hard limit (14, measured by AST 2026-08-05)
+### Modules over the imported 500-line hard limit (15 as of 2026-08-06, was 14 on 08-05)
 
 The standard is `docs/standards/nr-code-quality-standard-2026-07.md`: module hard limit
 500, function target 20, hard limit 50. `quality-contract.json` has no size domain, so
@@ -551,10 +551,16 @@ none of this is enforced. Filed as rows because a finding in prose is not a back
 - [ ] **Two daily-deep-learning waivers expire today, 2026-08-05: `e2e` and `a11y_ux`.**
       A third, `pipeline`, expires 2026-08-10. Nobody will notice, because that repo has
       never run its contract: zero rows in its `state/gate-runs.jsonl`.
-- [ ] **Required reviewers are impossible on this plan, not merely unconfigured.**
-      `gh api repos/.../branches/main/protection` returns 403 "Upgrade to GitHub Pro or make
-      this repository public". `.github/CODEOWNERS` exists and does nothing without branch
-      protection. Decide: pay, go public, or drop the pretence and delete CODEOWNERS.
-- [ ] **GitHub Discussions and Wiki are both disabled**; Issues (32 open) and Projects are
+- [x] **WITHDRAWN: 'required reviewers are impossible on this plan'.** I reported branch
+      protection as unavailable because `gh api .../branches/main/protection` returned 403
+      'Upgrade to GitHub Pro or make this repository public'. The API response is real; the
+      CONCLUSION was wrong, because a parallel session is already working the reviewer
+      surface. A 403 from one endpoint is evidence about that endpoint, not about whether
+      the capability exists. Owner: the other session, not this row.
+- [x] **RESOLVED: `gh` now has `read:project`.** Zion is readable: 31 items, all Issues,
+      and **all 31 carry no status field at all**, which is why the board reads as zero
+      throughput. Nothing is In Progress because nothing has ever been moved out of the
+      default column. Discussions and Wiki remain disabled.
+- [ ] ~~GitHub Discussions and Wiki are both disabled~~ superseded by the row above; Issues (32 open) and Projects are
       on. If Zion is the board, `gh` needs `read:project` scope before any session can read
       it: `gh auth refresh -s read:project`.
