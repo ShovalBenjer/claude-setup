@@ -1,0 +1,26 @@
+{
+ "commit": "0a8dce3d8f827a85ee2ae3a25bce0178f81b7273",
+ "base": "origin/main",
+ "reviewer": "persona-panel/local",
+ "reviewed_at": "2026-08-06T16:46:16",
+ "verdict": "pass",
+ "summary": "0 high, 0 medium, 0 low across 0 personas",
+ "coverage_boundary": "Reviewed 590 added line(s) across 8 file(s) against 32 pattern checks in 5 personas. This panel sees added lines only, not pre-existing code, and it sees syntax, not intent: a wrong algorithm that reads cleanly will pass it. It is not a substitute for a human reading the diff, and the artifact should not be cited as one.",
+ "external_note": "external backend not requested",
+ "counts": {
+  "high": 0,
+  "medium": 0,
+  "low": 0
+ },
+ "findings": [],
+ "files": [
+  "docs/DOCMAP.md",
+  "docs/dir-purpose.txt",
+  "docs/prior-art/tools-corpus.json",
+  "state/claims.jsonl",
+  "state/gate-runs.jsonl",
+  "tests/test_corpus_extract.py",
+  "tools/corpus/extract.py",
+  "tools/recall/session_recall.py"
+ ]
+}
