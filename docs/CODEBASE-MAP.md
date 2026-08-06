@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-415 directories, 1850 tracked files, 0 without a stated purpose.
+415 directories, 1852 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -395,7 +395,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `state` | 27 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
+| `state` | 28 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
 | `state/backups` | 1 | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project... | registry |
 | `state/retired-2026-07-25` | 0 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled... | registry |
 | `state/retired-2026-07-25/bin` | 6 | Retired 2026-07-25 meme/visual scripts (download/play memes, generate/pop visual, seed-meme-vectordb), pulled from the live bin/ tree | registry |
@@ -425,7 +425,7 @@ the same reason, one level down.
 | `tools/antigravity` | 1 | The `agy` CLI, a local reimplementation of an Antigravity command line that does not exist as a binary on this machine; wraps the google-antigravity Python SDK behind the repo's... | registry |
 | `tools/audit` | 5 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
 | `tools/audit/mutations` | 18 | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red | registry |
-| `tools/browser` | 1 | Hand-rolled Chrome DevTools Protocol client that launches a separate Chrome so the assistant can browse authenticated pages, screenshot, and eval JS that anonymous WebFetch cann... | registry |
+| `tools/browser` | 2 | Hand-rolled Chrome DevTools Protocol client that launches a separate Chrome so the assistant can browse authenticated pages, screenshot, and eval JS that anonymous WebFetch cann... | registry |
 | `tools/bus` | 2 | Cross-terminal message bus (bus.py): append-only hash-chained JSONL with per-lane read cursors so parallel Claude Code sessions in different terminals can send each other durabl... | registry |
 | `tools/channel` | 2 | Purpose: measure whether a compressed inter-agent channel actually carried the | README.md |
 | `tools/digest` | 1 | Builds the daily digest (push line plus digest.md) from TODO, git, and branch-health state for a cron job to send via PushNotification; out/ holds the generated digest.md and pu... | registry |
