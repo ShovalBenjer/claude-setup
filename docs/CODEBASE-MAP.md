@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-422 directories, 1849 tracked files, 0 without a stated purpose.
+417 directories, 1796 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -30,7 +30,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `docs` | 36 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
+| `docs` | 35 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 20 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
 | `docs/analysis` | 34 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 1 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
@@ -374,25 +374,20 @@ the same reason, one level down.
 | `research-papers/Documents/SIU_InHouse_Video_Research_20260506` | 2 | Build-vs-buy research on an in-house AI video pipeline to replace a ChatGPT-agent+HeyGen chain for SIU | registry |
 | `research-papers/Documents/SOTA_DS_Methods_Research_20260415` | 7 | Multi-module research index on cross-validation, coverage metrics, and scalable LLM-agent-eval methods | registry |
 | `research-papers/Prompts` | 6 | Loose standalone prompt/skill text files (anti-AI writing guide, xlsx-skill definition, data-scientist prompt set) | registry |
-| `research-papers/docs-shoval` | 12 | Snapshot mirror of the axia-seekapa-cs-agents repo docs tree (architecture, compliance, audits) plus loose planning docs | registry |
-| `research-papers/docs-shoval/audits` | 3 | Dated Azure/DevOps dormancy and CS-agent access-boundary audit reports for the Seekapa/Axia infrastructure | registry |
+| `research-papers/docs-shoval` | 1 | Snapshot mirror of the axia-seekapa-cs-agents repo docs tree (architecture, compliance, audits) plus loose planning docs | registry |
 | `research-papers/docs-shoval/diagrams` | 9 | Architecture diagrams (d2 source plus rendered svg/interactive html) for the CS-agents system | registry |
-| `research-papers/docs-shoval/eval-results` | 3 | Dated smoke-test baseline output reports comparing agent vs application endpoint latency and pass rate | registry |
-| `research-papers/docs-shoval/reflections` | 7 | Dated Heidegger-reflection-style retrospectives on hardening/perf/session work for the CS-agents repo | registry |
-| `research-papers/docs-shoval/research` | 1 | Single dated research memo synthesizing AI-bot security best practices for the regulated-finance CS bot | registry |
-| `research-papers/docs-shoval/specs` | 4 | Dated feature/eval specs (deliverables, acceptance criteria) for the CS-agents repo | registry |
-| `research-papers/docs-shoval/wiki` | 7 | Mirror of the CS-agents Azure DevOps wiki pages (Home, Architecture, Compliance, Deployment, Getting-Started) | registry |
+| `research-papers/docs-shoval/wiki` | 2 | Mirror of the CS-agents Azure DevOps wiki pages (Home, Architecture, Compliance, Deployment, Getting-Started) | registry |
 | `research-papers/el-vadt` | 2 | Root of the EL-VADT (ElevenLabs Voice Agent Domain Transfer) project corpus: sales-agent prompts, transcript analysis, docs | registry |
 | `research-papers/el-vadt/analysis` | 11 | Python scripts/notebook and CSV/JSON outputs mining Arabic sales-call transcripts for dark-pattern/persuasion features | registry |
 | `research-papers/el-vadt/docs` | 21 | Mixed project docs (strategy, linguistics wiki pages, Azure reference); role also holds four commercial sales/marketing books, metadata-only | registry |
 | `research-papers/el-vadt/docs/prompts` | 2 | Two standalone accuracy/self-review meta-prompt templates (Heidegger-style verification instructions) | registry |
 | `research-papers/el-vadt/sales-agents-summary` | 5 | Production-ready Arabic voice agent for relationship restoration with former trading platform clients. Built on ElevenLabs Conversational AI. | README.md |
 | `research-papers/el-vadt/sales-agents-summary/prompts` | 11 | Current deployed and gender-handling system-prompt versions for the Maryam/Nouf voice agents | registry |
-| `research-papers/el-vadt/sales-agents-summary/prompts/archive` | 8 | Retired, superseded prompt versions (v6 through v6.8) for Maryam/Nouf, kept only for diffing against current prompts | registry |
+| `research-papers/el-vadt/sales-agents-summary/prompts/archive` | 7 | Retired, superseded prompt versions (v6 through v6.8) for Maryam/Nouf, kept only for diffing against current prompts | registry |
 | `research-papers/el-vadt/sales-agents-summary/prompts/conversation-scripts` | 1 | Scenario-based Arabic conversation script library used to script/test the Maryam voice agent | registry |
 | `research-papers/el-vadt/specify-memory` | 0 | Holds only the memory/ subdirectory, which documents itself with its own README.md; this folder itself carries no files of its own beyond that child | registry |
 | `research-papers/el-vadt/specify-memory/memory` | 5 | This directory contains the unified knowledge system for el-vadt. | README.md |
-| `research-papers/home-md` | 24 | <p align="center"> | README.md |
+| `research-papers/home-md` | 15 | <p align="center"> | README.md |
 | `research-papers/knowledge` | 1 | Auto-embedded into `~/.claude/cache/sessions.db` → `knowledge_docs` table. | README.md |
 
 ## startup-scripts
@@ -405,7 +400,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `state` | 22 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
+| `state` | 23 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
 | `state/backups` | 1 | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project... | registry |
 | `state/retired-2026-07-25` | 0 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled... | registry |
 | `state/retired-2026-07-25/bin` | 6 | Retired 2026-07-25 meme/visual scripts (download/play memes, generate/pop visual, seed-meme-vectordb), pulled from the live bin/ tree | registry |
@@ -414,7 +409,7 @@ the same reason, one level down.
 | `state/retired-2026-07-25/skills` | 0 | Holds the retired meme-control/ and visual-explainer/ skill folders, each self-documented by its own SKILL.md, removed from the live Claude Code skill set | registry |
 | `state/retired-2026-07-25/skills/meme-control` | 1 | Toggle Codex meme playback on/off and report current meme state (session + durable config). | SKILL.md |
 | `state/retired-2026-07-25/skills/visual-explainer` | 1 | Generate a diagram or visual via Azure Foundry gpt-image-2-general and embed inline. Triggers on "i don't understand" / "show me" / "draw it" signals (en/he/ar) detected by the... | SKILL.md |
-| `state/reviews` | 16 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
+| `state/reviews` | 18 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
 | `state/snapshots` | 1 | Tracked manifests (path+size+sha256) of point-in-time ~/.claude captures; actual file bytes stay untracked per its .gitignore | registry |
 | `state/snapshots/20260725T110903Z-pre-bus-wiring` | 1 | One snapshot: manifest of ~/.claude taken 2026-07-25T11:09 UTC, labeled pre-bus-wiring, for drift diffing before that change | registry |
 | `state/timetravel` | 2 | Content-addressed snapshots of the gitignored ledgers, written by tools/timetravel. objects/ is gitignored and the manifest is committed, matching the state/snapshots precedent | registry |
@@ -432,8 +427,8 @@ the same reason, one level down.
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
 | `tools` | 7 | Holds this repo's operational tooling: top-level scripts (repo audit, token rollout, slop lint) plus one subdirectory per verification, automation, or coordination tool | registry |
-| `tools/audit` | 6 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
-| `tools/audit/mutations` | 16 | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red | registry |
+| `tools/audit` | 7 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
+| `tools/audit/mutations` | 17 | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red | registry |
 | `tools/browser` | 1 | Hand-rolled Chrome DevTools Protocol client that launches a separate Chrome so the assistant can browse authenticated pages, screenshot, and eval JS that anonymous WebFetch cann... | registry |
 | `tools/bus` | 2 | Cross-terminal message bus (bus.py): append-only hash-chained JSONL with per-lane read cursors so parallel Claude Code sessions in different terminals can send each other durabl... | registry |
 | `tools/channel` | 2 | Purpose: measure whether a compressed inter-agent channel actually carried the | README.md |
@@ -501,7 +496,7 @@ the same reason, one level down.
 | `work-docs/reflections` | 18 | Dated heidegger-reflect session postmortems and handoffs spanning 2026-03-22 through 2026-07-07 across several deploys/incidents | registry |
 | `work-docs/research` | 6 | This lane is for long-form research reports and external best-practice synthesis that should inform future implementation. Put new research here unless the file is a canonical r... | README.md |
 | `work-docs/research/prompts` | 11 | Dedicated deep-research prompts for the domains missing from `~/docs`, so any system built | README.md |
-| `work-docs/root-cleanup-2026-05-28` | 22 | Retired: 2026-05-28 sweep of misc home-directory and docs-root files (research dumps, fix notes, an audit dashboard) | registry |
+| `work-docs/root-cleanup-2026-05-28` | 9 | Retired: 2026-05-28 sweep of misc home-directory and docs-root files (research dumps, fix notes, an audit dashboard) | registry |
 | `work-docs/root-cleanup-2026-05-28/data` | 5 | Retired: raw data swept in the same 2026-05-28 cleanup (an API spec, a scraped dataset, misc JSON dumps), not project docs | registry |
 | `work-docs/specs` | 14 | Source-of-truth engineering specs and implementation-delta plans, dated 2026-04-15 through 2026-07-09 | registry |
 | `work-docs/specs/2026-05-13-ado-pr-review` | 3 | This adds a `codex_review` stage to the existing `azure-pipelines.yml` that, on every PR build, calls Foundry gpt-5.5 with the diff and posts a markdown comment to the PR via th... | README.md |

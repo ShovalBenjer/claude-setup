@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1022**
+- documents: **964**
 - reachable from `docs/INDEX.md`: **38** (3%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -291,7 +291,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/commands/cdp.md` | 2026-07-27 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/commands/reground.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## corpus (135)
+## corpus (91)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -312,15 +312,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/Prompts/Anti-AI Writing Style Guide.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/Prompts/Q-Learning, Deep RL & March 2026 Research  Auditing MiroFish & AutoResearch.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/Prompts/data-scientist-xlsx-SKILL.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/ARCHITECTURE.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/KNOWLEDGE-BASE.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/auth-setup.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/prompt_v96_optimization_suggestions.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/wiki/Architecture.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/wiki/Compliance.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/docs-shoval/wiki/Conversation-Design.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/wiki/Deployment.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/wiki/Getting-Started.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/docs-shoval/wiki/Home.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/docs/11labs_compared2research.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/docs/Eleven v3_ Most Expressive.md` | - | corpus-material | class | n/a | - | - | - |
@@ -336,7 +328,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/el-vadt/docs/prompts/self_review.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/docs/reference__Azure_Databases.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/README.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/el-vadt/sales-agents-summary/prompts/archive/maryam-v6-system-prompt.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/prompts/archive/maryam-v6.8-fast-optimized.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6-system-prompt.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.5.2-system-prompt.md` | - | corpus-material | class | n/a | - | - | - |
@@ -360,10 +351,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/el-vadt/specify-memory/memory/README.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/Claude Code  Complete Issue Map & User Fixes.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/Claude Code bwrap Bash Tool Failure on WSL2  Root Cause & Fixes.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/FIX-BWRAP-WSL.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/Q-Learning, Deep RL & March 2026 Research  Auditing MiroFish & AutoResearch.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/README.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/RTK.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/agent_prompt_v38_mind.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/azure-wiki-onepager-skill.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/compass_artifact_wf-662a99e3-a378-4764-85f2-6b7801fa412c_text_markdown.md` | - | corpus-material | class | n/a | - | - | - |
@@ -373,65 +361,33 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/el-vadt/docs/Selling to VITO.md` | 2017-09-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/FINAL_REPORT.md` | 2026-01-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/HANDOVER.md` | 2026-01-07 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/DEBUG_HANDOVER_20260112.md` | 2026-01-12 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/sales-agents-summary/CLAUDE.md` | 2026-01-19 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/specify-memory/memory/INDEX.md` | 2026-02-18 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/specify-memory/memory/MEMORY.md` | 2026-02-18 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/specify-memory/memory/PROJECT-STRUCTURE.md` | 2026-02-18 | corpus-material | class | n/a | - | - | - |
 | `research-papers/el-vadt/specify-memory/memory/RULES.md` | 2026-02-18 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/COMPLIANCE-AUDIT.md` | 2026-03-02 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/REPO-AUDIT.md` | 2026-03-02 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-03-22-chatwoot-production-hardening.md` | 2026-03-22 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/FOUNDRY-EVAL-CI-PLAN.md` | 2026-03-30 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-03-30-escalation-perf-v39.md` | 2026-03-30 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-04-01-chatwoot-conversation-event-handler.md` | 2026-04-01 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/CS_Agent_Eval_SOTA_Audit_20260406/cs_agent_eval_sota_audit.md` | 2026-04-06 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/MODEL-MIGRATION-PLAN.md` | 2026-04-06 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Football_Analytics_ML_Research_20260412/00-index.md` | 2026-04-12 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Football_Analytics_ML_Research_20260412/07-bibliography.md` | 2026-04-12 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-04-13-v99-session-analysis-fixes.md` | 2026-04-13 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/CS_Agent_Eval_Research_20260415/research_report_20260415_cs-agent-eval.md` | 2026-04-15 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/SOTA_DS_Methods_Research_20260415/00-index.md` | 2026-04-15 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/specs/2026-04-15-silver-eval-dataset.md` | 2026-04-15 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/foundry-chatwoot-alignment-2026-04-16.md` | 2026-04-16 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Foundry_Workflows_Research_20260419/report.md` | 2026-04-19 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/ElevenLabs_Scribe_Research_20260427/report.md` | 2026-04-27 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/eval-results/baseline-2026-04-27-agent-endpoint-v105.md` | 2026-04-27 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/eval-results/baseline-2026-04-27-app-endpoint.md` | 2026-04-27 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/eval-results/baseline-2026-04-27-yasha-v2-app-endpoint.md` | 2026-04-27 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/wiki/Handover-Notes.md` | 2026-04-27 | corpus-material | class | n/a | - | - | 111 |
 | `research-papers/Documents/ElevenLabs_Scribe_Research_20260428/report.md` | 2026-04-28 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/specs/2026-04-28-v108-yasha-intake-flow.md` | 2026-04-28 | corpus-material | class | n/a | - | - | - |
 | `master-plans/claude-code-experimental-features.md` | 2026-04-30 | corpus-material | class | n/a | - | - | - |
 | `master-plans/cleanup-proposal.md` | 2026-04-30 | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/claude-code-experimental-features.md` | 2026-04-30 | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/cleanup-proposal.md` | 2026-04-30 | corpus-material | class | n/a | - | - | - |
 | `master-plans/claude-setup-master-plan-2026-05-02.md` | 2026-05-02 | corpus-material | class | n/a | - | - | - |
 | `master-plans/claude-setup-tasks-2026-05-02.md` | 2026-05-02 | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/claude-setup-master-plan-2026-05-02.md` | 2026-05-02 | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/claude-setup-tasks-2026-05-02.md` | 2026-05-02 | corpus-material | class | n/a | - | - | - |
 | `master-plans/CLAUDE-CODE-MASTER-PLAN-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | prior planning docs | 14.6 |
 | `master-plans/claude-skills-scatter-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
 | `master-plans/claude-skills-triage-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/audits/2026-05-03-dor-cohen-sentimark-email.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/audits/2026-05-03-dormancy-audit.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/AGENTS.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/CLAUDE-CODE-MASTER-PLAN-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | prior planning docs | 14.6 |
-| `research-papers/home-md/claude-skills-scatter-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/claude-skills-triage-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-05-04-a2a-v1-and-wire-gap-closure.md` | 2026-05-04 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-05-04-claude-setup-session-structure-and-wire-gaps.md` | 2026-05-04 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/reflections/2026-05-04-pst-extraction-path-a-run.md` | 2026-05-04 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/specs/2026-05-04-frontier-governance-axes.md` | 2026-05-04 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/specs/2026-05-04-pst-extraction-v1-run.md` | 2026-05-04 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/SIU_InHouse_Video_Research_20260506/research_report_20260506_siu_inhouse_video.md` | 2026-05-06 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/CDP_Kick_Research_20260507/CDP_Kick_Strategic_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Executive_MCP_Research_20260507/Executive_MCP_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/audits/2026-05-07-cs-agent-access-boundaries.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/research/2026-05-07-ai-bot-security-best-practices.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
-| `research-papers/docs-shoval/SHOVAL-BENJER-5MO-CONTEXT-2026-05-08.md` | 2026-05-08 | corpus-material | class | n/a | - | - | - |
 
-## doc (54)
+## doc (53)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -444,7 +400,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/gemini-code-1785455675294.md` | - | operator-input | registry | n/a | - | - | - |
 | `docs/gemini-code-1785457549011.md` | - | operator-input | registry | n/a | - | - | - |
 | `docs/gemini-code-1785458291930.md` | - | operator-input | registry | n/a | - | - | - |
-| `docs/memory-layer--nexus-gemini-code-1785456331041.md` | - | operator-input | registry | n/a | - | - | - |
 | `docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` | - | operator-input | registry | n/a | - | - | - |
 | `dot-claude/CLAUDE.md` | - | living | registry | n/a | - | - | - |
 | `dot-codex/AGENTS.md` | - | living | registry | n/a | - | - | - |
@@ -960,7 +915,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-codex/skills/.system/skill-installer/SKILL.md` | - | third-party-not-ours | class | n/a | - | - | - |
 | `dot-agents/skills/heygen-skills/CHANGELOG.md` | 2026-05-13 | third-party-not-ours | class | n/a | - | - | - |
 
-## work-doc (179)
+## work-doc (166)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -994,13 +949,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `work-docs/pipelines/notifications/README.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/prompt_v96_optimization_suggestions.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/research/README.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/Claude Code  Complete Issue Map & User Fixes.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/Claude Code bwrap Bash Tool Failure on WSL2  Root Cause & Fixes.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/FIX-BWRAP-WSL.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/Q-Learning, Deep RL & March 2026 Research  Auditing MiroFish & AutoResearch.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/azure-wiki-onepager-skill.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/compass_artifact_wf-662a99e3-a378-4764-85f2-6b7801fa412c_text_markdown.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/deep-research-bwrap-wsl-error.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/specs/2026-05-13-ado-pr-review/review-prompt.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Architecture.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Compliance.md` | - | dated-snapshot | class | n/a | - | - | - |
@@ -1031,14 +979,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `work-docs/wiki/Home.md` | 2026-04-29 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Knowledge-Base.md` | 2026-04-29 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-04-30-v109-deploy-review-cleanup.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/claude-code-experimental-features.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/cleanup-proposal.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/claude-setup-master-plan-2026-05-02.md` | 2026-05-02 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/claude-setup-tasks-2026-05-02.md` | 2026-05-02 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/audits/2026-05-03-dor-cohen-sentimark-email.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/audits/2026-05-03-dormancy-audit.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/claude-skills-scatter-2026-05-03.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/claude-skills-triage-2026-05-03.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-05-04-a2a-v1-and-wire-gap-closure.md` | 2026-05-04 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-05-04-claude-setup-session-structure-and-wire-gaps.md` | 2026-05-04 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-05-04-pst-extraction-path-a-run.md` | 2026-05-04 | dated-snapshot | class | n/a | - | - | - |
