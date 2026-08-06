@@ -316,7 +316,28 @@ Two rows above were CLOSED by the same measurement and are marked in place.
 ### Zion
 
 - [x] ZION-01 **READ UNBLOCKED 2026-08-06.** The operator ran the refresh and the token now carries `read:project`. First live read of the board since 07-31: 31 items, 21 fields. **WRITE IS STILL BLOCKED**: `updateProjectV2` answers `INSUFFICIENT_SCOPES ... requires ['project']`, and the granted set is `gist, read:org, read:project, repo, workflow`. One more scope, `gh auth refresh -s project`, and it is operator-only for the same reason as before
-- [ ] ZION-02 **THE FIELD SYNC IS ALREADY DONE, and `zion_fields.py` would write nothing.** Measured 2026-08-06 against the live board: all 31 items carry `lane`, `priority`, `ingestion`, `autonomy` and `evidence state`; 26 carry `estimate (min)` and `evidence`. Reconciled against `state/github-backlog-2026-07-31.json`: **zero real field disagreements.** The 31 apparent ones are the JSON storing `S2` where the board stores the option name `S2 45min`, which `resolve_option`'s leading-token rule already resolves. So `docs/prior-art/tools-ghpub.json` was RIGHT that `--fields --execute` ran on 07-31, and this JSON's own `_note` saying NOTHING was published is wrong about the fields. What is actually left is not a tool: **2 of 33 epics were never published** (`Bind the instruments that already run to a ratchet`, `The falsifier layer, and the five claims it now refutes`), **`Status` is unset on all 31 items**, and 0 of 32 issues are closed. Publishing the two needs the `project` write scope; deciding what `Status` means on this board is an operator call, not a sync
+- [x] ZION-02 **CLOSED 2026-08-06 by executing the publish, and `zion_fields.py` was
+  never written because it would have written nothing.** The operator granted `project`
+  and the one remaining command ran:
+  `publish_backlog.py --source state/github-backlog-2026-07-31.json --project --fields --execute`.
+  Issues **#49** and **#50** created, board **31 items to 33**, and the two new items
+  verified against a live read carrying every field the JSON owns: `A harness` /
+  `operator-only` on both, `P0` + `S3 60min` + `refuted` on the falsifier epic, `P1` +
+  `S4 90min` + `measured` on the ratchet epic. All 33 items read `A harness`.
+  The field sync for the other 31 was already complete before this ran, which is why the
+  final plan reported `totals skip=165` with zero `set` rows. The tool that would have
+  done the work is the tool that proved it was already done, which is the only reason not
+  building `zion_fields.py` is a measurement rather than a guess.
+  **ONE GAP, named rather than hidden:** `Estimate (min)` is empty on #49 and #50. The
+  JSON carries `90 min` and `240 min` for them, but `publish_backlog.py --fields` owns
+  five fields (Priority, Ingestion, Lane, Autonomy, Evidence state) and `Estimate` is not
+  one of them, so 26 of 33 items have an estimate and the two newest do not. That is the
+  tool's declared ownership working as written, not a failure, and closing the gap means
+  widening `OWNED` rather than hand-setting a field.
+  **WHAT IS LEFT IS NOT TOOLING:** `Status` is unset on all 33 items and 0 of 34 issues
+  are closed. Nothing should write `Status` until the operator decides what it means on
+  this board, because a status column filled in by a script is the same fiction as a lane
+  value copied from a snapshot taken before the change it described.
 - [x] ZION-03 **REFUTED 2026-08-06 by reading the board.** `Lane` is `A harness / B resume / C learning / D content` and every one of the 31 items reads `A harness`. The rename landed on 07-31 with option ids preserved, exactly as `docs/prior-art/tools-ghpub.json` recorded and as this row denied. The row was written from `state/backups/zion-project3-2026-07-31.json`, a PRE-change snapshot, and nobody re-read the live board for six days. Same class as the findings-go-stale lesson: a claim sourced from a snapshot taken before the change it describes. The board also carries `Evidence state` (unmeasured/asserted/measured/verified/refuted) as a 21st field, which that backup does not list, so the backup was stale in two ways
 
 - [ ] **Doc structure and reachability are now enforced; absorption is not.** `tools/docmap/strand.py`
