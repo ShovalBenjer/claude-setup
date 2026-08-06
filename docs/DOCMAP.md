@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **999**
+- documents: **1000**
 - reachable from `docs/INDEX.md`: **121** (12%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -571,7 +571,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
 | `TODO.md` | 2026-08-01 | living | registry | 2 | yes | - | operator |
 
-## rule (38)
+## rule (39)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -613,6 +613,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/out-of-distribution.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/repo-stack-reasoning.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/hidden-trees.md` | 2026-07-30 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/accepting-architectures.md` | 2026-08-05 | definition-see-skills_sync | class | n/a | - | - | - |
 
 ## skill (208)
 
