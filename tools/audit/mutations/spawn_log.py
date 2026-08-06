@@ -76,8 +76,8 @@ MUTATIONS = [
      "ever equal its routed slug, `agreed` is false on every row forever, and the "
      "conclusion drawn would be that routing never changes behaviour when in fact "
      "nothing was ever compared",
-     '    return "-".join(persona.lower().split())',
-     '    return "-".join(persona.split())'),
+     '    return "-".join(w for w in persona.lower().split() if w not in _DROPPED)',
+     '    return "-".join(w for w in persona.split() if w not in _DROPPED)'),
 
     # ---- scope ----
     ("every tool call is recorded as a spawn",
@@ -93,4 +93,14 @@ MUTATIONS = [
      "Reading the claim rather than the directory would mark a working persona unknown",
      "        return {p.stem for p in AGENTS_DIR.glob(\"*.md\")}",
      "        return set()"),
+
+    ("the slug stops dropping the words the filenames drop",
+     "three of the 19 personas are \"X and Y Office\" in the registry and `x-y-office.md` "
+     "on disk. Keeping `and` means MCP and Tooling Office, Security and Compliance Office "
+     "and Voice and Media Studio can NEVER agree with a route naming them, no matter what "
+     "is spawned. Found by building the sync oracle, not by reading: the naive form was "
+     "written first, shipped, and caught within the hour",
+     '    return "-".join(w for w in persona.lower().split() if w not in _DROPPED)',
+     '    return "-".join(persona.lower().split())'),
+
 ]

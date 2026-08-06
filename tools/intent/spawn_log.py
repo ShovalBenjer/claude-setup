@@ -55,15 +55,24 @@ AGENTS_DIR = Path.home() / ".claude" / "agents"
 BUILTINS = {"general-purpose", "Explore", "Plan", "claude", "statusline-setup"}
 
 
+# Words the agent filenames drop from a persona heading. Measured, not guessed: three of
+# the 19 personas are named "X and Y Office" in the registry and `x-y-office.md` on disk.
+# Without this, `MCP and Tooling Office` slugs to `mcp-and-tooling-office`, no file
+# matches, and `agreed` can never be true for those three no matter what is spawned.
+_DROPPED = {"and"}
+
+
 def slug(persona: str) -> str:
     """`QA Lab` -> `qa-lab`, matching the filenames in ~/.claude/agents/.
 
     The registry writes personas as prose headings and the Agent tool takes a
-    subagent_type that must match a filename. Nothing in the estate declares the mapping,
+    subagent_type that must match a filename. Nothing in the estate declares that mapping,
     so it is derived here rather than duplicated as a table that could disagree with the
-    directory.
+    directory. The derivation is verified against the real directory in selftest, which is
+    how the dropped-`and` case was found: it was written naively first and three personas
+    silently could not be matched.
     """
-    return "-".join(persona.lower().split())
+    return "-".join(w for w in persona.lower().split() if w not in _DROPPED)
 
 
 def known_personas() -> set[str]:
@@ -245,6 +254,24 @@ def selftest() -> int:
         failures.append("only {} agent definition(s) were found, so is_known_agent is "
                         "meaningless".format(len(live)))
 
+    # EVERY registry persona must slug to a file that exists. Asserted against the real
+    # registry and the real directory, because a mapping verified only on fixtures is a
+    # mapping verified against my own assumptions. This is what caught the dropped `and`:
+    # three personas are "X and Y Office" in prose and `x-y-office.md` on disk, so the
+    # naive slug matched nothing and `agreed` could never be true for them.
+    try:
+        reg = (Path.home() / ".claude" / "rules" / "gastown-company-registry.md")
+        headings = [l[4:].strip() for l in reg.read_text(encoding="utf-8").splitlines()
+                    if l.startswith("### ")]
+    except OSError:
+        headings = []
+    if headings and live:
+        unresolved = sorted(h for h in headings if slug(h) not in live)
+        if unresolved:
+            failures.append("{} registry persona(s) do not slug to an agent file, so a "
+                            "spawn can never agree with a route naming them: {}".format(
+                                len(unresolved), ", ".join(unresolved)))
+
     for line in failures:
         print("  FAIL  " + line)
     if failures:
@@ -254,7 +281,8 @@ def selftest() -> int:
     print("  ok    an Agent call with no subagent_type records as general-purpose, not dropped")
     print("  ok    a non-Agent tool call is not a spawn")
     print("  ok    an absent routing decision never reads as a followed one")
-    print("  ok    persona headings map to agent filenames")
+    print("  ok    persona headings map to agent filenames, `and` included")
+    print("  ok    every registry persona resolves to a real agent file")
     print("  ok    the hook records no judgement of its own spawn")
     print("  ok    a same-session join says `session`, a fallback says so, and an absent ledger joins nothing")
     print("  ok    {} agent definition(s) resolve on this host".format(len(live)))
