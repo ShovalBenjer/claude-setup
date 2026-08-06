@@ -133,6 +133,15 @@ jobs:
       - name: skills_sync.py selftest
         run: python tools/audit/skills_sync.py selftest
 
+      # skills_sync answers "do the trees agree", pointers answers "does the file
+      # exist". Neither asks whether a skill that is present and in sync can start
+      # on the host, which is how dot-agents/skills/obsidian-vault stayed routed in
+      # the registry while pointing at a vault path that is not on this machine.
+      # The selftest is host-independent on purpose: it plants a deliberately
+      # absent binary rather than asserting anything about the CI runner's PATH.
+      - name: skill_deps.py selftest (host-runnability classifier)
+        run: python tools/audit/skill_deps.py selftest
+
       # Row 6 of the agentic repo standard (ADR-0020). Only the pure decision
       # function is exercised: the selftest never calls gh, git, or the network,
       # so it is deterministic in CI. Its job is to keep "the API did not answer"
