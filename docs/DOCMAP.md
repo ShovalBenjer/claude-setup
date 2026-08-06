@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1005**
+- documents: **1006**
 - reachable from `docs/INDEX.md`: **38** (3%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -75,7 +75,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (33)
+## analysis (34)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -112,6 +112,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-07-30-self-chat-absorption-batch.md` | 2026-07-30 | dated-snapshot | class | 2 | - | the ABSORB-07 plan. | - |
 | `docs/analysis/2026-07-31-density-gate-measurement.md` | 2026-07-31 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-31-the-green-test-gradient.md` | 2026-07-31 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-08-06-skill-candidates-dependency-filter.md` | 2026-08-06 | dated-snapshot | class | n/a | - | - | - |
 
 ## automation-output (126)
 
