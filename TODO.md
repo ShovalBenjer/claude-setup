@@ -564,3 +564,51 @@ none of this is enforced. Filed as rows because a finding in prose is not a back
 - [ ] ~~GitHub Discussions and Wiki are both disabled~~ superseded by the row above; Issues (32 open) and Projects are
       on. If Zion is the board, `gh` needs `read:project` scope before any session can read
       it: `gh auth refresh -s read:project`.
+
+## From the 2026-08-06 external source read (see `docs/analysis/2026-08-06-external-repo-source-read-and-surface-comparison.md`, ledger `state/external-repos.jsonl`)
+
+- [ ] **`a2a-codex-call.sh` corrupts peer responses and no domain looks at it.** VERIFIED
+      2026-08-06: the response JSON is built by interpolating shell variables into a
+      `python -c` template (lines 128-146), so the peer's text is parsed as a Python string
+      literal. Literal `\x41` in a Codex review arrives as `A`; `\t` becomes a tab; a
+      Windows path loses its separators. This fails `boundary-contracts.md` points 1, 2 and
+      3 in one file. **Fix is 5 lines** (build a dict, `json.dumps` it, pass the text through
+      stdin or an env var rather than the source template). Do that before deciding anything
+      about ACP. **Acceptance: a test feeding `\x41`, `\t` and `C:\new` through the bridge
+      and asserting byte-identical round-trip.**
+- [ ] **The prose gate detects 20 lexical patterns and zero rhetorical ones.**
+      `petergyang/no-ai-slop` (MIT, so patterns are copyable) names 18 structural patterns
+      with rewrite examples; our output-style file already names several and `slop_lint.py`
+      cannot see any. About 8 are regex-able: summary-recap openers, rhetorical setups,
+      weasel attribution, faux-insight setups, the trailing `-ing` clause, negative listing,
+      colon reveals, binary contrast. **Add them as a separate class from `BANNED_PHRASES`
+      so a structural hit reports as structural.** Their `eval.md` (a checklist the model
+      runs against its own output) is the shape of the unbuilt `dod.py`.
+- [ ] **No oracle relates a requirement to a task.** `strand.py` checks status and
+      reachability and says in its own docstring that reachability "cannot catch a document
+      that is linked and ignored". `github/spec-kit`'s `analyze` supplies the missing shape:
+      duplication / ambiguity / underspecification / coverage-gap / inconsistency, severity
+      where a constitution MUST violation is automatically CRITICAL, and a coverage
+      percentage of requirements with at least one task. **Depends on the existing
+      "classify the 48 definition-of-done rows" row; do that first.**
+- [ ] **`state/deploy-manifest.tsv` records bytes, not the install.** 84 rows of
+      `sha256 <tab> path`, last written 2026-07-31. `affaan-m/ECC` (MIT) requires
+      `install-state.v1` with request, resolution, source, operations and `lastValidatedAt`,
+      and a `provenance` record with source, created_at, confidence and author on every
+      imported skill. **Provenance is the direct answer to the 45 forks**: a fork with a
+      recorded source is a merge decision with evidence, which is what the existing row
+      means by "picking by timestamp is not a decision".
+- [ ] **Three lanes, three repos, no shared architectural view.**
+      `docs/specs/2026-07-31-project-federation.md` wants one. `reposwarm/reposwarm`
+      (Apache-2.0) generates one `.arch.md` per repo into a central hub and re-analyzes only
+      repos whose HEAD moved, with prompt selection driven by a declarative pattern file.
+      `codemap.py` is directory-granularity and single-repo by construction. **The
+      incremental rule is the part that makes it affordable.**
+- [ ] **103 of 115 rows in `state/external-repos.jsonl` are `untriaged`.** 10 repositories
+      were read at source on 2026-08-06. `aaif-goose/goose` and `MemPalace/mempalace` are
+      cloned and unread. 138 community-shared repositories are resolved and unevaluated.
+      **This row exists so the 10 are not read as the whole set.**
+- [ ] **STILL OPEN, operator decision, raised 2026-07-30:**
+      `docs/analysis/reference/coherence-governor-AGENTS.md`, 17,923 bytes copied verbatim
+      from `Master0fFate/just-my-skills`, which still resolves `license: NONE` on 2026-08-06.
+      Summarize-and-link, ask for a licence, or accept that this repository cannot go public.
