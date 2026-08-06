@@ -9,11 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-<<<<<<< HEAD
-415 directories, 1848 tracked files, 0 without a stated purpose.
-=======
-415 directories, 1847 tracked files, 0 without a stated purpose.
->>>>>>> aea1484 (fix(rules): a live rule tracked nowhere, found by the oracle written for exactly this)
+415 directories, 1849 tracked files, 0 without a stated purpose.
 
 ## .claude
 
