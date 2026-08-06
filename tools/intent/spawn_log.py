@@ -309,7 +309,7 @@ def selftest() -> int:
                                 len(unresolved), ", ".join(unresolved)))
 
     for line in failures:
-        print("  FAIL  " + line)
+        print("  [FAIL] " + line)
     if failures:
         print("VERDICT: {} check(s) failed".format(len(failures)))
         return 1

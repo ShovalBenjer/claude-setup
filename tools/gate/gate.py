@@ -238,6 +238,15 @@ GATE_OUTPUTS = ("state/gate-runs.jsonl", "state/reviews/")
 HARNESS_OUTPUTS = (
     "state/prompt-tickets.jsonl",
     "state/skill-use.jsonl",
+    # Added 2026-08-06 with the two hooks that write them, and they are the worst
+    # offenders yet. route.py runs on EVERY UserPromptSubmit and spawn_log.py on every
+    # Agent call, and BOTH resolve their repo from CLAUDE_OS_DIR with a default of
+    # ~/claude-setup. So a prompt typed in any project on this host appends to a tracked
+    # file in THIS repo and moves its tree fingerprint. A green gate run here could be
+    # invalidated by somebody typing in an unrelated repository, which is the
+    # self-invalidation failure already on record, promoted from per-session to per-host.
+    "state/routing.jsonl",
+    "state/agent-spawns.jsonl",
 )
 
 _EXCLUDE = " ".join('":(exclude){}"'.format(p)

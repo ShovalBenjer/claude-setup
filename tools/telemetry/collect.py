@@ -646,7 +646,7 @@ def selftest() -> int:
         failures.append("the two host shapes report the same verdict, so scope is invisible")
 
     for line in failures:
-        print("  FAIL  " + line)
+        print("  [FAIL] " + line)
     if failures:
         print("VERDICT: {} check(s) failed".format(len(failures)))
         return 1
