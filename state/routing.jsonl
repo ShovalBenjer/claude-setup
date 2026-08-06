@@ -22,3 +22,7 @@
 {"ts": "2026-08-06T00:58:46", "prompt_chars": 5, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-06T00:59:39", "prompt_chars": 38, "personas": ["Release Bureau", "Review Board", "Architecture Office"], "skills": ["prod-deploy-rules", "deploy-prod", "review", "heidegger-reflect", "azure-devops", "commit-push-pr", "premortem", "request-refactor-plan"], "matched": true, "session": ""}
 {"ts": "2026-08-06T01:00:22", "prompt_chars": 378, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-06T01:01:18", "prompt_chars": 43, "personas": ["Engineering Firm", "Review Board", "QA Lab"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-06T11:33:07", "prompt_chars": 1, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-06T11:33:16", "prompt_chars": 1, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-06T11:33:32", "prompt_chars": 1, "personas": [], "skills": [], "matched": false, "session": ""}
