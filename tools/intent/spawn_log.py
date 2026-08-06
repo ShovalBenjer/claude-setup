@@ -169,6 +169,8 @@ def report() -> int:
 
 def selftest() -> int:
     failures = []
+    import tempfile  # noqa: PLC0415
+
     personas = {"qa-lab", "review-board", "mayor-opus"}
 
     r = build_row({"tool_name": "Agent", "tool_input": {"subagent_type": "qa-lab"},
@@ -211,6 +213,16 @@ def selftest() -> int:
     if slug("QA Lab") != "qa-lab" or slug("Mayor Opus") != "mayor-opus":
         failures.append("the persona-to-filename mapping is wrong, so no spawn can ever "
                         "agree with a route")
+    # The three that actually broke, pinned as literals so this holds on a host with no
+    # registry. Reading the live registry alone left this unverifiable on a CI runner,
+    # where the mutation removing the drop-list survived.
+    for heading, filename in (("MCP and Tooling Office", "mcp-tooling-office"),
+                              ("Security and Compliance Office", "security-compliance-office"),
+                              ("Voice and Media Studio", "voice-media-studio")):
+        if slug(heading) != filename:
+            failures.append("{!r} slugs to {!r} but its agent file is {!r}, so a route "
+                            "naming it can never agree with any spawn".format(
+                                heading, slug(heading), filename))
 
     if r["outcome"] is not None:
         failures.append("the hook scored its own spawn, which is the self-congratulation "
@@ -249,8 +261,32 @@ def selftest() -> int:
     if none_at_all:
         failures.append("an absent routing ledger produced a route out of nothing")
 
+    # known_personas() READS A DIRECTORY, so it must be exercised against a planted one.
+    # On a CI runner ~/.claude/agents does not exist, the function returns an empty set
+    # anyway, and a mutation replacing its body with `return set()` is a NO-OP that
+    # survives. Measured on run against PR #45. Fifth instance of L-2026-07-31-g this
+    # week, and the first where the host shape hid a mutation rather than reddening a run.
+    global AGENTS_DIR  # noqa: PLW0603
+    saved_agents = AGENTS_DIR
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            AGENTS_DIR = Path(td)
+            (AGENTS_DIR / "qa-lab.md").write_text("x", encoding="utf-8")
+            (AGENTS_DIR / "review-board.md").write_text("x", encoding="utf-8")
+            (AGENTS_DIR / "notes.txt").write_text("x", encoding="utf-8")
+            planted = known_personas()
+    finally:
+        AGENTS_DIR = saved_agents
+    if planted != {"qa-lab", "review-board"}:
+        failures.append("known_personas did not read the agents directory (got {}), so "
+                        "is_known_agent is decided by nothing".format(sorted(planted)))
+
     live = known_personas()
-    if AGENTS_DIR.exists() and len(live) < 5:
+    if not AGENTS_DIR.exists():
+        print("  NOT RUN  live-estate checks: no agents directory at {}. Whether the "
+              "registry's personas resolve to real files is unmeasurable here; the "
+              "planted-fixture checks above still ran.".format(AGENTS_DIR))
+    elif len(live) < 5:
         failures.append("only {} agent definition(s) were found, so is_known_agent is "
                         "meaningless".format(len(live)))
 
@@ -282,11 +318,18 @@ def selftest() -> int:
     print("  ok    a non-Agent tool call is not a spawn")
     print("  ok    an absent routing decision never reads as a followed one")
     print("  ok    persona headings map to agent filenames, `and` included")
-    print("  ok    every registry persona resolves to a real agent file")
+    print("  ok    known_personas reads a planted directory and ignores non-md files")
+    print("  ok    every registry persona resolves to a real agent file, where one exists")
     print("  ok    the hook records no judgement of its own spawn")
     print("  ok    a same-session join says `session`, a fallback says so, and an absent ledger joins nothing")
     print("  ok    {} agent definition(s) resolve on this host".format(len(live)))
-    print("VERDICT: every delegation is recorded with what was routed beside what was spawned")
+    if AGENTS_DIR.exists():
+        print("VERDICT: every delegation is recorded with what was routed beside what "
+              "was spawned")
+    else:
+        print("VERDICT (narrowed): the recording and comparison rules hold on fixtures. "
+              "NO live agents directory was present, so whether the registry's personas "
+              "resolve to real files was NOT measured.")
     return 0
 
 
