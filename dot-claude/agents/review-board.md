@@ -1,7 +1,7 @@
 ---
 name: review-board
 description: Pre-ship review board. Finds bugs, overengineering, dead code, missing verification, and reflection gaps. Use for PR review, pre-push, architecture review, simplification, or "is this good enough?".
-tools: Read, Grep, Glob, Bash
+tools: Read, Grep, Glob, Bash, Edit, Write
 model: sonnet
 ---
 

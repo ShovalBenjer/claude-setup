@@ -142,6 +142,15 @@ jobs:
       - name: skill_deps.py selftest (host-runnability classifier)
         run: python tools/audit/skill_deps.py selftest
 
+      # skill_deps asks whether one skill can start. This asks whether a persona
+      # the router names can do anything at all. Measured 2026-08-06 before the
+      # repair: 7 of 19 personas had zero owned skills loadable in a live session,
+      # because the registry was authored against the repo payload and the runtime
+      # reads ~/.claude/skills. The selftest plants its own registry and trees, so
+      # it does not depend on the runner having either.
+      - name: persona_audit.py selftest (routed-persona executability)
+        run: python tools/audit/persona_audit.py selftest
+
       # Row 6 of the agentic repo standard (ADR-0020). Only the pure decision
       # function is exercised: the selftest never calls gh, git, or the network,
       # so it is deterministic in CI. Its job is to keep "the API did not answer"
