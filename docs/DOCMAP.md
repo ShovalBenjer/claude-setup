@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1006**
+- documents: **1022**
 - reachable from `docs/INDEX.md`: **38** (3%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -75,7 +75,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (34)
+## analysis (35)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -112,6 +112,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-07-30-self-chat-absorption-batch.md` | 2026-07-30 | dated-snapshot | class | 2 | - | the ABSORB-07 plan. | - |
 | `docs/analysis/2026-07-31-density-gate-measurement.md` | 2026-07-31 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-31-the-green-test-gradient.md` | 2026-07-31 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-08-06-azure-jira-after-the-job.md` | 2026-08-06 | dated-snapshot | class | n/a | - | - | things |
 | `docs/analysis/2026-08-06-skill-candidates-dependency-filter.md` | 2026-08-06 | dated-snapshot | class | n/a | - | - | - |
 
 ## automation-output (126)
@@ -633,7 +634,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/repo-stack-reasoning.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/hidden-trees.md` | 2026-07-30 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## skill (204)
+## skill (219)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -735,17 +736,27 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/coverage-enforcer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/decision-grade/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/dispatch/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/domain-model/ADR-FORMAT.md` | - | definition-see-skills_sync | class | n/a | - | - | ADR-NNNN |
+| `dot-claude/skills/domain-model/CONTEXT-FORMAT.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/domain-model/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/end-session/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/eval-runner/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/explain-simply/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/feature-investor/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/frontend-design/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/github-triage/AGENT-BRIEF.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/github-triage/OUT-OF-SCOPE.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/github-triage/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/grill-me/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/gws-gmail-read/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/gws-gmail-triage/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/gws-gmail/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/gws-shared/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/humanize/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/improve-codebase-architecture/DEEPENING.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/improve-codebase-architecture/INTERFACE-DESIGN.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/improve-codebase-architecture/LANGUAGE.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/improve-codebase-architecture/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/jira-read/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/jira-task-draft/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/kill-stale/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -776,19 +787,24 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/red-team/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/refactor-pre-push/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/reground/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/request-refactor-plan/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/requirement-anchor/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/review/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/ship-gate/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/shoval-voice-draft/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/syndication-engine/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/testing-pyramid/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/to-issues/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/to-prd/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/triage-tests/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/ubiquitous-language/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/voice-explainer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/voice-metrics/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/watchdog/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/web-inspect/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/whatsapp-query/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/workspace-brain/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/write-a-skill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/youtube-distill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/apify-mcp/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/azure-devops/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
