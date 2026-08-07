@@ -13,7 +13,36 @@ from typing import Any
 
 
 PUSH = re.compile(r"(?i)\bgit\b[^\r\n;&|]{0,400}\bpush\b")
-SIMPLE_CURRENT_BRANCH_PUSH = re.compile(r"(?i)^\s*git\s+push\s*$")
+# Ordinary ways to publish a feature branch. An ALLOW-LIST: anything this does not
+# recognise still asks, so an unfamiliar shape is never silently permitted.
+#
+# Widened 2026-08-06. The previous pattern was `^\s*git\s+push\s*$`, which admitted a
+# bare `git push` and nothing else, so every real push prompted. It was also redundant:
+# `hookgate` runs first on the same event and DENIES force, --delete, --mirror, --prune
+# and a leading `+` refspec outright, so this gate was re-asking about a class already
+# refused and spending its signal on shapes that were unfamiliar rather than dangerous.
+#
+#   git push
+#   git push [-q] [-u|--set-upstream] <remote> [<branch>|HEAD:<branch>]
+#
+# A remote is a bare name only. A URL or a path is not a known remote and still asks.
+# Must NOT begin with a dash. Caught by the verification pass: with a leading dash
+# allowed, `--all` and `--tags` parsed as remote NAMES and ran autonomously, so any
+# unknown flag would have. An allow-list that admits arbitrary flags is a deny-list
+# with extra steps.
+_REMOTE = r"[A-Za-z0-9._][A-Za-z0-9._-]*"
+_BRANCH = r"[A-Za-z0-9._/-]+"
+SIMPLE_CURRENT_BRANCH_PUSH = re.compile(
+    r"(?i)^\s*git\s+push"
+    r"(?:\s+-q|\s+--quiet)?"
+    r"(?:\s+(?:-u|--set-upstream))?"
+    r"(?:\s+" + _REMOTE + r"(?:\s+(?:HEAD:)?" + _BRANCH + r")?)?"
+    r"\s*$")
+
+# The one target that must never be automatic. ADR-0012: work ships through a PR, so a
+# direct push to the deploy branch is exactly the push a human should see. Matched on the
+# END of the refspec, so `HEAD:main` and a bare `main` are both caught.
+PROTECTED_TARGET = re.compile(r"(?i)\bgit\s+push\b[^\r\n]*?(?:^|\s|:)(?:main|master)\s*$")
 SOURCE_SUFFIXES = {
     ".c", ".cc", ".cpp", ".h", ".hh", ".hpp", ".hxx", ".cs", ".go",
     ".java", ".js", ".jsx", ".mjs", ".cjs", ".kt", ".php", ".py", ".r",
@@ -236,10 +265,19 @@ def main() -> int:
     if not PUSH.search(command):
         print("{}")
         return 0
+    if PROTECTED_TARGET.search(command):
+        ask(
+            "This push targets main or master directly. ADR-0012 says work ships through "
+            "a pull request, so the deploy branch is the one target that is never "
+            "automatic. Push a feature branch and open a PR, or confirm explicitly."
+        )
+        return 0
     if not SIMPLE_CURRENT_BRANCH_PUSH.fullmatch(command):
         ask(
-            "Only a plain `git push` can be bound automatically to the current "
-            "branch and its upstream. Review wrappers, refspecs, flags, and other repositories explicitly."
+            "This push is not one of the recognised feature-branch forms "
+            "(`git push`, `git push [-q] [-u] <remote> [<branch>|HEAD:<branch>]`). "
+            "Wrappers, extra flags, URLs as remotes, and unfamiliar refspecs are "
+            "reviewed explicitly rather than assumed safe."
         )
         return 0
 

@@ -32,8 +32,19 @@ report prints in full.
   a11y_ux     the same run read at a stricter threshold: contrast, tap targets,
               labels, text size, since "looks fine on my monitor" is how the
               original defect shipped
-  security    no credential material in the change, dependency audit if the
-              stack has one
+  security    no credential material in the change. It does NOT audit
+              dependencies, and this line said it did until 2026-08-06. The only
+              builtin wired to this domain is secret_scan; grep this file for
+              pip-audit, osv or safety and every one returns nothing. A gate
+              whose own description promises a check it has never run is the
+              exact defect class this gate exists to catch, sitting inside the
+              thing that catches it.
+              The dependency half runs, but not here: .github/workflows/
+              ship-gate.yml has a separate `supply-chain` job on osv-scanner.
+              It is deliberately NOT pulled into this domain, because that job
+              needs the network and a scanner binary, and a domain that is red
+              on every offline run is one that gets waived. Naming where it
+              lives beats claiming it happens here.
   docs        the change is described where a reader would look: README or docs
               for behaviour, CHANGELOG for the fact it changed
   pipeline    CI runs these same checks, so local-green cannot diverge from
