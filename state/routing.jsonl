@@ -30,3 +30,5 @@
 {"ts": "2026-08-08T00:42:44", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
 {"ts": "2026-08-08T00:54:19", "prompt_chars": 3302, "personas": ["Communications Desk", "QA Lab", "Product Studio"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer", "ui-ux-pro-max", "frontend-design", "context-bounded-analyst", "visual-explainer", "shoval-voice-draft"], "matched": true, "session": ""}
 {"ts": "2026-08-08T01:13:18", "prompt_chars": 50, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T01:18:14", "prompt_chars": 38, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T01:19:09", "prompt_chars": 74, "personas": [], "skills": [], "matched": false, "session": ""}
