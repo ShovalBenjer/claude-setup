@@ -80,6 +80,35 @@ MUTATIONS = [
      "same disabled check the expiry mutations produce, reached from the other side",
      '    if confirm in output:',
      '    if True:'),
+
+    # ---- the unmeasurable branch, added 2026-08-07 after CI ---------------
+    # The three above attack the confirmation. These attack the exception to it,
+    # which is the half that failed CI on the day the confirmation shipped.
+    ("a host that cannot measure is called stale instead",
+     "restores the bug that failed PR 55: the confirming command exits 2 because "
+     "no live tree exists on the runner, the confirm string is absent for a reason "
+     "that has nothing to do with the waiver, and the gate fails the branch",
+     '    if rc == CANNOT_MEASURE:',
+     '    if False:'),
+
+    ("any exit code counts as unmeasurable",
+     "the exception swallows the rule. A checker that fails for a real reason then "
+     "reports its waiver as merely unconfirmable, which is the fail-open this "
+     "branch exists to close",
+     '    if rc == CANNOT_MEASURE:',
+     '    if True:'),
+
+    ("an unconfirmed waiver is recorded as an ordinary one",
+     "the ledger stops distinguishing a PASS that confirmed its waivers from one "
+     "that could not, so the run record claims more than the run measured",
+     '        "waivers_unconfirmed": [r["domain"] for r in results',
+     '        "waivers_unconfirmed": [] and [r["domain"] for r in results'),
+
+    ("the unmeasurable state is not said out loud",
+     "the domain still passes and the operator reading the output has no way to "
+     "know the confirmation never ran",
+     '                            cmd, CANNOT_MEASURE, indent(tail))), "unmeasurable"',
+     '                            cmd, CANNOT_MEASURE, indent(tail))), "yes"'),
 ]
 
 # Two mutations were removed on 2026-07-27 after they SURVIVED for the wrong

@@ -80,8 +80,10 @@ EXIT CODES
 from __future__ import annotations
 
 import argparse
+import contextlib
 import datetime
 import hashlib
+import io
 import json
 import os
 import pathlib
@@ -93,6 +95,13 @@ import tempfile
 
 CONTRACT_NAME = "quality-contract.json"
 LEDGER = os.path.join("state", "gate-runs.jsonl")
+
+# The exit code a check uses to say it could not measure on this host, as opposed
+# to measuring something and disliking it. tools/audit/skills_sync.py returns it
+# when either skills tree is missing; rules_sync.py and pointers.py express the
+# same idea by printing SKIP and staying at 0. Only the waiver confirmation reads
+# it, and only to tell "unmeasurable here" apart from "the waiver went stale".
+CANNOT_MEASURE = 2
 
 DOMAINS = [
     "build", "unit", "types", "e2e", "a11y_ux",
@@ -868,10 +877,11 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
         out["status"] = WAIVED
         out["evidence"] = "waived until {}: {}".format(until, reason)
         if waiver.get("confirm"):
-            st, ev = confirm_waiver(project, spec, waiver["confirm"], verbose)
+            st, ev, confirmed = confirm_waiver(project, spec, waiver["confirm"], verbose)
             out["status"] = st
             out["cmd"] = spec.get("cmd")
             out["evidence"] += "\n" + ev
+            out["confirmed"] = confirmed
         return out
 
     if spec.get("na_reason"):
@@ -957,7 +967,7 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
 
 
 def confirm_waiver(project: str, spec: dict, confirm: str,
-                   verbose: bool = False) -> tuple[str, str]:
+                   verbose: bool = False) -> tuple[str, str, str]:
     """Run a waived domain's own command and check the waiver still describes it.
 
     A waiver is a claim about a measurement: 51 items, 3 failing tests, one
@@ -982,24 +992,50 @@ def confirm_waiver(project: str, spec: dict, confirm: str,
     reason: what is left is a check nobody runs and a justification that no
     longer describes it.
 
-    The command's exit code is deliberately ignored. A waived domain's command is
+    Pass or fail is not read from the exit code. A waived domain's command is
     expected to be non-zero, since that is usually why it was waived; what is
     being tested is whether the waiver's own description of the failure still
-    holds.
+    holds. Exit code CANNOT_MEASURE is the one exception, and it is a different
+    question: measurable or not, rather than pass or fail.
+
+    That exception exists because the first version of this function did not have
+    it and shipped a host-shaped check, the class already on the ledger as
+    L-2026-07-31-g. `skills_sync.py check` compares the repo tree against the live
+    `~/.claude/skills`, which does not exist on a CI runner, so it printed
+    "cannot run: no live skills tree" and exited 2. The confirm string was absent
+    from that output for a reason that has nothing to do with the waiver, and the
+    gate called the waiver STALE and failed the branch on 2026-08-07. The same
+    commit had passed locally an hour earlier, where the live tree is real.
+
+    The signal is the exit code rather than a marker string in the output, because
+    a marker matched by substring is an oracle validated by existence rather than
+    content (L-2026-08-05-a): reword the tool's message and unmeasurable silently
+    becomes stale, or write the marker too loosely and real drift becomes a skip.
+    Exit 2 is the convention its sibling checks already keep, and a tool's own
+    selftest can pin it. What this cannot do is tell a genuinely unmeasurable host
+    from a check that has quietly stopped being able to measure anywhere, so the
+    unconfirmed state is printed on the domain and recorded on the run, never
+    folded into an ordinary WAIVED.
     """
     cmd = spec.get("cmd")
     if not cmd:
         return FAIL, ("the waiver carries a confirm string and the domain names no command "
-                      "that could produce it, so the confirmation can never run")
+                      "that could produce it, so the confirmation can never run"), "no-cmd"
     if verbose:
         print("    $ " + cmd + "   (confirming the waiver)", file=sys.stderr)
-    _, output = run(cmd, project, timeout=spec.get("timeout", 900))
-    if confirm in output:
-        return WAIVED, "waiver confirmed: `{}` still reports {}".format(cmd, confirm)
+    rc, output = run(cmd, project, timeout=spec.get("timeout", 900))
     tail = "\n".join([l for l in output.splitlines() if l.strip()][-8:])
+    if rc == CANNOT_MEASURE:
+        return WAIVED, ("waiver NOT confirmed on this host: `{}` exited {}, the convention for "
+                        "a check that cannot measure here rather than one that failed. The "
+                        "waiver is still live, and this run asserts strictly less about it "
+                        "than a run where the confirmation completed.\n{}".format(
+                            cmd, CANNOT_MEASURE, indent(tail))), "unmeasurable"
+    if confirm in output:
+        return WAIVED, "waiver confirmed: `{}` still reports {}".format(cmd, confirm), "yes"
     return FAIL, ("waiver STALE: `{}` no longer reports {}, so the waiver describes a "
                   "measurement that has moved. Restate it with the current numbers or "
-                  "clear it.\n{}".format(cmd, confirm, indent(tail)))
+                  "clear it.\n{}".format(cmd, confirm, indent(tail))), "stale"
 
 
 def indent(text: str, pad: str = "    ") -> str:
@@ -1074,6 +1110,11 @@ def cmd_run(args: argparse.Namespace) -> int:
             "{} {}".format(r["domain"], r["status"]) for r in blocking)))
         print("  A done-claim is not available until each of those either passes or carries "
               "a waiver with a reason and an expiry date.")
+    unconfirmed = [r["domain"] for r in results if r.get("confirmed") == "unmeasurable"]
+    if unconfirmed:
+        print("  waiver(s) not confirmed here: {}. Their checks could not measure on this "
+              "host, so this verdict says less than one from a host that can."
+              .format(", ".join(unconfirmed)))
     if args.domain:
         print("  Only the {} domain ran. This is not a gate pass; the other {} domains were "
               "not measured.".format(args.domain, len(DOMAINS) - 1))
@@ -1086,6 +1127,13 @@ def cmd_run(args: argparse.Namespace) -> int:
         "verdict": verdict if not args.domain else "PARTIAL",
         "domains": {r["domain"]: r["status"] for r in results},
         "blocking": [r["domain"] for r in blocking],
+        # A waiver the run could not confirm is recorded by name. Without this the
+        # ledger writes WAIVED for a confirmed waiver and for one whose confirmation
+        # never ran, and a CI PASS reads as identical to a local PASS that asserted
+        # more. That is the same class as the run this feature was built to catch,
+        # one level up: the record claiming more than the run measured.
+        "waivers_unconfirmed": [r["domain"] for r in results
+                                if r.get("confirmed") == "unmeasurable"],
     }
     ledger = os.path.join(setup_root(), LEDGER)
     os.makedirs(os.path.dirname(ledger), exist_ok=True)
@@ -1248,6 +1296,30 @@ def cmd_selftest(args: argparse.Namespace) -> int:
         ok = got == 1
         print("\n[{}] a confirm string with no command to produce it fails, got {}"
               .format("ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+        c["domains"]["e2e"]["cmd"] = "echo DRIFT: 29; exit 1"
+
+        # ...and a command that cannot measure on this host is not a stale waiver.
+        # Exit 2 is the convention; the confirm string is deliberately absent from
+        # the output here, which is exactly the shape that failed CI on 2026-08-07.
+        c["domains"]["e2e"]["cmd"] = "echo cannot run: no live tree; exit 2"
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        said = "not confirmed" in out.getvalue()
+        ok = got == 0 and said
+        print("\n[{}] a confirmation that cannot measure here passes and says so, got {} "
+              "said-so {}".format("ok  " if ok else "FAIL", got, said))
+        rc |= 0 if ok else 1
+
+        # ...and the run it records names that waiver, so a PASS from a host that
+        # could not confirm is distinguishable in the ledger from one that did.
+        last = json.loads(open(os.path.join(setup_root(), LEDGER),
+                               encoding="utf-8").read().strip().splitlines()[-1])
+        ok = last.get("waivers_unconfirmed") == ["e2e"]
+        print("\n[{}] the ledger row names the unconfirmed waiver, got {}".format(
+            "ok  " if ok else "FAIL", last.get("waivers_unconfirmed")))
         rc |= 0 if ok else 1
         c["domains"]["e2e"]["cmd"] = "echo DRIFT: 29; exit 1"
 
