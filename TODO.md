@@ -51,6 +51,19 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   wheel it declares. The clear calls in the same report (archive `home-dotfiles` and
   `startup-scripts`, merge `master-plans` into `work-docs`) are not blocked on anything.
 
+- [ ] **Nine connected connectors have never been called once, and two other lanes
+  inherit all of them.** Measured 2026-08-08 in
+  `docs/analysis/2026-08-08-connector-usage.md` by counting assistant `tool_use`
+  blocks across 1183 transcripts, which only became possible once the session store
+  was migrated the same day. Never called: Semrush, SNOMED CT, ICD-10 Codes, Clinical
+  Trials, Gmail, Medidata, Mobbin, Indeed, Zapier. `claude-setup`'s
+  `disabledMcpServers` is wired from 3 to 10. **The open half is cross-lane and stays a
+  proposal:** `new-recruit` and `daily-deep-learning` both have an EMPTY disable list,
+  so they inherit every medical connector for no reason, and new-recruit is the one
+  project where Indeed is plausibly on topic. Whoever owns those lanes decides.
+  Do not add connectors from the ~850 directory before this pruning lands: nine
+  unused ones already make the hit rate worse than the list length suggests.
+
 - [ ] **`dot-claude/bin/self-improve.py:27` is a live broken consumer.** It inserts
   `$HOME/projects/intent-control-plane/src` on `sys.path` before importing
   `intent_control_plane.harness`, and `/home/shov/projects` does not exist. Its sibling
