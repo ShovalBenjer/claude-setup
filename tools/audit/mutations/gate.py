@@ -50,6 +50,36 @@ MUTATIONS = [
      "fails a correct project and is how a gate stops being run at all",
      'return datetime.date.fromisoformat(until) < datetime.date.today()',
      'return datetime.date.fromisoformat(until) > datetime.date.today()'),
+
+    # ---- waiver confirmation, added 2026-08-07 --------------------------
+    # The expiry mutations above all attack `until`, which is the half of a
+    # waiver that was already checked. These attack the half that was not: a
+    # waiver's description of the measurement it is waiving.
+    ("the confirm string is never checked",
+     "restores the state measured on 2026-08-07: the gate prints a waiver whose "
+     "own confirmation step fails and returns VERDICT: PASS, which is a false "
+     "green produced by a check that was never run",
+     '        if waiver.get("confirm"):',
+     '        if False:'),
+
+    ("a stale waiver reports WAIVED instead of failing",
+     "the confirmation runs, disagrees, and changes nothing. Worse than not "
+     "running it, because the evidence then says the waiver was checked",
+     '    return FAIL, ("waiver STALE: `{}` no longer reports {}, so the waiver describes a "',
+     '    return WAIVED, ("waiver STALE: `{}` no longer reports {}, so the waiver describes a "'),
+
+    ("a confirm string on a domain with no command passes silently",
+     "a waiver naming a confirmation that can never run is indistinguishable "
+     "from one that ran and held, so the cheapest way to defeat the check is to "
+     "delete the domain's cmd",
+     '        return FAIL, ("the waiver carries a confirm string and the domain names no command "',
+     '        return WAIVED, ("the waiver carries a confirm string and the domain names no command "'),
+
+    ("the confirmation is satisfied by any output at all",
+     "an unconditional match makes every waiver self-confirming, which is the "
+     "same disabled check the expiry mutations produce, reached from the other side",
+     '    if confirm in output:',
+     '    if True:'),
 ]
 
 # Two mutations were removed on 2026-07-27 after they SURVIVED for the wrong

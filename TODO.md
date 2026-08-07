@@ -38,6 +38,29 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   `skills` domain in `quality-contract.json` runs it, and the gate goes red at 55 and green
   only at 0.** Same treatment for `tools/audit/pointers.py scan`. **Do this alone and first:
   until it exists, B and C produce numbers nothing enforces.**
+  **CLOSED 2026-08-07 by re-measurement, and every clause of it was already stale when a
+  session read it at boot.** `check` exits **1**, not 0 (`skills_sync.py:341` is
+  `return 1 if bad else 0`, and the earlier reading of 0 came from piping it through
+  `tail`, whose exit code it then read). A `skills` domain exists in
+  `quality-contract.json` and a `pointers` domain beside it. `ship-gate.yml:260` runs
+  `skills_sync.py check` with `continue-on-error` tied to the skills waiver, and
+  `pointers.py scan` at :264 with no such line. The drift count is **29**, not 55.
+  This row survived at the top of the boot surface for two days after it was done, which
+  is the row above it (90 of 96 invisible) doing damage from the other direction: the six
+  that reach a session are picked by line number, so a closed row keeps its place.
+- [ ] **A2. The successor: a waiver expires but nothing checked whether it was still true.**
+  Measured 2026-08-07 and half fixed the same day. The `skills` waiver ended with its own
+  falsifier in prose, "expect `DRIFT: 51`, and if it prints a different number this waiver
+  is stale". A gate run printed that sentence as the domain's evidence, reported WAIVED,
+  and returned `VERDICT: PASS`; the checker printed `DRIFT: 29`. **Fixed:** a waiver may
+  carry `confirm`, the gate runs the waived domain's command anyway and fails the domain
+  if the string is gone (`confirm_waiver` in `tools/gate/gate.py`, 9 tests, 4 mutations,
+  8 of 8 caught). **Still open, and it is the operator's:** 13 of the 17 repo-vs-live
+  skill differences are the single line `disable-model-invocation: true`, added to the
+  repo copies by `3df7704` and never deployed, so live currently auto-invokes 13 skills
+  the repo says it should not. Deploying that is a live-tree behaviour change. `grill-me`
+  is the one skill where live holds 626 bytes the repo does not, so the payload tree may
+  have lost content. The waiver expires **2026-08-12** and was deliberately not extended.
 - [ ] **B. Three skill trees hold 45 FORKS, not 45 copies.**
   Measured 2026-08-05 by hashing every skill directory: **118 distinct names across
   `dot-agents/skills` (70), `dot-claude/skills` (74), `dot-codex/skills` (61) and live

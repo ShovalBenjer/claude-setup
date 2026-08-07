@@ -43,10 +43,18 @@ report prints in full.
   perf        only when the contract sets a budget; otherwise not applicable
               with that reason printed
 
-WAIVERS EXPIRE
+WAIVERS EXPIRE, AND THEY GO STALE BEFORE THEY EXPIRE
 
 A waiver needs a reason and an until-date. An expired waiver is a failure, not a
 skip, because a permanent waiver is just a disabled check with better manners.
+
+An until-date only catches the waiver that ran out. It does not catch the one
+that stopped being true, and a waiver is a claim about a measurement, so the
+measurement moves under it. A waiver may therefore also carry `confirm`, a
+string the domain's own command must still print. The gate runs that command
+even though the domain is waived, ignores its exit code (a waived command is
+expected to fail, which is usually why it was waived), and fails the domain if
+the string is gone. See confirm_waiver for the run that made this necessary.
 
 RUN RECORDS
 
@@ -856,9 +864,14 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
             out["evidence"] = ("waiver {} on {}: {}. A waiver with no expiry, or a stale one, "
                                "is a disabled check.".format(
                                    "expired" if until else "has no until date", until or "-", reason))
-        else:
-            out["status"] = WAIVED
-            out["evidence"] = "waived until {}: {}".format(until, reason)
+            return out
+        out["status"] = WAIVED
+        out["evidence"] = "waived until {}: {}".format(until, reason)
+        if waiver.get("confirm"):
+            st, ev = confirm_waiver(project, spec, waiver["confirm"], verbose)
+            out["status"] = st
+            out["cmd"] = spec.get("cmd")
+            out["evidence"] += "\n" + ev
         return out
 
     if spec.get("na_reason"):
@@ -941,6 +954,52 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
     out["status"] = PASS if rc == 0 else FAIL
     out["evidence"] = "exit {} from `{}`\n{}".format(rc, cmd, indent(tail))
     return out
+
+
+def confirm_waiver(project: str, spec: dict, confirm: str,
+                   verbose: bool = False) -> tuple[str, str]:
+    """Run a waived domain's own command and check the waiver still describes it.
+
+    A waiver is a claim about a measurement: 51 items, 3 failing tests, one
+    unported check. The measurement moves and the claim does not, so a waiver
+    that was honest when written turns into a disabled check somewhere between
+    the day it was written and the day it expires. `until` only catches the
+    second of those.
+
+    Measured here, 2026-08-07. The `skills` waiver ends with its own confirmation
+    step in prose: "CONFIRM BY RUNNING: python tools/audit/skills_sync.py check
+    -- expect 'DRIFT: 51'. If it prints a different number this waiver is stale."
+    A gate run that day printed that sentence verbatim as the domain's evidence,
+    reported WAIVED, and returned VERDICT: PASS. The checker, run by hand ninety
+    seconds later, printed DRIFT: 29 and exited 1. So the gate recited a
+    falsifier, did not run it, and went green. Nothing in the run was false; the
+    output simply asserted more than the run had measured, which is the class the
+    whole contract exists to catch.
+
+    The fix is not to un-waive the domain. It is that a waiver may carry a
+    `confirm` string, and the gate runs the domain's command anyway and looks for
+    it. A stale waiver then fails exactly like an expired one, and for the same
+    reason: what is left is a check nobody runs and a justification that no
+    longer describes it.
+
+    The command's exit code is deliberately ignored. A waived domain's command is
+    expected to be non-zero, since that is usually why it was waived; what is
+    being tested is whether the waiver's own description of the failure still
+    holds.
+    """
+    cmd = spec.get("cmd")
+    if not cmd:
+        return FAIL, ("the waiver carries a confirm string and the domain names no command "
+                      "that could produce it, so the confirmation can never run")
+    if verbose:
+        print("    $ " + cmd + "   (confirming the waiver)", file=sys.stderr)
+    _, output = run(cmd, project, timeout=spec.get("timeout", 900))
+    if confirm in output:
+        return WAIVED, "waiver confirmed: `{}` still reports {}".format(cmd, confirm)
+    tail = "\n".join([l for l in output.splitlines() if l.strip()][-8:])
+    return FAIL, ("waiver STALE: `{}` no longer reports {}, so the waiver describes a "
+                  "measurement that has moved. Restate it with the current numbers or "
+                  "clear it.\n{}".format(cmd, confirm, indent(tail)))
 
 
 def indent(text: str, pad: str = "    ") -> str:
@@ -1147,6 +1206,50 @@ def cmd_selftest(args: argparse.Namespace) -> int:
         print("\n[{}] an expired waiver fails rather than skips, got {}".format(
             "ok  " if ok else "MISS", got))
         rc |= 0 if ok else 1
+
+        # 3b. a live waiver carrying a confirm string is checked against the domain's
+        # own command, so a waiver that stopped describing its measurement fails on
+        # the day it stops rather than on its expiry date.
+        for d in DOMAINS:
+            c["domains"][d] = {"required": True,
+                               "waived": {"reason": "selftest", "until": "2099-01-01"}}
+        c["domains"]["e2e"] = {
+            "required": True,
+            "cmd": "echo DRIFT: 29; exit 1",
+            "waived": {"reason": "selftest", "until": "2099-01-01",
+                       "confirm": "DRIFT: 51"}}
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        # These three print [FAIL] rather than [MISS] on purpose: mutate.py reads
+        # lines starting with [FAIL] to name which check caught a mutation, so a
+        # case that fails under any other marker is caught by exit code alone and
+        # reports WEAK SIGNAL.
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 1
+        print("\n[{}] a live waiver whose confirm string no longer appears fails, got {}"
+              .format("ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+
+        # ...and the same waiver passes while its confirm string still holds, which is
+        # what keeps this from being a check that simply fails every waiver.
+        c["domains"]["e2e"]["waived"]["confirm"] = "DRIFT: 29"
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 0
+        print("\n[{}] a confirmed waiver still passes, on a command that exits non-zero, got {}"
+              .format("ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+
+        # ...and a confirm string the domain gives no way to produce is a contract
+        # error, not a pass. Without this case, deleting the domain's cmd is the
+        # cheapest way to make the confirmation unrunnable and therefore satisfied.
+        del c["domains"]["e2e"]["cmd"]
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 1
+        print("\n[{}] a confirm string with no command to produce it fails, got {}"
+              .format("ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+        c["domains"]["e2e"]["cmd"] = "echo DRIFT: 29; exit 1"
 
         # 4. a domain deleted from the contract is UNCOVERED, not absent
         del c["domains"]["e2e"]

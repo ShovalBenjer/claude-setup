@@ -69,6 +69,38 @@ with no reason does not count. `codemap.py` prints every exclusion with its line
 count and reason on both the passing and the failing path, because the failing
 path is exactly when a reader is deciding whether the audit is honest.
 
+## Waivers: two ways one goes bad, and the gate now checks both
+
+A waiver needs `reason` and `until`. Past `until` it is a failure rather than a
+skip, on the same argument the prior-art records use: a permanent exemption is a
+disabled check that reads like a live one.
+
+`until` catches only the waiver that ran out. It cannot catch the waiver that
+stopped being true, and that is the more common failure, because a waiver is a
+claim about a measurement and the measurement keeps moving underneath it.
+
+Measured 2026-08-07. The `skills` waiver ended with its own falsifier written as
+prose: expect `DRIFT: 51`, and if the checker prints anything else the waiver is
+stale. A gate run printed that sentence as the domain's evidence, reported
+WAIVED, and returned `VERDICT: PASS`. Run by hand ninety seconds later the
+checker printed `DRIFT: 29` and exited 1. Nothing in the run was false. The
+output simply asserted more than the run had measured, which is the class this
+whole contract exists to catch, appearing inside the contract's own machinery.
+
+So a waiver may also carry `confirm`, a string the domain's command must still
+print. The gate runs that command even though the domain is waived, and fails
+the domain if the string is gone. Two details are deliberate:
+
+- The command's exit code is ignored. A waived domain's command is expected to
+  fail, since that is usually why it was waived. What is under test is whether
+  the waiver still describes the failure.
+- A `confirm` on a domain with no `cmd` is a failure, not a pass. Otherwise
+  deleting the command is the cheapest way to make the confirmation unrunnable,
+  and an unrunnable confirmation would be indistinguishable from one that held.
+
+Write the number into `confirm`, not only into the prose. Prose is read by
+whoever is already suspicious; `confirm` is read on every run.
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.
