@@ -101,9 +101,10 @@
     },
     "pointers": {
       "required": true,
-      "cmd": "python tools/audit/pointers.py scan",
+      "cmd": "python tools/audit/pointers.py scan --include-live",
       "timeout": 300,
-      "_note": "hooks and skills that name a path which does not resolve. Same shape as the skills row: a real checker that CI never invoked. Measured 2026-08-05 it exits 0 at fail-on=high while carrying 271 distinct absent paths, headed by ~/.claude/bin/work-item.sh at 40 references, so this row gates the high-severity class only and the long tail stays visible without blocking. No waiver, because it passes today."
+      "_note": "hooks and skills that name a path which does not resolve. Same shape as the skills row: a real checker that CI never invoked. Measured 2026-08-05 it exits 0 at fail-on=high while carrying 271 distinct absent paths, headed by ~/.claude/bin/work-item.sh at 40 references, so this row gates the high-severity class only and the long tail stays visible without blocking. No waiver, because it passes today.",
+      "scope_note": "Runs with --include-live from 2026-08-07. Without it the scan read the committed dot-claude/settings.json and never ~/.claude/settings.json, so it audited a payload copy instead of the file that runs. That is not a weaker check, it is a check of a different file under the same name: the live settings had been wiring a PostToolUse hook at tools/intent/spawn_log.py, which did not exist, failing on every agent spawn, while this domain reported PASS. The payload copy has no PostToolUse section at all, so the broken hook was outside the file being read rather than merely missed. On a runner there is no live settings and the scan says so in as many words instead of passing quietly."
     }
   }
 }
