@@ -58,9 +58,14 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   8 of 8 caught). **Still open, and it is the operator's:** 13 of the 17 repo-vs-live
   skill differences are the single line `disable-model-invocation: true`, added to the
   repo copies by `3df7704` and never deployed, so live currently auto-invokes 13 skills
-  the repo says it should not. Deploying that is a live-tree behaviour change. `grill-me`
-  is the one skill where live holds 626 bytes the repo does not, so the payload tree may
-  have lost content. The waiver expires **2026-08-12** and was deliberately not extended.
+  the repo says it should not. Deploying that is a live-tree behaviour change. The waiver
+  expires **2026-08-12** and was deliberately not extended.
+  **One correction inside this row, kept because it is the more useful half.** `grill-me`
+  was written up as possible content loss, live holding 626 bytes the repo does not. The
+  diff says the reverse: `3df7704` rewrote the repo copy on 2026-08-03 into a terse
+  four-line brief and live still carries the older structured protocol, so the repo is
+  ahead and live is stale. The byte count said which file was bigger and was read as
+  saying which was current.
 - [ ] **B. Three skill trees hold 45 FORKS, not 45 copies.**
   Measured 2026-08-05 by hashing every skill directory: **118 distinct names across
   `dot-agents/skills` (70), `dot-claude/skills` (74), `dot-codex/skills` (61) and live
