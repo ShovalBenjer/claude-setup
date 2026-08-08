@@ -1,0 +1,36 @@
+{"ts": "2026-08-07T23:15:45", "prompt_chars": 7, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-07T23:15:52", "prompt_chars": 34, "personas": ["Engineering Firm", "Review Board", "QA Lab"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-07T23:16:58", "prompt_chars": 7, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-07T23:18:11", "prompt_chars": 7, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-07T23:20:13", "prompt_chars": 171, "personas": ["Evidence Clerk", "Architecture Office", "Mayor Opus"], "skills": ["requirement-anchor", "to-prd", "premortem"], "matched": true, "session": ""}
+{"ts": "2026-08-07T23:32:25", "prompt_chars": 37, "personas": ["Architecture Office", "Mayor Opus"], "skills": ["premortem", "request-refactor-plan", "domain-model"], "matched": true, "session": ""}
+{"ts": "2026-08-07T23:33:27", "prompt_chars": 40, "personas": ["Architecture Office", "Mayor Opus"], "skills": ["premortem", "request-refactor-plan", "domain-model"], "matched": true, "session": ""}
+{"ts": "2026-08-07T23:34:23", "prompt_chars": 77, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-07T23:36:41", "prompt_chars": 237, "personas": ["Product Studio", "Architecture Office", "Mayor Opus"], "skills": ["ui-ux-pro-max", "frontend-design", "premortem", "request-refactor-plan", "domain-model"], "matched": true, "session": ""}
+{"ts": "2026-08-07T23:37:27", "prompt_chars": 49, "personas": ["Architecture Office", "Mayor Opus"], "skills": ["premortem", "request-refactor-plan", "domain-model"], "matched": true, "session": ""}
+{"ts": "2026-08-07T23:38:14", "prompt_chars": 91, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-07T23:39:06", "prompt_chars": 31, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-07T23:42:41", "prompt_chars": 399, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-07T23:43:04", "prompt_chars": 245, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-07T23:46:32", "prompt_chars": 75, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-07T23:52:26", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-07T23:56:17", "prompt_chars": 16732, "personas": ["Communications Desk", "QA Lab", "Evidence Clerk"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer", "deep-research", "decision-grade", "ui-ux-pro-max", "frontend-design", "context-bounded-analyst"], "matched": true, "session": ""}
+{"ts": "2026-08-07T23:57:27", "prompt_chars": 23436, "personas": ["Communications Desk", "Engineering Firm", "QA Lab"], "skills": ["commit-push-pr", "refactor-pre-push", "testing-pyramid", "tdd", "coverage-enforcer", "codex-call", "ui-ux-pro-max", "frontend-design"], "matched": true, "session": ""}
+{"ts": "2026-08-07T23:59:17", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T00:03:00", "prompt_chars": 343, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T00:07:25", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T00:08:59", "prompt_chars": 7449, "personas": ["Communications Desk", "Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "testing-pyramid", "tdd", "coverage-enforcer", "azure-devops"], "matched": true, "session": ""}
+{"ts": "2026-08-08T00:09:49", "prompt_chars": 19546, "personas": ["Communications Desk", "Product Studio", "Architecture Office"], "skills": ["commit-push-pr", "refactor-pre-push", "ui-ux-pro-max", "frontend-design", "pii-scrubber", "context-bounded-analyst", "shoval-voice-draft", "blog"], "matched": true, "session": ""}
+{"ts": "2026-08-08T00:11:58", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T00:15:36", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T00:20:54", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T00:26:41", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T00:32:39", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T00:37:44", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T00:42:44", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T00:54:19", "prompt_chars": 3302, "personas": ["Communications Desk", "QA Lab", "Product Studio"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer", "ui-ux-pro-max", "frontend-design", "context-bounded-analyst", "visual-explainer", "shoval-voice-draft"], "matched": true, "session": ""}
+{"ts": "2026-08-08T01:13:18", "prompt_chars": 50, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T01:18:14", "prompt_chars": 38, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T01:19:09", "prompt_chars": 74, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T10:35:22", "prompt_chars": 1, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T10:36:58", "prompt_chars": 205, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "azure-devops"], "matched": true, "session": ""}

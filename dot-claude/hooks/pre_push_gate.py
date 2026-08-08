@@ -13,7 +13,36 @@ from typing import Any
 
 
 PUSH = re.compile(r"(?i)\bgit\b[^\r\n;&|]{0,400}\bpush\b")
-SIMPLE_CURRENT_BRANCH_PUSH = re.compile(r"(?i)^\s*git\s+push\s*$")
+# Ordinary ways to publish a feature branch. An ALLOW-LIST: anything this does not
+# recognise still asks, so an unfamiliar shape is never silently permitted.
+#
+# Widened 2026-08-06. The previous pattern was `^\s*git\s+push\s*$`, which admitted a
+# bare `git push` and nothing else, so every real push prompted. It was also redundant:
+# `hookgate` runs first on the same event and DENIES force, --delete, --mirror, --prune
+# and a leading `+` refspec outright, so this gate was re-asking about a class already
+# refused and spending its signal on shapes that were unfamiliar rather than dangerous.
+#
+#   git push
+#   git push [-q] [-u|--set-upstream] <remote> [<branch>|HEAD:<branch>]
+#
+# A remote is a bare name only. A URL or a path is not a known remote and still asks.
+# Must NOT begin with a dash. Caught by the verification pass: with a leading dash
+# allowed, `--all` and `--tags` parsed as remote NAMES and ran autonomously, so any
+# unknown flag would have. An allow-list that admits arbitrary flags is a deny-list
+# with extra steps.
+_REMOTE = r"[A-Za-z0-9._][A-Za-z0-9._-]*"
+_BRANCH = r"[A-Za-z0-9._/-]+"
+SIMPLE_CURRENT_BRANCH_PUSH = re.compile(
+    r"(?i)^\s*git\s+push"
+    r"(?:\s+-q|\s+--quiet)?"
+    r"(?:\s+(?:-u|--set-upstream))?"
+    r"(?:\s+" + _REMOTE + r"(?:\s+(?:HEAD:)?" + _BRANCH + r")?)?"
+    r"\s*$")
+
+# The one target that must never be automatic. ADR-0012: work ships through a PR, so a
+# direct push to the deploy branch is exactly the push a human should see. Matched on the
+# END of the refspec, so `HEAD:main` and a bare `main` are both caught.
+PROTECTED_TARGET = re.compile(r"(?i)\bgit\s+push\b[^\r\n]*?(?:^|\s|:)(?:main|master)\s*$")
 SOURCE_SUFFIXES = {
     ".c", ".cc", ".cpp", ".h", ".hh", ".hpp", ".hxx", ".cs", ".go",
     ".java", ".js", ".jsx", ".mjs", ".cjs", ".kt", ".php", ".py", ".r",
@@ -223,6 +252,35 @@ def ask(reason: str) -> None:
     )
 
 
+def note(reason: str) -> None:
+    """Say it without stopping the push.
+
+    Changed 2026-08-08 on the operator's instruction that git should not prompt
+    him. This is deliberately not a removal: the reason still reaches stderr, it
+    simply no longer converts every push into a decision.
+
+    Why this particular check and not the others. The missing-proof branch fires
+    on any push carrying an unpushed source file with no valid
+    `.claude/proofs/current.json`. That file is real and `/prove-implementation`
+    really does write it, but producing it is a manual per-push ritual that is
+    not part of the flow, so in practice the branch fired on essentially every
+    substantive push. A gate that asks every time is not a gate, it is the
+    alarm-blindness failure the ledger already carries: the operator learns to
+    approve without reading, and the one push that genuinely needed a second
+    look is approved with the same reflex as the ninety before it.
+
+    What stays an ask, and why each earns it: a push aimed at main or master,
+    because ADR-0012 makes the deploy branch the one target that is never
+    automatic and it is rare enough to be worth a stop; and a push whose form
+    the parser does not recognise, because an unrecognised form is not a known
+    quantity being waved through. Separately, the hookgate binary still DENIES
+    bare force-push, remote ref deletion, mirror push and forced refspecs, and
+    a deny is not affected by anything here.
+    """
+    print(json.dumps({}))
+    print(reason, file=sys.stderr)
+
+
 def main() -> int:
     try:
         payload: Any = json.loads(sys.stdin.buffer.read().decode("utf-8"))
@@ -236,10 +294,19 @@ def main() -> int:
     if not PUSH.search(command):
         print("{}")
         return 0
+    if PROTECTED_TARGET.search(command):
+        ask(
+            "This push targets main or master directly. ADR-0012 says work ships through "
+            "a pull request, so the deploy branch is the one target that is never "
+            "automatic. Push a feature branch and open a PR, or confirm explicitly."
+        )
+        return 0
     if not SIMPLE_CURRENT_BRANCH_PUSH.fullmatch(command):
         ask(
-            "Only a plain `git push` can be bound automatically to the current "
-            "branch and its upstream. Review wrappers, refspecs, flags, and other repositories explicitly."
+            "This push is not one of the recognised feature-branch forms "
+            "(`git push`, `git push [-q] [-u] <remote> [<branch>|HEAD:<branch>]`). "
+            "Wrappers, extra flags, URLs as remotes, and unfamiliar refspecs are "
+            "reviewed explicitly rather than assumed safe."
         )
         return 0
 
@@ -284,12 +351,13 @@ def main() -> int:
         return 0
 
     if source and proof is False:
-        ask("The implementation proof at .claude/proofs/current.json is invalid or incomplete. Review it before push.")
+        note("pre-push note: the implementation proof at .claude/proofs/current.json is "
+             "invalid or incomplete. Pushing anyway; run /prove-implementation if this "
+             "change deserves evidence bound to the commit.")
     elif source and proof is not True:
-        ask(
-            "This push changes behavior-affecting files but no valid, current-state-bound "
-            "implementation proof covers the change. Test-file presence alone is not execution evidence."
-        )
+        note("pre-push note: this push changes behavior-affecting files and no valid, "
+             "current-state-bound implementation proof covers them. Test-file presence "
+             "alone is not execution evidence. Pushing anyway.")
     else:
         print("{}")
     return 0

@@ -22,13 +22,72 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   `[boot]`, which is a four-character change to the hook's predicate.
   **Also measured: rows written as `- **` instead of `- [ ]` are invisible entirely.**
   Ten rows added during the 2026-08-03/04 session had that defect and are corrected below.
+  **Re-measured 2026-08-08: the count is now 133 open rows, not 96, and the row directly
+  below this one had sat on the boot surface for two days after it was done.** Both
+  numbers in this row's own title were stale, which is the failure it describes eating
+  itself. The five rows under it are now re-picked by usefulness rather than by line
+  number, and closing one means promoting the next, not leaving the hole.
+
+- [ ] **Live `~/.claude/skills` went from 40 to 79 in two days and nothing can date or
+  attribute it.** Measured 2026-08-08 by `ls -1d ~/.claude/skills/*/ | wc -l` against the
+  40 recorded on 2026-08-05 in row B below. All three repo tree counts reproduce within
+  one, so the change is isolated to the one tree that is not under version control.
+  `state/snapshots` holds a single manifest from 2026-07-25 and does not span the gap.
+  A deploy of roughly 30 skills is the standing hypothesis, from mtimes at 15:12, 17:02
+  and 17:38 on 2026-08-06, but no script in the repo copies the tree that would explain
+  the 8 skills whose only repo copy is under `dot-agents`. **This is the loudest
+  unexplained number in the repository and it governs every skills count below it.**
+
+- [ ] **Three top-level directories are waiting on an operator call, and the report for
+  them exists.** `docs/analysis/2026-08-07-toplevel-dir-decisions.md`, measured at
+  f88d3a3. `dot-agents`: no live `~/.agents` anywhere and 6 commits ever, but 8 skills in
+  `~/.claude` have their only repo copy there and no script in the repo deploys it.
+  `dot-codex`: the Codex host is live and its `skills/` directory exists and is empty,
+  which reads identically as "deploy never ran" and "payload abandoned", and archiving
+  takes out the only copy of 10 differing bodies. `intent-control-plane` versus `tools`:
+  keeping the boundary preserves ruff and mypy over 116 files with 4 commits ever while
+  leaving 138 files with 56 commits unchecked, and the boundary is nominal anyway since
+  all 6 external consumers reach the package through `sys.path.insert` rather than the
+  wheel it declares. The clear calls in the same report (archive `home-dotfiles` and
+  `startup-scripts`, merge `master-plans` into `work-docs`) are not blocked on anything.
+
+- [ ] **Nine connected connectors have never been called once, and two other lanes
+  inherit all of them.** Measured 2026-08-08 in
+  `docs/analysis/2026-08-08-connector-usage.md` by counting assistant `tool_use`
+  blocks across 1183 transcripts, which only became possible once the session store
+  was migrated the same day. Never called: Semrush, SNOMED CT, ICD-10 Codes, Clinical
+  Trials, Gmail, Medidata, Mobbin, Indeed, Zapier. `claude-setup`'s
+  `disabledMcpServers` is wired from 3 to 10. **The open half is cross-lane and stays a
+  proposal:** `new-recruit` and `daily-deep-learning` both have an EMPTY disable list,
+  so they inherit every medical connector for no reason, and new-recruit is the one
+  project where Indeed is plausibly on topic. Whoever owns those lanes decides.
+  Do not add connectors from the ~850 directory before this pruning lands: nine
+  unused ones already make the hit rate worse than the list length suggests.
+
+- [ ] **`dot-claude/bin/self-improve.py:27` is a live broken consumer.** It inserts
+  `$HOME/projects/intent-control-plane/src` on `sys.path` before importing
+  `intent_control_plane.harness`, and `/home/shov/projects` does not exist. Its sibling
+  `tools/bus/backfill_session_telemetry.py` uses a repo-relative path and resolves. Same
+  class as the PostToolUse hook fixed on 2026-08-08: wired, absent, silent. Now findable,
+  since the `pointers` domain reads the live settings from that date.
+
+- [ ] **Nothing enforces the coding-style standard on `tools/`, which is most of the
+  repo's code.** Measured 2026-08-07. The `types` domain is
+  `compileall -q ... . && cd intent-control-plane && uv run ruff check . && uv run mypy`,
+  so repo-wide it checks syntax only and ruff plus mypy see one subdirectory.
+  `./intent-control-plane/pyproject.toml` is the only pyproject in the tree. Separately,
+  no rule in the house selection `PERF,C4,SIM,PIE,ERA,D` catches a prose comment, so rule
+  3 of `intent-control-plane/docs/specs/2026-07-12-coding-style-standard.md`, comments
+  near-zero and the one most often broken, has no oracle anywhere. Extending the scope
+  will surface a backlog: 59 errors in `tools/gate/gate.py` alone before this session
+  touched it, so it ships with a waiver carrying a real number and a burn-down.
 
 - [x] **CI has been red on every run and nothing says so.** `gh run list` returns four Ship gate runs, all `failure`, none referenced in any ledger, doc, or issue. The `gate` job's cause is one missing dependency: it runs `pip install "uv==0.9.4"` and never installs pytest, so the contract's `unit` domain reports `No module named pytest` and the gate reports `unit FAIL`. That reads like a test regression and is not one. FIXED in this pass by adding pytest to that step; UNVERIFIED until a run goes green, because a local gate PASS is not evidence about the runner. Zion #20's first item, "observe one real CI run", is not undone. It happened four times and nobody looked
   **CLOSED 2026-08-04 by re-measurement, and it was closed by drift, not by anyone reading it.** `gh run list` now shows Ship gate **success on `main` 2026-08-03**. What fails is two lane branches: `lane-a/config-incident-and-oracle-repair` (08-03) and `lane-a/panel-comment-strip` (08-04 12:52, Ship gate + Claude Code Review, still open). The pytest fix landed. **The successor row is the branch, not the workflow.**
 - [x] **The mutation control is red on `bus.py` and the two survivors are both the lock.** `mutate.py --spec all` reports 12 of 13 specs at 0 survived and `spec bus: 23 of 23 applied, 21 caught, 2 survived`. The survivors are `append_row stops taking the lock` and `the lock is released before the write instead of after`. So the file's own selftest cannot tell a locked append from an unlocked one, on the one ledger the repo treats as tamper-evident and reads with `bus.py verify`. There is no `tests/test_bus*.py` at all
   **CLOSED 2026-08-04.** `python tools/audit/mutate.py --spec bus` now reports **23 of 23 applied, 23 caught, 0 survived**. Both lock survivors are gone. Consequence recorded in `docs/adr/0021-rust-for-hot-paths-python-for-oracles.md`: the ADR named `bus.py` as its first rewrite candidate on the strength of these two survivors, so **that rewrite's evidence is now historical**.
 - [x] **and the obvious fix for it would be a test that cannot fail here.** `append_row`'s docstring states the lock exists because overlapping writes "on Windows destroy whole rows rather than tearing them". On Linux `O_APPEND` makes a small append atomic, so a concurrency test written on this machine stays green with the lock deleted. Writing one would be L-2026-07-31-e (scope drifting to whatever goes green) sitting on top of L-2026-07-31-g (a host-shaped oracle answering the wrong question on the other host). CLOSED 2026-08-01 by the structural option, not the Windows leg: `bus.py selftest` now parses its own `__file__` with `ast` and asserts every write in `append_row` is lexically inside the `with file_lock(...)` block. Reading `__file__` is what makes it work under mutation, since `mutate.py` runs a mutated COPY and the parse therefore sees the mutant. Evidence, from the control rather than from this row: `spec bus: 23 of 23 applied, 23 caught, 0 survived`, previously 21 caught / 2 survived. `tests/test_bus_lock.py` pins the same property in pytest with a fourth case asserting the structural check itself can go red, since a helper that silently stops matching would make the other three pass on any input. WHAT THIS STILL DOES NOT DO: it cannot prove the lock excludes a concurrent writer, which no test on Linux can. A Windows CI leg remains the only way to test the behaviour rather than the structure
-- [ ] **A. `skills_sync.py check` exists, CI runs only its selftest, and the check exits 0 while reporting drift.**
+- [x] **A. `skills_sync.py check` exists, CI runs only its selftest, and the check exits 0 while reporting drift.**
   Measured 2026-08-05. `.github/workflows/ship-gate.yml:239` runs `skills_sync.py selftest`
   and never `skills_sync.py check`. Run by hand, `check` prints **`DRIFT: 55 item(s) need a
   decision`** and **exits 0**, so wiring it in as-is would produce a green job reporting 55
@@ -38,6 +97,34 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   `skills` domain in `quality-contract.json` runs it, and the gate goes red at 55 and green
   only at 0.** Same treatment for `tools/audit/pointers.py scan`. **Do this alone and first:
   until it exists, B and C produce numbers nothing enforces.**
+  **CLOSED 2026-08-07 by re-measurement, and every clause of it was already stale when a
+  session read it at boot.** `check` exits **1**, not 0 (`skills_sync.py:341` is
+  `return 1 if bad else 0`, and the earlier reading of 0 came from piping it through
+  `tail`, whose exit code it then read). A `skills` domain exists in
+  `quality-contract.json` and a `pointers` domain beside it. `ship-gate.yml:260` runs
+  `skills_sync.py check` with `continue-on-error` tied to the skills waiver, and
+  `pointers.py scan` at :264 with no such line. The drift count is **29**, not 55.
+  This row survived at the top of the boot surface for two days after it was done, which
+  is the row above it (90 of 96 invisible) doing damage from the other direction: the six
+  that reach a session are picked by line number, so a closed row keeps its place.
+- [ ] **A2. The successor: a waiver expires but nothing checked whether it was still true.**
+  Measured 2026-08-07 and half fixed the same day. The `skills` waiver ended with its own
+  falsifier in prose, "expect `DRIFT: 51`, and if it prints a different number this waiver
+  is stale". A gate run printed that sentence as the domain's evidence, reported WAIVED,
+  and returned `VERDICT: PASS`; the checker printed `DRIFT: 29`. **Fixed:** a waiver may
+  carry `confirm`, the gate runs the waived domain's command anyway and fails the domain
+  if the string is gone (`confirm_waiver` in `tools/gate/gate.py`, 9 tests, 4 mutations,
+  8 of 8 caught). **Still open, and it is the operator's:** 13 of the 17 repo-vs-live
+  skill differences are the single line `disable-model-invocation: true`, added to the
+  repo copies by `3df7704` and never deployed, so live currently auto-invokes 13 skills
+  the repo says it should not. Deploying that is a live-tree behaviour change. The waiver
+  expires **2026-08-12** and was deliberately not extended.
+  **One correction inside this row, kept because it is the more useful half.** `grill-me`
+  was written up as possible content loss, live holding 626 bytes the repo does not. The
+  diff says the reverse: `3df7704` rewrote the repo copy on 2026-08-03 into a terse
+  four-line brief and live still carries the older structured protocol, so the repo is
+  ahead and live is stale. The byte count said which file was bigger and was read as
+  saying which was current.
 - [ ] **B. Three skill trees hold 45 FORKS, not 45 copies.**
   Measured 2026-08-05 by hashing every skill directory: **118 distinct names across
   `dot-agents/skills` (70), `dot-claude/skills` (74), `dot-codex/skills` (61) and live
@@ -50,6 +137,16 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   **Acceptance: one tree, and each of the 45 forks carries a recorded decision (merged,
   superseded, or archived with a reason). Picking by timestamp is not a decision** and
   destroys whatever the divergence was for.
+  **Re-measured 2026-08-08 over the same four trees: the row holds and understates.**
+  121 distinct names (was 118), 84 shared (was 67), 30 identical and **52 DIVERGED**
+  (was 22 and 45). Restricted to real bodies present in two or more trees: 82 names, 30
+  identical, 52 diverged; repo-only, 50 names, 17 identical, 33 diverged. Live is 79
+  directories, not 40, and that change is the unexplained row near the top of this file.
+  **One correction to the shape of the problem, not its size:** 33 of the counted forks
+  in `dot-codex/skills` are one-line files naming `/home/shovalbe/`, a home directory
+  that does not exist on this machine. Those are a wiring defect, not divergent content,
+  and merging them merges nothing. The real fork count is smaller than 52 and the dead
+  pointers are a separate, cheaper job.
 - [ ] **48 definition-of-done rows exist and zero tools read them.** Measured 2026-08-04:
   `grep -rl "definition of done\|DoD" tools/` returns nothing, against 48 rows in
   `docs/prd/2026-08-03-unified-architecture.md` and
