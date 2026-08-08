@@ -91,6 +91,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import tempfile
 
 CONTRACT_NAME = "quality-contract.json"
@@ -1043,6 +1044,7 @@ def indent(text: str, pad: str = "    ") -> str:
 
 
 def cmd_run(args: argparse.Namespace) -> int:
+    started = time.monotonic()
     project = os.path.abspath(args.project)
     contract = load_contract(project)
     if contract is None:
@@ -1084,7 +1086,10 @@ def cmd_run(args: argparse.Namespace) -> int:
     for name in todo:
         if args.verbose:
             print("  [{}]".format(name), file=sys.stderr)
-        results.append(eval_domain(name, declared.get(name), project, contract, args.verbose))
+        domain_started = time.monotonic()
+        result = eval_domain(name, declared.get(name), project, contract, args.verbose)
+        result["seconds"] = round(time.monotonic() - domain_started, 1)
+        results.append(result)
 
     width = max(len(r["domain"]) for r in results)
     blocking = []
@@ -1134,6 +1139,18 @@ def cmd_run(args: argparse.Namespace) -> int:
         # one level up: the record claiming more than the run measured.
         "waivers_unconfirmed": [r["domain"] for r in results
                                 if r.get("confirmed") == "unmeasurable"],
+        # How long the run took, and per domain. Added 2026-08-08 because the
+        # contract already carries a duration budget that nothing could check.
+        # The unit domain's _timeout_note raised the timeout 300 to 900 on
+        # 2026-07-31 and wrote its own falsifier: "if the suite passes 600s this
+        # number is hiding growth again and the split is overdue." The 8571 rows
+        # recorded before this line have no duration in them, so that falsifier
+        # could not be evaluated against a single one of them. A budget with a
+        # falsifier nobody can run is the same disabled check as a waiver whose
+        # confirmation never fires, one field short.
+        "duration_seconds": round(time.monotonic() - started, 1),
+        "domain_seconds": {r["domain"]: r["seconds"] for r in results
+                           if r.get("seconds") is not None},
     }
     ledger = os.path.join(setup_root(), LEDGER)
     os.makedirs(os.path.dirname(ledger), exist_ok=True)

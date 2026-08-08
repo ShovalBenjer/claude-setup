@@ -34,3 +34,9 @@
 {"ts": "2026-08-08T01:19:09", "prompt_chars": 74, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-08T10:35:22", "prompt_chars": 1, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-08T10:36:58", "prompt_chars": 205, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "azure-devops"], "matched": true, "session": ""}
+{"ts": "2026-08-08T10:39:15", "prompt_chars": 230, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "azure-devops"], "matched": true, "session": ""}
+{"ts": "2026-08-08T10:43:10", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T10:45:21", "prompt_chars": 4915, "personas": ["Communications Desk", "Review Board", "Evidence Clerk"], "skills": ["review", "heidegger-reflect", "deep-research", "decision-grade", "shoval-voice-draft", "blog", "humanize", "premortem"], "matched": true, "session": ""}
+{"ts": "2026-08-08T10:45:54", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T10:48:18", "prompt_chars": 4728, "personas": ["Communications Desk", "Workflow Clerk", "MCP and Tooling Office"], "skills": ["commit-push-pr", "refactor-pre-push", "shoval-voice-draft", "blog", "humanize", "reground", "workspace-brain", "mcp-activation"], "matched": true, "session": ""}
+{"ts": "2026-08-08T10:52:56", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}

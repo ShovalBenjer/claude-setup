@@ -63,7 +63,7 @@
     },
     "perf": {
       "required": false,
-      "na_reason": "No performance budget is declared for claude-setup. Every budget-shaped string in the tree is either another project's historical Lighthouse evidence or code that reports p95 without enforcing a threshold. Nobody has set a number to measure against."
+      "na_reason": "No performance budget is declared for claude-setup, which serves no application and has no latency to bound. Corrected 2026-08-08: the previous wording went further and said nobody had set a number to measure against anywhere in the tree, and that is false. The unit domain's own _timeout_note, written 2026-07-31 and so six days after this reason, sets a 900s budget with an explicit falsifier at 600s. Separately, intent-control-plane/repo_health.py enforces FILE_BUDGET, FUNC_BUDGET and CLASS_BUDGET, a maintainability budget rather than a perf one, and it is referenced by no pyproject script, by gate.py, or by CI, so it runs nowhere. The Lighthouse and p95-without-a-threshold halves of the original claim were re-checked by grep and still hold. N/A is retained because a duration budget on the gate's own run is not what this domain measures, but the enabling half landed today: gate runs now record duration_seconds and domain_seconds, so the unit falsifier is evaluable for the first time. The 8571 rows before that carry no duration at all. Whether that becomes a real perf domain is a contract shape decision and belongs to the operator, with the evidence in docs/analysis/2026-08-08-na-domains-rechecked.md."
     },
     "codemap": {
       "required": true,
