@@ -63,6 +63,11 @@ The layering is contract, then oracle, then that oracle's selftest, then a mutat
 
 ## Gotchas
 
+- `codemap.py write` reads `git ls-files`, so it counts TRACKED files and cannot see a new
+  file you have not staged yet. Regenerating "last, just before committing" is therefore not
+  enough and fired three times in one session on 2026-08-08: the map was written, `git add -A`
+  then made a new test file tracked, and the committed map was stale by one file. The order
+  that works is `git add -A`, then `codemap.py write`, then `git add -A` again, then commit.
 - `docs/CODEBASE-MAP.md` is generated. A hand edit reads as drift and fails `codemap.py check`. To change a directory's purpose, edit that directory's own `SKILL.md` or `README.md`, or its row in `docs/dir-purpose.txt`. A row beside a self-documenting directory is an error, not an override.
 - A new tracked directory with no stated purpose fails the gate. A new Python component over 300 lines owes `docs/prior-art/<name>.json` with real named alternatives and an expiry date; an empty alternatives list fails.
 - The `review` domain matches its artifact by commit sha rather than by tree, so a verdict written against a dirty tree keeps reading as current for that commit.
