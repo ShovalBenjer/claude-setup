@@ -59,3 +59,5 @@
 {"ts": "2026-08-08T15:50:27", "prompt_chars": 376, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-08T23:46:00", "prompt_chars": 70, "personas": ["Product Studio", "Architecture Office", "Mayor Opus"], "skills": ["ui-ux-pro-max", "frontend-design", "premortem", "request-refactor-plan", "domain-model"], "matched": true, "session": ""}
 {"ts": "2026-08-08T23:47:06", "prompt_chars": 4, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T23:49:02", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T23:50:00", "prompt_chars": 52, "personas": [], "skills": [], "matched": false, "session": ""}
