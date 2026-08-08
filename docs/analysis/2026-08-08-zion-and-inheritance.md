@@ -163,8 +163,9 @@ ls-files .claude/rules` in `new-recruit` shows 13 rule files committed inside th
 tree, separate from the shared live `~/.claude/rules` (23 files today, `ls ~/.claude/rules |
 wc -l`). Spot-checked 2 of the 13 (`repo-topology.md`, `calibrated-claims.md`) byte-for-byte
 against the live copy: identical, both last touched 2026-07-24 per `git log -1 -- <path>`. The
-other 11 were not diffed and are not claimed identical. What is measured without qualification:
-10 of the 23 live rules are simply absent from this mirror, meaning any rule added or renamed
+other 11 were not diffed and are not claimed identical. What is measured without qualification,
+by filename set difference (`comm -23` between the two directory listings): 10 live rule
+filenames have no counterpart in this mirror at all, meaning any rule added or renamed
 in claude-setup since this snapshot was made will not appear here even though the file exists
 and is git-tracked, giving a false impression of completeness to anyone who reads the repo copy
 instead of the live tree. `daily-deep-learning/.claude` is empty; it carries no such mirror at
@@ -202,10 +203,25 @@ How each repo names the path to that shared `gate.py` differs, and this is the a
   the path correctly, then reports the pin has drifted: `9d94efb5 pinned, 98bb64da on disk`.
   Eight days, the file's own comment ("Expect drift to be the normal state... re-pin
   deliberately") predicted exactly this and it has not been re-pinned.
-- **Nothing in claude-setup itself** offers or documents either pattern. `grep -rn
-  "CLAUDE_SETUP\|CLAUDE_HARNESS" claude-setup/tools claude-setup/AGENTS.md` (run during this
-  analysis) returns nothing; the resolver and the env-var convention both originate in and live
-  only inside the repos that had to invent them to consume claude-setup.
+- **The specific `$CLAUDE_HARNESS` / `.harness-ref` resolver pattern does not exist in
+  claude-setup at all.** `grep -rn "CLAUDE_HARNESS" tools/ AGENTS.md`: zero hits, VERIFIED.
+  Nothing in this repo offers or documents it; it lives only inside `new-recruit`. The
+  `CLAUDE_SETUP` name itself is not unprecedented here, though, and this is worth being exact
+  about rather than claiming a clean absence: `tools/wsl/bootstrap.sh:158` reads
+  `REPO="${CLAUDE_SETUP:-$HOME/claude-setup}"`, the identical fallback idiom
+  `daily-deep-learning`'s contract uses, but that script bootstraps a WSL machine's copy of
+  this repo, not a consuming project's tool calls, so it is precedent for the idiom, not
+  documentation of a cross-repo contract. Separately, `tools/gate/enforce_selftest.py` uses a
+  different variable, `CLAUDE_SETUP_ROOT`, to sandbox `gate.py` inside its own selftest, an
+  unrelated internal use of a similar name. And `docs/prior-art/tools-telemetry.json` and
+  `docs/specs/2026-07-29-prompt-to-ticket-lifecycle.md` both document `$CLAUDE_OS_DIR`, the
+  variable the telemetry and intent-capture hooks use to find this repo's `state/` from
+  another repo's working directory, which is the same shared-ledger problem as section 2b's
+  gate finding, already named and already fixed for that one subsystem. So the honest claim is
+  narrower than "claude-setup documents nothing here": it documents `$CLAUDE_OS_DIR` for
+  telemetry, has informal precedent for the `$CLAUDE_SETUP` idiom in its own bootstrap script,
+  and has no cross-repo contract for tool invocation at all. A new-project author would not
+  find any of this by reading `AGENTS.md`, which is the gap that matters.
 
 `new-recruit/docs/specs/2026-07-26-repo-target-architecture.md` already made this exact
 argument, in a sibling repo, on 2026-07-26: it names the absolute-path defect, proposes the
@@ -225,9 +241,17 @@ No, for the mechanism; partially, for the naming.
 - Nothing in `claude-setup/AGENTS.md`, `CLAUDE-OS.md`, or `docs/dir-purpose.txt` tells a new
   project author that `quality-contract.json` domains can call out to
   `claude-setup/tools/*`, what the resolution order should be, or that a resolver already
-  exists in `new-recruit`. A search for "bootstrap", "onboard", "new project", or "inherit"
-  across `docs/` and `AGENTS.md` (VERIFIED, `grep -rl`) surfaces ADRs and analyses that use the
-  word in passing, none a how-to.
+  exists in `new-recruit`. `grep -rli "bootstrap\|onboard\|new project\|inherit" docs/
+  AGENTS.md` (VERIFIED, run in full over `docs/`, not a truncated sample) returns 51 files, so
+  the words are not absent from the repo; what is absent is a how-to. Spot-checked the
+  candidates most likely to be one: `docs/adr/0001-...` (read in full, states the config sync
+  direction only, no tool-invocation guidance, quoted above); `docs/charters.md` and
+  `docs/taste.md`, whose hits are `grep -n "inherit"`-VERIFIED to be unrelated passing usage
+  (a lane-naming provenance note, a design-taste note); `docs/dir-purpose.txt` and
+  `docs/CODEBASE-MAP.md`, which have zero `inherit` hits despite matching the broader
+  four-term search on other words. None of the 51 files was read end to end for this claim; the
+  claim is scoped to "no bootstrap how-to found among the likely candidates," not "no file in
+  the 51 could possibly contain one."
 - The one document that names the defect precisely and proposes the fix
   (`new-recruit/docs/specs/2026-07-26-repo-target-architecture.md`) lives in the wrong repo
   under this codebase's own `docs-control-plane.md` rule: it is an architectural decision about
