@@ -51,6 +51,36 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   wheel it declares. The clear calls in the same report (archive `home-dotfiles` and
   `startup-scripts`, merge `master-plans` into `work-docs`) are not blocked on anything.
 
+- [ ] **The connector catalogue was reasoned over and the answer for this repo is zero.**
+  `docs/analysis/2026-08-08-connector-catalogue-reasoning.md`, 2026-08-08. claude-setup
+  verifies its own hooks, oracles and gate and has no external data domain, so no connector
+  earns a place here. Recommended elsewhere, one each and all ASSUMED on auth cost: Google
+  Calendar for new-recruit, Cloudflare and Coursera for daily-deep-learning, Canva for lane
+  D. **It corrected this session's own earlier claim:** the connector-usage analysis called
+  the `Indeed` board "plausibly on-topic" for new-recruit without having read that project's
+  PRD, which locks a hard constraint of keyless public ATS JSON, no browser, no login, no
+  ban surface. So `Dice`, `ZipRecruiter` and that one are do-not-add rather than candidates.
+  A note on the linter found while writing this row: `slop_lint.py` flags a line that BEGINS
+  with the word Indeed as a ritual opener, which is correct for the adverb and wrong for the
+  job board of that name. Rewrapping the line fixes it and the check was left alone, but a
+  proper noun colliding with a banned phrase is worth knowing before it bites a real doc.
+  Gmail stays off
+  despite being topically plausible: zero calls in 1183 sessions against full-mailbox OAuth
+  scope is a real PII exposure, and it is flagged as an open decision rather than a default.
+  Zapier is not a force multiplier here: lane D's own `syndication-engine` already does the
+  cross-posting job in a gate-covered way a zap is not.
+
+- [ ] **Zion has 31 epics and the board is not the thing other projects inherit.**
+  `docs/analysis/2026-08-08-zion-and-inheritance.md`, 2026-08-08. Documents what actually
+  crosses from claude-setup to the other repos and by what mechanism, which turns out to be
+  `tools/harness/harness.py exec <relpath>` resolved through `$CLAUDE_HARNESS`, then a
+  `.harness-ref` file at the consuming project's root, then a vendored fallback. That
+  resolution order is currently documented only in `new-recruit/tools/harness.py`'s own
+  docstring, which means the inheritance path for a NEW project lives in a downstream copy
+  rather than in the upstream it inherits from. The report carries drafted board text that
+  is deliberately unposted: posting to a shared board is outward-facing and needs a
+  per-action approval.
+
 - [ ] **The `perf` N/A said no number existed anywhere, and one had been written six days
   after it.** Re-checked 2026-08-08 in `docs/analysis/2026-08-08-na-domains-rechecked.md`.
   The `unit` domain's `_timeout_note` sets 900s with an explicit falsifier at 600s, and

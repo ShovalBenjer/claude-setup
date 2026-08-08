@@ -27,36 +27,53 @@ for this claim; section 4 is what closes the gap.
 ## 1. Zion's board, measured today, against the recorded numbers
 
 Command: `gh issue list -R ShovalBenjer/claude-setup --state all --limit 500 --json
-number,title,state,closedAt`. VERIFIED, run 2026-08-08.
+number,title,state,closedAt,createdAt` plus `gh project item-list 3 --owner ShovalBenjer
+--format json --limit 200`, both re-run together as one atomic snapshot at
+**2026-08-08T07:55:38Z** after an earlier pull inside this same session had already gone stale
+(see the note below the table; that staleness is itself evidence, not noise).
 
-| | Recorded 2026-08-03 (PRD U5 row, unified-architecture.md:565) | Measured 2026-08-08 |
+| | Recorded 2026-08-03 (PRD U5 row, unified-architecture.md:565) | Measured 2026-08-08T07:55:38Z |
 |---|---|---|
-| epics | 31 | **33** |
-| closed | 0 | **0** |
+| epics (issues titled `EPIC:`) | 31 | **33** |
+| epics closed | 0 | **0** |
 | checklist items done | 5 | **8** |
 | checklist items total | 184 | **196** |
 
-The 33-epic, 0-closed, 8/196 numbers are VERIFIED: `gh issue list` returns 34 total issues, 33
-titled `EPIC:` (the 34th is issue #38, discussed in section 2, not an epic and not in the
-project). `gh project item-list 3 --owner ShovalBenjer --format json --limit 200` returns
-exactly those 33 issues as the Zion project's full item set, 0 non-epic items. Checklist counts
-are a regex count of `- [ ]` and `- [x]` (case-insensitive) across all 33 issue bodies pulled
-in that same item-list call.
+VERIFIED against the final snapshot: `gh issue list` returns 37 total issues, 33 titled
+`EPIC:`, 0 closed. `gh project item-list` returns 36 Zion project items: the 33 epics plus 3
+non-epic issues (#1, #57, #58). Checklist counts are a regex count of `- [ ]` and `- [x]`
+(case-insensitive, 188 and 8) across the 33 epic bodies, and a second count restricted to
+lines matching `- [x] DONE` returns the identical 8, so the regex total and the DONE-prefix
+convention the source-of-truth JSON uses (`docs/specs/2026-07-31-kanban-four-layer-model.md`
+section 0 item 5) agree; they are not two different countings of the same fact by accident.
 
-**The two new epics are dated**: issues #49 and #50 (`EPIC: Bind the instruments that already
-run to a ratchet`, `EPIC: The falsifier layer, and the five claims it now refutes`) were both
-created 2026-08-06T13:52 (`gh api graphql` `content.createdAt`, VERIFIED). Every other item's
-`updatedAt` clusters at 2026-07-30T23:5x through 2026-07-31T00:00 (VERIFIED, same query). So in
-the five days between the PRD's snapshot and today: 2 epics were added, 12 checklist boxes were
-added (mostly by those two epics arriving with their own task lists), and 3 boxes were checked.
-Net checklist debt grew by 9 in the window. Zero epics closed in either snapshot. "Throughput
-zero" from the PRD still holds as a fair characterization; it is not literally frozen, but the
-work added in five days outpaced the work finished by 4 to 1.
+**The board changed while this analysis was running, and the change itself is a finding.** An
+earlier pull in this same session, minutes before the snapshot above, read 34 total issues and
+33 Zion items with 0 non-epic items. Between that pull and 07:55:38Z, three issues were filed
+(#56, #57, #58, all `createdAt` 2026-08-08T07:45-07:47Z) and two of them (#57, #58) plus one
+older issue (#1) were added to the Zion project, live, mid-session. None of the three added
+items is titled `EPIC:`; the project that this whole document otherwise describes as
+untouched for eight days had three writes land in it in the ten minutes this report was being
+assembled. That does not change the epic/closed/checklist numbers above (the additions carry
+no checklist and are not epics), but it means "the board is idle" is a statement about the 31
+epics specifically, not about all write activity on project 3, and a reader should not
+extrapolate "nobody touches this board" from these numbers.
 
-**Zero issues carry a comment written by a human responding to the work.** `gh issue list
---json number,title,comments`: 15 comments total across 34 issues, all on 3 issues, and those 3
-are not epics: #38 (13 comments, the agent feed, section 2), #13 and #6 (1 each, unrelated to
-Zion epic content). No epic has ever been discussed.
+**The two epics added between the PRD snapshot and today are dated**: issues #49 and #50
+(`EPIC: Bind the instruments that already run to a ratchet`, `EPIC: The falsifier layer, and
+the five claims it now refutes`) both `createdAt` 2026-08-06T13:52 (`gh api graphql`
+`content.createdAt`, VERIFIED). Every other epic's `updatedAt` clusters at 2026-07-30T23:5x
+through 2026-07-31T00:00 (VERIFIED, same query). So across the five days between the PRD's
+snapshot and this one: 2 epics were added, 12 checklist boxes were added to the 33 epics
+(mostly by those two epics arriving with their own task lists), and 3 boxes were checked. Net
+checklist debt grew by 9 in the window. Zero epics closed in either snapshot. "Throughput
+zero" from the PRD still holds as a fair characterization of the 33 epics; it is not literally
+frozen, but the work added in five days outpaced the work finished by 4 to 1.
+
+**Zero of the 33 epics carry a comment written by a human responding to the work.** `gh issue
+list --json number,title,comments`: 15 comments total across the 37 issues, all on 3 issues,
+and those 3 are not epics: #38 (13 comments, the agent feed, section 2), #13 and #6 (1 each,
+unrelated to Zion epic content). No epic has ever been discussed.
 
 ### The four-layer taxonomy, field by field, all 33 items
 
