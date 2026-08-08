@@ -49,3 +49,11 @@
 {"ts": "2026-08-08T11:32:07", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
 {"ts": "2026-08-08T11:37:16", "prompt_chars": 7700, "personas": ["Communications Desk", "Review Board", "Evidence Clerk"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "deep-research", "decision-grade", "ui-ux-pro-max", "frontend-design"], "matched": true, "session": ""}
 {"ts": "2026-08-08T11:44:29", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-08T14:46:23", "prompt_chars": 40, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T14:57:20", "prompt_chars": 607, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T15:10:27", "prompt_chars": 4180, "personas": ["QA Lab", "Architecture Office", "Communications Desk"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer", "eval-runner", "requirement-anchor", "to-prd", "premortem", "azure-runtime"], "matched": true, "session": ""}
+{"ts": "2026-08-08T15:18:03", "prompt_chars": 7484, "personas": ["Communications Desk", "Engineering Firm", "QA Lab"], "skills": ["commit-push-pr", "refactor-pre-push", "testing-pyramid", "tdd", "coverage-enforcer", "codex-call", "requirement-anchor", "to-prd"], "matched": true, "session": ""}
+{"ts": "2026-08-08T15:33:06", "prompt_chars": 384, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T15:35:55", "prompt_chars": 376, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-08T15:49:03", "prompt_chars": 9889, "personas": ["Communications Desk", "Review Board", "QA Lab"], "skills": ["review", "heidegger-reflect", "testing-pyramid", "tdd", "coverage-enforcer", "codex-call", "deep-research", "decision-grade"], "matched": true, "session": ""}
+{"ts": "2026-08-08T15:50:27", "prompt_chars": 376, "personas": [], "skills": [], "matched": false, "session": ""}
