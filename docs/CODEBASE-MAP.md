@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-436 directories, 1900 tracked files, 14 without a stated purpose.
+419 directories, 1839 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -32,27 +32,8 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `docs` | 38 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 46 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 47 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
-| `docs/inbox-from-new-recruit` | 0 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude` | 0 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/bin` | 4 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/hooks` | 1 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/skills` | 0 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/skills/plan-divergence` | 1 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/skills/ui-ux-pro-max` | 0 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/skills/ui-ux-pro-max/scripts` | 1 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.ella` | 1 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs` | 11 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs/core` | 1 | Core docs are durable operating-system references for Shoval's local AI-native setup. They should be read before broad setup work, agent workflow changes, or cross-project audits. | README.md |
-| `docs/inbox-from-new-recruit/docs/pipelines` | 1 | This lane holds CI/CD, deploy-gate, and notification references. It is for reusable pipeline knowledge, not project-specific generated pipeline logs. | README.md |
-| `docs/inbox-from-new-recruit/docs/pipelines/notifications` | 2 | Canonical notification references: | README.md |
-| `docs/inbox-from-new-recruit/docs/reflections` | 3 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs/research` | 3 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs/research/prompts` | 11 | Dedicated deep-research prompts for the domains missing from `~/docs`, so any system built | README.md |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28` | 21 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs/specs` | 10 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs/specs/2026-05-13-ado-pr-review` | 3 | This adds a `codex_review` stage to the existing `azure-pipelines.yml` that, on every PR build, calls Foundry gpt-5.5 with the diff and posts a markdown comment to the PR via th... | README.md |
 | `docs/prd` | 5 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
 | `docs/prior-art` | 43 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
@@ -372,6 +353,13 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `master-plans` | 8 | 2026-05 planning docs (master plan, tasks, WSL fix, skills triage, cleanup proposal); superseded by the newer docs/adr and docs/prd | registry |
 
+## nexus-engine-rs
+
+| dir | files | purpose | from |
+| --- | ----: | ------- | ---- |
+| `nexus-engine-rs` | 4 | A native, physics-driven viewer over the plan surface of this repo. Nodes are rigid bodies, | README.md |
+| `nexus-engine-rs/src` | 4 | Rust sources for the physics-driven plan viewer: app wiring, the winit/wgpu entry point, the node and link models, and the spring solver. A working vertical slice, not the full... | registry |
+
 ## research-papers
 
 | dir | files | purpose | from |
@@ -433,7 +421,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `tests` | 36 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `tests` | 38 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
 | `tests/cmd` | 1 | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process self... | registry |
 | `tests/cmd/fixtures` | 1 | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it | registry |
 
@@ -462,7 +450,7 @@ the same reason, one level down.
 | `tools/hookgate` | 6 | The `PreToolUse` deny rules, compiled. Replaces two Python hook processes on the hot path | README.md |
 | `tools/hookgate/bench` | 6 | The measurement scripts behind `tools/hookgate/README.md` and behind | README.md |
 | `tools/hookgate/src` | 2 | Rust source for the compiled PreToolUse gate. rules.rs is GENERATED by regen_rules.py from safety_gate.py::RULES and must never be hand-edited; main.rs carries the literal presc... | registry |
-| `tools/intent` | 6 | Turns an operator prompt into a tracked work item, and keeps a tamper-evident record | README.md |
+| `tools/intent` | 8 | Turns an operator prompt into a tracked work item, and keeps a tamper-evident record | README.md |
 | `tools/lib` | 5 | Shared library other tools import: envload.py finds API keys in .env case-insensitively without printing them, quota.py enforces daily/per-minute API ceilings via an append-only... | registry |
 | `tools/local` | 2 | Runs a local qwen2.5:1.5b Ollama classifier to cheaply triage a request's route and risk before escalating to Claude, logging each decision to the flywheel jsonl for later route... | registry |
 | `tools/map` | 1 | codemap.py, the directory-purpose registry checker and docs/CODEBASE-MAP.md generator; check fails on an undocumented dir, a row beside a self-documenting dir, or a row whose di... | registry |

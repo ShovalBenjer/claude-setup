@@ -9,9 +9,9 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1062**
-- reachable from `docs/INDEX.md`: **120** (11%)
-- status UNDECLARED: **44**
+- documents: **1014**
+- reachable from `docs/INDEX.md`: **121** (11%)
+- status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
 
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (57)
+## analysis (58)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -136,6 +136,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-08-na-domains-rechecked.md` | 2026-08-08 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-08-zion-and-inheritance.md` | 2026-08-08 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-09-session-scope-ledger.md` | 2026-08-09 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-10-inbox-secret-exposure.md` | 2026-08-10 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-08-10-three-skill-trees-measured.md` | 2026-08-10 | dated-snapshot | class | n/a | - | - | - |
 
 ## automation-output (126)
@@ -411,7 +412,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/Documents/CDP_Kick_Research_20260507/CDP_Kick_Strategic_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Executive_MCP_Research_20260507/Executive_MCP_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 
-## doc (104)
+## doc (55)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -424,18 +425,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/gemini-code-1785455675294.md` | - | operator-input | registry | n/a | yes | - | - |
 | `docs/gemini-code-1785457549011.md` | - | operator-input | registry | n/a | yes | - | - |
 | `docs/gemini-code-1785458291930.md` | - | operator-input | registry | n/a | yes | - | - |
-| `docs/inbox-from-new-recruit/docs/ARCHITECTURE.md` | - | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/KNOWLEDGE-BASE.md` | - | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/pipelines/README.md` | - | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/pipelines/notifications/README.md` | - | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/Claude Code  Complete Issue Map & User Fixes.md` | - | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/Claude Code bwrap Bash Tool Failure on WSL2  Root Cause & Fixes.md` | - | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/FIX-BWRAP-WSL.md` | - | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/Q-Learning, Deep RL & March 2026 Research  Auditing MiroFish & AutoResearch.md` | - | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/azure-wiki-onepager-skill.md` | - | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/compass_artifact_wf-662a99e3-a378-4764-85f2-6b7801fa412c_text_markdown.md` | - | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/deep-research-bwrap-wsl-error.md` | - | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-05-13-ado-pr-review/review-prompt.md` | - | UNDECLARED | none | n/a | - | - | - |
 | `docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` | - | operator-input | registry | n/a | yes | - | - |
 | `dot-claude/CLAUDE.md` | - | living | registry | n/a | - | - | - |
 | `dot-codex/AGENTS.md` | - | living | registry | n/a | - | - | - |
@@ -449,31 +438,10 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `tools/channel/README.md` | - | living | registry | n/a | - | - | - |
 | `tools/intent/README.md` | - | living | registry | n/a | - | - | - |
 | `tools/supply/README.md` | - | living | registry | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/REPO-AUDIT.md` | 2026-03-02 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/claude-code-experimental-features.md` | 2026-04-30 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/cleanup-proposal.md` | 2026-04-30 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/claude-setup-master-plan-2026-05-02.md` | 2026-05-02 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/claude-setup-tasks-2026-05-02.md` | 2026-05-02 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/claude-skills-scatter-2026-05-03.md` | 2026-05-03 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28/claude-skills-triage-2026-05-03.md` | 2026-05-03 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/reflections/2026-05-04-claude-setup-session-structure-and-wire-gaps.md` | 2026-05-04 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-05-04-frontier-governance-axes.md` | 2026-05-04 | reference document. p1 items are recommended next-session w | header | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/.ella/HANDOFF.md` | 2026-05-08 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-05-13-ado-pr-review/README.md` | 2026-05-13 | spec only. nothing is committed or deployed by this bundle | header | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-05-13-hive-adoption-plan.md` | 2026-05-13 | spec — not yet implemented. tick 1 is the next concrete del | header | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-05-17-systemd-hive-automation-map.md` | 2026-05-17 | implemented v1 | header | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-06-14-agent-orchestration-rewire-plan.md` | 2026-06-14 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-06-25-local-intent-control-plane.md` | 2026-06-25 | spec delta | header | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/core/README.md` | 2026-06-28 | UNDECLARED | none | n/a | - | - | - |
 | `intent-control-plane/CODE-HEALTH-2026-GAPS.md` | 2026-06-29 | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/TESTING-SOTA-2026-GAPS.md` | 2026-06-29 | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/TODO.md` | 2026-06-29 | subproject | registry | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/reflections/2026-07-07-autonomy-setup-hardening.md` | 2026-07-07 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/2026-07-07-claude-setup-gap-analysis.md` | 2026-07-07 | UNDECLARED | none | n/a | - | something bespoke you half-built. | - |
 | `home-dotfiles/TESTING-SOTA-2026-GAPS.md` | 2026-07-07 | dated-snapshot | registry | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/2026-07-08-global-and-per-project-suggestions.md` | 2026-07-08 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/2026-07-08-trending-agent-repos.md` | 2026-07-08 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-07-09-harness-maturity-plan.md` | 2026-07-09 | UNDECLARED | none | n/a | - | - | - |
 | `intent-control-plane/docs/adr/0001-harness-is-a-python-package-with-thin-bash-adapters.md` | 2026-07-09 | accepted | header | n/a | - | - | - |
 | `intent-control-plane/docs/adr/0002-knowledge-and-capability-delivery.md` | 2026-07-10 | accepted | header | n/a | - | - | - |
 | `intent-control-plane/docs/adr/0003-measured-self-improving-loop.md` | 2026-07-11 | accepted | header | n/a | - | - | - |
@@ -484,9 +452,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `intent-control-plane/docs/specs/2026-07-11-harness-maturity-backlog.md` | 2026-07-11 | active | header | n/a | - | - | - |
 | `intent-control-plane/docs/specs/2026-07-11-self-evolving-depth-harness.md` | 2026-07-11 | active | header | n/a | - | - | - |
 | `intent-control-plane/docs/specs/2026-07-11-substrate-view-mosaic-temporal.md` | 2026-07-11 | active | header | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/prompts/2026-07-12-code-implementation-quality-standard.md` | 2026-07-12 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/prompts/2026-07-12-coding-effort-craft-completion.md` | 2026-07-12 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/prompts/2026-07-12-implementation-fixes-research.md` | 2026-07-12 | UNDECLARED | none | n/a | - | - | - |
 | `intent-control-plane/docs/adr/0004-layered-stack-codebase-memory-herdr.md` | 2026-07-12 | proposed (pending operator ratification + the install ok) | header | n/a | - | - | - |
 | `intent-control-plane/docs/analysis/2026-07-12-implementation-audit.md` | 2026-07-12 | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/docs/prd/legible-harness.md` | 2026-07-12 | active | header | n/a | - | our modules but we delete them before it | - |
@@ -494,19 +459,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/SYSTEM-MAP.md` | 2026-07-24 | living map (re-audit when a phase lands). created 2026-07-24 | header | 1 | yes | - | - |
 | `state/compact-log.md` | 2026-07-24 | living | registry | 1 | - | - | - |
 | `docs/QUALITY-CONTRACT.md` | 2026-07-25 | living | registry | n/a | yes | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-07-26-commit-pr-review-upgrade.md` | 2026-07-26 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-07-26-memory-architecture.md` | 2026-07-26 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-07-26-repo-consolidation-goal.md` | 2026-07-26 | phase 1 complete (recon). opened 2026-07-26. scope: full ref | header | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/specs/2026-07-26-repo-target-architecture.md` | 2026-07-26 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/HANDOFF-FROM-LEARNING-2026-07-27.md` | 2026-07-27 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/prompts/2026-07-27-api-design-contracts.md` | 2026-07-27 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/prompts/2026-07-27-architecture-patterns.md` | 2026-07-27 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/prompts/2026-07-27-code-maturity-ladder.md` | 2026-07-27 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/prompts/2026-07-27-code-reuse-dedup-dry.md` | 2026-07-27 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/prompts/2026-07-27-data-persistence-stack.md` | 2026-07-27 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/prompts/2026-07-27-polyglot-stack-selection.md` | 2026-07-27 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/prompts/2026-07-27-rust-vs-python.md` | 2026-07-27 | UNDECLARED | none | n/a | - | - | - |
-| `docs/inbox-from-new-recruit/docs/research/prompts/README.md` | 2026-07-27 | UNDECLARED | none | n/a | - | - | - |
 | `docs/2026-07-29-external-absorption-brief.md` | 2026-07-29 | dated-snapshot | registry | 1 | yes | - | - |
 | `docs/taste.md` | 2026-07-29 | living | registry | n/a | yes | it by date and say what changed. | - |
 | `dot-claude/output-styles/shoval.md` | 2026-07-29 | living | registry | n/a | - | - | - |
@@ -517,7 +469,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `tools/hookgate/bench/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `tools/timetravel/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `docs/INDEX.md` | 2026-07-31 | living | registry | 2 | - | v1 the same day | - |
-| `docs/inbox-from-new-recruit/docs/reflections/2026-07-31-nexus-plan-graph-and-divergence-skill.md` | 2026-07-31 | UNDECLARED | none | n/a | - | - | - |
+| `nexus-engine-rs/README.md` | 2026-07-31 | a working vertical slice, not the spec.** read the scope tab | header | n/a | - | - | - |
 | `tools/telemetry/systemd/README.md` | 2026-08-04 | live, 2026-08-04. the units below are deployed and the timer | header | n/a | - | - | - |
 
 ## generated-output (2)

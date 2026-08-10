@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -57,6 +58,43 @@ TICKET_LIFECYCLE: dict[str, set[str]] = {
     "SUPERSEDED": set(),
 }
 TICKET_STATES = frozenset(TICKET_LIFECYCLE)
+
+
+# Exact members, never a length threshold. "is this short" is a proxy for "is this
+# meaningless" that gets it wrong in the direction that loses work: `push. merge`,
+# `whats left?` and `fixed env` are all short and all carry intent. A closed set can
+# only ever be wrong about the words actually in it.
+ACK_WORDS = frozenset({
+    "y", "yes", "yeah", "yep", "ok", "okay", "k", "go", "go on", "goo", "continue",
+    "next", "push", "commit", "commit push", "push it", "ey", "do it", "proceed",
+    "done", "stop", "n", "no", "wait", "again", "sure", "fine", "thanks", "thank you",
+    "ty", "good", "great", "nice", "cool", "perfect", "agreed", "approved", "correct",
+})
+
+
+def normalize(text: str) -> str:
+    """Whitespace-collapsed, lowercased. The form the ack allow-list is tested against."""
+    return " ".join(text.split()).strip().lower()
+
+
+def classify(text: str) -> tuple[str | None, str | None]:
+    """`(class, rule_id)` when a closed replayable rule fires, `(None, None)` otherwise.
+
+    Two rules, both exact. Everything else stays `CAPTURED`, which is an honest
+    outcome: a prompt nobody has read yet is not the same as a prompt with no work in
+    it, and collapsing the two is how a backlog silently loses things.
+
+    Deterministic and free of any model call, so a `NOT_WORK` classification can be
+    re-derived from the text alone and challenged. That is what makes the transition
+    guard possible: a human cannot hand-wave a prompt out of the queue, only a named
+    rule that reproduces can.
+    """
+    stripped = text.strip()
+    if re.fullmatch(r"/[a-z][a-z0-9:_-]*", stripped):
+        return "control", "R1"
+    if normalize(stripped) in ACK_WORDS:
+        return "ack", "R2"
+    return None, None
 
 
 def text_sha(text: str) -> str:
@@ -275,7 +313,8 @@ def verify(path: Path = TICKETS) -> list[tuple[int, str]]:
 
 
 __all__ = [
-    "GENESIS", "PT_CHAIN_FIELDS", "TICKETS", "TICKET_LIFECYCLE", "TICKET_STATES",
+    "ACK_WORDS", "GENESIS", "PT_CHAIN_FIELDS", "TICKETS", "TICKET_LIFECYCLE",
+    "TICKET_STATES", "classify", "normalize",
     "append_chained", "append_for_prompt", "append_row", "build_row", "canonical",
     "file_lock", "is_allowed", "read_rows", "row_altered", "row_hash", "row_id",
     "text_sha", "ticket_id", "tip", "verify",
