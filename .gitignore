@@ -120,3 +120,8 @@ state/reviews/*.json
 # corpus stays on disk, readable just in time, and out of git history where it
 # could not be removed later without a rewrite.
 docs/books/
+
+# An inbox of another repository's docs, dropped here for reading, not for tracking.
+# Swept in by a git add -A on 2026-08-10 and it carried a live secret. It stays on
+# disk and out of the index; see docs/analysis/2026-08-10-inbox-secret-exposure.md.
+docs/inbox-from-new-recruit/
