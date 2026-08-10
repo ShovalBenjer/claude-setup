@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-436 directories, 1900 tracked files, 14 without a stated purpose.
+419 directories, 1835 tracked files, 1 without a stated purpose.
 
 ## .claude
 
@@ -32,27 +32,8 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `docs` | 38 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 46 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 47 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
-| `docs/inbox-from-new-recruit` | 0 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude` | 0 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/bin` | 4 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/hooks` | 1 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/skills` | 0 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/skills/plan-divergence` | 1 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/skills/ui-ux-pro-max` | 0 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.claude/skills/ui-ux-pro-max/scripts` | 1 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/.ella` | 1 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs` | 11 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs/core` | 1 | Core docs are durable operating-system references for Shoval's local AI-native setup. They should be read before broad setup work, agent workflow changes, or cross-project audits. | README.md |
-| `docs/inbox-from-new-recruit/docs/pipelines` | 1 | This lane holds CI/CD, deploy-gate, and notification references. It is for reusable pipeline knowledge, not project-specific generated pipeline logs. | README.md |
-| `docs/inbox-from-new-recruit/docs/pipelines/notifications` | 2 | Canonical notification references: | README.md |
-| `docs/inbox-from-new-recruit/docs/reflections` | 3 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs/research` | 3 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs/research/prompts` | 11 | Dedicated deep-research prompts for the domains missing from `~/docs`, so any system built | README.md |
-| `docs/inbox-from-new-recruit/docs/root-cleanup-2026-05-28` | 21 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs/specs` | 10 | UNDOCUMENTED | none |
-| `docs/inbox-from-new-recruit/docs/specs/2026-05-13-ado-pr-review` | 3 | This adds a `codex_review` stage to the existing `azure-pipelines.yml` that, on every PR build, calls Foundry gpt-5.5 with the diff and posts a markdown comment to the PR via th... | README.md |
 | `docs/prd` | 5 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
 | `docs/prior-art` | 43 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
@@ -371,6 +352,13 @@ the same reason, one level down.
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
 | `master-plans` | 8 | 2026-05 planning docs (master plan, tasks, WSL fix, skills triage, cleanup proposal); superseded by the newer docs/adr and docs/prd | registry |
+
+## nexus-engine-rs
+
+| dir | files | purpose | from |
+| --- | ----: | ------- | ---- |
+| `nexus-engine-rs` | 4 | A native, physics-driven viewer over the plan surface of this repo. Nodes are rigid bodies, | README.md |
+| `nexus-engine-rs/src` | 4 | UNDOCUMENTED | none |
 
 ## research-papers
 
