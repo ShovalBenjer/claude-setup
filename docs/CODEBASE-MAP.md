@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-419 directories, 1835 tracked files, 1 without a stated purpose.
+419 directories, 1835 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -358,7 +358,7 @@ the same reason, one level down.
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
 | `nexus-engine-rs` | 4 | A native, physics-driven viewer over the plan surface of this repo. Nodes are rigid bodies, | README.md |
-| `nexus-engine-rs/src` | 4 | UNDOCUMENTED | none |
+| `nexus-engine-rs/src` | 4 | Rust sources for the native physics viewer over the plan surface: main.rs loads the exported plan, models.rs the node and link types, physics.rs the spring and force-field integ... | registry |
 
 ## research-papers
 
