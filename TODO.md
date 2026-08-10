@@ -28,6 +28,32 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   itself. The five rows under it are now re-picked by usefulness rather than by line
   number, and closing one means promoting the next, not leaving the hole.
 
+- [ ] **The loop may ACT, and the five open items now have named owners.** Operator
+  decision 2026-08-10, one word: "act". The boundary it does NOT carry is written beside
+  it in `~/.claude/rules/the-loop-may-act.md`, because a one-word answer to a binary
+  question is a decision without a scope, and the last time a general instruction was
+  read as standing authority a PR got merged on green CI. The loop may gate, regenerate,
+  fix red checks, push its own branch, open a PR, append ledgers, write analysis. It may
+  not merge, deploy, post outward, silently change the live tree, delete what it did not
+  create, or spend money. Who works what, in what order, and which items collide:
+  `docs/specs/2026-08-10-open-scope-delegation-plan.md`. Item 3, the four DIRTY PRs, is
+  deliberately last and needs a call on whether those drafts survive at all.
+
+- [ ] **Verbatim prompt capture has been dead since the WSL move, and the hook that does
+  it swallows the failure on purpose.** Measured 2026-08-10. Two capture paths exist and
+  only one works. `state/prompt-tickets.jsonl` holds 494 rows and is healthy, but it
+  stores hashes and no text by design. The path that holds the actual words, the
+  intent-control-plane enrichment into `~/.intent/intent.db`, is specced, built,
+  unit-tested AND wired in the live `settings.json`, yet writes nothing on this machine:
+  the hook runs plain `python3`, which cannot import `intent_control_plane`, and
+  `tools/intent/capture_turn.py` catches everything so a broken hook never blocks a
+  prompt. It worked before the move. `/mnt/c/Users/shova/.intent/intent.db` holds 235
+  verbatim prompts, last written 2026-07-31, and nothing since. Anthropic's own
+  transcripts (1218 files, 831 MB, unbroken) are the reason this was invisible: the
+  prompts ARE stored, just not by anything this repo can query. `ecosystem.db` and
+  `corpus.db` are both confirmed absent. GraphRAG is neither built nor planned; the
+  planned retrieval is flat FTS5 plus brute-force cosine, status OPEN.
+
 - [ ] **Live `~/.claude/skills` went from 40 to 79 in two days and nothing can date or
   attribute it.** Measured 2026-08-08 by `ls -1d ~/.claude/skills/*/ | wc -l` against the
   40 recorded on 2026-08-05 in row B below. All three repo tree counts reproduce within

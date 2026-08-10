@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-417 directories, 1854 tracked files, 0 without a stated purpose.
+417 directories, 1856 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -38,7 +38,7 @@ the same reason, one level down.
 | `docs/prior-art` | 43 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
 | `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
-| `docs/specs` | 20 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/specs` | 21 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
 | `docs/standards` | 7 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
 
 ## dot-agents
@@ -160,7 +160,7 @@ the same reason, one level down.
 | `dot-claude/corpus` | 2 | Script and source whitelist that build a local SQLite FTS best-practices corpus (Google eng practices, Azure Well-Architected, OpenSSF, private docs) for Gastown/Claude retrieval | registry |
 | `dot-claude/hooks` | 29 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
 | `dot-claude/output-styles` | 1 | Claude Code output styles, the native mechanism that shapes assistant prose BEFORE generation. Deployed to ~/.claude/output-styles. The alternative it replaces is policing the r... | registry |
-| `dot-claude/rules` | 24 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
+| `dot-claude/rules` | 25 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
 | `dot-claude/skills` | 0 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
 | `dot-claude/skills/LTMD` | 1 | "Lead-To-Money-Decision lens. Judge any analysis/notebook/report/plan the way the paying decision-maker (default: Liron, CMO) would: does it end in ONE executable, dollar-valued... | SKILL.md |
 | `dot-claude/skills/advisor` | 1 | "Fast confidence-restoring research pass for when Claude (or the user) is NOT confident about an external, current, or SOTA question. Spawns a scoped web-research sub-agent, res... | SKILL.md |

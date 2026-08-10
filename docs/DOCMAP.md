@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1008**
+- documents: **1010**
 - reachable from `docs/INDEX.md`: **120** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -577,7 +577,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
 | `TODO.md` | 2026-08-01 | living | registry | 2 | yes | - | operator |
 
-## rule (40)
+## rule (41)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -621,6 +621,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/hidden-trees.md` | 2026-07-30 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/accepting-architectures.md` | 2026-08-05 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/merges-are-the-operators.md` | 2026-08-09 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/the-loop-may-act.md` | 2026-08-10 | definition-see-skills_sync | class | n/a | - | - | - |
 
 ## skill (209)
 
@@ -836,7 +837,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/writing-great-skills/SKILL.md` | 2026-07-31 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/i-have-adhd/SKILL.md` | 2026-08-06 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (20)
+## spec (21)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -860,6 +861,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | active | header | 2 | yes | - | - |
 | `docs/specs/2026-08-03-detail-passes-teleology-and-creativity.md` | 2026-08-03 | design, 2026-08-03. nothing here is built. extends | header | n/a | yes | - | - |
 | `docs/specs/2026-08-05-persona-allocation-and-reviewer-identity.md` | 2026-08-05 | active, 2026-08-05. `active` is the vocabulary's word for th | header | n/a | - | - | - |
+| `docs/specs/2026-08-10-open-scope-delegation-plan.md` | 2026-08-10 | active | header | n/a | - | - | - |
 
 ## standard (7)
 
