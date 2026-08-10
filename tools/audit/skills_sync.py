@@ -76,9 +76,40 @@ def repo_skills(root=None):
     return os.path.join(root or setup_root(), "dot-claude", "skills")
 
 
-def live_skills():
+def live_home():
     return os.path.join(os.environ.get("CLAUDE_LIVE_HOME") or os.path.expanduser("~"),
-                        ".claude", "skills")
+                        ".claude")
+
+
+def live_skills():
+    return os.path.join(live_home(), "skills")
+
+
+def live_settings():
+    return os.path.join(live_home(), "settings.json")
+
+
+def is_deployed_home():
+    """Is this ~/.claude a Claude installation, or just a directory of that name?
+
+    The distinction is the whole difference between a drift number and noise.
+    `pointers.py` learned it on 2026-08-05: its guard keyed on the DIRECTORY
+    existing, a runner creates the empty directory, and the domain went red on
+    the runner for a reason unrelated to what it checks. The fix there was to key
+    on settings.json instead, and the same guard was never brought here.
+
+    A remote container is the case that exposed it. `~/.claude/skills` exists and
+    holds a container's own skills, so the directory check passes, the survey
+    compares this repo against a tree that was never a deployment of it, and the
+    result is a large confident number about nothing. Measured 2026-08-10 on a
+    Claude Code container: DRIFT: 87 against the 28 the contract records, which
+    also drove the waiver's `confirm` string STALE and failed the domain.
+
+    A skills tree with no settings.json beside it is therefore unmeasurable
+    rather than drifted, which is exit 2, which gate.py already reads as
+    cannot-measure and records as waivers_unconfirmed.
+    """
+    return os.path.isfile(live_settings())
 
 
 def sha(path):
@@ -440,6 +471,16 @@ def cmd_check(a):
     if not os.path.isdir(live_base):
         print("cannot run: no live skills tree at {}".format(live_base))
         return 2
+    if not is_deployed_home():
+        # Present but foreign. See is_deployed_home(): a directory named
+        # ~/.claude with no settings.json is not a deployment of this repo, and
+        # comparing against it produces a confident number about a tree nobody
+        # deployed.
+        print("cannot run: {} exists but there is no {}, so this ~/.claude is not "
+              "a deployment of this repo. Comparing against it would report drift "
+              "for a tree that was never synced from here.".format(
+                  live_base, live_settings()))
+        return 2
     return report(survey(repo_base, live_base), repo_base, live_base, strict=a.strict)
 
 
@@ -704,6 +745,31 @@ def cmd_selftest(a):
         s = survey(r14, l14, root=root14)
         check([x[0] for x in s["drift"]] == ["pi"],
               "a real content difference is still drift after the EOL fix")
+
+        # Case 15: a ~/.claude that is a directory rather than a deployment.
+        # `check` must report cannot-measure (2), not a drift number, and the
+        # discriminator is settings.json rather than the skills directory. A
+        # runner and a container both create the directory; neither creates the
+        # settings file. Both directions are pinned, because a guard that only
+        # ever says "cannot measure" is as useless as one that never does.
+        home15 = os.path.join(tmp, "home15", ".claude")
+        os.makedirs(os.path.join(home15, "skills"), exist_ok=True)
+        write_skill(os.path.join(home15, "skills"), "rho", real_body("live text"))
+        prior = os.environ.get("CLAUDE_LIVE_HOME")
+        try:
+            os.environ["CLAUDE_LIVE_HOME"] = os.path.dirname(home15)
+            check(not is_deployed_home(),
+                  "a ~/.claude with skills but no settings.json is NOT a deployment")
+            with open(os.path.join(home15, "settings.json"), "w",
+                      encoding="utf-8") as fh:
+                fh.write("{}\n")
+            check(is_deployed_home(),
+                  "the same tree IS a deployment once settings.json exists")
+        finally:
+            if prior is None:
+                os.environ.pop("CLAUDE_LIVE_HOME", None)
+            else:
+                os.environ["CLAUDE_LIVE_HOME"] = prior
 
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

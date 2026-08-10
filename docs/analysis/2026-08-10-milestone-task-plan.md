@@ -125,11 +125,15 @@ defect.
   Deploying is a live-tree behaviour change and is the operator's. Three outcomes are
   legitimate: deploy and let the waiver lapse, restate the waiver with a true number and a
   burn-down, or let it expire red on purpose.
-- [ ] **The waiver's `confirm` string is host-shaped.** It pins `DRIFT: 28`; this container
-  prints 87. The `exit 2 means cannot-measure` path added on 2026-08-07 covers a missing
-  tree, not a present-but-different one, so a CI runner with a partial `~/.claude` fails the
-  domain for a reason unrelated to drift. Extend the structural read or pin the confirm to
-  a host-independent substring.
+- [x] **The waiver's `confirm` string is host-shaped. Fixed 2026-08-10**, and it was fixed
+  because it blocked this session's own gate run rather than because it was written down
+  here. `skills_sync.py`'s guard keyed on the skills DIRECTORY existing; a container and a
+  runner both create that directory, so it surveyed a foreign tree and reported `DRIFT: 87`
+  against the contract's 28, which then drove the waiver STALE and failed the gate. The
+  guard now keys on `~/.claude/settings.json`, which is the identical fix `pointers.py`
+  received on 2026-08-05 and that was never brought across. `gate.py run` returns PASS here
+  and states what it did not check. **Three layers, not four**: `skills_sync.py` has no
+  mutation spec at all, which is now its own TODO row.
 - [ ] **HOOKGATE-01, operator call, blocks PR 47 and PR 53.** `tests/test_hookgate.py` has
   been red since at least 2026-08-05. The fix its own error message names would relax a
   safety guard: committed `rules.rs` blocks `--force` and `--force-with-lease` alike, live
@@ -293,12 +297,15 @@ Five claims stand refuted on the operator's host and each needs a decision, not 
 
 ### #10 Commit at-risk work and settle absorption, P0
 
-- [ ] **ABSORB-01, and do it with ABSORB-09 as one change.** The prior-art schema cannot
-  express absorption: 41 records, 0 with an `absorbed` field, and `verdict` is free text
-  carrying 13 distinct values of which four are sentences. Add `absorbed` and
-  `absorption_status`, add the enumerated verdict beside the sentence, backfill 41, and fail
-  `codemap.py prior-art` on unset. This is the root cause row: absorption is unrepresentable,
-  therefore unchecked, therefore never happens.
+- [x] **ABSORB-01 and ABSORB-09, done 2026-08-10 as one change.** The schema now carries
+  `verdict_class` beside the untouched free-text `verdict`, plus `absorption_status` and
+  `absorbed`, and `codemap.py prior-art` fails a record missing either field, a value
+  outside either vocabulary, and a status that claims a decision without naming it.
+  **The measured absorption rate is 1 of 41**, which is the number ABSORB-06 recorded as
+  unknown rather than zero. The remaining 40 are `unreviewed`, bounded by each record's own
+  `recheck_after`, so all 40 are decided by 2026-10-28 and the first by 2026-09-07. Grouped:
+  18 split, 17 keep-ours, 2 build, 2 wrap, 1 absorb, 1 delete-ours. **The 40 reviews are the
+  real work and this change does not do them; it makes them representable and dated.**
 - [ ] **ABSORB-10**: `tools/whatsapp` carries verdict `delete-ours` and still exists with 4
   tracked files. Execute the decision or record why it was reversed.
 - [ ] **ABSORB-07**: the saved-link corpus, 806 unique URLs over 14 months, filtered by the
