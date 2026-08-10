@@ -73,3 +73,5 @@
 {"ts": "2026-08-09T17:56:33", "prompt_chars": 102, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-09T17:59:21", "prompt_chars": 685, "personas": ["Communications Desk", "Workflow Clerk"], "skills": ["shoval-voice-draft", "blog", "humanize", "reground", "workspace-brain"], "matched": true, "session": ""}
 {"ts": "2026-08-10T08:41:10", "prompt_chars": 5117, "personas": ["QA Lab", "Communications Desk", "Release Bureau"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "testing-pyramid", "tdd", "coverage-enforcer", "azure-devops"], "matched": true, "session": ""}
+{"ts": "2026-08-10T08:43:56", "prompt_chars": 458, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T08:45:46", "prompt_chars": 291, "personas": ["Evidence Clerk", "Product Studio", "Workflow Clerk"], "skills": ["ponytail", "code-simplifier", "deep-research", "decision-grade", "ui-ux-pro-max", "frontend-design", "reground", "workspace-brain"], "matched": true, "session": ""}
