@@ -48,3 +48,33 @@ dot-claude/hooks/*  text eol=lf
 *.zip           binary
 *.bundle        binary
 docs/CODEBASE-MAP.md  -diff
+
+# ---------------------------------------------------------------------------
+# Language statistics. Added 2026-08-10, after the operator asked why a repository
+# that serves nothing reports 17.6 percent HTML.
+#
+# It reports that because 23 saved research artifacts and diagrams, 716833 bytes under
+# work-docs/ and research-papers/, outweigh 119 real shell scripts. Nothing here is
+# served, nothing is built, and no HTML in this repository is executed. Linguist counts
+# bytes of tracked files and cannot tell saved evidence from source, so the badge was
+# describing the archive rather than the harness.
+#
+# Measured the same day: Python 322 files / 2913797 bytes, HTML 23 / 716833,
+# Shell 119 / 321642, PowerShell 8 / 38493, Rust 2 / 17442. The real stack is Python
+# and Shell, with Rust as a deliberate two-file exception.
+#
+# ADR-0021 holds the decision these lines are only reporting: language follows the
+# failure mode. Python for oracles that run once per gate, Rust for per-invocation paths
+# where latency compounds (tools/hookgate, 2.26 ms, on every tool call), with the
+# tiebreaker that an oracle must still run on a machine with no toolchain.
+#
+# These lines change the badge, not the tree. Files stay tracked, diffable, searchable.
+
+work-docs/**        linguist-documentation
+research-papers/**  linguist-documentation
+docs/**             linguist-documentation
+
+# Generated. A hand edit to either fails `codemap.py check`, so marking them keeps a
+# regeneration out of the default diff view without hiding it from git.
+docs/CODEBASE-MAP.md  linguist-generated
+docs/DOCMAP.md        linguist-generated

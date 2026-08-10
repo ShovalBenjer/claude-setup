@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-417 directories, 1857 tracked files, 0 without a stated purpose.
+417 directories, 1825 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -32,7 +32,7 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `docs` | 37 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 45 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 46 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/prd` | 5 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
 | `docs/prior-art` | 43 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
@@ -271,7 +271,7 @@ the same reason, one level down.
 | `dot-codex/bin` | 5 | Executable helpers for Codex CLI sessions: launch codex with chosen MCP servers and secrets loaded, smoke-test MCP reachability, start/stop the Obscura or Edge CDP browser backe... | registry |
 | `dot-codex/hooks` | 30 | Codex CLI lifecycle hooks; most files are real scripts (coverage gate, protect-infra, intent-capture), the rest are one-line stubs pointing at the same-named ~/.claude/hooks script | registry |
 | `dot-codex/rules` | 17 | Codex CLI's global rules: standalone policy files (model-selection, no-emojis, no-mocks, tdd) plus one-line stubs pointing at the matching ~/.claude/rules file so both CLIs shar... | registry |
-| `dot-codex/skills` | 34 | Codex CLI's skill catalog root; some entries are full skill dirs with their own SKILL.md, most others are one-line stubs pointing at the matching ~/.claude/skills entry | registry |
+| `dot-codex/skills` | 1 | Codex CLI's skill catalog root; some entries are full skill dirs with their own SKILL.md, most others are one-line stubs pointing at the matching ~/.claude/skills entry | registry |
 | `dot-codex/skills/.system` | 1 | Vendored system skills (imagegen, openai-docs, plugin-creator, skill-creator, skill-installer), each self-documented by its own SKILL.md, plus a hash marker file for resync dete... | registry |
 | `dot-codex/skills/.system/imagegen` | 2 | "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutout... | SKILL.md |
 | `dot-codex/skills/.system/imagegen/agents` | 1 | Holds openai.yaml, the Codex UI descriptor (display name, icon paths, default prompt) that lets the harness surface the imagegen skill as a pickable agent | registry |
