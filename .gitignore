@@ -111,3 +111,12 @@ temp/
 # the artifact for the exact commit it is testing (ship-gate.yml:116), so nothing needs
 # the committed copy.
 state/reviews/*.json
+
+# Extracted commercial book text, added 2026-08-09. 150 files, 8 MB, full chapter
+# bodies from published works (Software Engineering at Google and others). The
+# global knowledge rule is that commercial books are metadata-only unless private
+# extraction rights are explicitly attested, and are never redistributed or
+# reconstructed. Committing full text to a repository is reconstruction, so the
+# corpus stays on disk, readable just in time, and out of git history where it
+# could not be removed later without a rewrite.
+docs/books/

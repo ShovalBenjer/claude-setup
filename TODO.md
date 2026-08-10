@@ -51,6 +51,19 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   wheel it declares. The clear calls in the same report (archive `home-dotfiles` and
   `startup-scripts`, merge `master-plans` into `work-docs`) are not blocked on anything.
 
+- [ ] **The full open scope, one row per instruction, is in
+  `docs/analysis/2026-08-09-session-scope-ledger.md`.** Written 2026-08-09 on request. It
+  accounts for every prompt of the 2026-08-07 to 2026-08-09 session in the order given, so
+  an unanswered instruction stays visible instead of dissolving into the next one. The
+  finding that matters: **one instruction was under-served**, "the autonomous workflows
+  should be done", said twice, and the pieces for it are all on disk and unassembled.
+  `state/` carries fourteen ledgers, `tools/telemetry` publishes a cross-repo feed to issue
+  #38, `tools/selfimprove/scan.py` ranks what to pick up next, and cron scheduling exists.
+  Nothing joins them. The scoping question is the operator's and gates the item: whether an
+  autonomous loop should PROPOSE or ACT. A loop that opens PRs nobody reads repeats the
+  agent feed's own open question, which is still "watch whether anything ever ACTS on an
+  issue #38 item".
+
 - [ ] **The connector catalogue was reasoned over and the answer for this repo is zero.**
   `docs/analysis/2026-08-08-connector-catalogue-reasoning.md`, 2026-08-08. claude-setup
   verifies its own hooks, oracles and gate and has no external data domain, so no connector

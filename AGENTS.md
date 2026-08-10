@@ -77,6 +77,32 @@ The layering is contract, then oracle, then that oracle's selftest, then a mutat
 - Prose is gated. No emoji, and `tools/slop_lint.py` fails on a spaced em or en dash used as a connector, plus a banned-phrase list.
 - `state/*.jsonl` are append-only ledgers. `state/bus.jsonl` is hash-chained and `python tools/bus/bus.py verify` checks it, so rewriting history there is visible.
 
+## How another repository consumes this harness
+
+A consuming project calls these tools without naming a machine:
+
+```bash
+python tools/harness.py exec gate/gate.py run --project .   # from the consumer
+python tools/harness/harness.py info                        # from here
+```
+
+`tools/harness/harness.py` is the canonical resolver. Order: `$CLAUDE_HARNESS`, then
+self-detection when the caller already sits inside a harness, then a `.harness-ref` file at
+the consumer's root, then a vendored copy at `tools/vendor/claude-setup`. A directory counts
+as a harness only if `tools/gate/gate.py` is really in it, because a marker file can be
+copied somewhere useless and an entry point cannot. A wrongly set `$CLAUDE_HARNESS` raises
+rather than falling through, since an explicit override that is silently ignored is the
+failure the module exists to prevent.
+
+`.harness-ref` may pin a sha. Drift between the pin and the resolved tree fails `check()`
+and deliberately does NOT fail `resolve()`: refusing to resolve would turn a stale pin into
+an outage, and a product must still be able to run its gate against a harness that moved.
+
+It lived in `new-recruit/tools/harness.py` from 2026-07-31 and was promoted here on
+2026-08-09. Until then the resolution order for inheriting this setup was documented only
+in a downstream copy, which is the wrong direction for an interface to travel, and the
+second consumer never adopted it.
+
 ## Where the rest lives
 
 `CLAUDE-OS.md` is the spine (layers L0 to L8, the deep-work protocol, the supersession table). `docs/INDEX.md` indexes the PRDs, specs, and 15 ADRs; the ones that bind day-to-day work are 0005 enforcement over prose, 0010 disk is memory, 0012 autonomy ships only via the PR gate, and 0013 the lane topology. `TODO.md` is the single ticket list and `tools/selfimprove/scan.py` ranks what to pick up next.

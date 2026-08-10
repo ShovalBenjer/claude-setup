@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1005**
+- documents: **1007**
 - reachable from `docs/INDEX.md`: **120** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (55)
+## analysis (56)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -135,6 +135,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-08-connector-usage.md` | 2026-08-08 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-08-08-na-domains-rechecked.md` | 2026-08-08 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-08-zion-and-inheritance.md` | 2026-08-08 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-09-session-scope-ledger.md` | 2026-08-09 | dated-snapshot | class | n/a | - | - | - |
 
 ## automation-output (126)
 
@@ -575,7 +576,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
 | `TODO.md` | 2026-08-01 | living | registry | 2 | yes | - | operator |
 
-## rule (39)
+## rule (40)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -618,6 +619,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/repo-stack-reasoning.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/hidden-trees.md` | 2026-07-30 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/accepting-architectures.md` | 2026-08-05 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/merges-are-the-operators.md` | 2026-08-09 | definition-see-skills_sync | class | n/a | - | - | - |
 
 ## skill (209)
 
