@@ -93,3 +93,8 @@
 {"ts": "2026-08-10T11:42:36", "prompt_chars": 132, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-10T11:49:07", "prompt_chars": 524, "personas": ["Architecture Office", "Mayor Opus"], "skills": ["premortem", "request-refactor-plan", "domain-model"], "matched": true, "session": ""}
 {"ts": "2026-08-10T11:54:16", "prompt_chars": 29, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T12:03:49", "prompt_chars": 20, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T12:06:25", "prompt_chars": 380, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T12:07:09", "prompt_chars": 1116, "personas": ["Review Board", "Communications Desk", "Workflow Clerk"], "skills": ["review", "heidegger-reflect", "ponytail", "code-simplifier", "shoval-voice-draft", "blog", "humanize", "reground"], "matched": true, "session": ""}
+{"ts": "2026-08-10T12:09:19", "prompt_chars": 220, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T12:09:30", "prompt_chars": 220, "personas": [], "skills": [], "matched": false, "session": ""}
