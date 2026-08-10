@@ -105,3 +105,15 @@
 {"ts": "2026-08-10T12:24:50", "prompt_chars": 78, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-10T12:43:16", "prompt_chars": 4, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-10T12:44:17", "prompt_chars": 93, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T12:51:26", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-10T12:52:35", "prompt_chars": 553, "personas": ["Evidence Clerk"], "skills": ["deep-research", "decision-grade"], "matched": true, "session": ""}
+{"ts": "2026-08-10T12:54:06", "prompt_chars": 444, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "azure-devops"], "matched": true, "session": ""}
+{"ts": "2026-08-10T12:58:05", "prompt_chars": 104, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T13:19:13", "prompt_chars": 54, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T13:20:49", "prompt_chars": 33, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T13:21:29", "prompt_chars": 4, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T13:22:31", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-10T13:25:25", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-10T13:31:35", "prompt_chars": 393, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-10T13:33:18", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-10T13:38:33", "prompt_chars": 198, "personas": ["Workflow Clerk", "Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "reground", "workspace-brain"], "matched": true, "session": ""}

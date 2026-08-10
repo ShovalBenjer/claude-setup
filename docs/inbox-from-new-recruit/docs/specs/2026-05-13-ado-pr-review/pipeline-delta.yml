@@ -1,0 +1,164 @@
+# ============================================================
+# APPEND THIS STAGE TO THE END OF azure-pipelines.yml
+# Do not replace existing stages — just add at end.
+# ============================================================
+#
+# Adds a Foundry gpt-5.5 PR review that posts a markdown comment
+# to the originating PR. Runs only on PR builds; never blocks merge.
+
+- stage: codex_review
+  displayName: 'Codex PR review (Foundry gpt-5.5)'
+  dependsOn: []
+  condition: eq(variables['Build.Reason'], 'PullRequest')
+  jobs:
+    - job: review
+      displayName: 'Generate + post review'
+      pool:
+        vmImage: 'ubuntu-latest'
+      timeoutInMinutes: 8
+      variables:
+        - name: foundryReviewDeployment
+          value: 'gpt-5.5'
+        - name: foundryAccount
+          value: 'brn-azai'
+        - name: foundryApiVersion
+          value: '2025-01-01-preview'
+        - name: foundryReviewMaxInputChars
+          value: '60000'      # ~15K tokens at 4 chars/token
+        - name: foundryReviewMaxOutputTokens
+          value: '2000'
+        - name: foundryReviewPromptPath
+          value: 'scripts/codex-review-prompt.md'
+
+      steps:
+        - checkout: self
+          fetchDepth: 0
+          persistCredentials: true
+
+        - bash: |
+            set -euo pipefail
+            DIFF_FILE="$(Build.ArtifactStagingDirectory)/pr.diff"
+            git fetch origin "$(System.PullRequest.TargetBranch)" --depth=100
+            TARGET_REF="$(System.PullRequest.TargetBranch)"
+            # TargetBranch comes as e.g. refs/heads/master — strip the refs/heads/ prefix
+            TARGET_REF="${TARGET_REF#refs/heads/}"
+            git diff --unified=3 "origin/${TARGET_REF}...HEAD" > "$DIFF_FILE"
+            LINES=$(wc -l < "$DIFF_FILE")
+            CHARS=$(wc -c < "$DIFF_FILE")
+            echo "Diff: $LINES lines, $CHARS chars."
+            if [ "$CHARS" -gt "$(foundryReviewMaxInputChars)" ]; then
+              echo "Diff exceeds char cap; truncating to last $(foundryReviewMaxInputChars) chars (kept latest hunks)."
+              tail -c "$(foundryReviewMaxInputChars)" "$DIFF_FILE" > "$DIFF_FILE.trunc"
+              mv "$DIFF_FILE.trunc" "$DIFF_FILE"
+              echo "##vso[task.setvariable variable=diffTruncated]true"
+            else
+              echo "##vso[task.setvariable variable=diffTruncated]false"
+            fi
+          displayName: 'Compute and bound diff'
+
+        - task: AzureCLI@2
+          displayName: 'Call Foundry gpt-5.5'
+          inputs:
+            azureSubscription: '$(azureServiceConnection)'
+            scriptType: bash
+            scriptLocation: inlineScript
+            inlineScript: |
+              set -euo pipefail
+              DIFF_FILE="$(Build.ArtifactStagingDirectory)/pr.diff"
+              PROMPT_FILE="$(foundryReviewPromptPath)"
+              OUT_FILE="$(Build.ArtifactStagingDirectory)/review.md"
+              REQ_FILE="$(Build.ArtifactStagingDirectory)/req.json"
+              RESP_FILE="$(Build.ArtifactStagingDirectory)/resp.json"
+
+              if [ ! -f "$PROMPT_FILE" ]; then
+                echo "Prompt file missing at $PROMPT_FILE; aborting review."
+                echo "Codex review skipped: prompt missing." > "$OUT_FILE"
+                exit 0
+              fi
+
+              SYSTEM_PROMPT="$(sed -n '/^## SYSTEM/,/^## USER/p' "$PROMPT_FILE" | sed '1d;$d')"
+              USER_TEMPLATE="$(sed -n '/^## USER/,/^## END/p' "$PROMPT_FILE" | sed '1d;$d')"
+
+              DIFF_BODY="$(cat "$DIFF_FILE")"
+              PR_TITLE="$(System.PullRequest.PullRequestId)"
+              SOURCE_BRANCH="$(System.PullRequest.SourceBranch)"
+              TARGET_BRANCH="$(System.PullRequest.TargetBranch)"
+              TRUNCATED="$(diffTruncated)"
+
+              USER_PROMPT="$(printf '%s\n' "$USER_TEMPLATE" \
+                | sed "s|{{PR_ID}}|${PR_TITLE}|g" \
+                | sed "s|{{SOURCE_BRANCH}}|${SOURCE_BRANCH}|g" \
+                | sed "s|{{TARGET_BRANCH}}|${TARGET_BRANCH}|g" \
+                | sed "s|{{DIFF_TRUNCATED}}|${TRUNCATED}|g")"
+              USER_PROMPT="${USER_PROMPT}"$'\n\n```diff\n'"${DIFF_BODY}"$'\n```\n'
+
+              jq -n \
+                --arg sys "$SYSTEM_PROMPT" \
+                --arg usr "$USER_PROMPT" \
+                --argjson mt "$(foundryReviewMaxOutputTokens)" \
+                '{messages: [{role:"system", content:$sys}, {role:"user", content:$usr}], max_completion_tokens: $mt, temperature: 0.2}' \
+                > "$REQ_FILE"
+
+              FOUNDRY_URL="https://$(foundryAccount).openai.azure.com/openai/deployments/$(foundryReviewDeployment)/chat/completions?api-version=$(foundryApiVersion)"
+
+              set +e
+              az rest \
+                --method post \
+                --uri "$FOUNDRY_URL" \
+                --resource "https://cognitiveservices.azure.com/" \
+                --body "@$REQ_FILE" \
+                --headers "Content-Type=application/json" \
+                > "$RESP_FILE"
+              AZ_EXIT=$?
+              set -e
+
+              if [ "$AZ_EXIT" -ne 0 ]; then
+                echo "Foundry call failed (exit $AZ_EXIT). Posting failure stub."
+                echo "## Codex review — unavailable" > "$OUT_FILE"
+                echo "" >> "$OUT_FILE"
+                echo "Foundry gpt-5.5 call failed during build run $(Build.BuildId). Skipping review." >> "$OUT_FILE"
+              else
+                REVIEW="$(jq -r '.choices[0].message.content // "Empty response."' "$RESP_FILE")"
+                {
+                  echo "## Codex review (Foundry gpt-5.5)"
+                  echo ""
+                  echo "_Automated review for build [$(Build.BuildNumber)]($(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)). Advisory only; does not block merge._"
+                  echo ""
+                  if [ "$TRUNCATED" = "true" ]; then
+                    echo "> ⚠ Diff was truncated to fit context. Review covers the tail of the diff only."
+                    echo ""
+                  fi
+                  echo "$REVIEW"
+                } > "$OUT_FILE"
+              fi
+
+              echo "Review file:"
+              cat "$OUT_FILE"
+
+        - bash: |
+            set -euo pipefail
+            OUT_FILE="$(Build.ArtifactStagingDirectory)/review.md"
+            if [ ! -s "$OUT_FILE" ]; then
+              echo "No review output to post; exiting cleanly."
+              exit 0
+            fi
+            BODY="$(jq -Rs '{comments:[{parentCommentId:0,content:.,commentType:1}],status:1}' < "$OUT_FILE")"
+            URL="$(System.CollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.ID)/pullRequests/$(System.PullRequest.PullRequestId)/threads?api-version=7.1-preview.1"
+            set +e
+            HTTP_CODE=$(curl -sS -o /tmp/post.out -w '%{http_code}' -X POST \
+              -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
+              -H "Content-Type: application/json" \
+              -d "$BODY" \
+              "$URL")
+            set -e
+            echo "POST returned HTTP $HTTP_CODE"
+            cat /tmp/post.out | head -40
+            if [ "$HTTP_CODE" != "200" ] && [ "$HTTP_CODE" != "201" ]; then
+              echo "Comment post failed (HTTP $HTTP_CODE). Most common cause:"
+              echo "  Project Collection Build Service lacks 'Contribute to pull requests' on this repo."
+              echo "  See ~/docs/specs/2026-05-13-ado-pr-review/README.md step 1."
+              exit 0
+            fi
+          env:
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+          displayName: 'Post review comment to PR'

@@ -54,6 +54,21 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   `corpus.db` are both confirmed absent. GraphRAG is neither built nor planned; the
   planned retrieval is flat FTS5 plus brute-force cosine, status OPEN.
 
+- [ ] **The skills oracle reads one of three trees and reports the other two as drift.**
+  Measured 2026-08-10 in `docs/analysis/2026-08-10-three-skill-trees-measured.md`, while
+  executing the approved `dot-codex` split. `skills_sync.py` compares `dot-claude/skills`
+  against the live tree and nothing else. Comparing by sha1 instead: 13 of the 28
+  `dot-codex/skills` directories are byte-identical to live, and `shoval-voice-draft`
+  matches live EXACTLY while `dot-claude` carries a different 27401-byte version. The
+  waiver has been calling that a genuine fork where whichever side you read is a coin
+  flip; it is not, the live file is committed in the tree the oracle does not read.
+  Fifteen of the sixteen drift items are downstream of the oracle's scope rather than of
+  anything anyone did wrong. Extending it to read all three would shrink the number with
+  no file moving, and that is a decision about what an oracle asserts, not a cleanup.
+  The split itself went ahead narrower than recommended: the 33 dead one-line pointers
+  are gone, the 28 directories stay, because archiving them would have deleted the only
+  committed copy of a live skill.
+
 - [ ] **Live `~/.claude/skills` went from 40 to 79 in two days and nothing can date or
   attribute it.** Measured 2026-08-08 by `ls -1d ~/.claude/skills/*/ | wc -l` against the
   40 recorded on 2026-08-05 in row B below. All three repo tree counts reproduce within

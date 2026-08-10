@@ -1,0 +1,77 @@
+name: content-creation
+description: "Load when drafting or editing external marketing copy — blog posts, LinkedIn/Twitter/Instagram/Facebook posts, email newsletters, marketing email subject lines, landing page copy, headlines, or CTAs. Triggers on: 'write a blog post', 'draft a LinkedIn post', 'write marketing email subject line', 'write newsletter subject line', 'landing page copy', 'CTA suggestions', 'headline ideas'. Do NOT load for internal comms, release notes, RFCs, support replies, sales outreach, cold outbound, recruiting emails, or transactional/lifecycle product emails."
+
+Content Creation
+Marketing-specific guidance that overrides default copywriting instincts. Generic advice (use "you" language, lead with benefits, action verbs, mobile-first email) is assumed and not repeated here.
+
+Scope
+In scope: External marketing content — blog, social (LinkedIn, Twitter/X, Instagram, Facebook), email marketing, landing pages, headlines, CTAs.
+
+Out of scope: Press releases, case studies, release notes, internal comms, sales outreach (use draft-outreach), technical writing (use technical-proposal), support replies.
+
+Channel-Specific Rules
+Blog
+House reading level: 9th grade for general audience, 11th grade for technical/developer audience. Override the default LLM tendency to write at 12th+.
+
+Subhead cadence: every 250-350 words, OR at every logical section break — whichever comes first. Do not insert subheads just to hit the cadence.
+
+Every section must contain one of: a proprietary data point, a customer quote, a named example, or a contrarian claim. Sections that are pure exposition get cut.
+
+Social Media
+LinkedIn: First 2-3 lines must function as a standalone hook — see Gotchas. Target 1,300 characters total. Personal-stake openings ("I was wrong about…", "After 200 customer calls…") outperform announcement openings on our account.
+
+Twitter/X: Single tweets over threads unless the narrative genuinely requires >2 beats. Threads under 5 tweets perform worse than a single strong tweet — pick a lane.
+
+Instagram: Hook in the first line of the caption (visible before truncation); hashtags in the first comment, not the caption.
+
+Facebook: Default to NOT posting here unless campaign requires it — organic reach for our page is <2%. If posting, keep link posts under 80 characters of caption.
+
+Email
+Subject lines: 30-50 characters. Preview text must add new information, never paraphrase the subject.
+
+One primary CTA per email. Secondary links allowed in the P.S. only.
+
+Plain-text-feeling emails outperform designed templates for lifecycle and nurture. Reserve designed templates for launches and digests.
+
+Landing Pages
+Strip global navigation on dedicated campaign pages. See Gotchas — this is non-obvious and the default LLM instinct is to include nav.
+
+Form fields: Email + one qualifier max for top-of-funnel. Anything beyond that requires explicit marketing sign-off.
+
+Trust signals adjacent to the CTA, not at the bottom of the page.
+
+SEO Rules (Marketing Pages Only)
+One primary keyword per page, placed in: H1, first 100 words, one H2, meta description, URL slug. Secondary keywords are a distraction at our current domain authority — skip them.
+
+Meta description: 140-155 characters. Title tag: 50-60 characters.
+
+Featured-snippet structures we target: 40-60 word definition paragraphs, numbered how-to lists, comparison tables. Pick one per page; don't stack.
+
+Keyword density is not a target. See Gotchas.
+
+Headline Formulas
+These five outperformed alternatives in our last headline test (n=1.2M impressions). Default to them before inventing new structures.
+
+Formula	Example
+How to [result] [without obstacle]	"How to Double Open Rates Without Sending More Emails"
+[Number] [adjective] ways to [result]	"7 Proven Ways to Reduce Churn"
+Why [common belief] is wrong	"Why More Content Is Not the Answer"
+[Do this], not [that]	"Build a Community, Not Just an Audience"
+What [result] taught us about [topic]	"What 10,000 A/B Tests Taught Us About Subject Lines"
+CTA Rules
+Specificity beats action verbs. "Start your 14-day trial" outperforms "Get started" in our tests. Always name the next state, not the action.
+
+Risk-reducers belong below the CTA, not in the button: "No credit card required" as supporting text, not button copy.
+
+Button copy: 2-4 words. Anything longer signals uncertainty.
+
+Gotchas
+SEO keyword density is not a real metric — there is no target percentage. If copy reads unnaturally, you have over-optimized. Write for humans; include keywords where they fit naturally.
+
+"See more" truncation kills LinkedIn posts — if the hook before the fold is weak, engagement drops to near zero. The first 2-3 lines must carry the entire post's weight.
+
+Blog posts without distribution are invisible — publishing is not a distribution strategy. Every post needs a promotion plan (email, social, paid amplification, syndication) attached before it ships.
+
+Subject line A/B tests need 1,000+ recipients per variant — testing with small lists produces noise, not signal. Below that threshold, just pick the better subject line and move on.
+
+Landing pages with navigation links leak conversions — every outbound link is an exit ramp. Dedicated landing pages should strip site navigation and keep only the CTA.
