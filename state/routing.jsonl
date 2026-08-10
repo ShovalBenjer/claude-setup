@@ -75,3 +75,17 @@
 {"ts": "2026-08-10T08:41:10", "prompt_chars": 5117, "personas": ["QA Lab", "Communications Desk", "Release Bureau"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "testing-pyramid", "tdd", "coverage-enforcer", "azure-devops"], "matched": true, "session": ""}
 {"ts": "2026-08-10T08:43:56", "prompt_chars": 458, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-10T08:45:46", "prompt_chars": 291, "personas": ["Evidence Clerk", "Product Studio", "Workflow Clerk"], "skills": ["ponytail", "code-simplifier", "deep-research", "decision-grade", "ui-ux-pro-max", "frontend-design", "reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-10T08:49:10", "prompt_chars": 701, "personas": ["Communications Desk", "Evidence Clerk", "Workflow Clerk"], "skills": ["deep-research", "decision-grade", "shoval-voice-draft", "blog", "humanize", "reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-10T08:49:40", "prompt_chars": 709, "personas": ["Communications Desk", "Product Studio", "Workflow Clerk"], "skills": ["ui-ux-pro-max", "frontend-design", "shoval-voice-draft", "blog", "humanize", "reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-10T08:49:59", "prompt_chars": 394, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-10T08:52:11", "prompt_chars": 709, "personas": ["Communications Desk", "Workflow Clerk"], "skills": ["shoval-voice-draft", "blog", "humanize", "reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-10T08:57:00", "prompt_chars": 1, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T08:57:41", "prompt_chars": 292, "personas": ["Evidence Clerk", "Product Studio", "Workflow Clerk"], "skills": ["ponytail", "code-simplifier", "deep-research", "decision-grade", "ui-ux-pro-max", "frontend-design", "reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-10T09:03:14", "prompt_chars": 208, "personas": ["Release Bureau", "Review Board", "Workflow Clerk"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "azure-devops", "reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-10T09:04:26", "prompt_chars": 465, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T11:33:42", "prompt_chars": 74, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T11:33:59", "prompt_chars": 74, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T11:34:04", "prompt_chars": 73, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T11:34:10", "prompt_chars": 73, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T11:35:47", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-10T11:36:21", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
