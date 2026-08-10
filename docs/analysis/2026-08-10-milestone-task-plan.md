@@ -80,12 +80,25 @@ six report `mergeable_state: dirty`, meaning they need a base merge before anyth
 This is the highest-value milestone on the page because merging it deletes rows from the
 others.
 
-- [ ] **PR 59, `na-domains-and-run-duration`, ready, clean, CI pending.** Gate runs now
-  record `duration_seconds` and `domain_seconds`, which is what makes the `unit` domain's
-  own 900-second falsifier evaluable for the first time across 8571 rows. First
-  measurement 208.6s total, `unit` 153.7s. Also corrects the `perf` N/A reason and carries
-  the connector and Zion inheritance reports. **Merge this first**: it is clean, it is not
-  a draft, and 14 review comments are already resolved against it.
+- [ ] **PR 59, `na-domains-and-run-duration`, ready, clean, and GREEN.** Confirmed
+  2026-08-10 at head `7ba79de8`: Ship gate, Gemini diff review and Claude Code Review all
+  three `success`. Gate runs now record `duration_seconds` and `domain_seconds`, which is
+  what makes the `unit` domain's own 900-second falsifier evaluable for the first time
+  across 8571 rows. First measurement 208.6s total, `unit` 153.7s. Also corrects the `perf`
+  N/A reason and carries the connector and Zion inheritance reports. **Merge this first**:
+  it is the only open PR that is not a draft, is mergeable, and has a green head.
+- [ ] **A draft PR gets ZERO CI here, and four of the six are drafts.** Measured
+  2026-08-10 by listing workflow runs per branch. Every job in all three workflows is
+  gated on `if: ${{ !github.event.pull_request.draft }}`, so a draft triggers the run and
+  skips every job: PR 60 and PR 61 each show **6 runs, all `skipped`**, against PR 59's 18
+  real runs on the same day. The PR status API therefore reports `total_count: 0` rather
+  than a failure, which reads as "CI has not finished yet" and never resolves.
+  **Consequence for this milestone: PRs 47, 52, 53 and 60 have never been gated by CI at
+  all**, and the local gate PASS each of them cites was earned on a developer host, which
+  the `skills` and `pointers` domains now both say is a weaker claim than a runner's.
+  Marking one ready is the only way to find out, and it is a real action with a cost:
+  it starts a Gemini call and a Claude Code Review on a metered path. Operator's call,
+  and it belongs beside the branch-policy row below.
 - [ ] **PR 60, `session-prompt-db-and-per-project-todo`, draft, clean.** Recovers ten days
   of prompt text that a `ModuleNotFoundError` under the wrong interpreter silently dropped,
   545 hashes against 23 events. Backfills 1,127 events over 191 sessions with a verified
@@ -141,10 +154,18 @@ defect.
   safety oracle. Note PR 53 already did the regen with a diff oracle showing exact agreement
   on 128 commands and 0 security regressions, so the evidence exists; what is missing is the
   decision.
-- [ ] **The `review` CI job posts "Claude encountered an error after ~40s" and exits 1.**
-  Four theories tested and discarded. `ANTHROPIC_LOG=debug` is set on the step. Read that
-  run and do not add a fifth theory. Most likely remaining candidate is the OAuth token,
-  which only the operator can rotate.
+- [ ] **The `review` CI job is INTERMITTENT, not failing on every run, and that is a
+  different defect from the one recorded.** The 2026-08-05 row says it posts "Claude
+  encountered an error after ~40s" and exits 1 on every run, with four theories tested and
+  discarded. Re-measured 2026-08-10 across the four shas pushed to `lane-a/na-domains-and-run-duration`
+  that day: Claude Code Review is **2 success, 2 failure** (`4448a856` fail, `ed932d0d`
+  pass, `e695af55` fail, `7ba79de8` pass), and Ship gate alternates on the same shas in a
+  different pattern. **An intermittent job and an always-red job have different causes**,
+  and every one of the four discarded theories was a theory about a constant. A flake
+  points at the token, at rate limiting, or at a timeout, not at configuration. Next
+  action is unchanged in shape and changed in target: read the `ANTHROPIC_LOG=debug`
+  output from a FAILING run and compare it against a passing one on the same branch,
+  which is now possible and was not when the row was written.
 
 ### #4 Gate and fingerprint integrity, P0
 
