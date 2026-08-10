@@ -44,26 +44,10 @@ import tickets  # noqa: E402
 
 PROJECTS = Path.home() / ".claude" / "projects"
 
-# Openers that mark a line as authored by the harness rather than by the operator.
-# Prefix matching, not substring: a prompt that quotes one of these strings partway
-# through is still a prompt, and dropping it would lose real intent. The compaction
-# opener is the expensive one to miss, since those blocks are assistant-authored
-# summaries long enough to dominate any character-count view of the corpus.
-HARNESS_PREFIXES = (
-    "<system-reminder",
-    "<local-command",
-    "<command-name",
-    "<command-message",
-    "<command-args",
-    "<user-prompt-submit-hook",
-    "<bash-input",
-    "<bash-stdout",
-    "<task-notification>",
-    "Caveat:",
-    "[Request interrupted",
-    "This session is being continued from a previous conversation",
-    "Continue the conversation from",
-)
+# The one definition of harness-authored text, shared with the capture hook. Two copies
+# would drift, and a hook that mints what the recovery path refuses is how the ledger and
+# the store disagree about what a prompt is.
+HARNESS_PREFIXES = tickets.HARNESS_PREFIXES
 
 FUNNEL_STAGES = (
     "type=user",

@@ -175,3 +175,29 @@ def test_repo_name_prefers_cwd_over_the_flattened_slug():
     without = bt.Prompt(slug="-home-shov-work-repos-new-recruit", session="s", ts="",
                         text="t", cwd="")
     assert bt.repo_name(without) == "recruit"  # lossy, and only reached without a cwd
+
+
+@pytest.mark.parametrize("text", [
+    "<task-notification>\n<task-id>abc</task-id>",
+    "<system-reminder>x</system-reminder>",
+    "This session is being continued from a previous conversation. The summary is",
+])
+def test_capture_hook_and_backfill_agree_on_what_a_prompt_is(text):
+    """Measured 2026-08-10: 93 of 1,306 ledger rows were notifications nobody typed.
+
+    Claude Code delivers these through UserPromptSubmit exactly like a typed prompt, so
+    the hook minted a ticket for each. Both paths now consult one list; a hook that mints
+    what the recovery path refuses is how the two stores come to disagree.
+    """
+    assert tickets.is_harness_authored(text)
+    assert text.startswith(bt.HARNESS_PREFIXES)
+
+
+def test_the_two_paths_share_one_list_rather_than_two_copies():
+    assert bt.HARNESS_PREFIXES is tickets.HARNESS_PREFIXES
+
+
+@pytest.mark.parametrize("text", ["end session", "boot up", ".", "fix the parser",
+                                  "push. merge", "look at <system-reminder> handling"])
+def test_a_typed_prompt_is_never_called_harness_authored(text):
+    assert not tickets.is_harness_authored(text)

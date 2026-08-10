@@ -60,6 +60,35 @@ TICKET_LIFECYCLE: dict[str, set[str]] = {
 TICKET_STATES = frozenset(TICKET_LIFECYCLE)
 
 
+# Openers that mark text as authored by the harness rather than typed by the operator.
+# Shared with the transcript backfill on purpose: the hook and the recovery path must
+# agree on what a prompt is, or one of them mints tickets the other refuses to recognise.
+# Measured 2026-08-10, before this list was applied at capture: 93 of 1,306 ledger rows
+# were `<task-notification>` blocks, which Claude Code delivers through UserPromptSubmit
+# exactly like a typed prompt. Prefix matching, never substring, so a prompt that quotes
+# one of these partway through is still a prompt.
+HARNESS_PREFIXES = (
+    "<system-reminder",
+    "<local-command",
+    "<command-name",
+    "<command-message",
+    "<command-args",
+    "<user-prompt-submit-hook",
+    "<bash-input",
+    "<bash-stdout",
+    "<task-notification>",
+    "Caveat:",
+    "[Request interrupted",
+    "This session is being continued from a previous conversation",
+    "Continue the conversation from",
+)
+
+
+def is_harness_authored(text: str) -> bool:
+    """True when the text was injected by the harness rather than typed."""
+    return text.strip().startswith(HARNESS_PREFIXES)
+
+
 # Exact members, never a length threshold. "is this short" is a proxy for "is this
 # meaningless" that gets it wrong in the direction that loses work: `push. merge`,
 # `whats left?` and `fixed env` are all short and all carry intent. A closed set can
@@ -313,7 +342,7 @@ def verify(path: Path = TICKETS) -> list[tuple[int, str]]:
 
 
 __all__ = [
-    "ACK_WORDS", "GENESIS", "PT_CHAIN_FIELDS", "TICKETS", "TICKET_LIFECYCLE",
+    "ACK_WORDS", "GENESIS", "HARNESS_PREFIXES", "is_harness_authored", "PT_CHAIN_FIELDS", "TICKETS", "TICKET_LIFECYCLE",
     "TICKET_STATES", "classify", "normalize",
     "append_chained", "append_for_prompt", "append_row", "build_row", "canonical",
     "file_lock", "is_allowed", "read_rows", "row_altered", "row_hash", "row_id",
