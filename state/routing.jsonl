@@ -89,3 +89,5 @@
 {"ts": "2026-08-10T11:34:10", "prompt_chars": 73, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-10T11:35:47", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
 {"ts": "2026-08-10T11:36:21", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-10T11:39:44", "prompt_chars": 395, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T11:42:36", "prompt_chars": 132, "personas": [], "skills": [], "matched": false, "session": ""}

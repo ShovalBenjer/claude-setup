@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1007**
+- documents: **1008**
 - reachable from `docs/INDEX.md`: **120** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -507,7 +507,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prd/2026-08-03-boundary-termination-instrument.md` | 2026-08-03 | proposed | header | 2 | yes | - | - |
 | `docs/prd/2026-08-03-unified-architecture.md` | 2026-08-03 | proposed | header | n/a | yes | - | - |
 
-## prior-art (42)
+## prior-art (43)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -553,6 +553,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prior-art/tools-telemetry.json` | 2026-08-04 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/dot-claude-skills-whatsapp-query.json` | 2026-08-07 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-whatsapp.json` | 2026-08-07 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/tools-harness.json` | 2026-08-10 | current | arithmetic | n/a | - | - | - |
 
 ## reflection (6)
 
