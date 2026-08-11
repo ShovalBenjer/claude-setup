@@ -1,11 +1,16 @@
 [Unit]
-Description=Publish derived agent telemetry to the GitHub agent feed (issue #38)
-Documentation=https://github.com/ShovalBenjer/claude-setup/issues/38
+Description=Publish derived agent telemetry to the GitHub agent feed (discussion 43)
+Documentation=https://github.com/ShovalBenjer/claude-setup/discussions/43
 
 [Service]
 Type=oneshot
 # --throttle 30 is belt and braces with OnUnitActiveSec below. The timer controls
 # how often this fires; the throttle controls how often it can POST, so a manual
-# run or a catch-up burst after the machine wakes cannot spam the issue.
-ExecStart=/usr/bin/python3 /home/shov/work/repos/claude-setup/tools/telemetry/publish.py --since 24h --throttle 30 --post --issue 38
+# run or a catch-up burst after the machine wakes cannot spam the feed.
+#
+# Surface moved to Discussions 2026-08-05. Issue #38 took 12 comments and 146 item
+# lines in 19 hours and received zero reactions and zero replies. The discussion id
+# is NOT passed here: publish.py reads it from state/agent-feed.json, so moving the
+# surface again does not mean editing a unit file that lives in two places.
+ExecStart=/usr/bin/python3 /home/shov/work/repos/claude-setup/tools/telemetry/publish.py --since 24h --throttle 30 --post --sink discussion
 WorkingDirectory=/home/shov/work/repos/claude-setup

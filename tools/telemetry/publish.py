@@ -34,7 +34,18 @@ without consuming anything.
 
     python tools/telemetry/publish.py --since 24h                 # dry run, the default
     python tools/telemetry/publish.py --since 24h --post --issue 36
+    python tools/telemetry/publish.py --since 24h --post --sink discussion
     python tools/telemetry/publish.py --selftest
+
+THE DISCUSSION SINK. The surface moved from issue #38 to Discussion #43 on
+2026-08-05, and the systemd unit was updated to pass `--sink discussion` while
+this file still only knew `--issue`. The service then failed with exit 2 every
+30 minutes from 2026-08-06 to 2026-08-11 and the feed went silent; the journal
+was the only witness. The discussion id deliberately does not live in the unit
+file: it is read from `state/agent-feed.json` so that moving the surface again
+means editing one committed state file, not a unit that exists in two places.
+Same safety property as the issue path: nothing posts without `--post` AND a
+resolvable target, and this file never creates the discussion it posts to.
 """
 from __future__ import annotations
 
@@ -50,6 +61,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import collect  # noqa: E402
 
 CURSOR = Path(__file__).resolve().parents[2] / "state" / "telemetry-published.txt"
+FEED_CONFIG = Path(__file__).resolve().parents[2] / "state" / "agent-feed.json"
 MAX_LINES = 25
 
 
@@ -127,6 +139,47 @@ def post(issue: int, body: str) -> tuple[int, str]:
     return r.returncode, (r.stdout + r.stderr).strip()
 
 
+def discussion_target(config: Path = FEED_CONFIG) -> tuple[str, int] | None:
+    """(owner/repo, discussion number) from state/agent-feed.json, or None.
+
+    None rather than an exception: a missing or malformed config keeps the run a
+    dry run, loudly, instead of crashing a timer every 30 minutes. That failure
+    shape is chosen against the measured one: the --sink mismatch failed with
+    exit 2 on every tick for five days and nothing surfaced it.
+    """
+    try:
+        cfg = json.loads(config.read_text(encoding="utf-8"))
+        return str(cfg["repo"]), int(cfg["discussion"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def post_discussion(repo: str, number: int, body: str) -> tuple[int, str]:
+    """Comment on an EXISTING discussion. Two calls: resolve the node id, mutate.
+
+    Never creates a discussion; a bad number fails the id lookup and the cursor
+    is not advanced, same contract as the issue path.
+    """
+    owner, name = repo.split("/", 1)
+    q = ("query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,"
+         "name:$name){discussion(number:$number){id}}}")
+    r = subprocess.run(["gh", "api", "graphql", "-f", "query=" + q,
+                        "-F", "owner=" + owner, "-F", "name=" + name,
+                        "-F", "number=" + str(number),
+                        "--jq", ".data.repository.discussion.id"],
+                       capture_output=True, text=True, timeout=120)
+    if r.returncode != 0 or not r.stdout.strip():
+        return r.returncode or 1, ("discussion id lookup failed: " + (r.stdout + r.stderr).strip())
+    disc_id = r.stdout.strip()
+    m = ("mutation($id:ID!,$body:String!){addDiscussionComment(input:{discussionId:$id,"
+         "body:$body}){comment{url}}}")
+    r2 = subprocess.run(["gh", "api", "graphql", "-f", "query=" + m,
+                         "-F", "id=" + disc_id, "-F", "body=" + body,
+                         "--jq", ".data.addDiscussionComment.comment.url"],
+                        capture_output=True, text=True, timeout=120)
+    return r2.returncode, (r2.stdout + r2.stderr).strip()
+
+
 def selftest() -> int:
     failures = []
 
@@ -165,6 +218,20 @@ def selftest() -> int:
     src = Path(__file__).read_text(encoding="utf-8")
     if "args.post and args.issue" not in src:
         failures.append("the post path is not gated on BOTH --post and --issue")
+    if "args.post and disc" not in src:
+        failures.append("the discussion post path is not gated on BOTH --post and a resolved target")
+
+    # The regression that killed the feed for five days: a sink the CLI does not
+    # know. Both sinks the unit files have ever named must parse.
+    for sink in ("issue", "discussion"):
+        try:
+            ap_probe = argparse.ArgumentParser()
+            ap_probe.add_argument("--sink", choices=("issue", "discussion"))
+            ap_probe.parse_args(["--sink", sink])
+        except SystemExit:
+            failures.append("--sink {} does not parse".format(sink))
+    if discussion_target(Path("/nonexistent/agent-feed.json")) is not None:
+        failures.append("a missing feed config resolved a discussion target instead of None")
 
     for line in failures:
         print("  FAIL  " + line)
@@ -179,6 +246,7 @@ def selftest() -> int:
     print("  ok    an empty selection renders nothing")
     print("  ok    the throttle is evaluated before the ledger walk, not after")
     print("  ok    posting requires both --post and an explicit --issue")
+    print("  ok    the discussion sink parses and refuses to post without a resolved target")
     print("VERDICT: the feed derives its content and cannot post by accident")
     return 0
 
@@ -187,7 +255,9 @@ def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(prog="publish.py", description=__doc__.splitlines()[0])
     ap.add_argument("--since", default="24h")
     ap.add_argument("--issue", type=int, help="an EXISTING issue number to comment on")
-    ap.add_argument("--post", action="store_true", help="actually post; requires --issue")
+    ap.add_argument("--sink", choices=("issue", "discussion"), default="issue",
+                    help="where a post lands; discussion reads its target from state/agent-feed.json")
+    ap.add_argument("--post", action="store_true", help="actually post; requires a target")
     ap.add_argument("--throttle", type=float, default=0.0,
                     help="minutes; skip entirely if a post happened more recently than this")
     ap.add_argument("--selftest", action="store_true")
@@ -214,6 +284,25 @@ def main(argv: list[str]) -> int:
     if not body:
         print("nothing new to publish since the last post ({} event(s) in window, {} already sent)"
               .format(len(events), len(seen)))
+        return 0
+
+    if args.sink == "discussion":
+        disc = discussion_target()
+        if args.post and disc:
+            repo, number = disc
+            rc, out = post_discussion(repo, number, body)
+            if rc == 0:
+                write_cursor({fingerprint(e) for e in shown})
+                print("posted {} item(s) to {} discussion #{}\n{}".format(len(shown), repo, number, out))
+            else:
+                print("post FAILED rc={} (cursor not advanced)\n{}".format(rc, out), file=sys.stderr)
+            return rc
+        print("== DRY RUN ==  nothing was posted and the cursor was not advanced")
+        if args.post and not disc:
+            print("   --post was given but {} is missing or malformed, so this stayed a dry run on purpose"
+                  .format(FEED_CONFIG))
+        print()
+        print(body)
         return 0
 
     if args.post and args.issue:

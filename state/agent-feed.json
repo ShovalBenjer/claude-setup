@@ -1,0 +1,5 @@
+{
+  "repo": "ShovalBenjer/claude-setup",
+  "discussion": 43,
+  "note": "Target of the agent feed. The surface moved from issue #38 to Discussion #43 on 2026-08-05; the systemd unit passes --sink discussion and publish.py resolves the id here, so moving the surface again edits this one committed file. Created 2026-08-11 while repairing the five-day --sink outage (L-2026-08-11 estate audit)."
+}
