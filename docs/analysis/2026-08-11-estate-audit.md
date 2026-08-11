@@ -38,6 +38,18 @@ everything that requires an agent or a human to voluntarily re-arm it (crons, fe
 config, judges, personas) died quietly. publish.py's own docstring predicted this:
 "this repository's lessons ledger is a list of voluntary steps that stopped happening."
 
+Addendum, measured at the end of this session: the codex judge lane is not merely
+unused, it is BROKEN on this machine in both directions. From WSL, `codex` resolves to
+the Windows npm shim and executes under WSL's node v18, which dies in the ESM loader.
+Through `powershell.exe` interop the CLI runs, but its read-only sandbox fails to
+launch any process (`CreateProcessWithLogonW` errors 1056 and 267, codex's own words,
+12,406 tokens spent discovering it), and inline-prompt passing breaks on document
+quoting. Four invocation variants tried, none produced a review. So "no usage of
+oracle" has a mechanical cause on top of the behavioral one: the prescribed judge
+cannot currently run here, and the wrapper reports that as a silent "unavailable".
+Fix candidates, unbuilt: a WSL-native `npm i -g @openai/codex` with node 20+, or
+running the judge on the Windows side from a Windows session.
+
 ## 3. Specs and plans against the disk (agent 1, read-only)
 
 Across docs/prd/ (5) and docs/specs/ (21): **BUILT 2, PARTIAL 11, PAPER 13.** Half the
