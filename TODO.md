@@ -22,6 +22,7 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   is denied to the assistant on purpose. Full write-up, including the ordering defect that
   let a push precede its gate:
   `docs/analysis/2026-08-10-inbox-secret-exposure.md`.
+
 One index over all of it, milestone-ordered and reconciled against the Zion board, the 6
 unmerged PRs and the specs: [docs/analysis/2026-08-10-milestone-task-plan.md](analysis/2026-08-10-milestone-task-plan.md).
 It carries seven board rows that measurement now contradicts and the nine operator

@@ -22,6 +22,14 @@ from pathlib import Path
 
 S = Path(__file__).resolve().parent
 HOOKS = Path.home() / ".claude" / "hooks"
+# Resolved live-first with a repo fallback, which is exactly what regen_rules.py
+# already does at its own SAFETY_GATE/FALLBACK pair. Until 2026-08-10 this file
+# named only the live path and raised FileNotFoundError on any host without a
+# deployed ~/.claude, so the one oracle that establishes the Rust port is
+# faithful could not run on a CI runner or in a container at all. Third instance
+# of the host-shaped class in one day, after skills_sync and refute.
+SAFETY_GATE_LIVE = HOOKS / "safety_gate.py"
+SAFETY_GATE_REPO = S.parents[1] / "dot-claude" / "hooks" / "safety_gate.py"
 # The binary may be a Windows or a Linux build, and may live in this crate's own target/
 # dir or be overridden. Checked in order; absent means the oracle SKIPS rather than passes,
 # because "no binary" must never read as "the port agrees".
@@ -36,8 +44,18 @@ RUST = Path(_env) if _env else next((c for c in _CANDIDATES if c.exists()), _CAN
 CORPUS = S / "corpus.txt"
 
 
-def load_python_rules():
-    spec = importlib.util.spec_from_file_location("sg", HOOKS / "safety_gate.py")
+def resolve_safety_gate() -> Path:
+    """Live copy if there is one, else the committed copy. Never neither."""
+    if SAFETY_GATE_LIVE.exists():
+        return SAFETY_GATE_LIVE
+    if SAFETY_GATE_REPO.exists():
+        return SAFETY_GATE_REPO
+    raise SystemExit("no safety_gate.py at {} or {}".format(
+        SAFETY_GATE_LIVE, SAFETY_GATE_REPO))
+
+
+def load_python_rules(path: Path | None = None):
+    spec = importlib.util.spec_from_file_location("sg", path or resolve_safety_gate())
     mod = importlib.util.module_from_spec(spec)
     sys.modules["sg"] = mod
     spec.loader.exec_module(mod)
@@ -49,7 +67,15 @@ def main() -> int:
         print("SKIP: no hookgate binary at {}. Build it first:".format(RUST))
         print("  cd tools/hookgate && cargo build --release")
         return 77
-    rules = load_python_rules()
+    # Naming the resolved source is not decoration. On 2026-08-05 rules.rs was
+    # found to have been generated from a file that was not the committed one,
+    # and the whole incident turns on WHICH copy of safety_gate.py a run
+    # compared against. A verdict that does not say which side it read is a
+    # verdict about an unknown tree.
+    source = resolve_safety_gate()
+    print("python rules from: {} ({})".format(
+        source, "live" if source == SAFETY_GATE_LIVE else "repo, no live tree here"))
+    rules = load_python_rules(source)
     commands = [c for c in CORPUS.read_text(encoding="utf-8").splitlines() if c.strip()]
 
     py = []

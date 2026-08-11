@@ -61,6 +61,10 @@ VERDICT_CLASS = {
     "tools-e2e": "split",
     "tools-gate": "keep-ours",
     "tools-ghpub": "keep-ours",
+    # Arrived with PR 59 on 2026-08-10, hours after this table was written, and
+    # the oracle caught it on the first gate run after the merge. That is the
+    # case this script exists for.
+    "tools-harness": "keep-ours",
     "tools-hookgate": "keep-ours",
     # "keep-the-ledger-design, replace-the-capture-claim" is two calls on two
     # halves of one component, which is what split means.
