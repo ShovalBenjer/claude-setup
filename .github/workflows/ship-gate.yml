@@ -217,12 +217,10 @@ jobs:
     # answers "does the code work", this answers "would we find out if it didn't",
     # and collapsing them would let one hide behind the other.
     #
-    # NOT included, with reasons rather than silence:
-    #   tools/gate/enforce_selftest.py -- exits 1 when ~/.claude/hooks/ship_gate_stop.py
-    #     is absent, which is correct locally (nothing enforcing at the Stop boundary
-    #     IS the finding) but is unconditionally true on a hosted runner, so it would
-    #     be permanently red for a reason unrelated to any change. It stays a local
-    #     check until the hook's deployment is itself represented in the repo.
+    # NOT included as direct steps, with reasons rather than silence:
+    #   tools/gate/enforce_selftest.py -- its claim (C-018) carries `needs: deployed`
+    #     in the claims ledger, so `refute.py run` skips it on a runner that has no
+    #     ~/.claude/settings.json. It is checked indirectly via the refute.py run step.
     #   bus.py verify --strict -- 12 of the 13 rows in state/bus.jsonl predate hash
     #     chaining and carry no hash, so --strict fails on history, not on a defect.
     #     Plain `verify` exits 0 and still fails a broken chain among chained rows.
@@ -247,6 +245,9 @@ jobs:
 
       - name: refute.py selftest
         run: python tools/refute/refute.py selftest
+
+      - name: refute.py run (verify portable claims, skip host-specific)
+        run: python tools/refute/refute.py run
 
       - name: skills_sync.py selftest
         run: python tools/audit/skills_sync.py selftest

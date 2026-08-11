@@ -80,6 +80,13 @@ DEFAULT_TIMEOUT = 25
 HELD = "HELD"
 REFUTED = "REFUTED"
 BROKEN = "BROKEN"  # the verifier itself could not run; the claim stays unknown
+CANNOT_MEASURE = "CANNOT_MEASURE"  # the precondition is absent, not broken
+
+SETTINGS_JSON = Path(os.path.expanduser("~")) / ".claude" / "settings.json"
+
+NEEDS_CHECKS = {
+    "deployed": lambda: SETTINGS_JSON.exists(),
+}
 
 
 def now_iso() -> str:
@@ -110,7 +117,19 @@ def run_verifier(rec: dict) -> tuple[str, int, str]:
     expect="fail":           nonzero means the claim HOLDS. Use for absence
                              claims where the natural command searches for the
                              thing that must NOT be there.
+    needs="deployed":        the verifier reads live ~/.claude/settings.json.
+                             On a host without one, the claim is CANNOT_MEASURE
+                             rather than BROKEN, because a CI runner not having
+                             a deployed tree is not a defect in the verifier.
     """
+    needs = rec.get("needs", "")
+    if needs:
+        check = NEEDS_CHECKS.get(needs)
+        if check is None:
+            return BROKEN, -1, f"unknown needs value {needs!r}"
+        if not check():
+            return CANNOT_MEASURE, -1, f"precondition {needs!r} not met on this host"
+
     cmd = rec.get("verify", "")
     if not cmd:
         return BROKEN, -1, "no verify command on this claim"
@@ -184,13 +203,15 @@ def cmd_run(a: argparse.Namespace) -> int:
         print("no claims to check. seed state/claims-verify.jsonl first.", file=sys.stderr)
         return 0
 
-    results, refuted, broken = [], 0, 0
+    results, refuted, broken, skipped = [], 0, 0, 0
     for rec in claims:
         verdict, rc, out = run_verifier(rec)
         if verdict == REFUTED:
             refuted += 1
         elif verdict == BROKEN:
             broken += 1
+        elif verdict == CANNOT_MEASURE:
+            skipped += 1
         results.append({
             "ts": now_iso(),
             "id": rec.get("id", "?"),
@@ -228,10 +249,17 @@ def cmd_run(a: argparse.Namespace) -> int:
                 }, ensure_ascii=False) + "\n")
 
     if not a.json:
-        held = len(results) - refuted - broken
+        held = len(results) - refuted - broken - skipped
         print()
-        print(f"{len(results)} claims: {held} held, {refuted} REFUTED, {broken} broken verifier")
+        parts = [f"{held} held", f"{refuted} REFUTED", f"{broken} broken verifier"]
+        if skipped:
+            parts.append(f"{skipped} cannot-measure")
+        print(f"{len(results)} claims: {', '.join(parts)}")
         print(f"appended to {RESULTS}")
+        if skipped:
+            print("cannot-measure claims have a `needs` precondition not met on "
+                  "this host (e.g. no deployed ~/.claude). They do not count "
+                  "toward the exit code.")
         if broken:
             print("broken verifiers are NOT passes. The claim stays unknown, and "
                   "unknown counts toward the exit code.")
@@ -248,7 +276,8 @@ def cmd_run(a: argparse.Namespace) -> int:
 def _print_table(results: list[dict]) -> None:
     width = max((len(r["id"]) for r in results), default=4)
     for r in results:
-        mark = {HELD: "  held", REFUTED: "REFUTED", BROKEN: " broken"}[r["verdict"]]
+        mark = {HELD: "  held", REFUTED: "REFUTED", BROKEN: " broken",
+                CANNOT_MEASURE: "  skip"}[r["verdict"]]
         print(f"{mark}  {r['id']:<{width}}  {r['claim']}")
         if r["verdict"] != HELD:
             for ln in (r["evidence"] or "(no output)").splitlines()[:6]:
@@ -429,6 +458,44 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
         rc, out = run()
         check("a verifier that times out is BROKEN and counted",
               rc == 1 and "timed out" in out, f"rc={rc} out={out.strip()[:200]!r}")
+
+        # needs="deployed" skips claims whose precondition is absent rather
+        # than failing them. On a CI runner with no ~/.claude/settings.json,
+        # a claim about live hook wiring is CANNOT_MEASURE, not BROKEN.
+        plant({"id": "C-1", "claim": "live wiring", "verify": ok_cmd,
+               "shell": sh, "needs": "deployed"})
+        rc, out = run()
+        has_settings = SETTINGS_JSON.exists()
+        if has_settings:
+            check("needs=deployed on a host WITH settings.json runs the verifier",
+                  rc == 0 and "1 held" in out, f"rc={rc} out={out.strip()[:200]!r}")
+        else:
+            check("needs=deployed on a host WITHOUT settings.json is cannot-measure",
+                  rc == 0 and "1 cannot-measure" in out,
+                  f"rc={rc} out={out.strip()[:200]!r}")
+        check("cannot-measure does NOT count toward the exit code",
+              rc == 0, f"rc={rc}: a missing precondition is not a failure")
+
+        plant({"id": "C-1", "claim": "bad needs", "verify": ok_cmd,
+               "shell": sh, "needs": "martian"})
+        rc, out = run()
+        check("an unknown needs value is BROKEN",
+              rc == 1 and "unknown needs" in out, f"rc={rc} out={out.strip()[:200]!r}")
+
+        # A mix: one held, one cannot-measure, one refuted. The exit code must
+        # count only the refuted claim.
+        plant(claim("C-1", ok_cmd),
+              {"id": "C-2", "claim": "needs deploy", "verify": ok_cmd,
+               "shell": sh, "needs": "deployed"},
+              claim("C-3", bad_cmd))
+        rc, out = run()
+        if has_settings:
+            check("a mix of held + needs-met + refuted counts only the refuted",
+                  rc == 1, f"rc={rc} out={out.strip()[:200]!r}")
+        else:
+            check("a mix of held + cannot-measure + refuted counts only the refuted",
+                  rc == 1 and "1 cannot-measure" in out,
+                  f"rc={rc} out={out.strip()[:200]!r}")
 
         # An unparseable ledger line must be skipped loudly, not crash the run and
         # not take the rest of the ledger with it.
