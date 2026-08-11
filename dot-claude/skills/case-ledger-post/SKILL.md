@@ -2,7 +2,6 @@
 name: case-ledger-post
 description: Turn a long working session into an interactive illustrated case-ledger post: the route taken, dead ends with receipts, measured cost from the session transcript, and lessons. Manim-style drawn diagrams, interactive explainers, real screenshots. Triggers on "write this up as a blog post", "showcase this session", "case ledger", "post-mortem with visuals", "turn this into a writeup".
 model: opus
-disable-model-invocation: true
 ---
 
 # Case Ledger Post

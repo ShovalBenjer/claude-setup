@@ -1,7 +1,6 @@
 ---
 name: humanize
 description: Detect AI-like writing patterns and rewrite flagged content into clearer, more natural human prose.
-disable-model-invocation: true
 ---
 
 # /humanize

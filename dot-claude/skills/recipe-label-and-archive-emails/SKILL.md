@@ -11,7 +11,6 @@ metadata:
         - gws
       skills:
         - gws-gmail
-disable-model-invocation: true
 ---
 
 # Label and Archive Gmail Threads

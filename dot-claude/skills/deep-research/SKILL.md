@@ -2,7 +2,6 @@
 name: deep-research
 description: Conducts enterprise-grade research with multi-source synthesis, citation tracking, and verification. Produces citation-backed reports through a structured pipeline with source credibility scoring. Triggers on "deep research", "comprehensive analysis", "research report", "compare X vs Y", "analyze trends", or "state of the art". Not for simple lookups, debugging, or questions answerable with 1-2 searches.
 model: claude-opus-4-7
-disable-model-invocation: true
 ---
 
 # Deep Research

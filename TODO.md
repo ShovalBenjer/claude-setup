@@ -1,4 +1,4 @@
-# TODO — Claude OS
+# TODO: Claude OS
 
 One TODO, grouped by layer, ticket-tagged (SETUP-OS + AUTO). Status mirrors
 docs/prd/claude-os.md and docs/prd/autonomy-ecosystem.md. Fresh session? Read
@@ -8,6 +8,20 @@ docs/SESSION-BOOT.md first.
 
 Every row here was produced by opening the file or calling the API, not by reading a
 PASS. Ordered by how badly the recorded status disagreed with the disk.
+
+- [ ] **A secret is in a pushed commit and only the operator can close it.** 2026-08-10.
+  `docs/inbox-from-new-recruit/` is an untracked drop of another repository's tree, 74
+  files, placed here for reading by something that was not the session that committed it.
+  A `git add -A` swept it into `e695af5`, 83 files where the real diff was one Rust file,
+  and the push went out before the gate ran.
+  `docs/inbox-from-new-recruit/.claude/bin/elevenlabs-mcp-launcher.sh:9` assigns an
+  ElevenLabs key. The tree is now untracked and gitignored, which removes it from HEAD and
+  **does not remove it from `e695af5`**, which is on GitHub. A commit that deletes a file
+  is not a redaction. **Rotate the key.** That works whatever git does next; a history
+  rewrite plus force push does not, if anything already fetched the branch, and force push
+  is denied to the assistant on purpose. Full write-up, including the ordering defect that
+  let a push precede its gate:
+  `docs/analysis/2026-08-10-inbox-secret-exposure.md`.
 
 - [ ] **90 of 96 open TODO items are invisible at session boot, and this row exists to say so.**
   Measured 2026-08-05. `~/.claude/hooks/session-recall.sh:112` selects
@@ -27,6 +41,47 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   numbers in this row's own title were stale, which is the failure it describes eating
   itself. The five rows under it are now re-picked by usefulness rather than by line
   number, and closing one means promoting the next, not leaving the hole.
+
+- [ ] **The loop may ACT, and the five open items now have named owners.** Operator
+  decision 2026-08-10, one word: "act". The boundary it does NOT carry is written beside
+  it in `~/.claude/rules/the-loop-may-act.md`, because a one-word answer to a binary
+  question is a decision without a scope, and the last time a general instruction was
+  read as standing authority a PR got merged on green CI. The loop may gate, regenerate,
+  fix red checks, push its own branch, open a PR, append ledgers, write analysis. It may
+  not merge, deploy, post outward, silently change the live tree, delete what it did not
+  create, or spend money. Who works what, in what order, and which items collide:
+  `docs/specs/2026-08-10-open-scope-delegation-plan.md`. Item 3, the four DIRTY PRs, is
+  deliberately last and needs a call on whether those drafts survive at all.
+
+- [ ] **Verbatim prompt capture has been dead since the WSL move, and the hook that does
+  it swallows the failure on purpose.** Measured 2026-08-10. Two capture paths exist and
+  only one works. `state/prompt-tickets.jsonl` holds 494 rows and is healthy, but it
+  stores hashes and no text by design. The path that holds the actual words, the
+  intent-control-plane enrichment into `~/.intent/intent.db`, is specced, built,
+  unit-tested AND wired in the live `settings.json`, yet writes nothing on this machine:
+  the hook runs plain `python3`, which cannot import `intent_control_plane`, and
+  `tools/intent/capture_turn.py` catches everything so a broken hook never blocks a
+  prompt. It worked before the move. `/mnt/c/Users/shova/.intent/intent.db` holds 235
+  verbatim prompts, last written 2026-07-31, and nothing since. Anthropic's own
+  transcripts (1218 files, 831 MB, unbroken) are the reason this was invisible: the
+  prompts ARE stored, just not by anything this repo can query. `ecosystem.db` and
+  `corpus.db` are both confirmed absent. GraphRAG is neither built nor planned; the
+  planned retrieval is flat FTS5 plus brute-force cosine, status OPEN.
+
+- [ ] **The skills oracle reads one of three trees and reports the other two as drift.**
+  Measured 2026-08-10 in `docs/analysis/2026-08-10-three-skill-trees-measured.md`, while
+  executing the approved `dot-codex` split. `skills_sync.py` compares `dot-claude/skills`
+  against the live tree and nothing else. Comparing by sha1 instead: 13 of the 28
+  `dot-codex/skills` directories are byte-identical to live, and `shoval-voice-draft`
+  matches live EXACTLY while `dot-claude` carries a different 27401-byte version. The
+  waiver has been calling that a genuine fork where whichever side you read is a coin
+  flip; it is not, the live file is committed in the tree the oracle does not read.
+  Fifteen of the sixteen drift items are downstream of the oracle's scope rather than of
+  anything anyone did wrong. Extending it to read all three would shrink the number with
+  no file moving, and that is a decision about what an oracle asserts, not a cleanup.
+  The split itself went ahead narrower than recommended: the 33 dead one-line pointers
+  are gone, the 28 directories stay, because archiving them would have deleted the only
+  committed copy of a live skill.
 
 - [ ] **Live `~/.claude/skills` went from 40 to 79 in two days and nothing can date or
   attribute it.** Measured 2026-08-08 by `ls -1d ~/.claude/skills/*/ | wc -l` against the
@@ -50,6 +105,62 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   all 6 external consumers reach the package through `sys.path.insert` rather than the
   wheel it declares. The clear calls in the same report (archive `home-dotfiles` and
   `startup-scripts`, merge `master-plans` into `work-docs`) are not blocked on anything.
+
+- [ ] **The full open scope, one row per instruction, is in
+  `docs/analysis/2026-08-09-session-scope-ledger.md`.** Written 2026-08-09 on request. It
+  accounts for every prompt of the 2026-08-07 to 2026-08-09 session in the order given, so
+  an unanswered instruction stays visible instead of dissolving into the next one. The
+  finding that matters: **one instruction was under-served**, "the autonomous workflows
+  should be done", said twice, and the pieces for it are all on disk and unassembled.
+  `state/` carries fourteen ledgers, `tools/telemetry` publishes a cross-repo feed to issue
+  #38, `tools/selfimprove/scan.py` ranks what to pick up next, and cron scheduling exists.
+  Nothing joins them. The scoping question is the operator's and gates the item: whether an
+  autonomous loop should PROPOSE or ACT. A loop that opens PRs nobody reads repeats the
+  agent feed's own open question, which is still "watch whether anything ever ACTS on an
+  issue #38 item".
+
+- [ ] **The connector catalogue was reasoned over and the answer for this repo is zero.**
+  `docs/analysis/2026-08-08-connector-catalogue-reasoning.md`, 2026-08-08. claude-setup
+  verifies its own hooks, oracles and gate and has no external data domain, so no connector
+  earns a place here. Recommended elsewhere, one each and all ASSUMED on auth cost: Google
+  Calendar for new-recruit, Cloudflare and Coursera for daily-deep-learning, Canva for lane
+  D. **It corrected this session's own earlier claim:** the connector-usage analysis called
+  the `Indeed` board "plausibly on-topic" for new-recruit without having read that project's
+  PRD, which locks a hard constraint of keyless public ATS JSON, no browser, no login, no
+  ban surface. So `Dice`, `ZipRecruiter` and that one are do-not-add rather than candidates.
+  A note on the linter found while writing this row: `slop_lint.py` flags a line that BEGINS
+  with the word Indeed as a ritual opener, which is correct for the adverb and wrong for the
+  job board of that name. Rewrapping the line fixes it and the check was left alone, but a
+  proper noun colliding with a banned phrase is worth knowing before it bites a real doc.
+  Gmail stays off
+  despite being topically plausible: zero calls in 1183 sessions against full-mailbox OAuth
+  scope is a real PII exposure, and it is flagged as an open decision rather than a default.
+  Zapier is not a force multiplier here: lane D's own `syndication-engine` already does the
+  cross-posting job in a gate-covered way a zap is not.
+
+- [ ] **Zion has 31 epics and the board is not the thing other projects inherit.**
+  `docs/analysis/2026-08-08-zion-and-inheritance.md`, 2026-08-08. Documents what actually
+  crosses from claude-setup to the other repos and by what mechanism, which turns out to be
+  `tools/harness/harness.py exec <relpath>` resolved through `$CLAUDE_HARNESS`, then a
+  `.harness-ref` file at the consuming project's root, then a vendored fallback. That
+  resolution order is currently documented only in `new-recruit/tools/harness.py`'s own
+  docstring, which means the inheritance path for a NEW project lives in a downstream copy
+  rather than in the upstream it inherits from. The report carries drafted board text that
+  is deliberately unposted: posting to a shared board is outward-facing and needs a
+  per-action approval.
+
+- [ ] **The `perf` N/A said no number existed anywhere, and one had been written six days
+  after it.** Re-checked 2026-08-08 in `docs/analysis/2026-08-08-na-domains-rechecked.md`.
+  The `unit` domain's `_timeout_note` sets 900s with an explicit falsifier at 600s, and
+  `state/gate-runs.jsonl` carried no duration field across 8571 rows, so that falsifier
+  had never been evaluable. Runs now record `duration_seconds` and `domain_seconds`.
+  **The open half is the operator's:** whether `perf` becomes a real domain measuring the
+  gate's own wall clock and hook latency, or stays N/A with corrected wording. The same
+  report keeps `e2e` and `a11y_ux` at N/A and gives the reason, which is that the e2e
+  instrument is not idle at all: it drives daily-deep-learning's real served app and finds
+  real WCAG failures there. Also found and unwired: `intent-control-plane/repo_health.py`
+  enforces file, function and class LOC budgets and is referenced by no script, no gate
+  domain and no CI job.
 
 - [ ] **Nine connected connectors have never been called once, and two other lanes
   inherit all of them.** Measured 2026-08-08 in
@@ -222,7 +333,7 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
 - [ ] **The scaffold is in the hooks tree, not the tools tree.** Measured: 1 orphan of 91 files under `tools/` (only `tools/refute/checks/portable_claims.py` is named nowhere outside its own directory). Against that, 23 of 29 `dot-claude/hooks` entries are wired nowhere in the live settings, and 12 of those are one-line pointers into `/home/shovalbe/`, a home that does not exist. If the question is what fraction is garbage, the answer differs by tree by two orders of magnitude, and the instruments are the healthy part
 - [ ] **AGENTS.md was wrong about its own skills tree** and is corrected in this pass: it claimed about a dozen skill stubs, and there are 0 across 73 entries
 
-## SETUP-OS — oracle repair (opened 2026-07-31, docs/HANDOFF-2026-07-31-review-oracle-repair.md)
+## SETUP-OS: oracle repair (opened 2026-07-31, docs/HANDOFF-2026-07-31-review-oracle-repair.md)
 - [x] review domain: sql-concat required a verb and a concatenation and never required SQL, so English prose ("Delete ~380 lines ... + their selftest") was a HIGH; and added_lines reported lines this branch added and then deleted. Both fixed in tools/review/panel.py, 20 pinned cases, mutate --spec panel 10/10 caught, panel 5 high -> 0 high. Waiver replaced (2026-08-12 -> 2026-08-02) recording the old reason as wrong rather than deleting it (closed 2026-07-31). **THE "0 high" HALF OF THIS ROW IS FALSIFIED, 2026-08-01.** The waiver it wrote carried its own falsifier, the falsifier was run, and `panel.py run --project .` returns CHANGES-REQUESTED with 3 high. Two are real (vendored innerHTML in dot-claude/skills/brainstorming/scripts/helper.js:57,59) and one is the comment-matching mechanism this row claimed was eliminated, still live in a different check. The two fixes landed; the generalisation did not, and the row said otherwise. Waiver text corrected in quality-contract.json rather than the number being chased
 - [ ] slop_lint measures the ruled form, not the property (L-2026-07-31-b). It passes prose that reads as machine written: zero em dashes but 2.8% hyphen compounds and sentence stdev 14.8. Port a density + variance check from ~/.claude/skills/voice-metrics/voice_score.py into tools/slop_lint.py, thresholds FITTED against the operator's corpus, not guessed. Until then a clean slop_lint is not evidence
 - [ ] review domain goes PASS only against a committed tree, so the waiver cannot be deleted until this branch is committed. Decide: commit chore/delete-dolt, or let the 2026-08-02 expiry force it
@@ -230,12 +341,12 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
 - [ ] `~/.config/kitty/kitty.conf` is untracked and lives outside the repo. `git log --grep=kitty` returns zero across all history, so a week of terminal work (Nerd Font map, Hebrew RTL decision, the 0.48 surface block, the lane watermarks) survives only as one file on one disk plus two `.bak` copies. Decide whether it becomes payload the way `dot-claude/` is. NOT done in this pass on purpose: the three existing `dot-*` trees each have a sync checker (`skills_sync.py`), and adding a fourth snapshot with no drift oracle is the failure this repo logs, not a fix for it. `tools/wsl/make_lane_logos.py` regenerates the PNGs, so those are already reproducible from the repo
 - [ ] audit the 1,260 lines drop_stale_lines now removes (75,932 -> 74,672 reviewed). Every one should be a line the tree does not contain at the claimed position; nobody has checked them individually
 
-## AUTO — Autonomy Ecosystem (prd/autonomy-ecosystem.md, spec 2026-07-24)
-- [x] ADR-0010..0015 + PRD + spec + charters + SESSION-BOOT + lessons ledger (AUTO-03/08/13/16 seed) — 2026-07-24
-- [x] AUTO-01/02 hook fire-proof — CLOSED 2026-07-24 22:44. `state/hook-fires.log`: 7 harness-written SessionStart lines (real session ids incl. `8abb324e-…`) + 11 PreCompact lines + 12 `## compact` snapshots in `state/compact-log.md`. L011 interpreter/path bug fixed and now proven in-harness, not by pipe test
+## AUTO: Autonomy Ecosystem (prd/autonomy-ecosystem.md, spec 2026-07-24)
+- [x] ADR-0010..0015 + PRD + spec + charters + SESSION-BOOT + lessons ledger (AUTO-03/08/13/16 seed), 2026-07-24
+- [x] AUTO-01/02 hook fire-proof, CLOSED 2026-07-24 22:44. `state/hook-fires.log`: 7 harness-written SessionStart lines (real session ids incl. `8abb324e-…`) + 11 PreCompact lines + 12 `## compact` snapshots in `state/compact-log.md`. L011 interpreter/path bug fixed and now proven in-harness, not by pipe test
 - [x] COMPACTION CHURN measured resolved 2026-07-29: PreCompact per day 47, 250, 2, 1, 0, 0 across 07-24 to 07-29; per-session 15.6 on 07-25 down to 0.0 on 07-28/29. Both suspect env vars (`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE`, `CLAUDE_CODE_DISABLE_1M_CONTEXT`) are ABSENT from live settings; sessions run on 1M context. `trigger=` now logged (289 lines). Caveat: the churn ended 2026-07-26 with no config change recorded, so the cause of the fix is not established; reopen if per-session climbs above 1
 - [ ] DECIDE (counts re-measured 2026-07-29): live `~/.claude/settings.json` has 7 hook events (UserPromptSubmit added 2026-07-29 for intent capture; PostToolUse is live-only, absent from canonical). The work enforcement layer is still undeployed: PreToolUse protect-infra/rtk-bash-guard, Stop stop-checklist/verification-before-completion/contract-proof-stop, PostToolUse skill-usage-logger. Adopt selectively; these are the checks that would have caught L003/L009 mechanically. Note rtk binary is missing on Windows, so rtk-bash-guard cannot deploy as-is
-- [x] Nightly autonomy pilot workflow on claude-setup (AUTO-07) — first scheduled run pending
+- [x] Nightly autonomy pilot workflow on claude-setup (AUTO-07), first scheduled run pending
 - [ ] ecosystem.db bootstrap from intent-control-plane schema + tools/eco/db.py (AUTO-06) ← unblocks work-claims (AUTO-04) + FleetView (AUTO-19)
 - [x] AUTO-05 CLOSED 2026-07-29: Lane A RETIRED by operator decision (never used once between ADR-0013 and retirement). Intake/routing folded into Lane B as plumbing (docs/charters.md); UserPromptSubmit capture already ledgers intent. Any future RC/phone intake surface is a B feature, not a session lane
 - [ ] Merge-policy labels + auto-merge for auto:low (AUTO-11)
@@ -266,7 +377,7 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
 - [ ] Migration activation backlog: 91/186 dot-claude units deployed (48.9%); 14 hook bodies still 44-61 byte pointers with recoverable bodies in dot-codex/; 24 skill stubs likewise; dot-agents has no deploy target (~/.agents absent, 0/231 live). Bodies verified recoverable in-repo, zero bytes lost
 - [ ] voice-metrics preservation NEEDS OPERATOR: only live-only skill not committed; profiles.json carries no message text but keys include a WhatsApp LID (linkable id) + 9.3MB lexicons
 
-## RT — Research transfer (docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md)
+## RT: Research transfer (docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md)
 
 External research on compile-once architectures, commissioned 2026-07-27, landed
 five findings on this harness. Ranked by ratio of value to effort.
@@ -298,7 +409,7 @@ deletes an existing row; these are the rows that were silently dropped.
 - [x] Repo relocated + July state synced + pushed (SETUP-OS #1)
 - [x] CLAUDE-OS.md single source of truth (#2)
 - [x] Notification fabric: phone push + desktop toast (#3)
-- [x] Always-fresh PR review workflow on 22 repos (#4) — auth pending
+- [x] Always-fresh PR review workflow on 22 repos (#4), auth pending
 - [x] PRD + 8 ADRs + persona spec + INDEX (this doc set)
 - [x] kernel-anchor hook: deep-work discipline injected every prompt, live+wired (#5 partial)
 - [x] slop_lint gate (Antislop banlist), verified exit-1 on hits
@@ -307,38 +418,38 @@ deletes an existing row; these are the rows that were silently dropped.
 - [x] Daily digest generator over live state + cron 7:03 (#6 partial: needs always-on / Task Scheduler)
 - [x] FULL work-setup import from work-archive-2026-07-12: 23 personas + 14 hooks + 36 skills + tower/intent bins + work-docs/ + intent-control-plane/ (2026-07-24, see docs/analysis/2026-07-24-work-archive-import.md)
 
-## P0 — Truth & hygiene (L1/L7)
-- [x] Authorize OAuth token; distribute to 22 repos (#4) — DONE 2026-07-23 (root cause: was stripping #state)
-- [ ] Rotate API key (operator) — NOT REPRODUCED 2026-07-24: read the תזכורת לעצמי group over CDP, it holds exactly 3 messages (scroll converged, 25 passes) and a presence-only regex probe for `cfat_`/`sk-`/`gh[pousr]_`/32+ hex/"account id" returned 0 hits. So the token is not in that group now. This does NOT clear the item: it may have been deleted from view, or was in a different chat. Operator to confirm whether that credential was ever exposed and rotate if so
+## P0: Truth & hygiene (L1/L7)
+- [x] Authorize OAuth token; distribute to 22 repos (#4), DONE 2026-07-23 (root cause: was stripping #state)
+- [ ] Rotate API key (operator), NOT REPRODUCED 2026-07-24: read the תזכורת לעצמי group over CDP, it holds exactly 3 messages (scroll converged, 25 passes) and a presence-only regex probe for `cfat_`/`sk-`/`gh[pousr]_`/32+ hex/"account id" returned 0 hits. So the token is not in that group now. This does NOT clear the item: it may have been deleted from view, or was in a different chat. Operator to confirm whether that credential was ever exposed and rotate if so
 - [x] Global default model: superseded by operator decision 2026-07-29. /model set fable-5 as the saved default for new sessions and it runs on this machine; the old row wanted the opposite direction. model-selection.md rewritten with the routing table (fable default and hardest work, opus workhorse, sonnet workers, haiku inventory)
 - [ ] Update global CLAUDE.md "Codex is executor" line (ADR-0007 amended: Codex REMOVED)
 - [ ] Purge WSL-era paths in /cdp, reground docs
 - [ ] Catch docs up to reality: PRD #4 done, #8 partial, ADR-0007 Codex-out
 
-## P1 — Deep Work Protocol hooks (L0) + digest (L4)
+## P1: Deep Work Protocol hooks (L0) + digest (L4)
 - [x] SessionStart recall rewired Windows-native (P1.1, deployed+wired)
 - [x] Reflex router + flywheel S1 logger, PII-safe (P1.2, SLM #2)
 - [x] /slop gate command (P1.5, deployed)
 - [x] Memory + web write pipe (P1.3, #14) - real card written + recalled
 - [x] Blast-radius grapher (P1.4, #16)
 - [ ] handoff-on-stop, postcondition metadata (#5 remainder)
-- [ ] RTK bash guard hook — blocked: rtk binary MISSING on Windows
+- [ ] RTK bash guard hook, blocked: rtk binary MISSING on Windows
 - [ ] Daily digest push from cron (#6, generator+cron done, needs always-on Task Scheduler)
 
-## P2 — Review fabric (L5)
+## P2: Review fabric (L5)
 - [x] Live review demonstrated: PR #2, GitHub-Claude caught 4/4 seeded defects + 2 bonus; session-Claude replied (two-Claude loop)
 - [ ] Second model = FREE Gemini (AI Studio) replaces Codex; wire a2a-gemini bridge + gemini-review workflow (needs free key)
-- [ ] a2a ⇄ GitHub agreement-gated review + provenance + audit (#8) — needs Gemini actor
-- [ ] Persona review economy build (#19) — model-agnostic personas; PR-type routing; two reputation axes (persona + model)
+- [ ] a2a ⇄ GitHub agreement-gated review + provenance + audit (#8), needs Gemini actor
+- [ ] Persona review economy build (#19), model-agnostic personas; PR-type routing; two reputation axes (persona + model)
 
-## P-DASH — Dashboard / multi-session (NEW, from WhatsApp compare)
-- [ ] Evaluate adopting amirfish1/claude-command-center (MIT) as the missing session-dashboard layer (Kanban, spawn/resume, cost, cross-session) — DO NOT rebuild (excavate-before-building). Windows-native PS install exists; Mac-first, some features degrade.
+## P-DASH: Dashboard / multi-session (NEW, from WhatsApp compare)
+- [ ] Evaluate adopting amirfish1/claude-command-center (MIT) as the missing session-dashboard layer (Kanban, spawn/resume, cost, cross-session), DO NOT rebuild (excavate-before-building). Windows-native PS install exists; Mac-first, some features degrade.
 
-## P3 — Orchestration (L3)
+## P3: Orchestration (L3)
 - [ ] Scheduler consolidation; WSL systemd retired (#11); standing personas
 - [ ] Concierge phone topology (#20)
 
-## P4 — I/O & frontier (L2/L4/L8)
+## P4: I/O & frontier (L2/L4/L8)
 - [ ] WhatsApp copilot: triage + style drafts + coaching (#9)
 - [ ] Learning-card emitter → הסדנה (#10)
 - [ ] Memory + web write pipe (#14)
@@ -384,7 +495,7 @@ Two rows above were CLOSED by the same measurement and are marked in place.
 - [x] REFUTE-01 CLOSED 2026-07-31. The falsifier layer returned zero information on Linux: `refute.py run` reported `26 claims: 0 held, 0 REFUTED, 26 broken verifier`, one cause, every row declared `shell: "pwsh"` and neither pwsh nor powershell exists under WSL. The tool never lied (broken is not a pass, and it exits nonzero) but the layer was inert on the host the operator now works from. Two of the seven PowerShell-native verifiers were also AIMED at `$env:USERPROFILE\claude-setup`, the Windows clone, a different working tree. Now `21 held, 5 REFUTED, 0 broken`. Commit `aeaecd3`; 8 tests red before the fix; `mutate --spec refute` 12 of 12 caught
 - [x] DOCS-01 CLOSED 2026-07-31. `docs/INDEX.md` listed 22 of 112 prose documents. Rewritten to 113 of 114 (it does not list itself), titles and declared statuses extracted from the files rather than written from memory, and it now passes `slop_lint` where before it had 43 em-dash hits
 
-### Refutations, now visible. Each is a claim this repo makes that its own checker rejects
+### Refutations: now visible. Each is a claim this repo makes that its own checker rejects
 
 - [ ] REFUTE-02 C-012: live `~/.claude/CLAUDE.md` is DELETED and `settings.json` was rewritten (7440b to 6807b) since the 2026-07-29 baseline. The global instruction file the harness reasons about is gone and nothing noticed for two days. Decide: re-baseline (accepting the deletion as intended) or restore. NOT a code fix; needs the operator to say which
 - [ ] REFUTE-03 C-025: the pre-write snapshot for the pending settings.json write is INCOMPLETE, many `agents/*.md` MISSING, so that write is not revertable from it. A rollback source recorded as present and measured as partial is the same class as C-012
@@ -544,7 +655,7 @@ that produced it; where a number is asserted rather than measured it says so.
       rather than the directory, because a runner creates the empty directory. Verified
       against `HOME=/tmp/fakehome-no-claude`.
 
-### Withdrawn, kept visible
+### Withdrawn: kept visible
 
 - [x] **WITHDRAWN: `strand.py` `NOT_A_CONSUMER` declared-but-unapplied.** It is applied, at
       line 199 in `evaluate()`, one layer past where I was reading. The tell was that my

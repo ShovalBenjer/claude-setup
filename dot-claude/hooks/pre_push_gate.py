@@ -238,6 +238,52 @@ def proof_is_valid(root: Path, expected_state: dict[str, str | None]) -> bool | 
         return False
 
 
+SEPARATORS = re.compile(r"&&|\|\||[;\n|]")
+
+# Redirections are noise to every question this file asks, and they actively break
+# the split: `git push 2>&1 | tail -3` contains an `&`, so a separator set that
+# includes a bare `&` cuts the redirect in half and leaves `git push 2>` as the
+# segment, which matches no push form and asks. Stripped before segmenting rather
+# than after, so the separator pass never sees them.
+REDIRECT = re.compile(r"\s*\d?>>?\s*&?\s*[^\s;|&]+|\s*<\s*[^\s;|&]+")
+
+
+def push_segment(command: str) -> str | None:
+    """The one shell segment that pushes, or None if that is not what this is.
+
+    Added 2026-08-08 because the operator was still being prompted after the
+    proof branch was downgraded, and the cause was not the push at all. Every
+    recognised-form check here is a `fullmatch` against the WHOLE command
+    string, so `git push` alone passes and
+
+        git add -A; git commit -q -m msg; git push -q -u gh HEAD; echo pushed
+        git push 2>&1 | tail -3
+
+    both fail to match and ask, on the grounds of being an unrecognised push
+    form. They are not unrecognised pushes. They are recognised pushes inside a
+    compound command, and the parser had no way to say so.
+
+    Splitting on shell separators and returning the pushing segment lets the
+    existing checks run against the thing they were written for. It deliberately
+    does NOT widen what counts as safe: the segment still has to satisfy
+    SIMPLE_CURRENT_BRANCH_PUSH, still asks on main or master, and a wrapper such
+    as `sh -c 'git push'` still fails because the segment is the whole `sh -c`
+    call, which is not a push form.
+
+    Two or more pushing segments returns None, which falls back to matching the
+    entire string and therefore asks. A command that pushes twice is exactly the
+    shape worth a human read, and picking one of them would hide the other.
+
+    This cannot parse shell. A `git push` inside a quoted string or a heredoc is
+    seen as a segment and, failing to match the simple form, asks. That is the
+    same false positive hookgate documents and keeps on purpose: the failure
+    direction is a question nobody needed, not a push nobody saw.
+    """
+    segments = [s.strip() for s in SEPARATORS.split(REDIRECT.sub("", command))]
+    pushing = [s for s in segments if PUSH.search(s)]
+    return pushing[0] if len(pushing) == 1 else None
+
+
 def ask(reason: str) -> None:
     print(
         json.dumps(
@@ -294,6 +340,7 @@ def main() -> int:
     if not PUSH.search(command):
         print("{}")
         return 0
+    command = push_segment(command) or command
     if PROTECTED_TARGET.search(command):
         ask(
             "This push targets main or master directly. ADR-0012 says work ships through "

@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-416 directories, 1843 tracked files, 0 without a stated purpose.
+419 directories, 1835 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -30,15 +30,15 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `docs` | 37 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
+| `docs` | 38 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 41 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 47 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/prd` | 5 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
-| `docs/prior-art` | 42 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
+| `docs/prior-art` | 43 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
 | `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
-| `docs/specs` | 20 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/specs` | 21 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
 | `docs/standards` | 7 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
 
 ## dot-agents
@@ -160,7 +160,7 @@ the same reason, one level down.
 | `dot-claude/corpus` | 2 | Script and source whitelist that build a local SQLite FTS best-practices corpus (Google eng practices, Azure Well-Architected, OpenSSF, private docs) for Gastown/Claude retrieval | registry |
 | `dot-claude/hooks` | 29 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
 | `dot-claude/output-styles` | 1 | Claude Code output styles, the native mechanism that shapes assistant prose BEFORE generation. Deployed to ~/.claude/output-styles. The alternative it replaces is policing the r... | registry |
-| `dot-claude/rules` | 23 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
+| `dot-claude/rules` | 25 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
 | `dot-claude/skills` | 0 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
 | `dot-claude/skills/LTMD` | 1 | "Lead-To-Money-Decision lens. Judge any analysis/notebook/report/plan the way the paying decision-maker (default: Liron, CMO) would: does it end in ONE executable, dollar-valued... | SKILL.md |
 | `dot-claude/skills/advisor` | 1 | "Fast confidence-restoring research pass for when Claude (or the user) is NOT confident about an external, current, or SOTA question. Spawns a scoped web-research sub-agent, res... | SKILL.md |
@@ -271,7 +271,7 @@ the same reason, one level down.
 | `dot-codex/bin` | 5 | Executable helpers for Codex CLI sessions: launch codex with chosen MCP servers and secrets loaded, smoke-test MCP reachability, start/stop the Obscura or Edge CDP browser backe... | registry |
 | `dot-codex/hooks` | 30 | Codex CLI lifecycle hooks; most files are real scripts (coverage gate, protect-infra, intent-capture), the rest are one-line stubs pointing at the same-named ~/.claude/hooks script | registry |
 | `dot-codex/rules` | 17 | Codex CLI's global rules: standalone policy files (model-selection, no-emojis, no-mocks, tdd) plus one-line stubs pointing at the matching ~/.claude/rules file so both CLIs shar... | registry |
-| `dot-codex/skills` | 34 | Codex CLI's skill catalog root; some entries are full skill dirs with their own SKILL.md, most others are one-line stubs pointing at the matching ~/.claude/skills entry | registry |
+| `dot-codex/skills` | 1 | Codex CLI's skill catalog root; some entries are full skill dirs with their own SKILL.md, most others are one-line stubs pointing at the matching ~/.claude/skills entry | registry |
 | `dot-codex/skills/.system` | 1 | Vendored system skills (imagegen, openai-docs, plugin-creator, skill-creator, skill-installer), each self-documented by its own SKILL.md, plus a hash marker file for resync dete... | registry |
 | `dot-codex/skills/.system/imagegen` | 2 | "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutout... | SKILL.md |
 | `dot-codex/skills/.system/imagegen/agents` | 1 | Holds openai.yaml, the Codex UI descriptor (display name, icon paths, default prompt) that lets the harness surface the imagegen skill as a pickable agent | registry |
@@ -353,6 +353,13 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `master-plans` | 8 | 2026-05 planning docs (master plan, tasks, WSL fix, skills triage, cleanup proposal); superseded by the newer docs/adr and docs/prd | registry |
 
+## nexus-engine-rs
+
+| dir | files | purpose | from |
+| --- | ----: | ------- | ---- |
+| `nexus-engine-rs` | 4 | A native, physics-driven viewer over the plan surface of this repo. Nodes are rigid bodies, | README.md |
+| `nexus-engine-rs/src` | 4 | Rust sources for the native physics viewer over the plan surface: main.rs loads the exported plan, models.rs the node and link types, physics.rs the spring and force-field integ... | registry |
+
 ## research-papers
 
 | dir | files | purpose | from |
@@ -396,7 +403,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `state` | 24 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
+| `state` | 25 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
 | `state/backups` | 1 | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project... | registry |
 | `state/retired-2026-07-25` | 0 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled... | registry |
 | `state/retired-2026-07-25/bin` | 6 | Retired 2026-07-25 meme/visual scripts (download/play memes, generate/pop visual, seed-meme-vectordb), pulled from the live bin/ tree | registry |
@@ -414,7 +421,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `tests` | 32 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `tests` | 36 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
 | `tests/cmd` | 1 | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process self... | registry |
 | `tests/cmd/fixtures` | 1 | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it | registry |
 
@@ -437,6 +444,7 @@ the same reason, one level down.
 | `tools/ghpub` | 1 | Publishes state/github-backlog-*.json to GitHub milestones, labels, issues and a project board. Idempotent by issue title so a re-run is safe and a partial failure resumes rathe... | registry |
 | `tools/graph` | 2 | Repo graphing: blast_radius.py finds a changed file's transitive import blast radius for PR-review fanout, repo_graph.py builds a cross-repo portfolio graph via gh; out/ holds g... | registry |
 | `tools/graph/out` | 2 | Generated repo-portfolio graph output: portfolio.d2 diagram source plus a portfolio.db sqlite file, built by the graph tool | registry |
+| `tools/harness` | 1 | Resolves where this harness lives so a consuming repository can call its tools without naming a machine: $CLAUDE_HARNESS, then self-detection when the caller is inside the harne... | registry |
 | `tools/health` | 1 | Read-only git branch health sweep (branch_sweep.py) across GitHub source repos via gh, classifying branches merged/stale/active; out/ holds the generated branch_health.json and .md | registry |
 | `tools/health/out` | 2 | Generated branch-health report (JSON+markdown) listing merged-deletable and default-branch-drifted branches across 22 repos | registry |
 | `tools/hookgate` | 6 | The `PreToolUse` deny rules, compiled. Replaces two Python hook processes on the hot path | README.md |
