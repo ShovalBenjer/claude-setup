@@ -771,6 +771,52 @@ def cmd_selftest(a):
             else:
                 os.environ["CLAUDE_LIVE_HOME"] = prior
 
+        # Case 16: cmd_check itself returns 2 on a non-deployment home.
+        # Case 15 tests is_deployed_home() directly; this tests that cmd_check
+        # actually CALLS it and respects the answer. Without this, removing the
+        # `if not is_deployed_home()` guard from cmd_check survives.
+        home16 = os.path.join(tmp, "home16", ".claude")
+        os.makedirs(os.path.join(home16, "skills"), exist_ok=True)
+        prior = os.environ.get("CLAUDE_LIVE_HOME")
+        try:
+            os.environ["CLAUDE_LIVE_HOME"] = os.path.dirname(home16)
+            buf = io.StringIO()
+            class A16:
+                strict = False
+            with contextlib.redirect_stdout(buf):
+                rc16 = cmd_check(A16())
+            check(rc16 == 2,
+                  "cmd_check returns 2 (cannot-measure) on a non-deployment home")
+        finally:
+            if prior is None:
+                os.environ.pop("CLAUDE_LIVE_HOME", None)
+            else:
+                os.environ["CLAUDE_LIVE_HOME"] = prior
+
+        # Case 17: classify() edge cases for the two pointer branches.
+        # Branch 1: n <= POINTER_MAX_LINES, no dead paths. Without branch 1,
+        # this falls through to "thin" (no dead paths blocks branch 2).
+        # Branch 2: n < THIN_MAX_LINES with dead paths. Without branch 2,
+        # this falls through to "thin" (branch 3 has no dead check).
+        short_no_dead = os.path.join(tmp, "c17_a")
+        os.makedirs(short_no_dead, exist_ok=True)
+        with open(os.path.join(short_no_dead, "SKILL.md"), "w",
+                  encoding="utf-8") as fh:
+            fh.write("one line\n")
+        kind17a, n17a, _ = classify(os.path.join(short_no_dead, "SKILL.md"))
+        check(kind17a == "pointer" and n17a == 1,
+              "a 1-line skill with no dead path is pointer, not thin")
+
+        mid_with_dead = os.path.join(tmp, "c17_b")
+        os.makedirs(mid_with_dead, exist_ok=True)
+        with open(os.path.join(mid_with_dead, "SKILL.md"), "w",
+                  encoding="utf-8") as fh:
+            fh.write("\n".join("step {}".format(i) for i in range(10))
+                     + "\nSee /home/shovalbe/.codex/hooks/x.sh\n")
+        kind17b, n17b, dead17b = classify(os.path.join(mid_with_dead, "SKILL.md"))
+        check(kind17b == "pointer" and n17b == 11 and dead17b,
+              "an 11-line skill naming a dead path is pointer, not thin")
+
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
