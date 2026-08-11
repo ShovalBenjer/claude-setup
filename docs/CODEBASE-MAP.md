@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-419 directories, 1835 tracked files, 0 without a stated purpose.
+420 directories, 1839 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -32,7 +32,7 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `docs` | 38 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 47 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 49 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/prd` | 5 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
 | `docs/prior-art` | 43 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
@@ -234,6 +234,7 @@ the same reason, one level down.
 | `dot-claude/skills/refactor-pre-push` | 1 | Suggest /simplify on hot-zone changed files immediately before /commit-push-pr runs the push step. Reminder skill, not auto-rewrite — preserves the authorization-scope rule that... | SKILL.md |
 | `dot-claude/skills/reground` | 1 | "Full context reload for Shoval's workstation. Use for /reground, /insights, context drift, stale assumptions, or when asked to reread rules/tools/skills and summarize project s... | SKILL.md |
 | `dot-claude/skills/reground/scripts` | 1 | reground-snapshot.sh, the inventory sweep the reground skill runs to measure repo state before a session plans anything | registry |
+| `dot-claude/skills/repo-compare` | 1 | Compare this harness against saved and newly published GitHub repos and produce an adopt/watch/ignore delta report. Triggers on "/repo-compare", "compare our system against new... | SKILL.md |
 | `dot-claude/skills/requirement-anchor` | 1 | Extract a compact requirement-of-record + answer-map from a spec (PDF/eml/md/verbal) and gate read-before-build. Triggers on "/requirement-anchor", "anchor the requirement", "wh... | SKILL.md |
 | `dot-claude/skills/review` | 1 | PR precheck review — composites codex-call code review + testing-pyramid gap plan + heidegger-reflect into a single structured thread posted to Azure DevOps via the azure-devops... | SKILL.md |
 | `dot-claude/skills/ship-gate` | 1 | The mandatory procedure before calling any implementation done. Runs the real-browser flow audit, the ten-domain SDLC gate (build, unit, types, e2e, a11y/UX, security, docs, pip... | SKILL.md |
@@ -403,7 +404,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `state` | 25 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
+| `state` | 26 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
 | `state/backups` | 1 | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project... | registry |
 | `state/retired-2026-07-25` | 0 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled... | registry |
 | `state/retired-2026-07-25/bin` | 6 | Retired 2026-07-25 meme/visual scripts (download/play memes, generate/pop visual, seed-meme-vectordb), pulled from the live bin/ tree | registry |

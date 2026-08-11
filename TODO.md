@@ -22,6 +22,20 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   is denied to the assistant on purpose. Full write-up, including the ordering defect that
   let a push precede its gate:
   `docs/analysis/2026-08-10-inbox-secret-exposure.md`.
+  **Escalated, measured 2026-08-11: `git branch -r --contains e695af5` now lists `gh/main`,
+  so the value is in the default branch's history, not just a lane branch. The carrying
+  branch was merged after the write-up was written. Rotation is now the only sane close;
+  see L-2026-08-11-b.**
+
+- [ ] **The 2026-08-11 estate audit is the current state of everything; read it before
+  trusting any older status row.** Ordered by the operator, upset, banning convergence
+  numbers. `docs/analysis/2026-08-11-estate-audit.md`: specs BUILT 2 / PARTIAL 11 /
+  PAPER 13; Gastown crons dead since 2026-06-03; agent feed dead 5 days on a `--sink`
+  flag mismatch, repaired and posting again; all 7 hiring arms unapproved since
+  2026-07-27 by the operator's own withdrawal; external judges near-unused (codex-call
+  1 of 61 skill-use rows); the twice-dropped repo comparison now lives as the
+  `repo-compare` skill with its first run in `docs/analysis/2026-08-11-repo-compare.md`.
+  Six operator decisions wait at its section 8.
 
 - [ ] **90 of 96 open TODO items are invisible at session boot, and this row exists to say so.**
   Measured 2026-08-05. `~/.claude/hooks/session-recall.sh:112` selects

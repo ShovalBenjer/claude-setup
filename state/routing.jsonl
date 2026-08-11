@@ -121,3 +121,15 @@
 {"ts": "2026-08-10T13:44:22", "prompt_chars": 416, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-10T13:46:49", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
 {"ts": "2026-08-10T13:47:30", "prompt_chars": 403, "personas": ["Release Bureau"], "skills": ["azure-devops", "commit-push-pr"], "matched": true, "session": ""}
+{"ts": "2026-08-10T14:28:15", "prompt_chars": 35, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T14:30:59", "prompt_chars": 74, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T14:31:35", "prompt_chars": 6, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T14:39:01", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-10T15:13:20", "prompt_chars": 105, "personas": ["Workflow Clerk"], "skills": ["reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-10T15:13:58", "prompt_chars": 13, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T15:14:41", "prompt_chars": 50, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T15:15:18", "prompt_chars": 8, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T15:18:13", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-10T15:24:32", "prompt_chars": 392, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-10T15:26:50", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-11T19:24:31", "prompt_chars": 1053, "personas": ["Evidence Clerk", "Architecture Office", "Mayor Opus"], "skills": ["deep-research", "decision-grade", "premortem", "request-refactor-plan", "domain-model"], "matched": true, "session": ""}
