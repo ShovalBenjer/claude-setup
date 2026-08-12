@@ -85,7 +85,10 @@ def ingest_file(conn: sqlite3.Connection, path: Path, project: str) -> int:
         conn.execute("INSERT INTO turns_fts(rowid, text) VALUES(?,?)",
                      (cur.lastrowid, text))
         n += 1
-    stat = path.stat()
+    try:
+        stat = path.stat()
+    except OSError:
+        return n  # vanished mid-read; no files row, so the next build re-checks
     conn.execute("INSERT OR REPLACE INTO files(path, mtime, size) VALUES(?,?,?)",
                  (str(path), stat.st_mtime, stat.st_size))
     return n
@@ -99,7 +102,10 @@ def build(db_path: Path, roots: list[Path]) -> dict:
     changed = unchanged = turns = 0
     for root in roots:
         for path in sorted(root.glob("*/*.jsonl")):
-            stat = path.stat()
+            try:
+                stat = path.stat()
+            except OSError:
+                continue  # deleted between glob and stat; a live corpus does this
             if seen.get(str(path)) == (stat.st_mtime, stat.st_size):
                 unchanged += 1
                 continue
