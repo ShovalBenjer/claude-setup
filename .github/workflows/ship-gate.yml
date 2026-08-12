@@ -115,6 +115,27 @@ jobs:
       - name: panel.py run (produce the review artifact for this exact commit)
         run: python tools/review/panel.py run --project .
 
+      # intent-control-plane's suite (test_symbol_graph, test_codebase_map) makes
+      # tree_sitter_language_pack download its parser bundle from a GitHub release
+      # at first use. On 2026-08-12 that CDN flapped (503 / peer disconnected) and
+      # painted four otherwise-green runs red across two branches, each needing a
+      # manual rerun. Fetching here with retries gives the download ~5 minutes of
+      # chances instead of one; on total outage the step exits 0 and the suite
+      # still reports the real failure, so nothing is masked.
+      - name: Pre-fetch tree-sitter parsers (retry; CDN flap cost 4 reruns on 2026-08-12)
+        run: |
+          cd intent-control-plane
+          # || exit 0 because the runner's bash -e would otherwise fail the STEP
+          # on a network outage here, before gate.py run ever reports the real
+          # failure (kilo-code-bot caught the contradiction with the claim below).
+          uv sync --frozen || { echo "uv sync failed; skipping pre-fetch"; exit 0; }
+          for i in 1 2 3 4 5; do
+            uv run python -c "from tree_sitter_language_pack import get_parser; get_parser('python'); get_parser('javascript')" && break
+            echo "parser fetch attempt $i failed; retrying in 60s"
+            sleep 60
+          done
+          true
+
       - name: gate.py run (full contract)
         run: python tools/gate/gate.py run --project . -v
 
