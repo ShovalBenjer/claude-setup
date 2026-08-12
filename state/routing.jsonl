@@ -271,3 +271,16 @@
 {"ts": "2026-08-12T21:07:29", "prompt_chars": 643, "personas": ["communications-desk", "review-board", "azure-ops-utility"], "skills": ["ponytail", "code-simplifier", "shoval-voice-draft", "blog", "humanize", "ops-status", "kill-stale", "watchdog"], "matched": true, "session": ""}
 {"ts": "2026-08-12T21:07:33", "prompt_chars": 587, "personas": ["communications-desk", "review-board", "engineering-firm"], "skills": ["ponytail", "code-simplifier", "shoval-voice-draft", "blog", "humanize", "persona"], "matched": true, "session": ""}
 {"ts": "2026-08-12T21:07:59", "prompt_chars": 2139, "personas": ["review-board", "communications-desk", "engineering-firm"], "skills": ["prod-deploy-rules", "deploy-prod", "commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "codex-call", "ponytail"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:10:21", "prompt_chars": 9061, "personas": ["review-board", "communications-desk", "azure-ops-utility"], "skills": ["review", "heidegger-reflect", "ponytail", "code-simplifier", "azure-runtime", "azure-audit", "jira-read", "jira-task-draft"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:11:16", "prompt_chars": 57, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:12:37", "prompt_chars": 393, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:13:58", "prompt_chars": 2699, "personas": ["communications-desk", "azure-ops-utility", "product-studio"], "skills": ["ponytail", "code-simplifier", "azure-runtime", "azure-audit", "ui-ux-pro-max", "frontend-design", "context-bounded-analyst", "voice-explainer"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:14:35", "prompt_chars": 89, "personas": ["release-bureau"], "skills": ["azure-devops", "commit-push-pr"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:15:20", "prompt_chars": 392, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:17:29", "prompt_chars": 806, "personas": ["engineering-firm", "evidence-clerk", "workflow-clerk"], "skills": ["commit-push-pr", "refactor-pre-push", "ponytail", "code-simplifier", "deep-research", "decision-grade", "reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:18:09", "prompt_chars": 6, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:20:24", "prompt_chars": 385, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:21:45", "prompt_chars": 402, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:22:17", "prompt_chars": 5, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:22:35", "prompt_chars": 22, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:22:42", "prompt_chars": 388, "personas": [], "skills": [], "matched": false, "session": ""}

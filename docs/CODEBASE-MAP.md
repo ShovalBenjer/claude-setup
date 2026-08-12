@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-426 directories, 1912 tracked files, 0 without a stated purpose.
+427 directories, 1914 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -158,7 +158,7 @@ the same reason, one level down.
 | `dot-claude/bin` | 44 | Executable CLI scripts (shell/python/node) for provider switching, statusline rendering, Jira/PII/session utilities, and Gastown spawning; a few are stub pointers into the Codex... | registry |
 | `dot-claude/commands` | 7 | Slash-command markdown definitions (/diverge, /reground, /cdp, /commit-push-pr, /insights, /pickup-reviews, /slop) that Claude Code loads as user-invokable commands | registry |
 | `dot-claude/corpus` | 2 | Script and source whitelist that build a local SQLite FTS best-practices corpus (Google eng practices, Azure Well-Architected, OpenSSF, private docs) for Gastown/Claude retrieval | registry |
-| `dot-claude/hooks` | 31 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
+| `dot-claude/hooks` | 32 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
 | `dot-claude/output-styles` | 1 | Claude Code output styles, the native mechanism that shapes assistant prose BEFORE generation. Deployed to ~/.claude/output-styles. The alternative it replaces is policing the r... | registry |
 | `dot-claude/rules` | 24 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
 | `dot-claude/skills` | 0 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
@@ -369,7 +369,7 @@ the same reason, one level down.
 | `research-papers/Documents/Foundry_Workflows_Research_20260419` | 1 | Research report on Azure AI Foundry multi-agent workflow design for a marketing-funnel-test project | registry |
 | `research-papers/Documents/SIU_InHouse_Video_Research_20260506` | 2 | Build-vs-buy research on an in-house AI video pipeline to replace a ChatGPT-agent+HeyGen chain for SIU | registry |
 | `research-papers/Documents/SOTA_DS_Methods_Research_20260415` | 7 | Multi-module research index on cross-validation, coverage metrics, and scalable LLM-agent-eval methods | registry |
-| `research-papers/Prompts` | 6 | Loose standalone prompt/skill text files (anti-AI writing guide, xlsx-skill definition, data-scientist prompt set) | registry |
+| `research-papers/Prompts` | 5 | Loose standalone prompt/skill text files (anti-AI writing guide, xlsx-skill definition, data-scientist prompt set) | registry |
 | `research-papers/docs-shoval` | 1 | Snapshot mirror of the axia-seekapa-cs-agents repo docs tree (architecture, compliance, audits) plus loose planning docs | registry |
 | `research-papers/docs-shoval/diagrams` | 9 | Architecture diagrams (d2 source plus rendered svg/interactive html) for the CS-agents system | registry |
 | `research-papers/docs-shoval/wiki` | 2 | Mirror of the CS-agents Azure DevOps wiki pages (Home, Architecture, Compliance, Deployment, Getting-Started) | registry |
@@ -411,7 +411,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `tests` | 46 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `tests` | 47 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
 | `tests/cmd` | 1 | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process self... | registry |
 | `tests/cmd/fixtures` | 1 | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it | registry |
 
@@ -431,6 +431,7 @@ the same reason, one level down.
 | `tools/digest` | 1 | Builds the daily digest (push line plus digest.md) from TODO, git, and branch-health state for a cron job to send via PushNotification; out/ holds the generated digest.md and pu... | registry |
 | `tools/digest/out` | 2 | Generated daily-digest output (digest.md TODO/lessons rollup, push.txt); written by the digest tool, not source | registry |
 | `tools/docmap` | 3 | Generated document map: classifies all 929 tracked markdown files, derives each one's lifecycle status from its class or its own header, and records which lane-letter scheme (pr... | registry |
+| `tools/drift` | 1 | Session drift sentinel: measures whether a session's Edit/Write targets left its claimed lane's owned tree (lanes parsed from docs/charters.md Owns: lines), records strikes per... | registry |
 | `tools/e2e` | 1 | Real-browser end-to-end flow auditor (flow.py) that drives tools/browser/cdp.py at phone size, presses every control on every route, and feeds the ship gate's e2e and a11y_ux do... | registry |
 | `tools/gate` | 3 | Ship-gate contract enforcer (gate.py: coverage checklist plus a run ledger) and enforce_selftest.py, proving the live deployed Stop hook actually blocks an ungated done-claim | registry |
 | `tools/ghpub` | 1 | Publishes state/github-backlog-*.json to GitHub milestones, labels, issues and a project board. Idempotent by issue title so a re-run is safe and a partial failure resumes rathe... | registry |
