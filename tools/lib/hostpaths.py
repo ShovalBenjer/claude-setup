@@ -31,14 +31,12 @@ verification stance is that a checker must be able to say no.
 Deliberately not a path-manipulation library. Two spellings in, one question
 answered, and `exists()` is the only thing callers should need.
 
-Scope this does NOT cover, stated so nobody reads more into it: drive letters
-mapped to network shares, `%USERPROFILE%` and `$env:` expansion, and the reverse
-direction (Linux paths read from Windows). None has appeared in this repo's
-traffic; add them with a failing test when one does. WSL UNC paths
-(`\\wsl.localhost\<distro>\...`, `\\wsl$\...`) joined the covered set on
-2026-08-12, when the live Notification hook wired notify-toast.ps1 by UNC and an
-existing file was reported missing; translation is licensed only for this
-process's own distro, the same reachability stance as the mounts.
+Scope this does NOT cover, stated so nobody reads more into it: UNC network shares,
+drive letters mapped to them, `%USERPROFILE%` and `$env:` expansion, and the reverse
+direction (Linux paths read from Windows). The WSL-loopback UNC forms
+(`\\wsl.localhost\<distro>\...`, `\\wsl$\...`) ARE covered since 2026-08-12, when a
+Windows-side toast hook wired that spelling into the live settings.json and cost one
+false HIGH; anything else here gets added with a failing test when it appears.
 """
 from __future__ import annotations
 
@@ -53,21 +51,11 @@ _DRIVE = re.compile(r"^([A-Za-z]):[\\/](.*)$", re.S)
 #: `/home/...` and `/cc/...` must not match, and a bare `/c` is a real Linux path.
 _MSYS = re.compile(r"^/([A-Za-z])/(.+)$")
 
-#: `\\wsl.localhost\<distro>\x` or `\\wsl$\<distro>\x`, the UNC form Windows uses
-#: to reach INTO a WSL distro. Run from that same distro, the local form is /x.
-_WSL_UNC = re.compile(r"^\\\\(?:wsl\$|wsl\.localhost)\\([^\\]+)\\(.*)$", re.S)
-
-
-def wsl_distro() -> str | None:
-    """The distro this process runs inside, or None outside WSL.
-
-    $WSL_DISTRO_NAME is set by WSL itself in every session; reading it is the
-    same only-license-what-is-reachable stance as wsl_mounts(), because a UNC
-    naming a DIFFERENT distro is not reachable at / here.
-    """
-    if os.name == "nt":
-        return None
-    return os.environ.get("WSL_DISTRO_NAME") or None
+#: `\\wsl.localhost\<distro>\x` or `\\wsl$\<distro>\x`: how a Windows-side
+#: interpreter names a file inside THIS WSL filesystem (powershell.exe cannot read
+#: `/home/...` directly). Only these two hosts match; `\\fileserver\share` is a real
+#: network path and must never be rewritten.
+_UNC_WSL = re.compile(r"^\\\\(?:wsl\.localhost|wsl\$)\\[^\\]+\\(.+)$", re.S)
 
 
 def wsl_mounts(root: str = "/mnt") -> dict[str, Path]:
@@ -90,24 +78,11 @@ def wsl_mounts(root: str = "/mnt") -> dict[str, Path]:
     return out
 
 
-_AUTO = "\0auto"  # sentinel: distro=None must mean "not WSL", not "look it up"
-
-
-def translate(raw: str, mounts: dict[str, Path] | None = None,
-              distro: str | None = _AUTO) -> Path:
+def translate(raw: str, mounts: dict[str, Path] | None = None) -> Path:
     """The path as this host can reach it, or unchanged when it cannot.
 
     Unchanged is the honest answer for an unmounted drive; see the module docstring.
-    `distro` defaults to this process's own WSL distro; a UNC naming any other
-    distro stays untranslated for the same reason an unmounted drive does.
     """
-    m = _WSL_UNC.match(raw.strip().strip('"').strip("'"))
-    if m:
-        if distro == _AUTO:
-            distro = wsl_distro()
-        if distro and m.group(1).lower() == distro.lower():
-            return Path("/" + m.group(2).replace("\\", "/"))
-        return Path(raw)
     if mounts is None:
         mounts = wsl_mounts()
     if not mounts:
@@ -127,6 +102,14 @@ def translate(raw: str, mounts: dict[str, Path] | None = None,
         mount = mounts.get(drive)
         if mount:
             return mount / rest
+
+    m = _UNC_WSL.match(raw)
+    if m:
+        # mounts non-empty is the license here too: it means we ARE the WSL side,
+        # so the UNC path names our own root. The distro segment is dropped rather
+        # than checked because this host cannot cheaply name its own distro, and a
+        # wrong-distro path will simply fail the exists() that follows.
+        return Path("/" + m.group(1).replace("\\", "/"))
     return Path(raw)
 
 

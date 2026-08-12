@@ -100,32 +100,30 @@ class Translation(unittest.TestCase):
         self.assertEqual(hp.translate("tools/gate/gate.py", mounts=self.HAVE),
                          Path("tools/gate/gate.py"))
 
-    def test_a_wsl_unc_path_resolves_to_the_distro_root(self):
-        """PowerShell reaches WSL files as \\\\wsl.localhost\\<distro>\\path; run
-        FROM that distro, the local form is /path. Appeared 2026-08-12: the live
-        Notification hook wires notify-toast.ps1 by UNC and pointers.py called an
-        existing file missing."""
-        got = hp.translate(r"\\wsl.localhost\Ubuntu\home\u\x.ps1",
-                           mounts=self.HAVE, distro="Ubuntu")
-        self.assertEqual(got, Path("/home/u/x.ps1"))
+    def test_the_unc_wsl_form_resolves_to_the_local_root(self):
+        """`\\\\wsl.localhost\\Ubuntu\\home\\shov\\...` is how a Windows-side
+        interpreter (powershell.exe reading a toast hook) names a file inside THIS
+        WSL filesystem. First appeared 2026-08-12 in the live settings.json and
+        cost one false HIGH. Translation is licensed by the same evidence as the
+        drive rules: mounts non-empty means we are inside WSL, so the UNC path
+        names our own root."""
+        for raw in (r"\\wsl.localhost\Ubuntu\home\shov\.claude\hooks\notify-toast.ps1",
+                    r"\\wsl$\Ubuntu\home\shov\.claude\hooks\notify-toast.ps1"):
+            self.assertEqual(
+                hp.translate(raw, mounts=self.HAVE),
+                Path("/home/shov/.claude/hooks/notify-toast.ps1"))
 
-    def test_the_wsl_dollar_spelling_resolves_too(self):
-        got = hp.translate(r"\\wsl$\Ubuntu\home\u\x.ps1",
-                           mounts=self.HAVE, distro="Ubuntu")
-        self.assertEqual(got, Path("/home/u/x.ps1"))
+    def test_the_unc_form_is_untouched_off_wsl(self):
+        """No mounts, no license: on bare Linux or Windows the UNC path stays as
+        written, per the safety property."""
+        raw = r"\\wsl.localhost\Ubuntu\home\shov\x.ps1"
+        self.assertEqual(hp.translate(raw, mounts=self.NONE), Path(raw))
 
-    def test_a_unc_for_another_distro_is_left_alone(self):
-        """The safety property, same as an unmounted drive: a Debian path is not
-        reachable at / on Ubuntu, and pretending otherwise makes absent paths
-        look present."""
-        raw = r"\\wsl.localhost\Debian\home\u\x.ps1"
-        self.assertEqual(hp.translate(raw, mounts=self.HAVE, distro="Ubuntu"),
-                         Path(raw))
-
-    def test_a_unc_outside_wsl_entirely_is_left_alone(self):
-        raw = r"\\wsl.localhost\Ubuntu\home\u\x.ps1"
-        self.assertEqual(hp.translate(raw, mounts=self.HAVE, distro=None),
-                         Path(raw))
+    def test_a_non_wsl_unc_share_is_never_touched(self):
+        """`\\\\fileserver\\share\\x` is a real network path, not a spelling of a
+        local one. Rewriting it would fabricate presence."""
+        raw = r"\\fileserver\share\x.ps1"
+        self.assertEqual(hp.translate(raw, mounts=self.HAVE), Path(raw))
 
     def test_exists_uses_the_translation(self):
         """The caller-facing helper. pointers.py asks "is this file there", not
