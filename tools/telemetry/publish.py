@@ -52,6 +52,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 import sys
 import time
@@ -139,19 +140,47 @@ def post(issue: int, body: str) -> tuple[int, str]:
     return r.returncode, (r.stdout + r.stderr).strip()
 
 
+def repo_owner() -> str:
+    """The owner of THIS repository's push remote, e.g. "shovalbenjer".
+
+    The boundary rule widened on 2026-08-12 permits autonomous GitHub posting on
+    the operator's OWN repositories only, so the config alone must not be able to
+    aim the timer somewhere else (codex review of PR 62, HIGH finding). The owner
+    is derived from the remote rather than hardcoded, so a fork of this harness
+    inherits the constraint instead of the operator's name.
+    """
+    r = subprocess.run(["git", "-C", str(Path(__file__).resolve().parents[2]),
+                        "remote", "get-url", "--push", "gh"],
+                       capture_output=True, text=True, timeout=30)
+    if r.returncode != 0:
+        r = subprocess.run(["git", "-C", str(Path(__file__).resolve().parents[2]),
+                            "remote", "get-url", "--push", "origin"],
+                           capture_output=True, text=True, timeout=30)
+    m = re.search(r"github\.com[:/]([^/]+)/", r.stdout.strip())
+    return m.group(1).lower() if m else ""
+
+
 def discussion_target(config: Path = FEED_CONFIG) -> tuple[str, int] | None:
     """(owner/repo, discussion number) from state/agent-feed.json, or None.
 
-    None rather than an exception: a missing or malformed config keeps the run a
-    dry run, loudly, instead of crashing a timer every 30 minutes. That failure
-    shape is chosen against the measured one: the --sink mismatch failed with
-    exit 2 on every tick for five days and nothing surfaced it.
+    None rather than an exception: a missing or malformed config keeps the run
+    from posting instead of crashing a timer every 30 minutes. Since the codex
+    review of PR 62, None also covers a config whose repo owner is not this
+    repository's own remote owner: the committed file must not be able to point
+    the unattended timer at somebody else's repository.
     """
     try:
         cfg = json.loads(config.read_text(encoding="utf-8"))
-        return str(cfg["repo"]), int(cfg["discussion"])
+        repo, number = str(cfg["repo"]), int(cfg["discussion"])
     except (OSError, ValueError, KeyError, TypeError):
         return None
+    owner = repo.split("/", 1)[0].lower()
+    own = repo_owner()
+    if not own or owner != own:
+        print("feed config names {} but this repository's remote owner is {}; "
+              "refusing the target".format(repo, own or "unresolvable"), file=sys.stderr)
+        return None
+    return repo, number
 
 
 def post_discussion(repo: str, number: int, body: str) -> tuple[int, str]:
@@ -233,6 +262,28 @@ def selftest() -> int:
     if discussion_target(Path("/nonexistent/agent-feed.json")) is not None:
         failures.append("a missing feed config resolved a discussion target instead of None")
 
+    # The codex findings on PR 62, kept red-able: a foreign owner must not
+    # resolve, and an unusable target under --post must exit nonzero rather
+    # than smile at systemd.
+    import tempfile
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as tf:
+        json.dump({"repo": "someone-else/their-repo", "discussion": 1}, tf)
+        foreign = Path(tf.name)
+    try:
+        if discussion_target(foreign) is not None:
+            failures.append("a config naming a foreign repository resolved a target")
+    finally:
+        foreign.unlink()
+    src2 = Path(__file__).read_text(encoding="utf-8")
+    # rsplit, not split: the FIRST occurrence of the probe string is this very
+    # check's own source, which is the probe-reads-itself defect the panel.py
+    # comment-strip lesson (L-2026-07-29-d) already named. main() is defined
+    # after selftest(), so the last occurrence is the one being verified.
+    if "return 2" not in src2.rsplit("args.post and not disc", 1)[-1][:900]:
+        failures.append("--post with an unusable discussion target does not exit nonzero")
+    if "fcntl.flock" not in src2:
+        failures.append("concurrent publishes are not excluded by a cursor lock")
+
     for line in failures:
         print("  FAIL  " + line)
     if failures:
@@ -247,6 +298,7 @@ def selftest() -> int:
     print("  ok    the throttle is evaluated before the ledger walk, not after")
     print("  ok    posting requires both --post and an explicit --issue")
     print("  ok    the discussion sink parses and refuses to post without a resolved target")
+    print("  ok    a foreign-owner config is refused, an unusable target exits nonzero, posts hold a lock")
     print("VERDICT: the feed derives its content and cannot post by accident")
     return 0
 
@@ -289,6 +341,18 @@ def main(argv: list[str]) -> int:
     if args.sink == "discussion":
         disc = discussion_target()
         if args.post and disc:
+            # One publisher at a time. Without this, a manual run racing the
+            # timer reads the same cursor and posts the same items twice (codex
+            # review of PR 62). Lock is on a sidecar, not the cursor itself,
+            # because write_cursor appends and must stay a plain file.
+            import fcntl
+            CURSOR.parent.mkdir(parents=True, exist_ok=True)
+            lockf = (CURSOR.parent / (CURSOR.name + ".lock")).open("w")
+            try:
+                fcntl.flock(lockf, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except OSError:
+                print("another publish holds the cursor lock; leaving it to that run")
+                return 0
             repo, number = disc
             rc, out = post_discussion(repo, number, body)
             if rc == 0:
@@ -297,10 +361,16 @@ def main(argv: list[str]) -> int:
             else:
                 print("post FAILED rc={} (cursor not advanced)\n{}".format(rc, out), file=sys.stderr)
             return rc
-        print("== DRY RUN ==  nothing was posted and the cursor was not advanced")
         if args.post and not disc:
-            print("   --post was given but {} is missing or malformed, so this stayed a dry run on purpose"
-                  .format(FEED_CONFIG))
+            # Exit 2, not 0: the unit's one job could not be attempted, and a
+            # zero here would show systemd a healthy service around a dead feed,
+            # which is the exact silent outage this sink was built to end (codex
+            # review of PR 62, reliability finding).
+            print("--post was given but {} is missing, malformed, or names a foreign "
+                  "repository; nothing was posted and the cursor was not advanced"
+                  .format(FEED_CONFIG), file=sys.stderr)
+            return 2
+        print("== DRY RUN ==  nothing was posted and the cursor was not advanced")
         print()
         print(body)
         return 0

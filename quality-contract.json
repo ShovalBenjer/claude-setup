@@ -23,8 +23,8 @@
     },
     "types": {
       "required": true,
-      "cmd": "python -m compileall -q -x \"\\\\.venv|venv\" . && cd intent-control-plane && uv run ruff check . && uv run mypy",
-      "_note": "compileall is the documented fallback where no root lint config exists; ruff and mypy are configured inside intent-control-plane"
+      "cmd": "python -m compileall -q -x \"\\\\.venv|venv|\\.claude/worktrees\" . && cd intent-control-plane && uv run ruff check . && uv run mypy",
+      "_note": "compileall is the documented fallback where no root lint config exists; ruff and mypy are configured inside intent-control-plane | 2026-08-12: compileall excludes .claude/worktrees: sibling agent worktrees are other sessions' in-progress trees (one carried live conflict markers mid-merge and failed this tree's gate for work that was never this tree's)."
     },
     "e2e": {
       "required": true,
