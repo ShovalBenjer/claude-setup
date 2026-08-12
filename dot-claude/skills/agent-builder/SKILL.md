@@ -1,6 +1,6 @@
 ---
 name: agent-builder
-description: Author and deploy AI agents on Microsoft + Azure platforms — Azure AI Foundry agent CRUD (azure-ai-projects SDK), Microsoft 365 Agents SDK projects (TS via bun, C# via dotnet — agents callable from Teams + Copilot + standalone), and Copilot Studio export/import via pac CLI. Authoring time, not runtime. Triggers on "/agent-builder", "create foundry agent", "new m365 agent", "scaffold copilot agent", "update agent instructions", "deploy agent to teams", "create teams bot", "version bump agent", "register tool with agent". SKIP when calling already-deployed agents (use azure-runtime), evaluating agents (use eval-runner), or working with OpenAI's platform.openai.com Assistants/AgentKit (no key, not supported here).
+description: Author and deploy AI agents on Microsoft + Azure platforms — Azure AI Foundry agent CRUD, Microsoft 365 Agents SDK (Teams + Copilot + standalone), and Copilot Studio export/import via pac CLI. Authoring time, not runtime. Triggers on "/agent-builder", "create foundry agent", "new m365 agent", "scaffold copilot agent", "deploy agent to teams", "create teams bot". SKIP for calling deployed agents (azure-runtime), evals (eval-runner), or OpenAI Assistants/AgentKit.
 model: opus
 allowed-tools: ["Bash", "Read", "Write", "Edit", "Grep", "Glob"]
 ---

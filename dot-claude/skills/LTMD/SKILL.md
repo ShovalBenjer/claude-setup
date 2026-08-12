@@ -1,6 +1,6 @@
 ---
 name: LTMD
-description: "Lead-To-Money-Decision lens. Judge any analysis/notebook/report/plan the way the paying decision-maker (default: Liron, CMO) would: does it end in ONE executable, dollar-valued, owned, dated action, or is it just plots and methods? Returns a blunt verdict (ACT / BOMB-THE-FORMAT / FIRE), the gaps, the data the stakeholder actually wanted, and the subtractive fix. Triggers on /LTMD, 'liron lens', 'would <exec> act on this', 'is this a decision or a plot', 'decision-grade check', before shipping a stakeholder deliverable."
+description: "Lead-To-Money-Decision lens. Judge any analysis/notebook/report/plan the way the paying decision-maker (default: Liron, CMO) would: does it end in ONE executable, dollar-valued, owned, dated action, or is it just plots and methods? Returns a blunt verdict (ACT / BOMB-THE-FORMAT / FIRE). Triggers on /LTMD, 'liron lens', 'would <exec> act on this', 'is this a decision or a plot', before shipping a stakeholder deliverable."
 model: opus
 ---
 
