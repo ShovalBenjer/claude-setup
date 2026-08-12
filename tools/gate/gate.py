@@ -984,6 +984,7 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
         # the evidence says so, and a check that stops being able to measure
         # anywhere still surfaces here rather than reading as green silently.
         out["status"] = NA
+        out["unmeasured"] = True
         out["evidence"] = ("unmeasurable on this host: `{}` exited {} (the CANNOT_MEASURE "
                            "convention). This run asserts nothing about the domain.\n{}"
                            .format(cmd, CANNOT_MEASURE, indent(tail)))
@@ -1165,6 +1166,10 @@ def cmd_run(args: argparse.Namespace) -> int:
         # one level up: the record claiming more than the run measured.
         "waivers_unconfirmed": [r["domain"] for r in results
                                 if r.get("confirmed") == "unmeasurable"],
+        # Same principle for unwaived domains whose command exited CANNOT_MEASURE:
+        # their NA is a fact about this host, not about the domain, and a PASS row
+        # that hides which checks never measured claims more than the run did.
+        "unmeasured": [r["domain"] for r in results if r.get("unmeasured")],
         # How long the run took, and per domain. Added 2026-08-08 because the
         # contract already carries a duration budget that nothing could check.
         # The unit domain's _timeout_note raised the timeout 300 to 900 on
