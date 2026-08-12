@@ -325,11 +325,10 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/commands/cdp.md` | 2026-07-27 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/commands/reground.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## corpus (91)
+## corpus (83)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
-| `master-plans/FIX-BWRAP-WSL.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/CDP_Kick_Research_20260507/Codex_Security_Review.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Football_Analytics_ML_Research_20260412/01-data-layer.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Football_Analytics_ML_Research_20260412/02-consumer-gaps.md` | - | corpus-material | class | n/a | - | - | - |
@@ -408,13 +407,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/Documents/Foundry_Workflows_Research_20260419/report.md` | 2026-04-19 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/ElevenLabs_Scribe_Research_20260427/report.md` | 2026-04-27 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/ElevenLabs_Scribe_Research_20260428/report.md` | 2026-04-28 | corpus-material | class | n/a | - | - | - |
-| `master-plans/claude-code-experimental-features.md` | 2026-04-30 | corpus-material | class | n/a | - | - | - |
-| `master-plans/cleanup-proposal.md` | 2026-04-30 | corpus-material | class | n/a | - | - | - |
-| `master-plans/claude-setup-master-plan-2026-05-02.md` | 2026-05-02 | corpus-material | class | n/a | - | - | - |
-| `master-plans/claude-setup-tasks-2026-05-02.md` | 2026-05-02 | corpus-material | class | n/a | - | - | - |
-| `master-plans/CLAUDE-CODE-MASTER-PLAN-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | prior planning docs | 14.6 |
-| `master-plans/claude-skills-scatter-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
-| `master-plans/claude-skills-triage-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/AGENTS.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/claude-skills-triage-2026-05-03.md` | 2026-05-03 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/SIU_InHouse_Video_Research_20260506/research_report_20260506_siu_inhouse_video.md` | 2026-05-06 | corpus-material | class | n/a | - | - | - |
@@ -426,7 +418,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `.github/ISSUE_TEMPLATE/task.md` | - | living | registry | n/a | - | - | - |
-| `docs/CODEBASE-MAP.md` | - | generated | registry | n/a | yes | - | the |
+| `docs/CODEBASE-MAP.md` | - | generated | registry | n/a | yes | - | - |
 | `docs/ESTATE-DIRECTORY-CATALOG.md` | - | dated-snapshot | registry | n/a | yes | - | - |
 | `docs/EXECUTION-PLAN.md` | - | living | registry | n/a | yes | - | - |
 | `docs/OPERATOR-RUNBOOK.md` | - | living | registry | n/a | yes | - | - |
@@ -438,19 +430,19 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/CLAUDE.md` | - | living | registry | n/a | - | - | - |
 | `dot-codex/AGENTS.md` | - | living | registry | n/a | - | - | - |
 | `dot-codex/automations/README.md` | - | living | registry | n/a | - | - | - |
-| `home-dotfiles/AGENTS.md` | - | living | registry | n/a | - | - | - |
-| `home-dotfiles/RTK.md` | - | living | registry | n/a | - | - | - |
 | `intent-control-plane/README.md` | - | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/docs/INDEX.md` | - | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/docs/RUNBOOK.md` | - | subproject | registry | n/a | - | - | - |
-| `startup-scripts/startup.md` | - | living | registry | n/a | - | - | - |
+| `state/retired-2026-08-12/home-dotfiles/AGENTS.md` | - | salvage | registry | n/a | - | - | - |
+| `state/retired-2026-08-12/home-dotfiles/RTK.md` | - | salvage | registry | n/a | - | - | - |
+| `state/retired-2026-08-12/startup-scripts/startup.md` | - | salvage | registry | n/a | - | - | - |
 | `tools/channel/README.md` | - | living | registry | n/a | - | - | - |
 | `tools/intent/README.md` | - | living | registry | n/a | - | - | - |
 | `tools/supply/README.md` | - | living | registry | n/a | - | - | - |
 | `intent-control-plane/CODE-HEALTH-2026-GAPS.md` | 2026-06-29 | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/TESTING-SOTA-2026-GAPS.md` | 2026-06-29 | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/TODO.md` | 2026-06-29 | subproject | registry | n/a | - | - | - |
-| `home-dotfiles/TESTING-SOTA-2026-GAPS.md` | 2026-07-07 | dated-snapshot | registry | n/a | - | - | - |
+| `state/retired-2026-08-12/home-dotfiles/TESTING-SOTA-2026-GAPS.md` | 2026-07-07 | salvage | registry | n/a | - | - | - |
 | `intent-control-plane/docs/adr/0001-harness-is-a-python-package-with-thin-bash-adapters.md` | 2026-07-09 | accepted | header | n/a | - | - | - |
 | `intent-control-plane/docs/adr/0002-knowledge-and-capability-delivery.md` | 2026-07-10 | accepted | header | n/a | - | - | - |
 | `intent-control-plane/docs/adr/0003-measured-self-improving-loop.md` | 2026-07-11 | accepted | header | n/a | - | - | - |
@@ -980,7 +972,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-codex/skills/.system/skill-installer/SKILL.md` | - | third-party-not-ours | class | n/a | - | - | - |
 | `dot-agents/skills/heygen-skills/CHANGELOG.md` | 2026-05-13 | third-party-not-ours | class | n/a | - | - | - |
 
-## work-doc (166)
+## work-doc (174)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -1014,6 +1006,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `work-docs/pipelines/notifications/README.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/prompt_v96_optimization_suggestions.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/research/README.md` | - | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/FIX-BWRAP-WSL.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/specs/2026-05-13-ado-pr-review/review-prompt.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Architecture.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Compliance.md` | - | dated-snapshot | class | n/a | - | - | - |
@@ -1044,8 +1037,15 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `work-docs/wiki/Home.md` | 2026-04-29 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Knowledge-Base.md` | 2026-04-29 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-04-30-v109-deploy-review-cleanup.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/claude-code-experimental-features.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/cleanup-proposal.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/claude-setup-master-plan-2026-05-02.md` | 2026-05-02 | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/claude-setup-tasks-2026-05-02.md` | 2026-05-02 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/audits/2026-05-03-dor-cohen-sentimark-email.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/audits/2026-05-03-dormancy-audit.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/CLAUDE-CODE-MASTER-PLAN-2026-05-03-master-plans.md` | 2026-05-03 | dated-snapshot | class | n/a | - | prior planning docs | 14.6 |
+| `work-docs/root-cleanup-2026-05-28/claude-skills-scatter-2026-05-03.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/claude-skills-triage-2026-05-03-master-plans.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-05-04-a2a-v1-and-wire-gap-closure.md` | 2026-05-04 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-05-04-claude-setup-session-structure-and-wire-gaps.md` | 2026-05-04 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-05-04-pst-extraction-path-a-run.md` | 2026-05-04 | dated-snapshot | class | n/a | - | - | - |

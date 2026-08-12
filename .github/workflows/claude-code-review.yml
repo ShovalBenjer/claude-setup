@@ -70,4 +70,4 @@ jobs:
             # not hit its cap. Raised on the operator's answer that this action
             # authenticates with CLAUDE_CODE_OAUTH_TOKEN and therefore bills the
             # subscription, not a metered API key.
-            --max-turns 40
+            --max-turns 60
