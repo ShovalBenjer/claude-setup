@@ -333,12 +333,6 @@ the same reason, one level down.
 | `dot-codex/skills/web-inspect` | 1 | "/web-inspect" | SKILL.md |
 | `dot-codex/skills/workspace-brain` | 1 | "Workspace Brain — Cross-Project Knowledge Index" | SKILL.md |
 
-## home-dotfiles
-
-| dir | files | purpose | from |
-| --- | ----: | ------- | ---- |
-| `home-dotfiles` | 9 | These instructions apply at `/home/shovalbe` and subprojects unless a deeper `AGENTS.md` overrides them. | AGENTS.md |
-
 ## intent-control-plane
 
 | dir | files | purpose | from |
@@ -354,12 +348,6 @@ the same reason, one level down.
 | `intent-control-plane/src/intent_control_plane` | 41 | Implement the intent CLI: sqlite ledger/schema, retrieval, evidence, eval, delegation, and the depth/company/archive self-evolving-harness cores | registry |
 | `intent-control-plane/src/intent_control_plane/harness` | 3 | Provide pure decision logic for the prompt router and G1 self-improve loop that hook shims are meant to call | registry |
 | `intent-control-plane/tests` | 46 | Exercise the CLI, sqlite store, and pure cores with real subprocess/sqlite calls, unit tests, and hypothesis property tests -- no mocks | registry |
-
-## master-plans
-
-| dir | files | purpose | from |
-| --- | ----: | ------- | ---- |
-| `master-plans` | 8 | 2026-05 planning docs (master plan, tasks, WSL fix, skills triage, cleanup proposal); superseded by the newer docs/adr and docs/prd | registry |
 
 ## nexus-engine-rs
 
@@ -401,12 +389,6 @@ the same reason, one level down.
 | `research-papers/home-md` | 15 | <p align="center"> | README.md |
 | `research-papers/knowledge` | 1 | Auto-embedded into `~/.claude/cache/sessions.db` → `knowledge_docs` table. | README.md |
 
-## startup-scripts
-
-| dir | files | purpose | from |
-| --- | ----: | ------- | ---- |
-| `startup-scripts` | 7 | Per-project bootstrap scripts and prompts (MCP env, kilocode, security setup) for campaign-analysis, qc-telephony, siu, vision projects | registry |
-
 ## state
 
 | dir | files | purpose | from |
@@ -420,6 +402,9 @@ the same reason, one level down.
 | `state/retired-2026-07-25/skills` | 0 | Holds the retired meme-control/ and visual-explainer/ skill folders, each self-documented by its own SKILL.md, removed from the live Claude Code skill set | registry |
 | `state/retired-2026-07-25/skills/meme-control` | 1 | Toggle Codex meme playback on/off and report current meme state (session + durable config). | SKILL.md |
 | `state/retired-2026-07-25/skills/visual-explainer` | 1 | Generate a diagram or visual via Azure Foundry gpt-image-2-general and embed inline. Triggers on "i don't understand" / "show me" / "draw it" signals (en/he/ar) detected by the... | SKILL.md |
+| `state/retired-2026-08-12` | 0 | Holds home-dotfiles/ and startup-scripts/, archived whole 2026-08-12 per the approved A3 item of docs/analysis/2026-08-09-session-scope-ledger.md (mechanism per docs/analysis/20... | registry |
+| `state/retired-2026-08-12/home-dotfiles` | 9 | These instructions apply at `/home/shovalbe` and subprojects unless a deeper `AGENTS.md` overrides them. | AGENTS.md |
+| `state/retired-2026-08-12/startup-scripts` | 7 | Retired 2026-08-12 per-project bootstrap scripts and prompts (MCP env, kilocode, security setup) for campaign-analysis, qc-telephony, siu, vision projects; archived rather than... | registry |
 | `state/reviews` | 19 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
 | `state/snapshots` | 1 | Tracked manifests (path+size+sha256) of point-in-time ~/.claude captures; actual file bytes stay untracked per its .gitignore | registry |
 | `state/snapshots/20260725T110903Z-pre-bus-wiring` | 1 | One snapshot: manifest of ~/.claude taken 2026-07-25T11:09 UTC, labeled pre-bus-wiring, for drift diffing before that change | registry |
@@ -512,7 +497,7 @@ the same reason, one level down.
 | `work-docs/reflections` | 18 | Dated heidegger-reflect session postmortems and handoffs spanning 2026-03-22 through 2026-07-07 across several deploys/incidents | registry |
 | `work-docs/research` | 6 | This lane is for long-form research reports and external best-practice synthesis that should inform future implementation. Put new research here unless the file is a canonical r... | README.md |
 | `work-docs/research/prompts` | 11 | Dedicated deep-research prompts for the domains missing from `~/docs`, so any system built | README.md |
-| `work-docs/root-cleanup-2026-05-28` | 9 | Retired: 2026-05-28 sweep of misc home-directory and docs-root files (research dumps, fix notes, an audit dashboard) | registry |
+| `work-docs/root-cleanup-2026-05-28` | 17 | Retired: 2026-05-28 sweep of misc home-directory and docs-root files (research dumps, fix notes, an audit dashboard) | registry |
 | `work-docs/root-cleanup-2026-05-28/data` | 5 | Retired: raw data swept in the same 2026-05-28 cleanup (an API spec, a scraped dataset, misc JSON dumps), not project docs | registry |
 | `work-docs/specs` | 14 | Source-of-truth engineering specs and implementation-delta plans, dated 2026-04-15 through 2026-07-09 | registry |
 | `work-docs/specs/2026-05-13-ado-pr-review` | 3 | This adds a `codex_review` stage to the existing `azure-pipelines.yml` that, on every PR build, calls Foundry gpt-5.5 with the diff and posts a markdown comment to the PR via th... | README.md |
