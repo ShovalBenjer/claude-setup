@@ -462,7 +462,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `state/compact-log.md` | 2026-07-24 | living | registry | 1 | - | - | - |
 | `docs/QUALITY-CONTRACT.md` | 2026-07-25 | living | registry | n/a | yes | - | - |
 | `docs/2026-07-29-external-absorption-brief.md` | 2026-07-29 | dated-snapshot | registry | 1 | yes | - | - |
-| `docs/taste.md` | 2026-07-29 | living | registry | n/a | yes | it by date and say what changed. | - |
 | `dot-claude/output-styles/shoval.md` | 2026-07-29 | living | registry | n/a | - | - | - |
 | `docs/SESSION-BOOT.md` | 2026-07-30 | living | registry | 2 | yes | - | - |
 | `docs/charters.md` | 2026-07-30 | living | registry | 2 | yes | - | - |
@@ -474,6 +473,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `nexus-engine-rs/README.md` | 2026-07-31 | a working vertical slice, not the spec.** read the scope tab | header | n/a | - | - | - |
 | `tools/telemetry/systemd/README.md` | 2026-08-04 | live, 2026-08-04. the units below are deployed and the timer | header | n/a | - | - | - |
 | `dot-claude/CLAUDE.md` | 2026-08-05 | living | registry | n/a | - | - | - |
+| `docs/taste.md` | 2026-08-12 | living | registry | n/a | yes | it by date and say what changed. | - |
 
 ## generated-output (2)
 
