@@ -1,4 +1,4 @@
-# TODO — Claude OS
+# TODO: Claude OS
 
 One TODO, grouped by layer, ticket-tagged (SETUP-OS + AUTO). Status mirrors
 docs/prd/claude-os.md and docs/prd/autonomy-ecosystem.md. Fresh session? Read
@@ -8,6 +8,20 @@ docs/SESSION-BOOT.md first.
 
 Every row here was produced by opening the file or calling the API, not by reading a
 PASS. Ordered by how badly the recorded status disagreed with the disk.
+
+- [ ] **A secret is in a pushed commit and only the operator can close it.** 2026-08-10.
+  `docs/inbox-from-new-recruit/` is an untracked drop of another repository's tree, 74
+  files, placed here for reading by something that was not the session that committed it.
+  A `git add -A` swept it into `e695af5`, 83 files where the real diff was one Rust file,
+  and the push went out before the gate ran.
+  `docs/inbox-from-new-recruit/.claude/bin/elevenlabs-mcp-launcher.sh:9` assigns an
+  ElevenLabs key. The tree is now untracked and gitignored, which removes it from HEAD and
+  **does not remove it from `e695af5`**, which is on GitHub. A commit that deletes a file
+  is not a redaction. **Rotate the key.** That works whatever git does next; a history
+  rewrite plus force push does not, if anything already fetched the branch, and force push
+  is denied to the assistant on purpose. Full write-up, including the ordering defect that
+  let a push precede its gate:
+  `docs/analysis/2026-08-10-inbox-secret-exposure.md`.
 
 - [ ] **90 of 96 open TODO items are invisible at session boot, and this row exists to say so.**
   Measured 2026-08-05. `~/.claude/hooks/session-recall.sh:112` selects
@@ -22,13 +36,169 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   `[boot]`, which is a four-character change to the hook's predicate.
   **Also measured: rows written as `- **` instead of `- [ ]` are invisible entirely.**
   Ten rows added during the 2026-08-03/04 session had that defect and are corrected below.
+  **Re-measured 2026-08-08: the count is now 133 open rows, not 96, and the row directly
+  below this one had sat on the boot surface for two days after it was done.** Both
+  numbers in this row's own title were stale, which is the failure it describes eating
+  itself. The five rows under it are now re-picked by usefulness rather than by line
+  number, and closing one means promoting the next, not leaving the hole.
+
+- [ ] **The loop may ACT, and the five open items now have named owners.** Operator
+  decision 2026-08-10, one word: "act". The boundary it does NOT carry is written beside
+  it in `~/.claude/rules/the-loop-may-act.md`, because a one-word answer to a binary
+  question is a decision without a scope, and the last time a general instruction was
+  read as standing authority a PR got merged on green CI. The loop may gate, regenerate,
+  fix red checks, push its own branch, open a PR, append ledgers, write analysis. It may
+  not merge, deploy, post outward, silently change the live tree, delete what it did not
+  create, or spend money. Who works what, in what order, and which items collide:
+  `docs/specs/2026-08-10-open-scope-delegation-plan.md`. Item 3, the four DIRTY PRs, is
+  deliberately last and needs a call on whether those drafts survive at all.
+
+- [ ] **Verbatim prompt capture has been dead since the WSL move, and the hook that does
+  it swallows the failure on purpose.** Measured 2026-08-10. Two capture paths exist and
+  only one works. `state/prompt-tickets.jsonl` holds 494 rows and is healthy, but it
+  stores hashes and no text by design. The path that holds the actual words, the
+  intent-control-plane enrichment into `~/.intent/intent.db`, is specced, built,
+  unit-tested AND wired in the live `settings.json`, yet writes nothing on this machine:
+  the hook runs plain `python3`, which cannot import `intent_control_plane`, and
+  `tools/intent/capture_turn.py` catches everything so a broken hook never blocks a
+  prompt. It worked before the move. `/mnt/c/Users/shova/.intent/intent.db` holds 235
+  verbatim prompts, last written 2026-07-31, and nothing since. Anthropic's own
+  transcripts (1218 files, 831 MB, unbroken) are the reason this was invisible: the
+  prompts ARE stored, just not by anything this repo can query. `ecosystem.db` and
+  `corpus.db` are both confirmed absent. GraphRAG is neither built nor planned; the
+  planned retrieval is flat FTS5 plus brute-force cosine, status OPEN.
+
+- [ ] **The skills oracle reads one of three trees and reports the other two as drift.**
+  Measured 2026-08-10 in `docs/analysis/2026-08-10-three-skill-trees-measured.md`, while
+  executing the approved `dot-codex` split. `skills_sync.py` compares `dot-claude/skills`
+  against the live tree and nothing else. Comparing by sha1 instead: 13 of the 28
+  `dot-codex/skills` directories are byte-identical to live, and `shoval-voice-draft`
+  matches live EXACTLY while `dot-claude` carries a different 27401-byte version. The
+  waiver has been calling that a genuine fork where whichever side you read is a coin
+  flip; it is not, the live file is committed in the tree the oracle does not read.
+  Fifteen of the sixteen drift items are downstream of the oracle's scope rather than of
+  anything anyone did wrong. Extending it to read all three would shrink the number with
+  no file moving, and that is a decision about what an oracle asserts, not a cleanup.
+  The split itself went ahead narrower than recommended: the 33 dead one-line pointers
+  are gone, the 28 directories stay, because archiving them would have deleted the only
+  committed copy of a live skill.
+
+- [ ] **Live `~/.claude/skills` went from 40 to 79 in two days and nothing can date or
+  attribute it.** Measured 2026-08-08 by `ls -1d ~/.claude/skills/*/ | wc -l` against the
+  40 recorded on 2026-08-05 in row B below. All three repo tree counts reproduce within
+  one, so the change is isolated to the one tree that is not under version control.
+  `state/snapshots` holds a single manifest from 2026-07-25 and does not span the gap.
+  A deploy of roughly 30 skills is the standing hypothesis, from mtimes at 15:12, 17:02
+  and 17:38 on 2026-08-06, but no script in the repo copies the tree that would explain
+  the 8 skills whose only repo copy is under `dot-agents`. **This is the loudest
+  unexplained number in the repository and it governs every skills count below it.**
+
+- [ ] **Three top-level directories are waiting on an operator call, and the report for
+  them exists.** `docs/analysis/2026-08-07-toplevel-dir-decisions.md`, measured at
+  f88d3a3. `dot-agents`: no live `~/.agents` anywhere and 6 commits ever, but 8 skills in
+  `~/.claude` have their only repo copy there and no script in the repo deploys it.
+  `dot-codex`: the Codex host is live and its `skills/` directory exists and is empty,
+  which reads identically as "deploy never ran" and "payload abandoned", and archiving
+  takes out the only copy of 10 differing bodies. `intent-control-plane` versus `tools`:
+  keeping the boundary preserves ruff and mypy over 116 files with 4 commits ever while
+  leaving 138 files with 56 commits unchecked, and the boundary is nominal anyway since
+  all 6 external consumers reach the package through `sys.path.insert` rather than the
+  wheel it declares. The clear calls in the same report (archive `home-dotfiles` and
+  `startup-scripts`, merge `master-plans` into `work-docs`) are not blocked on anything.
+
+- [ ] **The full open scope, one row per instruction, is in
+  `docs/analysis/2026-08-09-session-scope-ledger.md`.** Written 2026-08-09 on request. It
+  accounts for every prompt of the 2026-08-07 to 2026-08-09 session in the order given, so
+  an unanswered instruction stays visible instead of dissolving into the next one. The
+  finding that matters: **one instruction was under-served**, "the autonomous workflows
+  should be done", said twice, and the pieces for it are all on disk and unassembled.
+  `state/` carries fourteen ledgers, `tools/telemetry` publishes a cross-repo feed to issue
+  #38, `tools/selfimprove/scan.py` ranks what to pick up next, and cron scheduling exists.
+  Nothing joins them. The scoping question is the operator's and gates the item: whether an
+  autonomous loop should PROPOSE or ACT. A loop that opens PRs nobody reads repeats the
+  agent feed's own open question, which is still "watch whether anything ever ACTS on an
+  issue #38 item".
+
+- [ ] **The connector catalogue was reasoned over and the answer for this repo is zero.**
+  `docs/analysis/2026-08-08-connector-catalogue-reasoning.md`, 2026-08-08. claude-setup
+  verifies its own hooks, oracles and gate and has no external data domain, so no connector
+  earns a place here. Recommended elsewhere, one each and all ASSUMED on auth cost: Google
+  Calendar for new-recruit, Cloudflare and Coursera for daily-deep-learning, Canva for lane
+  D. **It corrected this session's own earlier claim:** the connector-usage analysis called
+  the `Indeed` board "plausibly on-topic" for new-recruit without having read that project's
+  PRD, which locks a hard constraint of keyless public ATS JSON, no browser, no login, no
+  ban surface. So `Dice`, `ZipRecruiter` and that one are do-not-add rather than candidates.
+  A note on the linter found while writing this row: `slop_lint.py` flags a line that BEGINS
+  with the word Indeed as a ritual opener, which is correct for the adverb and wrong for the
+  job board of that name. Rewrapping the line fixes it and the check was left alone, but a
+  proper noun colliding with a banned phrase is worth knowing before it bites a real doc.
+  Gmail stays off
+  despite being topically plausible: zero calls in 1183 sessions against full-mailbox OAuth
+  scope is a real PII exposure, and it is flagged as an open decision rather than a default.
+  Zapier is not a force multiplier here: lane D's own `syndication-engine` already does the
+  cross-posting job in a gate-covered way a zap is not.
+
+- [ ] **Zion has 31 epics and the board is not the thing other projects inherit.**
+  `docs/analysis/2026-08-08-zion-and-inheritance.md`, 2026-08-08. Documents what actually
+  crosses from claude-setup to the other repos and by what mechanism, which turns out to be
+  `tools/harness/harness.py exec <relpath>` resolved through `$CLAUDE_HARNESS`, then a
+  `.harness-ref` file at the consuming project's root, then a vendored fallback. That
+  resolution order is currently documented only in `new-recruit/tools/harness.py`'s own
+  docstring, which means the inheritance path for a NEW project lives in a downstream copy
+  rather than in the upstream it inherits from. The report carries drafted board text that
+  is deliberately unposted: posting to a shared board is outward-facing and needs a
+  per-action approval.
+
+- [ ] **The `perf` N/A said no number existed anywhere, and one had been written six days
+  after it.** Re-checked 2026-08-08 in `docs/analysis/2026-08-08-na-domains-rechecked.md`.
+  The `unit` domain's `_timeout_note` sets 900s with an explicit falsifier at 600s, and
+  `state/gate-runs.jsonl` carried no duration field across 8571 rows, so that falsifier
+  had never been evaluable. Runs now record `duration_seconds` and `domain_seconds`.
+  **The open half is the operator's:** whether `perf` becomes a real domain measuring the
+  gate's own wall clock and hook latency, or stays N/A with corrected wording. The same
+  report keeps `e2e` and `a11y_ux` at N/A and gives the reason, which is that the e2e
+  instrument is not idle at all: it drives daily-deep-learning's real served app and finds
+  real WCAG failures there. Also found and unwired: `intent-control-plane/repo_health.py`
+  enforces file, function and class LOC budgets and is referenced by no script, no gate
+  domain and no CI job.
+
+- [ ] **Nine connected connectors have never been called once, and two other lanes
+  inherit all of them.** Measured 2026-08-08 in
+  `docs/analysis/2026-08-08-connector-usage.md` by counting assistant `tool_use`
+  blocks across 1183 transcripts, which only became possible once the session store
+  was migrated the same day. Never called: Semrush, SNOMED CT, ICD-10 Codes, Clinical
+  Trials, Gmail, Medidata, Mobbin, Indeed, Zapier. `claude-setup`'s
+  `disabledMcpServers` is wired from 3 to 10. **The open half is cross-lane and stays a
+  proposal:** `new-recruit` and `daily-deep-learning` both have an EMPTY disable list,
+  so they inherit every medical connector for no reason, and new-recruit is the one
+  project where Indeed is plausibly on topic. Whoever owns those lanes decides.
+  Do not add connectors from the ~850 directory before this pruning lands: nine
+  unused ones already make the hit rate worse than the list length suggests.
+
+- [ ] **`dot-claude/bin/self-improve.py:27` is a live broken consumer.** It inserts
+  `$HOME/projects/intent-control-plane/src` on `sys.path` before importing
+  `intent_control_plane.harness`, and `/home/shov/projects` does not exist. Its sibling
+  `tools/bus/backfill_session_telemetry.py` uses a repo-relative path and resolves. Same
+  class as the PostToolUse hook fixed on 2026-08-08: wired, absent, silent. Now findable,
+  since the `pointers` domain reads the live settings from that date.
+
+- [ ] **Nothing enforces the coding-style standard on `tools/`, which is most of the
+  repo's code.** Measured 2026-08-07. The `types` domain is
+  `compileall -q ... . && cd intent-control-plane && uv run ruff check . && uv run mypy`,
+  so repo-wide it checks syntax only and ruff plus mypy see one subdirectory.
+  `./intent-control-plane/pyproject.toml` is the only pyproject in the tree. Separately,
+  no rule in the house selection `PERF,C4,SIM,PIE,ERA,D` catches a prose comment, so rule
+  3 of `intent-control-plane/docs/specs/2026-07-12-coding-style-standard.md`, comments
+  near-zero and the one most often broken, has no oracle anywhere. Extending the scope
+  will surface a backlog: 59 errors in `tools/gate/gate.py` alone before this session
+  touched it, so it ships with a waiver carrying a real number and a burn-down.
 
 - [x] **CI has been red on every run and nothing says so.** `gh run list` returns four Ship gate runs, all `failure`, none referenced in any ledger, doc, or issue. The `gate` job's cause is one missing dependency: it runs `pip install "uv==0.9.4"` and never installs pytest, so the contract's `unit` domain reports `No module named pytest` and the gate reports `unit FAIL`. That reads like a test regression and is not one. FIXED in this pass by adding pytest to that step; UNVERIFIED until a run goes green, because a local gate PASS is not evidence about the runner. Zion #20's first item, "observe one real CI run", is not undone. It happened four times and nobody looked
   **CLOSED 2026-08-04 by re-measurement, and it was closed by drift, not by anyone reading it.** `gh run list` now shows Ship gate **success on `main` 2026-08-03**. What fails is two lane branches: `lane-a/config-incident-and-oracle-repair` (08-03) and `lane-a/panel-comment-strip` (08-04 12:52, Ship gate + Claude Code Review, still open). The pytest fix landed. **The successor row is the branch, not the workflow.**
 - [x] **The mutation control is red on `bus.py` and the two survivors are both the lock.** `mutate.py --spec all` reports 12 of 13 specs at 0 survived and `spec bus: 23 of 23 applied, 21 caught, 2 survived`. The survivors are `append_row stops taking the lock` and `the lock is released before the write instead of after`. So the file's own selftest cannot tell a locked append from an unlocked one, on the one ledger the repo treats as tamper-evident and reads with `bus.py verify`. There is no `tests/test_bus*.py` at all
   **CLOSED 2026-08-04.** `python tools/audit/mutate.py --spec bus` now reports **23 of 23 applied, 23 caught, 0 survived**. Both lock survivors are gone. Consequence recorded in `docs/adr/0021-rust-for-hot-paths-python-for-oracles.md`: the ADR named `bus.py` as its first rewrite candidate on the strength of these two survivors, so **that rewrite's evidence is now historical**.
 - [x] **and the obvious fix for it would be a test that cannot fail here.** `append_row`'s docstring states the lock exists because overlapping writes "on Windows destroy whole rows rather than tearing them". On Linux `O_APPEND` makes a small append atomic, so a concurrency test written on this machine stays green with the lock deleted. Writing one would be L-2026-07-31-e (scope drifting to whatever goes green) sitting on top of L-2026-07-31-g (a host-shaped oracle answering the wrong question on the other host). CLOSED 2026-08-01 by the structural option, not the Windows leg: `bus.py selftest` now parses its own `__file__` with `ast` and asserts every write in `append_row` is lexically inside the `with file_lock(...)` block. Reading `__file__` is what makes it work under mutation, since `mutate.py` runs a mutated COPY and the parse therefore sees the mutant. Evidence, from the control rather than from this row: `spec bus: 23 of 23 applied, 23 caught, 0 survived`, previously 21 caught / 2 survived. `tests/test_bus_lock.py` pins the same property in pytest with a fourth case asserting the structural check itself can go red, since a helper that silently stops matching would make the other three pass on any input. WHAT THIS STILL DOES NOT DO: it cannot prove the lock excludes a concurrent writer, which no test on Linux can. A Windows CI leg remains the only way to test the behaviour rather than the structure
-- [ ] **A. `skills_sync.py check` exists, CI runs only its selftest, and the check exits 0 while reporting drift.**
+- [x] **A. `skills_sync.py check` exists, CI runs only its selftest, and the check exits 0 while reporting drift.**
   Measured 2026-08-05. `.github/workflows/ship-gate.yml:239` runs `skills_sync.py selftest`
   and never `skills_sync.py check`. Run by hand, `check` prints **`DRIFT: 55 item(s) need a
   decision`** and **exits 0**, so wiring it in as-is would produce a green job reporting 55
@@ -38,6 +208,34 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   `skills` domain in `quality-contract.json` runs it, and the gate goes red at 55 and green
   only at 0.** Same treatment for `tools/audit/pointers.py scan`. **Do this alone and first:
   until it exists, B and C produce numbers nothing enforces.**
+  **CLOSED 2026-08-07 by re-measurement, and every clause of it was already stale when a
+  session read it at boot.** `check` exits **1**, not 0 (`skills_sync.py:341` is
+  `return 1 if bad else 0`, and the earlier reading of 0 came from piping it through
+  `tail`, whose exit code it then read). A `skills` domain exists in
+  `quality-contract.json` and a `pointers` domain beside it. `ship-gate.yml:260` runs
+  `skills_sync.py check` with `continue-on-error` tied to the skills waiver, and
+  `pointers.py scan` at :264 with no such line. The drift count is **29**, not 55.
+  This row survived at the top of the boot surface for two days after it was done, which
+  is the row above it (90 of 96 invisible) doing damage from the other direction: the six
+  that reach a session are picked by line number, so a closed row keeps its place.
+- [ ] **A2. The successor: a waiver expires but nothing checked whether it was still true.**
+  Measured 2026-08-07 and half fixed the same day. The `skills` waiver ended with its own
+  falsifier in prose, "expect `DRIFT: 51`, and if it prints a different number this waiver
+  is stale". A gate run printed that sentence as the domain's evidence, reported WAIVED,
+  and returned `VERDICT: PASS`; the checker printed `DRIFT: 29`. **Fixed:** a waiver may
+  carry `confirm`, the gate runs the waived domain's command anyway and fails the domain
+  if the string is gone (`confirm_waiver` in `tools/gate/gate.py`, 9 tests, 4 mutations,
+  8 of 8 caught). **Still open, and it is the operator's:** 13 of the 17 repo-vs-live
+  skill differences are the single line `disable-model-invocation: true`, added to the
+  repo copies by `3df7704` and never deployed, so live currently auto-invokes 13 skills
+  the repo says it should not. Deploying that is a live-tree behaviour change. The waiver
+  expires **2026-08-12** and was deliberately not extended.
+  **One correction inside this row, kept because it is the more useful half.** `grill-me`
+  was written up as possible content loss, live holding 626 bytes the repo does not. The
+  diff says the reverse: `3df7704` rewrote the repo copy on 2026-08-03 into a terse
+  four-line brief and live still carries the older structured protocol, so the repo is
+  ahead and live is stale. The byte count said which file was bigger and was read as
+  saying which was current.
 - [ ] **B. Three skill trees hold 45 FORKS, not 45 copies.**
   Measured 2026-08-05 by hashing every skill directory: **118 distinct names across
   `dot-agents/skills` (70), `dot-claude/skills` (74), `dot-codex/skills` (61) and live
@@ -50,6 +248,16 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   **Acceptance: one tree, and each of the 45 forks carries a recorded decision (merged,
   superseded, or archived with a reason). Picking by timestamp is not a decision** and
   destroys whatever the divergence was for.
+  **Re-measured 2026-08-08 over the same four trees: the row holds and understates.**
+  121 distinct names (was 118), 84 shared (was 67), 30 identical and **52 DIVERGED**
+  (was 22 and 45). Restricted to real bodies present in two or more trees: 82 names, 30
+  identical, 52 diverged; repo-only, 50 names, 17 identical, 33 diverged. Live is 79
+  directories, not 40, and that change is the unexplained row near the top of this file.
+  **One correction to the shape of the problem, not its size:** 33 of the counted forks
+  in `dot-codex/skills` are one-line files naming `/home/shovalbe/`, a home directory
+  that does not exist on this machine. Those are a wiring defect, not divergent content,
+  and merging them merges nothing. The real fork count is smaller than 52 and the dead
+  pointers are a separate, cheaper job.
 - [ ] **48 definition-of-done rows exist and zero tools read them.** Measured 2026-08-04:
   `grep -rl "definition of done\|DoD" tools/` returns nothing, against 48 rows in
   `docs/prd/2026-08-03-unified-architecture.md` and
@@ -139,7 +347,7 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   oracle in the same shape, and it must compare hook SETS and script basenames rather than
   paths, because the two hosts legitimately disagree about paths and only about paths.
 
-## SETUP-OS — oracle repair (opened 2026-07-31, docs/HANDOFF-2026-07-31-review-oracle-repair.md)
+## SETUP-OS: oracle repair (opened 2026-07-31, docs/HANDOFF-2026-07-31-review-oracle-repair.md)
 - [x] review domain: sql-concat required a verb and a concatenation and never required SQL, so English prose ("Delete ~380 lines ... + their selftest") was a HIGH; and added_lines reported lines this branch added and then deleted. Both fixed in tools/review/panel.py, 20 pinned cases, mutate --spec panel 10/10 caught, panel 5 high -> 0 high. Waiver replaced (2026-08-12 -> 2026-08-02) recording the old reason as wrong rather than deleting it (closed 2026-07-31). **THE "0 high" HALF OF THIS ROW IS FALSIFIED, 2026-08-01.** The waiver it wrote carried its own falsifier, the falsifier was run, and `panel.py run --project .` returns CHANGES-REQUESTED with 3 high. Two are real (vendored innerHTML in dot-claude/skills/brainstorming/scripts/helper.js:57,59) and one is the comment-matching mechanism this row claimed was eliminated, still live in a different check. The two fixes landed; the generalisation did not, and the row said otherwise. Waiver text corrected in quality-contract.json rather than the number being chased
 - [ ] slop_lint measures the ruled form, not the property (L-2026-07-31-b). It passes prose that reads as machine written: zero em dashes but 2.8% hyphen compounds and sentence stdev 14.8. Port a density + variance check from ~/.claude/skills/voice-metrics/voice_score.py into tools/slop_lint.py, thresholds FITTED against the operator's corpus, not guessed. Until then a clean slop_lint is not evidence
 - [ ] review domain goes PASS only against a committed tree, so the waiver cannot be deleted until this branch is committed. Decide: commit chore/delete-dolt, or let the 2026-08-02 expiry force it
@@ -147,12 +355,12 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
 - [ ] `~/.config/kitty/kitty.conf` is untracked and lives outside the repo. `git log --grep=kitty` returns zero across all history, so a week of terminal work (Nerd Font map, Hebrew RTL decision, the 0.48 surface block, the lane watermarks) survives only as one file on one disk plus two `.bak` copies. Decide whether it becomes payload the way `dot-claude/` is. NOT done in this pass on purpose: the three existing `dot-*` trees each have a sync checker (`skills_sync.py`), and adding a fourth snapshot with no drift oracle is the failure this repo logs, not a fix for it. `tools/wsl/make_lane_logos.py` regenerates the PNGs, so those are already reproducible from the repo
 - [ ] audit the 1,260 lines drop_stale_lines now removes (75,932 -> 74,672 reviewed). Every one should be a line the tree does not contain at the claimed position; nobody has checked them individually
 
-## AUTO — Autonomy Ecosystem (prd/autonomy-ecosystem.md, spec 2026-07-24)
-- [x] ADR-0010..0015 + PRD + spec + charters + SESSION-BOOT + lessons ledger (AUTO-03/08/13/16 seed) — 2026-07-24
-- [x] AUTO-01/02 hook fire-proof — CLOSED 2026-07-24 22:44. `state/hook-fires.log`: 7 harness-written SessionStart lines (real session ids incl. `8abb324e-…`) + 11 PreCompact lines + 12 `## compact` snapshots in `state/compact-log.md`. L011 interpreter/path bug fixed and now proven in-harness, not by pipe test
+## AUTO: Autonomy Ecosystem (prd/autonomy-ecosystem.md, spec 2026-07-24)
+- [x] ADR-0010..0015 + PRD + spec + charters + SESSION-BOOT + lessons ledger (AUTO-03/08/13/16 seed), 2026-07-24
+- [x] AUTO-01/02 hook fire-proof, CLOSED 2026-07-24 22:44. `state/hook-fires.log`: 7 harness-written SessionStart lines (real session ids incl. `8abb324e-…`) + 11 PreCompact lines + 12 `## compact` snapshots in `state/compact-log.md`. L011 interpreter/path bug fixed and now proven in-harness, not by pipe test
 - [x] COMPACTION CHURN measured resolved 2026-07-29: PreCompact per day 47, 250, 2, 1, 0, 0 across 07-24 to 07-29; per-session 15.6 on 07-25 down to 0.0 on 07-28/29. Both suspect env vars (`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE`, `CLAUDE_CODE_DISABLE_1M_CONTEXT`) are ABSENT from live settings; sessions run on 1M context. `trigger=` now logged (289 lines). Caveat: the churn ended 2026-07-26 with no config change recorded, so the cause of the fix is not established; reopen if per-session climbs above 1
 - [ ] DECIDE (counts re-measured 2026-07-29): live `~/.claude/settings.json` has 7 hook events (UserPromptSubmit added 2026-07-29 for intent capture; PostToolUse is live-only, absent from canonical). The work enforcement layer is still undeployed: PreToolUse protect-infra/rtk-bash-guard, Stop stop-checklist/verification-before-completion/contract-proof-stop, PostToolUse skill-usage-logger. Adopt selectively; these are the checks that would have caught L003/L009 mechanically. Note rtk binary is missing on Windows, so rtk-bash-guard cannot deploy as-is
-- [x] Nightly autonomy pilot workflow on claude-setup (AUTO-07) — first scheduled run pending
+- [x] Nightly autonomy pilot workflow on claude-setup (AUTO-07), first scheduled run pending
 - [ ] ecosystem.db bootstrap from intent-control-plane schema + tools/eco/db.py (AUTO-06) ← unblocks work-claims (AUTO-04) + FleetView (AUTO-19)
 - [x] AUTO-05 CLOSED 2026-07-29: Lane A RETIRED by operator decision (never used once between ADR-0013 and retirement). Intake/routing folded into Lane B as plumbing (docs/charters.md); UserPromptSubmit capture already ledgers intent. Any future RC/phone intake surface is a B feature, not a session lane
 - [ ] Merge-policy labels + auto-merge for auto:low (AUTO-11)
@@ -183,7 +391,7 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
 - [ ] Migration activation backlog: 91/186 dot-claude units deployed (48.9%); 14 hook bodies still 44-61 byte pointers with recoverable bodies in dot-codex/; 24 skill stubs likewise; dot-agents has no deploy target (~/.agents absent, 0/231 live). Bodies verified recoverable in-repo, zero bytes lost
 - [ ] voice-metrics preservation NEEDS OPERATOR: only live-only skill not committed; profiles.json carries no message text but keys include a WhatsApp LID (linkable id) + 9.3MB lexicons
 
-## RT — Research transfer (docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md)
+## RT: Research transfer (docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md)
 
 External research on compile-once architectures, commissioned 2026-07-27, landed
 five findings on this harness. Ranked by ratio of value to effort.
@@ -215,7 +423,7 @@ deletes an existing row; these are the rows that were silently dropped.
 - [x] Repo relocated + July state synced + pushed (SETUP-OS #1)
 - [x] CLAUDE-OS.md single source of truth (#2)
 - [x] Notification fabric: phone push + desktop toast (#3)
-- [x] Always-fresh PR review workflow on 22 repos (#4) — auth pending
+- [x] Always-fresh PR review workflow on 22 repos (#4), auth pending
 - [x] PRD + 8 ADRs + persona spec + INDEX (this doc set)
 - [x] kernel-anchor hook: deep-work discipline injected every prompt, live+wired (#5 partial)
 - [x] slop_lint gate (Antislop banlist), verified exit-1 on hits
@@ -224,38 +432,38 @@ deletes an existing row; these are the rows that were silently dropped.
 - [x] Daily digest generator over live state + cron 7:03 (#6 partial: needs always-on / Task Scheduler)
 - [x] FULL work-setup import from work-archive-2026-07-12: 23 personas + 14 hooks + 36 skills + tower/intent bins + work-docs/ + intent-control-plane/ (2026-07-24, see docs/analysis/2026-07-24-work-archive-import.md)
 
-## P0 — Truth & hygiene (L1/L7)
-- [x] Authorize OAuth token; distribute to 22 repos (#4) — DONE 2026-07-23 (root cause: was stripping #state)
-- [ ] Rotate API key (operator) — NOT REPRODUCED 2026-07-24: read the תזכורת לעצמי group over CDP, it holds exactly 3 messages (scroll converged, 25 passes) and a presence-only regex probe for `cfat_`/`sk-`/`gh[pousr]_`/32+ hex/"account id" returned 0 hits. So the token is not in that group now. This does NOT clear the item: it may have been deleted from view, or was in a different chat. Operator to confirm whether that credential was ever exposed and rotate if so
+## P0: Truth & hygiene (L1/L7)
+- [x] Authorize OAuth token; distribute to 22 repos (#4), DONE 2026-07-23 (root cause: was stripping #state)
+- [ ] Rotate API key (operator), NOT REPRODUCED 2026-07-24: read the תזכורת לעצמי group over CDP, it holds exactly 3 messages (scroll converged, 25 passes) and a presence-only regex probe for `cfat_`/`sk-`/`gh[pousr]_`/32+ hex/"account id" returned 0 hits. So the token is not in that group now. This does NOT clear the item: it may have been deleted from view, or was in a different chat. Operator to confirm whether that credential was ever exposed and rotate if so
 - [x] Global default model: superseded by operator decision 2026-07-29. /model set fable-5 as the saved default for new sessions and it runs on this machine; the old row wanted the opposite direction. model-selection.md rewritten with the routing table (fable default and hardest work, opus workhorse, sonnet workers, haiku inventory)
 - [ ] Update global CLAUDE.md "Codex is executor" line (ADR-0007 amended: Codex REMOVED)
 - [ ] Purge WSL-era paths in /cdp, reground docs
 - [ ] Catch docs up to reality: PRD #4 done, #8 partial, ADR-0007 Codex-out
 
-## P1 — Deep Work Protocol hooks (L0) + digest (L4)
+## P1: Deep Work Protocol hooks (L0) + digest (L4)
 - [x] SessionStart recall rewired Windows-native (P1.1, deployed+wired)
 - [x] Reflex router + flywheel S1 logger, PII-safe (P1.2, SLM #2)
 - [x] /slop gate command (P1.5, deployed)
 - [x] Memory + web write pipe (P1.3, #14) - real card written + recalled
 - [x] Blast-radius grapher (P1.4, #16)
 - [ ] handoff-on-stop, postcondition metadata (#5 remainder)
-- [ ] RTK bash guard hook — blocked: rtk binary MISSING on Windows
+- [ ] RTK bash guard hook, blocked: rtk binary MISSING on Windows
 - [ ] Daily digest push from cron (#6, generator+cron done, needs always-on Task Scheduler)
 
-## P2 — Review fabric (L5)
+## P2: Review fabric (L5)
 - [x] Live review demonstrated: PR #2, GitHub-Claude caught 4/4 seeded defects + 2 bonus; session-Claude replied (two-Claude loop)
 - [ ] Second model = FREE Gemini (AI Studio) replaces Codex; wire a2a-gemini bridge + gemini-review workflow (needs free key)
-- [ ] a2a ⇄ GitHub agreement-gated review + provenance + audit (#8) — needs Gemini actor
-- [ ] Persona review economy build (#19) — model-agnostic personas; PR-type routing; two reputation axes (persona + model)
+- [ ] a2a ⇄ GitHub agreement-gated review + provenance + audit (#8), needs Gemini actor
+- [ ] Persona review economy build (#19), model-agnostic personas; PR-type routing; two reputation axes (persona + model)
 
-## P-DASH — Dashboard / multi-session (NEW, from WhatsApp compare)
-- [ ] Evaluate adopting amirfish1/claude-command-center (MIT) as the missing session-dashboard layer (Kanban, spawn/resume, cost, cross-session) — DO NOT rebuild (excavate-before-building). Windows-native PS install exists; Mac-first, some features degrade.
+## P-DASH: Dashboard / multi-session (NEW, from WhatsApp compare)
+- [ ] Evaluate adopting amirfish1/claude-command-center (MIT) as the missing session-dashboard layer (Kanban, spawn/resume, cost, cross-session), DO NOT rebuild (excavate-before-building). Windows-native PS install exists; Mac-first, some features degrade.
 
-## P3 — Orchestration (L3)
+## P3: Orchestration (L3)
 - [ ] Scheduler consolidation; WSL systemd retired (#11); standing personas
 - [ ] Concierge phone topology (#20)
 
-## P4 — I/O & frontier (L2/L4/L8)
+## P4: I/O & frontier (L2/L4/L8)
 - [ ] WhatsApp copilot: triage + style drafts + coaching (#9)
 - [ ] Learning-card emitter → הסדנה (#10)
 - [ ] Memory + web write pipe (#14)
@@ -301,7 +509,7 @@ Two rows above were CLOSED by the same measurement and are marked in place.
 - [x] REFUTE-01 CLOSED 2026-07-31. The falsifier layer returned zero information on Linux: `refute.py run` reported `26 claims: 0 held, 0 REFUTED, 26 broken verifier`, one cause, every row declared `shell: "pwsh"` and neither pwsh nor powershell exists under WSL. The tool never lied (broken is not a pass, and it exits nonzero) but the layer was inert on the host the operator now works from. Two of the seven PowerShell-native verifiers were also AIMED at `$env:USERPROFILE\claude-setup`, the Windows clone, a different working tree. Now `21 held, 5 REFUTED, 0 broken`. Commit `aeaecd3`; 8 tests red before the fix; `mutate --spec refute` 12 of 12 caught
 - [x] DOCS-01 CLOSED 2026-07-31. `docs/INDEX.md` listed 22 of 112 prose documents. Rewritten to 113 of 114 (it does not list itself), titles and declared statuses extracted from the files rather than written from memory, and it now passes `slop_lint` where before it had 43 em-dash hits
 
-### Refutations, now visible. Each is a claim this repo makes that its own checker rejects
+### Refutations: now visible. Each is a claim this repo makes that its own checker rejects
 
 - [ ] REFUTE-02 C-012: live `~/.claude/CLAUDE.md` is DELETED and `settings.json` was rewritten (7440b to 6807b) since the 2026-07-29 baseline. The global instruction file the harness reasons about is gone and nothing noticed for two days. Decide: re-baseline (accepting the deletion as intended) or restore. NOT a code fix; needs the operator to say which
 - [ ] REFUTE-03 C-025: the pre-write snapshot for the pending settings.json write is INCOMPLETE, many `agents/*.md` MISSING, so that write is not revertable from it. A rollback source recorded as present and measured as partial is the same class as C-012
@@ -473,7 +681,7 @@ that produced it; where a number is asserted rather than measured it says so.
       rather than the directory, because a runner creates the empty directory. Verified
       against `HOME=/tmp/fakehome-no-claude`.
 
-### Withdrawn, kept visible
+### Withdrawn: kept visible
 
 - [x] **WITHDRAWN: `strand.py` `NOT_A_CONSUMER` declared-but-unapplied.** It is applied, at
       line 199 in `evaluate()`, one layer past where I was reading. The tell was that my

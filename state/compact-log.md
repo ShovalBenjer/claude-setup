@@ -3355,3 +3355,91 @@ deletion of `research-papers/docs-shoval/**` that nobody here owns.
 3. `glmark2-wayland` to settle the GPU question on the path kitty actually uses.
 4. Watch whether anything ever ACTS on an issue #38 item. If the feed has posts and no
    engagement it is the bus's successor in the worst way, and the answer is to post less.
+## compact 2026-08-10 11:08
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:08
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:08
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:08
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:11
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:11
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:11
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:11
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```

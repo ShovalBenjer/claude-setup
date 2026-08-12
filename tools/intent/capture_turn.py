@@ -95,6 +95,20 @@ def enrich(payload: dict[str, Any], ticket: str, text: str, sha: str, seq: int) 
     """
     import argparse
 
+    # The package is not installed. It lives in this repo, and the live settings.json
+    # runs this hook under plain `python3`, an interpreter with no venv and nothing of
+    # ours on its path. Without this line the import below raised ModuleNotFoundError,
+    # the caller's bare except swallowed it, and every prompt from the 2026-07-31 WSL
+    # move to 2026-08-10 wrote its hash and dropped its text. Ten days, no signal,
+    # because the swallow is correct and the interpreter was wrong.
+    #
+    # Inserted here rather than at module scope on purpose: step 1, the durable hashed
+    # row, must keep needing no package import at all, and a top-level path change would
+    # blur the line the docstring draws between the two halves.
+    src = REPO_ROOT / "intent-control-plane" / "src"
+    if src.is_dir() and str(src) not in sys.path:
+        sys.path.insert(0, str(src))
+
     from intent_control_plane.cli import capture, extract_intent
     from intent_control_plane.schema import DEFAULT_BASE_DIR, connect
     from intent_control_plane.util import stable_id
