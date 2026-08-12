@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "keep-ours",
+ "verdict_class": "keep-ours",
+ "absorption_status": "unreviewed",
  "why": "Live in CI (ship-gate.yml:202), fully offline, meeting the house CI rule now. Targets use a bespoke argparse `selftest`, not pytest (0 test_*.py exist outside vendored .venv), so mutmut/cosmic-ray's core model -- mutate + rerun an existing pytest suite -- needs a layer never adopted here. These specs narrate WHY each mutation matters, tied to 2 real regressions this harness already found in bus.py, and grade each catch as named-check/crash/survived (mutate.py:172-194), not bare pass/fail. For 5 small files read by one person, that outweighs generic auto-coverage.",
  "alternatives": [
   {

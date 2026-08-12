@@ -3,6 +3,8 @@
  "reviewed": "2026-07-26",
  "recheck_after": "2026-10-24",
  "verdict": "keep-ours",
+ "verdict_class": "keep-ours",
+ "absorption_status": "unreviewed",
  "why": "Every one of the ten evaluated tools treats 'is this result still good' as a cache-invalidation problem to rerun cheaply (pre-commit, lefthook, nox/tox) or has no such concept at all (Make/just, Dagger/Earthly, Danger/reviewdog, SonarQube) -- none binds a PASS to a git-working-tree hash that a SEPARATE process (the Stop hook, a different subprocess invocation entirely) can check to refuse a claim made after further edits, which is property (a) and the actual reason tree_fingerprint plus the shared ledger exist. And none ships a first-class waiver-with-expiry primitive: pre-commit's SKIP and lefthook's skip: are bypasses with no reason or date; SonarQube's 'won't fix' has no documented expiry; OPA/conftest's Rego COULD express one via the time namespace but ships none, confirmed by search -- every real-world example found is Rego someone wrote themselves, meaning adoption still means hand-authoring the same ~30-line expiry check gate.py already has, just in a second language, on top of a new binary dependency. For a repo with one maintainer, a hard stdlib-only house habit, and a requirement to run identically offline in CI on Windows, paying for a new runtime plus DSL to get a policy-evaluation layer that would still need the fingerprint, ledger, and both properties hand-written anyway is a worse trade than the ~700-900 lines of Python that already do it in one language, greppable and debuggable with print statements.",
  "alternatives": [
   {

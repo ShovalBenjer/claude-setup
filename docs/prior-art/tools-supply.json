@@ -3,6 +3,8 @@
  "reviewed": "2026-07-30",
  "recheck_after": "2026-10-28",
  "verdict": "keep-ours-thin",
+ "verdict_class": "keep-ours",
+ "absorption_status": "unreviewed",
  "why": "The verdict is deliberately not 'keep-ours'. Every SCANNING and SIGNING capability in this space is better done by software that already exists, and verify.py does not reimplement any of it: SCANNERS is a five-entry dispatch table that shells out to osv-scanner, trivy, grype, cargo-audit and pip-audit, and sign-check shells out to `gh attestation verify` or `cosign verify-blob`. What is kept is the roughly 120 lines that none of them provide: a per-ARTIFACT decision record with a refusal rule attached (evaluate(), the four properties, the non-waivable hash), keyed on the sha256 of bytes that landed on this machine rather than on a package name in a manifest. Every alternative below is scoped to a PROJECT'S DECLARED DEPENDENCIES -- a Cargo.lock, a requirements.txt, an image manifest -- and the driving case is not a dependency at all: a release zip and an install script downloaded by a human at a terminal. cargo-vet is the nearest neighbour philosophically and is the model this was shaped after; it is rejected on scope, not on quality. The second kept property is that ABSENCE IS RECORDED: on this machine, measured 2026-07-30, none of the five scanners and neither cosign nor syft is installed, so any design that assumed a scanner would report clean on a machine where nothing ran. `unavailable` aggregating to a refusal is the rule the repo already runs on (gate.py: UNCOVERED fails) applied one layer out.",
  "alternatives": [
   {

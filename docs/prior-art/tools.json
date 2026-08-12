@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "split",
+ "verdict_class": "split",
+ "absorption_status": "unreviewed",
  "why": "Split: 3 unrelated jobs. slop_lint->replace: Vale's existence/regex rules do this exactly (banned phrases + dash rule) as one Windows binary, and could absorb audit_claude_setup's STALE_GLOBAL_PHRASES ban too (lines 36-42,239-241). setup_token_pty->keep-ours: it already delegates the real PTY to pywinpty/ConPTY, the only Windows-native option; pexpect is POSIX-only, stdlib pty doesn't exist on Windows. Its bug is packaging, not code. audit_claude_setup->keep-ours by default, no generic tool covers this shape, but it has zero callers anywhere, unlike slop_lint which has /slop.",
  "alternatives": [
   {

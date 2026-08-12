@@ -3,6 +3,9 @@
   "reviewed": "2026-07-30",
   "recheck_after": "2026-10-28",
   "verdict": "absorb-mechanism",
+  "verdict_class": "absorb",
+  "absorption_status": "absorbed",
+  "absorbed": "The mechanism, not the code: trycmd 1.2.1's literate `.trycmd` block grammar and snapbox 0.6.21's `[..]` intra-line and `...` line elision rules, ported to stdlib Python in tools/trycmd/trycmd.py. Recorded in this record's own absorbed_from and divergences_from_upstream fields, which predate this schema change and are what it was generalised from.",
   "absorbed_from": {
     "crate": "trycmd",
     "version": "1.2.1",
