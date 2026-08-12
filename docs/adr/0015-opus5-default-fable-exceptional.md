@@ -1,6 +1,6 @@
 # ADR-0015 — Opus 5 is the lead default; Fable is exceptional-only
 
-Date: 2026-07-24. Status: accepted. Supersedes the Opus-4.8/Fable routing in ADR-0006-era model-selection.
+Date: 2026-07-24. Status: superseded 2026-08-12 (operator: Opus 5 no longer available; roster is fable-5 / sonnet-5 / opus-4.6 / haiku-4.5, fable saved as session default; see the 2026-08-12 correction in dot-claude/rules/model-selection.md). Supersedes the Opus-4.8/Fable routing in ADR-0006-era model-selection.
 
 ## Context
 

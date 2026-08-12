@@ -47,13 +47,13 @@ requires the row's own timestamp for exactly this reason.
 
 ## Lane C: Learning (הסדנה)
 
-- Owns: daily-deep-learning PWA, learning cards, study loops.
+- Owns: `~/work/repos/daily-deep-learning`. PWA, learning cards, study loops.
 - Gets from A: learning-card emitter hook (SETUP-OS #10), nothing else.
 
 ## Lane D: Content and Publishing (added 2026-07-29 as Lane E)
 
-- Owns: the personal writing/case-study artifacts and their syndication
-  strategy. The-bench case-ledger post lives at
+- Owns: `~/work/repos/daily-deep-learning/writing`. The personal
+  writing/case-study artifacts and their syndication strategy. The-bench case-ledger post lives at
   `daily-deep-learning/writing/` (hosted on the הסדנה domain, which is the
   public site) but is Content, not learning material; C hosts it, D owns it.
 - Skills (currently in `~/.claude/skills`, to sync to claude-setup canonical):

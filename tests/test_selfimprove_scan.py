@@ -62,18 +62,23 @@ class HookTargetResolution(unittest.TestCase):
         self.assertEqual(scan.resolve_hook_target(raw), Path(raw))
 
     def test_a_real_live_hook_is_not_reported_missing(self) -> None:
-        """The exact regression: a live hook wired in MSYS form resolves to itself.
+        """The regression, merged from two independent 2026-08-12 fixes.
 
-        The fixture is built independently of the resolver: the same file named
-        both natively and in MSYS form. The old version keyed the skip on the
-        WSL-home copy while asserting on the C: copy, which broke on 2026-08-12
-        when the Windows-side hooks dir was retired after the WSL migration.
-        """
+        Both sides retargeted this after the Windows-side .claude estate was
+        deleted (WSL is now the only install). The main-branch fix kept the MSYS
+        arm but keyed its skip on the Windows copy, which on this host always
+        skips, a dead check. The branch fix asserted the actually-wired live
+        hook resolves, which always runs. Keep both: the MSYS arm exercises the
+        cross-form mapping wherever a Windows copy exists, and the live arm
+        guarantees the check cannot go permanently quiet on any host."""
+        live = Path.home() / ".claude" / "hooks" / "session-recall.sh"
+        if not live.is_file():
+            self.skipTest("live session-recall.sh absent on this machine")
+        self.assertTrue(scan.resolve_hook_target(str(live)).exists())
         native = Path("/mnt/c/Users/shova/.claude/hooks/session-recall.sh")
-        if not native.is_file():
-            self.skipTest("no Windows-side session-recall.sh on this machine")
-        wired = "/c/Users/shova/.claude/hooks/session-recall.sh"
-        self.assertTrue(scan.resolve_hook_target(wired).exists())
+        if native.is_file():
+            wired = "/c/Users/shova/.claude/hooks/session-recall.sh"
+            self.assertTrue(scan.resolve_hook_target(wired).exists())
 
     def test_an_absent_hook_is_still_detected(self) -> None:
         """The check must not be fixed by making it unable to fire."""
