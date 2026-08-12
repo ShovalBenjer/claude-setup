@@ -41,6 +41,9 @@ VERDICT_CLASS = {
     # "build, narrowly, and the narrowness is the point": a build-ours verdict;
     # the alternatives render sessions for humans, ours extracts a corpus.
     "tools-corpus": "keep-ours",
+    # coffee-break v2 (taste row 2026-08-12): stdlib ledger CLIs; the record's
+    # own recheck flips this toward delete if the ledgers stay empty.
+    "tools-coffee": "keep-ours",
     "dot-claude-bin": "split",
     "dot-claude-hooks": "split",
     "dot-claude-skills-explain-simply": "split",
