@@ -116,3 +116,10 @@ across repos, badly, into a stale clone.
 
 Transferable rule: when a mechanism has never once executed, do not improve its inputs.
 Move the execution somewhere that already runs.
+- 2026-08-13 kitty window: all-four composition (glass 0.84 + centered 7%-alpha Clawd
+  pixel watermark + Kanagawa wave-accents-boosted over dragon base + loud chrome: top
+  slanted tabs always visible, gold active tab, 14px padding, gold active border).
+  Operator picked all four directions and asked for OOD composition; rejected Tokyo
+  Night / Rose Pine swap as the in-distribution mode. Lives as the marked override
+  block at the end of ~/.config/kitty/kitty.conf; revert = delete block or restore
+  kitty.conf.bak-2026-08-13-pre-glass.
