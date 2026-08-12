@@ -105,6 +105,86 @@ def default_base(project: str) -> str:
 HUNK = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
 
 
+# Four checks read comments ON PURPOSE and must keep seeing them. Every other check
+# is about code that runs, so a commented line is not its subject.
+#
+#   todo-added      a TODO/FIXME/XXX/HACK marker, which lives in a comment
+#   commented-code  matches a line that BEGINS with # or //, by definition
+#   py-type-ignore  `# type: ignore` IS a comment pragma
+#   ts-escape       `// @ts-ignore` likewise
+#
+# This set was NOT hand-guessed. The first draft listed two and the panel's own
+# selftest immediately reported `MISS correctness py-type-ignore`, which is the
+# selftest doing precisely its job: a change that makes a noisy checker quiet is
+# the shape of a suppression, and the fixture caught the over-reach on the first
+# run. The remaining two were then found by probing every registered check in
+# every language it declares against comment-only strings, rather than by reading
+# the list again and trusting a second guess. tests/test_panel_comment_strip.py
+# pins the membership so a future check that reads comments fails loudly here.
+COMMENT_AWARE = {"todo-added", "commented-code", "py-type-ignore", "ts-escape"}
+
+# Comment openers by language. Only the dialects the check list actually registers.
+_LINE_COMMENT = {
+    "py": ("#",), "sh": ("#",), "rb": ("#",), "yaml": ("#",), "yml": ("#",),
+    "js": ("//",), "ts": ("//",), "go": ("//",), "rs": ("//",), "java": ("//",),
+    "kt": ("//",), "swift": ("//",), "cs": ("//",), "php": ("//", "#"),
+    "sql": ("--",),
+}
+
+
+def code_only(text: str, lang: str) -> str:
+    """The part of a line that is code, with any trailing comment removed.
+
+    WHY. On 2026-08-03 the review domain carried a HIGH from py-shell-true against
+    tools/map/codemap.py:66, whose matched line is a COMMENT quoting
+
+        subprocess.run("git " + args, shell=True)
+
+    while explaining why that form is deliberately not used. The pattern is correct
+    about the string and wrong about the world: a quotation of a dangerous call is
+    not a dangerous call. That is L-2026-07-31-b, the gate checking the ruled form
+    of a rule instead of the property the rule protects, and it is the third logged
+    instance after sql-concat on this same file and hooks_exist on 2026-08-03.
+
+    Deliberately conservative. The opener only counts when it is outside a string
+    literal, so `subprocess.run(f"echo #{x}", shell=True)` is untouched and still
+    fires, and a real call with a trailing `# noqa` still fires because the code
+    precedes the comment.
+
+    KNOWN RESIDUAL, stated rather than hidden: this is line-oriented, because the
+    panel scans added diff lines and never holds the whole file. A line inside a
+    triple-quoted docstring that quotes shell=True has no `#` on it and will still
+    match. Closing that needs file-level parsing, which is a different change from
+    this one; tests/test_panel_comment_strip.py pins the residual so it cannot be
+    mistaken for solved.
+    """
+    openers = _LINE_COMMENT.get(lang)
+    if not openers:
+        return text
+    quote = ""
+    i = 0
+    n = len(text)
+    while i < n:
+        c = text[i]
+        if quote:
+            if c == "\\":
+                i += 2
+                continue
+            if c == quote:
+                quote = ""
+            i += 1
+            continue
+        if c in "\"'`":
+            quote = c
+            i += 1
+            continue
+        for op in openers:
+            if text.startswith(op, i):
+                return text[:i]
+        i += 1
+    return text
+
+
 def added_lines(project: str, base: str) -> list[dict]:
     """Every line this change adds, as {file, line, text}.
 
@@ -495,6 +575,7 @@ def run_local(lines: list[dict]) -> list[dict]:
     findings: list[dict] = []
     for persona, spec in PERSONAS.items():
         for cid, sev, langs, pat, why in spec["checks"]:
+            comment_aware = cid in COMMENT_AWARE
             rx = re.compile(pat)
             for ln in lines:
                 if EXEMPT.search(ln["file"]) or SELF_REFERENTIAL.search(ln["file"]):
@@ -513,7 +594,8 @@ def run_local(lines: list[dict]) -> list[dict]:
                     # wildcard CORS origin. No registered check names "md", so nothing
                     # that exists loses coverage here.
                     continue
-                if not rx.search(ln["text"]):
+                hay = ln["text"] if comment_aware else code_only(ln["text"], lang)
+                if not rx.search(hay):
                     continue
                 findings.append({
                     "persona": persona, "check": cid, "severity": sev,

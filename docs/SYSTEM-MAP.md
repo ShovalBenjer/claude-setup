@@ -1,4 +1,4 @@
-# SYSTEM MAP — the whole Claude OS, honestly scored
+# SYSTEM MAP, the whole Claude OS, honestly scored
 
 Status: living map (re-audit when a phase lands). Created 2026-07-24 by a fresh-context
 mapping agent, from direct reads of: `tools/*`, `dot-claude/*` (hooks/rules/commands/
@@ -14,12 +14,38 @@ Key verified ground truths this map corrects against the prose:
   kernel-anchor, precompact-handoff, notify-toast) + `~/.claude/hooks/` holds 9 files.
   The 24-hook set in `dot-claude/hooks/` is payload: staged/imported, not enforcing. VERIFIED.
 - Live global model is `claude-fable-5[1m]` (pending operator flip to sonnet). VERIFIED.
-- Both local crons (digest 07:03, weekly loop Mon 08:17) are **session-only** — they die
+- Both local crons (digest 07:03, weekly loop Mon 08:17) are **session-only**, they die
   with the session; no Task Scheduler job exists. VERIFIED via CronList.
 - `docs/taste.md` does not exist → zero /diverge picks ever recorded. VERIFIED.
 - Flywheel has 3 router decisions logged (target ~10k before training). VERIFIED.
 - Nightly autonomy workflow exists in v2 form; **first scheduled run has not happened**. VERIFIED (workflow file + PRD row STAGED).
 - 22-repo OAuth rollout + PR #2 live review demonstration: TODO/PRD claims, not re-smoked here (STAGED evidence).
+
+## CORRECTION 2026-07-31: five rows above marked VERIFIED are no longer true
+
+Re-measured today, lane A. Recorded as a correcting block rather than an edit to the
+list above, because a map that quietly rewrites its own past readings stops being
+evidence of anything. The list above is what was true on 2026-07-24.
+
+| the VERIFIED row above | measured 2026-07-31 |
+|---|---|
+| only 4 hooks are LIVE-wired | 7 hook events, 7 registrations in live settings.json |
+| live global model is `claude-fable-5[1m]` | `opus[1m]`, effort `low`; the fable experiment was ended by operator decision on 2026-07-29 BEFORE its falsifier date, so it produced no verdict |
+| `docs/taste.md` does not exist, zero /diverge picks | exists, 51 lines, 1 recorded pick |
+| both local crons are session-only | unchanged, still true |
+| nightly autonomy first scheduled run has not happened | unchanged, still true |
+
+Two structural numbers the map predates entirely: the quality contract now declares
+13 domains (it did not exist in this form on 2026-07-24), and the refutation layer
+added since then measured 26 of 26 verifiers unable to launch under WSL until it was
+repaired today.
+
+The map's one-sentence read still holds and is the reason it is worth keeping: the
+green is concentrated in observation and review surfaces, the red in connective
+tissue. Nothing measured today moved a red row to green.
+
+Full reconciliation:
+`analysis/2026-07-31-inventory-reconciliation-and-the-docs-control-plane.md`.
 
 Scoring: `inv` = effort invested 0-5 (0 = nothing, 1 = spec/ADR only, 2 = artifact exists,
 3 = works + ran at least once, 4 = works + repeatedly exercised, 5 = hardened). `need` =
@@ -32,7 +58,7 @@ fired / blocked), `spec-only` (ADR/spec/prose, no working artifact), `imported-u
 
 ---
 
-## H — HUMAN-TOUCHING (everything that reaches a human)
+## H: HUMAN-TOUCHING (everything that reaches a human)
 
 | Cat | Component | What it does | inv | need | Status |
 |---|---|---|---|---|---|
@@ -49,30 +75,30 @@ fired / blocked), `spec-only` (ADR/spec/prose, no working artifact), `imported-u
 | H | Operator runbook + pending-decisions list | the manual-unblock surface (token, keys, Task Scheduler, model default) | 2 | 2 | live |
 | H | Learning-card emitter → הסדנה (SETUP-OS #10) | bridge from shipped work to lane D study queue | 0 | 2 | spec-only |
 
-## M — META-LEARNING (the system improving itself)
+## M: META-LEARNING (the system improving itself)
 
 | Cat | Component | What it does | inv | need | Status |
 |---|---|---|---|---|---|
 | M | Lessons ledger (state/lessons.jsonl, 9 rows L001-L009) | incident → lesson → enforcement artifact; digest surfaces the 3-4 open ones | 3 | 3 | live |
 | M | Calibrated-claims register (rules/calibrated-claims.md + kernel-anchor v2) | VERIFIED/STAGED/ASSUMED tags injected EVERY prompt; downgrades = logged calibration losses | 3 | 4 | live (injection); downgrade logging still manual |
-| M | Self-improve scanner (tools/selfimprove/scan.py → proposals.jsonl) | reads real signals (TODO, git drift, hook health, test gaps, flywheel volume) → 11 ranked typed proposals | 3 | 4 | live (signals still shallow — mostly TODO echoes) |
+| M | Self-improve scanner (tools/selfimprove/scan.py → proposals.jsonl) | reads real signals (TODO, git drift, hook health, test gaps, flywheel volume) → 11 ranked typed proposals | 3 | 4 | live (signals still shallow, mostly TODO echoes) |
 | M | Weekly self-improvement loop (cron Mon 08:17) | rerun scanner + propose harness diffs | 2 | 4 | staged (session-only cron; loop = scan only) |
 | M | Research loop (AUTO-17, research_sweep.py) | papers → practice-diff proposals into the queue | 0 | 3 | spec-only (file unbuilt) |
 | M | SLM flywheel S1 (reflex_router + route_classify + router_decisions.jsonl) | logs route/risk/escalate per prompt as future training data; 3 rows vs ~10k target | 2 | 3 | staged |
 | M | Reputation (ADR-0008 + reputation table + Thompson routing AUTO-20) | external-truth-only track record steering allocation | 1 | 3 | spec-only |
 | M | /diverge (dot-claude/commands/diverge.md) | verbalized sampling, 5 candidates w/ p_conventional, operator picks | 2 | 3 | live (command exists; zero recorded uses) |
-| M | taste.md corpus | accumulated picks + reasons conditioning future creative work | 0 | 3 | spec-only (file absent — VERIFIED) |
+| M | taste.md corpus | accumulated picks + reasons conditioning future creative work | 0 | 3 | spec-only (file absent, VERIFIED) |
 | M | Memory + web write pipe (auto-memory + tools/memory/web_to_memory.py) | typed reference cards w/ source+staleness; one real card written + recalled | 2 | 3 | live (thin) |
 | M | Capability honesty matrix (L1) | table of what each rail verifies vs claims | 0 | 2 | spec-only (this map is its first draft) |
 
-## S — SDLC (forge loop, review fabric, autonomy discipline)
+## S: SDLC (forge loop, review fabric, autonomy discipline)
 
 | Cat | Component | What it does | inv | need | Status |
 |---|---|---|---|---|---|
-| S | Deep-work kernel injection (kernel-anchor.sh, UserPromptSubmit) | acceptance-checklist-first, loop-until-covered, evidence-format done — every prompt | 3 | 3 | live |
+| S | Deep-work kernel injection (kernel-anchor.sh, UserPromptSubmit) | acceptance-checklist-first, loop-until-covered, evidence-format done, every prompt | 3 | 3 | live |
 | S | Forge-loop / TDD gates (tdd-enforcement, coverage-enforcer.sh, verification-before-completion.sh) | RED→GREEN + no-done-without-proof at tool level; present in payload, NOT in live settings | 2 | 3 | imported-unwired |
 | S | Claude review workflow (22 repos, always-fresh on synchronize) | fabric reviews all PRs incl. its own (dogfooding) | 4 | 4 | live |
-| S | Gemini second reviewer (github/gemini-review.yml + a2a-gemini-call.py + rollout_gemini_key.sh) | different-family decorrelated review, free tier | 3 | 4 | staged — BLOCKED(operator: GEMINI_API_KEY) |
+| S | Gemini second reviewer (github/gemini-review.yml + a2a-gemini-call.py + rollout_gemini_key.sh) | different-family decorrelated review, free tier | 3 | 4 | staged, BLOCKED(operator: GEMINI_API_KEY) |
 | S | Agreement gate comparator (ADR-0004) | compare two reviews → agree=post w/ provenance, disagree=escalate; NOTHING compares them yet | 1 | 4 | spec-only |
 | S | Nightly autonomy (claude-nightly.yml v2: no-Bash agent, auto/* cap fail-closed, in-run review) | cloud rail works laptop-off; picks ONE proposal, opens labeled PR | 4 | 4 | staged (first scheduled run pending) |
 | S | Merge policy (AUTO-11: auto:low auto-merge / auto:risky → phone) | closes the loop from review to landing | 1 | 4 | spec-only |
@@ -82,29 +108,29 @@ fired / blocked), `spec-only` (ADR/spec/prose, no working artifact), `imported-u
 | S | Boundary-contracts / repo-topology / prod-means-smoked rules | review standards encoded as rules; enforced via review prompts, not automated gates | 2 | 2 | live (prose+prompt level) |
 | S | OS repo's own test CI | claude-setup has NO test workflow; ICP's 48 test files never run in CI here | 1 | 3 | spec-only |
 
-## X — DELIBERATION TEXTURE (visible multi-agent disagreement — the thin category)
+## X: DELIBERATION TEXTURE (visible multi-agent disagreement, the thin category)
 
 | Cat | Component | What it does | inv | need | Status |
 |---|---|---|---|---|---|
-| X | Two-Claude review dialogue (PR #2) | GitHub-Claude reviewed, session-Claude replied — a visible agent-vs-agent exchange, once | 2 | 3 | live (demonstrated once, not institutional) |
+| X | Two-Claude review dialogue (PR #2) | GitHub-Claude reviewed, session-Claude replied, a visible agent-vs-agent exchange, once | 2 | 3 | live (demonstrated once, not institutional) |
 | X | In-run self-review on nightly PRs | fresh-eyes second job reviews the nightly PR in the same workflow | 2 | 3 | staged |
 | X | Dissent ledger / "agents disagreed" reporting | durable record of verdict conflicts surfaced to operator (digest/FleetView) | 0 | 4 | spec-only (one designed line: "disagree → digest"; nothing built) |
 | X | Agreement-gate disagreement path | the ONLY structural producer of dissent signal; blocked behind Gemini key + comparator | 1 | 4 | spec-only |
 | X | /diverge candidate spread | 5 candidates with conventionality probabilities SHOWN to operator = deliberation made visible | 2 | 3 | live (unused so far) |
-| X | Adversarial downgrade pass | own red-team pass downgraded 9/20 fresh PRD rows within hours — happened once, manually, no cadence | 1 | 3 | spec-only (as a practice) |
+| X | Adversarial downgrade pass | own red-team pass downgraded 9/20 fresh PRD rows within hours, happened once, manually, no cadence | 1 | 3 | spec-only (as a practice) |
 | X | Aspect-split verifier panels (Deep Work rule 12) | parallel single-aspect verdicts (correctness/security/contract/simplicity/slop), each binary + evidence | 0 | 3 | spec-only |
-| X | Persona review economy (spec + 23 agent files) | contracts, reputation, PIP/firing — a debate ECONOMY; personas imported as prose | 2 | 3 | imported-unwired (spec active, market unbuilt) |
+| X | Persona review economy (spec + 23 agent files) | contracts, reputation, PIP/firing, a debate ECONOMY; personas imported as prose | 2 | 3 | imported-unwired (spec active, market unbuilt) |
 
-## I — INFRASTRUCTURE (state, schedulers, hooks, lanes, bridges)
+## I: INFRASTRUCTURE (state, schedulers, hooks, lanes, bridges)
 
 | Cat | Component | What it does | inv | need | Status |
 |---|---|---|---|---|---|
 | I | ecosystem.db (ADR-0011, tools/eco/db.py) | system-of-record: sessions/proposals/runs/lessons/reputation/post_queue/repo_registry; named unblock for AUTO-04/14/19 | 1 | 5 | spec-only |
 | I | Interim state files (claims.jsonl, lessons.jsonl, compact-log.md, proposals.jsonl) | scanner-safe JSONL carrying the OS until the db lands | 2 | 2 | live |
-| I | Rail 1 — local CronCreate (digest 07:03, weekly 08:17) | local scheduled work; BOTH session-only → die on session death | 2 | 4 | staged (mortal) |
-| I | Rail 2 — Windows Task Scheduler | always-on local rail (concierge relaunch, digest, WhatsApp) | 1 | 4 | spec-only — BLOCKED(operator, runbook §5) |
-| I | Rail 3 — GitHub Actions schedule | cloud rail, laptop-off; nightly cron + event-triggered reviews | 3 | 4 | staged (schedule) / live (events) |
-| I | Live hook set (4: session-recall, kernel-anchor, precompact-handoff, notify-toast) | boot recall, kernel injection, compaction handoff, toast — the actual enforcing surface | 3 | 3 | live |
+| I | Rail 1, local CronCreate (digest 07:03, weekly 08:17) | local scheduled work; BOTH session-only → die on session death | 2 | 4 | staged (mortal) |
+| I | Rail 2, Windows Task Scheduler | always-on local rail (concierge relaunch, digest, WhatsApp) | 1 | 4 | spec-only, BLOCKED(operator, runbook §5) |
+| I | Rail 3, GitHub Actions schedule | cloud rail, laptop-off; nightly cron + event-triggered reviews | 3 | 4 | staged (schedule) / live (events) |
+| I | Live hook set (4: session-recall, kernel-anchor, precompact-handoff, notify-toast) | boot recall, kernel injection, compaction handoff, toast, the actual enforcing surface | 3 | 3 | live |
 | I | Staged hook payload (24 in dot-claude/hooks: stop-checklist, intent-capture, protect-infra, watchdog, eval-gate, hive-review-bridge…) | the work-grade enforcement mesh; present, not bound in live settings | 2 | 3 | imported-unwired |
 | I | Lanes/charters (ADR-0013 + docs/charters.md + claims protocol) | structural anti-convergence: A concierge / B harness / C resume / D learning | 2 | 3 | live (doc + seed claim; L006 still open) |
 | I | Concierge lane A (AUTO-05) | durable phone-facing intake session + relaunch job; kills the orphan-RC problem (L007) | 1 | 5 | spec-only |
@@ -119,7 +145,7 @@ fired / blocked), `spec-only` (ADR/spec/prose, no working artifact), `imported-u
 
 ---
 
-## Diagram — real data flows, colored by status
+## Diagram, real data flows, colored by status
 
 Green = live, yellow = staged, red = spec-only / unwired. Dashed edges = designed but not
 yet flowing.
@@ -237,8 +263,8 @@ flowchart LR
   TDD -.-> NIGHTLY
 ```
 
-(44 nodes. The red cluster in the middle of the flow — APPROVE, AGREE, MERGEPOL, ECODB,
-CONC, DISSENT — is not decoration: every green producer currently dead-ends into a red
+(44 nodes. The red cluster in the middle of the flow, APPROVE, AGREE, MERGEPOL, ECODB,
+CONC, DISSENT, is not decoration: every green producer currently dead-ends into a red
 consumer. The system generates work and reviews but cannot yet close a loop without a
 human hand-carrying state.)
 
@@ -248,28 +274,28 @@ human hand-carrying state.)
 
 | # | Component | inv→need | Δ | Why it is the bottleneck |
 |---|---|---|---|---|
-| 1 | Approval round-trip (H) | 1→5 | 4 | Push is outbound-only. Until "approve <id>" writes approved_at, BOTH gated loops (risky merge AUTO-11, social publish ADR-0014) are structurally impossible — every other investment upstream of them stalls here. |
-| 2 | ecosystem.db (I) | 1→5 | 4 | The named unblock for work-claims (AUTO-04), post_queue (AUTO-14), FleetView (AUTO-19), runs/reputation. Every JSONL interim is a debt against this one artifact. Schema + ancestor code already imported (ICP) — this is excavation, not invention. |
+| 1 | Approval round-trip (H) | 1→5 | 4 | Push is outbound-only. Until "approve <id>" writes approved_at, BOTH gated loops (risky merge AUTO-11, social publish ADR-0014) are structurally impossible, every other investment upstream of them stalls here. |
+| 2 | ecosystem.db (I) | 1→5 | 4 | The named unblock for work-claims (AUTO-04), post_queue (AUTO-14), FleetView (AUTO-19), runs/reputation. Every JSONL interim is a debt against this one artifact. Schema + ancestor code already imported (ICP), this is excavation, not invention. |
 | 3 | Concierge lane A (I) | 1→5 | 4 | L007 open: phone still spawns orphan sessions. The north star's first hop (intent from phone) has no durable landing. Spec §P0.5 is written; nothing runs. |
-| 4 | Dissent ledger / disagreement surfacing (X) | 0→4 | 4 | The operator's X category is ~empty by design debt: one demonstrated dialogue, one staged self-review, and NO artifact anywhere that records "agents disagreed" or shows it. The agreement gate's disagree branch is the natural producer — build the ledger the day the gate exists, or verdicts stay invisible. |
+| 4 | Dissent ledger / disagreement surfacing (X) | 0→4 | 4 | The operator's X category is ~empty by design debt: one demonstrated dialogue, one staged self-review, and NO artifact anywhere that records "agents disagreed" or shows it. The agreement gate's disagree branch is the natural producer, build the ledger the day the gate exists, or verdicts stay invisible. |
 | 5 | Agreement gate comparator (S) | 1→4 | 3 | Two review producers exist (one live, one staged) but nothing compares verdicts, posts provenance, or escalates conflict. Without it, "two-model review" is two monologues. |
 | 6 | Merge policy auto:low/auto:risky (S) | 1→4 | 3 | Nightly PRs (staged) will pile up unmergeable; the autonomy loop opens work it can never land. Depends on #1 for the risky branch. |
-| 7 | Windows Task Scheduler rail (I) | 1→4 | 3 | Both local crons are session-only (VERIFIED). Every local promise — digest, weekly loop, future concierge relaunch — silently dies with the session until this operator-blocked step runs. Cheapest unblock on the list (~10 min). |
+| 7 | Windows Task Scheduler rail (I) | 1→4 | 3 | Both local crons are session-only (VERIFIED). Every local promise, digest, weekly loop, future concierge relaunch, silently dies with the session until this operator-blocked step runs. Cheapest unblock on the list (~10 min). |
 | 8 | Research loop AUTO-17 (M) | 0→3 | 3 | The "system generates its own work" claim currently rests on a scanner that mostly echoes TODO.md. research_sweep.py is the second, genuinely generative source; unbuilt. |
-| 9 | Social pipeline excavation (H) | 1→4 | 3 | 44 branches of prior art sit unexcavated in the bundle while the pipeline is spec'd from scratch — an excavate-before-building violation in waiting. Blocked behind #1 and #2 for its gate + queue. |
+| 9 | Social pipeline excavation (H) | 1→4 | 3 | 44 branches of prior art sit unexcavated in the bundle while the pipeline is spec'd from scratch, an excavate-before-building violation in waiting. Blocked behind #1 and #2 for its gate + queue. |
 | 10 | taste.md + /diverge adoption (M/X) | 0→3 | 3 | The wide-then-curate mechanism is live as a command and has fired zero times (file absent, VERIFIED). Convergence/slop defenses that never run are prose (ADR-0005). |
 
 Runners-up (Δ3): FleetView (waits on #2), resume rails AUTO-15 (waits on #2), OS repo test
 CI (48 imported test files never run). Δ2 worth naming: WhatsApp triage/drafts on the
-proven reader; hook-payload wiring (24 staged hooks vs 4 live — wire deliberately, not
+proven reader; hook-payload wiring (24 staged hooks vs 4 live, wire deliberately, not
 wholesale); scanner signal depth.
 
-**Negative deltas (over-invested vs need — archive/stop candidates):** dot-codex/ 87
+**Negative deltas (over-invested vs need, archive/stop candidates):** dot-codex/ 87
 files (need 0, retired ADR-0007); voice/visual explainer chain (need 1); 62-skill estate
 carried unwired (estate triage SETUP-OS #12 is the open fix); repo graph re-runs beyond
 digest input. Effort flowing here is effort not flowing into rows 1-4.
 
 **The one-sentence read:** the system's green is concentrated in H/M/S observation-and-
 review surfaces, its red is concentrated in the CONNECTIVE tissue (db, approval, gate,
-concierge) — so today it observes, reviews, and reports like an OS, but closes loops
+concierge), so today it observes, reviews, and reports like an OS, but closes loops
 like a collection of scripts.

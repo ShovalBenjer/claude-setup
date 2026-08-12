@@ -110,6 +110,24 @@ LANE_MAP = {
     r"c:\users\shova\downloads\daily-deep-learning": "C",
     r"c:\users\shova\daily-deep-learning": "C",
     r"c:\users\shova\projects\daily-deep-learning": "C",
+    # Added 2026-07-31, after measuring that EVERY real working tree on this
+    # machine derived "?" and the ONLY path still resolving to a lane was
+    # `downloads\new-recruit`, relocated that morning and now absent. The bus was
+    # unaddressable from every live checkout while its map looked populated: the
+    # same failure as the daily-deep-learning incident above, at estate scale.
+    #
+    # Linux spellings are separate keys rather than resolved, because canon_path
+    # deliberately does not call Path.resolve() (see its docstring). A symlink is
+    # not a duplicate here: `/home/shov/claude-setup` is a symlink to
+    # `work/repos/claude-setup` (same inode 2096:92563, verified with
+    # `stat -c '%d:%i'`), so both spellings name the SAME authoritative tree and
+    # both must derive A. See the selftest note where the old "stale clone"
+    # reading of that path is corrected.
+    "/home/shov/work/repos/claude-setup": "A",
+    "/home/shov/claude-setup": "A",
+    "/home/shov/work/repos/new-recruit": "B",
+    r"c:\users\shova\new-recruit": "B",
+    "/home/shov/work/repos/daily-deep-learning": "C",
 }
 
 # An unmapped cwd is UNKNOWN, not a lane. This was "A" until 2026-07-29, which was
@@ -773,15 +791,34 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
               lane_for("/mnt/c/Users/shova/claude-setup/tools/bus") == "A")
         check("the WSL spelling of new-recruit derives lane B",
               lane_for("/mnt/c/Users/shova/Downloads/new-recruit") == "B")
-        # The migration left a second checkout at /home/shov/claude-setup, two
-        # commits behind the one under /mnt/c (measured 2026-07-31). It is NOT
-        # mapped to lane A. Which of the two is authoritative is an operator
-        # question, and until it is answered, deriving a real lane from the stale
-        # clone would attribute its messages to the harness lane -- the same
-        # "confidently wrong beats admitting ignorance" trade this file already
-        # rejected once when it removed the lane-A fallback.
-        check("the stale WSL clone under /home derives UNKNOWN, not lane A",
-              lane_for("/home/shov/claude-setup") == "?")
+        # CORRECTED 2026-07-31. This block previously asserted that
+        # /home/shov/claude-setup derives "?", on the reading that it was "a
+        # second checkout, two commits behind the one under /mnt/c" whose
+        # authority was an open operator question. That reading was wrong on the
+        # facts: it is not a checkout at all. `ls -ld` shows a symlink to
+        # `work/repos/claude-setup`, and `stat -c '%d:%i'` gives the same inode
+        # (2096:92563) for tools/gate/gate.py through either spelling. One tree,
+        # two names. Refusing it a lane made the harness lane unaddressable from
+        # the path the operator's own launchers use.
+        #
+        # This is a strengthening, not a relaxation: the guard it replaces was
+        # protecting against attributing a STALE clone's messages to lane A, and
+        # that hazard is real but lives elsewhere. It now has its own row below,
+        # aimed at the copy that genuinely is behind: the Windows claude-setup
+        # sits on `chore/delete-dolt` at 24e01de, an ancestor of main.
+        check("the symlinked harness path under /home derives lane A",
+              lane_for("/home/shov/claude-setup") == "A")
+        check("the WSL work-tree spelling of the harness derives lane A",
+              lane_for("/home/shov/work/repos/claude-setup") == "A")
+        check("the relocated new-recruit derives lane B on both hosts",
+              lane_for("/home/shov/work/repos/new-recruit") == "B"
+              and lane_for("/mnt/c/Users/shova/new-recruit") == "B")
+        check("the WSL work-tree spelling of the learning repo derives lane C",
+              lane_for("/home/shov/work/repos/daily-deep-learning") == "C")
+        # The real stale-copy hazard, kept explicit rather than implied. An
+        # unmapped sibling of a mapped tree must not inherit its lane by prefix.
+        check("a sibling directory of a mapped tree does not inherit its lane",
+              lane_for("/home/shov/work/repos/new-recruit-backup") == "?")
         check("an unmapped WSL path derives UNKNOWN",
               lane_for("/mnt/c/Windows/Temp") == "?")
 
@@ -1090,6 +1127,68 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
               "the reader saw no mark that the sender lane was declared")
         check("a row sent by cmd_send verifies",
               verify()[0] == 0, verify()[1][-200:])
+
+        # The lock, asserted STRUCTURALLY against this file's own source.
+        #
+        # mutate.py --spec bus had exactly two survivors out of 23 for weeks:
+        # "append_row stops taking the lock" and "the lock is released before
+        # the write instead of after". Everything above races nothing, so
+        # nothing above could ever notice.
+        #
+        # A concurrency check is the wrong instrument and would have been worse
+        # than this gap. append_row's docstring says the lock exists because
+        # overlapping writes destroy whole rows ON WINDOWS; on Linux an O_APPEND
+        # write below PIPE_BUF is atomic, so two racing appends both land intact
+        # with the lock deleted. That test passes here, passes in CI, and asserts
+        # nothing: L-2026-07-31-g, a host-shaped oracle answering a different
+        # question on the other host.
+        #
+        # So this asserts what CAN be checked on any host: the bytes go to disk
+        # inside the `with file_lock(...)` block. It cannot prove the lock
+        # excludes anyone. It proves nobody moved the write out from under it,
+        # which is precisely what both survivors do. Reading __file__ is what
+        # makes it work under mutation, since mutate.py runs a mutated COPY of
+        # this file and the parse therefore sees the mutant.
+        try:
+            import ast as _ast
+            _src = Path(__file__).read_text(encoding="utf-8")
+            _fn = next((n for n in _ast.walk(_ast.parse(_src))
+                        if isinstance(n, _ast.FunctionDef)
+                        and n.name == "append_row"), None)
+            if _fn is None:
+                check("append_row still exists to be checked", False,
+                      "no append_row in this module")
+            else:
+                _locks = []
+                for _n in _ast.walk(_fn):
+                    if not isinstance(_n, _ast.With):
+                        continue
+                    for _it in _n.items:
+                        _c = _it.context_expr
+                        if isinstance(_c, _ast.Call) and (
+                                getattr(_c.func, "id", None)
+                                or getattr(_c.func, "attr", None)) == "file_lock":
+                            _locks.append(_n)
+                check("append_row takes the file lock", bool(_locks),
+                      "the hash-chained ledger is appended with no exclusion")
+
+                _inside = set()
+                for _lk in _locks:
+                    for _st in _lk.body:
+                        for _n in _ast.walk(_st):
+                            _inside.add(id(_n))
+                _writes = [n for n in _ast.walk(_fn)
+                           if isinstance(n, _ast.Call)
+                           and isinstance(n.func, _ast.Attribute)
+                           and n.func.attr == "write"]
+                _out = [w for w in _writes if id(w) not in _inside]
+                check("append_row performs a write at all", bool(_writes),
+                      "the function no longer writes; its shape changed")
+                check("every append_row write is inside the lock", not _out,
+                      "write(s) at line {} run with the lock released".format(
+                          sorted(w.lineno for w in _out)))
+        except Exception as _e:  # a parse failure is a FAIL, never a silent skip
+            check("the structural lock check ran", False, repr(_e))
     finally:
         BUS, CURSORS = real_bus, real_cursors
         for d in made:

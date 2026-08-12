@@ -1,5 +1,7 @@
 # Architecture build plan, merged 2026-07-29 (plan of record)
 
+Status: superseded by 2026-07-29-architecture-build-plan-v2.md the same day.
+
 One structured plan merging: TODO.md (all sections as of this evening), the
 2026-07-29 specs (deterministic-preflight, intent-traceability,
 prompt-to-ticket-lifecycle, trace-model, decision-rules), the session retro,

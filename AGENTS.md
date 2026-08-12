@@ -63,13 +63,45 @@ The layering is contract, then oracle, then that oracle's selftest, then a mutat
 
 ## Gotchas
 
+- `codemap.py write` reads `git ls-files`, so it counts TRACKED files and cannot see a new
+  file you have not staged yet. Regenerating "last, just before committing" is therefore not
+  enough and fired three times in one session on 2026-08-08: the map was written, `git add -A`
+  then made a new test file tracked, and the committed map was stale by one file. The order
+  that works is `git add -A`, then `codemap.py write`, then `git add -A` again, then commit.
 - `docs/CODEBASE-MAP.md` is generated. A hand edit reads as drift and fails `codemap.py check`. To change a directory's purpose, edit that directory's own `SKILL.md` or `README.md`, or its row in `docs/dir-purpose.txt`. A row beside a self-documenting directory is an error, not an override.
 - A new tracked directory with no stated purpose fails the gate. A new Python component over 300 lines owes `docs/prior-art/<name>.json` with real named alternatives and an expiry date; an empty alternatives list fails.
 - The `review` domain matches its artifact by commit sha rather than by tree, so a verdict written against a dirty tree keeps reading as current for that commit.
-- Roughly half of `dot-claude/hooks` and about a dozen `dot-claude/skills` entries are one-line stubs naming `~/.codex` paths that do not exist on this machine. A hook that cannot run fails open and reports nothing. `tools/audit/pointers.py scan` is the check for it.
+- 12 of the 29 files in `dot-claude/hooks` are one-line stubs whose whole body is a path under `/home/shovalbe/.codex/`, a home directory that does not exist on this machine (the user here is `shov`). A hook that cannot run fails open and reports nothing. `tools/audit/pointers.py scan` is the check for it. The skills half of this row was stale and is corrected: re-measured 2026-08-01, `dot-claude/skills` has 0 stubs across 73 entries, and the 6 skills that still name a `shovalbe` path do so inside otherwise real bodies. Repo-wide the dead home is still cited by 359 files, of which 241 are markdown; the executable residue is concentrated in `dot-codex/hooks` and `dot-claude/bin`.
+- Separately from stubs, most real hooks are simply not wired. 23 of 29 `dot-claude/hooks` entries appear nowhere in the live `~/.claude/settings.json`, which runs 12 hook entries across 7 events. Some of those 23 are legitimately superseded (`bus-inbox.sh` by `bus.py inbox`, `pretooluse_gate.py` by the `hookgate` Rust binary, `skill-usage-logger.sh` by the live `skill-usage-log.sh`), and the rest have never been adopted. Presence in the tree is not deployment; check `settings.json` before assuming a guard runs.
 - Windows specifics, both documented in `docs/QUALITY-CONTRACT.md` and deliberately unwaived: three `intent-control-plane` tests fail on a sqlite handle still open at `TemporaryDirectory` teardown, and `tools/whatsapp/cdp_driver.py` plus `tools/setup_token_pty.py` import packages declared in no manifest, so the `build` domain does not claim those two run.
 - Prose is gated. No emoji, and `tools/slop_lint.py` fails on a spaced em or en dash used as a connector, plus a banned-phrase list.
 - `state/*.jsonl` are append-only ledgers. `state/bus.jsonl` is hash-chained and `python tools/bus/bus.py verify` checks it, so rewriting history there is visible.
+
+## How another repository consumes this harness
+
+A consuming project calls these tools without naming a machine:
+
+```bash
+python tools/harness.py exec gate/gate.py run --project .   # from the consumer
+python tools/harness/harness.py info                        # from here
+```
+
+`tools/harness/harness.py` is the canonical resolver. Order: `$CLAUDE_HARNESS`, then
+self-detection when the caller already sits inside a harness, then a `.harness-ref` file at
+the consumer's root, then a vendored copy at `tools/vendor/claude-setup`. A directory counts
+as a harness only if `tools/gate/gate.py` is really in it, because a marker file can be
+copied somewhere useless and an entry point cannot. A wrongly set `$CLAUDE_HARNESS` raises
+rather than falling through, since an explicit override that is silently ignored is the
+failure the module exists to prevent.
+
+`.harness-ref` may pin a sha. Drift between the pin and the resolved tree fails `check()`
+and deliberately does NOT fail `resolve()`: refusing to resolve would turn a stale pin into
+an outage, and a product must still be able to run its gate against a harness that moved.
+
+It lived in `new-recruit/tools/harness.py` from 2026-07-31 and was promoted here on
+2026-08-09. Until then the resolution order for inheriting this setup was documented only
+in a downstream copy, which is the wrong direction for an interface to travel, and the
+second consumer never adopted it.
 
 ## Where the rest lives
 

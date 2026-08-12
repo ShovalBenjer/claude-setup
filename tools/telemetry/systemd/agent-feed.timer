@@ -1,0 +1,13 @@
+[Unit]
+Description=Run the agent feed publisher every 30 minutes
+
+[Timer]
+# 2 min after boot rather than immediately: WSL starts systemd before the network
+# is reliably up, and a gh call that fails at boot would burn the first window.
+OnBootSec=2min
+OnUnitActiveSec=30min
+# Catch up once after the machine was asleep, not once per missed window.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

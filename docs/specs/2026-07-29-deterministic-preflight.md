@@ -1,6 +1,6 @@
 # Deterministic preflight: proposal (not built)
 
-Status: PROPOSAL, operator-originated 2026-07-29, needs /diverge on the recipe
+Status: proposed. Operator-originated 2026-07-29, needs /diverge on the recipe.
 format and runner shape before any build (charters rule 2). Filed from the
 operator's framing, in his words: current skills and tools "dont have the
 turning it into deterministic presteps (like a notebook for training llm, all

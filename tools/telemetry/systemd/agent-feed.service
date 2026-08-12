@@ -1,0 +1,11 @@
+[Unit]
+Description=Publish derived agent telemetry to the GitHub agent feed (issue #38)
+Documentation=https://github.com/ShovalBenjer/claude-setup/issues/38
+
+[Service]
+Type=oneshot
+# --throttle 30 is belt and braces with OnUnitActiveSec below. The timer controls
+# how often this fires; the throttle controls how often it can POST, so a manual
+# run or a catch-up burst after the machine wakes cannot spam the issue.
+ExecStart=/usr/bin/python3 /home/shov/work/repos/claude-setup/tools/telemetry/publish.py --since 24h --throttle 30 --post --issue 38
+WorkingDirectory=/home/shov/work/repos/claude-setup
