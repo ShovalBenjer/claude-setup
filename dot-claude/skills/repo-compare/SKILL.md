@@ -71,10 +71,11 @@ gh api repos/<owner/name>/readme --jq .content | base64 -d | head -200
 
 ```bash
 python3 tools/intent/resources.py see "github.com/<owner/name>"
-python3 tools/intent/resources.py note "github.com/<owner/name>" --ref docs/analysis/<the report>.md
+python3 tools/intent/resources.py note "github.com/<owner/name>" --verdict adopt --ref docs/analysis/<the report>.md
 ```
 
-   (Check `resources.py note -h` for the exact flag names before the first run.)
+   `--verdict` is required; the choices are adopt, reject, superseded, reference,
+   unevaluated. (`resources.py note -h` is the authority if the flags move again.)
 
 ## Hard limits
 
