@@ -31,10 +31,14 @@ verification stance is that a checker must be able to say no.
 Deliberately not a path-manipulation library. Two spellings in, one question
 answered, and `exists()` is the only thing callers should need.
 
-Scope this does NOT cover, stated so nobody reads more into it: UNC paths, drive
-letters mapped to network shares, `%USERPROFILE%` and `$env:` expansion, and the
-reverse direction (Linux paths read from Windows). None has appeared in this repo's
-traffic; add them with a failing test when one does.
+Scope this does NOT cover, stated so nobody reads more into it: drive letters
+mapped to network shares, `%USERPROFILE%` and `$env:` expansion, and the reverse
+direction (Linux paths read from Windows). None has appeared in this repo's
+traffic; add them with a failing test when one does. WSL UNC paths
+(`\\wsl.localhost\<distro>\...`, `\\wsl$\...`) joined the covered set on
+2026-08-12, when the live Notification hook wired notify-toast.ps1 by UNC and an
+existing file was reported missing; translation is licensed only for this
+process's own distro, the same reachability stance as the mounts.
 """
 from __future__ import annotations
 
@@ -48,6 +52,22 @@ _DRIVE = re.compile(r"^([A-Za-z]):[\\/](.*)$", re.S)
 #: `/c/x`, the MSYS form Git Bash writes. Exactly ONE letter between the slashes:
 #: `/home/...` and `/cc/...` must not match, and a bare `/c` is a real Linux path.
 _MSYS = re.compile(r"^/([A-Za-z])/(.+)$")
+
+#: `\\wsl.localhost\<distro>\x` or `\\wsl$\<distro>\x`, the UNC form Windows uses
+#: to reach INTO a WSL distro. Run from that same distro, the local form is /x.
+_WSL_UNC = re.compile(r"^\\\\(?:wsl\$|wsl\.localhost)\\([^\\]+)\\(.*)$", re.S)
+
+
+def wsl_distro() -> str | None:
+    """The distro this process runs inside, or None outside WSL.
+
+    $WSL_DISTRO_NAME is set by WSL itself in every session; reading it is the
+    same only-license-what-is-reachable stance as wsl_mounts(), because a UNC
+    naming a DIFFERENT distro is not reachable at / here.
+    """
+    if os.name == "nt":
+        return None
+    return os.environ.get("WSL_DISTRO_NAME") or None
 
 
 def wsl_mounts(root: str = "/mnt") -> dict[str, Path]:
@@ -70,11 +90,24 @@ def wsl_mounts(root: str = "/mnt") -> dict[str, Path]:
     return out
 
 
-def translate(raw: str, mounts: dict[str, Path] | None = None) -> Path:
+_AUTO = "\0auto"  # sentinel: distro=None must mean "not WSL", not "look it up"
+
+
+def translate(raw: str, mounts: dict[str, Path] | None = None,
+              distro: str | None = _AUTO) -> Path:
     """The path as this host can reach it, or unchanged when it cannot.
 
     Unchanged is the honest answer for an unmounted drive; see the module docstring.
+    `distro` defaults to this process's own WSL distro; a UNC naming any other
+    distro stays untranslated for the same reason an unmounted drive does.
     """
+    m = _WSL_UNC.match(raw.strip().strip('"').strip("'"))
+    if m:
+        if distro == _AUTO:
+            distro = wsl_distro()
+        if distro and m.group(1).lower() == distro.lower():
+            return Path("/" + m.group(2).replace("\\", "/"))
+        return Path(raw)
     if mounts is None:
         mounts = wsl_mounts()
     if not mounts:
