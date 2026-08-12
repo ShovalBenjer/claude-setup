@@ -974,6 +974,20 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
         print("    $ " + cmd, file=sys.stderr)
     rc, output = run(cmd, project, timeout=spec.get("timeout", 900))
     tail = "\n".join([l for l in output.splitlines() if l.strip()][-14:])
+    if rc == CANNOT_MEASURE:
+        # The exit-2 convention the waiver path (confirm_waiver) already honors,
+        # extended to the plain runner on 2026-08-12. Before this, a required
+        # domain whose check cannot measure on this host (skills_sync on a CI
+        # runner with no live ~/.claude) could only pass CI while hidden behind
+        # a waiver, so removing a satisfied waiver broke CI while being locally
+        # correct. Unmeasurable is not passing: the run asserts strictly less,
+        # the evidence says so, and a check that stops being able to measure
+        # anywhere still surfaces here rather than reading as green silently.
+        out["status"] = NA
+        out["evidence"] = ("unmeasurable on this host: `{}` exited {} (the CANNOT_MEASURE "
+                           "convention). This run asserts nothing about the domain.\n{}"
+                           .format(cmd, CANNOT_MEASURE, indent(tail)))
+        return out
     out["status"] = PASS if rc == 0 else FAIL
     out["evidence"] = "exit {} from `{}`\n{}".format(rc, cmd, indent(tail))
     return out
@@ -1351,6 +1365,38 @@ def cmd_selftest(args: argparse.Namespace) -> int:
             "ok  " if ok else "FAIL", last.get("waivers_unconfirmed")))
         rc |= 0 if ok else 1
         c["domains"]["e2e"]["cmd"] = "echo DRIFT: 29; exit 1"
+
+        # 3c. the same exit-2 convention holds WITHOUT a waiver: a required plain
+        # domain whose command cannot measure on this host is N/A with evidence,
+        # not FAIL. Added 2026-08-12: with the skills waiver removed because its
+        # reason ended, CI (no live ~/.claude) turned red on a domain that was
+        # CLEAN everywhere it could be measured, so the only way to keep a
+        # satisfied waiver removed was to re-add it, which is the waiver-as-
+        # permanent-fixture failure this file exists to prevent.
+        c["domains"]["e2e"] = {"required": True,
+                               "cmd": "echo cannot run: no live tree; exit 2"}
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        said = "unmeasurable on this host" in out.getvalue()
+        ok = got == 0 and said
+        print("\n[{}] an unwaived domain that cannot measure here is N/A and says so, "
+              "got {} said-so {}".format("ok  " if ok else "FAIL", got, said))
+        rc |= 0 if ok else 1
+
+        # ...and exit 2 is not a general escape hatch: exit 1 on the same shape
+        # still fails, so a check cannot go green by dying with the right number.
+        c["domains"]["e2e"]["cmd"] = "echo broken; exit 1"
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 1
+        print("\n[{}] the same unwaived domain exiting 1 still fails, got {}".format(
+            "ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+        c["domains"]["e2e"] = {"required": True, "cmd": "echo DRIFT: 29; exit 1",
+                               "waived": {"reason": "selftest", "until": "2099-01-01",
+                                          "confirm": "DRIFT: 29"}}
 
         # 4. a domain deleted from the contract is UNCOVERED, not absent
         del c["domains"]["e2e"]

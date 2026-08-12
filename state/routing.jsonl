@@ -284,3 +284,14 @@
 {"ts": "2026-08-12T21:22:17", "prompt_chars": 5, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-12T21:22:35", "prompt_chars": 22, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-12T21:22:42", "prompt_chars": 388, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:22:54", "prompt_chars": 421, "personas": ["qa-lab", "communications-desk", "evidence-clerk"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer", "eval-runner", "deep-research", "decision-grade", "shoval-voice-draft", "blog"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:23:24", "prompt_chars": 1090, "personas": ["communications-desk", "review-board", "architecture-office"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "azure-devops", "shoval-voice-draft", "blog", "humanize"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:24:22", "prompt_chars": 124, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:25:05", "prompt_chars": 170, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:25:46", "prompt_chars": 14, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:26:09", "prompt_chars": 397, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:27:41", "prompt_chars": 123, "personas": ["workflow-clerk"], "skills": ["reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:34:29", "prompt_chars": 389, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:37:48", "prompt_chars": 372, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:38:34", "prompt_chars": 385, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:57:32", "prompt_chars": 370, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
