@@ -24,10 +24,11 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   `docs/analysis/2026-08-10-inbox-secret-exposure.md`.
 
 One index over all of it, milestone-ordered and reconciled against the Zion board, the 6
-unmerged PRs and the specs: [docs/analysis/2026-08-10-milestone-task-plan.md](analysis/2026-08-10-milestone-task-plan.md).
-It carries seven board rows that measurement now contradicts and the nine operator
-decisions that block agent work. Deliberately NOT added as a `- [ ]` row: the boot surface
-holds six and displacing one of them to make room for a pointer is the wrong trade.
+unmerged PRs and the specs: [docs/analysis/2026-08-11-milestone-task-plan.md](analysis/2026-08-11-milestone-task-plan.md)
+(supersedes the 2026-08-10 version).
+It carries the nine operator decisions that block agent work and a PR triage with merge
+order. Deliberately NOT added as a `- [ ]` row: the boot surface holds six and displacing
+one of them to make room for a pointer is the wrong trade.
 
 - [ ] **90 of 96 open TODO items are invisible at session boot, and this row exists to say so.**
   Measured 2026-08-05. `~/.claude/hooks/session-recall.sh:112` selects
