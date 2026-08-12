@@ -125,3 +125,4 @@ docs/books/
 # Swept in by a git add -A on 2026-08-10 and it carried a live secret. It stays on
 # disk and out of the index; see docs/analysis/2026-08-10-inbox-secret-exposure.md.
 docs/inbox-from-new-recruit/
+*:Zone.Identifier

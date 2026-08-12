@@ -268,6 +268,10 @@ HARNESS_OUTPUTS = (
     "state/agent-spawns.jsonl",
     "state/prose-scores.jsonl",
     "state/telemetry-published.txt",
+    # Fourth mover of the class, 2026-08-12 evening: the discussion publisher's
+    # cursor, same writer-on-its-own-schedule shape as its sibling above. It
+    # appended once mid-session and forced a full regate of an unchanged tree.
+    "state/telemetry-published-discussion.txt",
 )
 
 _EXCLUDE = " ".join('":(exclude){}"'.format(p)
@@ -982,7 +986,11 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
         # usage-error code, and the phrase alone is a marker matched by existence
         # (L-2026-08-05-a). Surfaced 2026-08-12 when the skills waiver was
         # removed on a locally-CLEAN check and every CI gate run went red.
+        # The `unmeasured` flag feeds the ledger row (merged from the branch-side
+        # copy of this fix): a PASS with unmeasurable required domains records
+        # which checks never measured, distinguishable from a full local PASS.
         out["status"] = NA
+        out["unmeasured"] = True
         out["evidence"] = ("unmeasurable on this host: exit {} from `{}`\n{}"
                            .format(rc, cmd, indent(tail)))
         return out
@@ -1163,6 +1171,10 @@ def cmd_run(args: argparse.Namespace) -> int:
         # one level up: the record claiming more than the run measured.
         "waivers_unconfirmed": [r["domain"] for r in results
                                 if r.get("confirmed") == "unmeasurable"],
+        # Same principle for unwaived domains whose command exited CANNOT_MEASURE:
+        # their NA is a fact about this host, not about the domain, and a PASS row
+        # that hides which checks never measured claims more than the run did.
+        "unmeasured": [r["domain"] for r in results if r.get("unmeasured")],
         # How long the run took, and per domain. Added 2026-08-08 because the
         # contract already carries a duration budget that nothing could check.
         # The unit domain's _timeout_note raised the timeout 300 to 900 on
@@ -1384,6 +1396,38 @@ def cmd_selftest(args: argparse.Namespace) -> int:
             "ok  " if ok else "FAIL", last.get("waivers_unconfirmed")))
         rc |= 0 if ok else 1
         c["domains"]["e2e"]["cmd"] = "echo DRIFT: 29; exit 1"
+
+        # 3c. the same exit-2 convention holds WITHOUT a waiver: a required plain
+        # domain whose command cannot measure on this host is N/A with evidence,
+        # not FAIL. Added 2026-08-12: with the skills waiver removed because its
+        # reason ended, CI (no live ~/.claude) turned red on a domain that was
+        # CLEAN everywhere it could be measured, so the only way to keep a
+        # satisfied waiver removed was to re-add it, which is the waiver-as-
+        # permanent-fixture failure this file exists to prevent.
+        c["domains"]["e2e"] = {"required": True,
+                               "cmd": "echo cannot run: no live tree; exit 2"}
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        said = "unmeasurable on this host" in out.getvalue()
+        ok = got == 0 and said
+        print("\n[{}] an unwaived domain that cannot measure here is N/A and says so, "
+              "got {} said-so {}".format("ok  " if ok else "FAIL", got, said))
+        rc |= 0 if ok else 1
+
+        # ...and exit 2 is not a general escape hatch: exit 1 on the same shape
+        # still fails, so a check cannot go green by dying with the right number.
+        c["domains"]["e2e"]["cmd"] = "echo broken; exit 1"
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 1
+        print("\n[{}] the same unwaived domain exiting 1 still fails, got {}".format(
+            "ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+        c["domains"]["e2e"] = {"required": True, "cmd": "echo DRIFT: 29; exit 1",
+                               "waived": {"reason": "selftest", "until": "2099-01-01",
+                                          "confirm": "DRIFT: 29"}}
 
         # 4. a domain deleted from the contract is UNCOVERED, not absent
         del c["domains"]["e2e"]

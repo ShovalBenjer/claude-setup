@@ -180,3 +180,29 @@ class RealHost(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class WslUncTranslation(unittest.TestCase):
+    """\\\\wsl.localhost\\<distro>\\<path> resolves natively only inside that distro.
+
+    Added 2026-08-12: the live Notification hook hands powershell.exe the UNC form
+    of a WSL file (a Windows process cannot open /home/...), and pointers.py then
+    stat'ed the UNC string on Linux, reporting a real file as wired-missing."""
+
+    def test_own_distro_unc_resolves_to_native(self):
+        import os
+        if os.environ.get("WSL_DISTRO_NAME") != "Ubuntu":
+            self.skipTest("not inside the Ubuntu distro")
+        got = hp.translate(r"\\wsl.localhost\Ubuntu\home\shov\x.ps1")
+        self.assertEqual(got, Path("/home/shov/x.ps1"))
+
+    def test_foreign_distro_unc_stays_unchanged(self):
+        raw = r"\\wsl.localhost\NoSuchDistro\home\x.ps1"
+        self.assertEqual(hp.translate(raw), Path(raw))
+
+    def test_wsl_dollar_form_also_resolves(self):
+        import os
+        if os.environ.get("WSL_DISTRO_NAME") != "Ubuntu":
+            self.skipTest("not inside the Ubuntu distro")
+        got = hp.translate(r"\\wsl$\Ubuntu\home\shov\x.ps1")
+        self.assertEqual(got, Path("/home/shov/x.ps1"))

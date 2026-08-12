@@ -284,3 +284,56 @@
 {"ts": "2026-08-12T21:22:17", "prompt_chars": 5, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-12T21:22:35", "prompt_chars": 22, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-12T21:22:42", "prompt_chars": 388, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:22:54", "prompt_chars": 421, "personas": ["qa-lab", "communications-desk", "evidence-clerk"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer", "eval-runner", "deep-research", "decision-grade", "shoval-voice-draft", "blog"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:23:24", "prompt_chars": 1090, "personas": ["communications-desk", "review-board", "architecture-office"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "azure-devops", "shoval-voice-draft", "blog", "humanize"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:24:22", "prompt_chars": 124, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:25:05", "prompt_chars": 170, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:25:46", "prompt_chars": 14, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:26:09", "prompt_chars": 397, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:27:41", "prompt_chars": 123, "personas": ["workflow-clerk"], "skills": ["reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:34:29", "prompt_chars": 389, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:37:48", "prompt_chars": 372, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:38:34", "prompt_chars": 385, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:57:32", "prompt_chars": 370, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:15:35", "prompt_chars": 360, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:16:27", "prompt_chars": 100, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:16:38", "prompt_chars": 32, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:16:45", "prompt_chars": 17, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:16:50", "prompt_chars": 17, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:17:46", "prompt_chars": 122, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:18:16", "prompt_chars": 88, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push", "azure-devops"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:18:37", "prompt_chars": 54, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:18:59", "prompt_chars": 248, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:19:27", "prompt_chars": 5, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:19:38", "prompt_chars": 34, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:22:31", "prompt_chars": 387, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:25:09", "prompt_chars": 250, "personas": ["review-board", "release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:25:09", "prompt_chars": 367, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:26:39", "prompt_chars": 388, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:38:22", "prompt_chars": 198, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:40:17", "prompt_chars": 377, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:42:48", "prompt_chars": 252, "personas": ["review-board", "release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:44:19", "prompt_chars": 382, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:44:54", "prompt_chars": 206, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:45:39", "prompt_chars": 161, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:46:13", "prompt_chars": 380, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:55:23", "prompt_chars": 365, "personas": ["review-board"], "skills": ["review", "heidegger-reflect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:56:00", "prompt_chars": 361, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:00:23", "prompt_chars": 297, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:03:04", "prompt_chars": 356, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:03:08", "prompt_chars": 193, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:03:20", "prompt_chars": 1018, "personas": ["review-board", "release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "azure-devops", "mcp-activation", "web-inspect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:05:32", "prompt_chars": 379, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:07:36", "prompt_chars": 178, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:08:41", "prompt_chars": 387, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:10:20", "prompt_chars": 203, "personas": ["communications-desk", "release-bureau"], "skills": ["azure-devops", "commit-push-pr", "shoval-voice-draft", "blog", "humanize"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:13:00", "prompt_chars": 208, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:13:01", "prompt_chars": 383, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:14:29", "prompt_chars": 249, "personas": ["review-board", "release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:16:12", "prompt_chars": 389, "personas": ["release-bureau"], "skills": ["azure-devops", "commit-push-pr"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:17:18", "prompt_chars": 180, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:17:18", "prompt_chars": 365, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:19:37", "prompt_chars": 371, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:21:54", "prompt_chars": 190, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:21:54", "prompt_chars": 375, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:25:35", "prompt_chars": 179, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
