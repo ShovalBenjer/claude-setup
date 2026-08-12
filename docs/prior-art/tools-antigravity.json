@@ -3,6 +3,8 @@
   "reviewed": "2026-08-04",
   "recheck_after": "2026-11-02",
   "verdict": "build, narrowly, and delete on the first upstream release that ships an agy binary",
+  "verdict_class": "build",
+  "absorption_status": "unreviewed",
   "why": "The thing this replaces does not exist. The operator supplied a note describing `agy -p \"...\"` as an installed Antigravity CLI. It is not installed: `command -v agy` is empty in WSL and in Windows PowerShell, and the only Antigravity executable on the machine is `Antigravity IDE/bin/antigravity-ide`, whose .cmd body invokes `resources/app/out/cli.js` and whose sh shim carries a Microsoft copyright and a VSCODE_PATH variable. That is a VS Code fork's editor CLI, the `code` equivalent; it opens files and takes no -p. The same note's MCP path is also absent: importlib.util.find_spec(\"google.antigravity.mcp_server\") returns None on google-antigravity 0.1.9, so `claude mcp add antigravity -- python -m google.antigravity.mcp_server` would register a server that cannot start. So the build-vs-buy question is not whether to reimplement an existing CLI, it is whether to provide the one-file adapter that makes the operator's documented invocation form work against the one integration path that does exist, the Python SDK. 303 lines, of which the SDK call itself is about 20; the rest is a preflight that reports every missing piece at once, a data-boundary refusal, and a selftest.",
   "alternatives": [
     {

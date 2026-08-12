@@ -52,6 +52,13 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   `repo-compare` skill with its first run in `docs/analysis/2026-08-11-repo-compare.md`.
   Six operator decisions wait at its section 8.
 
+One index over all of it, milestone-ordered and reconciled against the Zion board, the 6
+unmerged PRs and the specs: [docs/analysis/2026-08-11-milestone-task-plan.md](analysis/2026-08-11-milestone-task-plan.md)
+(supersedes the 2026-08-10 version).
+It carries the nine operator decisions that block agent work and a PR triage with merge
+order. Deliberately NOT added as a `- [ ]` row: the boot surface holds six and displacing
+one of them to make room for a pointer is the wrong trade.
+
 - [ ] **90 of 96 open TODO items are invisible at session boot, and this row exists to say so.**
   Measured 2026-08-05. `~/.claude/hooks/session-recall.sh:112` selects
   `l.strip().startswith("- [ ]")` and slices `[:6]`. TODO.md carries **96** matching rows,
@@ -204,6 +211,15 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   Do not add connectors from the ~850 directory before this pruning lands: nine
   unused ones already make the hit rate worse than the list length suggests.
 
+- [ ] **`skills_sync.py` has no mutation spec, and now it has a guard worth breaking.**
+  Opened 2026-08-10. `tools/audit/mutations/` holds 14 specs and none of them is skills.
+  The tool has a selftest, CI runs it, and nothing has ever proven that selftest can go
+  red, which is the exact condition `mutate.py` exists to detect and which codemap was in
+  until 2026-07-27. The host-shape guard landed the same day with three layers rather than
+  four: check, selftest case, pytest, no mutation. First mutations to write are the two
+  that matter, the guard keying on the directory again and `is_deployed_home` returning a
+  constant, both of which were run by hand against the new tests and both of which the
+  tests caught.
 - [ ] **`dot-claude/bin/self-improve.py:27` is a live broken consumer.** It inserts
   `$HOME/projects/intent-control-plane/src` on `sys.path` before importing
   `intent_control_plane.harness`, and `/home/shov/projects` does not exist. Its sibling
@@ -425,7 +441,38 @@ absorbed (idea taken into our code), adopted (dependency added), or used as-is.
 Audit of every external resource this repo has evaluated is below. Nothing here
 deletes an existing row; these are the rows that were silently dropped.
 
-- [ ] ABSORB-01 ROOT CAUSE: the prior-art record schema cannot express absorption. All 27 records carry the same 14 fields (`verdict`, `why`, `strongest_counterargument`, `migration_loc`, `our_loc`, `recheck_after`, ...) and not one of them names what was taken from the alternative. So absorption is unrepresentable, therefore unchecked, therefore never happens. Add `absorbed` (what we took and the file it landed in) and `absorption_status` (absorbed / adopted / used-as-is / rejected-with-reason), backfill all 27 records, and have `codemap.py prior-art` fail on a record whose status is unset. Extends an oracle that already runs rather than adding a thirteenth domain (see the 4.2 warning in docs/reflections/2026-07-29-what-is-going-wrong.md)
+- [x] ABSORB-01 and ABSORB-09 CLOSED 2026-08-10, as one schema change, one backfill and
+  one oracle edit, which is what the ABSORB-09 row asked for. `verdict_class` (7 values)
+  sits BESIDE the free-text `verdict`, which is unchanged, and `absorption_status`
+  (absorbed / adopted / used-as-is / rejected-with-reason / unreviewed) plus `absorbed`
+  are required on every record. `codemap.py prior-art` fails a record missing either
+  field, fails a value outside either vocabulary, and fails a status that claims a
+  decision with nothing named beside it, which is the free-text defect wearing an enum.
+  It extends the oracle that already runs rather than adding a domain, per the 4.2 warning.
+  **The measured answer to ABSORB-06 is 1 of 41.** Exactly one record, `tools-trycmd`,
+  names what it took and where it landed; the other 40 are `unreviewed`. That is not a
+  backfill placeholder, it is the rate, and it was unknown rather than zero until now.
+  `unreviewed` is bounded by each record's own `recheck_after` rather than by a new
+  calendar, so the first forced decision is 2026-09-07 and every record is decided inside
+  three months. The count prints on the PASS path, because a number that only appears when
+  something breaks goes back to unknown the moment it is fixed.
+  Evidence: `codemap.py prior-art` exit 1 before with 82 findings and exit 0 after;
+  `codemap.py selftest` 20 cases; `mutate.py --spec codemap` 17 of 17 applied, 17 caught,
+  0 survived, with 4 new mutations; `tests/test_prior_art_absorption.py` 17 tests; the
+  corpus test proven red by deleting one field from `tools-bus.json`.
+  **One correction to my own work, kept because the mechanism found it:** two selftest
+  cases asserted only a message COUNT, and the missing-field branch and the invalid-value
+  branch are adjacent, so a None value falls through from one to the other and still
+  produces exactly one message. Both passed with the check they were written for deleted.
+  Mutation testing named it and they now assert the wording each branch owns.
+  Backfill is a committed script, `tools/audit/absorption_backfill.py`, named in the
+  oracle's own failure message, because three open PRs each land a record that will need
+  it. Its `verdict_class` table is explicit data rather than keyword derivation: four of
+  the 41 verdicts are whole sentences and a substring rule that groups them correctly
+  today groups the next one wrongly and silently.
+  STILL OPEN, and it is the real work: 40 absorption reviews. This change makes them
+  representable and dated. It does not do them.
+- [ ] ABSORB-01 ORIGINAL ROW, kept for the reasoning: the prior-art record schema cannot express absorption. All 27 records carry the same 14 fields (`verdict`, `why`, `strongest_counterargument`, `migration_loc`, `our_loc`, `recheck_after`, ...) and not one of them names what was taken from the alternative. So absorption is unrepresentable, therefore unchecked, therefore never happens. Add `absorbed` (what we took and the file it landed in) and `absorption_status` (absorbed / adopted / used-as-is / rejected-with-reason), backfill all 27 records, and have `codemap.py prior-art` fail on a record whose status is unset. Extends an oracle that already runs rather than adding a thirteenth domain (see the 4.2 warning in docs/reflections/2026-07-29-what-is-going-wrong.md)
 - [ ] ABSORB-02 DoltHub option (c), the deferred half. Three of Dolt's five features (diff, history, blame) were genuinely absorbed on 2026-07-25: `state/*.jsonl` is append-only in git, so `git show <rev>:state/x.jsonl` answers "what did this say on the 25th". The unabsorbed piece is point-in-time reconstruction for the ledgers that are gitignored and therefore have NO history at all, named in docs/analysis/2026-07-25-our-own-dolt.md section 4(c) as roughly 150 lines and deferred "only when a concrete need appears". It was never ticketed anywhere, which is how it got neglected. The concrete need now exists: `hiring_engine/ledger.sqlite` holds 272 jobs, 4 applications and 21 approvals with zero history (docs/analysis/2026-07-29-local-dependency-audit.md section 4). Lane B (resume) owns that ledger, so this is a lane-A proposal row, not lane-A work
 - [ ] ABSORB-03 albert (Sdraugel/albert), two mechanisms. Code reuse is blocked by PolyForm Noncommercial 1.0.0, so these get rebuilt, not copied: (a) git-worktree isolation per concurrent producer, which structurally kills the one-tree race that is open risk 1 and that fired again during this session's own verification run; (b) producers-never-grade-themselves enforced by role rather than asserted in prose, starting with the prior-art records, which are currently written and self-graded by their own author. Verdict and license reasoning in docs/analysis/2026-07-29-albert-prior-art-verdict.md
 - [x] ABSORB-04 just-my-skills coherence-governor, "steal one page". Recommended 2026-07-24 with the exact curl to run; the curl was never run and `docs/analysis/reference/` did not exist. DONE 2026-07-29: 419 lines saved to docs/analysis/reference/coherence-governor-AGENTS.md. The two pages worth taking are the 8-row Drift Sentinels table (line 262) and the 7-level Authority Order (line 43), both more compact than the equivalent scattered across five `.claude/rules/*.md` files. Merging either into calibrated-claims.md is a separate decision, not done here
@@ -547,7 +594,14 @@ Two rows above were CLOSED by the same measurement and are marked in place.
 ### Prior art
 
 - [ ] ABSORB-01 UPDATED 2026-07-31: the record count is 39, not the 27 the original row states, and the finding is unchanged. 0 of 39 carry an absorption field, including the one written this morning. Original row stands as written
-- [ ] ABSORB-09 (new) `verdict` in the prior-art schema is FREE TEXT. 39 records carry 13 distinct values and four are sentences, including `keep-provisionally, and it is the weakest of the three records written today`. The prose is good and ungroupable, so "how many components did we decide to replace" needs 39 file reads. This is the identical defect `docs/specs/2026-07-31-zion-board-as-product-instrument.md` diagnosed on the board, where hierarchy lived in an `EPIC:` title prefix GitHub could not group on. Same fix: keep the sentence, add the enumerated field beside it. Do this WITH ABSORB-01, one schema change, one backfill, one oracle edit
+- [x] ABSORB-09 CLOSED 2026-08-10 with ABSORB-01, one change, as this row asked. The
+  sentence was kept and `verdict_class` added beside it. Grouped, the 41 records are 18
+  split, 17 keep-ours, 2 build, 2 wrap, 1 absorb, 1 delete-ours, 0 adopt, which is the
+  question that previously cost 41 file reads. I first wrote 17 and 16 here from the
+  assignment table rather than from the written files, and the count disagreed; epic #29
+  is the row that says any deliverable with more than five derived numbers gets a
+  verification pass by something that cannot see the reasoning. Original row below.
+- [ ] ABSORB-09 ORIGINAL ROW: `verdict` in the prior-art schema is FREE TEXT. 39 records carry 13 distinct values and four are sentences, including `keep-provisionally, and it is the weakest of the three records written today`. The prose is good and ungroupable, so "how many components did we decide to replace" needs 39 file reads. This is the identical defect `docs/specs/2026-07-31-zion-board-as-product-instrument.md` diagnosed on the board, where hierarchy lived in an `EPIC:` title prefix GitHub could not group on. Same fix: keep the sentence, add the enumerated field beside it. Do this WITH ABSORB-01, one schema change, one backfill, one oracle edit
 - [ ] ABSORB-10 (new) `tools/whatsapp` carries verdict `delete-ours` and still exists with 4 tracked files. A decision recorded and not executed is indistinguishable from a decision not taken. Either execute it or record why it was reversed
 
 ### Zion
