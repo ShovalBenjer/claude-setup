@@ -109,18 +109,14 @@ MUTATIONS = [
      "restores the bug that failed PR 66 CI: skills_sync exits 2 on a runner with "
      "no live ~/.claude and the domain reads FAIL, so a satisfied waiver cannot be "
      "removed without breaking CI",
-     """    if rc == CANNOT_MEASURE:
-        # The exit-2 convention the waiver path (confirm_waiver) already honors,""",
-     """    if False:
-        # The exit-2 convention the waiver path (confirm_waiver) already honors,"""),
+     '    if rc == CANNOT_MEASURE and "cannot run" in output:',
+     '    if False:'),
 
     ("any plain failure counts as unmeasurable",
      "the exception swallows the rule for every unwaived domain: a checker that "
      "fails for a real reason reads as N/A and the gate goes green on a red check",
-     """    if rc == CANNOT_MEASURE:
-        # The exit-2 convention the waiver path (confirm_waiver) already honors,""",
-     """    if rc != 0:
-        # The exit-2 convention the waiver path (confirm_waiver) already honors,"""),
+     '    if rc == CANNOT_MEASURE and "cannot run" in output:',
+     '    if rc != 0:'),
 
     ("an unconfirmed waiver is recorded as an ordinary one",
      "the ledger stops distinguishing a PASS that confirmed its waivers from one "

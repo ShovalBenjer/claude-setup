@@ -978,20 +978,21 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
         print("    $ " + cmd, file=sys.stderr)
     rc, output = run(cmd, project, timeout=spec.get("timeout", 900))
     tail = "\n".join([l for l in output.splitlines() if l.strip()][-14:])
-    if rc == CANNOT_MEASURE:
-        # The exit-2 convention the waiver path (confirm_waiver) already honors,
-        # extended to the plain runner on 2026-08-12. Before this, a required
-        # domain whose check cannot measure on this host (skills_sync on a CI
-        # runner with no live ~/.claude) could only pass CI while hidden behind
-        # a waiver, so removing a satisfied waiver broke CI while being locally
-        # correct. Unmeasurable is not passing: the run asserts strictly less,
-        # the evidence says so, and a check that stops being able to measure
-        # anywhere still surfaces here rather than reading as green silently.
+    if rc == CANNOT_MEASURE and "cannot run" in output:
+        # Host-shaped check on the wrong host (skills_sync on a CI runner with no
+        # live ~/.claude): measurable-or-not is a different question from
+        # pass-or-fail, the same exception confirm_waiver() already carries
+        # (L-2026-07-31-g). BOTH signals are required: exit 2 alone is argparse's
+        # usage-error code, and the phrase alone is a marker matched by existence
+        # (L-2026-08-05-a). Surfaced 2026-08-12 when the skills waiver was
+        # removed on a locally-CLEAN check and every CI gate run went red.
+        # The `unmeasured` flag feeds the ledger row (merged from the branch-side
+        # copy of this fix): a PASS with unmeasurable required domains records
+        # which checks never measured, distinguishable from a full local PASS.
         out["status"] = NA
         out["unmeasured"] = True
-        out["evidence"] = ("unmeasurable on this host: `{}` exited {} (the CANNOT_MEASURE "
-                           "convention). This run asserts nothing about the domain.\n{}"
-                           .format(cmd, CANNOT_MEASURE, indent(tail)))
+        out["evidence"] = ("unmeasurable on this host: exit {} from `{}`\n{}"
+                           .format(rc, cmd, indent(tail)))
         return out
     out["status"] = PASS if rc == 0 else FAIL
     out["evidence"] = "exit {} from `{}`\n{}".format(rc, cmd, indent(tail))
@@ -1355,6 +1356,27 @@ def cmd_selftest(args: argparse.Namespace) -> int:
         # Exit 2 is the convention; the confirm string is deliberately absent from
         # the output here, which is exactly the shape that failed CI on 2026-08-07.
         c["domains"]["e2e"]["cmd"] = "echo cannot run: no live tree; exit 2"
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        # The same shape on a PLAIN domain (no waiver): unmeasurable-here must
+        # read NA, not FAIL. This is the 2026-08-12 CI red: the skills waiver was
+        # removed on a locally-CLEAN check and skills_sync's exit-2 "cannot run"
+        # on the runner failed every branch. Both signals required; exit 2 with
+        # ordinary output stays FAIL (argparse usage errors must not go green).
+        c2 = json.loads(json.dumps(c))
+        c2["domains"]["e2e"].pop("waived", None)
+        json.dump(c2, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 0
+        print("\n[{}] an unwaived cannot-measure-here domain is NA, got {}".format(
+            "ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+        c2["domains"]["e2e"]["cmd"] = "echo usage: wrong flag; exit 2"
+        json.dump(c2, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 1
+        print("\n[{}] exit 2 without the cannot-run phrase still fails, got {}".format(
+            "ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
         json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
