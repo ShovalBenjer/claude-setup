@@ -186,6 +186,63 @@ def ledger_state(gate, project: str) -> tuple[bool, str]:
                    "has never been gated.".format(len(rows), fp, ", dirty" if dirty else ""))
 
 
+#: Path suffixes/prefixes that no gate CODE domain can cover. A tree whose every
+#: change is one of these is documentation/payload prose, so a full 12-domain code
+#: gate is not-applicable and the block downgrades to a note. This list is
+#: deliberately TIGHT: the gate's own docstring warns that an over-broad exclusion
+#: "buys a satisfiable gate by going blind". A `.py`/`.ts`/`.sh` anywhere (including
+#: dot-claude/hooks and tools/) is code and is NOT here, so it still blocks.
+#: `.jsonl`/`.txt` here are the append-only state ledgers and doc-status files under
+#: state/ and docs/, which no code domain covers; see tests/test_ship_gate_docs_only.py.
+_DOC_ONLY_SUFFIXES = (".md", ".mdx", ".txt", ".rst", ".jsonl")
+_DOC_ONLY_DIRS = ("docs/",)
+
+
+def _changed_paths(gate, project: str) -> list[str]:
+    """Paths changed vs HEAD plus untracked names, via the gate's own git().
+
+    Uses name-only / -z forms, never a fixed-column slice of `status --porcelain`:
+    gate.py's own comment records that `line[3:]` returns `EADME.md` for a deleted
+    README. `-z` splits cleanly on NUL; each record after the first is `XY<space>path`.
+    """
+    paths = set()
+    for line in gate.git("diff --name-only HEAD -- .", project).splitlines():
+        if line.strip():
+            paths.add(line.strip())
+    raw = gate.git("status --porcelain -z -- .", project)
+    for rec in raw.split("\0"):
+        if not rec or len(rec) < 4:
+            continue
+        _, _, p = rec.partition(" ")
+        p = p.strip()
+        if p and " -> " in p:
+            p = p.split(" -> ", 1)[1].strip()
+        if p:
+            paths.add(p)
+    return sorted(paths)
+
+
+def is_docs_only(gate, project: str) -> tuple[bool, list[str]]:
+    """True iff every changed path is documentation/payload prose, not code.
+
+    Returns (docs_only, offending_code_paths). Empty change set is NOT docs-only:
+    letting an empty diff pass would reopen the stale-tree hole the fingerprint
+    closes. A single code path flips it back to a hard block.
+    """
+    changed = _changed_paths(gate, project)
+    if not changed:
+        return False, []
+    code = []
+    for p in changed:
+        low = p.lower()
+        if low.endswith(_DOC_ONLY_SUFFIXES):
+            continue
+        if any(low.startswith(d) or ("/" + d) in low for d in _DOC_ONLY_DIRS):
+            continue
+        code.append(p)
+    return (not code), code
+
+
 def howto_command(setup_root: str, project: str) -> str:
     """The one command this hook tells a blocked session to run.
 
@@ -247,6 +304,16 @@ def main() -> int:
     howto = howto_command(gate.setup_root(), project)
 
     if completion_claim(text):
+        try:
+            docs_only, _code = is_docs_only(gate, project)
+        except Exception:
+            docs_only = False  # on any doubt, fall through to the hard block
+        if docs_only:
+            return out({"systemMessage": (
+                "Ship gate: the change in this tree is documentation/payload prose only "
+                "(no code path touched), so the code domains are not-applicable and no "
+                "full gate run is required. Prose is still gated by tools/slop_lint.py. "
+                "If you later touch a .py/.ts/.sh or any non-doc file, run `{}`.".format(howto))})
         return out({"decision": "block", "reason": (
             "Ship gate: this project declares a quality contract and {}\n"
             "A done-claim is not available yet. Run:\n  {}\n"
