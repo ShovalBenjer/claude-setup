@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-12T09:12:27.576900Z",
+  "repo_name": "claude-setup",
+  "scope": "base",
+  "base": "gh/main",
+  "bundle_sha256": "91767a9eb92cc27778171bdb2f9dbca9e3cfde28022e876e14aa6ab88031a6da",
+  "repository_state_sha256": "fcde4c6cee5a35f0fa0c61196389a97d9907fc35da42e590be6512c7b3b2483b",
+  "concurrent_change": false,
+  "errors": {},
+  "overall": "changes_requested",
+  "verdicts": {
+    "codex": "changes_requested"
+  },
+  "independent_results": [
+    {
+      "provider": "codex",
+      "model": "gpt-5.6-terra",
+      "transport": "chatgpt_subscription",
+      "sandbox": "read-only",
+      "result": {
+        "verdict": "changes_requested",
+        "summary": "The new unattended Discussion publisher can send outside the authorized repository, duplicate posts under concurrent runs, and silently report success when its configured target is unusable.",
+        "findings": [
+          {
+            "severity": "high",
+            "category": "security",
+            "file": "tools/telemetry/publish.py",
+            "line": 143,
+            "title": "Discussion target is not constrained to an operator-owned repository",
+            "evidence": "`discussion_target()` accepts any `repo` string from `state/agent-feed.json`, and `post_discussion()` uses it directly in GitHub GraphQL. There is no allowlist or comparison to the repository served by this unit. This contradicts the simultaneous boundary rule, which permits autonomous GitHub posting only \"on the operator's OWN repositories\". A changed or malformed committed config can therefore make the unattended timer post to any repository accessible to the configured `gh` credential.",
+            "recommended_test": "Set the feed config to a different `owner/repo` and assert that `--post --sink discussion` exits without invoking the GraphQL mutation; accept only an explicitly configured/validated owned repository."
+          },
+          {
+            "severity": "medium",
+            "category": "reliability",
+            "file": "tools/telemetry/publish.py",
+            "line": 294,
+            "title": "Invalid Discussion configuration is treated as a successful dry run",
+            "evidence": "When `--post --sink discussion` is supplied but `discussion_target()` returns `None`, the code prints a dry-run message and returns `0`. The systemd service therefore appears healthy even though its sole purpose—posting the feed—was not performed. This recreates a silent feed outage after the change was intended to repair the previous five-day outage.",
+            "recommended_test": "Run with `--post --sink discussion` and a missing or malformed `state/agent-feed.json`; assert a non-zero exit status and that the cursor is unchanged."
+          },
+          {
+            "severity": "medium",
+            "category": "reliability",
+            "file": "tools/telemetry/publish.py",
+            "line": 287,
+            "title": "Concurrent Discussion publishes can post the same items twice",
+            "evidence": "The discussion branch selects events and calls `post_discussion()` before `write_cursor()` runs, with no lock or atomic claim around the cursor. Two timer/manual invocations that start before either mutation completes will both see the same cursor and both submit the same body.",
+            "recommended_test": "Stub the GraphQL mutation, launch two concurrent `--post --sink discussion` processes against one cursor, and assert exactly one mutation occurs."
+          }
+        ],
+        "uncertainties": [
+          "The bundle omits the surrounding telemetry tests and systemd timer unit, so no conclusion is made about whether an external service-level lock happens to reduce the concurrent-run window.",
+          "The bundled generated documentation was intentionally not treated as an authoritative source for claims about external systems."
+        ]
+      }
+    }
+  ],
+  "auto_apply": false
+}

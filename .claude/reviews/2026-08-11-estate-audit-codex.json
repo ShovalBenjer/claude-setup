@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-11T16:57:28.950954Z",
+  "repo_name": "claude-setup",
+  "scope": "base",
+  "base": "gh/main",
+  "bundle_sha256": "21659b0e1a5b2531930650aad48abf2330b2a0d4644e811cd84836eee5fbb441",
+  "repository_state_sha256": "4ce14a63e3fafaaf716e91c230c2322ff6acda6a9a73d47eb410aa1124881c91",
+  "concurrent_change": false,
+  "errors": {
+    "codex": "Codex must be logged in using ChatGPT; API-key fallback is forbidden"
+  },
+  "overall": "unavailable",
+  "verdicts": {},
+  "independent_results": [],
+  "auto_apply": false
+}

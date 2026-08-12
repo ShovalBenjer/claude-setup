@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-429 directories, 1908 tracked files, 0 without a stated purpose.
+425 directories, 1903 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -172,7 +172,7 @@ the same reason, one level down.
 | `dot-claude/skills/blonde-designer` | 1 | Creative director + design architect for the Seekapa AR how-to video refresh (DEV-4968). Shapes each video's script and art direction to the locked production standard — real ap... | SKILL.md |
 | `dot-claude/skills/brainstorming` | 2 | "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design... | SKILL.md |
 | `dot-claude/skills/brainstorming/scripts` | 5 | A hand-rolled WebSocket server (RFC 6455 framing implemented inline in server.cjs, no dependency) plus its start/stop scripts and an iframe template, so the brainstorming skill... | registry |
-| `dot-claude/skills/case-ledger-post` | 2 | Turn a long working session into an interactive illustrated case-ledger post: the route taken, dead ends with receipts, measured cost from the session transcript, and lessons. M... | SKILL.md |
+| `dot-claude/skills/case-ledger-post` | 2 | Turn a long working session into an interactive illustrated case-ledger post: the route taken, dead ends with receipts, measured cost from the session transcript, and lessons. R... | SKILL.md |
 | `dot-claude/skills/case-ledger-post/template` | 3 | HTML template the case-ledger-post skill renders into. Payload for that skill, not a standalone component | registry |
 | `dot-claude/skills/cleanup-crew` | 3 | "Cleanup Crew - SOTA 2026" | SKILL.md |
 | `dot-claude/skills/code-simplifier` | 1 | "/code-simplifier" | SKILL.md |
@@ -195,7 +195,7 @@ the same reason, one level down.
 | `dot-claude/skills/feature-investor` | 1 | Grade a feature, epic, or product concept against a strict 2026 SOTA investment bar with numeric scores, hard rules, and a go/no-go verdict. Use when deciding whether something... | SKILL.md |
 | `dot-claude/skills/frontend-design` | 1 | Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't... | SKILL.md |
 | `dot-claude/skills/github-triage` | 3 | Triage issues/work-items through a label-based state machine (ADO and GitHub auto-detected). Use when user wants to create an issue, triage issues, review incoming bugs or featu... | SKILL.md |
-| `dot-claude/skills/grill-me` | 1 | Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan... | SKILL.md |
+| `dot-claude/skills/grill-me` | 1 | "Interactive Socratic interview protocol. Stress-tests design decisions, architectural plans, and candidate solutions before writing code. Triggers on /grill-me, 'grill me', 'st... | SKILL.md |
 | `dot-claude/skills/gws-gmail` | 2 | "Gmail: Send, read, and manage email." | SKILL.md |
 | `dot-claude/skills/gws-gmail-read` | 2 | "Gmail: Read a message and extract its body or headers." | SKILL.md |
 | `dot-claude/skills/gws-gmail-triage` | 2 | "Gmail: Show unread inbox summary (sender, subject, date)." | SKILL.md |
@@ -204,8 +204,6 @@ the same reason, one level down.
 | `dot-claude/skills/humanize` | 1 | Detect AI-like writing patterns and rewrite flagged content into clearer, more natural human prose. | SKILL.md |
 | `dot-claude/skills/i-have-adhd` | 1 | 'Shape output for a reader with ADHD: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins v... | SKILL.md |
 | `dot-claude/skills/improve-codebase-architecture` | 4 | Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the decisions in docs/adr/. Use when the user wants to improve architecture, find r... | SKILL.md |
-| `dot-claude/skills/jira-read` | 2 | Read-only Jira access for qboservices.atlassian.net — fetch a single issue (description + comments + attachments, ADF flattened to plain text), list/download attachments, or run... | SKILL.md |
-| `dot-claude/skills/jira-task-draft` | 1 | Draft Jira tasks + subtasks LOCALLY as markdown so Shoval can paste them into Jira by hand. Never calls the Jira API. Saves to ~/docs/jira-tasks/YYYY-MM-DD-<topic>.md. Triggers... | SKILL.md |
 | `dot-claude/skills/kill-stale` | 1 | "/kill-stale" | SKILL.md |
 | `dot-claude/skills/learn-on-demand` | 1 | Retrieve and teach the smallest relevant knowledge pack from rights-cleared books, open standards, official documentation, local project evidence, occupational taxonomies, and r... | SKILL.md |
 | `dot-claude/skills/learn-on-demand/agents` | 1 | OpenAI/Codex-platform manifest (display name, description, default prompt) so this skill can be surfaced on agent platforms other than Claude Code | registry |
@@ -223,8 +221,6 @@ the same reason, one level down.
 | `dot-claude/skills/ponytail-review` | 1 | Code review focused exclusively on over-engineering. Finds what to delete: reinvented standard library, unneeded dependencies, speculative abstractions, dead flexibility. One li... | SKILL.md |
 | `dot-claude/skills/premortem` | 1 | Force a 5-failure-mode section into any /plan output before code is written. Triggers on "/plan", "/premortem", "let's design", "before we build", "design X", or whenever the us... | SKILL.md |
 | `dot-claude/skills/prior-art-gate` | 1 | "Simpsons did it already. Before claiming anything is novel, missing, unsolved or a gap, run a prior-art search and log it. Blocks unsourced novelty claims. Triggers on /prior-a... | SKILL.md |
-| `dot-claude/skills/prod-deploy-rules` | 1 | Production deployment rules for Azure container Web Apps. Use before any pipeline run, production commit, deploy safety review, or redeploy request. Covers naming, CI flow, ACR... | SKILL.md |
-| `dot-claude/skills/prod-deploy-rules/reference` | 1 | A copy-into-project bash template (notify.sh) implementing the skill's house standard for pipeline success/failure notifications, referenced by SKILL.md rule E | registry |
 | `dot-claude/skills/property-test-gen` | 1 | Generate property-based tests that validate invariants across wide input spaces for JavaScript/TypeScript and Python projects. | SKILL.md |
 | `dot-claude/skills/prove-implementation` | 1 | Compare implementation and architecture alternatives, detect unjustified default loops or libraries, and require executable evidence before calling a coding choice correct, best... | SKILL.md |
 | `dot-claude/skills/prove-implementation/agents` | 1 | OpenAI/Codex-platform manifest (display name, description, default prompt) so this skill can be surfaced on agent platforms other than Claude Code | registry |
@@ -242,7 +238,7 @@ the same reason, one level down.
 | `dot-claude/skills/requirement-anchor` | 1 | Extract a compact requirement-of-record + answer-map from a spec (PDF/eml/md/verbal) and gate read-before-build. Triggers on "/requirement-anchor", "anchor the requirement", "wh... | SKILL.md |
 | `dot-claude/skills/review` | 1 | PR precheck review — composites codex-call code review + testing-pyramid gap plan + heidegger-reflect into a single structured thread posted to Azure DevOps via the azure-devops... | SKILL.md |
 | `dot-claude/skills/ship-gate` | 1 | The mandatory procedure before calling any implementation done. Runs the real-browser flow audit, the ten-domain SDLC gate (build, unit, types, e2e, a11y/UX, security, docs, pip... | SKILL.md |
-| `dot-claude/skills/shoval-voice-draft` | 1 | Draft messages in Shoval Benjer's natural style for review before sending. Professional mode (recruiters, hiring managers, email, LinkedIn) and personal-chat mode (WhatsApp/SMS/... | SKILL.md |
+| `dot-claude/skills/shoval-voice-draft` | 1 | Draft messages in Shoval Benjer's natural work style for review before sending. Per-recipient tone (Yasha / Liron / Ali / Adnan / Daniel / Vlad, including Vlad's ultra-compact s... | SKILL.md |
 | `dot-claude/skills/skillmap` | 1 | Router over every skill you invoke by hand. Ask which one fits the situation. | SKILL.md |
 | `dot-claude/skills/syndication-engine` | 5 | Project one canonical post onto many platforms by selecting semantically-tagged spans, with per-platform hook strategy and A/B variants. Use to draft or publish a POSSE syndicat... | SKILL.md |
 | `dot-claude/skills/testing-pyramid` | 1 | Plan layered test architecture before non-trivial code changes. Covers static, unit, property, component, contract, integration, E2E, non-functional, trajectory, and adversarial... | SKILL.md |
@@ -267,7 +263,7 @@ the same reason, one level down.
 | `dot-claude/skills/workspace-brain` | 1 | "Workspace Brain — Cross-Project Knowledge Index" | SKILL.md |
 | `dot-claude/skills/write-a-skill` | 1 | Create new agent skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, or build a new skill. | SKILL.md |
 | `dot-claude/skills/writing-great-skills` | 3 | Reference for writing and editing skills well — the vocabulary and principles that make a skill predictable. | SKILL.md |
-| `dot-claude/skills/youtube-distill` | 1 | Analyse a YouTube video by driving Claude in Chrome to Gemini, which reads the video directly from its URL, then interrogate that reading over up to five differentiated follow-u... | SKILL.md |
+| `dot-claude/skills/youtube-distill` | 1 | Analyse a YouTube video by driving Claude in Chrome to Gemini, which reads the video directly from its URL, then distil the answer into a fixed contract with search-ready takeaw... | SKILL.md |
 
 ## dot-codex
 
