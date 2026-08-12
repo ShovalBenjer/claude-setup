@@ -236,9 +236,20 @@ def closing_segment(text: str, limit: int = 600) -> str:
 
 
 def verdict(text: str) -> tuple[str, str]:
-    """Return (action, reason_key), where action is "block" or "pass"."""
+    """Return (action, reason_key): "block", "nudge" or "pass".
+
+    completion_without_evidence was demoted from block to nudge on 2026-08-12,
+    operator instruction ("the hook ... really slows me down and it makes working
+    very difficult"), with the measurement that earned it: 211 of 243 blocks in
+    the prior 7 days were this one reason, each costing a corrective model turn,
+    while ship_gate_stop.py enforces the same property against the run ledger
+    instead of against wording. It is held as a candidate rather than returned,
+    so a response that ALSO hands back, ritualizes, or dashes still blocks on
+    those: demoting one check must not silence its stronger siblings.
+    """
+    nudge = None
     if COMPLETION.search(text) and not EVIDENCE.search(text):
-        return "block", "completion_without_evidence"
+        nudge = "completion_without_evidence"
 
     tail = closing_segment(text)
     if HANDBACK.search(tail) or tail.rstrip().endswith("?"):
@@ -261,6 +272,8 @@ def verdict(text: str) -> tuple[str, str]:
     if DASH.search(prose):
         return "block", "slop_dash"
 
+    if nudge:
+        return "nudge", nudge
     return "pass", "clean"
 
 
@@ -314,6 +327,9 @@ def main() -> int:
 
     if action == "block":
         print(json.dumps({"decision": "block", "reason": REASONS[reason_key]}))
+    elif action == "nudge":
+        print(json.dumps({"systemMessage": "Calibration nudge (non-blocking): "
+                          + REASONS[reason_key]}))
     else:
         print("{}")
     return 0
