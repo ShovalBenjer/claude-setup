@@ -74,6 +74,21 @@ class HookTargetResolution(unittest.TestCase):
             self.skipTest("live session-recall.sh absent on this machine")
         self.assertTrue(scan.resolve_hook_target(str(live)).exists())
 
+    def test_an_msys_wired_hook_resolves_to_itself(self) -> None:
+        """The exact regression: a live hook wired in MSYS form resolves to itself.
+
+        Merged 2026-08-12 from the parallel rewrite of the test above: both
+        branches replaced the same broken original differently, and the two
+        replacements check different things, so both stay. This one skips where
+        no Windows-side copy exists, which since the estate retirement is the
+        normal case on this machine.
+        """
+        native = Path("/mnt/c/Users/shova/.claude/hooks/session-recall.sh")
+        if not native.is_file():
+            self.skipTest("no Windows-side session-recall.sh on this machine")
+        wired = "/c/Users/shova/.claude/hooks/session-recall.sh"
+        self.assertTrue(scan.resolve_hook_target(wired).exists())
+
     def test_an_absent_hook_is_still_detected(self) -> None:
         """The check must not be fixed by making it unable to fire."""
         with tempfile.TemporaryDirectory() as td:
