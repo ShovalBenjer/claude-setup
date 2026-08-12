@@ -1,5 +1,3 @@
-
-
 #
 #
 # (shadow) and a row whose directory is gone (stale), so this file cannot rot
