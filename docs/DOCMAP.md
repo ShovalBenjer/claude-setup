@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1018**
+- documents: **1024**
 - reachable from `docs/INDEX.md`: **122** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -967,7 +967,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-codex/skills/.system/skill-installer/SKILL.md` | - | third-party-not-ours | class | n/a | - | - | - |
 | `dot-agents/skills/heygen-skills/CHANGELOG.md` | 2026-05-13 | third-party-not-ours | class | n/a | - | - | - |
 
-## work-doc (168)
+## work-doc (174)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -1001,6 +1001,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `work-docs/pipelines/notifications/README.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/prompt_v96_optimization_suggestions.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/research/README.md` | - | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/FIX-BWRAP-WSL.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/specs/2026-05-13-ado-pr-review/review-prompt.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Architecture.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Compliance.md` | - | dated-snapshot | class | n/a | - | - | - |
@@ -1031,9 +1032,14 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `work-docs/wiki/Home.md` | 2026-04-29 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Knowledge-Base.md` | 2026-04-29 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-04-30-v109-deploy-review-cleanup.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/claude-code-experimental-features.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/cleanup-proposal.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/claude-setup-master-plan-2026-05-02.md` | 2026-05-02 | dated-snapshot | class | n/a | - | - | - |
+| `work-docs/root-cleanup-2026-05-28/claude-setup-tasks-2026-05-02.md` | 2026-05-02 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/audits/2026-05-03-dor-cohen-sentimark-email.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/audits/2026-05-03-dormancy-audit.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/root-cleanup-2026-05-28/CLAUDE-CODE-MASTER-PLAN-2026-05-03-master-plans.md` | 2026-05-03 | dated-snapshot | class | n/a | - | prior planning docs | 14.6 |
+| `work-docs/root-cleanup-2026-05-28/claude-skills-scatter-2026-05-03.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/root-cleanup-2026-05-28/claude-skills-triage-2026-05-03-master-plans.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-05-04-a2a-v1-and-wire-gap-closure.md` | 2026-05-04 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-05-04-claude-setup-session-structure-and-wire-gaps.md` | 2026-05-04 | dated-snapshot | class | n/a | - | - | - |
