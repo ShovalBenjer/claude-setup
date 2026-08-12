@@ -62,10 +62,16 @@ class HookTargetResolution(unittest.TestCase):
         self.assertEqual(scan.resolve_hook_target(raw), Path(raw))
 
     def test_a_real_live_hook_is_not_reported_missing(self) -> None:
-        """The exact regression: the live SessionStart hook, wired in MSYS form."""
-        live = Path.home() / ".claude" / "hooks" / "session-recall.sh"
-        if not live.is_file():
-            self.skipTest("live session-recall.sh absent on this machine")
+        """The exact regression: a live hook wired in MSYS form resolves to itself.
+
+        The fixture is built independently of the resolver: the same file named
+        both natively and in MSYS form. The old version keyed the skip on the
+        WSL-home copy while asserting on the C: copy, which broke on 2026-08-12
+        when the Windows-side hooks dir was retired after the WSL migration.
+        """
+        native = Path("/mnt/c/Users/shova/.claude/hooks/session-recall.sh")
+        if not native.is_file():
+            self.skipTest("no Windows-side session-recall.sh on this machine")
         wired = "/c/Users/shova/.claude/hooks/session-recall.sh"
         self.assertTrue(scan.resolve_hook_target(wired).exists())
 

@@ -410,6 +410,16 @@ one of them to make room for a pointer is the wrong trade.
 
 ## TELEMETRY: publish.py hardening (from Kilo review of PR #62, deferred 2026-08-12)
 
+Operator decision 2026-08-12 (this session, verbatim intent): telemetry should be
+OpenTelemetry, speced as part of the communication / A2A layer, not grown as ad-hoc
+guards on publish.py. So the two rows below are stopgaps on the existing publisher;
+the real work item is the spec that folds tools/telemetry into an OTel-shaped A2A
+channel (spans/events over the bus and agent feed, not bespoke JSONL plus GraphQL).
+That spec is a claimed lane-A session of its own under docs/specs/.
+
+- [ ] Spec: OpenTelemetry-based telemetry as part of A2A communication; decide what
+  replaces collect.py/publish.py and what maps onto bus.py. Blocks the rows below
+  from growing further.
 - [ ] `post_discussion()` returns `r2.returncode` without checking the second GraphQL
   call's stdout; a data-level error with exit 0 advances the cursor and drops the batch
   silently. Guard like the first call. (kilo WARNING, PR #62 thread)
