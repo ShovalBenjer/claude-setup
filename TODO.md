@@ -39,6 +39,15 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   branch was merged after the write-up was written. Rotation is now the only sane close;
   see L-2026-08-11-b.**
 
+- [ ] **Read `docs/analysis/2026-08-12-plain-handoff.md` first: the plain-language
+  entry point the operator asked for.** Written 2026-08-12 on his instruction ("write
+  me full file of what you did what issues you did whats left to do ... note that
+  everything you did here i dont understand"). One self-contained file: what both
+  days did, every issue including the assistant's own, the full paper-vs-built
+  inventory, and the seven items only he can move. Passes the explain-simply checker
+  (`plain.py check`, exit 0) and slop_lint. Supersedes nothing; it points at the
+  audit and the plan rather than replacing them.
+
 - [ ] **The open-model and scheduling plan waits on five operator blocks (A to E).**
   Written 2026-08-12 on instruction ("tell me the plan how we do it ... oracle/aws free
   tiers first" and "regarding local and remote crons, tell me the full suggestion").
