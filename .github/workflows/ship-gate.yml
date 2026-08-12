@@ -265,6 +265,31 @@ jobs:
       - name: pointers.py scan
         run: python tools/audit/pointers.py scan
 
+      # skills_sync answers "do the trees agree", pointers answers "does the file
+      # exist". Neither asks whether a skill that is present and in sync can start
+      # on the host, which is how dot-agents/skills/obsidian-vault stayed routed in
+      # the registry while pointing at a vault path that is not on this machine.
+      # The selftest is host-independent on purpose: it plants a deliberately
+      # absent binary rather than asserting anything about the CI runner's PATH.
+      - name: skill_deps.py selftest (host-runnability classifier)
+        run: python tools/audit/skill_deps.py selftest
+
+      # skill_deps asks whether one skill can start. This asks whether a persona
+      # the router names can do anything at all. Measured 2026-08-06 before the
+      # repair: 7 of 19 personas had zero owned skills loadable in a live session,
+      # because the registry was authored against the repo payload and the runtime
+      # reads ~/.claude/skills. The selftest plants its own registry and trees, so
+      # it does not depend on the runner having either.
+      - name: persona_audit.py selftest (routed-persona executability)
+        run: python tools/audit/persona_audit.py selftest
+
+      # pile.py emits a deletion list, so its selftest is the only thing standing
+      # between a bad survivor rule and a file that is gone. It plants a protected
+      # runtime instruction file on purpose: the first real run proposed removing
+      # dot-codex/AGENTS.md for being byte-identical to the root CLAUDE.md.
+      - name: pile.py selftest (duplicate and fork manifest)
+        run: python tools/audit/pile.py selftest
+
       # This runner has no ~/.claude/rules, which is the exact condition that turned
       # the rules domain red on 2026-08-05 and the condition this selftest now asserts
       # is a NARROWED run rather than a failure. Named as its own step so the two
