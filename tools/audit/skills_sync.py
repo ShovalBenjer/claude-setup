@@ -202,6 +202,7 @@ def survey(repo_base, live_base, root=None):
     root = root or setup_root()
     r, l = set(listdirs(repo_base)), set(listdirs(live_base))
     out = {"repo_only": [], "live_only": [], "drift": [], "same": [],
+           "eol_only": [],
            "hollow_repo": [], "hollow_live": [], "no_manifest": [],
            "squat_repo": [], "squat_live": []}
 
@@ -247,9 +248,26 @@ def survey(repo_base, live_base, root=None):
             continue
         if sha(a) == sha(b):
             out["same"].append(name)
+        elif text_sha(a) == text_sha(b):
+            # Character-identical, byte-different: the live tree is written by
+            # Windows and the repo by WSL. Its own bucket rather than drift,
+            # because no human decision exists here, and rather than "same",
+            # because the asymmetry is real and hiding it is how it comes back.
+            out["eol_only"].append((name, os.path.getsize(a), os.path.getsize(b)))
         else:
             out["drift"].append((name, os.path.getsize(a), os.path.getsize(b)))
     return out
+
+
+def text_sha(path):
+    """Hash of the file's characters, with line endings normalised.
+
+    Deliberately narrow. It collapses CRLF to LF and nothing else, so a trailing
+    space, a changed word or a reordered section still hashes differently. The
+    only equivalence asserted is the one the two host operating systems create.
+    """
+    with open(path, "rb") as fh:
+        return hashlib.sha256(fh.read().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def report(s, repo_base, live_base, strict=False):
@@ -297,6 +315,13 @@ def report(s, repo_base, live_base, strict=False):
                 name, size, render_body(where)))
             print("        contains: {}{}".format(first[:88],
                                                   "   [dead path]" if dead else ""))
+
+    if s["eol_only"]:
+        print()
+        print("LINE ENDINGS ONLY ({})".format(len(s["eol_only"])))
+        print("  character-identical; no decision to make, but the trees are not byte-equal")
+        for name, a, b in s["eol_only"]:
+            print("    {:<28} repo {}b   live {}b".format(name, a, b))
 
     if s["no_manifest"]:
         print()
@@ -645,6 +670,40 @@ def cmd_selftest(a):
         check(os.path.isdir(os.path.join(r13, "xi")) and not s["squat_repo"]
               and s["same"] == ["xi"],
               "importing over a squatting file leaves a real directory in sync")
+
+        # --- case 14: CRLF-vs-LF is not drift, and is not silence either -----
+        # Measured 2026-08-05: of the 21 repo-vs-live pairs in the live 55, FOUR
+        # differ only in line endings. The live tree is written by Windows and the
+        # repo by WSL, so a byte hash reports a file that is character-identical as
+        # needing a decision. That is the allowed-list-from-a-sample failure this
+        # repo has now logged three times: the oracle rejects a legitimate form.
+        #
+        # Both halves matter. Counting it as drift inflates the number a gate would
+        # enforce. Counting it as "same" hides a real deployment asymmetry. So it
+        # gets its own bucket, and this case pins BOTH: eol_only is populated, and
+        # drift stays empty, and a genuine content change still lands in drift.
+        root14 = os.path.join(tmp, "c14")
+        r14 = os.path.join(root14, "repo")
+        l14 = os.path.join(root14, "live")
+        write_skill(r14, "omicron", real_body("shared"))
+        write_skill(l14, "omicron", real_body("shared"))
+        p14 = os.path.join(l14, "omicron", "SKILL.md")
+        with open(p14, "rb") as fh:
+            lf = fh.read()
+        with open(p14, "wb") as fh:                       # same characters, CRLF
+            fh.write(lf.replace(b"\n", b"\r\n"))
+        s = survey(r14, l14, root=root14)
+        check(lf != open(p14, "rb").read(),
+              "the CRLF fixture really does differ in bytes")
+        check([x[0] for x in s.get("eol_only", [])] == ["omicron"]
+              and not s["drift"] and s["same"] == [],
+              "a CRLF/LF pair is reported as line-endings-only, not as drift")
+
+        write_skill(l14, "pi", real_body("live text"))
+        write_skill(r14, "pi", real_body("repo text"))
+        s = survey(r14, l14, root=root14)
+        check([x[0] for x in s["drift"]] == ["pi"],
+              "a real content difference is still drift after the EOL fix")
 
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

@@ -1,5 +1,7 @@
 # Trace model: worldlines, cones, and one canonical branch
 
+Status: proposed. Trace model, 2026-07-29. Not built.
+
 Spec, 2026-07-29. Scope: the event model for "trace every session and every turn".
 Companion to the ticket model. This document defines what an event is, what a
 worldline is, what branches, what prunes, what makes a branch canonical, and which

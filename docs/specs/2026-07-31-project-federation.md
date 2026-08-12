@@ -1,5 +1,7 @@
 # Per-repo project federation for the ShovalBenjer estate, and why it is not built
 
+Status: parked. The document argues against its own proposal and concludes the federation is overhead; kept because the argument is the useful part.
+
 Date: 2026-07-31. Companion to `docs/specs/2026-07-31-github-native-project-surface.md`,
 which this document extends rather than replaces. That document designed the schema
 and views for Zion. This one answers the question it did not ask: whether Zion should

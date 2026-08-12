@@ -35,7 +35,7 @@ happens to be written. The real requirement is only that a verifier can recomput
 bytes, and a declared list satisfies it strictly better than a constant the verifier
 must already possess. Cost is about sixty bytes per row.
 
-## 2026-07-29 — Naming the split writing site: case-ledgers
+## 2026-07-29: Naming the split writing site: case-ledgers
 
 Decision: the writing site (formerly daily-deep-learning.pages.dev/writing/) deploys
 to Cloudflare Pages project `case-ledgers`. Candidates carried conventionality
@@ -49,3 +49,49 @@ deploy returned "Project not found" [8000007]. case-ledgers was the next candida
 that survives both the taste ordering and the global namespace. The anchor is the
 site's own subtitle, so the grounding is auditable in the artifact itself.
 Renaming later is one variable in deploy.yml plus _redirects plus canonicals.
+
+## 2026-08-01: The kitty 0.48 surface: which chrome earns its pixels
+
+Context: `~/.config/kitty/kitty.conf` had been written and commented against 0.48.2
+while the binary that actually ran was the apt 0.32.2, so 51 options were being
+silently dropped. Fixing the launcher made a real design decision available for the
+first time, and the operator's ask was "modern image, css styling (beyond latest
+react)", which is a look, not a feature list.
+
+Anchor: Kanagawa Dragon by rebelot, already the palette in the COLORS block of that
+file. No new theme was invented, and the accents in the generated lane logos are the
+same hexes as `color1..color15`.
+
+Candidates, with p_conventional:
+
+- **Stock modern kitty** (p 0.90). Enable what 0.48 already defaults to and stop.
+  Rejected: it is the mode by construction, and it answers none of the ask.
+- **Glass terminal** (p 0.75). `background_opacity 0.85`, blur, tint. Rejected on a
+  fact rather than taste: transparency under WSLg depends on the Weston RAIL
+  compositor honouring alpha, that was never eyeballed here, and the failure mode is
+  a solid black window rather than an error.
+- **Kanagawa instrument panel** (p 0.25). PICKED. Scrollbar, progress bar and split
+  title bars styled in the existing accents, cursor trail tuned tight, and a per-lane
+  watermark generated from the charter letters.
+- **Sumi-e ink wash** (p 0.12). A low-alpha ink render as `background_image` with
+  `background_tint 0.9` and `transparent_background_colors`. Rejected: it is the most
+  distinctive candidate and it carries no information, so every pixel it costs is
+  decoration. It also inherits the same unverified-alpha problem as glass.
+- **Zero chrome** (p 0.20). No title bar, no scrollbar, no tabs, larger font.
+  Rejected: it is a coherent position and it deletes the progress and depth signals
+  that a long agent run actually needs.
+
+The rule the pick follows, and the one worth carrying forward: chrome that carries
+information is kept, chrome that only decorates is not. The scrollbar says how deep
+the buffer is during a run, the progress bar reads OSC 9;4, the split title bars
+appear only once a tab is split, and the watermark says which lane the window is.
+The cursor trail is the single exception, kept because it is the one effect no web UI
+ships by default and the operator asked for exactly that.
+
+Evidence, since a visual claim with no oracle is a preference: 14 asserted option
+values parse to the intended values with zero mismatches under 0.48.2, the four lane
+PNGs decode to exactly their expected glyph pixel counts, `kitten icat
+--detect-support` returns 0 under WSLg so in-terminal images work, and a deliberately
+wrong `--logo` path raises `FileNotFoundError` out of `kitty/render_cache.py` while
+the real path is silent, which proves the watermark is rasterised rather than merely
+parsed. What is NOT verified is whether it looks good; that needs the operator's eyes.

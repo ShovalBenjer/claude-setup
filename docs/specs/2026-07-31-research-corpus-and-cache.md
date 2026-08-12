@@ -1,5 +1,7 @@
 # Research corpus and cache (row-reuse, cache2action)
 
+Status: proposed. Corpus and cache design, 2026-07-31. Not built.
+
 > Renamed 2026-07-31. This document originally called the read path `cache2cache`.
 > That name is taken: `cache2cache` is Cache-to-Cache, arXiv 2510.03215 (ICLR 2026,
 > Tsinghua / CUHK / SJTU / Shanghai AI Laboratory / Infinigence AI), which fuses one
@@ -303,6 +305,53 @@ estimated 8,000 to 15,000 chunks, dominated by system-design-primer and the mcp
 repos. Design target: **25,000 chunks**, one order of headroom.
 
 That number decides everything.
+
+### 4.1a Chunking: the one thing this spec asserted instead of deciding
+
+**GAP FOUND 2026-08-03 by comparison against DigitalOcean's published knowledge-base and
+chunking-strategy docs.** The sentence above is the entire chunking strategy: ~350 words,
+split on h2/h3, subdivide long sections. That is DigitalOcean's **section-based** strategy,
+picked without naming an alternative, and applied uniformly to a corpus the atlas measures
+at **420 documents across 16 clusters**: linguistics wiki dumps, four commercial sales
+books, API-shaped specs, generated maps, and code.
+
+By DO's own content-type guidance that span calls for three different strategies:
+
+| DO strategy | Parameters | They recommend it for |
+|---|---|---|
+| fixed-length | token count | logs, OCR, machine-generated text, **code** |
+| section-based | `max_chunk_size` | structured documents with headings |
+| semantic | `semantic_threshold`, `max_chunk_size` | **long-form prose, academic writing** |
+| hierarchical | `parent_chunk_size`, `child_chunk_size` | **API references, legal contracts, manuals** |
+
+Four further constraints this spec does not carry, all from the same source:
+
+1. **Cost multiplier.** Semantic chunking costs **1.5 to 3 times** more to index.
+   Hierarchical raises *retrieval* cost, because parent and child are returned together.
+   This spec has no cost model for chunking at all.
+2. **A floor.** Chunks must be at least ~**100 tokens** and must fit the embedding model's
+   window. This spec states ~350 words with no floor and no window check.
+3. **The embedding model is immutable after the store is created**, and changing chunking
+   forces a **full re-index**. That is unpriced here, and it matters right now: the choice
+   between Qwen3-Embedding-8B and KaLM-Embedding-Gemma3-12B (`docs/analysis/2026-08-03-math-trends-and-model-stack.md` §5)
+   is being weighed as if it were reversible. It is not.
+4. **Incremental re-index.** DO skips unchanged files. §9's "migration path in ingestion
+   units" has no skip logic, so today's design re-embeds everything on every run.
+
+**What changes in this spec.** Chunking becomes **per-cluster, keyed off the atlas
+cluster** rather than one rule for the corpus: fixed-length for `generated-map` and code,
+section-based for `spec`, `adr`, `prd`, `analysis`, semantic for `sales-and-books` and
+`linguistics`, hierarchical for `research-prompt` and `sota-report`. The chunk count above
+is therefore an estimate under one strategy and will move once the strategies differ; it is
+kept because the **order of magnitude** is what the ANN rejection rests on, and three
+strategies do not change 25,000 into 250,000.
+
+**Cost of fixing this now: zero.** The status of this spec is `proposed` and nothing has
+been indexed. The same gap discovered after the first index costs a full re-embed.
+
+**Prior art owed.** `docs/prior-art/` carries no record for a corpus or retrieval
+component. If this is built, DigitalOcean's four-strategy table is a named alternative that
+record has to answer.
 
 - FTS5 over 25k rows: single-digit MB, sub-millisecond queries. Trivial.
 - A dense index at 25,000 x 256 float32 is **25.6 MB**, and brute-force cosine

@@ -41,7 +41,41 @@
 mod rules;
 
 use std::io::{self, Read, Write};
+use std::path::PathBuf;
 use std::process::{Command, Stdio};
+
+/// Where `pre_push_gate.py` lives on THIS machine.
+///
+/// Order: `$CLAUDE_CONFIG_DIR/hooks`, then `$HOME/.claude/hooks`, then the Windows tree
+/// reachable from WSL. Each candidate must actually exist; a missing path is skipped
+/// rather than returned, so the delegate is never a name for nothing.
+///
+/// When nothing resolves, the last candidate is returned anyway and the spawn fails,
+/// which `main` already handles by failing OPEN with a note on stderr. That is the
+/// deliberate direction: this binary must never block a push because it could not find
+/// its own inspector, and a note the operator can read beats a guard that stops work.
+fn push_delegate() -> String {
+    let mut candidates: Vec<PathBuf> = Vec::new();
+    if let Ok(dir) = std::env::var("CLAUDE_CONFIG_DIR") {
+        candidates.push(PathBuf::from(dir).join("hooks").join("pre_push_gate.py"));
+    }
+    if let Ok(home) = std::env::var("HOME") {
+        candidates.push(
+            PathBuf::from(home).join(".claude").join("hooks").join("pre_push_gate.py"),
+        );
+    }
+    candidates.push(PathBuf::from("/mnt/c/Users/shova/.claude/hooks/pre_push_gate.py"));
+
+    for c in &candidates {
+        if c.is_file() {
+            return c.to_string_lossy().into_owned();
+        }
+    }
+    candidates
+        .last()
+        .map(|p| p.to_string_lossy().into_owned())
+        .unwrap_or_default()
+}
 
 use fancy_regex::Regex;
 
@@ -172,6 +206,18 @@ fn main() {
 
     // Cold path only. Delegate to the Python push gate, unmodified, feeding it the exact
     // bytes we were given so its own parsing sees what it would have seen.
+    //
+    // The delegate path used to be the literal string
+    // "/mnt/c/Users/shova/.claude/hooks/pre_push_gate.py", and on 2026-08-10 that cost a
+    // whole class of fix. The operator was still being prompted on compound pushes after
+    // pre_push_gate.py had been taught to segment them, because the fix landed in the
+    // Linux copy at ~/.claude/hooks while this binary went on calling the Windows one,
+    // ten days stale and 6191 bytes shorter. Two copies of a guard, one of them fixed,
+    // and the fixed one was not the one that ran. Same shape as L-2026-07-31-g: a check
+    // that is correct on the host it was written for and wrong on the other.
+    //
+    // Resolution is now per host and every candidate is a real file test, because a path
+    // that does not exist must not silently become the answer.
     let is_push = Regex::new(PUSH)
         .map(|re| re.is_match(command).unwrap_or(false))
         .unwrap_or(false);
@@ -180,8 +226,7 @@ fn main() {
         return;
     }
 
-    let gate = std::env::var("HOOKGATE_PUSH_DELEGATE")
-        .unwrap_or_else(|_| "/mnt/c/Users/shova/.claude/hooks/pre_push_gate.py".to_string());
+    let gate = std::env::var("HOOKGATE_PUSH_DELEGATE").unwrap_or_else(|_| push_delegate());
     let py = std::env::var("HOOKGATE_PYTHON").unwrap_or_else(|_| "python3".to_string());
     let child = Command::new(&py)
         .arg(&gate)

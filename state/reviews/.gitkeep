@@ -1,0 +1,8 @@
+Keeps state/reviews in the repository while its contents stay untracked.
+
+panel.py writes one <sha>.json here per commit. Those are gitignored because the
+count moved on every commit and docs/CODEBASE-MAP.md records a per-directory file
+count, so a green gate turned codemap red on its own next run. Without this file
+the directory leaves the repo entirely and codemap fails the other way: a row in
+docs/dir-purpose.txt naming a directory that is not there. One stable tracked file
+satisfies both.

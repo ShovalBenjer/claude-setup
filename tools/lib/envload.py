@@ -3,9 +3,19 @@
 
 Why this exists instead of `os.environ` or python-dotenv:
 
-1. The keys live in `C:/Users/shova/Downloads/new-recruit/.env`, which is a
-   different repository from this one and is not on any PATH. Nothing exports
-   them into the shell, so a tool that reads only `os.environ` finds nothing.
+1. The keys live in the new-recruit repository's `.env`, which is a different
+   repository from this one and is not on any PATH. Nothing exports them into
+   the shell, so a tool that reads only `os.environ` finds nothing.
+
+   That repository MOVED on 2026-07-31. It was `~/Downloads/new-recruit` on
+   Windows; it is now `~/work/repos/new-recruit` under WSL and
+   `C:/Users/shova/new-recruit` on Windows. The old spellings stayed in the
+   candidate list below for two hours after the move and nothing complained,
+   because a candidate that does not resolve is skipped in silence. That is the
+   whole failure mode this module's own point 2 is about, one level up: a false
+   absence produced by a wrong probe rather than a missing key. `env_files()`
+   still degrades quietly by design, so `envload.py paths` is the check, and it
+   is why that subcommand exists.
 2. Case is not stable in that file. `openrouter_api_key` is lowercase while
    `HF_TOKEN_KEY` is upper. On 2026-07-25 a case-sensitive grep for
    `OPENROUTER_API_KEY` returned zero matches and was reported as "the key is
@@ -36,11 +46,19 @@ from pathlib import Path
 
 # Search order. First file that defines a name wins, so an explicit
 # CLAUDE_ENV_FILE overrides the shared new-recruit file.
+#
+# Both hosts' spellings of the same file are listed, WSL first because that is
+# the authoritative tree as of 2026-07-31. The pre-move Downloads paths are kept
+# last rather than deleted: a checkout that has not been relocated yet should
+# still find its keys, and an entry that does not resolve costs one stat.
 _CANDIDATES = [
     os.environ.get("CLAUDE_ENV_FILE", ""),
     str(Path(__file__).resolve().parents[2] / ".env"),
-    r"C:\Users\shova\Downloads\new-recruit\.env",
+    str(Path.home() / "work" / "repos" / "new-recruit" / ".env"),
+    "/mnt/c/Users/shova/new-recruit/.env",
+    r"C:\Users\shova\new-recruit\.env",
     str(Path.home() / "Downloads" / "new-recruit" / ".env"),
+    r"C:\Users\shova\Downloads\new-recruit\.env",
     str(Path.home() / ".env"),
 ]
 

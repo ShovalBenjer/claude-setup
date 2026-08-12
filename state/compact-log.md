@@ -3287,3 +3287,159 @@ Three sibling workflows do run, so Actions is healthy and this is one unmerged f
 
 **Next action:** merge `ship-gate.yml` to main, or state plainly that ADR-0012 is
 aspirational. Everything else on this list is smaller than that one.
+## compact 2026-08-01 10:20
+```
+## main...gh/main [ahead 2]
+ M .github/workflows/ship-gate.yml
+ M AGENTS.md
+ M TODO.md
+ M docs/CODEBASE-MAP.md
+749ec19 chore(codemap): state what hostpaths.py adds to tools/lib, and regenerate
+613c2aa fix(pointers): twelve HIGH "wired-missing" hooks that all exist, and the third instance of one bug
+9d94efb chore(state): ledger rows from the status measurement, and the loop they exposed
+```
+
+## 2026-08-04/05 session close, LANE A (harness)
+
+The SessionStart banner on the final turn announced LANE C (learning, daily-deep-learning).
+It was wrong for every hour of this session. All work was lane A: kitty/WSLg, the harness's
+own tooling, the quality contract, and the global rules. Recording it because this is
+L-2026-07-31-d verbatim, a banner naming a lane the work did not belong to, and the lesson
+is open rather than closed.
+
+**Nothing was committed.** The tree is dirty with 26 changed files and a green gate against
+that exact dirty tree (`tree ae67cbc67539dfdf`, PASS at 08:28). Committing is the open
+operator decision, and it is the same one blocking the `review` domain's fourth waiver
+renewal: the tree also carries other sessions' uncommitted work, including a staged
+deletion of `research-papers/docs-shoval/**` that nobody here owns.
+
+### Shipped and verified
+
+- **kitty could not move to the second monitor.** Cause was `--start-as=fullscreen` in the
+  launcher, added by the 2026-08-01 repair pass. Removed; `-Fullscreen` restores it.
+  Second screen is on the LEFT (`rdpMonitor[1] x:-1920`), so it was always Win+Shift+Left.
+  Every WSLg window is a caption-less `RAIL_WINDOW`, verified by an A/B of wayland vs x11
+  with identical style words (0x96070000), so the display server is not the lever and
+  `tools/wsl/move-window-to-monitor.ps1` moves windows with SetWindowPos instead.
+- **WSL updated 2.5.7.0 -> 2.7.11.0**, WSLg 1.0.66 (2024-09-12) -> 1.0.73.2. Two weston
+  SIGSEGVs before the update, zero after.
+- **WSLg renders on the CPU** and the GPU is Intel Iris Plus, not NVIDIA. `tools/wsl/gpu-probe.sh`
+  plus two dlopen probes. THE FIX WAS REVERSED WITHIN THE HOUR: glxgears measured llvmpipe
+  at 206-269 FPS against d3d12 at 10-29, so forcing the GPU is slower here. Launchers and
+  `~/.profile` deliberately left on the default; `-Gpu` opts in. Unmeasured and named:
+  glxgears is GLX over XWayland whose glamor is itself software, so it says nothing about
+  a native-Wayland client like kitty. `glmark2-wayland` would settle it.
+- **`agy` built and working.** No vendor `agy` binary exists and no `mcp_server` module
+  exists; the SDK path is the only real one. `tools/antigravity/agy.py`, returns `pong`
+  from a live call. It found its own credential through `tools/lib/envload.py` after I
+  reported "no credential" by checking `os.environ`, which is the exact false-absence that
+  module's docstring exists to prevent.
+- **Agent feed live at issue #38.** `tools/telemetry/{collect,publish}.py` normalise ten
+  ledgers across every repo and post only alerts and notes. 25 items posted, dedup proved by
+  a second run returning entirely different events. `agent-feed.timer` active, next elapse
+  09:03. Two defects found by running it: all 8822 events attributed to one repo, and a
+  first dry run that was 23 of 25 lines of the gate's own selftest fixtures.
+- **The global rules were 90% destroyed and are restored.** Commit `2bb97a8` removed 986
+  lines across 17 rule files by syncing a degraded live tree back over the good repo copy.
+  12 rules restored from git, 45520 bytes, payload and live identical. `tools/audit/rules_sync.py`
+  is a new REQUIRED gate domain (`rules`, contract now 14 domains) checking drift and, more
+  importantly, shrink against each rule's own historical maximum.
+
+### Next action, in order
+
+1. Decide who may commit this tree. It blocks the `review` waiver (renewal 4) and leaves
+   a green gate attached to an uncommitted state.
+2. Enforce the three greppable bans that `boundary-contracts.md` carries again and that
+   `panel.py`'s 21 patterns still do not check: Go `x, _ := json.Marshal`, discarded
+   `io.ReadAll`, Python bare `except: pass`, TypeScript unchecked `JSON.parse`.
+3. `glmark2-wayland` to settle the GPU question on the path kitty actually uses.
+4. Watch whether anything ever ACTS on an issue #38 item. If the feed has posts and no
+   engagement it is the bus's successor in the worst way, and the answer is to post less.
+## compact 2026-08-10 11:08
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:08
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:08
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:08
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:11
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:11
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:11
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```
+## compact 2026-08-10 11:11
+```
+## lane-a/na-domains-and-run-duration...gh/lane-a/na-domains-and-run-duration [ahead 1]
+ M state/claims.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+ M state/prompt-tickets.jsonl
+0e2b091 chore(state): hook-written ledger rows from this session
+ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
+3ec226d chore(state): the passing gate run's own ledger row
+```

@@ -115,22 +115,31 @@ def run_verifier(rec: dict) -> tuple[str, int, str]:
     if not cmd:
         return BROKEN, -1, "no verify command on this claim"
 
-    shell = (rec.get("shell") or "pwsh").lower()
+    # Default is `portable`, not `pwsh`. A claim that does not say how to run itself
+    # should run anywhere; declaring a Windows-only interpreter by omission is how the
+    # whole layer went dark on WSL (26 of 26 broken, single cause, 2026-07-31).
+    shell = (rec.get("shell") or "portable").lower()
     timeout = int(rec.get("timeout") or DEFAULT_TIMEOUT)
 
-    if shell in ("pwsh", "powershell", "ps"):
+    if shell == "portable":
+        # The platform's own shell, chosen by the platform. Correct for a command
+        # written in the intersection of both: `python`, `git`, `grep`, forward-slash
+        # relative paths. NOT a general fallback: an unknown shell value below is still
+        # BROKEN, so a typo cannot quietly become "run it and hope".
+        argv, use_shell = cmd, True
+    elif shell in ("pwsh", "powershell", "ps"):
         exe = "pwsh" if _which("pwsh") else "powershell"
-        argv = [exe, "-NoProfile", "-NonInteractive", "-Command", cmd]
+        argv, use_shell = [exe, "-NoProfile", "-NonInteractive", "-Command", cmd], False
     elif shell == "bash":
         gitbash = Path(r"C:\Program Files\Git\bin\bash.exe")
         exe = str(gitbash) if gitbash.exists() else "bash"
-        argv = [exe, "-lc", cmd]
+        argv, use_shell = [exe, "-lc", cmd], False
     else:
         return BROKEN, -1, f"unknown shell {shell!r}"
 
     try:
         p = subprocess.run(
-            argv, capture_output=True, text=True, timeout=timeout,
+            argv, shell=use_shell, capture_output=True, text=True, timeout=timeout,
             cwd=str(ROOT), errors="replace",
         )
     except subprocess.TimeoutExpired:
