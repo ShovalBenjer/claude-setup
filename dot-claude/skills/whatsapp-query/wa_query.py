@@ -19,6 +19,8 @@ Notes / limits:
   - Timestamps are unix seconds (occasionally milliseconds); both are handled.
 """
 import sqlite3, sys, os, argparse, datetime
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import wa_store
 
 DEFAULT_DB = os.path.join(os.environ.get("LOCALAPPDATA", ""), "Temp", "wa-decrypted")
 
@@ -166,8 +168,20 @@ def main():
     se.add_argument("--from", dest="from_"); se.add_argument("--to"); se.add_argument("--limit", type=int, default=50)
     th = sub.add_parser("thread"); th.add_argument("who")
     th.add_argument("--from", dest="from_"); th.add_argument("--to"); th.add_argument("--limit", type=int, default=200)
+    sub.add_parser("purge", help="delete the decrypted store now")
 
     args = p.parse_args()
+    if args.cmd == "purge":
+        n = wa_store.purge(args.db)
+        print("purged {} ({} file(s))".format(args.db, n) if n else "nothing to purge at " + args.db)
+        return
+    gone = wa_store.purge_if_expired(args.db)
+    if gone is not None:
+        raise SystemExit(
+            "the decrypted store at {} was older than {} minutes (or carried no stamp) and has "
+            "been deleted, {} file(s). It is a plaintext copy of every message you have, so it "
+            "expires rather than waiting to be noticed. Re-run wa_decrypt.py to answer a new "
+            "question.".format(args.db, int(wa_store.DEFAULT_TTL_SECONDS // 60), gone))
     names = load_names(args.db)
     con = open_msgs(args.db)
     {"contacts": cmd_contacts, "stats": cmd_stats, "search": cmd_search, "thread": cmd_thread}[args.cmd](con, names, args)

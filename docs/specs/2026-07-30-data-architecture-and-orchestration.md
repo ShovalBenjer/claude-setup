@@ -1,5 +1,7 @@
 # Data architecture and orchestration: what SQLite is for, what git is for, and what shape the DAG actually is
 
+Status: proposed. Design document, 2026-07-30. Nothing here is built.
+
 - Date: 2026-07-30
 - Status: PROPOSAL, pending operator approval. Nothing here is built.
 - Supersedes nothing. Extends ADR-0010 (disk is memory) and ADR-0011 (one operational state db).

@@ -82,14 +82,48 @@ def win(path: str) -> str:
     that form, so testing it literally on Windows reports a live hook as missing.
     A /home/... path gets no translation on purpose: it is genuinely absent here,
     and pretending otherwise is what let these files sit for months.
+
+    The reverse direction was missing until 2026-07-31 and it cost twelve false
+    HIGH findings. Read from WSL, every hook in `dot-claude/settings.json` reported
+    `wired-missing`, because that file is the committed copy of a WINDOWS ~/.claude
+    and its `C:\\Users\\shova\\...` paths were tested against the Linux filesystem.
+    All twelve exist under /mnt/c; checked by hand before this was changed. A missing
+    hook is a believable defect, so twelve of them read as rot rather than as a bug
+    in the reader, `pointers scan` exits FAIL on them, and the genuinely dead
+    pointers in the same report sit underneath.
+
+    Translation happens only where the drive is actually MOUNTED, which is the whole
+    safety property: on bare Linux `C:\\Users\\x` stays unreachable, because a
+    translator that rewrites unconditionally is a machine for making absent paths
+    look present. See tools/lib/hostpaths.py.
     """
     p = path.strip().strip('"').strip("'")
     if p.startswith("~"):
         p = os.path.expanduser(p)
     m = re.match(r"^/([A-Za-z])/(.*)$", p)
     if m and os.name == "nt":
-        p = "{}:\\{}".format(m.group(1).upper(), m.group(2).replace("/", "\\"))
+        return "{}:\\{}".format(m.group(1).upper(), m.group(2).replace("/", "\\"))
+    if os.name != "nt":
+        return str(_hostpaths().translate(p))
     return p
+
+
+def _hostpaths():
+    """Imported by path rather than by name: tools/ is not a package, and this is
+    the same directory-shaped import the rest of this tree uses."""
+    global _HOSTPATHS
+    if _HOSTPATHS is None:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "hostpaths", os.path.join(os.path.dirname(os.path.dirname(
+                os.path.abspath(__file__))), "lib", "hostpaths.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _HOSTPATHS = mod
+    return _HOSTPATHS
+
+
+_HOSTPATHS = None
 
 
 def exists(path: str) -> bool:
@@ -316,21 +350,112 @@ def report(findings: list[dict], out_path: str | None) -> None:
         print("\nfull list: {} ({} row(s))".format(out_path, len(findings)))
 
 
+def say_which_settings(settings: list[str], live: str, include_live: bool) -> None:
+    """State whether the file Claude Code actually executes was among them.
+
+    Measured 2026-08-07, and this is the whole reason the function exists. Three
+    agents were spawned in one turn and every one reported the same hook error:
+    `~/.claude/settings.json` wires a PostToolUse hook at
+    `tools/intent/spawn_log.py`, a file that did not exist. This scan is the
+    oracle for exactly that defect and it had been reporting PASS, because the
+    contract ran it without --include-live, so it audited the committed payload
+    copy of settings.json rather than the live one. The payload copy does not
+    even carry a PostToolUse section, so the broken hook was not merely missed,
+    it was outside the file being read.
+
+    A scan that reads a different file from the one that runs is not a weaker
+    check, it is a check of something else wearing the same name. Printing which
+    file was read is the minimum that keeps a PASS honest about its own scope.
+    """
+    if not include_live:
+        print("\n  NOT SCANNED: the live settings at {}. This run read the committed payload "
+              "copy only, and the payload is not what Claude Code executes. Pass "
+              "--include-live to audit the file that runs.".format(live))
+    elif not os.path.exists(live):
+        print("\n  SKIP live settings: no file at {} (expected on CI). Hooks wired only in the "
+              "live tree were NOT checked on this host.".format(live))
+    else:
+        print("\n  live settings read: {}".format(live))
+
+
 def cmd_scan(a: argparse.Namespace) -> int:
     root = os.path.abspath(a.project)
     roots = [os.path.join(root, r) for r in (a.tree or
              ["dot-claude", "dot-codex", "dot-agents"])]
     settings = list(a.settings or [])
+    live = os.path.join(os.path.expanduser("~"), ".claude", "settings.json")
     if not settings:
         settings = [os.path.join(root, "dot-claude", "settings.json")]
         if a.include_live:
-            settings.append(os.path.join(os.path.expanduser("~"), ".claude",
-                                         "settings.json"))
+            settings.append(live)
     findings = scan(roots, settings)
     print("scanned {} tree(s) and {} settings file(s)".format(
         len([r for r in roots if os.path.isdir(r)]),
         len([s for s in settings if os.path.exists(s)])))
+    say_which_settings(settings, live, a.include_live)
+
+    # A POINTER INTO THE LIVE HOME IS UNANSWERABLE WHERE THERE IS NO LIVE HOME.
+    # Added 2026-08-05, the same day the `rules` domain was fixed for the identical
+    # reason and one hour before this domain repeated it. On a GitHub runner this
+    # scan reported 304 distinct absent paths, headed by `~/.claude/bin/work-item.sh`
+    # at 40 references and `~/.claude/rules/gastown-company-registry.md` at 6, every
+    # one of which resolves on the operator's machine. That is L-2026-07-31-g:
+    # a host-shaped question that is correct on the host it was written on and
+    # answers something else entirely on the other.
+    #
+    # The split is by ANSWERABILITY, not by severity. A pointer at a path inside the
+    # repository is checkable anywhere and stays blocking. A pointer into ~ is
+    # demoted to a reported observation when ~/.claude is absent, and the demotion is
+    # printed, because a domain that quietly stops checking half of its subject is
+    # worse than one that fails.
+    # Keyed on settings.json rather than on the DIRECTORY existing. First attempt
+    # tested `isdir(~/.claude)` and CI still failed, because something on the
+    # runner creates that directory: an empty or near-empty ~/.claude satisfied the
+    # guard while containing none of the files the pointers reference, which is the
+    # worst of both readings. A DEPLOYED live tree has a settings.json; a runner
+    # that merely has the folder does not.
+    live_home = os.path.isfile(os.path.join(os.path.expanduser("~"), ".claude",
+                                            "settings.json"))
+    if not live_home:
+        home_prefix = os.path.expanduser("~") + os.sep
+        # Deferral goes through normalize(), not the raw string. A pointer written
+        # as /home/shov/.claude/... names the same unanswerable live home as one
+        # written ~/.claude/..., and on a runner it starts with neither "~/" nor
+        # the runner's own home prefix, so the raw test let it through to FAIL.
+        # That was the residual red on PR #37 after the first two hardenings
+        # (bus msg 1785935801-ef3acc, run 31008726876).
+        deferred = [f for f in findings
+                    if str(f.get("target", "")).startswith(("~/", home_prefix))
+                    or normalize(str(f.get("target", ""))).startswith("~/")]
+        if deferred:
+            print("\n  SKIP {} finding(s) pointing into the live home: no ~/.claude on this "
+                  "host, so their absence is a fact about the runner and not about the "
+                  "repository. Repo-internal pointers below still block."
+                  .format(len(deferred)))
+            findings = [f for f in findings if f not in deferred]
+
+    # A WINDOWS DRIVE PATH IS UNANSWERABLE ON A POSIX HOST, unconditionally.
+    # The payload settings.json wires hooks through C:\Program Files\Git\bin\bash.exe,
+    # which is correct on the Windows host it deploys to and cannot exist on a
+    # Linux runner or under WSL. os.path.exists("C:\\...") on POSIX asks whether
+    # a file named "C:\..." sits in the current directory, which is not the
+    # question. Same answerability split as the live-home rule above, keyed on
+    # the platform rather than on deployment: on Windows these stay blocking.
+    if os.name != "nt":
+        win = [f for f in findings
+               if re.match(r"(?i)^[a-z]:[\\/]", str(f.get("target", "")))]
+        if win:
+            print("\n  SKIP {} finding(s) targeting Windows drive paths: this host is not "
+                  "Windows, so their absence here is a fact about the host and not about "
+                  "the configuration. They stay blocking when the scan runs on Windows."
+                  .format(len(win)))
+            findings = [f for f in findings if f not in win]
+
+    # Print what remains AFTER the deferral, because the verdict is computed over
+    # exactly this list. Before this call existed, CI printed "scanned 3 trees"
+    # and "VERDICT: FAIL" with nothing in between: a red nobody could act on.
     report(findings, a.out)
+
     worst = max([SEV_ORDER[f["severity"]] for f in findings], default=0)
     threshold = SEV_ORDER[a.fail_on]
     verdict = "PASS" if worst < threshold else "FAIL"

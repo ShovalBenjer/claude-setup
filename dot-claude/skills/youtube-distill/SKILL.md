@@ -1,6 +1,6 @@
 ---
 name: youtube-distill
-description: Analyse a YouTube video by driving Claude in Chrome to Gemini, which reads the video directly from its URL, then distil the answer into a fixed contract with search-ready takeaways. Triggers on "analyse this video", "what does this talk say", "distil this youtube", a bare YouTube URL, or /youtube-distill. Records what is quoted versus what is a model's reading.
+description: Analyse a YouTube video by driving Claude in Chrome to Gemini, which reads the video directly from its URL, then interrogate that reading over up to five differentiated follow-up turns and distil it into a fixed contract with a summary and search-ready takeaways. Triggers on "analyse this video", "what does this talk say", "distil this youtube", "summarise this video", a YouTube URL pasted or attached with or without a question, or /youtube-distill. Records what is quoted versus what is a model's reading, and which claims stayed inferred.
 ---
 
 # YouTube distill
@@ -106,12 +106,61 @@ URL: <youtube url>
 7. WHAT IS NOT HERE. What a viewer would wrongly assume was covered.
 8. CONFIDENCE. For each of 1 to 3, say whether you are reading it from the video or
    inferring it.
+9. SUMMARY. Only now, and last: six sentences of plain summary for someone who will
+   never watch it.
 
 If you cannot access the video, say exactly that. Do not answer from the title.
 ```
 
 Item 8 is the one people delete first and it is the one that matters. Without it the
 artifact cannot distinguish what the video said from what the model filled in.
+
+Item 9 sits last on purpose and the order is the whole point. Step 2 argues against
+summaries because coverage returns what you already know at the same length as what you
+do not, and that argument still holds. What it rules out is summary as THE question, not
+summary as a field. Asked after items 1 to 8 it costs one paragraph and gives you
+something to paste to a person who was not going to watch the video anyway. Asked first
+it becomes the frame everything else is squeezed into, which is the failure. If you ever
+find yourself moving item 9 up the list, that is the signal to reread step 2.
+
+## Step 3b: the follow-up turns, at most five, usually fewer
+
+One round trip gets you the model's first reading. That reading is where it is most
+confident and least checked, so the follow-ups are the part that earns the session.
+
+**Every follow-up must ask something the previous answer did not already settle.** This
+is not a style note. Step 5 below states that re-asking the same question of the same
+model produces agreement rather than confirmation, so an undifferentiated loop makes the
+artifact look five times better verified while adding nothing. A loop with a count and no
+exit predicate spends five turns on every video regardless.
+
+The previous answer tells you what to ask next. Draw each follow-up from one of these,
+in this priority order:
+
+1. **An item 8 inference.** Anything the model marked as inferred rather than read is the
+   highest-value target, because it is exactly where the artifact is currently claiming
+   more than the video supports. Ask for the moment in the video that grounds it, or for
+   an explicit statement that no such moment exists.
+2. **An item 7 gap** that matters for your decision. Not every gap does. A gap you were
+   never going to act on is not worth a turn.
+3. **A contested point from item 5**, asked as what the speaker would say to the strongest
+   objection. This surfaces whether the video engages the objection or ignores it.
+4. **A load-bearing number or name from item 3 or 6**, asked back in a form that would
+   expose a hallucination: what units, what baseline, whose paper, what year.
+
+**Stop when the next follow-up would come from none of those four, or at five, whichever
+is first.** Two turns settling a real inference beats five turns of polite elaboration,
+and a video whose first answer had no item 8 inferences and no gaps you care about is
+finished at one turn. Record the turn count in the artifact so a thin run is visible as
+thin rather than passing for a thorough one.
+
+Two failure modes to watch, both of which look like progress:
+
+- The model agreeing with your follow-up because you phrased it as a leading question.
+  Ask "what does the video say about X" rather than "doesn't the video say X".
+- The model answering a follow-up from general knowledge once the video is several turns
+  back in the conversation. If an answer stops citing MM:SS, that is the tell. Ask it
+  directly whether it is still reading the video, and mark the answer accordingly.
 
 ## Step 4: the artifact
 
@@ -121,6 +170,7 @@ Write one file. It is short on purpose.
 # <title> (<channel>, <duration>)
 Source: <url>          Read by: Gemini via browser, <date>
 Phase: explore | understand | distill
+Turns: <n> of 5, stopped because <exhausted the four sources | hit the ceiling>
 Question asked, and why its answer was unpredictable: <one line>
 
 THESIS
@@ -130,6 +180,9 @@ CHECK THESE       (<= 5 timestamps, unverified until opened)
 DISAGREEMENT
 SEARCH TERMS      (exact spellings, for finding this again and for the next query)
 NOT COVERED
+STILL INFERRED    Item 8 inferences the follow-ups did not manage to ground. Empty is a
+                  result; so is a long list, and the long list is the honest one more often.
+SUMMARY           Six sentences, from contract item 9.
 DECISION          What this changes. If nothing, say "nothing" and keep the file anyway.
 ```
 
@@ -154,6 +207,14 @@ produces agreement, not confirmation.
 
 ## Boundaries
 
+- **The trigger is advisory, not enforced.** Measured 2026-08-01: the description above is
+  matched by the model at the start of a turn, and `~/.claude/settings.json` has two
+  UserPromptSubmit hooks, neither of which looks at URLs. So a pasted YouTube link invokes
+  this skill only if the model decides the turn is about the video, and a link pasted as
+  background to some other request will correctly not trigger it. Nothing in this file can
+  change that. Deterministic firing would need a UserPromptSubmit hook that matches a
+  YouTube URL and injects the instruction, which is a harness change with its own gate,
+  not a skill edit. Until then, `/youtube-distill` is the reliable way to force it.
 - Never present Gemini's words as the speaker's words. It cannot transcribe.
 - Do not send private repository content, credentials or personal data into the browser
   prompt. The URL and the fixed contract are all that goes.

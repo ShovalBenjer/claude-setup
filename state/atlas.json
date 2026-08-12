@@ -1,0 +1,4930 @@
+{
+ "generated_by": "tools/docmap/atlas.py",
+ "threshold": 0.18,
+ "shingle": 5,
+ "count": 420,
+ "clusters": {
+  "harness-doc": 22,
+  "generated-map": 7,
+  "handoff": 18,
+  "adr": 20,
+  "analysis": 38,
+  "prd": 3,
+  "prior-art": 2,
+  "spec": 18,
+  "master-plan": 9,
+  "research-corpus": 41,
+  "sota-report": 13,
+  "voice-and-emotion": 10,
+  "linguistics": 8,
+  "sales-and-books": 28,
+  "work-archive": 172,
+  "research-prompt": 11
+ },
+ "docs": [
+  {
+   "path": "docs/adr/0001-claude-setup-as-canonical-os-repo.md",
+   "title": "ADR-0001 — claude-setup is the canonical OS repo",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 23,
+   "bytes": 1186,
+   "date": "2026-07-23",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0002-subscription-oauth-over-metered-api.md",
+   "title": "ADR-0002 — Subscription OAuth token, not metered API key, for all fleet auth",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 23,
+   "bytes": 1129,
+   "date": "2026-07-23",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0003-native-push-over-onesignal.md",
+   "title": "ADR-0003 — Native Claude push for the personal approvals rail, not OneSignal",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 23,
+   "bytes": 1166,
+   "date": "2026-07-22",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0004-two-model-agreement-gate.md",
+   "title": "ADR-0004 — PR review uses a two-model agreement gate",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 25,
+   "bytes": 1221,
+   "date": "2026-07-23",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0005-enforcement-over-prose.md",
+   "title": "ADR-0005 — Enforcement over prose (hooks/gates bind, CLAUDE.md requests)",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 25,
+   "bytes": 1350,
+   "date": "2026-07-23",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0006-one-scheduler-topology.md",
+   "title": "ADR-0006 — One scheduler topology: native cron local + cloud routines",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 33,
+   "bytes": 1830,
+   "date": "2026-07-23",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0007-codex-reviewer-only.md",
+   "title": "ADR-0007 — Second reviewer = free different-family models (Codex removed)",
+   "cluster": "adr",
+   "status": "amended",
+   "lines": 30,
+   "bytes": 1500,
+   "date": "2026-07-23",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0008-reputation-from-external-truth-only.md",
+   "title": "ADR-0008 — Persona reputation is computed from external ground truth ONLY",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 27,
+   "bytes": 1554,
+   "date": "2026-07-23",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0009-slm-swarm-asymmetric-leaf-executors.md",
+   "title": "ADR-0009 — SLM swarm = asymmetric leaf executors + trace flywheel (not a debate swarm)",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 55,
+   "bytes": 3407,
+   "date": "2026-07-23",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0010-sessions-are-ephemeral-disk-is-memory.md",
+   "title": "ADR-0010 — Sessions are ephemeral; disk is the only memory",
+   "cluster": "adr",
+   "status": "",
+   "lines": 28,
+   "bytes": 1366,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0011-one-operational-state-db.md",
+   "title": "ADR-0011 — One operational state DB (ecosystem.db), seeded from intent-control-plane",
+   "cluster": "adr",
+   "status": "",
+   "lines": 28,
+   "bytes": 1398,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0012-autonomy-ships-only-via-pr-gate.md",
+   "title": "ADR-0012 — Autonomous work ships ONLY through PR + review gate",
+   "cluster": "adr",
+   "status": "",
+   "lines": 34,
+   "bytes": 1777,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0013-session-topology-concierge-plus-lanes.md",
+   "title": "ADR-0013 — Session topology: one concierge + three chartered lanes",
+   "cluster": "adr",
+   "status": "",
+   "lines": 30,
+   "bytes": 1555,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0014-social-publish-draft-first-hard-gate.md",
+   "title": "ADR-0014 — Social publishing is draft-first behind a hard phone-approval gate",
+   "cluster": "adr",
+   "status": "",
+   "lines": 28,
+   "bytes": 1262,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0015-opus5-default-fable-exceptional.md",
+   "title": "ADR-0015 — Opus 5 is the lead default; Fable is exceptional-only",
+   "cluster": "adr",
+   "status": "",
+   "lines": 43,
+   "bytes": 2630,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0016-lane-letters-renumbered-a-through-d.md",
+   "title": "ADR-0016: Lane letters renumbered B/C/D/E to A/B/C/D",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 82,
+   "bytes": 4123,
+   "date": "2026-07-30",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0017-intent-control-plane-lives-in-claude-setup.md",
+   "title": "ADR-0017: intent-control-plane is authoritative in claude-setup; the new-recruit copy is redundant",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 132,
+   "bytes": 7354,
+   "date": "2026-07-30",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0018-two-tier-inter-agent-channel.md",
+   "title": "ADR-0018: inter-agent messages get two channels, and the dense one carries an oracle",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 104,
+   "bytes": 5632,
+   "date": "2026-07-30",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0019-supply-chain-verification.md",
+   "title": "ADR-0019: third-party tools are adopted on recorded evidence, not refused on principle",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 174,
+   "bytes": 12179,
+   "date": "2026-07-30",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/adr/0020-agentic-repo-standard.md",
+   "title": "ADR-0020: one repository standard for the estate, enforced by adopted alint",
+   "cluster": "adr",
+   "status": "accepted",
+   "lines": 123,
+   "bytes": 6412,
+   "date": "2026-07-31",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-23-local-model-stress-test.md",
+   "title": "Local model stress test — 2026-07-23",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 42,
+   "bytes": 2335,
+   "date": "2026-07-23",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-24-creativity-wow-gap.md",
+   "title": "Creativity / wow / deliberation-texture gap analysis",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 457,
+   "bytes": 28830,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-24-deployment-gap-audit.md",
+   "title": "Deployment gap audit — claimed setup vs live harness, 2026-07-24",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 282,
+   "bytes": 16658,
+   "date": "2026-07-24",
+   "consumers": 9,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-24-fleet-verification-gap.md",
+   "title": "Why the reference Opus 5 run shipped a game and this setup ships documents",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 445,
+   "bytes": 21864,
+   "date": "2026-07-24",
+   "consumers": 9,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-24-reference-repos-excavation.md",
+   "title": "Excavation: two WhatsApp-saved repos (amirfish1/claude-command-center, Master0fFate/just-my-skills)",
+   "cluster": "analysis",
+   "status": "point-in-time scan",
+   "lines": 262,
+   "bytes": 16762,
+   "date": "2026-07-24",
+   "consumers": 11,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-24-research-wiring-audit.md",
+   "title": "Research-wiring audit + AUTO-17 pipeline design — 2026-07-24",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 349,
+   "bytes": 21717,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-24-setup-holding-us-back.md",
+   "title": "Is the setup holding us back? Synthesis of 5 audit lanes, 2026-07-24",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 358,
+   "bytes": 23142,
+   "date": "2026-07-24",
+   "consumers": 9,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-24-skills-wiring-audit.md",
+   "title": "Skills-estate wiring audit — 2026-07-24",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 281,
+   "bytes": 17470,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-24-work-archive-import.md",
+   "title": "Work-archive import — full sync of the work Claude setup (2026-07-24)",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 54,
+   "bytes": 4006,
+   "date": "2026-07-24",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-25-claude-mastery-audit.md",
+   "title": "Claude Code Mastery, Evidence, and Learning-Corpus Audit",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 628,
+   "bytes": 29950,
+   "date": "2026-07-25",
+   "consumers": 10,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-25-claude-mastery-research-prompt.md",
+   "title": "Claude Code mastery research prompt",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 159,
+   "bytes": 8145,
+   "date": "2026-07-25",
+   "consumers": 12,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-25-cloudflare-fit.md",
+   "title": "Cloudflare fit audit — 2026-07-25",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 256,
+   "bytes": 19004,
+   "date": "2026-07-25",
+   "consumers": 10,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-25-dynamic-setup-decisions.md",
+   "title": "Dynamic setup decisions: workflows, effort, thinking, cross-model, resources",
+   "cluster": "analysis",
+   "status": "decision document",
+   "lines": 349,
+   "bytes": 30019,
+   "date": "2026-07-25",
+   "consumers": 9,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-25-effort-and-thinking.md",
+   "title": "Effort/thinking config audit: v2.1.219 binary evidence",
+   "cluster": "analysis",
+   "status": "active",
+   "lines": 337,
+   "bytes": 21299,
+   "date": "2026-07-25",
+   "consumers": 9,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-25-free-tier-exploitables.md",
+   "title": "Free-tier exploitables: what closes the five open problems, 2026-07-25",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 391,
+   "bytes": 29206,
+   "date": "2026-07-25",
+   "consumers": 9,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-25-other-resources.md",
+   "title": "Other resources that can close the named weak points — 2026-07-25",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 105,
+   "bytes": 12444,
+   "date": "2026-07-25",
+   "consumers": 9,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-25-our-own-dolt.md",
+   "title": "Can we build our own Dolt, and would it overcome theirs",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 127,
+   "bytes": 5962,
+   "date": "2026-07-25",
+   "consumers": 12,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-25-repo-benchmark-and-star-forensics.md",
+   "title": "Three-way repo benchmark and star forensics",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 170,
+   "bytes": 8606,
+   "date": "2026-07-25",
+   "consumers": 8,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-26-session-handoff.md",
+   "title": "Session handoff, 2026-07-26",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 135,
+   "bytes": 7385,
+   "date": "2026-07-26",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md",
+   "title": "What the compile-once research says about THIS harness",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 170,
+   "bytes": 9018,
+   "date": "2026-07-27",
+   "consumers": 11,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-29-albert-prior-art-verdict.md",
+   "title": "Albert: prior art for the whole repository, and not adoptable",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 105,
+   "bytes": 5420,
+   "date": "2026-07-29",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-29-local-dependency-audit.md",
+   "title": "Local dependency audit, 2026-07-29",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 86,
+   "bytes": 6402,
+   "date": "2026-07-29",
+   "consumers": 8,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-29-long-context-kernel-critique-response.md",
+   "title": "The long-context kernel critique, tested against this repo's ledgers",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 87,
+   "bytes": 5153,
+   "date": "2026-07-29",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-29-session-retro-modes-models-workflows-observability.md",
+   "title": "Session retro, 2026-07-29 (lane B): modes, models, workflows, interruption, observability",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 235,
+   "bytes": 13796,
+   "date": "2026-07-29",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-29-where-our-system-stands.md",
+   "title": "Where our system stands against everything we researched",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 178,
+   "bytes": 8653,
+   "date": "2026-07-29",
+   "consumers": 7,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-30-context-engineering-and-the-absence-claim-class.md",
+   "title": "Context engineering, three absence claims in one session, and what /context showed",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 112,
+   "bytes": 6956,
+   "date": "2026-07-30",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-30-github-repo-triage.md",
+   "title": "Saved GitHub repositories: first triage, and what it blocks",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 137,
+   "bytes": 7985,
+   "date": "2026-07-30",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-30-native-surface-audit.md",
+   "title": "Claude Code native surface: what we wire, what we leave on the floor",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 91,
+   "bytes": 5303,
+   "date": "2026-07-30",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-30-point-in-time-reconstruction.md",
+   "title": "Point-in-time reconstruction: what git already answers, and the narrow strip it does not",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 273,
+   "bytes": 13322,
+   "date": "2026-07-30",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-30-self-chat-absorption-batch.md",
+   "title": "Self-chat absorption batch, 2026-07-30",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 238,
+   "bytes": 17363,
+   "date": "2026-07-30",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-31-density-gate-measurement.md",
+   "title": "Density and variance: the measurement, and why no threshold was set",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 78,
+   "bytes": 4187,
+   "date": "2026-07-31",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-31-inventory-reconciliation-and-the-docs-control-plane.md",
+   "title": "Inventory reconciliation, and the two layers that were dark",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 200,
+   "bytes": 10805,
+   "date": "2026-07-31",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-07-31-the-green-test-gradient.md",
+   "title": "The green-test gradient, and two measurements of the bail-out path",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 107,
+   "bytes": 5919,
+   "date": "2026-07-31",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-08-01-fog-of-war.md",
+   "title": "Fog of war, measured 2026-08-01",
+   "cluster": "analysis",
+   "status": "measurement",
+   "lines": 147,
+   "bytes": 7944,
+   "date": "2026-08-01",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-08-01-pocock-skills-teardown.md",
+   "title": "Pocock's skills repo, measured against ours",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 228,
+   "bytes": 13726,
+   "date": "2026-08-01",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-08-01-ponytail-audit-prompt-archaeology.md",
+   "title": "Ponytail audit: what two months of prompts actually contain",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 156,
+   "bytes": 8035,
+   "date": "2026-08-01",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/2026-08-03-math-trends-and-model-stack.md",
+   "title": "Rising mathematics and the 2026 model stack",
+   "cluster": "analysis",
+   "status": "dated snapshot",
+   "lines": 310,
+   "bytes": 17837,
+   "date": "2026-08-03",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/analysis/reference/coherence-governor-AGENTS.md",
+   "title": "Coherence Governor Agent",
+   "cluster": "analysis",
+   "status": "",
+   "lines": 419,
+   "bytes": 17923,
+   "date": "2026-07-29",
+   "consumers": 10,
+   "near": []
+  },
+  {
+   "path": "docs/CODEBASE-MAP.md",
+   "title": "Codebase map",
+   "cluster": "generated-map",
+   "status": "",
+   "lines": 499,
+   "bytes": 84060,
+   "date": "2026-07-26",
+   "consumers": 27,
+   "near": [
+    [
+     "docs/dir-purpose.txt",
+     0.325
+    ]
+   ]
+  },
+  {
+   "path": "docs/DOCMAP.md",
+   "title": "DOCMAP",
+   "cluster": "generated-map",
+   "status": "",
+   "lines": 1095,
+   "bytes": 117465,
+   "date": "2026-07-31",
+   "consumers": 10,
+   "near": []
+  },
+  {
+   "path": "docs/INDEX.md",
+   "title": "Docs Index: Claude OS",
+   "cluster": "generated-map",
+   "status": "",
+   "lines": 183,
+   "bytes": 21513,
+   "date": "2026-07-31",
+   "consumers": 31,
+   "near": []
+  },
+  {
+   "path": "docs/SYSTEM-MAP.md",
+   "title": "SYSTEM MAP, the whole Claude OS, honestly scored",
+   "cluster": "generated-map",
+   "status": "living map",
+   "lines": 301,
+   "bytes": 22016,
+   "date": "2026-07-24",
+   "consumers": 8,
+   "near": []
+  },
+  {
+   "path": "docs/dir-purpose.txt",
+   "title": "What each directory is for.",
+   "cluster": "generated-map",
+   "status": "",
+   "lines": 225,
+   "bytes": 40331,
+   "date": "2026-07-26",
+   "consumers": 20,
+   "near": [
+    [
+     "docs/CODEBASE-MAP.md",
+     0.325
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/el-vadt/specify-memory/memory/INDEX.md",
+   "title": "el-vadt - Navigation Hub",
+   "cluster": "generated-map",
+   "status": "organized 2026-02-18",
+   "lines": 217,
+   "bytes": 4913,
+   "date": "2026-02-18",
+   "consumers": 30,
+   "near": []
+  },
+  {
+   "path": "work-docs/INDEX.md",
+   "title": "~/docs Index and Standard",
+   "cluster": "generated-map",
+   "status": "",
+   "lines": 78,
+   "bytes": 4295,
+   "date": "2026-07-07",
+   "consumers": 31,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-2026-07-27-research-transfer.md",
+   "title": "Handoff: external research, and what it changes here",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 72,
+   "bytes": 4097,
+   "date": "2026-07-27",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-2026-07-27-session-close.md",
+   "title": "Session handoff, 2026-07-27",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 151,
+   "bytes": 7505,
+   "date": "2026-07-27",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-2026-07-29-absorption-session.md",
+   "title": "Session handoff, 2026-07-29 evening, lane B",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 147,
+   "bytes": 8325,
+   "date": "2026-07-29",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-2026-07-29-session-close.md",
+   "title": "Session handoff, 2026-07-29, lane B",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 120,
+   "bytes": 7001,
+   "date": "2026-07-29",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-2026-07-30-latent-channel-and-gastown.md",
+   "title": "Handoff 2026-07-30: latent inter-agent channel, Gastown review loop, and two blockers",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 165,
+   "bytes": 9461,
+   "date": "2026-07-30",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-2026-07-30-overnight-run.md",
+   "title": "Handoff: overnight autonomous run, 2026-07-30",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 138,
+   "bytes": 7821,
+   "date": "2026-07-30",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-2026-07-30-session-close.md",
+   "title": "Session handoff, 2026-07-29 into 2026-07-30, lane B",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 231,
+   "bytes": 14002,
+   "date": "2026-07-30",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-2026-07-31-review-oracle-repair.md",
+   "title": "Handoff: review-domain oracle repair, and what the thesis job taught the harness",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 145,
+   "bytes": 8926,
+   "date": "2026-07-31",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-2026-07-31-session-close.md",
+   "title": "Handoff: WSL migration, review-oracle repair, and a duplicated launcher",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 165,
+   "bytes": 9181,
+   "date": "2026-07-31",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-FROM-LEARNING-2026-07-27.md",
+   "title": "Handoff to the Claude-setup session, from the learning-platform session",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 221,
+   "bytes": 11670,
+   "date": "2026-07-27",
+   "consumers": 8,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-FROM-LEARNING-2026-07-29.md",
+   "title": "Handoff from the learning lane: discovery must watch organizations, not trending",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 207,
+   "bytes": 10136,
+   "date": "2026-07-29",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-FROM-NEW-RECRUIT-2026-07-29.md",
+   "title": "Handoff: numerical stack preference was invisible to general sessions",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 245,
+   "bytes": 13117,
+   "date": "2026-07-29",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-README-OWNERSHIP-2026-07-29.md",
+   "title": "Handoff to the resume engine: the GitHub profile README is yours to own",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 43,
+   "bytes": 2098,
+   "date": "2026-07-29",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-TO-LEARNING-2026-07-27.md",
+   "title": "Handoff to the learning platform session, from the setup and resume session",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 157,
+   "bytes": 9032,
+   "date": "2026-07-27",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "docs/HANDOFF-TO-LEARNING-2026-07-30-process-cost-and-boundaries.md",
+   "title": "Handoff to Lane C (learning): process cost, boundaries, and how to measure them",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 363,
+   "bytes": 22038,
+   "date": "2026-07-30",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/HANDOVER.md",
+   "title": "Sales Voice Agent - Session Handover",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 261,
+   "bytes": 7151,
+   "date": "2026-01-07",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/DEBUG_HANDOVER_20260112.md",
+   "title": "Debug Handover: Agent Not Calling CRM Tools",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 131,
+   "bytes": 4843,
+   "date": "2026-01-12",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/wiki/Handover-Notes.md",
+   "title": "Handover Notes",
+   "cluster": "handoff",
+   "status": "",
+   "lines": 66,
+   "bytes": 3981,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/2026-07-29-external-absorption-brief.md",
+   "title": "External brief: absorb the saved-link corpus",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 167,
+   "bytes": 8095,
+   "date": "2026-07-29",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "docs/ESTATE-DIRECTORY-CATALOG.md",
+   "title": "Estate Directory & Repository Catalog",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 50,
+   "bytes": 3893,
+   "date": "2026-07-31",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/EXECUTION-PLAN.md",
+   "title": "Claude OS — Execution Plan",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 53,
+   "bytes": 3284,
+   "date": "2026-07-23",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/OPERATOR-RUNBOOK.md",
+   "title": "Operator Runbook — manual steps only you can do",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 106,
+   "bytes": 4510,
+   "date": "2026-07-23",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/QUALITY-CONTRACT.md",
+   "title": "Why quality-contract.json says what it says",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 92,
+   "bytes": 6813,
+   "date": "2026-07-25",
+   "consumers": 14,
+   "near": []
+  },
+  {
+   "path": "docs/SESSION-BOOT.md",
+   "title": "SESSION-BOOT — full context from disk in 60 seconds (ADR-0010)",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 27,
+   "bytes": 1314,
+   "date": "2026-07-30",
+   "consumers": 12,
+   "near": []
+  },
+  {
+   "path": "docs/charters.md",
+   "title": "Session charters: four live lanes A/B/C/D (ADR-0013, renumbered by ADR-0016)",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 79,
+   "bytes": 4493,
+   "date": "2026-07-30",
+   "consumers": 34,
+   "near": []
+  },
+  {
+   "path": "docs/doc-status.txt",
+   "title": "Document status registry, read by tools/docmap/docmap.py.",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 105,
+   "bytes": 6338,
+   "date": "2026-07-31",
+   "consumers": 9,
+   "near": []
+  },
+  {
+   "path": "docs/gemini-code-1785410845331.md",
+   "title": "Refactoring the SOTA Agent Stack (July 2026)",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 48,
+   "bytes": 4437,
+   "date": "2026-07-31",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/gemini-code-1785450921826.txt",
+   "title": "gemini-code-1785450921826",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 21,
+   "bytes": 1437,
+   "date": "2026-07-31",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "docs/gemini-code-1785455675294.md",
+   "title": "MISSION SPECIFICATION: Build \"nexus-engine-rs\"",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 28,
+   "bytes": 940,
+   "date": "2026-07-31",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/gemini-code-1785457549011.md",
+   "title": "MISSION: BUILD A NEXT-GEN HYBRID RAG ENGINE (PAGEINDEX + LIGHTRAG + SPECULATIVE ROUTING)",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 230,
+   "bytes": 11979,
+   "date": "2026-07-31",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/gemini-code-1785458291930.md",
+   "title": "gemini-code-1785458291930",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 250,
+   "bytes": 19543,
+   "date": "2026-07-31",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md",
+   "title": "Role & Purpose",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 60,
+   "bytes": 4185,
+   "date": "2026-07-31",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/reflections/2026-07-29-full-scope-and-slop-violation.md",
+   "title": "Reflection: the full-scope claim and the ungated output channel",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 188,
+   "bytes": 11236,
+   "date": "2026-07-29",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/reflections/2026-07-29-what-is-going-wrong.md",
+   "title": "Reflection: why the research did not become the system",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 470,
+   "bytes": 24193,
+   "date": "2026-07-29",
+   "consumers": 8,
+   "near": []
+  },
+  {
+   "path": "docs/reflections/2026-07-30-analysis-that-never-becomes-code.md",
+   "title": "Reflection: analysis that never becomes code",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 191,
+   "bytes": 11133,
+   "date": "2026-07-30",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/reflections/2026-07-30-thesis-and-deck-review.md",
+   "title": "Reflection: reviewing Yarin Beer's MSc thesis and its presentation deck",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 463,
+   "bytes": 26969,
+   "date": "2026-07-30",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/reflections/2026-07-30-what-i-saw.md",
+   "title": "Reflection: everything I saw, including what I did not say at the time",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 207,
+   "bytes": 12620,
+   "date": "2026-07-30",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/reflections/2026-07-31-session-close-what-the-instruments-caught.md",
+   "title": "Reflection: what the instruments caught, and what only the operator caught",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 104,
+   "bytes": 5934,
+   "date": "2026-07-31",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/standards/agentic-repo-standard.md",
+   "title": "Root agentic repository standard",
+   "cluster": "harness-doc",
+   "status": "active",
+   "lines": 288,
+   "bytes": 15181,
+   "date": "2026-07-31",
+   "consumers": 8,
+   "near": []
+  },
+  {
+   "path": "docs/taste.md",
+   "title": "Taste ledger",
+   "cluster": "harness-doc",
+   "status": "",
+   "lines": 97,
+   "bytes": 6522,
+   "date": "2026-07-29",
+   "consumers": 24,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/5C_wiki_page.txt",
+   "title": "5C_wiki_page",
+   "cluster": "linguistics",
+   "status": "",
+   "lines": 657,
+   "bytes": 119132,
+   "date": "2026-05-09",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/creativity_wiki_page.txt",
+   "title": "creativity_wiki_page",
+   "cluster": "linguistics",
+   "status": "",
+   "lines": 459,
+   "bytes": 84627,
+   "date": "2026-05-09",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/languague_wiki_page.txt",
+   "title": "languague_wiki_page",
+   "cluster": "linguistics",
+   "status": "",
+   "lines": 388,
+   "bytes": 87978,
+   "date": "2026-05-09",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/phonetics_wiki_page.txt",
+   "title": "phonetics_wiki_page",
+   "cluster": "linguistics",
+   "status": "",
+   "lines": 478,
+   "bytes": 69489,
+   "date": "2026-05-09",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/pragmatic_wiki_page.txt",
+   "title": "pragmatic_wiki_page",
+   "cluster": "linguistics",
+   "status": "",
+   "lines": 438,
+   "bytes": 36110,
+   "date": "2026-05-09",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/prosody_wiki_page(linguistics).txt",
+   "title": "prosody_wiki_page(linguistics)",
+   "cluster": "linguistics",
+   "status": "",
+   "lines": 195,
+   "bytes": 21773,
+   "date": "2026-05-09",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/semantic_wiki_page.txt",
+   "title": "semantic_wiki_page",
+   "cluster": "linguistics",
+   "status": "",
+   "lines": 256,
+   "bytes": 53857,
+   "date": "2026-05-09",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/syntax_wiki_page.txt",
+   "title": "syntax_wiki_page",
+   "cluster": "linguistics",
+   "status": "",
+   "lines": 239,
+   "bytes": 14444,
+   "date": "2026-05-09",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "master-plans/CLAUDE-CODE-MASTER-PLAN-2026-05-03.md",
+   "title": "Claude Code Master Plan — 2026-05-03",
+   "cluster": "master-plan",
+   "status": "refined plan",
+   "lines": 646,
+   "bytes": 36013,
+   "date": "2026-05-03",
+   "consumers": 18,
+   "near": []
+  },
+  {
+   "path": "master-plans/FIX-BWRAP-WSL.md",
+   "title": "Fix: `bwrap: Can't mkdir /mnt/c/Program Files/ClaudeCode: Permission denied`",
+   "cluster": "master-plan",
+   "status": "",
+   "lines": 62,
+   "bytes": 2891,
+   "date": "2026-05-09",
+   "consumers": 4,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/FIX-BWRAP-WSL.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "master-plans/claude-code-experimental-features.md",
+   "title": "Claude Code Power-User Feature Punch List",
+   "cluster": "master-plan",
+   "status": "",
+   "lines": 217,
+   "bytes": 9899,
+   "date": "2026-04-30",
+   "consumers": 8,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/claude-code-experimental-features.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "master-plans/claude-setup-master-plan-2026-05-02.md",
+   "title": "Claude Code Setup — Master Plan (Reconciled)",
+   "cluster": "master-plan",
+   "status": "",
+   "lines": 174,
+   "bytes": 15130,
+   "date": "2026-05-02",
+   "consumers": 5,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/claude-setup-master-plan-2026-05-02.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "master-plans/claude-setup-tasks-2026-05-02.md",
+   "title": "Claude Setup Tasks — Weekend Research Roundup",
+   "cluster": "master-plan",
+   "status": "",
+   "lines": 117,
+   "bytes": 7888,
+   "date": "2026-05-02",
+   "consumers": 6,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/claude-setup-tasks-2026-05-02.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "master-plans/claude-skills-scatter-2026-05-03.md",
+   "title": "Skills / Hooks / Agents — Scatter Inventory + Consolidation Plan",
+   "cluster": "master-plan",
+   "status": "",
+   "lines": 231,
+   "bytes": 13123,
+   "date": "2026-05-03",
+   "consumers": 4,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/claude-skills-scatter-2026-05-03.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "master-plans/claude-skills-triage-2026-05-03.md",
+   "title": "Skills Triage — Used / Unused / Missing / Redundant",
+   "cluster": "master-plan",
+   "status": "",
+   "lines": 415,
+   "bytes": 26296,
+   "date": "2026-05-03",
+   "consumers": 4,
+   "near": [
+    [
+     "research-papers/home-md/claude-skills-triage-2026-05-03.md",
+     1.0
+    ],
+    [
+     "work-docs/root-cleanup-2026-05-28/claude-skills-triage-2026-05-03.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "master-plans/cleanup-proposal.md",
+   "title": "$HOME Cleanup Proposal — 2026-04-30",
+   "cluster": "master-plan",
+   "status": "",
+   "lines": 146,
+   "bytes": 8627,
+   "date": "2026-04-30",
+   "consumers": 6,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/cleanup-proposal.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/claude-setup-master-plan-2026-05-02.md",
+   "title": "Claude Code Setup — Master Plan (Reconciled)",
+   "cluster": "master-plan",
+   "status": "",
+   "lines": 174,
+   "bytes": 15130,
+   "date": "2026-05-02",
+   "consumers": 5,
+   "near": [
+    [
+     "master-plans/claude-setup-master-plan-2026-05-02.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "docs/prd/2026-07-30-consolidation-and-migration.md",
+   "title": "PRD: Consolidation, document mapping, and the Linux migration",
+   "cluster": "prd",
+   "status": "approved",
+   "lines": 346,
+   "bytes": 22295,
+   "date": "2026-07-30",
+   "consumers": 7,
+   "near": []
+  },
+  {
+   "path": "docs/prd/autonomy-ecosystem.md",
+   "title": "PRD — Autonomy Ecosystem (Claude OS v2)",
+   "cluster": "prd",
+   "status": "living",
+   "lines": 50,
+   "bytes": 6073,
+   "date": "2026-07-24",
+   "consumers": 23,
+   "near": []
+  },
+  {
+   "path": "docs/prd/claude-os.md",
+   "title": "PRD — Claude OS (personal Claude control plane)",
+   "cluster": "prd",
+   "status": "active",
+   "lines": 72,
+   "bytes": 4067,
+   "date": "2026-07-23",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "docs/prior-art/living-codex-salvage/README.md",
+   "title": "living-codex salvage",
+   "cluster": "prior-art",
+   "status": "",
+   "lines": 59,
+   "bytes": 4017,
+   "date": "2026-07-30",
+   "consumers": 84,
+   "near": []
+  },
+  {
+   "path": "docs/prior-art/out-of-scope.txt",
+   "title": "Components over the prior-art line count that owe no build-vs-buy record, with",
+   "cluster": "prior-art",
+   "status": "",
+   "lines": 17,
+   "bytes": 1290,
+   "date": "2026-07-26",
+   "consumers": 12,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/CDP_Kick_Research_20260507/CDP_Kick_Strategic_Research.md",
+   "title": "\"Kick\", The CDP Landscape, and a Defensible Position vs. Internal BI",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 464,
+   "bytes": 41702,
+   "date": "2026-05-07",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/CDP_Kick_Research_20260507/Codex_Security_Review.md",
+   "title": "MCP Azure App Service Security Audit",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 142,
+   "bytes": 24411,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/CS_Agent_Eval_Research_20260415/research_report_20260415_cs-agent-eval.md",
+   "title": "research_report_20260415_cs-agent-eval",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 321,
+   "bytes": 45966,
+   "date": "2026-04-15",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/Executive_MCP_Research_20260507/Executive_MCP_Research.md",
+   "title": "What Executives Want from an MCP",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 588,
+   "bytes": 60268,
+   "date": "2026-05-07",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/Football_Analytics_ML_Research_20260412/00-index.md",
+   "title": "Football Analytics with Apify + 365Scores + ML/DL: Novel Features & Architecture",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 29,
+   "bytes": 2650,
+   "date": "2026-04-12",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/Football_Analytics_ML_Research_20260412/01-data-layer.md",
+   "title": "Data Layer: 365Scores + Apify + Scraping Ecosystem",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 126,
+   "bytes": 6189,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/Football_Analytics_ML_Research_20260412/02-consumer-gaps.md",
+   "title": "Consumer App Gap Analysis",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 48,
+   "bytes": 2670,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/Football_Analytics_ML_Research_20260412/03-ml-techniques.md",
+   "title": "ML/DL Techniques Ready for Football Analytics Productization",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 121,
+   "bytes": 6111,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/Football_Analytics_ML_Research_20260412/04-novel-features.md",
+   "title": "Six Novel Features That No Consumer App Delivers",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 98,
+   "bytes": 5802,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/Football_Analytics_ML_Research_20260412/05-architecture.md",
+   "title": "Technical Architecture & Recommendations",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 124,
+   "bytes": 5250,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/Football_Analytics_ML_Research_20260412/06-synthesis.md",
+   "title": "Synthesis, Limitations & Methodology",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 92,
+   "bytes": 5556,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/Football_Analytics_ML_Research_20260412/07-bibliography.md",
+   "title": "Bibliography",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 111,
+   "bytes": 6812,
+   "date": "2026-04-12",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/Foundry_Workflows_Research_20260419/report.md",
+   "title": "Azure AI Foundry Workflows and Agents — SOTA Design for Marketing-Funnel-Test",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 344,
+   "bytes": 24726,
+   "date": "2026-04-19",
+   "consumers": 20,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/SIU_InHouse_Video_Research_20260506/research_report_20260506_siu_inhouse_video.md",
+   "title": "In-House AI Video Pipeline for SIU",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 705,
+   "bytes": 70742,
+   "date": "2026-05-06",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/Prompts/Anti-AI Writing Style Guide.md",
+   "title": "Anti-AI Writing Style Guide",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 398,
+   "bytes": 25354,
+   "date": "2026-05-09",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "research-papers/Prompts/Q-Learning, Deep RL & March 2026 Research  Auditing MiroFish & AutoResearch.md",
+   "title": "Q-Learning, Deep RL Theory & March 2026 Research: A Critical Lens on MiroFish & AutoResearch",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 235,
+   "bytes": 26212,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/Q-Learning, Deep RL & March 2026 Research  Auditing MiroFish & AutoResearch.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/Prompts/data-scientist-xlsx-SKILL.md",
+   "title": "Data-Scientist-to-Excel SOTA Skill (May 2026)",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 350,
+   "bytes": 14089,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/Prompts/data_personas.txt",
+   "title": "data_personas",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 143,
+   "bytes": 3850,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/docs-shoval/wiki/Conversation-Design.md",
+   "title": "Conversation-Design",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 617,
+   "bytes": 50856,
+   "date": "2026-05-09",
+   "consumers": 4,
+   "near": [
+    [
+     "work-docs/wiki/Conversation-Design.md",
+     0.648
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/docs-shoval/wiki/Home.md",
+   "title": "CS Agents",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 72,
+   "bytes": 3012,
+   "date": "2026-05-09",
+   "consumers": 4,
+   "near": [
+    [
+     "work-docs/wiki/Home.md",
+     0.745
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/el-vadt/analysis/pattern_report.txt",
+   "title": "pattern_report",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 10,
+   "bytes": 351,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/project_master_plan_he.md",
+   "title": "תוכנית-אב אסטרטגית: EL-VADT (ElevenLabs Voice Agent Domain Transfer)",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 63,
+   "bytes": 4240,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/prompts/research+self_review.md",
+   "title": "research+self_review",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 246,
+   "bytes": 7328,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/prompts/self_review.md",
+   "title": "self_review",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 106,
+   "bytes": 4019,
+   "date": "2026-05-09",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/reference__Azure_Databases.md",
+   "title": "provide me full reference",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 185,
+   "bytes": 11857,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/specify-memory/memory/MEMORY.md",
+   "title": "el-vadt Session Memory",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 160,
+   "bytes": 3241,
+   "date": "2026-02-18",
+   "consumers": 35,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/specify-memory/memory/PROJECT-STRUCTURE.md",
+   "title": "el-vadt - File Placement Guide",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 453,
+   "bytes": 10236,
+   "date": "2026-02-18",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/specify-memory/memory/README.md",
+   "title": "el-vadt Knowledge System",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 134,
+   "bytes": 3066,
+   "date": "2026-05-09",
+   "consumers": 84,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/specify-memory/memory/RULES.md",
+   "title": "el-vadt - Development Rules",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 398,
+   "bytes": 7783,
+   "date": "2026-02-18",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "research-papers/home-md/AGENTS.md",
+   "title": "Codex Global Instructions (Migrated from ~/.claude)",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 68,
+   "bytes": 4148,
+   "date": "2026-05-09",
+   "consumers": 78,
+   "near": []
+  },
+  {
+   "path": "research-papers/home-md/Claude Code  Complete Issue Map & User Fixes.md",
+   "title": "Claude Code: Complete Issue Map & User Fixes",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 389,
+   "bytes": 33128,
+   "date": "2026-05-09",
+   "consumers": 3,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/Claude Code  Complete Issue Map & User Fixes.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/home-md/Claude Code bwrap Bash Tool Failure on WSL2  Root Cause & Fixes.md",
+   "title": "Claude Code `bwrap: Can't mkdir /mnt/c/Program Files/ClaudeCode: Permission denied` on WSL2",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 225,
+   "bytes": 15950,
+   "date": "2026-05-09",
+   "consumers": 3,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/Claude Code bwrap Bash Tool Failure on WSL2  Root Cause & Fixes.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/home-md/README.md",
+   "title": "Axia & Seekapa CS Agents",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 136,
+   "bytes": 3915,
+   "date": "2026-05-09",
+   "consumers": 84,
+   "near": []
+  },
+  {
+   "path": "research-papers/home-md/RTK.md",
+   "title": "RTK - Rust Token Killer (Codex CLI)",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 32,
+   "bytes": 482,
+   "date": "2026-05-09",
+   "consumers": 25,
+   "near": []
+  },
+  {
+   "path": "research-papers/home-md/agent_prompt_v38_mind.md",
+   "title": "agent_prompt_v38_mind",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 219,
+   "bytes": 11692,
+   "date": "2026-05-09",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "research-papers/home-md/azure-wiki-onepager-skill.md",
+   "title": "Azure Wiki One-Pager — Design & Content Skill",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 1267,
+   "bytes": 49722,
+   "date": "2026-05-09",
+   "consumers": 5,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/azure-wiki-onepager-skill.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/home-md/claude-skills-triage-2026-05-03.md",
+   "title": "Skills Triage — Used / Unused / Missing / Redundant",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 415,
+   "bytes": 26298,
+   "date": "2026-05-03",
+   "consumers": 4,
+   "near": [
+    [
+     "master-plans/claude-skills-triage-2026-05-03.md",
+     1.0
+    ],
+    [
+     "work-docs/root-cleanup-2026-05-28/claude-skills-triage-2026-05-03.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/home-md/compass_artifact_wf-662a99e3-a378-4764-85f2-6b7801fa412c_text_markdown.md",
+   "title": "Three pillars for an agentic coding future: visualization, learning, and autonomy",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 120,
+   "bytes": 21600,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/compass_artifact_wf-662a99e3-a378-4764-85f2-6b7801fa412c_text_markdown.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/home-md/deep-research-bwrap-wsl-error.md",
+   "title": "Research: Claude Code Bash tool fails with `bwrap: Can't mkdir /mnt/c/Program Files/ClaudeCode: Permission denied` on WS",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 48,
+   "bytes": 4384,
+   "date": "2026-05-09",
+   "consumers": 4,
+   "near": [
+    [
+     "work-docs/root-cleanup-2026-05-28/deep-research-bwrap-wsl-error.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/home-md/doc-design.md",
+   "title": "doc-design",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 308,
+   "bytes": 10070,
+   "date": "2026-05-09",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "research-papers/knowledge/README.md",
+   "title": "Knowledge Base",
+   "cluster": "research-corpus",
+   "status": "",
+   "lines": 27,
+   "bytes": 1171,
+   "date": "2026-05-09",
+   "consumers": 84,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/prompts/2026-07-12-code-implementation-quality-standard.md",
+   "title": "Research prompt: the code implementation quality standard (per-file / per-function / per-line)",
+   "cluster": "research-prompt",
+   "status": "",
+   "lines": 70,
+   "bytes": 4424,
+   "date": "2026-07-12",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/prompts/2026-07-12-coding-effort-craft-completion.md",
+   "title": "Research prompt 3: coding EFFORT, CRAFT, and COMPLETION (the axis the standard + fixes miss)",
+   "cluster": "research-prompt",
+   "status": "",
+   "lines": 76,
+   "bytes": 5545,
+   "date": "2026-07-12",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/prompts/2026-07-12-implementation-fixes-research.md",
+   "title": "Research prompt 2: correct implementation patterns for the exact issues found",
+   "cluster": "research-prompt",
+   "status": "",
+   "lines": 96,
+   "bytes": 6486,
+   "date": "2026-07-12",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/prompts/2026-07-27-api-design-contracts.md",
+   "title": "RESEARCH PROMPT: API design and contracts SOTA (2026)",
+   "cluster": "research-prompt",
+   "status": "",
+   "lines": 38,
+   "bytes": 2224,
+   "date": "2026-07-27",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/prompts/2026-07-27-architecture-patterns.md",
+   "title": "RESEARCH PROMPT: System architecture and design patterns SOTA (2026)",
+   "cluster": "research-prompt",
+   "status": "",
+   "lines": 38,
+   "bytes": 2414,
+   "date": "2026-07-27",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/prompts/2026-07-27-code-maturity-ladder.md",
+   "title": "RESEARCH PROMPT: Code maturity ladder, POC to production (2026)",
+   "cluster": "research-prompt",
+   "status": "",
+   "lines": 37,
+   "bytes": 2293,
+   "date": "2026-07-27",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/prompts/2026-07-27-code-reuse-dedup-dry.md",
+   "title": "RESEARCH PROMPT: Code reuse, deduplication, and the DRY/AHA/WET balance (2026)",
+   "cluster": "research-prompt",
+   "status": "",
+   "lines": 37,
+   "bytes": 2243,
+   "date": "2026-07-27",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/prompts/2026-07-27-data-persistence-stack.md",
+   "title": "RESEARCH PROMPT: Data and persistence layer SOTA, polyglot (2026)",
+   "cluster": "research-prompt",
+   "status": "",
+   "lines": 36,
+   "bytes": 2225,
+   "date": "2026-07-27",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/prompts/2026-07-27-polyglot-stack-selection.md",
+   "title": "RESEARCH PROMPT: Polyglot stack selection + per-stack SOTA libraries (2026)",
+   "cluster": "research-prompt",
+   "status": "",
+   "lines": 41,
+   "bytes": 2765,
+   "date": "2026-07-27",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/prompts/2026-07-27-rust-vs-python.md",
+   "title": "RESEARCH PROMPT: Rust vs Python selection + trusted SOTA OSS libraries with metrics (2026)",
+   "cluster": "research-prompt",
+   "status": "",
+   "lines": 47,
+   "bytes": 3184,
+   "date": "2026-07-27",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/prompts/README.md",
+   "title": "Research Prompt Pack: Build-Time SOTA (2026)",
+   "cluster": "research-prompt",
+   "status": "",
+   "lines": 39,
+   "bytes": 2566,
+   "date": "2026-07-24",
+   "consumers": 84,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/Purple Cow_ Transform Your Business by Being Remarkable.md",
+   "title": "Purple Cow: Transform Your Business by Being Remarkable",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 680,
+   "bytes": 94160,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/Selling to VITO.md",
+   "title": "Selling to VITO",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 818,
+   "bytes": 76462,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/Spin Selling Book.md",
+   "title": "Spin Selling Book",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 1066,
+   "bytes": 120257,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/The ultimate sales machine by Chet Holmes.md",
+   "title": "The ultimate sales machine by Chet Holmes",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 1037,
+   "bytes": 147473,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/CLAUDE.md",
+   "title": "Sales Agents Project - Claude Code Configuration",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 166,
+   "bytes": 5197,
+   "date": "2026-01-19",
+   "consumers": 177,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/FINAL_REPORT.md",
+   "title": "Maryam Voice Agent - Final Enhancement Report",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 244,
+   "bytes": 7584,
+   "date": "2026-01-07",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/README.md",
+   "title": "Sales Agents - Maryam Al-Rashid Voice Agent",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 211,
+   "bytes": 6384,
+   "date": "2026-05-09",
+   "consumers": 84,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/archive/maryam-v6.8-fast-optimized.md",
+   "title": "مريم الراشد - مستشارة سيكابا (Fast Model Optimized)",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 35,
+   "bytes": 1716,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6-system-prompt.md",
+   "title": "نوف الراشد v6.5 - العميلة السرية",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 592,
+   "bytes": 22079,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.5.2-system-prompt.md",
+   "title": "نوف الراشد v6.5.2 - العميلة السرية",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 223,
+   "bytes": 8313,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": [
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.7-DEPLOYED.md",
+     0.939
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.9-fixed.md",
+     0.68
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v7.0-gender-dynamic.md",
+     0.412
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.6.1-system-prompt.md",
+     0.315
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.6.1-system-prompt.md",
+   "title": "نوف الراشد v6.6.1 - العميلة السرية",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 250,
+   "bytes": 8812,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": [
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.5.2-system-prompt.md",
+     0.315
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.7-DEPLOYED.md",
+     0.306
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.9-fixed.md",
+     0.263
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.7-system-prompt.md",
+   "title": "نوف الراشد v6.7 - العميلة السرية",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 193,
+   "bytes": 5745,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.8-compressed.md",
+   "title": "نوف الراشد - عميلة سيكابا",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 51,
+   "bytes": 2134,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.8-fast-optimized.md",
+   "title": "نوف الراشد - عميلة سيكابا (Fast Model Optimized)",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 38,
+   "bytes": 1765,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/conversation-scripts/scenario-library.md",
+   "title": "Conversation Scripts Library",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 344,
+   "bytes": 11118,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/gender-handling-v7.0.md",
+   "title": "Gender Handling Protocol v7.0",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 209,
+   "bytes": 6333,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/maryam-v6.7-DEPLOYED.md",
+   "title": "Maryam Al-Rashid v6.4.3 - Voice Agent System Prompt",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 507,
+   "bytes": 17651,
+   "date": "2026-05-09",
+   "consumers": 3,
+   "near": [
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/maryam-v7.0-gender-dynamic.md",
+     0.444
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/maryam-v6.8-DEPLOYED.md",
+   "title": "Maryam Al-Rashid v6.8 - Voice Agent System Prompt",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 146,
+   "bytes": 4023,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": [
+    [
+     "research-papers/el-vadt/docs/Maryam Al-Rashid v6.8-claude.md",
+     0.919
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/maryam-v6.8.1-balanced.md",
+   "title": "مريم الراشد v6.8.1 - مستشارة علاقات العملاء",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 133,
+   "bytes": 3992,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/maryam-v7.0-gender-dynamic.md",
+   "title": "Maryam Al-Rashid v7.0 - Voice Agent System Prompt",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 520,
+   "bytes": 18872,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": [
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/maryam-v6.7-DEPLOYED.md",
+     0.444
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.7-DEPLOYED.md",
+   "title": "نوف الراشد v6.5.2 - العميلة السرية",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 229,
+   "bytes": 8429,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": [
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.5.2-system-prompt.md",
+     0.939
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.9-fixed.md",
+     0.715
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v7.0-gender-dynamic.md",
+     0.434
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.6.1-system-prompt.md",
+     0.306
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.8-DEPLOYED.md",
+   "title": "Nouf Al-Rashid v6.8 - Test Caller",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 93,
+   "bytes": 2696,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.8.1-balanced.md",
+   "title": "نوف الراشد v6.8.1 - العميلة السرية",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 107,
+   "bytes": 3756,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.9-fixed.md",
+   "title": "نوف الراشد v6.9 - العميلة السرية",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 256,
+   "bytes": 9677,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": [
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.7-DEPLOYED.md",
+     0.715
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.5.2-system-prompt.md",
+     0.68
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v7.0-gender-dynamic.md",
+     0.459
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.6.1-system-prompt.md",
+     0.263
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v7.0-gender-dynamic.md",
+   "title": "نوف الراشد v7.0 - العميلة السرية",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 343,
+   "bytes": 12646,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": [
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.9-fixed.md",
+     0.459
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v6.7-DEPLOYED.md",
+     0.434
+    ],
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/archive/nouf-v6.5.2-system-prompt.md",
+     0.412
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/prompts/nouf-v7.1-gender-fix.md",
+   "title": "نوف الراشد v7.1 - العميلة السرية",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 265,
+   "bytes": 8493,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/sales-agents-summary/self_review.md",
+   "title": "self_review",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 31,
+   "bytes": 2157,
+   "date": "2026-05-09",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "work-docs/sales-account-skill.txt",
+   "title": "sales-account-skill",
+   "cluster": "sales-and-books",
+   "status": "",
+   "lines": 53,
+   "bytes": 3499,
+   "date": "2026-07-24",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/CS_Agent_Eval_SOTA_Audit_20260406/cs_agent_eval_sota_audit.md",
+   "title": "cs-agent Evaluation: SOTA Audit & Migration Plan",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 440,
+   "bytes": 36513,
+   "date": "2026-04-06",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/SOTA_DS_Methods_Research_20260415/00-index.md",
+   "title": "SOTA 2026: DS Methods Research — Index",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 30,
+   "bytes": 2379,
+   "date": "2026-04-15",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/SOTA_DS_Methods_Research_20260415/01-cross-validation.md",
+   "title": "SOTA Cross-Validation (2026)",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 101,
+   "bytes": 4315,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/SOTA_DS_Methods_Research_20260415/02-coverage-metrics.md",
+   "title": "Manifold Learning & Coverage Metrics (2026)",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 164,
+   "bytes": 6554,
+   "date": "2026-05-09",
+   "consumers": 7,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/SOTA_DS_Methods_Research_20260415/03-llm-agent-eval.md",
+   "title": "Scalable LLM Agent Evaluation (2026)",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 137,
+   "bytes": 5430,
+   "date": "2026-05-09",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/SOTA_DS_Methods_Research_20260415/04-engineering-workflow.md",
+   "title": "AI-Assisted Engineering Workflow: SOTA 2026",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 109,
+   "bytes": 4508,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/SOTA_DS_Methods_Research_20260415/05-notebook-updates.md",
+   "title": "/notebook Skill Updates: SOTA 2026",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 164,
+   "bytes": 5452,
+   "date": "2026-05-09",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/SOTA_DS_Methods_Research_20260415/06-recommendations.md",
+   "title": "Recommendations & Bibliography",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 61,
+   "bytes": 4393,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/Polyglot Stack Selection + Per-Stack SOTA Libraries (July 2026).md",
+   "title": "Polyglot Stack Selection + Per-Stack SOTA Libraries (July 2026)",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 467,
+   "bytes": 38347,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/Production AI & Software Engineering  The June 2026 State of the Art.md",
+   "title": "Production AI & Software Engineering: The June 2026 State of the Art",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 841,
+   "bytes": 72031,
+   "date": "2026-07-24",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/SOTA Video Testing Pyramid 2026.md",
+   "title": "SOTA Video Testing Pyramid 2026",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 474,
+   "bytes": 70219,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/SOTA Voice Testing Pipeline 2026.md",
+   "title": "SOTA Voice Testing Pipeline 2026",
+   "cluster": "sota-report",
+   "status": "",
+   "lines": 284,
+   "bytes": 17423,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/SOTA-TESTING-CRITERIA-2026.md",
+   "title": "SOTA Testing Criteria 2026 (Gastown canonical rubric)",
+   "cluster": "sota-report",
+   "status": "canonical reference",
+   "lines": 450,
+   "bytes": 29993,
+   "date": "2026-06-29",
+   "consumers": 14,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-23-persona-review-economy.md",
+   "title": "Spec — Persona Review Economy (a dynamic labor market of reviewers)",
+   "cluster": "spec",
+   "status": "active",
+   "lines": 140,
+   "bytes": 8072,
+   "date": "2026-07-23",
+   "consumers": 7,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-23-slm-swarm.md",
+   "title": "Spec — SLM Swarm (how we actually use small models)",
+   "cluster": "spec",
+   "status": "active",
+   "lines": 53,
+   "bytes": 3864,
+   "date": "2026-07-23",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-24-autonomy-implementation.md",
+   "title": "Implementation spec — Autonomy Ecosystem",
+   "cluster": "spec",
+   "status": "active",
+   "lines": 126,
+   "bytes": 7450,
+   "date": "2026-07-24",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-24-command-center-superior.md",
+   "title": "Spec — FleetView: a superior command center over the Claude OS",
+   "cluster": "spec",
+   "status": "active",
+   "lines": 302,
+   "bytes": 23222,
+   "date": "2026-07-24",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-29-architecture-build-plan-v2.md",
+   "title": "Architecture build plan v2, 2026-07-29 (supersedes v1 the same day)",
+   "cluster": "spec",
+   "status": "active",
+   "lines": 137,
+   "bytes": 7870,
+   "date": "2026-07-29",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-29-architecture-build-plan.md",
+   "title": "Architecture build plan, merged 2026-07-29 (plan of record)",
+   "cluster": "spec",
+   "status": "superseded",
+   "lines": 110,
+   "bytes": 6493,
+   "date": "2026-07-29",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-29-decision-rules.md",
+   "title": "Decision rules: when to use what",
+   "cluster": "spec",
+   "status": "proposed",
+   "lines": 669,
+   "bytes": 33158,
+   "date": "2026-07-29",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-29-deterministic-preflight.md",
+   "title": "Deterministic preflight: proposal (not built)",
+   "cluster": "spec",
+   "status": "proposed",
+   "lines": 68,
+   "bytes": 3796,
+   "date": "2026-07-29",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-29-intent-traceability.md",
+   "title": "Intent traceability: wiring, not building",
+   "cluster": "spec",
+   "status": "proposed",
+   "lines": 282,
+   "bytes": 20370,
+   "date": "2026-07-29",
+   "consumers": 7,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-29-prompt-to-ticket-lifecycle.md",
+   "title": "Implementation spec: prompt-to-ticket lifecycle",
+   "cluster": "spec",
+   "status": "active",
+   "lines": 823,
+   "bytes": 43800,
+   "date": "2026-07-29",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-29-trace-model-sacred-timeline.md",
+   "title": "Trace model: worldlines, cones, and one canonical branch",
+   "cluster": "spec",
+   "status": "proposed",
+   "lines": 609,
+   "bytes": 37755,
+   "date": "2026-07-29",
+   "consumers": 7,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-30-data-architecture-and-orchestration.md",
+   "title": "Data architecture and orchestration: what SQLite is for, what git is for, and what shape the DAG actually is",
+   "cluster": "spec",
+   "status": "proposed",
+   "lines": 277,
+   "bytes": 15807,
+   "date": "2026-07-30",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-31-agentic-directory-standard-sota.md",
+   "title": "SOTA Agentic Repository Directory Standard & Estate Enhancement Plan",
+   "cluster": "spec",
+   "status": "design",
+   "lines": 90,
+   "bytes": 6312,
+   "date": "2026-07-31",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-31-github-native-project-surface.md",
+   "title": "GitHub-native project surface for ShovalBenjer/claude-setup and Zion (project 3)",
+   "cluster": "spec",
+   "status": "design",
+   "lines": 584,
+   "bytes": 35775,
+   "date": "2026-07-31",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-31-kanban-four-layer-model.md",
+   "title": "The four-layer board, fitted to claude-setup",
+   "cluster": "spec",
+   "status": "design",
+   "lines": 465,
+   "bytes": 28679,
+   "date": "2026-07-31",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-31-project-federation.md",
+   "title": "Per-repo project federation for the ShovalBenjer estate, and why it is not built",
+   "cluster": "spec",
+   "status": "parked",
+   "lines": 364,
+   "bytes": 19191,
+   "date": "2026-07-31",
+   "consumers": 7,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-31-research-corpus-and-cache.md",
+   "title": "Research corpus and cache (row-reuse, cache2action)",
+   "cluster": "spec",
+   "status": "proposed",
+   "lines": 805,
+   "bytes": 47293,
+   "date": "2026-07-31",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "docs/specs/2026-07-31-zion-board-as-product-instrument.md",
+   "title": "Zion as a product instrument, not a task list",
+   "cluster": "spec",
+   "status": "active",
+   "lines": 230,
+   "bytes": 13052,
+   "date": "2026-07-31",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/ElevenLabs_Scribe_Research_20260427/report.md",
+   "title": "ElevenLabs Scribe STT — Model Lineage & Migration Requirements",
+   "cluster": "voice-and-emotion",
+   "status": "",
+   "lines": 218,
+   "bytes": 14156,
+   "date": "2026-04-27",
+   "consumers": 20,
+   "near": []
+  },
+  {
+   "path": "research-papers/Documents/ElevenLabs_Scribe_Research_20260428/report.md",
+   "title": "ElevenLabs Scribe — Cost & Parallelization for qc-call-analyzer",
+   "cluster": "voice-and-emotion",
+   "status": "",
+   "lines": 100,
+   "bytes": 7042,
+   "date": "2026-04-28",
+   "consumers": 20,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/11labs_compared2research.md",
+   "title": "search this also - every documenation in each link provided.",
+   "cluster": "voice-and-emotion",
+   "status": "",
+   "lines": 282,
+   "bytes": 15359,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/Eleven v3_ Most Expressive.md",
+   "title": "check this",
+   "cluster": "voice-and-emotion",
+   "status": "",
+   "lines": 71,
+   "bytes": 5401,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/Emotions_Researched.md",
+   "title": "Integrated Master Prompt – Elite Sourcing + Verification + Heideggerian Self-Inspection (Search-Enabled)",
+   "cluster": "voice-and-emotion",
+   "status": "",
+   "lines": 2039,
+   "bytes": 110107,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/Maryam Al-Rashid v6.8-claude.md",
+   "title": "Maryam Al-Rashid v6.8 - Voice Agent System Prompt",
+   "cluster": "voice-and-emotion",
+   "status": "",
+   "lines": 159,
+   "bytes": 4213,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": [
+    [
+     "research-papers/el-vadt/sales-agents-summary/prompts/maryam-v6.8-DEPLOYED.md",
+     0.919
+    ]
+   ]
+  },
+  {
+   "path": "research-papers/el-vadt/docs/emotions.txt",
+   "title": "emotions",
+   "cluster": "voice-and-emotion",
+   "status": "",
+   "lines": 142,
+   "bytes": 1582,
+   "date": "2026-05-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/maryam-v6.8-native.md",
+   "title": "Maryam Al-Rashid v7.2 - 11Labs Native Workflow Architecture",
+   "cluster": "voice-and-emotion",
+   "status": "",
+   "lines": 77,
+   "bytes": 2836,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "research-papers/el-vadt/docs/maryam-v6.8-strategic.md",
+   "title": "Maryam Al-Rashid v7.1 - Strategic Voice Agent Prompt",
+   "cluster": "voice-and-emotion",
+   "status": "",
+   "lines": 113,
+   "bytes": 4063,
+   "date": "2026-05-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/What's Missing  AI vs. Production-Grade UGC Video (July 2026, Remotion + Claude).md",
+   "title": "What's Missing: AI vs. Production-Grade UGC Video",
+   "cluster": "voice-and-emotion",
+   "status": "",
+   "lines": 386,
+   "bytes": 28553,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-06-08-storage-mitigation-runbook.md",
+   "title": "Morning Storage Mitigation Runbook — 2026-06-08",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 190,
+   "bytes": 10295,
+   "date": "2026-06-08",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-06-09-CONSOLIDATED-adopt-backlog.md",
+   "title": "Consolidated Adopt Backlog — 2026-06-09",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 102,
+   "bytes": 8913,
+   "date": "2026-06-09",
+   "consumers": 7,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-06-09-autonomous-azure-agent-fleet-design.md",
+   "title": "Autonomous Azure Agent Fleet — Design Doc",
+   "cluster": "work-archive",
+   "status": "decision-grade proposal",
+   "lines": 294,
+   "bytes": 31449,
+   "date": "2026-06-09",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-06-09-explicit-program-of-work.md",
+   "title": "Explicit Program of Work — 2026-06-09",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 92,
+   "bytes": 6927,
+   "date": "2026-06-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-06-10-IMPLEMENTATION-PLAN.md",
+   "title": "Master Implementation Plan — what I build on \"go\"",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 83,
+   "bytes": 7136,
+   "date": "2026-06-10",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-06-10-OVERNIGHT-STATUS.md",
+   "title": "Overnight Autonomous Run — STATUS journal (2026-06-10)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 133,
+   "bytes": 8698,
+   "date": "2026-06-10",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-06-10-REVIEW-QUEUE.md",
+   "title": "Review Queue — 2026-06-10",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 459,
+   "bytes": 17999,
+   "date": "2026-06-10",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-06-10-campaign-analysis-report-setup-design.md",
+   "title": "Campaign-Analysis Report Setup — Decision-Grade Design",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 226,
+   "bytes": 24627,
+   "date": "2026-06-10",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-06-28-work-general-setup_4614.md",
+   "title": "Work-Side General Setup — Full (mojuco + artifixer + latent path)",
+   "cluster": "work-archive",
+   "status": "standalone setup for general work",
+   "lines": 257,
+   "bytes": 13194,
+   "date": "2026-06-28",
+   "consumers": 8,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-07-07-agent-call-tracker-session-postmortem.md",
+   "title": "Session Post-Mortem: 2026-07-07 (agent-call-tracker)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 33,
+   "bytes": 2908,
+   "date": "2026-07-07",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-07-09-docs-control-plane-taxonomy.md",
+   "title": "Per-repo docs control plane: taxonomy proposal",
+   "cluster": "work-archive",
+   "status": "proposal",
+   "lines": 78,
+   "bytes": 4292,
+   "date": "2026-07-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/2026-07-10-home-git-de-anomaly-runbook.md",
+   "title": "HOME git de-anomaly runbook (2026-07-10)",
+   "cluster": "work-archive",
+   "status": "plan only",
+   "lines": 132,
+   "bytes": 8649,
+   "date": "2026-07-10",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/AI PR Review Prompt Best Practices.md",
+   "title": "AI PR Review Prompt Best Practices",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 284,
+   "bytes": 20893,
+   "date": "2026-07-31",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/AI_NATIVE_ENGINEERING_TODO.md",
+   "title": "AI-native engineering TODO",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 12,
+   "bytes": 1158,
+   "date": "2026-07-05",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/ARCHITECTURE.md",
+   "title": "CS Agents - Architecture (LIGHT)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 88,
+   "bytes": 2930,
+   "date": "2026-07-24",
+   "consumers": 7,
+   "near": []
+  },
+  {
+   "path": "work-docs/Auth_vlad.txt",
+   "title": "Auth_vlad",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 17,
+   "bytes": 779,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/COMPLIANCE-AUDIT.md",
+   "title": "CS Agents — Azure Compliance Audit",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 137,
+   "bytes": 4488,
+   "date": "2026-03-02",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/Code Maturity Ladder  POC to Production (2026).md",
+   "title": "Code Maturity Ladder: POC to Production (2026)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 331,
+   "bytes": 28618,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/Code Reuse, Deduplication, and the DRY AHA WET Balance (2026).md",
+   "title": "Code Reuse, Deduplication, and the DRY/AHA/WET Balance (2026)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 456,
+   "bytes": 34160,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/FOUNDRY-EVAL-CI-PLAN.md",
+   "title": "Foundry-Only Eval CI Plan for CS Agents",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 301,
+   "bytes": 6470,
+   "date": "2026-03-30",
+   "consumers": 9,
+   "near": []
+  },
+  {
+   "path": "work-docs/GD Coverage Metric 2030  Neuro-Symbolic, Psychological, Mathematical, and Bibliometric Research Roadmap.md",
+   "title": "GD Coverage Metric 2030: Neuro-Symbolic, Psychological, Mathematical, and Bibliometric Research Roadmap",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 499,
+   "bytes": 43023,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/KNOWLEDGE-BASE.md",
+   "title": "Axia & Seekapa CS Agents -- Knowledge Base",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 175,
+   "bytes": 12653,
+   "date": "2026-07-24",
+   "consumers": 7,
+   "near": []
+  },
+  {
+   "path": "work-docs/Lightweight Open-Source Video Editing & QA Libraries for Frame-Accurate Logo Tracking.md",
+   "title": "Lightweight Open-Source Video Editing & QA Libraries for Frame-Accurate Logo Tracking",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 282,
+   "bytes": 18653,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/MODEL-MIGRATION-PLAN.md",
+   "title": "Model Migration: GPT 5.2 → GPT 5.4 Nano (High Reasoning), Per-Project Deployments",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 378,
+   "bytes": 15160,
+   "date": "2026-04-06",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "work-docs/Next-Gen AI Coding Intelligence 2026  Model Failures, Harness Engineering, Startups & Open Source Frontiers.md",
+   "title": "Next-Gen AI Coding Intelligence 2026: Model Failures, Harness Engineering, Startups & Open Source Frontiers",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 405,
+   "bytes": 41417,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/Next-Gen AI-Native Repo Structure  Best Practices for Agentic Projects (July 2026).md",
+   "title": "Next-Gen AI-Native Repo Structure: Best Practices for Agentic Projects (July 2026)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 564,
+   "bytes": 26671,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/Next-Gen UI UX  2026 Skills, Libraries & Open-Source Arsenal.md",
+   "title": "Next-Gen UI/UX: 2026 Skills, Libraries & Open-Source Arsenal",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 508,
+   "bytes": 37840,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/README.md",
+   "title": "Shoval Docs Index",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 35,
+   "bytes": 1894,
+   "date": "2026-07-24",
+   "consumers": 84,
+   "near": []
+  },
+  {
+   "path": "work-docs/REPO-AUDIT.md",
+   "title": "CS Agents - Repository Audit Report",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 47,
+   "bytes": 1854,
+   "date": "2026-03-02",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/Reducing Fix-Commit Rate & Building a Self-Improving Code Quality Flywheel.md",
+   "title": "Reducing Fix-Commit Rate & Building a Self-Improving Code Quality Flywheel",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 260,
+   "bytes": 26562,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/SHOVAL-BENJER-5MO-CONTEXT-2026-05-08.md",
+   "title": "Shoval Benjer — 5-Month Engineering Context",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 266,
+   "bytes": 16580,
+   "date": "2026-05-08",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/SHOVAL-CV-PROJECT-INVENTORY-2026-05-28.md",
+   "title": "Shoval Benjer — CV Project Inventory (per-project bullets + tech stack)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 405,
+   "bytes": 38790,
+   "date": "2026-05-28",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/SHOVAL-FIT-ANALYSIS-2026-05-08.md",
+   "title": "Where you fit — honest assessment from CV + GitHub + LinkedIn + 5-month evidence",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 166,
+   "bytes": 14593,
+   "date": "2026-05-08",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/Text2SQL Token Optimization  The June 2026 Market Gap & How to Build the Missing Layer.md",
+   "title": "Text2SQL Token Optimization: The June 2026 Market Gap & How to Build the Missing Layer",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 393,
+   "bytes": 27614,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/adr/0001-unified-platform-standard.md",
+   "title": "ADR 0001: One unified platform standard, enforced by the intent-control-plane",
+   "cluster": "work-archive",
+   "status": "accepted",
+   "lines": 59,
+   "bytes": 3460,
+   "date": "2026-07-10",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/agent-call-tracker-NIGHT-PLAN-2026-07-07.md",
+   "title": "agent-call-tracker — Overnight Autonomous Run Plan (2026-07-07)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 131,
+   "bytes": 9364,
+   "date": "2026-07-07",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/ai-103-study-tracker.md",
+   "title": "AI-103 Study Tracker — Developing AI Apps and Agents on Azure",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 31,
+   "bytes": 2442,
+   "date": "2026-07-24",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/ai-native-code-level-scout-2026-07-05.md",
+   "title": "AI-native code-level scout, 2026-07-05",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 65,
+   "bytes": 5175,
+   "date": "2026-07-05",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/audits/2026-05-03-dor-cohen-sentimark-email.md",
+   "title": "Email draft — Dor Cohen · Sentimark deprovision sign-off",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 43,
+   "bytes": 1868,
+   "date": "2026-05-03",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/audits/2026-05-03-dormancy-audit.md",
+   "title": "Azure + DevOps Dormancy Audit — 2026-05-03",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 214,
+   "bytes": 10122,
+   "date": "2026-05-03",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/audits/2026-05-07-cs-agent-access-boundaries.md",
+   "title": "cs-agent — Access boundaries audit (IT admin / Networking / CRM)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 137,
+   "bytes": 17382,
+   "date": "2026-05-07",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/audits/2026-05-20-corp-ai-scan.md",
+   "title": "Corp-AI Repos — Phase 1 Security & Hygiene Scan",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 682,
+   "bytes": 49974,
+   "date": "2026-05-20",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/audits/2026-06-09-agent-shell-and-mcp-layer.md",
+   "title": "Agent Shell & MCP Layer — Companion Decision Report",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 359,
+   "bytes": 34752,
+   "date": "2026-06-09",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/audits/2026-06-09-stack-modernization-and-hive-upgrade.md",
+   "title": "Stack Modernization & Hive Upgrade — Decision Report",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 527,
+   "bytes": 62227,
+   "date": "2026-06-09",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "work-docs/audits/2026-06-29-hedg-com-website-engineering-audit/evidence/00-recon-and-rubric.md",
+   "title": "hedg.com Engineering Audit, Evidence Pack 00: Recon + Rubric",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 131,
+   "bytes": 8357,
+   "date": "2026-06-29",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/audits/2026-06-30-corp-ai-devops-maturity-map.md",
+   "title": "Corp-AI DevOps + Azure Maturity Map",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 206,
+   "bytes": 14249,
+   "date": "2026-06-30",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/auth-setup.md",
+   "title": "CS Agent Authentication Setup Guide",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 284,
+   "bytes": 8609,
+   "date": "2026-07-24",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/auto-mode-tasks-2026-05-12.md",
+   "title": "Auto-Mode Task Backlog — 2026-05-12",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 210,
+   "bytes": 15108,
+   "date": "2026-05-12",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/azure-snapshots/2026-05-26/yasha-sentimark-rg-access-request.md",
+   "title": "Yasha — sentimark-rg Reader access request",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 54,
+   "bytes": 2274,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/canonical-repo-structure-2026-07-10.md",
+   "title": "Canonical Repo Structure + Standard - 2026-07-10",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 154,
+   "bytes": 9460,
+   "date": "2026-07-10",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/cloudflare_pipeline.txt",
+   "title": "cloudflare_pipeline",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 57,
+   "bytes": 2313,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/code-quality-standard-2026-07.md",
+   "title": "Python Code Implementation Quality Standard — July 2026",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 1022,
+   "bytes": 40371,
+   "date": "2026-07-12",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "work-docs/coding-effort-craft-completion-2026-07.md",
+   "title": "Coding Effort, Craft, and Completion — July 2026",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 488,
+   "bytes": 39010,
+   "date": "2026-07-12",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/company_context.txt",
+   "title": "company_context",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 128,
+   "bytes": 5182,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/conent-creation-skill.txt",
+   "title": "conent-creation-skill",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 77,
+   "bytes": 5287,
+   "date": "2026-07-24",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "work-docs/core/README.md",
+   "title": "Core Docs",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 15,
+   "bytes": 673,
+   "date": "2026-06-28",
+   "consumers": 84,
+   "near": []
+  },
+  {
+   "path": "work-docs/create-prd-skill4.txt",
+   "title": "create-prd-skill4",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 168,
+   "bytes": 5495,
+   "date": "2026-07-24",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "work-docs/cs-agent-pipeline.txt",
+   "title": "CS Agents -- CI/CD Pipeline",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 636,
+   "bytes": 28986,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": [
+    [
+     "work-docs/example-pipeline-cs-agent.txt",
+     0.529
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/cs-agent/crm-query-allowlist-2026-05-12.md",
+   "title": "CRM Query Allowlist — Yasha follow-up #1",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 119,
+   "bytes": 7305,
+   "date": "2026-05-12",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/data-exploration-skill.txt",
+   "title": "data-exploration-skill",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 263,
+   "bytes": 7513,
+   "date": "2026-07-24",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "work-docs/data-viz-skill.txt",
+   "title": "data-viz-skill",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 0,
+   "bytes": 0,
+   "date": "2026-07-24",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/deep-research-report (2).md",
+   "title": "State of the Art Testing for Agent Evaluations and Agentic Reviewing Across the SDLC",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 262,
+   "bytes": 44282,
+   "date": "2026-07-24",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "work-docs/deep-research-report (3).md",
+   "title": "State of the Art Testing for High Risk Agentic MCP Platforms",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 400,
+   "bytes": 37493,
+   "date": "2026-07-24",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/eval-findings-2026-05-11.md",
+   "title": "Eval Findings — 2026-05-11",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 157,
+   "bytes": 8686,
+   "date": "2026-05-11",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/eval-results/2026-05-24-post-118-deploy/E2E-QA-CHECKLIST-v2.md",
+   "title": "E2E QA Checklist v2 — post-`seekapa:118` deploy",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 228,
+   "bytes": 10416,
+   "date": "2026-05-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/eval-results/2026-05-24-post-118-deploy/judge-eval/v118.md",
+   "title": "Foundry Smoke Eval",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 273,
+   "bytes": 8797,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/eval-results/2026-05-24-post-pr288-baseline/E2E-QA-CHECKLIST.md",
+   "title": "E2E QA Checklist — run this yourself before deploying `:118` to real customers",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 326,
+   "bytes": 12703,
+   "date": "2026-05-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/eval-results/2026-05-24-post-pr288-baseline/full38.md",
+   "title": "Foundry Smoke Eval",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 273,
+   "bytes": 5875,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/eval-results/2026-05-24-post-pr288-baseline/smoke.md",
+   "title": "Foundry Smoke Eval",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 77,
+   "bytes": 1941,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/eval-results/baseline-2026-04-27-agent-endpoint-v105.md",
+   "title": "Smoke baseline — 2026-04-27 — Agent Endpoint (post route flip)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 62,
+   "bytes": 3438,
+   "date": "2026-04-27",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/eval-results/baseline-2026-04-27-app-endpoint.md",
+   "title": "Baseline Eval — 2026-04-27 — Application Endpoint",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 109,
+   "bytes": 5512,
+   "date": "2026-04-27",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/eval-results/baseline-2026-04-27-yasha-v2-app-endpoint.md",
+   "title": "Yasha v2 Eval — 2026-04-27 — Application Endpoint",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 47,
+   "bytes": 2647,
+   "date": "2026-04-27",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/example-pipeline-cs-agent.txt",
+   "title": "CS Agents -- CI/CD Pipeline",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 474,
+   "bytes": 19313,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": [
+    [
+     "work-docs/cs-agent-pipeline.txt",
+     0.529
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/foundry-chatwoot-alignment-2026-04-16.md",
+   "title": "Foundry and Chatwoot Alignment Plan",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 59,
+   "bytes": 2756,
+   "date": "2026-04-16",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/fundamentals-mastery-plan.md",
+   "title": "Fundamentals Mastery Plan — \"SOTA counter, don't rely\"",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 47,
+   "bytes": 3679,
+   "date": "2026-07-24",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/harness-structure-standard-2026-07-09.md",
+   "title": "Harness Structure Standard + REPO-MAP - 2026-07-09",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 107,
+   "bytes": 7279,
+   "date": "2026-07-09",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/implementation-fixes-playbook-2026-07.md",
+   "title": "Implementation Fixes Playbook — July 2026",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 1335,
+   "bytes": 52617,
+   "date": "2026-07-12",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/jira-tasks/2026-05-12-video-understanding-roadmap.md",
+   "title": "Initiative: Video Understanding Roadmap",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 147,
+   "bytes": 10862,
+   "date": "2026-05-12",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/jira-tasks/2026-05-17-support-bot-prod-readiness.md",
+   "title": "Initiative: Support Bot Prod-Readiness + Support Comms Unification",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 310,
+   "bytes": 15802,
+   "date": "2026-05-17",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/jira-tasks/2026-05-26-ai-storage-consolidation-comment.md",
+   "title": "Jira comment, AI storage consolidation onto stsentimarkv2",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 38,
+   "bytes": 2788,
+   "date": "2026-05-26",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/jira-tasks/2026-06-02-DEV-4942-yasha-followup.md",
+   "title": "DEV-4942 follow-up to Yasha — unblock campaign-analysis production (DRAFT — review before sending)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 43,
+   "bytes": 2243,
+   "date": "2026-06-02",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/jira-tasks/2026-06-07-transcript-storage-layer-followup.md",
+   "title": "Follow-up: heal partial transcripts at the STORAGE layer (not just at report time)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 62,
+   "bytes": 3934,
+   "date": "2026-06-07",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/jira-tasks/2026-06-23-ca-audio-export-endpoint.md",
+   "title": "2026-06-23-ca-audio-export-endpoint",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 57,
+   "bytes": 4195,
+   "date": "2026-06-23",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/jira-tasks/2026-07-01-firas-leads-inspection.md",
+   "title": "Initiative: Firas leads count (DEV-5013 agent-call-tracker)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 130,
+   "bytes": 9525,
+   "date": "2026-07-01",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/jira-tasks/2026-07-09-cs-agent-findings.md",
+   "title": "CS-agent production findings, 2026-07-09 (internal task list)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 82,
+   "bytes": 5364,
+   "date": "2026-07-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/meetings/2026-05-12-adnan-video-understanding-roadmap.md",
+   "title": "Video Understanding Roadmap — meeting with Adnan",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 39,
+   "bytes": 3607,
+   "date": "2026-05-12",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/note that these also needs to be compared also (ja.md",
+   "title": "note that these also needs to be compared also (java has a lot of indian developers so i want to focus on new, sota lang",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 204,
+   "bytes": 10883,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/perplexity_research-11.5.26.txt",
+   "title": "perplexity_research-11.5.26",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 338,
+   "bytes": 33183,
+   "date": "2026-07-31",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "work-docs/pipelines/README.md",
+   "title": "Pipeline Docs",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 18,
+   "bytes": 656,
+   "date": "2026-07-24",
+   "consumers": 84,
+   "near": []
+  },
+  {
+   "path": "work-docs/pipelines/notifications/README.md",
+   "title": "Pipeline Notifications",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 8,
+   "bytes": 388,
+   "date": "2026-07-24",
+   "consumers": 84,
+   "near": []
+  },
+  {
+   "path": "work-docs/prd/2026-07-10-platform-standard.md",
+   "title": "PRD: Unified Platform Standard",
+   "cluster": "work-archive",
+   "status": "active",
+   "lines": 244,
+   "bytes": 18688,
+   "date": "2026-07-10",
+   "consumers": 6,
+   "near": []
+  },
+  {
+   "path": "work-docs/project-map-2026-07-09.md",
+   "title": "Project Map",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 18,
+   "bytes": 1644,
+   "date": "2026-07-09",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/project-maturity-audit-2026-07-01.md",
+   "title": "Project maturity audit, 2026-07-01",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 238,
+   "bytes": 15590,
+   "date": "2026-07-01",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/project-scorecard-2026-07-09.md",
+   "title": "Project Standards Scorecard",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 20,
+   "bytes": 1314,
+   "date": "2026-07-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/prompt_v96_optimization_suggestions.md",
+   "title": "Prompt Optimization Suggestions for Current Seekapa Support Prompt",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 415,
+   "bytes": 11473,
+   "date": "2026-07-24",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/qa/2026-05-10-bot-e2e-qa-script-v2.md",
+   "title": "cs-agent E2E QA Script — v2",
+   "cluster": "work-archive",
+   "status": "v109",
+   "lines": 352,
+   "bytes": 18327,
+   "date": "2026-05-10",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/qa/2026-05-10-bot-e2e-qa-script.md",
+   "title": "cs-agent E2E QA Script",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 374,
+   "bytes": 19399,
+   "date": "2026-05-10",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/qa/2026-05-11-v110.1-otp-full-qa-suite.md",
+   "title": "v110.1 OTP — Full QA Suite",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 417,
+   "bytes": 17813,
+   "date": "2026-05-11",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-03-22-chatwoot-production-hardening.md",
+   "title": "Heidegger Reflection: Chatwoot Production Hardening",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 167,
+   "bytes": 10659,
+   "date": "2026-03-22",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-03-30-escalation-perf-v39.md",
+   "title": "Reflection: Signal-Driven Escalation + Prompt v39 + CI Overhaul",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 65,
+   "bytes": 3174,
+   "date": "2026-03-30",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-04-01-chatwoot-conversation-event-handler.md",
+   "title": "Reflection: Chatwoot Conversation-Level Event Handler",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 143,
+   "bytes": 9839,
+   "date": "2026-04-01",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-04-13-v99-session-analysis-fixes.md",
+   "title": "Reflection: v99 Prompt + Cold-Start Fix",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 156,
+   "bytes": 10915,
+   "date": "2026-04-13",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-04-27-session.md",
+   "title": "Session Post-Mortem: 2026-04-27 (cs-agent)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 58,
+   "bytes": 8824,
+   "date": "2026-04-27",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-04-29-v108-yasha-intake-deploy.md",
+   "title": "Heidegger Reflection — v108 Yasha Intake Deploy",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 203,
+   "bytes": 18912,
+   "date": "2026-04-29",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-04-29-v109-yasha-multilingual.md",
+   "title": "Heidegger Reflection — v109 Yasha Multilingual",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 198,
+   "bytes": 12716,
+   "date": "2026-04-29",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-04-30-v109-deploy-review-cleanup.md",
+   "title": "2026-04-30 — v109 deploy review + repo cleanup (heidegger-reflect)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 151,
+   "bytes": 14516,
+   "date": "2026-04-30",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-05-04-a2a-v1-and-wire-gap-closure.md",
+   "title": "Reflection — A2A v1 + Wire Gap Closure (Refined Plan, 5h scope)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 176,
+   "bytes": 14835,
+   "date": "2026-05-04",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-05-04-claude-setup-session-structure-and-wire-gaps.md",
+   "title": "Reflection — Claude Setup Session: Structure + Wire Gaps",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 187,
+   "bytes": 14122,
+   "date": "2026-05-04",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-05-04-pst-extraction-path-a-run.md",
+   "title": "Reflection — PST Extraction v1, Path-A-Disciplined Run",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 203,
+   "bytes": 15546,
+   "date": "2026-05-04",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-05-17-funnel-loss-patterns.md",
+   "title": "Reflection — 2026-05-17 — funnel-loss-patterns",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 176,
+   "bytes": 16544,
+   "date": "2026-05-17",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-05-26-qc-telephony-passive-batch-api.md",
+   "title": "Reflection — qc-telephony-api passive batch API rollout (2026-05-26)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 261,
+   "bytes": 31692,
+   "date": "2026-05-26",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-06-11-liron-hedg-feedback-coverage-audit.md",
+   "title": "Reflection — Did we full-sure-check each item of Liron's HEDG card feedback? (2026-06-11)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 91,
+   "bytes": 5825,
+   "date": "2026-06-11",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-06-11-orm-review-alert-coverage-registry.md",
+   "title": "Reflection — ORM review-alert: coverage ledger, registry, posting path (2026-06-10 → 06-11)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 153,
+   "bytes": 10539,
+   "date": "2026-06-11",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-06-23-hedg-ivr-v12-testing.md",
+   "title": "Heidegger Reflection: Hedg IVR v12 — what I test, and what I only pretend to test",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 148,
+   "bytes": 8943,
+   "date": "2026-06-23",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-06-28-work-general-mojuco-artifixer-session.md",
+   "title": "Session Post-Mortem: 2026-06-28 Work-General Mojuco + Artifixer Plan",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 59,
+   "bytes": 3306,
+   "date": "2026-06-28",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/reflections/2026-07-07-autonomy-setup-hardening.md",
+   "title": "Heidegger Reflection: Autonomy Setup Hardening",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 120,
+   "bytes": 8275,
+   "date": "2026-07-07",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/repo-enterprise-maturity-todo-2026-07-09.md",
+   "title": "Repo Enterprise Maturity TODO - 2026-07-09",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 214,
+   "bytes": 20429,
+   "date": "2026-07-09",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "work-docs/repo-maintenance-file-plan-2026-07-09.md",
+   "title": "Repo Maintenance File Plan - 2026-07-09",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 323,
+   "bytes": 12724,
+   "date": "2026-07-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/repo-standards-2026-07-09.md",
+   "title": "Repo Standards: five dimensions - 2026-07-09",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 70,
+   "bytes": 3725,
+   "date": "2026-07-09",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/2026-05-07-ai-bot-security-best-practices.md",
+   "title": "Customer-Facing AI Agents in Regulated Finance: 2026 Security Best Practices and Threats",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 292,
+   "bytes": 46267,
+   "date": "2026-05-07",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/2026-07-07-claude-setup-gap-analysis.md",
+   "title": "Claude Code Operating Setup: Gap Analysis (what to implement / wire / fix / add)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 148,
+   "bytes": 11752,
+   "date": "2026-07-07",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/2026-07-08-global-and-per-project-suggestions.md",
+   "title": "Global Setup + Per-Project Suggestions (2026-07-08)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 88,
+   "bytes": 6409,
+   "date": "2026-07-08",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/2026-07-08-trending-agent-repos.md",
+   "title": "Trending AI-Agent / Orchestration / Next-Gen Repos (2026-07-08)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 64,
+   "bytes": 8385,
+   "date": "2026-07-08",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/2026-07-29-llm-agents-game-theory-tacit-knowledge-epistemic-governance.md",
+   "title": "The Socio-Technical Evolution of LLM Agents: From Algorithmic Game Theory to Epistemic Governance",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 93,
+   "bytes": 11733,
+   "date": "2026-07-29",
+   "consumers": 5,
+   "near": []
+  },
+  {
+   "path": "work-docs/research/README.md",
+   "title": "Research Docs",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 7,
+   "bytes": 572,
+   "date": "2026-07-24",
+   "consumers": 84,
+   "near": []
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/Claude Code  Complete Issue Map & User Fixes.md",
+   "title": "Claude Code: Complete Issue Map & User Fixes",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 389,
+   "bytes": 33128,
+   "date": "2026-07-24",
+   "consumers": 3,
+   "near": [
+    [
+     "research-papers/home-md/Claude Code  Complete Issue Map & User Fixes.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/Claude Code bwrap Bash Tool Failure on WSL2  Root Cause & Fixes.md",
+   "title": "Claude Code `bwrap: Can't mkdir /mnt/c/Program Files/ClaudeCode: Permission denied` on WSL2",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 225,
+   "bytes": 15950,
+   "date": "2026-07-24",
+   "consumers": 3,
+   "near": [
+    [
+     "research-papers/home-md/Claude Code bwrap Bash Tool Failure on WSL2  Root Cause & Fixes.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/FIX-BWRAP-WSL.md",
+   "title": "Fix: `bwrap: Can't mkdir /mnt/c/Program Files/ClaudeCode: Permission denied`",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 62,
+   "bytes": 2891,
+   "date": "2026-07-24",
+   "consumers": 4,
+   "near": [
+    [
+     "master-plans/FIX-BWRAP-WSL.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/Q-Learning, Deep RL & March 2026 Research  Auditing MiroFish & AutoResearch.md",
+   "title": "Q-Learning, Deep RL Theory & March 2026 Research: A Critical Lens on MiroFish & AutoResearch",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 235,
+   "bytes": 26212,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": [
+    [
+     "research-papers/Prompts/Q-Learning, Deep RL & March 2026 Research  Auditing MiroFish & AutoResearch.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/azure-wiki-onepager-skill.md",
+   "title": "Azure Wiki One-Pager — Design & Content Skill",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 1267,
+   "bytes": 49722,
+   "date": "2026-07-24",
+   "consumers": 5,
+   "near": [
+    [
+     "research-papers/home-md/azure-wiki-onepager-skill.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/claude-code-experimental-features.md",
+   "title": "Claude Code Power-User Feature Punch List",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 217,
+   "bytes": 9899,
+   "date": "2026-04-30",
+   "consumers": 8,
+   "near": [
+    [
+     "master-plans/claude-code-experimental-features.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/claude-setup-tasks-2026-05-02.md",
+   "title": "Claude Setup Tasks — Weekend Research Roundup",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 117,
+   "bytes": 7888,
+   "date": "2026-05-02",
+   "consumers": 6,
+   "near": [
+    [
+     "master-plans/claude-setup-tasks-2026-05-02.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/claude-skills-scatter-2026-05-03.md",
+   "title": "Skills / Hooks / Agents — Scatter Inventory + Consolidation Plan",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 231,
+   "bytes": 13123,
+   "date": "2026-05-03",
+   "consumers": 4,
+   "near": [
+    [
+     "master-plans/claude-skills-scatter-2026-05-03.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/claude-skills-triage-2026-05-03.md",
+   "title": "Skills Triage — Used / Unused / Missing / Redundant",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 415,
+   "bytes": 26298,
+   "date": "2026-05-03",
+   "consumers": 4,
+   "near": [
+    [
+     "master-plans/claude-skills-triage-2026-05-03.md",
+     1.0
+    ],
+    [
+     "research-papers/home-md/claude-skills-triage-2026-05-03.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/cleanup-proposal.md",
+   "title": "$HOME Cleanup Proposal — 2026-04-30",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 146,
+   "bytes": 8627,
+   "date": "2026-04-30",
+   "consumers": 6,
+   "near": [
+    [
+     "master-plans/cleanup-proposal.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/compass_artifact_wf-662a99e3-a378-4764-85f2-6b7801fa412c_text_markdown.md",
+   "title": "Three pillars for an agentic coding future: visualization, learning, and autonomy",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 120,
+   "bytes": 21600,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": [
+    [
+     "research-papers/home-md/compass_artifact_wf-662a99e3-a378-4764-85f2-6b7801fa412c_text_markdown.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/data/axia-crm-customer-openapi.txt",
+   "title": "axia-crm-customer-openapi",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 76,
+   "bytes": 2391,
+   "date": "2026-07-24",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/data/azure_resources_deleting.txt",
+   "title": "azure_resources_deleting",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 36,
+   "bytes": 619,
+   "date": "2026-07-24",
+   "consumers": 0,
+   "near": []
+  },
+  {
+   "path": "work-docs/root-cleanup-2026-05-28/deep-research-bwrap-wsl-error.md",
+   "title": "Research: Claude Code Bash tool fails with `bwrap: Can't mkdir /mnt/c/Program Files/ClaudeCode: Permission denied` on WS",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 48,
+   "bytes": 4384,
+   "date": "2026-07-24",
+   "consumers": 4,
+   "near": [
+    [
+     "research-papers/home-md/deep-research-bwrap-wsl-error.md",
+     1.0
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/seo-keywords_trading-forex_2026-07-08.md",
+   "title": "SEO Keyword Research: Trading & Forex",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 123,
+   "bytes": 13899,
+   "date": "2026-07-08",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/sol5.6-harness.txt",
+   "title": "sol5.6-harness",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 399,
+   "bytes": 5813,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-04-15-silver-eval-dataset.md",
+   "title": "2026-04-15-silver-eval-dataset",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 69,
+   "bytes": 3240,
+   "date": "2026-04-15",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-04-28-v108-yasha-intake-flow.md",
+   "title": "v108 — Yasha Intake Flow (Seekapa / Nissreen)",
+   "cluster": "work-archive",
+   "status": "draft",
+   "lines": 122,
+   "bytes": 8021,
+   "date": "2026-04-28",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-04-29-v109-yasha-multilingual-intake.md",
+   "title": "v109 — Yasha Multilingual Intake + Repetitive-Failure + Identity Guard",
+   "cluster": "work-archive",
+   "status": "draft",
+   "lines": 179,
+   "bytes": 14752,
+   "date": "2026-04-29",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-05-04-frontier-governance-axes.md",
+   "title": "Frontier-grade AI governance — 4-axis audit + proposed enhancements",
+   "cluster": "work-archive",
+   "status": "reference document",
+   "lines": 164,
+   "bytes": 10831,
+   "date": "2026-05-04",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-05-04-pst-extraction-v1-run.md",
+   "title": "Spec — PST Extraction v1, First Real Run",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 90,
+   "bytes": 5733,
+   "date": "2026-05-04",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-05-06-seekapa-account-verification-flow.md",
+   "title": "Spec — Seekapa account verification via email + CRM lookup",
+   "cluster": "work-archive",
+   "status": "draft — needs user sign-off before tdd begins",
+   "lines": 152,
+   "bytes": 9668,
+   "date": "2026-05-06",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-05-06-v110-deploy-runbook.md",
+   "title": "v110 Deploy Runbook — Phase F1 + KB additions",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 137,
+   "bytes": 6857,
+   "date": "2026-05-06",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-05-10-seekapa-otp-verification-flow.md",
+   "title": "v110.1 — Email-OTP Verification Flow (supersedes v110)",
+   "cluster": "work-archive",
+   "status": "spec — pending approval before implementation",
+   "lines": 324,
+   "bytes": 19381,
+   "date": "2026-05-10",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-05-13-ado-pr-review/README.md",
+   "title": "ADO PR Review via Foundry gpt-5.5 — Integration Bundle",
+   "cluster": "work-archive",
+   "status": "spec only",
+   "lines": 103,
+   "bytes": 6073,
+   "date": "2026-05-13",
+   "consumers": 83,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-05-13-ado-pr-review/review-prompt.md",
+   "title": "review-prompt",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 51,
+   "bytes": 3706,
+   "date": "2026-07-24",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-05-13-hive-adoption-plan.md",
+   "title": "Hive Adoption Plan — Gas Town Roles, Auto-Beads, Unified Codex+Claude Bus",
+   "cluster": "work-archive",
+   "status": "spec — not yet implemented",
+   "lines": 354,
+   "bytes": 27588,
+   "date": "2026-05-13",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-05-17-systemd-hive-automation-map.md",
+   "title": "Systemd Hive Automation Map",
+   "cluster": "work-archive",
+   "status": "implemented v1",
+   "lines": 134,
+   "bytes": 4024,
+   "date": "2026-05-17",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-06-14-agent-orchestration-rewire-plan.md",
+   "title": "Agent Orchestration Rewire Plan",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 457,
+   "bytes": 16450,
+   "date": "2026-06-14",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-06-25-local-intent-control-plane.md",
+   "title": "Local Intent Control Plane for Claude, Codex, and Hive",
+   "cluster": "work-archive",
+   "status": "spec delta",
+   "lines": 904,
+   "bytes": 37289,
+   "date": "2026-06-25",
+   "consumers": 8,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-06-28-work-general-mojuco-artifixer-foundry-plan.md",
+   "title": "Work-General Mojuco + Artifixer + Foundry Plan",
+   "cluster": "work-archive",
+   "status": "spec delta and implementation plan",
+   "lines": 1559,
+   "bytes": 48004,
+   "date": "2026-06-28",
+   "consumers": 8,
+   "near": []
+  },
+  {
+   "path": "work-docs/specs/2026-07-09-harness-maturity-plan.md",
+   "title": "Harness Maturity Plan (PRD delta) - 2026-07-09",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 63,
+   "bytes": 3148,
+   "date": "2026-07-09",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/testing_practices.txt",
+   "title": "1. The Modern Testing Pyramid (Evolved)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 456,
+   "bytes": 6880,
+   "date": "2026-07-24",
+   "consumers": 17,
+   "near": []
+  },
+  {
+   "path": "work-docs/thesis_review_2026-07-30.md",
+   "title": "Review: Beer MSc thesis, and the deck that presents it",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 1437,
+   "bytes": 82692,
+   "date": "2026-07-30",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/weekly-plan-2026-05-10.md",
+   "title": "Weekly Plan — Week of 2026-05-10 (Sun–Thu)",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 95,
+   "bytes": 6833,
+   "date": "2026-05-10",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/wiki-drafts/2026-06-30-hedg-training-platform-wiki.md",
+   "title": "HEDG Training Platform",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 380,
+   "bytes": 28922,
+   "date": "2026-06-30",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/wiki/Architecture.md",
+   "title": "Architecture",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 184,
+   "bytes": 8702,
+   "date": "2026-07-24",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/wiki/Compliance.md",
+   "title": "Compliance",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 85,
+   "bytes": 3593,
+   "date": "2026-07-24",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/wiki/Conversation-Design.md",
+   "title": "Conversation-Design",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 699,
+   "bytes": 69831,
+   "date": "2026-07-24",
+   "consumers": 4,
+   "near": [
+    [
+     "research-papers/docs-shoval/wiki/Conversation-Design.md",
+     0.648
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/wiki/Deployment.md",
+   "title": "Deployment",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 114,
+   "bytes": 3350,
+   "date": "2026-07-24",
+   "consumers": 3,
+   "near": []
+  },
+  {
+   "path": "work-docs/wiki/FAQ.md",
+   "title": "Customer-facing FAQ — Knowledge Base content",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 247,
+   "bytes": 13156,
+   "date": "2026-05-04",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/wiki/Getting-Started.md",
+   "title": "Getting Started",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 147,
+   "bytes": 3893,
+   "date": "2026-07-24",
+   "consumers": 2,
+   "near": []
+  },
+  {
+   "path": "work-docs/wiki/Home.md",
+   "title": "CS Agents",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 77,
+   "bytes": 3830,
+   "date": "2026-04-29",
+   "consumers": 4,
+   "near": [
+    [
+     "research-papers/docs-shoval/wiki/Home.md",
+     0.745
+    ]
+   ]
+  },
+  {
+   "path": "work-docs/wiki/Knowledge-Base.md",
+   "title": "Knowledge Base",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 55,
+   "bytes": 4596,
+   "date": "2026-04-29",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/wiki/Markets-and-Jurisdictions.md",
+   "title": "Markets and Jurisdictions",
+   "cluster": "work-archive",
+   "status": "draft — needs compliance/legal review before publishing to customer-facing kb",
+   "lines": 74,
+   "bytes": 5267,
+   "date": "2026-05-04",
+   "consumers": 4,
+   "near": []
+  },
+  {
+   "path": "work-docs/wiki/QC-Transcribe-API.md",
+   "title": "QC Telephony API",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 559,
+   "bytes": 28066,
+   "date": "2026-07-24",
+   "consumers": 1,
+   "near": []
+  },
+  {
+   "path": "work-docs/wiki/Seekapa-Facts.md",
+   "title": "Seekapa Facts — Numerical Source of Truth",
+   "cluster": "work-archive",
+   "status": "",
+   "lines": 160,
+   "bytes": 4216,
+   "date": "2026-05-06",
+   "consumers": 1,
+   "near": []
+  }
+ ]
+}

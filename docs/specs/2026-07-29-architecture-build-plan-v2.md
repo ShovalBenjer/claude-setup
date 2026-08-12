@@ -1,5 +1,7 @@
 # Architecture build plan v2, 2026-07-29 (supersedes v1 the same day)
 
+Status: active. Plan of record; supersedes v1 the same day.
+
 v1 called itself "full scope" and "plan of record" after reading TODO.md and its
 own session memory. The operator refused it. This version was written after the
 sweep v1 skipped, and the sweep changed the plan's SHAPE, not just its contents.

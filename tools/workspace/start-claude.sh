@@ -30,11 +30,19 @@ WORK="$HOME/work/repos"
 WIN="/mnt/c/Users/shova"
 
 # lane|description|ext4 dir|fallback dir
+#
+# Fallbacks corrected 2026-07-31. All three pointed under $WIN/Downloads, which a
+# declutter sweep emptied that morning; the repos now sit directly under $WIN. So
+# every fallback was dead while the table still looked complete. Same class as the
+# LANE_MAP defect in tools/bus/bus.py, fixed the same day: a lookup table whose
+# entries stopped resolving and whose failure mode is silence.
+# Verified with `[ -d ]`: $WIN/new-recruit and $WIN/daily-deep-learning exist,
+# $WIN/Downloads/daily-deep-learning does not.
 LANES=(
   "A|harness: rules, hooks, skills, schedulers, review fabric|$WORK/claude-setup|$WIN/claude-setup"
-  "B|resume engine: hiring machine, arms, applications|$WORK/new-recruit|$WIN/Downloads/new-recruit"
-  "C|learning: the PWA, learning cards, study loops|$WORK/daily-deep-learning|$WIN/Downloads/daily-deep-learning"
-  "D|content and publishing: case ledgers, syndication; operator posts|$WORK/daily-deep-learning|$WIN/Downloads/daily-deep-learning"
+  "B|resume engine: hiring machine, arms, applications|$WORK/new-recruit|$WIN/new-recruit"
+  "C|learning: the PWA, learning cards, study loops|$WORK/daily-deep-learning|$WIN/daily-deep-learning"
+  "D|content and publishing: case ledgers, syndication; operator posts|$WORK/daily-deep-learning|$WIN/daily-deep-learning"
 )
 
 # Where a project may live. Bounded on purpose: an unbounded scan of the home tree takes

@@ -1,869 +1,930 @@
 {
- "generated": "2026-07-31",
- "lane": "A",
- "repo": "ShovalBenjer/claude-setup",
- "project": {
-  "owner": "ShovalBenjer",
-  "number": 3,
-  "title": "Zion"
- },
- "_note": "Machine source for the GitHub publish, superseding 2026-07-30. Epics become issues with task checklists; subtasks stay as checkboxes so the board stays readable. Every row traces to a measurement or a dated finding, not to a wish. New in this revision: priority (P0-P3), ingestion (S1-S6) and estimate per epic. Ingestion is the unit that matters right now because the operator is mid-apartment-move: S1 fits a 25-minute gap, S6 needs a clear day. Publish with: python tools/ghpub/publish_backlog.py --source state/github-backlog-2026-07-31.json --execute --update --project 2026-07-31 second revision: adds lane, autonomy and evidence_state per epic, which the board carried and the source did not. lane is 'A harness' per ADR-0016, replacing the retired B letter every item on the board still claimed. autonomy is imported from the operator's hand-set values on Zion so the migration preserves judgement rather than regenerating over it; 0 epic(s) had none and default to agent-drafts. evidence_state is COMPUTED, not judged: an epic with at least one DONE task is 'measured', otherwise 'unmeasured'. It replaces the Evidence TEXT field, which held one identical string on 23 of 26 items and was therefore a constant.",
- "milestones": [
-  {
-   "title": "M1 Instruments trustworthy",
-   "description": "The harness's own oracles can be believed: no self-invalidating gate, no unproven selftest, no dead pointer reporting success."
+  "generated": "2026-07-31",
+  "lane": "A",
+  "repo": "ShovalBenjer/claude-setup",
+  "project": {
+    "owner": "ShovalBenjer",
+    "number": 3,
+    "title": "Zion"
   },
-  {
-   "title": "M2 Consolidation and shrinkage",
-   "description": "One canonical tree, GitHub-backed clones removed, 1682 tracked files down under 600, licensing blockers resolved."
-  },
-  {
-   "title": "M3 Delegation that has actually run",
-   "description": "Native hook wiring, ACP over the bespoke bridge, personas as files with reputation, and one measured workflow run."
-  },
-  {
-   "title": "M4 Design with an anchor",
-   "description": "DESIGN.md and tokens with a parity guard, taste ledger rows for UI, The Construct bound to real ledgers."
-  },
-  {
-   "title": "M5 Autonomy and CI",
-   "description": "The gate runs in CI, releases are structured, repo standards maintained by an agent."
-  }
- ],
- "labels": [
-  {
-   "name": "epic",
-   "color": "5319e7",
-   "description": "Parent work item with a task checklist"
-  },
-  {
-   "name": "instrument",
-   "color": "0e8a16",
-   "description": "Oracle, gate, or verifier"
-  },
-  {
-   "name": "blocked-operator",
-   "color": "b60205",
-   "description": "Needs an operator decision nobody else can make"
-  },
-  {
-   "name": "licensing",
-   "color": "d93f0b",
-   "description": "License or trademark exposure"
-  },
-  {
-   "name": "drift",
-   "color": "fbca04",
-   "description": "Repo and live tree disagree"
-  },
-  {
-   "name": "native-surface",
-   "color": "1d76db",
-   "description": "Claude Code capability not yet wired"
-  },
-  {
-   "name": "design",
-   "color": "c2e0c6",
-   "description": "Visual or UI work"
-  },
-  {
-   "name": "absorption",
-   "color": "bfd4f2",
-   "description": "External resource evaluated, verdict owed"
-  },
-  {
-   "name": "measured",
-   "color": "006b75",
-   "description": "Carries a number produced on this machine"
-  },
-  {
-   "name": "P0",
-   "color": "b60205",
-   "description": "Dated or blocking: a waiver expiry, at-risk uncommitted work"
-  },
-  {
-   "name": "P1",
-   "color": "d93f0b",
-   "description": "Instrument trust, or a measured breakage with evidence on disk"
-  },
-  {
-   "name": "P2",
-   "color": "fbca04",
-   "description": "Real work with no deadline pressure"
-  },
-  {
-   "name": "P3",
-   "color": "0e8a16",
-   "description": "Wanted, not urgent; needs a clear day"
-  },
-  {
-   "name": "prose-gate",
-   "color": "5319e7",
-   "description": "The prose oracle and what it can and cannot see"
-  },
-  {
-   "name": "external",
-   "color": "c5def5",
-   "description": "Work owed to someone outside this repo"
-  }
- ],
- "epics": [
-  {
-   "title": "EPIC: Gate and fingerprint integrity",
-   "milestone": "M1 Instruments trustworthy",
-   "labels": [
-    "epic",
-    "instrument",
-    "measured",
-    "P0"
-   ],
-   "body_intro": "The gate must be able to fail, and its verdict must describe the tree it was recorded against. Two instances of the self-invalidating class were fixed on 2026-07-30; the rest of this epic is what is still unproven.",
-   "tasks": [
-    "DONE 2026-07-30: HARNESS_OUTPUTS excludes state/prompt-tickets.jsonl and state/skill-use.jsonl from the tree fingerprint. Four fingerprints across four turns of one session (76378e5f, 05fdfc73, b10cfce6, 9f0ccd38) each had a green run rejected at the Stop boundary. Two mutants, 12 tests, round-trip verified identical before and after a run",
-    "Wire tools/docmap into the gate docs domain. It exists, checks clean on 929 documents, and nothing enforces it on future commits",
-    "Mutation control proving the docmap selftest can go red, so it meets the repo's own four-layer standard",
-    "DONE 2026-07-31: closed by fixing the oracle, not renewing the waiver. Two defects and neither was comments. sql-concat required a SQL verb and a concatenation but never required SQL, so English prose (Delete ~380 lines ... + their selftest) was a HIGH; and added_lines reported lines this branch added and later deleted, which is what both py-shell-true hits were, cited against line numbers now holding the comment about the deletion. Fixed with two lookaheads and drop_stale_lines. 20 pinned cases, mutate --spec panel 10/10 caught, panel 5 high to 0 high. The rewrite also closed a hole: an f-string SQL query never matched before. Waiver replaced 2026-08-12 to 2026-08-02, recording the old reason as measurably wrong rather than deleting it",
-    "Selftest ledger pollution: workflow-spawned selftests wrote 5 scratch-repo rows into the real state/gate-runs.jsonl and produced FAIL-then-PASS on one tree fingerprint. Selftests need an isolated ledger",
-    "C-025 is REFUTED as of 2026-07-30: six __pycache__ files sit in the pre-write snapshot and are absent from its own manifest, so the pending live settings.json write is no longer provably revertable",
-    "Two broken verifiers in the refutation run: 26 claims, 22 held, 2 refuted, 2 broken. A broken verifier is unknown, not a pass. Identify and repair both",
-    "Print the joint claim under gate.py run VERDICT: which domains were N/A, why, and what a PASS does not assert (RT-3)"
-   ],
-   "priority": "P0",
-   "session": "S2",
-   "estimate": "45 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "measured"
-  },
-  {
-   "title": "EPIC: Reconcile the contradictions the repo states about itself",
-   "milestone": "M1 Instruments trustworthy",
-   "labels": [
-    "epic",
-    "instrument",
-    "P1"
-   ],
-   "body_intro": "Each row is a place where a file in this repo asserts something measurably false. Corrections are appended, never rewritten, per the repo's own convention.",
-   "tasks": [
-    "Root CLAUDE.md is UNTRACKED. The file governing every session is not in the repository",
-    "CLAUDE.md claims 70 tests. pytest --collect-only reports 219. The number moved twice in one day, which is the argument for deriving it rather than asserting it",
-    "Append a correcting row to state/claims.jsonl for the 2026-07-30 row that says lane B for harness work",
-    "Correct the 993-gate-verdicts figure: 59 real runs, with 748 of 1648 ledger rows being selftest scratch",
-    "docs/INDEX.md line 8 still describes the pre-ADR-0016 lane letters",
-    "docs/HANDOFF-2026-07-30-overnight-run.md is stale: it says Phase A5 is next when A5 and B are done, and carries the retracted 9 percent coverage figure. Defensible figure is 31 percent, 23 of 74 lifecycle documents",
-    "DONE 2026-07-30: model-selection.md effort correction. Live effortLevel is low, not the xhigh the rule asserts"
-   ],
-   "priority": "P1",
-   "session": "S3",
-   "estimate": "60 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "measured"
-  },
-  {
-   "title": "EPIC: Dead pointers, stubs, and repo-versus-live drift",
-   "milestone": "M1 Instruments trustworthy",
-   "labels": [
-    "epic",
-    "drift",
-    "measured",
-    "P1"
-   ],
-   "body_intro": "A hook that cannot run fails open and reports nothing. These are the paths that do not exist and the units that are not deployed.",
-   "tasks": [
-    "261 distinct absent paths from pointers.py scan. Most-referenced is ~/.claude/bin/work-item.sh at 40 references",
-    "skills_sync.py check reports DRIFT, 52 items needing a decision. A visible cluster are 37 to 44 byte stubs whose contents point at /home/shovalbe/.codex/..., a Linux path that has never existed on this machine",
-    "14 hook bodies are 44 to 61 byte pointers with recoverable bodies in dot-codex/; 24 skill stubs likewise",
-    "dot-agents has no deploy target: ~/.agents is absent, 0 of 231 units live. The ecosystem moved from .claude to .agents in six weeks, evidenced by mattpocock/skills changing its own description between the operator's two saves",
-    "out-of-distribution.md instructs loading a dataviz skill that does not exist anywhere. Only work-docs/data-viz-skill.txt",
-    "blonde-designer, ui-ux-pro-max and requirement-anchor are in the repo and not deployed, so no session can load them",
-    "github/ without the dot is a dead staging duplicate. Actions reads .github/ only. Delete",
-    "whatsapp-query leaves 86.9 MB of decrypted plaintext on disk after a query. Measured 2026-07-30, second occurrence. Fix belongs in the skill, not in a habit"
-   ],
-   "priority": "P1",
-   "session": "S3",
-   "estimate": "60 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Phase D reclamation",
-   "milestone": "M2 Consolidation and shrinkage",
-   "labels": [
-    "epic",
-    "P2"
-   ],
-   "body_intro": "tools/reclaim/reclaim.py is written, dry-run by default, requires --execute plus a separate --allow-delete, re-runs invariants immediately before acting, and writes its manifest row before the action then fsyncs.",
-   "tasks": [
-    "Dry-run over the full candidate set and read the manifest before executing",
-    "Execute with Pictures EXCLUDED ENTIRELY per operator instruction, which withdrew a verified 13.58 GiB row",
-    "Documents untouched: it holds the only copy of coursework and a passport scan",
-    "wa-export-archive: 681,703,931 bytes are genuinely disposable, not the ~156 MB first reported, because the 519 MB claude-setup-FULL-20260508.zip became disposable once its 10 unique files were extracted",
-    "oren-roast-hq: delete only .claude/worktrees/button-rewire/node_modules, reclaiming 541 MB of 543 MB. Do not touch the worktree itself, its tree carries a modified .env",
-    "Keep state/reclaim-manifest.jsonl current"
-   ],
-   "priority": "P2",
-   "session": "S5",
-   "estimate": "half day",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Shrink 1682 tracked files to under 600",
-   "milestone": "M2 Consolidation and shrinkage",
-   "labels": [
-    "epic",
-    "measured",
-    "P2"
-   ],
-   "body_intro": "The operator's read is that a repo of this size for what it does needs heavy shrinkage. These are the measured targets, largest first.",
-   "tasks": [
-    "126 tracked automations/last-messages/*.md are cron run outputs, one per firing, with a single sweep accounting for roughly 45. They are logs",
-    "237 vendored third-party files are tracked. The prior-art gate already marks seven of these directories out of scope",
-    "Collapse the dot-* triplication: 59 paths have drifted between dot-claude, dot-codex and dot-agents copies. Drift is a correctness defect, not only waste",
-    "Split research-papers/ and work-docs/ out. 176 work-docs and 135 corpus files carry no lifecycle status",
-    "deep-research and ui-ux-pro-max exist twice with 28 and 4 differing entries respectively, which is a sync defect rather than a build-versus-buy question"
-   ],
-   "priority": "P2",
-   "session": "S4",
-   "estimate": "90 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: WSL2 migration and the terminal launcher",
-   "milestone": "M2 Consolidation and shrinkage",
-   "labels": [
-    "epic",
-    "measured",
-    "P3"
-   ],
-   "body_intro": "Measured boundary cost: git status 109ms native Windows, 12,018ms across /mnt/c from Linux, 69ms on ext4. The penalty is directional, not symmetric.",
-   "tasks": [
-    "Move work projects, global and project level, from Windows to WSL2 ext4, never /mnt/c",
-    "tools/workspace/start-claude.sh is written: ext4 first with a /mnt/c fallback and a visible 9P warning. Keep the chooser, do not pin a lane",
-    "Kitty as the terminal, customized, reachable for Linux via the wsl.localhost path",
-    "Update the Desktop shortcut to launch Kitty into WSL with the new setup",
-    "Rust-first convention for new code; bun and bunx rather than npm"
-   ],
-   "priority": "P3",
-   "session": "S6",
-   "estimate": "full day",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Commit the at-risk work and settle absorption verdicts",
-   "milestone": "M2 Consolidation and shrinkage",
-   "labels": [
-    "epic",
-    "absorption",
-    "P0"
-   ],
-   "body_intro": "ADR-0017 settled that claude-setup holds the authoritative intent-control-plane, with a runnable falsifier. That makes the uncommitted edits the only genuinely at-risk work in the tree.",
-   "tasks": [
-    "Commit intent-control-plane cli.py and schema.py: 125 and 48 net lines, newer than the new-recruit copy",
-    "56 of 57 saved GitHub repos are resolved with stars, license, archived and fork status in state/saved-repos-2026-07-30.json. Record a four-state verdict per repo in a durable ledger, not a dated analysis",
-    "Metadata triage is not a reading pass. 14 repos are LEAVE on archived, fork or stale evidence; the ranked file-by-file pass is still owed",
-    "Resolve or retire covibes/zerosho, the one name that resolves to nothing",
-    "Regenerate the link extract from the message store rather than self-chat-links-2026-07-29.csv, which is a day stale and misses ACP, goose and no-ai-slop",
-    "ABSORB-01: the prior-art schema cannot express absorption. All 27 records share 14 fields and none names what was taken. Add absorbed and absorption_status, backfill, and fail on unset",
-    "ABSORB-02: point-in-time reconstruction for the gitignored ledgers that have no history at all",
-    "ABSORB-03: albert's two mechanisms, rebuilt not copied under PolyForm Noncommercial. Worktree isolation per concurrent producer, and producers never grading themselves",
-    "ABSORB-07: the saved-link corpus, 806 unique URLs over 14 months, still unwired",
-    "ABSORB-08: vulture adopted, 0 findings at 80 percent confidence and 70 at 60 percent, 57 of them inside intent-control-plane. Triage the 70, measure whole-module connectivity, wire uvx vulture into the gate"
-   ],
-   "priority": "P0",
-   "session": "S1",
-   "estimate": "25 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Licensing and privacy blockers on going public",
-   "milestone": "M2 Consolidation and shrinkage",
-   "labels": [
-    "epic",
-    "licensing",
-    "blocked-operator",
-    "P1"
-   ],
-   "body_intro": "Branch protection on a private repo needs GitHub Pro, so the alternative is publishing. These are the things that must be resolved before this repository can be public.",
-   "tasks": [
-    "docs/analysis/reference/coherence-governor-AGENTS.md is a tracked verbatim 17,923-byte copy of Master0fFate/just-my-skills AGENTS.md, which carries NO LICENSE. All rights reserved. Summarise and link, request a license, or accept the repo stays private. OPERATOR DECISION",
-    "research-papers/el-vadt holds Arabic sales-call transcript analysis, third-party PII",
-    "17 of 56 saved repos carry no usable license, so they are concepts-only. amirfish1/claude-command-center is one of them, and AUTO-19 plans to take from it",
-    "Do not vendor brand-derived design systems (apple, bmw, bugatti, binance, cisco) from open-design. Apache-2.0 covers their code, not third-party trademarks",
-    "No push of any no-remote repo until a credential audit has run over EVERY commit tree, not just HEAD"
-   ],
-   "priority": "P1",
-   "session": "S4",
-   "estimate": "90 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Wire the Claude Code native surface we already pay for",
-   "milestone": "M3 Delegation that has actually run",
-   "labels": [
-    "epic",
-    "native-surface",
-    "measured",
-    "P1"
-   ],
-   "body_intro": "Audited 2026-07-30 from live settings and the live tree: 7 of 9 hook events wired, 23 subagents, 36 live skills, custom statusline. See docs/analysis/2026-07-30-native-surface-audit.md.",
-   "tasks": [
-    "SubagentStop hook. The only native point that can gate a subagent's output BEFORE it returns, which is exactly where the agreement gate belongs. Referenced nowhere except three 2026-05 master plans",
-    "An output style. ~/.claude/output-styles is absent and no output-style file exists in the repo, while completion_gate.py polices the response channel with regexes after generation",
-    "CLAUDE.md @import. Never used. open-design ships an 11-byte CLAUDE.md containing @AGENTS.md; we hand-maintain five overlapping files",
-    "Project-scoped .mcp.json so MCP configuration is versioned with the repo instead of user-global",
-    "SessionEnd hook, so durable handoff no longer depends on PreCompact firing",
-    "Install at least one plugin. The claude-plugins-official marketplace was registered 2026-07-30T12:43 and zero plugins are installed",
-    "ctrl+b backgrounding friction and the other harness behaviours the operator wants customized"
-   ],
-   "priority": "P1",
-   "session": "S3",
-   "estimate": "60 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Replace the bespoke agent bridge with ACP",
-   "milestone": "M3 Delegation that has actually run",
-   "labels": [
-    "epic",
-    "absorption",
-    "measured",
-    "P2"
-   ],
-   "body_intro": "~/.claude/cache/a2a/audit.jsonl DOES NOT EXIST. The dispatch skill declares it the canonical record of every agent-to-agent call, so zero external dispatches have ever happened. The bridge is fully deployed and has never fired.",
-   "tasks": [
-    "Evaluate agentclientprotocol/agent-client-protocol, Apache-2.0, JSON-RPC 2.0 over stdin/stdout, published by Zed August 2025, adopted by JetBrains, GitHub Copilot CLI in January 2026, Gemini CLI as first external integration, and Microsoft Intelligent Terminal 0.1 on 2 June 2026",
-    "kilo acp already exists in the installed Kilo CLI 7.3.12, so ACP can be tested without writing an adapter",
-    "aaif-goose/goose, Apache-2.0, is a native ACP server and a candidate second actor",
-    "Reconcile ADR-0007. Its amendment moved the reviewer role off Codex because the subscription was cancelled, but Codex is included in ChatGPT Free at zero cost with CLI access via sign-in, and the codex CLI plus a2a-codex-call.sh are already installed here",
-    "An oracle that fails when the agreement gate is claimed and audit.jsonl shows no call for the current commit. Today the absence was only discoverable by thinking to look",
-    "Correct the claim that Claude Code speaks ACP. What is documented is Zed running Claude Code as an external agent, which is Zed adapting"
-   ],
-   "priority": "P2",
-   "session": "S5",
-   "estimate": "half day",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Implement the persona review economy",
-   "milestone": "M3 Delegation that has actually run",
-   "labels": [
-    "epic",
-    "instrument",
-    "P2"
-   ],
-   "body_intro": "docs/specs/2026-07-23-persona-review-economy.md is a complete design with seven unchecked acceptance boxes, zero implementation, and a Status field that says active. dot-claude/personas/ does not exist and neither does ~/.claude/personas/.",
-   "tasks": [
-    "Persona contracts as one YAML per persona under dot-claude/personas/, with no model named in any of them",
-    "Separate persona_rep and model_rep ledgers, because the question is whether the ROLE is wrong or the ACTOR is weak",
-    "Thompson allocator per aspect, with a minimum-exploration floor so the market cannot collapse to one persona",
-    "The hard decorrelation constraint: personas whose findings are compared must be enacted by different model families",
-    "PIP quarantine with a sandbox re-admit, firing as proposal plus operator approval, and coverage-gap driven recruitment",
-    "Leaderboard in the daily digest, which is the spec's own final acceptance line",
-    "Reconcile the taxonomies. The spec enum is correctness, security, boundary, simplicity, perf, slop, tests, a11y. The operator's 2026-07-30 axes are safety, correctness, usability, compatibility, performance. usability and compatibility are additions; safety must be reconciled against security",
-    "Add a compatibility domain to quality-contract.json, or state why not"
-   ],
-   "priority": "P2",
-   "session": "S5",
-   "estimate": "half day",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Kilo Code integration with a deadline",
-   "milestone": "M3 Delegation that has actually run",
-   "labels": [
-    "epic",
-    "blocked-operator",
-    "P2"
-   ],
-   "body_intro": "Kilo emailed on 2026-07-30 at 12:50: Code Reviewer custom instructions move to a REVIEW.md file in the repo and the UI text box is REMOVED FOR EVERYONE ON 31 AUGUST. Their trigger UI is browser-only; kilo CLI 7.3.12 has no trigger, webhook or cloud command.",
-   "tasks": [
-    "Migrate custom instructions to REVIEW.md before 2026-08-31. Their automated path spawns one cloud agent per repo that writes the file and opens a PR",
-    "Existing trigger verified: one Active webhook created 2026-07-30, targeting ShovalBenjer/daily-deep-learning. That scoping keeps claude-setup out of reach of an auto-committing agent",
-    "Harden the trigger template. Their docs warn webhook payloads are a prompt-injection surface, so {{body}} must not land in instruction position, and the secret header name must match what the trigger actually has set",
-    "Auto and YOLO mode is not optional for cloud agents per their docs: the agent modifies code without confirmation and can auto-commit. Decide reviewer contract versus implementer contract. OPERATOR DECISION",
-    "Compute is free during limited beta but Kilo Code credits are still consumed"
-   ],
-   "priority": "P2",
-   "session": "S4",
-   "estimate": "90 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Run one workflow under the routing the rules prescribe",
-   "milestone": "M3 Delegation that has actually run",
-   "labels": [
-    "epic",
-    "native-surface",
-    "P1"
-   ],
-   "body_intro": "workflowKeywordTriggerEnabled is true in live settings and Workflow is a first-party tool routed through the same agent registry as the Agent tool, so the 23 agent definitions here are eligible for free. A grep for ultracode returns only prose, never code.",
-   "tasks": [
-    "Write and run one workflow under model-selection.md's prescribed routing: measurement and mechanical stages on sonnet or haiku at low effort, adversarial verify and judge on opus or fable at xhigh",
-    "Record the run so the gate has a concept of it. No ledger of workflow runs exists",
-    "Measure the result against the axes the fable falsifier named, so that routing row stops being a hypothesis",
-    "GEPA-style prompt optimizer: chosen by the operator, not started"
-   ],
-   "priority": "P1",
-   "session": "S2",
-   "estimate": "45 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Design foundations that do not exist yet",
-   "milestone": "M4 Design with an anchor",
-   "labels": [
-    "epic",
-    "design",
-    "P2"
-   ],
-   "body_intro": "out-of-distribution.md requires anchoring picks to a real reference and locking approved directions into DESIGN.md. No DESIGN.md exists anywhere in this repository, and docs/taste.md has two rows, neither about UI.",
-   "tasks": [
-    "Create DESIGN.md. Adopt open-design's section skeleton: theme and atmosphere, colour with per-token rationale, typography with families and weights, spacing scale, layout, components, motion with an explicit state list, voice",
-    "A token file plus a parity guard, so DESIGN.md cannot silently drift from the tokens it claims to describe. This is open-design's A2 defaults parity idea and it is what makes a DESIGN.md an oracle rather than a wish",
-    "Run /diverge on a real UI decision and write the first taste.md UI row. Rule 1 forbids the mode as a final answer and it has never been enforced on a visual choice",
-    "Create the dataviz skill the out-of-distribution rule already instructs sessions to load",
-    "Deploy blonde-designer, ui-ux-pro-max and requirement-anchor, or delete them"
-   ],
-   "priority": "P2",
-   "session": "S5",
-   "estimate": "half day",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: The Construct v4, bound to real ledgers",
-   "milestone": "M4 Design with an anchor",
-   "labels": [
-    "epic",
-    "design",
-    "instrument",
-    "P3"
-   ],
-   "body_intro": "v3 fabricated every number, which its own Tweaks panel exposed through tickMs and critRate sliders. The refactor brief is written. This epic is the implementation of it.",
-   "tasks": [
-    "Decide the medium and commit. v3 targets Python Textual and shipped web HTML, and its own fix log reads 'added flex:none', which Textual CSS does not have",
-    "Three named directions with stated p_conventional, at least two below 0.30, operator picks before implementation",
-    "Every panel names its source file: gate-runs.jsonl, refutations.jsonl, bus.jsonl, reviews/<sha>.json, claims.jsonl, skill-use.jsonl, prompt-tickets.jsonl",
-    "Three states per panel: populated, stale against a different tree fingerprint, and never-run. The third is the state this system is in most often and v3 cannot draw it",
-    "Signature panel is the reliability diagram from 03-llm-agent-eval.md, shipped in its EMPTY state first, because RT-1 says the inputs are not logged so the curve is not computable",
-    "Coverage view from 02-coverage-metrics.md: PaCMAP projection, covered green, uncovered red, ground truth as stars, white gaps as the visible backlog",
-    "Resolve the reward inversion. A failed assertion currently triggers a critical hit, loot and HP loss, so progress means more failing tests",
-    "Scope fail-fast: asserts in pure logic and the test pipeline, displayed faults in ledger readers and the render path",
-    "Correct four factual errors in the brief: OKF is Open Knowledge Format from Google Cloud on 12 June 2026 and is a document format not a dependency graph; ACP is editor-to-agent JSON-RPC not a telemetry bus; the aspect enum already exists; the repo matrix should be claude-setup and new-recruit, not solosolve-ai"
-   ],
-   "priority": "P3",
-   "session": "S6",
-   "estimate": "full day",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Absorb open-design and OpenGame",
-   "milestone": "M4 Design with an anchor",
-   "labels": [
-    "epic",
-    "absorption",
-    "measured",
-    "P3"
-   ],
-   "body_intro": "Two candidates reviewed 2026-07-30. open-design: 82,683 stars, Apache-2.0, created 2026-04-28, pushed today, 48 CI workflows. OpenGame: 2,763 stars, Apache-2.0, three contributors, LAST PUSH 2026-04-22.",
-   "tasks": [
-    "open-design verdict INSTALL AS IS. It ships as a Claude Code plugin exposing 139 skills over stdio via a local od daemon. Verify od has a Windows path first, since brew and DMG are macOS and only npm would work here",
-    "Absorb three patterns from its 152-system corpus: the fixed v1 filenames per package, the DESIGN.md convention, and the guard that fails when the human-readable mirror drifts from the machine source",
-    "Do not adopt figma-plugin. The operator has not used Figma since leaving his job, and this repo IS the Figma alternative rather than a bridge to it",
-    "OpenGame verdict CONCEPTS ONLY, two concepts. It is dormant, three contributors, and GameCoder-27B is infrastructure we do not have",
-    "Concept one: OpenGame-Bench scores agentic generation on Build Health, Visual Usability and Intent Alignment via headless browser execution plus VLM judging. That is a concrete shape for our e2e and a11y_ux domains, both currently N/A and therefore failing by our own rule",
-    "Concept two: their Debug Skill maintains a living protocol of VERIFIED FIXES. We accumulate failure classes in lessons.jsonl and falsifiers in refutations.jsonl and accumulate no fixes",
-    "petergyang/no-ai-slop, MIT, 20-plus slop patterns: compare against tools/slop_lint.py and take what MIT permits",
-    "JuliusBrussee/caveman claims 65 percent token reduction and belongs in the RTK prior-art record as a direct alternative"
-   ],
-   "priority": "P3",
-   "session": "S6",
-   "estimate": "full day",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Get the gate running in CI",
-   "milestone": "M5 Autonomy and CI",
-   "labels": [
-    "epic",
-    "instrument",
-    "blocked-operator",
-    "P1"
-   ],
-   "body_intro": "The twelve-domain gate has never run in CI. ship-gate.yml was never pushed and local main is 25 commits ahead. ADR-0012 says autonomy ships only through the PR gate, which makes this the load-bearing gap in the autonomy story.",
-   "tasks": [
-    "Push ship-gate.yml and observe one real CI run. Note the pipeline domain greps the workflow files for a literal gate.py run invocation, so renaming or wrapping it breaks the check",
-    "Write gemini-review.yml. AUTO-10 unblocked on 2026-07-24 when the secret landed and the workflow has still never been written, so ADR-0004's decorrelated agreement gate is prose",
-    "Branch protection costs money on a private repo or requires publishing. Not money alone, which is how it was first reported. OPERATOR DECISION",
-    "Wire Codex against ADR-0007, which the free-tier finding makes cheaper than it looked. OPERATOR DECISION"
-   ],
-   "priority": "P1",
-   "session": "S2",
-   "estimate": "45 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: GitHub repo standards maintained by an agent",
-   "milestone": "M5 Autonomy and CI",
-   "labels": [
-    "epic",
-    "P2"
-   ],
-   "body_intro": "Operator standard: use all of GitHub's free features and maintain them with an agent as part of repo standards. Reference point measured 2026-07-30: open-design runs 48 workflows, a 152,736-byte CHANGELOG, a separate release-notes file, and cut-release, cut-patch-release, backport, backport-label-guard and backport-automerge workflows.",
-   "tasks": [
-    "Discussions as the public brainstorming surface agents can post to",
-    "SemVer with a hand-written CHANGELOG and structured tags and releases. Not a release every six hours",
-    "PR-to-issue linking enforced by CI",
-    "Full free-feature inventory with a named maintenance owner per feature",
-    "Every ticket that has a repo on GitHub should have issues, which is the gap this backlog publish is closing",
-    "Wire codex, kilocode, Claude code review, gemini, qwen and nvidia to the Zion project board"
-   ],
-   "priority": "P2",
-   "session": "S4",
-   "estimate": "90 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Autonomy ecosystem backlog",
-   "milestone": "M5 Autonomy and CI",
-   "labels": [
-    "epic",
-    "P2"
-   ],
-   "body_intro": "The AUTO rows from docs/prd/autonomy-ecosystem.md that remain open. AUTO-05 was closed by retiring lane A; ADR-0016 renumbered the letters on 2026-07-30.",
-   "tasks": [
-    "AUTO-06 ecosystem.db bootstrap from the intent-control-plane schema, unblocked now that ADR-0017 settled which copy is authoritative. Unblocks work-claims and FleetView",
-    "AUTO-11 merge-policy labels and auto-merge for auto:low",
-    "AUTO-09 scale the nightly to tier-1 repos after seven clean days",
-    "AUTO-12, 13, 14 social: excavate the bundle into a draft-first pipeline",
-    "AUTO-17 research stage in the weekly self-improve cron",
-    "AUTO-18 register the real scheduled tasks and observe one unattended fire. The S4U passwordless probe already succeeded and was removed",
-    "AUTO-19 FleetView: specced with a 12-row feature table, five premortems and an 18-item checklist, zero code",
-    "AUTO-20 reputation routing once runs-table volume exists",
-    "AUTO-15 split the resume rails into verifiable rows",
-    "Decide the undeployed enforcement layer: PreToolUse protect-infra and rtk-bash-guard, Stop stop-checklist and verification-before-completion and contract-proof-stop, PostToolUse skill-usage-logger. These are the checks that would have caught L003 and L009 mechanically"
-   ],
-   "priority": "P2",
-   "session": "S5",
-   "estimate": "half day",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Research transfer, five findings owed",
-   "milestone": "M1 Instruments trustworthy",
-   "labels": [
-    "epic",
-    "instrument",
-    "P2"
-   ],
-   "body_intro": "From docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md, ranked by value over effort. RT-1 blocks the reliability diagram in the dashboard epic.",
-   "tasks": [
-    "RT-1 log {claimed_confidence, action, verified_outcome} so the CLAUDE-OS.md autonomous threshold can be calibrated at all. The literature says self-reported confidence sits at 80 to 100 regardless of accuracy, which would make that threshold inert rather than protective",
-    "RT-2 decision ledger and rejection rate on the daily digest. Three ADRs rest on human approval and nothing records an approve or reject, so rubber-stamping is undetectable. A ratio that has never seen a rejection IS the finding",
-    "RT-3 print the joint claim under VERDICT",
-    "RT-4 fixture provenance for tools/skilleval plus one independent audit of the existing five before writing the next 42. Self-annotated labels are the BIRD defect at 52.8 percent annotation errors",
-    "RT-5 first metamorphic relation. Start with codemap: renaming one directory must change exactly one row. A grep for metamorphic across tools/ returns zero implementations"
-   ],
-   "priority": "P2",
-   "session": "S5",
-   "estimate": "half day",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: RTK adoption, measured rather than advertised",
-   "milestone": "M2 Consolidation and shrinkage",
-   "labels": [
-    "epic",
-    "measured",
-    "P3"
-   ],
-   "body_intro": "Installed 2026-07-30. rtk-ai/rtk v0.44.1, Apache-2.0, 73,967 stars, pushed 2026-07-28. Release zip verified against published SHA256 rather than piping their install script to a shell, rtk.exe placed in ~/.local/bin.",
-   "tasks": [
-    "MEASURED on this tree: 20 percent total saving across four commands, not the advertised 60 to 90. git status 25 percent, git diff --stat 11 percent, git log --oneline 0 percent, ls -la 68 percent. The win concentrates in directory listings",
-    "home-dotfiles/RTK.md states as a rule 'always prefix shell commands with rtk' and the binary was absent until today, so every command run before then violated a rule in our own dotfiles",
-    "Decide rtk-bash-guard.sh: deploy it, or delete the rule and the guard. A mandatory prefix nobody can enforce is the worst of the three",
-    "Add JuliusBrussee/caveman to the RTK prior-art record as the named alternative"
-   ],
-   "priority": "P3",
-   "session": "S6",
-   "estimate": "full day",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Supply-chain verification so adopting new tools is safe rather than refused",
-   "milestone": "M1 Instruments trustworthy",
-   "priority": "P1",
-   "session": "S4",
-   "estimate": "90 min",
-   "labels": [
-    "epic",
-    "instrument",
-    "measured",
-    "P1"
-   ],
-   "body_intro": "Position corrected 2026-07-30. Refusing `curl | sh` is not a policy, it is the absence of one, and it blocks adoption of a field that moves weekly. The operator's framing is right: use the open-source equivalents of JFrog Artifactory and Xray, then adopt safely. RTK was installed correctly the same day (release zip, SHA256 verified against the published checksums file, e9f2e26c...). Oak was refused because its documented install is a pipe to a shell. The difference between those two outcomes should be a process, not a mood.",
-   "tasks": [
-    "tools/supply/verify.py: record provenance (source URL, sha256, size, signature status, scanner verdict, decision, ts) to an append-only state/supply-chain.jsonl, and REFUSE to mark an artifact adopted with no recorded hash. Selftest plus mutation entry per the repo's four-layer convention",
-    "Evaluate and pick from the open-source Xray equivalents: Trivy, Grype plus Syft for SBOM, OSV-Scanner, cargo-audit, cargo-deny, cargo-vet, pip-audit, and sigstore cosign with SLSA provenance for signing",
-    "ADR stating the rule for a pipe-to-shell install: when it is acceptable, what the substitute is, and what evidence must exist before an artifact counts as adopted",
-    "A supply_chain domain in quality-contract.json so an unverified artifact FAILS the gate rather than passing because nobody looked",
-    "Backfill what is already installed: rtk.exe (hash on record), the claude-plugins-official marketplace clone, and whatever the WSL2 migration installs",
-    "Then reopen Oak against a verified artifact path, because the objection was never the tool and the operator is right that we cannot avoid adopting the new scene"
-   ],
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Point-in-time reconstruction for state that has no history",
-   "milestone": "M1 Instruments trustworthy",
-   "priority": "P2",
-   "session": "S5",
-   "estimate": "half day",
-   "labels": [
-    "epic",
-    "instrument",
-    "measured",
-    "P2"
-   ],
-   "body_intro": "ABSORB-02, deferred on 2026-07-25 as roughly 150 lines to be built 'only when a concrete need appears'. The need appeared three times in one session, which is the argument for building it now rather than the argument for deferring again.",
-   "tasks": [
-    "Driver 1: the review domain's waiver in quality-contract.json changed mid-session from 'until 2026-08-12' to 'until 2026-08-02' with an entirely different stated reason, and nothing on disk can say when it changed or by what",
-    "Driver 2: tools/review/panel.py line 11 asserted 'the codex binary is not installed' while codex-cli 0.146.0 was installed and ChatGPT-authenticated, for an unknown length of time, and two subagents read it as fact during one session",
-    "Driver 3: a git-repo census reported 1,870 repositories. 1,884 directories were our own leaked test fixtures and the true count is 28, so every conclusion drawn from that walk came from a number our own broken test produced",
-    "tools/timetravel/snapshot.py: content-addressed snapshots of the GITIGNORED ledgers with a committed manifest, so a ledger's value at a past moment is recoverable. Do not rebuild what git already gives for tracked files",
-    "The original need is still open and belongs to another lane: hiring_engine/ledger.sqlite holds 272 jobs, 4 applications and 21 approvals with zero history. That is a proposal row from here, not this lane's work"
-   ],
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: The prose gate measures the ruled form, not the property",
-   "milestone": "M1 Instruments trustworthy",
-   "priority": "P1",
-   "session": "S3",
-   "estimate": "60 min",
-   "labels": [
-    "epic",
-    "instrument",
-    "prose-gate",
-    "measured",
-    "P1"
-   ],
-   "body_intro": "L-2026-07-31-b. The operator read a 5.4k-word deliverable that had passed tools/slop_lint.py and said it read as machine written, naming dashes. Measured: zero em dashes, zero en dashes, two non-ASCII characters in the file and both were quoted from the artifact under review. So the accusation was falsifiable and false, and the intuition behind it was still pointing at something the gate cannot see: hyphen-compound density 2.8 percent and sentence-length standard deviation 14.8. voice-metrics/SKILL.md:21 already classifies no-em-dashes as RULED, a decision with no corpus behind it. The harness gates the ruled proxy and leaves the measured property ungated, the same shape as L-2026-07-29-g.",
-   "tasks": [
-    "Port a hyphen-density and sentence-length-variance check from ~/.claude/skills/voice-metrics/voice_score.py into tools/slop_lint.py",
-    "Fit the thresholds against the operator's own corpus (n=35,472 messages, voice-metrics profiles.json). Do not guess them; a guessed threshold is a second ruled rule wearing a number",
-    "Regression tests in both directions: a file that passes today and reads as generated must go red, and the operator's own prose must stay green",
-    "Mutation control proving the new check can go red, per the repo's four-layer standard",
-    "Warn before it blocks. Collect a week of scores first, then decide the threshold from the distribution rather than from taste",
-    "Until this lands, stop citing a clean slop_lint as evidence that prose does not read as generated. It is evidence of one banned list and one dash rule"
-   ],
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: A waiver's reason must name the mechanism its falsifier tests",
-   "milestone": "M1 Instruments trustworthy",
-   "priority": "P0",
-   "session": "S2",
-   "estimate": "45 min",
-   "labels": [
-    "epic",
-    "instrument",
-    "measured",
-    "P0"
-   ],
-   "body_intro": "L-2026-07-31-a. The review domain carried a waiver through three renewals whose stated reason was that the blocking findings were matches against comments and docstrings. Measured 2026-07-30, that reason was wrong for all five. The waiver shipped its own falsifier, an AST walk of the final file, and it PASSED. It passed for a different reason than the one written beside it, which launders a wrong diagnosis into an audited one. A falsifier that cannot distinguish its stated mechanism from every other reason the same command could pass is not a falsifier.",
-   "tasks": [
-    "DONE 2026-07-31: both underlying defects fixed in tools/review/panel.py; waiver replaced with one that records the old reason as wrong; panel 5 high to 0 high",
-    "The review waiver expires 2026-08-02 and committing this branch is what clears it. Decide before then: commit, or renew with a reason that is true",
-    "Audit every other waiver in quality-contract.json against the same test: does the reason name a mechanism, and can its falsifier tell that mechanism from the alternatives",
-    "Report a waiver past its second renewal as a class rather than as a fresh decision. Three renewals happened here before anyone re-read the reason",
-    "Audit the 1,260 lines drop_stale_lines now removes (75,932 to 74,672 reviewed). Each should be a line the tree does not contain at the claimed position; none has been checked individually"
-   ],
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "measured"
-  },
-  {
-   "title": "EPIC: Review work must recompute its own numbers and render what it judges",
-   "milestone": "M1 Instruments trustworthy",
-   "priority": "P2",
-   "session": "S4",
-   "estimate": "90 min",
-   "labels": [
-    "epic",
-    "instrument",
-    "measured",
-    "P2"
-   ],
-   "body_intro": "L-2026-07-31-c. An 11k-word review of two external artifacts presented about fifteen measured quantities in the same flat voice as its inferences. An independent recount with no access to the reasoning found four wrong, including a decimal-to-hex slip (2500134 is 262626, not 2625A6) that turned 'the anchor has no text accent colour at all' into 'it has a link colour', weakening the argument it was cited for. Separately, rendering the artifact in a browser overturned three findings derived from CSS text, one of them simply wrong about a laptop.",
-   "tasks": [
-    "Make the recount a step, not a virtue: any deliverable with more than five derived numbers gets a verification pass by something that cannot see the reasoning",
-    "Any claim about a rendered artifact stays inference until rendered. The cdp path works (native Chrome 9224 with --remote-allow-origins=*) and took four minutes; there was no excuse",
-    "A convention for marking a measured number apart from an inferred one inside a deliverable, so a reader can tell without reading a methods section",
-    "Extend tools/refute to accept a deliverable's numeric claims as falsifiers, so a review can be re-checked by running it rather than by re-reading it"
-   ],
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "unmeasured"
-  },
-  {
-   "title": "EPIC: Record where the plan was refuted, not only where the code failed",
-   "milestone": "M1 Instruments trustworthy",
-   "priority": "P1",
-   "session": "S3",
-   "estimate": "60 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "measured",
-   "labels": [
-    "epic",
-    "instrument",
-    "measured",
-    "P1"
-   ],
-   "body_intro": "A red test says the code is wrong. A deviation from the plan says the plan was not buildable, and only the first has ever had a home in this repo. The second is regenerated and discarded every session. state/plan-deviations.jsonl was created 2026-07-31 and seeded with the two this session produced, both reconstructible only because they happened to be narrated in chat. Schema: ts, session, lane, plan, refuted_by, evidence, replan, class.",
-   "tasks": [
-    "DONE 2026-07-31: ledger created and seeded with two rows. Row 1: the plan was to mask comments and string literals in panel.py; the planted selftest defect IS SQL inside a string literal, so masking would have turned the oracle green on a real injection. Row 2: the plan was to judge the deck from its CSS; rendering over CDP overturned three conclusions in four minutes",
-    "A capture command so recording a deviation costs one line, not a hand-edited JSONL row. Anything more expensive than narrating it will lose to narrating it",
-    "Wire it into the close-of-session path beside the handoff, so a session that replanned and did not record it is visible",
-    "Group by `class` after ten rows and see whether the classes recur. If they do, that is a premortem input; if they do not, the field is decoration and should be dropped",
-    "Decide whether a deviation belongs in state/lessons.jsonl instead. They are different: a lesson is a failure class, a deviation is a plan that could not survive contact. Keeping both only pays if the join is used"
-   ]
-  },
-  {
-   "title": "EPIC: Fix data structures and interfaces before the first line of code",
-   "milestone": "M1 Instruments trustworthy",
-   "priority": "P1",
-   "session": "S4",
-   "estimate": "90 min",
-   "lane": "A harness",
-   "autonomy": "operator-only",
-   "evidence_state": "measured",
-   "labels": [
-    "epic",
-    "instrument",
-    "measured",
-    "P1"
-   ],
-   "body_intro": "/premortem emits prose. Nothing in the planning path emits a signature, so interface decisions get made implicitly by whoever writes the first function. The measured cost: run_local in panel.py receives {file, line, text}, one diff line with no file handle. Nobody ratified that. Every 'it matched a comment' theory was downstream of it, three waivers were paid on that theory, and the real defect was that the line was not in the tree at all.",
-   "tasks": [
-    "A planning stage that emits types and signatures, not paragraphs. Protocol classes or a .pyi is enough; the requirement is that the interface is reviewable before it is implemented",
-    "Retrofit the one that cost the most: decide explicitly whether run_local reviews a LINE or a FILE, and record the decision with its consequence for every check that reads context",
-    "Make /premortem's output include the signature block, so the failure modes it lists are attached to an interface rather than to an intention",
-    "Check the other oracles for the same unratified-interface shape: what does each one receive, and did anyone choose it"
-   ]
-  },
-  {
-   "title": "EPIC: Run the artifact through a measurement function instead of rendering it",
-   "milestone": "M1 Instruments trustworthy",
-   "priority": "P2",
-   "session": "S4",
-   "estimate": "90 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "measured",
-   "labels": [
-    "epic",
-    "instrument",
-    "measured",
-    "P2"
-   ],
-   "body_intro": "tools/e2e/flow.py drives another repo's running UI. There is no way to run OUR own artifact across all its states in a fast textual mode and read measurements out. Measured cost 2026-07-30: half a session inferring a deck's behaviour from its CSS, then four minutes over CDP to overturn three of those conclusions, including one that was simply wrong about a laptop.",
-   "tasks": [
-    "A harness that takes an artifact, an enumerator of its N states, and a measurement function, and returns a table. The deck case was 31 slides through a per-slide probe",
-    "Port the CDP probe from this session into it as the first backend: launch, enumerate, measure, no screenshots unless a human asks",
-    "Second backend with no browser at all, for artifacts that have a textual state space, so the fast path does not depend on Chrome being installed",
-    "Acceptance: re-running it on thesis_story_9.html reproduces the takeaway-clipping table in section II.1b of the review without a human reading a screenshot"
-   ]
-  },
-  {
-   "title": "EPIC: Adopt ast-grep so an oracle can tell code from prose about code",
-   "milestone": "M1 Instruments trustworthy",
-   "priority": "P1",
-   "session": "S3",
-   "estimate": "60 min",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "asserted",
-   "labels": [
-    "epic",
-    "instrument",
-    "P1"
-   ],
-   "body_intro": "The class that cost three waivers is that a regex cannot separate code from prose about code. An AST can. ast-grep is Rust, tree-sitter based, YAML rules, and does the job panel.py does. Toolchain is present (cargo 1.97.1, rustc 1.97.1) and hookgate already bets on Rust with fancy-regex and serde_json. MoSCoW: ast-grep MUST; tree-sitter and tree-sitter-<lang> crates SHOULD, if the parse should live inside hookgate rather than shelling out; fd and tokei SHOULD for the repo sweep; hyperfine and sd COULD; GritQL via Biome WON'T yet, the plugin is beta with no autofixes.",
-   "tasks": [
-    "cargo install ast-grep, then prove it in a SCRATCH rule file against the three sql-concat false positives and the planted selftest defect. Do not touch tools/hookgate: another session is mid-flight there and rewrote rules.rs once on 2026-07-31",
-    "Compare like for like: the two lookaheads now in panel.py against an ast-grep rule, on the same corpus. If the regex wins on this corpus, say so and stop",
-    "Decide the integration point: shell out to the ast-grep binary, or link tree-sitter into hookgate and keep one static binary. This is an interface decision and belongs to the signatures epic",
-    "Whichever wins, the selftest and a mutation control move with it. A new engine with no mutation proof is a downgrade regardless of how it matches"
-   ]
-  },
-  {
-   "title": "EPIC: Repo Clear, an enforced standard rather than a written one",
-   "milestone": "M2 Consolidation and shrinkage",
-   "priority": "P2",
-   "session": "S5",
-   "estimate": "half day",
-   "lane": "A harness",
-   "autonomy": "agent-ships-behind-gate",
-   "evidence_state": "measured",
-   "labels": [
-    "epic",
-    "drift",
-    "measured",
-    "P2"
-   ],
-   "body_intro": "Survey 2026-07-31, walking the real tree because the interesting parts are gitignored: claude-setup 502 dirs / 11 empty / 1037 md / 106 byte-identical duplicates / 38 agent files. new-recruit 2822 dirs / 21 empty / 5717 md / 2479 duplicates (43 percent) / 193 agent files. daily-deep-learning 38 / 2 / 73 / 0. moneyballz 5 / 0 / 3 / 0. AGENTS.md is the standard to converge on: Linux Foundation AAIF stewardship, 60k+ repos, nearest file wins, no required sections. A prose standard rots; work-docs/research/README.md declares a lane the actual files ignore. So this ships as a checker with a gate domain.",
-   "tasks": [
-    "tools/repoclear/scan.py, read-only: empty dirs, byte-identical duplicates, agent-file conflicts, build artifacts. One report over the four repos, zero deletions",
-    "One root AGENTS.md per repo written to the spec, nested only where a package genuinely differs. Superseded agent files get LISTED for removal, not removed",
-    "Wire repoclear as a gate domain on claude-setup first, with its own selftest and a mutation that must turn the selftest red",
-    "Fix the research output path while in there: every 2026-07-27 prompt states output lands in ~/docs/research/, which does not exist. The seven reports are in work-docs/ root under prose titles. Correct the path and add a check that fails when a prompt names a destination that does not exist",
-    "new-recruit dedup runs inventory first: hash pass, then near-duplicate pass reporting unique spans, then consolidation, and deletion only after a check proves no unique span was lost. Largest cluster first: 24 copies under projects/.axia-broken-worktree-retired-20260710",
-    "This blocks the WSL2 move (epic: WSL2 migration). Relocating 5717 markdown files of which 2479 are duplicates is paying to move garbage"
-   ]
-  }
- ]
+  "_note": "Machine source for the GitHub publish, superseding 2026-07-30. Epics become issues with task checklists; subtasks stay as checkboxes so the board stays readable. Every row traces to a measurement or a dated finding, not to a wish. New in this revision: priority (P0-P3), ingestion (S1-S6) and estimate per epic. Ingestion is the unit that matters right now because the operator is mid-apartment-move: S1 fits a 25-minute gap, S6 needs a clear day. Publish with: python tools/ghpub/publish_backlog.py --source state/github-backlog-2026-07-31.json --execute --update --project 2026-07-31 second revision: adds lane, autonomy and evidence_state per epic, which the board carried and the source did not. lane is 'A harness' per ADR-0016, replacing the retired B letter every item on the board still claimed. autonomy is imported from the operator's hand-set values on Zion so the migration preserves judgement rather than regenerating over it; 0 epic(s) had none and default to agent-drafts. evidence_state is COMPUTED, not judged: an epic with at least one DONE task is 'measured', otherwise 'unmeasured'. It replaces the Evidence TEXT field, which held one identical string on 23 of 26 items and was therefore a constant. | 2026-07-31 lane A: 2 epics added and 11 tasks appended to 5 existing epics from the inventory reconciliation. NOTHING was published: the gh token lacks read:project, so the live board could not be read or written. Publish with tools/ghpub/publish_backlog.py --update (dry run first), then zion_fields.py. Never hand-edit an issue body or a field.",
+  "milestones": [
+    {
+      "title": "M1 Instruments trustworthy",
+      "description": "The harness's own oracles can be believed: no self-invalidating gate, no unproven selftest, no dead pointer reporting success."
+    },
+    {
+      "title": "M2 Consolidation and shrinkage",
+      "description": "One canonical tree, GitHub-backed clones removed, 1682 tracked files down under 600, licensing blockers resolved."
+    },
+    {
+      "title": "M3 Delegation that has actually run",
+      "description": "Native hook wiring, ACP over the bespoke bridge, personas as files with reputation, and one measured workflow run."
+    },
+    {
+      "title": "M4 Design with an anchor",
+      "description": "DESIGN.md and tokens with a parity guard, taste ledger rows for UI, The Construct bound to real ledgers."
+    },
+    {
+      "title": "M5 Autonomy and CI",
+      "description": "The gate runs in CI, releases are structured, repo standards maintained by an agent."
+    }
+  ],
+  "labels": [
+    {
+      "name": "epic",
+      "color": "5319e7",
+      "description": "Parent work item with a task checklist"
+    },
+    {
+      "name": "instrument",
+      "color": "0e8a16",
+      "description": "Oracle, gate, or verifier"
+    },
+    {
+      "name": "blocked-operator",
+      "color": "b60205",
+      "description": "Needs an operator decision nobody else can make"
+    },
+    {
+      "name": "licensing",
+      "color": "d93f0b",
+      "description": "License or trademark exposure"
+    },
+    {
+      "name": "drift",
+      "color": "fbca04",
+      "description": "Repo and live tree disagree"
+    },
+    {
+      "name": "native-surface",
+      "color": "1d76db",
+      "description": "Claude Code capability not yet wired"
+    },
+    {
+      "name": "design",
+      "color": "c2e0c6",
+      "description": "Visual or UI work"
+    },
+    {
+      "name": "absorption",
+      "color": "bfd4f2",
+      "description": "External resource evaluated, verdict owed"
+    },
+    {
+      "name": "measured",
+      "color": "006b75",
+      "description": "Carries a number produced on this machine"
+    },
+    {
+      "name": "P0",
+      "color": "b60205",
+      "description": "Dated or blocking: a waiver expiry, at-risk uncommitted work"
+    },
+    {
+      "name": "P1",
+      "color": "d93f0b",
+      "description": "Instrument trust, or a measured breakage with evidence on disk"
+    },
+    {
+      "name": "P2",
+      "color": "fbca04",
+      "description": "Real work with no deadline pressure"
+    },
+    {
+      "name": "P3",
+      "color": "0e8a16",
+      "description": "Wanted, not urgent; needs a clear day"
+    },
+    {
+      "name": "prose-gate",
+      "color": "5319e7",
+      "description": "The prose oracle and what it can and cannot see"
+    },
+    {
+      "name": "external",
+      "color": "c5def5",
+      "description": "Work owed to someone outside this repo"
+    }
+  ],
+  "epics": [
+    {
+      "title": "EPIC: Gate and fingerprint integrity",
+      "milestone": "M1 Instruments trustworthy",
+      "labels": [
+        "epic",
+        "instrument",
+        "measured",
+        "P0"
+      ],
+      "body_intro": "The gate must be able to fail, and its verdict must describe the tree it was recorded against. Two instances of the self-invalidating class were fixed on 2026-07-30; the rest of this epic is what is still unproven.",
+      "tasks": [
+        "DONE 2026-07-30: HARNESS_OUTPUTS excludes state/prompt-tickets.jsonl and state/skill-use.jsonl from the tree fingerprint. Four fingerprints across four turns of one session (76378e5f, 05fdfc73, b10cfce6, 9f0ccd38) each had a green run rejected at the Stop boundary. Two mutants, 12 tests, round-trip verified identical before and after a run",
+        "Wire tools/docmap into the gate docs domain. It exists, checks clean on 929 documents, and nothing enforces it on future commits",
+        "Mutation control proving the docmap selftest can go red, so it meets the repo's own four-layer standard",
+        "DONE 2026-07-31: closed by fixing the oracle, not renewing the waiver. Two defects and neither was comments. sql-concat required a SQL verb and a concatenation but never required SQL, so English prose (Delete ~380 lines ... + their selftest) was a HIGH; and added_lines reported lines this branch added and later deleted, which is what both py-shell-true hits were, cited against line numbers now holding the comment about the deletion. Fixed with two lookaheads and drop_stale_lines. 20 pinned cases, mutate --spec panel 10/10 caught, panel 5 high to 0 high. The rewrite also closed a hole: an f-string SQL query never matched before. Waiver replaced 2026-08-12 to 2026-08-02, recording the old reason as measurably wrong rather than deleting it",
+        "Selftest ledger pollution: workflow-spawned selftests wrote 5 scratch-repo rows into the real state/gate-runs.jsonl and produced FAIL-then-PASS on one tree fingerprint. Selftests need an isolated ledger",
+        "C-025 is REFUTED as of 2026-07-30: six __pycache__ files sit in the pre-write snapshot and are absent from its own manifest, so the pending live settings.json write is no longer provably revertable",
+        "Two broken verifiers in the refutation run: 26 claims, 22 held, 2 refuted, 2 broken. A broken verifier is unknown, not a pass. Identify and repair both",
+        "Print the joint claim under gate.py run VERDICT: which domains were N/A, why, and what a PASS does not assert (RT-3)"
+      ],
+      "priority": "P0",
+      "session": "S2",
+      "estimate": "45 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "measured"
+    },
+    {
+      "title": "EPIC: Reconcile the contradictions the repo states about itself",
+      "milestone": "M1 Instruments trustworthy",
+      "labels": [
+        "epic",
+        "instrument",
+        "P1"
+      ],
+      "body_intro": "Each row is a place where a file in this repo asserts something measurably false. Corrections are appended, never rewritten, per the repo's own convention.",
+      "tasks": [
+        "Root CLAUDE.md is UNTRACKED. The file governing every session is not in the repository",
+        "CLAUDE.md claims 70 tests. pytest --collect-only reports 219. The number moved twice in one day, which is the argument for deriving it rather than asserting it",
+        "Append a correcting row to state/claims.jsonl for the 2026-07-30 row that says lane B for harness work",
+        "Correct the 993-gate-verdicts figure: 59 real runs, with 748 of 1648 ledger rows being selftest scratch",
+        "docs/INDEX.md line 8 still describes the pre-ADR-0016 lane letters",
+        "docs/HANDOFF-2026-07-30-overnight-run.md is stale: it says Phase A5 is next when A5 and B are done, and carries the retracted 9 percent coverage figure. Defensible figure is 31 percent, 23 of 74 lifecycle documents",
+        "DONE 2026-07-30: model-selection.md effort correction. Live effortLevel is low, not the xhigh the rule asserts",
+        "2026-07-31 measured: CLAUDE.md says 'the full 12-domain contract'; quality-contract.json declares 13. One word, filed rather than fixed in passing because CLAUDE.md is the first file every session reads.",
+        "2026-07-31 measured: docs/SYSTEM-MAP.md carried five rows marked VERIFIED that are false. 4 live hooks is 7 events; live model is opus[1m] not claude-fable-5[1m]; taste.md 'does not exist, VERIFIED' exists with 1 recorded pick. Corrected by a dated block, not by editing the readings, so the map stays evidence of what was true on 2026-07-24.",
+        "2026-07-31 measured: the Zion board's Lane field is a select of B/C/D/E and ADR-0016 renumbered the lanes to A/B/C/D on 2026-07-30. Every lane value on the board is one cutover behind the ADR, ambiguous in exactly the way docs/charters.md warns about."
+      ],
+      "priority": "P1",
+      "session": "S3",
+      "estimate": "60 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "measured"
+    },
+    {
+      "title": "EPIC: Dead pointers, stubs, and repo-versus-live drift",
+      "milestone": "M1 Instruments trustworthy",
+      "labels": [
+        "epic",
+        "drift",
+        "measured",
+        "P1"
+      ],
+      "body_intro": "A hook that cannot run fails open and reports nothing. These are the paths that do not exist and the units that are not deployed.",
+      "tasks": [
+        "261 distinct absent paths from pointers.py scan. Most-referenced is ~/.claude/bin/work-item.sh at 40 references",
+        "skills_sync.py check reports DRIFT, 52 items needing a decision. A visible cluster are 37 to 44 byte stubs whose contents point at /home/shovalbe/.codex/..., a Linux path that has never existed on this machine",
+        "14 hook bodies are 44 to 61 byte pointers with recoverable bodies in dot-codex/; 24 skill stubs likewise",
+        "dot-agents has no deploy target: ~/.agents is absent, 0 of 231 units live. The ecosystem moved from .claude to .agents in six weeks, evidenced by mattpocock/skills changing its own description between the operator's two saves",
+        "out-of-distribution.md instructs loading a dataviz skill that does not exist anywhere. Only work-docs/data-viz-skill.txt",
+        "blonde-designer, ui-ux-pro-max and requirement-anchor are in the repo and not deployed, so no session can load them",
+        "github/ without the dot is a dead staging duplicate. Actions reads .github/ only. Delete",
+        "whatsapp-query leaves 86.9 MB of decrypted plaintext on disk after a query. Measured 2026-07-30, second occurrence. Fix belongs in the skill, not in a habit",
+        "2026-07-31 measured: pointers.py absent-path count moved 261 to 271 between 07-29 and 07-31. The only reconciled number that got WORSE, and it got worse with nobody watching. First ratchet candidate: a number that may not increase, checked by something that already runs.",
+        "2026-07-31 measured: skills_sync drift is 49 items, down from the 52 recorded on 07-29. Nothing fails on either number."
+      ],
+      "priority": "P1",
+      "session": "S3",
+      "estimate": "60 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Phase D reclamation",
+      "milestone": "M2 Consolidation and shrinkage",
+      "labels": [
+        "epic",
+        "P2"
+      ],
+      "body_intro": "tools/reclaim/reclaim.py is written, dry-run by default, requires --execute plus a separate --allow-delete, re-runs invariants immediately before acting, and writes its manifest row before the action then fsyncs.",
+      "tasks": [
+        "Dry-run over the full candidate set and read the manifest before executing",
+        "Execute with Pictures EXCLUDED ENTIRELY per operator instruction, which withdrew a verified 13.58 GiB row",
+        "Documents untouched: it holds the only copy of coursework and a passport scan",
+        "wa-export-archive: 681,703,931 bytes are genuinely disposable, not the ~156 MB first reported, because the 519 MB claude-setup-FULL-20260508.zip became disposable once its 10 unique files were extracted",
+        "oren-roast-hq: delete only .claude/worktrees/button-rewire/node_modules, reclaiming 541 MB of 543 MB. Do not touch the worktree itself, its tree carries a modified .env",
+        "Keep state/reclaim-manifest.jsonl current"
+      ],
+      "priority": "P2",
+      "session": "S5",
+      "estimate": "half day",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Shrink 1682 tracked files to under 600",
+      "milestone": "M2 Consolidation and shrinkage",
+      "labels": [
+        "epic",
+        "measured",
+        "P2"
+      ],
+      "body_intro": "The operator's read is that a repo of this size for what it does needs heavy shrinkage. These are the measured targets, largest first.",
+      "tasks": [
+        "126 tracked automations/last-messages/*.md are cron run outputs, one per firing, with a single sweep accounting for roughly 45. They are logs",
+        "237 vendored third-party files are tracked. The prior-art gate already marks seven of these directories out of scope",
+        "Collapse the dot-* triplication: 59 paths have drifted between dot-claude, dot-codex and dot-agents copies. Drift is a correctness defect, not only waste",
+        "Split research-papers/ and work-docs/ out. 176 work-docs and 135 corpus files carry no lifecycle status",
+        "deep-research and ui-ux-pro-max exist twice with 28 and 4 differing entries respectively, which is a sync defect rather than a build-versus-buy question"
+      ],
+      "priority": "P2",
+      "session": "S4",
+      "estimate": "90 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: WSL2 migration and the terminal launcher",
+      "milestone": "M2 Consolidation and shrinkage",
+      "labels": [
+        "epic",
+        "measured",
+        "P3"
+      ],
+      "body_intro": "Measured boundary cost: git status 109ms native Windows, 12,018ms across /mnt/c from Linux, 69ms on ext4. The penalty is directional, not symmetric.",
+      "tasks": [
+        "Move work projects, global and project level, from Windows to WSL2 ext4, never /mnt/c",
+        "tools/workspace/start-claude.sh is written: ext4 first with a /mnt/c fallback and a visible 9P warning. Keep the chooser, do not pin a lane",
+        "Kitty as the terminal, customized, reachable for Linux via the wsl.localhost path",
+        "Update the Desktop shortcut to launch Kitty into WSL with the new setup",
+        "Rust-first convention for new code; bun and bunx rather than npm"
+      ],
+      "priority": "P3",
+      "session": "S6",
+      "estimate": "full day",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Commit the at-risk work and settle absorption verdicts",
+      "milestone": "M2 Consolidation and shrinkage",
+      "labels": [
+        "epic",
+        "absorption",
+        "P0"
+      ],
+      "body_intro": "ADR-0017 settled that claude-setup holds the authoritative intent-control-plane, with a runnable falsifier. That makes the uncommitted edits the only genuinely at-risk work in the tree.",
+      "tasks": [
+        "Commit intent-control-plane cli.py and schema.py: 125 and 48 net lines, newer than the new-recruit copy",
+        "56 of 57 saved GitHub repos are resolved with stars, license, archived and fork status in state/saved-repos-2026-07-30.json. Record a four-state verdict per repo in a durable ledger, not a dated analysis",
+        "Metadata triage is not a reading pass. 14 repos are LEAVE on archived, fork or stale evidence; the ranked file-by-file pass is still owed",
+        "Resolve or retire covibes/zerosho, the one name that resolves to nothing",
+        "Regenerate the link extract from the message store rather than self-chat-links-2026-07-29.csv, which is a day stale and misses ACP, goose and no-ai-slop",
+        "ABSORB-01: the prior-art schema cannot express absorption. All 27 records share 14 fields and none names what was taken. Add absorbed and absorption_status, backfill, and fail on unset",
+        "ABSORB-02: point-in-time reconstruction for the gitignored ledgers that have no history at all",
+        "ABSORB-03: albert's two mechanisms, rebuilt not copied under PolyForm Noncommercial. Worktree isolation per concurrent producer, and producers never grading themselves",
+        "ABSORB-07: the saved-link corpus, 806 unique URLs over 14 months, still unwired",
+        "ABSORB-08: vulture adopted, 0 findings at 80 percent confidence and 70 at 60 percent, 57 of them inside intent-control-plane. Triage the 70, measure whole-module connectivity, wire uvx vulture into the gate",
+        "2026-07-31 measured: the prior-art record count is 39, not the 27 ABSORB-01 states. The finding is unchanged: 0 of 39 carry an absorption field, including the record written the same morning.",
+        "2026-07-31 measured: prior-art `verdict` is FREE TEXT. 39 records carry 13 distinct values and four are full sentences, one of which is 'keep-provisionally, and it is the weakest of the three records written today'. Ungroupable, so 'how many components did we decide to replace' needs 39 file reads. Identical defect to the EPIC: title prefix the Zion spec diagnosed on the board. Fix WITH the absorption field: one schema change, one backfill, one oracle edit.",
+        "2026-07-31 measured: tools/whatsapp carries verdict `delete-ours` and still exists with 4 tracked files. A decision recorded and not executed is indistinguishable from a decision not taken."
+      ],
+      "priority": "P0",
+      "session": "S1",
+      "estimate": "25 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Licensing and privacy blockers on going public",
+      "milestone": "M2 Consolidation and shrinkage",
+      "labels": [
+        "epic",
+        "licensing",
+        "blocked-operator",
+        "P1"
+      ],
+      "body_intro": "Branch protection on a private repo needs GitHub Pro, so the alternative is publishing. These are the things that must be resolved before this repository can be public.",
+      "tasks": [
+        "docs/analysis/reference/coherence-governor-AGENTS.md is a tracked verbatim 17,923-byte copy of Master0fFate/just-my-skills AGENTS.md, which carries NO LICENSE. All rights reserved. Summarise and link, request a license, or accept the repo stays private. OPERATOR DECISION",
+        "research-papers/el-vadt holds Arabic sales-call transcript analysis, third-party PII",
+        "17 of 56 saved repos carry no usable license, so they are concepts-only. amirfish1/claude-command-center is one of them, and AUTO-19 plans to take from it",
+        "Do not vendor brand-derived design systems (apple, bmw, bugatti, binance, cisco) from open-design. Apache-2.0 covers their code, not third-party trademarks",
+        "No push of any no-remote repo until a credential audit has run over EVERY commit tree, not just HEAD"
+      ],
+      "priority": "P1",
+      "session": "S4",
+      "estimate": "90 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Wire the Claude Code native surface we already pay for",
+      "milestone": "M3 Delegation that has actually run",
+      "labels": [
+        "epic",
+        "native-surface",
+        "measured",
+        "P1"
+      ],
+      "body_intro": "Audited 2026-07-30 from live settings and the live tree: 7 of 9 hook events wired, 23 subagents, 36 live skills, custom statusline. See docs/analysis/2026-07-30-native-surface-audit.md.",
+      "tasks": [
+        "SubagentStop hook. The only native point that can gate a subagent's output BEFORE it returns, which is exactly where the agreement gate belongs. Referenced nowhere except three 2026-05 master plans",
+        "An output style. ~/.claude/output-styles is absent and no output-style file exists in the repo, while completion_gate.py polices the response channel with regexes after generation",
+        "CLAUDE.md @import. Never used. open-design ships an 11-byte CLAUDE.md containing @AGENTS.md; we hand-maintain five overlapping files",
+        "Project-scoped .mcp.json so MCP configuration is versioned with the repo instead of user-global",
+        "SessionEnd hook, so durable handoff no longer depends on PreCompact firing",
+        "Install at least one plugin. The claude-plugins-official marketplace was registered 2026-07-30T12:43 and zero plugins are installed",
+        "ctrl+b backgrounding friction and the other harness behaviours the operator wants customized"
+      ],
+      "priority": "P1",
+      "session": "S3",
+      "estimate": "60 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Replace the bespoke agent bridge with ACP",
+      "milestone": "M3 Delegation that has actually run",
+      "labels": [
+        "epic",
+        "absorption",
+        "measured",
+        "P2"
+      ],
+      "body_intro": "~/.claude/cache/a2a/audit.jsonl DOES NOT EXIST. The dispatch skill declares it the canonical record of every agent-to-agent call, so zero external dispatches have ever happened. The bridge is fully deployed and has never fired.",
+      "tasks": [
+        "Evaluate agentclientprotocol/agent-client-protocol, Apache-2.0, JSON-RPC 2.0 over stdin/stdout, published by Zed August 2025, adopted by JetBrains, GitHub Copilot CLI in January 2026, Gemini CLI as first external integration, and Microsoft Intelligent Terminal 0.1 on 2 June 2026",
+        "kilo acp already exists in the installed Kilo CLI 7.3.12, so ACP can be tested without writing an adapter",
+        "aaif-goose/goose, Apache-2.0, is a native ACP server and a candidate second actor",
+        "Reconcile ADR-0007. Its amendment moved the reviewer role off Codex because the subscription was cancelled, but Codex is included in ChatGPT Free at zero cost with CLI access via sign-in, and the codex CLI plus a2a-codex-call.sh are already installed here",
+        "An oracle that fails when the agreement gate is claimed and audit.jsonl shows no call for the current commit. Today the absence was only discoverable by thinking to look",
+        "Correct the claim that Claude Code speaks ACP. What is documented is Zed running Claude Code as an external agent, which is Zed adapting"
+      ],
+      "priority": "P2",
+      "session": "S5",
+      "estimate": "half day",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Implement the persona review economy",
+      "milestone": "M3 Delegation that has actually run",
+      "labels": [
+        "epic",
+        "instrument",
+        "P2"
+      ],
+      "body_intro": "docs/specs/2026-07-23-persona-review-economy.md is a complete design with seven unchecked acceptance boxes, zero implementation, and a Status field that says active. dot-claude/personas/ does not exist and neither does ~/.claude/personas/.",
+      "tasks": [
+        "Persona contracts as one YAML per persona under dot-claude/personas/, with no model named in any of them",
+        "Separate persona_rep and model_rep ledgers, because the question is whether the ROLE is wrong or the ACTOR is weak",
+        "Thompson allocator per aspect, with a minimum-exploration floor so the market cannot collapse to one persona",
+        "The hard decorrelation constraint: personas whose findings are compared must be enacted by different model families",
+        "PIP quarantine with a sandbox re-admit, firing as proposal plus operator approval, and coverage-gap driven recruitment",
+        "Leaderboard in the daily digest, which is the spec's own final acceptance line",
+        "Reconcile the taxonomies. The spec enum is correctness, security, boundary, simplicity, perf, slop, tests, a11y. The operator's 2026-07-30 axes are safety, correctness, usability, compatibility, performance. usability and compatibility are additions; safety must be reconciled against security",
+        "Add a compatibility domain to quality-contract.json, or state why not"
+      ],
+      "priority": "P2",
+      "session": "S5",
+      "estimate": "half day",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Kilo Code integration with a deadline",
+      "milestone": "M3 Delegation that has actually run",
+      "labels": [
+        "epic",
+        "blocked-operator",
+        "P2"
+      ],
+      "body_intro": "Kilo emailed on 2026-07-30 at 12:50: Code Reviewer custom instructions move to a REVIEW.md file in the repo and the UI text box is REMOVED FOR EVERYONE ON 31 AUGUST. Their trigger UI is browser-only; kilo CLI 7.3.12 has no trigger, webhook or cloud command.",
+      "tasks": [
+        "Migrate custom instructions to REVIEW.md before 2026-08-31. Their automated path spawns one cloud agent per repo that writes the file and opens a PR",
+        "Existing trigger verified: one Active webhook created 2026-07-30, targeting ShovalBenjer/daily-deep-learning. That scoping keeps claude-setup out of reach of an auto-committing agent",
+        "Harden the trigger template. Their docs warn webhook payloads are a prompt-injection surface, so {{body}} must not land in instruction position, and the secret header name must match what the trigger actually has set",
+        "Auto and YOLO mode is not optional for cloud agents per their docs: the agent modifies code without confirmation and can auto-commit. Decide reviewer contract versus implementer contract. OPERATOR DECISION",
+        "Compute is free during limited beta but Kilo Code credits are still consumed"
+      ],
+      "priority": "P2",
+      "session": "S4",
+      "estimate": "90 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Run one workflow under the routing the rules prescribe",
+      "milestone": "M3 Delegation that has actually run",
+      "labels": [
+        "epic",
+        "native-surface",
+        "P1"
+      ],
+      "body_intro": "workflowKeywordTriggerEnabled is true in live settings and Workflow is a first-party tool routed through the same agent registry as the Agent tool, so the 23 agent definitions here are eligible for free. A grep for ultracode returns only prose, never code.",
+      "tasks": [
+        "Write and run one workflow under model-selection.md's prescribed routing: measurement and mechanical stages on sonnet or haiku at low effort, adversarial verify and judge on opus or fable at xhigh",
+        "Record the run so the gate has a concept of it. No ledger of workflow runs exists",
+        "Measure the result against the axes the fable falsifier named, so that routing row stops being a hypothesis",
+        "GEPA-style prompt optimizer: chosen by the operator, not started"
+      ],
+      "priority": "P1",
+      "session": "S2",
+      "estimate": "45 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Design foundations that do not exist yet",
+      "milestone": "M4 Design with an anchor",
+      "labels": [
+        "epic",
+        "design",
+        "P2"
+      ],
+      "body_intro": "out-of-distribution.md requires anchoring picks to a real reference and locking approved directions into DESIGN.md. No DESIGN.md exists anywhere in this repository, and docs/taste.md has two rows, neither about UI.",
+      "tasks": [
+        "Create DESIGN.md. Adopt open-design's section skeleton: theme and atmosphere, colour with per-token rationale, typography with families and weights, spacing scale, layout, components, motion with an explicit state list, voice",
+        "A token file plus a parity guard, so DESIGN.md cannot silently drift from the tokens it claims to describe. This is open-design's A2 defaults parity idea and it is what makes a DESIGN.md an oracle rather than a wish",
+        "Run /diverge on a real UI decision and write the first taste.md UI row. Rule 1 forbids the mode as a final answer and it has never been enforced on a visual choice",
+        "Create the dataviz skill the out-of-distribution rule already instructs sessions to load",
+        "Deploy blonde-designer, ui-ux-pro-max and requirement-anchor, or delete them"
+      ],
+      "priority": "P2",
+      "session": "S5",
+      "estimate": "half day",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: The Construct v4, bound to real ledgers",
+      "milestone": "M4 Design with an anchor",
+      "labels": [
+        "epic",
+        "design",
+        "instrument",
+        "P3"
+      ],
+      "body_intro": "v3 fabricated every number, which its own Tweaks panel exposed through tickMs and critRate sliders. The refactor brief is written. This epic is the implementation of it.",
+      "tasks": [
+        "Decide the medium and commit. v3 targets Python Textual and shipped web HTML, and its own fix log reads 'added flex:none', which Textual CSS does not have",
+        "Three named directions with stated p_conventional, at least two below 0.30, operator picks before implementation",
+        "Every panel names its source file: gate-runs.jsonl, refutations.jsonl, bus.jsonl, reviews/<sha>.json, claims.jsonl, skill-use.jsonl, prompt-tickets.jsonl",
+        "Three states per panel: populated, stale against a different tree fingerprint, and never-run. The third is the state this system is in most often and v3 cannot draw it",
+        "Signature panel is the reliability diagram from 03-llm-agent-eval.md, shipped in its EMPTY state first, because RT-1 says the inputs are not logged so the curve is not computable",
+        "Coverage view from 02-coverage-metrics.md: PaCMAP projection, covered green, uncovered red, ground truth as stars, white gaps as the visible backlog",
+        "Resolve the reward inversion. A failed assertion currently triggers a critical hit, loot and HP loss, so progress means more failing tests",
+        "Scope fail-fast: asserts in pure logic and the test pipeline, displayed faults in ledger readers and the render path",
+        "Correct four factual errors in the brief: OKF is Open Knowledge Format from Google Cloud on 12 June 2026 and is a document format not a dependency graph; ACP is editor-to-agent JSON-RPC not a telemetry bus; the aspect enum already exists; the repo matrix should be claude-setup and new-recruit, not solosolve-ai"
+      ],
+      "priority": "P3",
+      "session": "S6",
+      "estimate": "full day",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Absorb open-design and OpenGame",
+      "milestone": "M4 Design with an anchor",
+      "labels": [
+        "epic",
+        "absorption",
+        "measured",
+        "P3"
+      ],
+      "body_intro": "Two candidates reviewed 2026-07-30. open-design: 82,683 stars, Apache-2.0, created 2026-04-28, pushed today, 48 CI workflows. OpenGame: 2,763 stars, Apache-2.0, three contributors, LAST PUSH 2026-04-22.",
+      "tasks": [
+        "open-design verdict INSTALL AS IS. It ships as a Claude Code plugin exposing 139 skills over stdio via a local od daemon. Verify od has a Windows path first, since brew and DMG are macOS and only npm would work here",
+        "Absorb three patterns from its 152-system corpus: the fixed v1 filenames per package, the DESIGN.md convention, and the guard that fails when the human-readable mirror drifts from the machine source",
+        "Do not adopt figma-plugin. The operator has not used Figma since leaving his job, and this repo IS the Figma alternative rather than a bridge to it",
+        "OpenGame verdict CONCEPTS ONLY, two concepts. It is dormant, three contributors, and GameCoder-27B is infrastructure we do not have",
+        "Concept one: OpenGame-Bench scores agentic generation on Build Health, Visual Usability and Intent Alignment via headless browser execution plus VLM judging. That is a concrete shape for our e2e and a11y_ux domains, both currently N/A and therefore failing by our own rule",
+        "Concept two: their Debug Skill maintains a living protocol of VERIFIED FIXES. We accumulate failure classes in lessons.jsonl and falsifiers in refutations.jsonl and accumulate no fixes",
+        "petergyang/no-ai-slop, MIT, 20-plus slop patterns: compare against tools/slop_lint.py and take what MIT permits",
+        "JuliusBrussee/caveman claims 65 percent token reduction and belongs in the RTK prior-art record as a direct alternative"
+      ],
+      "priority": "P3",
+      "session": "S6",
+      "estimate": "full day",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Get the gate running in CI",
+      "milestone": "M5 Autonomy and CI",
+      "labels": [
+        "epic",
+        "instrument",
+        "blocked-operator",
+        "P1"
+      ],
+      "body_intro": "The twelve-domain gate has never run in CI. ship-gate.yml was never pushed and local main is 25 commits ahead. ADR-0012 says autonomy ships only through the PR gate, which makes this the load-bearing gap in the autonomy story.",
+      "tasks": [
+        "Push ship-gate.yml and observe one real CI run. Note the pipeline domain greps the workflow files for a literal gate.py run invocation, so renaming or wrapping it breaks the check",
+        "Write gemini-review.yml. AUTO-10 unblocked on 2026-07-24 when the secret landed and the workflow has still never been written, so ADR-0004's decorrelated agreement gate is prose",
+        "Branch protection costs money on a private repo or requires publishing. Not money alone, which is how it was first reported. OPERATOR DECISION",
+        "Wire Codex against ADR-0007, which the free-tier finding makes cheaper than it looked. OPERATOR DECISION",
+        "2026-07-31 measured: wire `python tools/refute/refute.py run` into ship-gate.yml as a named step. It was returning 26 broken verifiers for days on the WSL host and nothing surfaced it, because nothing runs it."
+      ],
+      "priority": "P1",
+      "session": "S2",
+      "estimate": "45 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: GitHub repo standards maintained by an agent",
+      "milestone": "M5 Autonomy and CI",
+      "labels": [
+        "epic",
+        "P2"
+      ],
+      "body_intro": "Operator standard: use all of GitHub's free features and maintain them with an agent as part of repo standards. Reference point measured 2026-07-30: open-design runs 48 workflows, a 152,736-byte CHANGELOG, a separate release-notes file, and cut-release, cut-patch-release, backport, backport-label-guard and backport-automerge workflows.",
+      "tasks": [
+        "Discussions as the public brainstorming surface agents can post to",
+        "SemVer with a hand-written CHANGELOG and structured tags and releases. Not a release every six hours",
+        "PR-to-issue linking enforced by CI",
+        "Full free-feature inventory with a named maintenance owner per feature",
+        "Every ticket that has a repo on GitHub should have issues, which is the gap this backlog publish is closing",
+        "Wire codex, kilocode, Claude code review, gemini, qwen and nvidia to the Zion project board"
+      ],
+      "priority": "P2",
+      "session": "S4",
+      "estimate": "90 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Autonomy ecosystem backlog",
+      "milestone": "M5 Autonomy and CI",
+      "labels": [
+        "epic",
+        "P2"
+      ],
+      "body_intro": "The AUTO rows from docs/prd/autonomy-ecosystem.md that remain open. AUTO-05 was closed by retiring lane A; ADR-0016 renumbered the letters on 2026-07-30.",
+      "tasks": [
+        "AUTO-06 ecosystem.db bootstrap from the intent-control-plane schema, unblocked now that ADR-0017 settled which copy is authoritative. Unblocks work-claims and FleetView",
+        "AUTO-11 merge-policy labels and auto-merge for auto:low",
+        "AUTO-09 scale the nightly to tier-1 repos after seven clean days",
+        "AUTO-12, 13, 14 social: excavate the bundle into a draft-first pipeline",
+        "AUTO-17 research stage in the weekly self-improve cron",
+        "AUTO-18 register the real scheduled tasks and observe one unattended fire. The S4U passwordless probe already succeeded and was removed",
+        "AUTO-19 FleetView: specced with a 12-row feature table, five premortems and an 18-item checklist, zero code",
+        "AUTO-20 reputation routing once runs-table volume exists",
+        "AUTO-15 split the resume rails into verifiable rows",
+        "Decide the undeployed enforcement layer: PreToolUse protect-infra and rtk-bash-guard, Stop stop-checklist and verification-before-completion and contract-proof-stop, PostToolUse skill-usage-logger. These are the checks that would have caught L003 and L009 mechanically"
+      ],
+      "priority": "P2",
+      "session": "S5",
+      "estimate": "half day",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Research transfer, five findings owed",
+      "milestone": "M1 Instruments trustworthy",
+      "labels": [
+        "epic",
+        "instrument",
+        "P2"
+      ],
+      "body_intro": "From docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md, ranked by value over effort. RT-1 blocks the reliability diagram in the dashboard epic.",
+      "tasks": [
+        "RT-1 log {claimed_confidence, action, verified_outcome} so the CLAUDE-OS.md autonomous threshold can be calibrated at all. The literature says self-reported confidence sits at 80 to 100 regardless of accuracy, which would make that threshold inert rather than protective",
+        "RT-2 decision ledger and rejection rate on the daily digest. Three ADRs rest on human approval and nothing records an approve or reject, so rubber-stamping is undetectable. A ratio that has never seen a rejection IS the finding",
+        "RT-3 print the joint claim under VERDICT",
+        "RT-4 fixture provenance for tools/skilleval plus one independent audit of the existing five before writing the next 42. Self-annotated labels are the BIRD defect at 52.8 percent annotation errors",
+        "RT-5 first metamorphic relation. Start with codemap: renaming one directory must change exactly one row. A grep for metamorphic across tools/ returns zero implementations"
+      ],
+      "priority": "P2",
+      "session": "S5",
+      "estimate": "half day",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: RTK adoption, measured rather than advertised",
+      "milestone": "M2 Consolidation and shrinkage",
+      "labels": [
+        "epic",
+        "measured",
+        "P3"
+      ],
+      "body_intro": "Installed 2026-07-30. rtk-ai/rtk v0.44.1, Apache-2.0, 73,967 stars, pushed 2026-07-28. Release zip verified against published SHA256 rather than piping their install script to a shell, rtk.exe placed in ~/.local/bin.",
+      "tasks": [
+        "MEASURED on this tree: 20 percent total saving across four commands, not the advertised 60 to 90. git status 25 percent, git diff --stat 11 percent, git log --oneline 0 percent, ls -la 68 percent. The win concentrates in directory listings",
+        "home-dotfiles/RTK.md states as a rule 'always prefix shell commands with rtk' and the binary was absent until today, so every command run before then violated a rule in our own dotfiles",
+        "Decide rtk-bash-guard.sh: deploy it, or delete the rule and the guard. A mandatory prefix nobody can enforce is the worst of the three",
+        "Add JuliusBrussee/caveman to the RTK prior-art record as the named alternative"
+      ],
+      "priority": "P3",
+      "session": "S6",
+      "estimate": "full day",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Supply-chain verification so adopting new tools is safe rather than refused",
+      "milestone": "M1 Instruments trustworthy",
+      "priority": "P1",
+      "session": "S4",
+      "estimate": "90 min",
+      "labels": [
+        "epic",
+        "instrument",
+        "measured",
+        "P1"
+      ],
+      "body_intro": "Position corrected 2026-07-30. Refusing `curl | sh` is not a policy, it is the absence of one, and it blocks adoption of a field that moves weekly. The operator's framing is right: use the open-source equivalents of JFrog Artifactory and Xray, then adopt safely. RTK was installed correctly the same day (release zip, SHA256 verified against the published checksums file, e9f2e26c...). Oak was refused because its documented install is a pipe to a shell. The difference between those two outcomes should be a process, not a mood.",
+      "tasks": [
+        "tools/supply/verify.py: record provenance (source URL, sha256, size, signature status, scanner verdict, decision, ts) to an append-only state/supply-chain.jsonl, and REFUSE to mark an artifact adopted with no recorded hash. Selftest plus mutation entry per the repo's four-layer convention",
+        "Evaluate and pick from the open-source Xray equivalents: Trivy, Grype plus Syft for SBOM, OSV-Scanner, cargo-audit, cargo-deny, cargo-vet, pip-audit, and sigstore cosign with SLSA provenance for signing",
+        "ADR stating the rule for a pipe-to-shell install: when it is acceptable, what the substitute is, and what evidence must exist before an artifact counts as adopted",
+        "A supply_chain domain in quality-contract.json so an unverified artifact FAILS the gate rather than passing because nobody looked",
+        "Backfill what is already installed: rtk.exe (hash on record), the claude-plugins-official marketplace clone, and whatever the WSL2 migration installs",
+        "Then reopen Oak against a verified artifact path, because the objection was never the tool and the operator is right that we cannot avoid adopting the new scene"
+      ],
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Point-in-time reconstruction for state that has no history",
+      "milestone": "M1 Instruments trustworthy",
+      "priority": "P2",
+      "session": "S5",
+      "estimate": "half day",
+      "labels": [
+        "epic",
+        "instrument",
+        "measured",
+        "P2"
+      ],
+      "body_intro": "ABSORB-02, deferred on 2026-07-25 as roughly 150 lines to be built 'only when a concrete need appears'. The need appeared three times in one session, which is the argument for building it now rather than the argument for deferring again.",
+      "tasks": [
+        "Driver 1: the review domain's waiver in quality-contract.json changed mid-session from 'until 2026-08-12' to 'until 2026-08-02' with an entirely different stated reason, and nothing on disk can say when it changed or by what",
+        "Driver 2: tools/review/panel.py line 11 asserted 'the codex binary is not installed' while codex-cli 0.146.0 was installed and ChatGPT-authenticated, for an unknown length of time, and two subagents read it as fact during one session",
+        "Driver 3: a git-repo census reported 1,870 repositories. 1,884 directories were our own leaked test fixtures and the true count is 28, so every conclusion drawn from that walk came from a number our own broken test produced",
+        "tools/timetravel/snapshot.py: content-addressed snapshots of the GITIGNORED ledgers with a committed manifest, so a ledger's value at a past moment is recoverable. Do not rebuild what git already gives for tracked files",
+        "The original need is still open and belongs to another lane: hiring_engine/ledger.sqlite holds 272 jobs, 4 applications and 21 approvals with zero history. That is a proposal row from here, not this lane's work"
+      ],
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: The prose gate measures the ruled form, not the property",
+      "milestone": "M1 Instruments trustworthy",
+      "priority": "P1",
+      "session": "S3",
+      "estimate": "60 min",
+      "labels": [
+        "epic",
+        "instrument",
+        "prose-gate",
+        "measured",
+        "P1"
+      ],
+      "body_intro": "L-2026-07-31-b. The operator read a 5.4k-word deliverable that had passed tools/slop_lint.py and said it read as machine written, naming dashes. Measured: zero em dashes, zero en dashes, two non-ASCII characters in the file and both were quoted from the artifact under review. So the accusation was falsifiable and false, and the intuition behind it was still pointing at something the gate cannot see: hyphen-compound density 2.8 percent and sentence-length standard deviation 14.8. voice-metrics/SKILL.md:21 already classifies no-em-dashes as RULED, a decision with no corpus behind it. The harness gates the ruled proxy and leaves the measured property ungated, the same shape as L-2026-07-29-g.",
+      "tasks": [
+        "Port a hyphen-density and sentence-length-variance check from ~/.claude/skills/voice-metrics/voice_score.py into tools/slop_lint.py",
+        "Fit the thresholds against the operator's own corpus (n=35,472 messages, voice-metrics profiles.json). Do not guess them; a guessed threshold is a second ruled rule wearing a number",
+        "Regression tests in both directions: a file that passes today and reads as generated must go red, and the operator's own prose must stay green",
+        "Mutation control proving the new check can go red, per the repo's four-layer standard",
+        "Warn before it blocks. Collect a week of scores first, then decide the threshold from the distribution rather than from taste",
+        "Until this lands, stop citing a clean slop_lint as evidence that prose does not read as generated. It is evidence of one banned list and one dash rule",
+        "2026-07-31 measured: tools/slop_lint.py has NO notion of fenced code blocks. Confirmed by reading it, no fence handling and no backtick handling anywhere. It lints mermaid diagrams and code samples as prose, so docs/SYSTEM-MAP.md carries 5 unfixable hits inside its diagram's subgraph labels. Same false-positive class as panel.py (L-2026-07-29-d), in this repo's own prose gate. Regression test must pin a dash inside a fence as CLEAN and the identical dash outside it as a HIT.",
+        "2026-07-31 measured: docs/INDEX.md, the docs-control-plane spine, had 43 em-dash hits and was never linted by anything. The prose gate exists and is not bound to the documents."
+      ],
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: A waiver's reason must name the mechanism its falsifier tests",
+      "milestone": "M1 Instruments trustworthy",
+      "priority": "P0",
+      "session": "S2",
+      "estimate": "45 min",
+      "labels": [
+        "epic",
+        "instrument",
+        "measured",
+        "P0"
+      ],
+      "body_intro": "L-2026-07-31-a. The review domain carried a waiver through three renewals whose stated reason was that the blocking findings were matches against comments and docstrings. Measured 2026-07-30, that reason was wrong for all five. The waiver shipped its own falsifier, an AST walk of the final file, and it PASSED. It passed for a different reason than the one written beside it, which launders a wrong diagnosis into an audited one. A falsifier that cannot distinguish its stated mechanism from every other reason the same command could pass is not a falsifier.",
+      "tasks": [
+        "DONE 2026-07-31: both underlying defects fixed in tools/review/panel.py; waiver replaced with one that records the old reason as wrong; panel 5 high to 0 high",
+        "The review waiver expires 2026-08-02 and committing this branch is what clears it. Decide before then: commit, or renew with a reason that is true",
+        "Audit every other waiver in quality-contract.json against the same test: does the reason name a mechanism, and can its falsifier tell that mechanism from the alternatives",
+        "Report a waiver past its second renewal as a class rather than as a fresh decision. Three renewals happened here before anyone re-read the reason",
+        "Audit the 1,260 lines drop_stale_lines now removes (75,932 to 74,672 reviewed). Each should be a line the tree does not contain at the claimed position; none has been checked individually"
+      ],
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "measured"
+    },
+    {
+      "title": "EPIC: Review work must recompute its own numbers and render what it judges",
+      "milestone": "M1 Instruments trustworthy",
+      "priority": "P2",
+      "session": "S4",
+      "estimate": "90 min",
+      "labels": [
+        "epic",
+        "instrument",
+        "measured",
+        "P2"
+      ],
+      "body_intro": "L-2026-07-31-c. An 11k-word review of two external artifacts presented about fifteen measured quantities in the same flat voice as its inferences. An independent recount with no access to the reasoning found four wrong, including a decimal-to-hex slip (2500134 is 262626, not 2625A6) that turned 'the anchor has no text accent colour at all' into 'it has a link colour', weakening the argument it was cited for. Separately, rendering the artifact in a browser overturned three findings derived from CSS text, one of them simply wrong about a laptop.",
+      "tasks": [
+        "Make the recount a step, not a virtue: any deliverable with more than five derived numbers gets a verification pass by something that cannot see the reasoning",
+        "Any claim about a rendered artifact stays inference until rendered. The cdp path works (native Chrome 9224 with --remote-allow-origins=*) and took four minutes; there was no excuse",
+        "A convention for marking a measured number apart from an inferred one inside a deliverable, so a reader can tell without reading a methods section",
+        "Extend tools/refute to accept a deliverable's numeric claims as falsifiers, so a review can be re-checked by running it rather than by re-reading it"
+      ],
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "unmeasured"
+    },
+    {
+      "title": "EPIC: Record where the plan was refuted, not only where the code failed",
+      "milestone": "M1 Instruments trustworthy",
+      "priority": "P1",
+      "session": "S3",
+      "estimate": "60 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "measured",
+      "labels": [
+        "epic",
+        "instrument",
+        "measured",
+        "P1"
+      ],
+      "body_intro": "A red test says the code is wrong. A deviation from the plan says the plan was not buildable, and only the first has ever had a home in this repo. The second is regenerated and discarded every session. state/plan-deviations.jsonl was created 2026-07-31 and seeded with the two this session produced, both reconstructible only because they happened to be narrated in chat. Schema: ts, session, lane, plan, refuted_by, evidence, replan, class.",
+      "tasks": [
+        "DONE 2026-07-31: ledger created and seeded with two rows. Row 1: the plan was to mask comments and string literals in panel.py; the planted selftest defect IS SQL inside a string literal, so masking would have turned the oracle green on a real injection. Row 2: the plan was to judge the deck from its CSS; rendering over CDP overturned three conclusions in four minutes",
+        "A capture command so recording a deviation costs one line, not a hand-edited JSONL row. Anything more expensive than narrating it will lose to narrating it",
+        "Wire it into the close-of-session path beside the handoff, so a session that replanned and did not record it is visible",
+        "Group by `class` after ten rows and see whether the classes recur. If they do, that is a premortem input; if they do not, the field is decoration and should be dropped",
+        "Decide whether a deviation belongs in state/lessons.jsonl instead. They are different: a lesson is a failure class, a deviation is a plan that could not survive contact. Keeping both only pays if the join is used"
+      ]
+    },
+    {
+      "title": "EPIC: Fix data structures and interfaces before the first line of code",
+      "milestone": "M1 Instruments trustworthy",
+      "priority": "P1",
+      "session": "S4",
+      "estimate": "90 min",
+      "lane": "A harness",
+      "autonomy": "operator-only",
+      "evidence_state": "measured",
+      "labels": [
+        "epic",
+        "instrument",
+        "measured",
+        "P1"
+      ],
+      "body_intro": "/premortem emits prose. Nothing in the planning path emits a signature, so interface decisions get made implicitly by whoever writes the first function. The measured cost: run_local in panel.py receives {file, line, text}, one diff line with no file handle. Nobody ratified that. Every 'it matched a comment' theory was downstream of it, three waivers were paid on that theory, and the real defect was that the line was not in the tree at all.",
+      "tasks": [
+        "A planning stage that emits types and signatures, not paragraphs. Protocol classes or a .pyi is enough; the requirement is that the interface is reviewable before it is implemented",
+        "Retrofit the one that cost the most: decide explicitly whether run_local reviews a LINE or a FILE, and record the decision with its consequence for every check that reads context",
+        "Make /premortem's output include the signature block, so the failure modes it lists are attached to an interface rather than to an intention",
+        "Check the other oracles for the same unratified-interface shape: what does each one receive, and did anyone choose it"
+      ]
+    },
+    {
+      "title": "EPIC: Run the artifact through a measurement function instead of rendering it",
+      "milestone": "M1 Instruments trustworthy",
+      "priority": "P2",
+      "session": "S4",
+      "estimate": "90 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "measured",
+      "labels": [
+        "epic",
+        "instrument",
+        "measured",
+        "P2"
+      ],
+      "body_intro": "tools/e2e/flow.py drives another repo's running UI. There is no way to run OUR own artifact across all its states in a fast textual mode and read measurements out. Measured cost 2026-07-30: half a session inferring a deck's behaviour from its CSS, then four minutes over CDP to overturn three of those conclusions, including one that was simply wrong about a laptop.",
+      "tasks": [
+        "A harness that takes an artifact, an enumerator of its N states, and a measurement function, and returns a table. The deck case was 31 slides through a per-slide probe",
+        "Port the CDP probe from this session into it as the first backend: launch, enumerate, measure, no screenshots unless a human asks",
+        "Second backend with no browser at all, for artifacts that have a textual state space, so the fast path does not depend on Chrome being installed",
+        "Acceptance: re-running it on thesis_story_9.html reproduces the takeaway-clipping table in section II.1b of the review without a human reading a screenshot"
+      ]
+    },
+    {
+      "title": "EPIC: Adopt ast-grep so an oracle can tell code from prose about code",
+      "milestone": "M1 Instruments trustworthy",
+      "priority": "P1",
+      "session": "S3",
+      "estimate": "60 min",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "asserted",
+      "labels": [
+        "epic",
+        "instrument",
+        "P1"
+      ],
+      "body_intro": "The class that cost three waivers is that a regex cannot separate code from prose about code. An AST can. ast-grep is Rust, tree-sitter based, YAML rules, and does the job panel.py does. Toolchain is present (cargo 1.97.1, rustc 1.97.1) and hookgate already bets on Rust with fancy-regex and serde_json. MoSCoW: ast-grep MUST; tree-sitter and tree-sitter-<lang> crates SHOULD, if the parse should live inside hookgate rather than shelling out; fd and tokei SHOULD for the repo sweep; hyperfine and sd COULD; GritQL via Biome WON'T yet, the plugin is beta with no autofixes.",
+      "tasks": [
+        "cargo install ast-grep, then prove it in a SCRATCH rule file against the three sql-concat false positives and the planted selftest defect. Do not touch tools/hookgate: another session is mid-flight there and rewrote rules.rs once on 2026-07-31",
+        "Compare like for like: the two lookaheads now in panel.py against an ast-grep rule, on the same corpus. If the regex wins on this corpus, say so and stop",
+        "Decide the integration point: shell out to the ast-grep binary, or link tree-sitter into hookgate and keep one static binary. This is an interface decision and belongs to the signatures epic",
+        "Whichever wins, the selftest and a mutation control move with it. A new engine with no mutation proof is a downgrade regardless of how it matches"
+      ]
+    },
+    {
+      "title": "EPIC: Repo Clear, an enforced standard rather than a written one",
+      "milestone": "M2 Consolidation and shrinkage",
+      "priority": "P2",
+      "session": "S5",
+      "estimate": "half day",
+      "lane": "A harness",
+      "autonomy": "agent-ships-behind-gate",
+      "evidence_state": "measured",
+      "labels": [
+        "epic",
+        "drift",
+        "measured",
+        "P2"
+      ],
+      "body_intro": "Survey 2026-07-31, walking the real tree because the interesting parts are gitignored: claude-setup 502 dirs / 11 empty / 1037 md / 106 byte-identical duplicates / 38 agent files. new-recruit 2822 dirs / 21 empty / 5717 md / 2479 duplicates (43 percent) / 193 agent files. daily-deep-learning 38 / 2 / 73 / 0. moneyballz 5 / 0 / 3 / 0. AGENTS.md is the standard to converge on: Linux Foundation AAIF stewardship, 60k+ repos, nearest file wins, no required sections. A prose standard rots; work-docs/research/README.md declares a lane the actual files ignore. So this ships as a checker with a gate domain.",
+      "tasks": [
+        "tools/repoclear/scan.py, read-only: empty dirs, byte-identical duplicates, agent-file conflicts, build artifacts. One report over the four repos, zero deletions",
+        "One root AGENTS.md per repo written to the spec, nested only where a package genuinely differs. Superseded agent files get LISTED for removal, not removed",
+        "Wire repoclear as a gate domain on claude-setup first, with its own selftest and a mutation that must turn the selftest red",
+        "Fix the research output path while in there: every 2026-07-27 prompt states output lands in ~/docs/research/, which does not exist. The seven reports are in work-docs/ root under prose titles. Correct the path and add a check that fails when a prompt names a destination that does not exist",
+        "new-recruit dedup runs inventory first: hash pass, then near-duplicate pass reporting unique spans, then consolidation, and deletion only after a check proves no unique span was lost. Largest cluster first: 24 copies under projects/.axia-broken-worktree-retired-20260710",
+        "This blocks the WSL2 move (epic: WSL2 migration). Relocating 5717 markdown files of which 2479 are duplicates is paying to move garbage"
+      ]
+    },
+    {
+      "title": "EPIC: The falsifier layer, and the five claims it now refutes",
+      "milestone": "M1 Instruments trustworthy",
+      "labels": [
+        "epic",
+        "instrument",
+        "measured",
+        "P0"
+      ],
+      "body_intro": "On 2026-07-31 `python tools/refute/refute.py run` reported `26 claims: 0 held, 0 REFUTED, 26 broken verifier`. One cause for all of them: every row declared `shell: \"pwsh\"` and neither pwsh nor powershell exists under WSL. The tool never lied about it, and it exits nonzero on unknowns, so nothing was falsely certified. What was lost was the layer itself, on the host the operator now works from. Repaired in aeaecd3; the run is now 21 held, 5 REFUTED, 0 broken. The five refutations below are the product and are deliberately NOT fixed in the commit that made them visible.",
+      "tasks": [
+        "DONE 2026-07-31 (aeaecd3): shell `portable` is a real value AND the default; an unknown value is still BROKEN so this is not run-everything-and-hope. 19 of 26 rows needed only a shell that exists and forward slashes. 8 regression tests, all red before the fix; mutate --spec refute 12 of 12 caught.",
+        "DONE 2026-07-31: two of the seven PowerShell-native verifiers were AIMED WRONG, not merely unportable. They resolved $env:USERPROFILE\\claude-setup, the Windows clone, a different working tree from the WSL one. With pwsh installed they would have reported on a checkout the session was not editing. checks/portable_claims.py anchors on its own file location instead.",
+        "DONE 2026-07-31: C-017 survived migration still carrying PowerShell. /bin/sh parsed it, choked on a brace, exited nonzero, and the runner correctly read nonzero as REFUTED. An infrastructure fault arrived dressed as a finding, in the one tool built to tell those apart. The test therefore checks the SOURCE for cmdlet syntax, not the exit code.",
+        "OPEN C-012: live ~/.claude/CLAUDE.md is DELETED and settings.json was rewritten (7440b to 6807b) since the 2026-07-29 baseline. The global instruction file the harness reasons about is gone and nothing noticed for two days. OPERATOR DECISION: re-baseline, accepting the deletion as intended, or restore.",
+        "OPEN C-025: the pre-write snapshot for the pending settings.json write is INCOMPLETE, many agents/*.md MISSING, so that write is not revertable from it. A rollback source recorded as present and measured as partial.",
+        "OPEN C-003: 1 of 12 live hook registrations does not resolve. PreToolUse points at tools/hookgate/target/release/hookgate and the checker finds no script path there. A hook that cannot run fails open and reports nothing.",
+        "OPEN C-015: mutate --spec bus fails against the current tree, so bus.py's selftest is no longer proven able to fail.",
+        "OPEN C-008: hiring_engine/ledger.sqlite is absent at the path the claim names. Lane B owns that ledger, so this is a proposal row for B, not lane A work."
+      ],
+      "priority": "P0",
+      "session": "S3",
+      "estimate": "90 min",
+      "lane": "A harness",
+      "autonomy": "operator-only",
+      "evidence_state": "refuted"
+    },
+    {
+      "title": "EPIC: Bind the instruments that already run to a ratchet",
+      "milestone": "M1 Instruments trustworthy",
+      "labels": [
+        "epic",
+        "instrument",
+        "design",
+        "P1"
+      ],
+      "body_intro": "Every defect the 2026-07-31 sweep found is one shape: a number that is produced and then bound to nothing that stops. docmap prints INDEX reachability at 3% and nothing fails. pointers.py counts 271 absent paths, exits FAIL, and is not a gate domain. skills_sync reports 49 drifted items and nothing fails. refute returned unknown 26 times for days. The proposal is a ratchet, a number that may not get worse, attached to checks that already run. Explicitly NOT a fourteenth gate domain: the count is already 13 and docs/reflections/2026-07-29-what-is-going-wrong.md section 4.2 warns against adding one.",
+      "tasks": [
+        "BLOCKED on /diverge. This is a design decision and charters rule 2 requires five candidates with stated p_conventional before anything is built. Do not implement from this row.",
+        "Candidate surface, not a decision: the gate's `docs` domain already passes; a ratchet could live there rather than beside it.",
+        "docs/INDEX.md has no generator and nothing fails when it drifts, so its 113-of-114 coverage decays from the next document onward. Either generate it like CODEBASE-MAP and DOCMAP, or ratchet the reachability number docmap already computes. Do not do both.",
+        "8 of 18 specs declare no Status line. docmap passes them because it derives a class-based status, which answers what kind of document it is and never whether it is still true. The two architecture-build-plan files supersede each other by title and neither says so."
+      ],
+      "priority": "P1",
+      "session": "S4",
+      "estimate": "240 min",
+      "lane": "A harness",
+      "autonomy": "operator-only",
+      "evidence_state": "measured"
+    }
+  ]
 }

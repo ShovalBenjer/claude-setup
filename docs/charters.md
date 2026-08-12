@@ -36,8 +36,14 @@ requires the row's own timestamp for exactly this reason.
 
 ## Lane B: Resume engine (ongoing project)
 
-- Owns: ~/Downloads/new-recruit. Hiring machine, arms, applications, job scans.
+- Owns: `~/work/repos/new-recruit`. Hiring machine, arms, applications, job scans.
 - Gets from A: crons, review workflows, push approvals, db tables. Nothing else.
+- Path corrected 2026-07-31. It read `~/Downloads/new-recruit` until then, and
+  that directory had been emptied by a declutter sweep that morning, so the
+  charter named a lane by a path that did not exist. The repo gained its first
+  remote the same day (`github.com/ShovalBenjer/new-recruit`, private), and the
+  WSL tree is authoritative; the Windows copy at `C:/Users/shova/new-recruit` was
+  measured to hold nothing the WSL tree lacks and is being retired.
 
 ## Lane C: Learning (הסדנה)
 

@@ -1,5 +1,7 @@
 # SOTA Agentic Repository Directory Standard & Estate Enhancement Plan
 
+Status: design. Specification and architectural comparison, 2026-07-31.
+
 - **Date**: 2026-07-31
 - **Status**: SPECIFICATION & ARCHITECTURAL COMPARISON
 - **Companion**: `docs/standards/agentic-repo-standard.md` ([ADR-0020](file:///c:/Users/shova/claude-setup/docs/adr/0020-agentic-repo-standard.md)), `docs/specs/2026-07-31-project-federation.md`
