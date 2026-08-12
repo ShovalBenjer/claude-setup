@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "split",
+ "verdict_class": "split",
+ "absorption_status": "unreviewed",
  "why": "6 of 8 check types (passive ratio, sentence/avg-length caps, paragraph length, jargon substitution, unexplained-acronym-first-use) have real, free equivalents (write-good's passive check, Vale's confirmed Acronyms rule, Vale/write-good Wordiness). Two do not: unbacked_number is this repo's own claim-discipline rule (tied to the retracted 24%-64% incident), and hidden-verb/nominalization was not found in proselint, write-good, or Vale's rule sets. Verdict: keep the two novel checks plus CI/mutate.py wiring; the rest duplicates available tooling.",
  "alternatives": [
   {

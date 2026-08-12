@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "keep-ours",
+ "verdict_class": "keep-ours",
+ "absorption_status": "unreviewed",
  "why": "knowledge.py's load-bearing job is a rights/attestation gate (CLAUDE.md: commercial books stay metadata-only unless the user explicitly attests private-use rights) plus hash-checked revoke -- no RAG framework (llama-index/langchain/haystack) or generic caching pattern ships that. Its retrieval engine is already sqlite FTS5, the lean stdlib option listed as an 'alternative,' not a reinvention needing replacement. Swapping to a framework would rebuild the governance logic on top of it while adding heavy, embedding-oriented dependency trees a one-maintainer, offline-CI repo doesn't need.",
  "alternatives": [
   {

@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "keep-ours",
+ "verdict_class": "keep-ours",
+ "absorption_status": "unreviewed",
  "why": "Every alternative lacks vocabulary for Claude Code's hook JSON schema, per-event stdin contract, 0/2 exit convention, persona front-matter convention, and this repo's bus.py/hiring sqlite -- proprietary 2025/2026 surfaces no general host-assertion or PR tool targets. Each file is small, stdlib-only (fits Windows/offline house constraints where goss/InSpec are weaker), and all 7 have live callers in claims-verify.jsonl with real runs logged today.",
  "alternatives": [
   {
