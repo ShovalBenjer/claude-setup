@@ -100,6 +100,31 @@ class Translation(unittest.TestCase):
         self.assertEqual(hp.translate("tools/gate/gate.py", mounts=self.HAVE),
                          Path("tools/gate/gate.py"))
 
+    def test_the_unc_wsl_form_resolves_to_the_local_root(self):
+        """`\\\\wsl.localhost\\Ubuntu\\home\\shov\\...` is how a Windows-side
+        interpreter (powershell.exe reading a toast hook) names a file inside THIS
+        WSL filesystem. First appeared 2026-08-12 in the live settings.json and
+        cost one false HIGH. Translation is licensed by the same evidence as the
+        drive rules: mounts non-empty means we are inside WSL, so the UNC path
+        names our own root."""
+        for raw in (r"\\wsl.localhost\Ubuntu\home\shov\.claude\hooks\notify-toast.ps1",
+                    r"\\wsl$\Ubuntu\home\shov\.claude\hooks\notify-toast.ps1"):
+            self.assertEqual(
+                hp.translate(raw, mounts=self.HAVE),
+                Path("/home/shov/.claude/hooks/notify-toast.ps1"))
+
+    def test_the_unc_form_is_untouched_off_wsl(self):
+        """No mounts, no license: on bare Linux or Windows the UNC path stays as
+        written, per the safety property."""
+        raw = r"\\wsl.localhost\Ubuntu\home\shov\x.ps1"
+        self.assertEqual(hp.translate(raw, mounts=self.NONE), Path(raw))
+
+    def test_a_non_wsl_unc_share_is_never_touched(self):
+        """`\\\\fileserver\\share\\x` is a real network path, not a spelling of a
+        local one. Rewriting it would fabricate presence."""
+        raw = r"\\fileserver\share\x.ps1"
+        self.assertEqual(hp.translate(raw, mounts=self.HAVE), Path(raw))
+
     def test_exists_uses_the_translation(self):
         """The caller-facing helper. pointers.py asks "is this file there", not
         "what would this path be", so the translation has to be inside the answer."""
