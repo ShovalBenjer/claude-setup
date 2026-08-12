@@ -1,15 +1,17 @@
-"""The ship-gate downgrades a docs-only tree, still blocks any code change.
+"""The ship-gate downgrades a docs-only delta since the last PASS, blocks code.
 
-Regression guard for the 2026-08-12 fix: a Stop-boundary done-claim used to demand
-a full 12-domain gate run even when the turn changed only prose (.md frontmatter,
-docs/). That is a mismatch, since no code domain covers prose. The fix classifies the
-tree: docs-only -> systemMessage, any code path -> hard block. This test pins both
-directions AND the two bugs found only by testing against a real tree (the truncated
-`status --porcelain` slice, and state ledgers reading as code).
+Regression guard for the 2026-08-12/13 fixes. v1 classified only the WORKING diff,
+which left two holes, both hit in practice on 2026-08-13: a clean tree whose only
+delta since the gate was a committed docs regen still hard-blocked, and a dirty
+docs-only tree sitting on committed-but-ungated code would have downgraded (a
+bypass). v2 unions working changes with commits since the last full run's commit,
+and requires that run to be a PASS. These tests pin the classifier, the baseline
+rule, and both holes.
 """
 from __future__ import annotations
 
 import importlib.util
+import json
 import os
 
 HOOK = os.path.join(os.path.dirname(__file__), "..", "dot-claude", "hooks", "ship_gate_stop.py")
@@ -22,46 +24,89 @@ def _load():
     return mod
 
 
-def test_classifier_prose_paths_are_docs_only():
+class FakeGate:
+    """Just enough gate surface for is_docs_only: setup_root, LEDGER, git()."""
+
+    LEDGER = "gate-runs.jsonl"
+
+    def __init__(self, root, status_lines, diff_since_baseline):
+        self._root = root
+        self._status = status_lines          # `git status --porcelain -z` records
+        self._diff = diff_since_baseline     # paths for `diff --name-only <sha>..HEAD`
+
+    def setup_root(self):
+        return self._root
+
+    def git(self, cmd, project):
+        if cmd.startswith("status --porcelain -z"):
+            return "\0".join(self._status)
+        if cmd.startswith("diff --name-only HEAD"):
+            return ""  # working tracked diff folded into status records for these tests
+        if "..HEAD" in cmd:
+            return "\n".join(self._diff)
+        return ""
+
+
+def _write_ledger(tmp_path, rows):
+    p = tmp_path / "gate-runs.jsonl"
+    p.write_text("\n".join(json.dumps(r) for r in rows) + "\n")
+    return str(tmp_path)
+
+
+def test_classifier_prose_and_code_paths():
     h = _load()
-
-    def classify(paths):
-        code = []
-        for p in paths:
-            low = p.lower()
-            if low.endswith(h._DOC_ONLY_SUFFIXES):
-                continue
-            if any(low.startswith(d) or ("/" + d) in low for d in h._DOC_ONLY_DIRS):
-                continue
-            code.append(p)
-        return (not code), code
-
-    assert classify(["docs/analysis/x.md", "dot-claude/skills/a/SKILL.md"]) == (True, [])
-    assert classify(["README.md"]) == (True, [])
-    assert classify(["state/gate-runs.jsonl"]) == (True, [])
-
-
-def test_classifier_any_code_path_is_not_docs_only():
-    h = _load()
-
-    def classify(paths):
-        code = [p for p in paths
-                if not p.lower().endswith(h._DOC_ONLY_SUFFIXES)
-                and not any(p.lower().startswith(d) or ("/" + d) in p.lower()
-                            for d in h._DOC_ONLY_DIRS)]
-        return (not code), code
-
-    # a .py hook is CODE even though it lives under dot-claude/
-    assert classify(["dot-claude/hooks/ship_gate_stop.py"]) == (False, ["dot-claude/hooks/ship_gate_stop.py"])
-    assert classify(["docs/x.md", "tools/gate/gate.py"]) == (False, ["tools/gate/gate.py"])
+    assert h.classify_paths(["docs/x.md", "dot-claude/skills/a/SKILL.md", "README.md",
+                             "state/gate-runs.jsonl"]) == []
+    assert h.classify_paths(["dot-claude/hooks/ship_gate_stop.py"]) == \
+        ["dot-claude/hooks/ship_gate_stop.py"]
+    assert h.classify_paths(["docs/x.md", "tools/gate/gate.py"]) == ["tools/gate/gate.py"]
 
 
 def test_suffix_list_stays_tight():
-    """A regression tripwire: the allowlist must not silently grow to cover code.
-
-    If someone adds .py/.ts/.js/.sh here, the gate goes blind on code. That is the
-    exact failure the gate's own docstring names, so pin the allowlist explicitly.
-    """
     h = _load()
     forbidden = {".py", ".ts", ".tsx", ".js", ".jsx", ".sh", ".go", ".rs"}
     assert not (set(h._DOC_ONLY_SUFFIXES) & forbidden)
+
+
+def test_committed_docs_since_pass_downgrades(tmp_path):
+    """Hole 1: clean tree, docs-only commits since a PASS -> docs_only True."""
+    h = _load()
+    root = _write_ledger(tmp_path, [
+        {"project_path": "/p", "commit": "abc123", "verdict": "PASS"}])
+    g = FakeGate(root, status_lines=[], diff_since_baseline=["docs/CODEBASE-MAP.md", "docs/DOCMAP.md"])
+    docs_only, code = h.is_docs_only(g, "/p")
+    assert docs_only is True and code == []
+
+
+def test_dirty_docs_over_ungated_code_blocks(tmp_path):
+    """Hole 2 (the bypass): dirty doc on top of committed code -> blocks."""
+    h = _load()
+    root = _write_ledger(tmp_path, [
+        {"project_path": "/p", "commit": "abc123", "verdict": "PASS"}])
+    g = FakeGate(root, status_lines=[" M docs/notes.md"],
+                 diff_since_baseline=["tools/gate/gate.py"])
+    docs_only, code = h.is_docs_only(g, "/p")
+    assert docs_only is False and code == ["tools/gate/gate.py"]
+
+
+def test_no_baseline_or_fail_baseline_blocks(tmp_path):
+    """No run ever, or a FAIL baseline: never downgrade."""
+    h = _load()
+    # no ledger at all
+    g = FakeGate(str(tmp_path), status_lines=[" M docs/x.md"], diff_since_baseline=[])
+    assert h.is_docs_only(g, "/p") == (False, [])
+    # FAIL baseline
+    root = _write_ledger(tmp_path, [
+        {"project_path": "/p", "commit": "abc123", "verdict": "FAIL"}])
+    g2 = FakeGate(root, status_lines=[" M docs/x.md"], diff_since_baseline=["docs/x.md"])
+    assert h.is_docs_only(g2, "/p") == (False, [])
+
+
+def test_empty_delta_since_pass_blocks(tmp_path):
+    """Identical tree to the PASS run: nothing changed, downgrade not needed and
+    not granted (the green fingerprint path handles this case upstream)."""
+    h = _load()
+    root = _write_ledger(tmp_path, [
+        {"project_path": "/p", "commit": "abc123", "verdict": "PASS"}])
+    g = FakeGate(root, status_lines=[], diff_since_baseline=[])
+    assert h.is_docs_only(g, "/p") == (False, [])

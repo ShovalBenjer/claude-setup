@@ -222,24 +222,61 @@ def _changed_paths(gate, project: str) -> list[str]:
     return sorted(paths)
 
 
-def is_docs_only(gate, project: str) -> tuple[bool, list[str]]:
-    """True iff every changed path is documentation/payload prose, not code.
-
-    Returns (docs_only, offending_code_paths). Empty change set is NOT docs-only:
-    letting an empty diff pass would reopen the stale-tree hole the fingerprint
-    closes. A single code path flips it back to a hard block.
-    """
-    changed = _changed_paths(gate, project)
-    if not changed:
-        return False, []
+def classify_paths(paths: list[str]) -> list[str]:
+    """The code paths in `paths`; empty list means all-prose."""
     code = []
-    for p in changed:
+    for p in paths:
         low = p.lower()
         if low.endswith(_DOC_ONLY_SUFFIXES):
             continue
         if any(low.startswith(d) or ("/" + d) in low for d in _DOC_ONLY_DIRS):
             continue
         code.append(p)
+    return code
+
+
+def _last_full_run(gate, project: str) -> tuple[str | None, str | None]:
+    """(commit, verdict) of the last non-partial gate run for this project."""
+    ledger = os.path.join(gate.setup_root(), gate.LEDGER)
+    if not os.path.exists(ledger):
+        return None, None
+    last = None
+    with open(ledger, encoding="utf-8", errors="replace") as fh:
+        for line in fh:
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue
+            if r.get("project_path") == project and not r.get("partial"):
+                last = r
+    if not last:
+        return None, None
+    return last.get("commit"), last.get("verdict")
+
+
+def is_docs_only(gate, project: str) -> tuple[bool, list[str]]:
+    """True iff everything since the last PASSING gate run is prose, not code.
+
+    Returns (docs_only, offending_code_paths). The delta is the UNION of the
+    working changes and the commits since the last full run's commit, because
+    classifying only the working diff left two holes, both hit on 2026-08-13:
+    a clean tree whose only delta since the gate was a committed docs regen still
+    hard-blocked (annoyance), and, worse, a dirty docs-only tree sitting on top
+    of committed-but-ungated CODE would have downgraded (bypass). The baseline
+    must exist and be a PASS: with no run ever there is nothing to be "docs-only
+    since", and after a FAIL the red domains are outstanding no matter what kind
+    of file changed afterwards.
+    """
+    commit, verdict = _last_full_run(gate, project)
+    if not commit or verdict != "PASS":
+        return False, []
+    delta = set(_changed_paths(gate, project))
+    for line in gate.git("diff --name-only {}..HEAD -- .".format(commit), project).splitlines():
+        if line.strip():
+            delta.add(line.strip())
+    if not delta:
+        return False, []
+    code = classify_paths(sorted(delta))
     return (not code), code
 
 
