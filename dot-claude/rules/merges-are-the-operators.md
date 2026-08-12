@@ -46,3 +46,18 @@ the rule is about who decides, not about whether that particular decision was ri
 Companion rules: `production-means-merged-and-smoked` (merged is only the first of three
 things "production" requires), `calibrated-claims` (a green run is evidence about the
 tree, not about the decision).
+
+## Widened 2026-08-12: standing auto-merge on reviewed-and-resolved
+
+Operator instruction, this date, verbatim: "i auto merge if all reviewers which are
+resolved" (clarifying his earlier per-PR wording "if reviewers approved and all
+commenting resolved - merge"). On the operator's OWN repositories, the assistant
+merges a pull request WITHOUT a fresh per-PR answer once both conditions hold:
+
+1. Every required check and every review bot has finished green.
+2. Every review comment thread is resolved: fixed in a commit, or answered on the
+   thread with the reason it is not changed.
+
+A pending reviewer, a red check, or one unresolved thread still blocks the merge and
+gets surfaced instead. Everything else in this rule stands: deploys and production
+remain three-step, and the merge lands in the session's report row.
