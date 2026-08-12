@@ -306,3 +306,4 @@
 {"ts": "2026-08-12T22:18:59", "prompt_chars": 248, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
 {"ts": "2026-08-12T22:19:27", "prompt_chars": 5, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-12T22:19:38", "prompt_chars": 34, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:22:31", "prompt_chars": 387, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
