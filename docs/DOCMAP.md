@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1018**
-- reachable from `docs/INDEX.md`: **121** (11%)
+- documents: **1020**
+- reachable from `docs/INDEX.md`: **122** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (61)
+## analysis (63)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -129,7 +129,9 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-01-ponytail-audit-prompt-archaeology.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-03-code-audit-analysis-sweep-and-research-provenance.md` | 2026-08-03 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-08-03-math-trends-and-model-stack.md` | 2026-08-03 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-08-05-enforcement-topology-measured.md` | 2026-08-05 | dated-snapshot | class | 2 | yes | - | - |
 | `docs/analysis/2026-08-05-implementation-reasoning-per-file.md` | 2026-08-05 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-08-06-external-repo-source-read-and-surface-comparison.md` | 2026-08-06 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-08-06-memory-rag-substrate-findings.md` | 2026-08-06 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-08-07-toplevel-dir-decisions.md` | 2026-08-07 | dated-snapshot | class | n/a | - | - | the |
 | `docs/analysis/2026-08-08-connector-catalogue-reasoning.md` | 2026-08-08 | dated-snapshot | class | 2 | - | - | - |
@@ -557,7 +559,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prior-art/tools-intent.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-wsl.json` | 2026-08-03 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-antigravity.json` | 2026-08-04 | current | arithmetic | n/a | - | this file for in-session use and the CLI | - |
-| `docs/prior-art/tools-telemetry.json` | 2026-08-04 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/tools-telemetry.json` | 2026-08-05 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-corpus.json` | 2026-08-06 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/dot-claude-skills-whatsapp-query.json` | 2026-08-07 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-whatsapp.json` | 2026-08-07 | current | arithmetic | n/a | - | - | - |

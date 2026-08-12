@@ -356,6 +356,20 @@ one of them to make room for a pointer is the wrong trade.
 - [ ] **The scaffold is in the hooks tree, not the tools tree.** Measured: 1 orphan of 91 files under `tools/` (only `tools/refute/checks/portable_claims.py` is named nowhere outside its own directory). Against that, 23 of 29 `dot-claude/hooks` entries are wired nowhere in the live settings, and 12 of those are one-line pointers into `/home/shovalbe/`, a home that does not exist. If the question is what fraction is garbage, the answer differs by tree by two orders of magnitude, and the instruments are the healthy part
 - [ ] **AGENTS.md was wrong about its own skills tree** and is corrected in this pass: it claimed about a dozen skill stubs, and there are 0 across 73 entries
 
+- [ ] **`dot-claude/settings.json` describes a different machine, and no oracle checks it.**
+  Measured 2026-08-06 while wiring a hook: the tracked payload carries **10 hooks, 10 of
+  10 with Windows paths** (`C:\Users\shova\claude-setup\...`); the live
+  `~/.claude/settings.json` carries **13 hooks, 0 with a Windows path**. The payload still
+  wires `safety_gate.py`, the Python gate that `hookgate` replaced, and is missing
+  `prior_art_gate.py`, `skill-usage-log.sh` and `route.py` entirely. So the committed copy
+  of the harness contract is a snapshot of a host this repo no longer runs on. I nearly
+  made it worse by mirroring one live Linux path into it, which would have produced a file
+  correct on neither host; reverted. **`rules_sync.py` guards rules drift and
+  `skills_sync.py` guards skills drift; settings has neither**, which is why this went
+  unnoticed while both of those were being repaired in the same week. The fix is a third
+  oracle in the same shape, and it must compare hook SETS and script basenames rather than
+  paths, because the two hosts legitimately disagree about paths and only about paths.
+
 ## SETUP-OS: oracle repair (opened 2026-07-31, docs/HANDOFF-2026-07-31-review-oracle-repair.md)
 - [x] review domain: sql-concat required a verb and a concatenation and never required SQL, so English prose ("Delete ~380 lines ... + their selftest") was a HIGH; and added_lines reported lines this branch added and then deleted. Both fixed in tools/review/panel.py, 20 pinned cases, mutate --spec panel 10/10 caught, panel 5 high -> 0 high. Waiver replaced (2026-08-12 -> 2026-08-02) recording the old reason as wrong rather than deleting it (closed 2026-07-31). **THE "0 high" HALF OF THIS ROW IS FALSIFIED, 2026-08-01.** The waiver it wrote carried its own falsifier, the falsifier was run, and `panel.py run --project .` returns CHANGES-REQUESTED with 3 high. Two are real (vendored innerHTML in dot-claude/skills/brainstorming/scripts/helper.js:57,59) and one is the comment-matching mechanism this row claimed was eliminated, still live in a different check. The two fixes landed; the generalisation did not, and the row said otherwise. Waiver text corrected in quality-contract.json rather than the number being chased
 - [ ] slop_lint measures the ruled form, not the property (L-2026-07-31-b). It passes prose that reads as machine written: zero em dashes but 2.8% hyphen compounds and sentence stdev 14.8. Port a density + variance check from ~/.claude/skills/voice-metrics/voice_score.py into tools/slop_lint.py, thresholds FITTED against the operator's corpus, not guessed. Until then a clean slop_lint is not evidence
@@ -638,6 +652,8 @@ Two rows above were CLOSED by the same measurement and are marked in place.
 - [x] PERSONA-01: the allocator. `tools/review/allocate.py` maps a change to aspects and aspects to actors, decorrelating on `model_family` and never on `host`. Selftest green, 8 checks. It found its own defect on the first real run: it paired `nvidia-nim [VARIES-BY-MODEL]` with `qwen-dashscope [alibaba-qwen]` for `slop`, which is precisely the correlated pair `actors.json`'s contract forbids, because nvidia-nim serves qwen. A reseller family is now admissible only as a solitary reviewer
 - [ ] PERSONA-02: **only ONE actor declares `a11y`**, so accessibility can never receive a decorrelated second opinion. This is a registry gap and it was invisible until something read `may_enact`. Either a second actor declares it or the enum admits that a11y is single-opinion by construction. Do not fix it by having the allocator pretend
 - [ ] PERSONA-03: `panel.py` runs all five local personas on every change regardless of what changed. Wire it to consume `allocate.py`, so a diff touching only `.md` does not pay for the security rule set. Acceptance is a review artifact naming its allocated actors
+- [x] PERSONA-11: the three greppable bans from the restored `boundary-contracts.md` are now enforced. New `boundary` persona in `panel.py` with go-discarded-marshal (HIGH), go-discarded-read (HIGH) and ts-unchecked-json-parse (MED). Go arrives as a fixture language for the first time, since no check declared it before. `tests/test_panel_boundary_bans.py` pins the NEGATIVE cases, which is the half that decides survival: `a, err := json.Marshal(...)` and `_, err := ...` must stay quiet, and so must prose about the ban, which is L-2026-07-31-b and has already cost three review waivers. 8 tests, 436 in the suite, 0 findings on this repo's own tree. Side effect worth naming: the panel/registry vocabulary overlap goes from 2 of 11 words to 3, because `boundary` now has a local rule set as well as four external actors declaring it, so `allocate.py` can plan both halves of one dimension
+- [ ] PERSONA-12: **the boundary persona reimplements three mature tools, badly, and the PR said otherwise.** Prior-art gate fired; queries logged: `errcheck golangci-lint unchecked errors blank identifier assignment Go linter`, `typescript unchecked JSON.parse runtime validation zod eslint rule no-unsafe-json-parse`, `awesome static analysis linters list Go TypeScript error handling survey semgrep rules registry`. THREE not-a-gap signals fire: a curated awesome-list (analysis-tools-dev/static-analysis, richvred/awesome-linters, 111 Go tools catalogued), 2026 comparison surveys, and three tools naming the same problem. `errcheck` with `check-blank: true` IS go-discarded-marshal and go-discarded-read, done with type information instead of regex, and its own docs use `num, _ := strconv.Atoi(numStr)` as the example; `dogsled` covers the multi-blank form; `@typescript-eslint/no-unsafe-assignment` already flags the JSON.parse case because JSON.parse returns `any`; zod is the community answer for the actual fix; the Semgrep Registry has 2000+ rules and would express all three natively. WHAT SURVIVES: the panel reads added diff lines with no toolchain, no compilable package and no node_modules, which is the one thing none of those can do. So the persona is a FALLBACK for the diff-only case, not a replacement. ACTION: say so in panel.py, and for any repo that actually builds, recommend golangci-lint and typescript-eslint over these three regexes
 - [ ] PERSONA-04: **the two persona vocabularies share 2 words out of 11.** panel has `data`, `ops_release`, `ux_frontend` that no external actor can enact; the registry has `boundary`, `simplicity`, `perf`, `slop`, `tests` that no local rule set covers. Decide whether they converge or stay deliberately separate, and write the reason down either way. `PANEL_TO_ASPECT` currently records two holes as `None` rather than guessing
 - [ ] PERSONA-05: **ADR-0012's `auto:low` auto-merge is gated on a both-model approval that does not exist.** No `agreement` domain in the 14-domain contract, no implementation in `tools/`. Either build it on top of PERSONA-01, or amend ADR-0004 and ADR-0012 to record that it is designed and unbuilt. Doing neither leaves the governance docs describing a system nobody has, which is worse than having no docs
 - [ ] PERSONA-06: run two allocated actors blind to each other on one real PR. Acceptance is a `state/reviews/*.json` whose `reviewer` is not `persona-panel/local`; all 11 existing artifacts say `external backend not requested`
@@ -654,6 +670,16 @@ Ordered by whether it currently blocks a session. Every claim below names the co
 that produced it; where a number is asserted rather than measured it says so.
 
 ### Blocking now
+
+- [ ] **Nothing enforces the imported standards, and the topology is now measured.**
+      See [analysis/2026-08-05-enforcement-topology-measured.md](analysis/2026-08-05-enforcement-topology-measured.md)
+      for the five diagrams and the numbers. Headline: 22 global rules and 7 hook events
+      load in every session in every repo; all three repos declare a `quality-contract.json`
+      and only `claude-setup` has ever run one, with `new-recruit` and `daily-deep-learning`
+      at ZERO rows in `state/gate-runs.jsonl`. `code-quality-standard`, `harness-structure`
+      and `repo-standards` have zero executable references each, so a standard here must
+      have a status and be reachable while nothing reads what it says. 8 of 21 ADRs are
+      named by an oracle; 13 by nothing.
 
 - [ ] **The `review` CI job posts "Claude encountered an error after ~40s" on every run
       and exits 1, with the error swallowed by the action.** Four theories tested and
@@ -771,6 +797,96 @@ is that surface, and each is named with what it is for.
       and the falsifiers that would flip the recommendation are in
       [analysis/2026-08-06-memory-rag-substrate-findings.md](analysis/2026-08-06-memory-rag-substrate-findings.md).
 
+### Modules over the imported 500-line hard limit (15 as of 2026-08-06, was 14 on 08-05)
+
+The standard is `docs/standards/nr-code-quality-standard-2026-07.md`: module hard limit
+500, function target 20, hard limit 50. `quality-contract.json` has no size domain, so
+none of this is enforced. Filed as rows because a finding in prose is not a backlog.
+
+- [ ] `tools/gate/gate.py` is **1451 lines**, over the 500 limit by 951. worst function `cmd_selftest` at 305 lines
+- [ ] `tools/review/panel.py` is **1387 lines**, over the 500 limit by 887. worst function `cmd_selftest` at 330 lines
+- [ ] `tools/bus/bus.py` is **1244 lines**, over the 500 limit by 744. worst function `cmd_selftest` at 614 lines
+- [ ] `tools/e2e/flow.py` is **1144 lines**, over the 500 limit by 644. worst function `cmd_selftest` at 93 lines
+- [ ] `tools/snapshot/snap.py` is **827 lines**, over the 500 limit by 327. worst function `cmd_selftest` at 354 lines
+- [ ] `tools/supply/verify.py` is **808 lines**, over the 500 limit by 308. worst function `cmd_selftest` at 158 lines
+- [ ] `tools/audit/skills_sync.py` is **752 lines**, over the 500 limit by 252. worst function `cmd_selftest` at 253 lines
+- [ ] `tools/browser/cdp.py` is **739 lines**, over the 500 limit by 239. worst function `launch` at 60 lines
+- [ ] `tools/timetravel/snapshot.py` is **725 lines**, over the 500 limit by 225. worst function `cmd_selftest` at 174 lines
+- [ ] `tools/skilleval/run.py` is **579 lines**, over the 500 limit by 79. worst function `selftest` at 200 lines
+- [ ] `tools/audit/pointers.py` is **571 lines**, over the 500 limit by 71. worst function `cmd_selftest` at 103 lines
+- [ ] `tools/docmap/docmap.py` is **533 lines**, over the 500 limit by 33. worst function `selftest` at 98 lines
+- [ ] `tools/map/codemap.py` is **521 lines**, over the 500 limit by 21. worst function `cmd_selftest` at 85 lines
+- [ ] `tools/refute/refute.py` is **510 lines**, over the 500 limit by 10. worst function `cmd_selftest` at 183 lines
+
+- [ ] **daily-deep-learning's contract reaches into a STALE clone.** Its `review` and `e2e`
+      domains shell out to `C:/Users/shova/claude-setup/tools/...`, which resolves through
+      `/mnt/c` to the third clone, HEAD `f5d697e`. That clone predates today's panel.py
+      fixes, so ddl's review domain runs an oracle without the comment-strip or sql-concat
+      corrections. Superseded by the central-sweep decision in docs/taste.md 2026-08-05.
+- [ ] **Two daily-deep-learning waivers expire today, 2026-08-05: `e2e` and `a11y_ux`.**
+      A third, `pipeline`, expires 2026-08-10. Nobody will notice, because that repo has
+      never run its contract: zero rows in its `state/gate-runs.jsonl`.
+- [x] **WITHDRAWN: 'required reviewers are impossible on this plan'.** I reported branch
+      protection as unavailable because `gh api .../branches/main/protection` returned 403
+      'Upgrade to GitHub Pro or make this repository public'. The API response is real; the
+      CONCLUSION was wrong, because a parallel session is already working the reviewer
+      surface. A 403 from one endpoint is evidence about that endpoint, not about whether
+      the capability exists. Owner: the other session, not this row.
+- [x] **RESOLVED: `gh` now has `read:project`.** Zion is readable: 31 items, all Issues,
+      and **all 31 carry no status field at all**, which is why the board reads as zero
+      throughput. Nothing is In Progress because nothing has ever been moved out of the
+      default column. Discussions and Wiki remain disabled.
+- [ ] ~~GitHub Discussions and Wiki are both disabled~~ superseded by the row above; Issues (32 open) and Projects are
+      on. If Zion is the board, `gh` needs `read:project` scope before any session can read
+      it: `gh auth refresh -s read:project`.
+
+## From the 2026-08-06 external source read (see `docs/analysis/2026-08-06-external-repo-source-read-and-surface-comparison.md`, ledger `state/external-repos.jsonl`)
+
+- [ ] **`a2a-codex-call.sh` corrupts peer responses and no domain looks at it.** VERIFIED
+      2026-08-06: the response JSON is built by interpolating shell variables into a
+      `python -c` template (lines 128-146), so the peer's text is parsed as a Python string
+      literal. Literal `\x41` in a Codex review arrives as `A`; `\t` becomes a tab; a
+      Windows path loses its separators. This fails `boundary-contracts.md` points 1, 2 and
+      3 in one file. **Fix is 5 lines** (build a dict, `json.dumps` it, pass the text through
+      stdin or an env var rather than the source template). Do that before deciding anything
+      about ACP. **Acceptance: a test feeding `\x41`, `\t` and `C:\new` through the bridge
+      and asserting byte-identical round-trip.**
+- [ ] **The prose gate detects 20 lexical patterns and zero rhetorical ones.**
+      `petergyang/no-ai-slop` (MIT, so patterns are copyable) names 18 structural patterns
+      with rewrite examples; our output-style file already names several and `slop_lint.py`
+      cannot see any. About 8 are regex-able: summary-recap openers, rhetorical setups,
+      weasel attribution, faux-insight setups, the trailing `-ing` clause, negative listing,
+      colon reveals, binary contrast. **Add them as a separate class from `BANNED_PHRASES`
+      so a structural hit reports as structural.** Their `eval.md` (a checklist the model
+      runs against its own output) is the shape of the unbuilt `dod.py`.
+- [ ] **No oracle relates a requirement to a task.** `strand.py` checks status and
+      reachability and says in its own docstring that reachability "cannot catch a document
+      that is linked and ignored". `github/spec-kit`'s `analyze` supplies the missing shape:
+      duplication / ambiguity / underspecification / coverage-gap / inconsistency, severity
+      where a constitution MUST violation is automatically CRITICAL, and a coverage
+      percentage of requirements with at least one task. **Depends on the existing
+      "classify the 48 definition-of-done rows" row; do that first.**
+- [ ] **`state/deploy-manifest.tsv` records bytes, not the install.** 84 rows of
+      `sha256 <tab> path`, last written 2026-07-31. `affaan-m/ECC` (MIT) requires
+      `install-state.v1` with request, resolution, source, operations and `lastValidatedAt`,
+      and a `provenance` record with source, created_at, confidence and author on every
+      imported skill. **Provenance is the direct answer to the 45 forks**: a fork with a
+      recorded source is a merge decision with evidence, which is what the existing row
+      means by "picking by timestamp is not a decision".
+- [ ] **Three lanes, three repos, no shared architectural view.**
+      `docs/specs/2026-07-31-project-federation.md` wants one. `reposwarm/reposwarm`
+      (Apache-2.0) generates one `.arch.md` per repo into a central hub and re-analyzes only
+      repos whose HEAD moved, with prompt selection driven by a declarative pattern file.
+      `codemap.py` is directory-granularity and single-repo by construction. **The
+      incremental rule is the part that makes it affordable.**
+- [ ] **103 of 115 rows in `state/external-repos.jsonl` are `untriaged`.** 10 repositories
+      were read at source on 2026-08-06. `aaif-goose/goose` and `MemPalace/mempalace` are
+      cloned and unread. 138 community-shared repositories are resolved and unevaluated.
+      **This row exists so the 10 are not read as the whole set.**
+- [ ] **STILL OPEN, operator decision, raised 2026-07-30:**
+      `docs/analysis/reference/coherence-governor-AGENTS.md`, 17,923 bytes copied verbatim
+      from `Master0fFate/just-my-skills`, which still resolves `license: NONE` on 2026-08-06.
+      Summarize-and-link, ask for a licence, or accept that this repository cannot go public.
 
 <!-- prompt-tickets:begin generated by tools/intent/render_todo.py, do not hand-edit -->
 

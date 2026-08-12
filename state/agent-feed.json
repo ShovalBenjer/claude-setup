@@ -1,0 +1,11 @@
+{
+  "_note": "Ids resolved once and recorded. A node id is stable and a per-post lookup would be a network call on the throttle path.",
+  "repository_id": "R_kgDOSY49kQ",
+  "category_id": "DIC_kwDOSY49kc4DCwAH",
+  "category_name": "General",
+  "discussion_id": "D_kwDOSY49kc4AoSGc",
+  "discussion_number": 43,
+  "discussion_url": "https://github.com/ShovalBenjer/claude-setup/discussions/43",
+  "created": "2026-08-05",
+  "superseded_surface": "issue 38, 12 comments, 0 reactions, 0 replies"
+}
