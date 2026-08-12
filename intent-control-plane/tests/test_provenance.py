@@ -69,7 +69,21 @@ def test_persona_provenance_rework_and_net_throughput():
 
 
 def test_git_log_reads_this_real_repo():
+    """Integration smoke: the parser reads real history, not a fixture.
+
+    It asserts the SHAPE of what parsing returns, deliberately not the CONTENT
+    of recent history. The original closing line required a feat commit within
+    the last 50, which was a fact about the week's git activity rather than
+    about this code: it passed for weeks, then failed CI on 2026-08-12 with
+    zero code change after a six-PR merge campaign pushed every feat commit
+    past position 50. A unit oracle that a merge can flip is measuring the
+    calendar (same class as lesson L-2026-08-07-e, a directory read as the
+    product model).
+    """
     root = Path(__file__).resolve().parents[1]
     commits = git_log(root, max_count=50)
     assert len(commits) > 0
-    assert any(c["kind"] == "feat" for c in commits)  # this build produced feat commits
+    allowed = {"feat", "fix", "refactor", "chore", "other"}
+    for c in commits:
+        assert c["kind"] in allowed, c
+        assert c["sha"], c
