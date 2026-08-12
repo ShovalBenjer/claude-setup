@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-426 directories, 1914 tracked files, 0 without a stated purpose.
+426 directories, 1912 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -30,7 +30,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `docs` | 40 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
+| `docs` | 39 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
 | `docs/analysis` | 58 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
@@ -369,7 +369,7 @@ the same reason, one level down.
 | `research-papers/Documents/Foundry_Workflows_Research_20260419` | 1 | Research report on Azure AI Foundry multi-agent workflow design for a marketing-funnel-test project | registry |
 | `research-papers/Documents/SIU_InHouse_Video_Research_20260506` | 2 | Build-vs-buy research on an in-house AI video pipeline to replace a ChatGPT-agent+HeyGen chain for SIU | registry |
 | `research-papers/Documents/SOTA_DS_Methods_Research_20260415` | 7 | Multi-module research index on cross-validation, coverage metrics, and scalable LLM-agent-eval methods | registry |
-| `research-papers/Prompts` | 6 | Loose standalone prompt/skill text files (anti-AI writing guide, xlsx-skill definition, data-scientist prompt set) | registry |
+| `research-papers/Prompts` | 5 | Loose standalone prompt/skill text files (anti-AI writing guide, xlsx-skill definition, data-scientist prompt set) | registry |
 | `research-papers/docs-shoval` | 1 | Snapshot mirror of the axia-seekapa-cs-agents repo docs tree (architecture, compliance, audits) plus loose planning docs | registry |
 | `research-papers/docs-shoval/diagrams` | 9 | Architecture diagrams (d2 source plus rendered svg/interactive html) for the CS-agents system | registry |
 | `research-papers/docs-shoval/wiki` | 2 | Mirror of the CS-agents Azure DevOps wiki pages (Home, Architecture, Compliance, Deployment, Getting-Started) | registry |
