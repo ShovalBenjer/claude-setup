@@ -1,50 +1,20 @@
-"""Modal app: Muse Glimmer 30B endpoint + per-agent persistent memory.
+"""Modal app: per-agent persistent memory (free tier, no GPU).
 
-Two Volumes carry all state; compute is disposable by design:
-  glimmer-model-cache  HF weights cache, so cold starts skip the 60GB download
-  agent-memory         one append-only JSONL ledger per agent id
-
-Serve:   modal deploy modal-lab/glimmer_service.py
-Smoke:   modal run modal-lab/glimmer_service.py   (memory only, no GPU spend)
+The agent-memory Volume carries all state; compute is disposable by design.
+Smoke:   modal run modal-lab/glimmer_service.py   (run twice; second run must
+         see run one's rows)
+The GPU endpoint lives in glimmer_endpoint.py and needs a payment method on
+the Modal account: Modal refuses to register an A100 function without one,
+which is why the two apps are separate files.
 """
 
 import json
-import subprocess
 
 import modal
 
 app = modal.App("glimmer-lab")
 
-MODEL = "meta-models/Muse-Glimmer-30B"
-PORT = 8000
-
-model_cache = modal.Volume.from_name("glimmer-model-cache", create_if_missing=True)
 agent_memory = modal.Volume.from_name("agent-memory", create_if_missing=True)
-
-vllm_image = (
-    modal.Image.from_registry("vllm/vllm-openai:latest")
-    .env({"HF_HOME": "/cache"})
-)
-
-
-@app.function(
-    image=vllm_image,
-    gpu="A100-80GB",
-    volumes={"/cache": model_cache},
-    timeout=60 * 30,
-    scaledown_window=120,  # idle GPU dies after 2 min; per-second billing stops
-)
-@modal.concurrent(max_inputs=4)
-@modal.web_server(PORT, startup_timeout=60 * 15)
-def serve():
-    subprocess.Popen(
-        [
-            "vllm", "serve", MODEL,
-            "--served-model-name", "muse-glimmer-30b",
-            "--port", str(PORT),
-            "--max-model-len", "131072",
-        ]
-    )
 
 
 @app.function(volumes={"/memory": agent_memory})

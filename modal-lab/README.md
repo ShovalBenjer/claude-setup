@@ -31,7 +31,13 @@ curl -s $ENDPOINT/v1/chat/completions -H 'Content-Type: application/json' \
 - Whether the memory ledger survives: run the smoke test, kill everything,
   run it again, expect the previous rows back.
 
-## Status
+## Status (2026-08-13)
 
-STAGED: scaffold committed, not yet deployed anywhere. Auth is the operator's
-step. Nothing here has run against a real Modal account yet.
+- VERIFIED: per-agent memory persistence. Three `modal run` invocations, three
+  fresh containers, ledger grew 1 -> 2 -> 3 rows on the `agent-memory` Volume
+  (run ap-XzQVEKJ18P0OgCywujfVaX shows row 3). Free tier, no GPU.
+- BLOCKED on operator: the Glimmer GPU endpoint (`glimmer_endpoint.py`). Modal
+  refuses to register any A100 function without a payment method on the
+  account, even undeployed, which is why the endpoint is a separate file from
+  the free-tier memory app. Adding a card is a spend decision, so it waits.
+- Auth: done, workspace `shovalbenjer`, token in `~/.modal.toml`.

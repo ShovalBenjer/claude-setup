@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-427 directories, 1912 tracked files, 0 without a stated purpose.
+427 directories, 1913 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -350,7 +350,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `modal-lab` | 2 | First stop of the GPU-provider evaluation decided 2026-08-13 (Modal now; Paperspace, | README.md |
+| `modal-lab` | 3 | First stop of the GPU-provider evaluation decided 2026-08-13 (Modal now; Paperspace, | README.md |
 
 ## nexus-engine-rs
 
