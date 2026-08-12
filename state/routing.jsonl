@@ -209,3 +209,7 @@
 {"ts": "2026-08-06T13:17:39", "prompt_chars": 425, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-06T13:21:48", "prompt_chars": 45, "personas": ["MCP and Tooling Office"], "skills": ["mcp-activation", "web-inspect"], "matched": true, "session": ""}
 {"ts": "2026-08-06T13:23:42", "prompt_chars": 48, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T14:17:50", "prompt_chars": 204, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "azure-devops"], "matched": true, "session": ""}
+{"ts": "2026-08-12T14:22:56", "prompt_chars": 317, "personas": ["Review Board", "Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T14:24:20", "prompt_chars": 317, "personas": ["Review Board", "Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T14:49:59", "prompt_chars": 208, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "azure-devops"], "matched": true, "session": ""}
