@@ -16,7 +16,12 @@ docs/SESSION-BOOT.md first.
 Every row here was produced by opening the file or calling the API, not by reading a
 PASS. Ordered by how badly the recorded status disagreed with the disk.
 
-- [ ] **A secret is in a pushed commit and only the operator can close it.** 2026-08-10.
+- [x] **CLOSED 2026-08-12: the operator rotated the ElevenLabs key** ("the elevenlabs
+  key - replaced drop that issue", his words, recorded in this session's claim row).
+  The exposed value in `e695af5`/`gh/main` history is now dead credential; no history
+  rewrite needed. Evidence class: operator assertion, not independently verified
+  against the ElevenLabs dashboard. Original row kept below for the record.
+  2026-08-10.
   `docs/inbox-from-new-recruit/` is an untracked drop of another repository's tree, 74
   files, placed here for reading by something that was not the session that committed it.
   A `git add -A` swept it into `e695af5`, 83 files where the real diff was one Rust file,
@@ -29,6 +34,39 @@ PASS. Ordered by how badly the recorded status disagreed with the disk.
   is denied to the assistant on purpose. Full write-up, including the ordering defect that
   let a push precede its gate:
   `docs/analysis/2026-08-10-inbox-secret-exposure.md`.
+  **Escalated, measured 2026-08-11: `git branch -r --contains e695af5` now lists `gh/main`,
+  so the value is in the default branch's history, not just a lane branch. The carrying
+  branch was merged after the write-up was written. Rotation is now the only sane close;
+  see L-2026-08-11-b.**
+
+- [ ] **Read `docs/analysis/2026-08-12-plain-handoff.md` first: the plain-language
+  entry point the operator asked for.** Written 2026-08-12 on his instruction ("write
+  me full file of what you did what issues you did whats left to do ... note that
+  everything you did here i dont understand"). One self-contained file: what both
+  days did, every issue including the assistant's own, the full paper-vs-built
+  inventory, and the seven items only he can move. Passes the explain-simply checker
+  (`plain.py check`, exit 0) and slop_lint. Supersedes nothing; it points at the
+  audit and the plan rather than replacing them.
+
+- [ ] **The open-model and scheduling plan waits on five operator blocks (A to E).**
+  Written 2026-08-12 on instruction ("tell me the plan how we do it ... oracle/aws free
+  tiers first" and "regarding local and remote crons, tell me the full suggestion").
+  `docs/specs/2026-08-12-open-model-and-scheduling-plan.md`: DeepSeek-V4-Flash-0731 as
+  the API workhorse lane, Qwen3.6-35B-A3B on an OCI A1 box as the self-host lane,
+  AgentWorld correctly reclassified as the training simulator, no monthly GPU
+  subscription (on-demand bursts instead), and the 8 dead Gastown crons dispositioned
+  revive-3 / fold-3 / retire-2 across systemd and cloud routines. Time-sensitive:
+  OCI terminates over-limit Always Free A1 instances on or after 2026-08-18.
+
+- [ ] **The 2026-08-11 estate audit is the current state of everything; read it before
+  trusting any older status row.** Ordered by the operator, upset, banning convergence
+  numbers. `docs/analysis/2026-08-11-estate-audit.md`: specs BUILT 2 / PARTIAL 11 /
+  PAPER 13; Gastown crons dead since 2026-06-03; agent feed dead 5 days on a `--sink`
+  flag mismatch, repaired and posting again; all 7 hiring arms unapproved since
+  2026-07-27 by the operator's own withdrawal; external judges near-unused (codex-call
+  1 of 61 skill-use rows); the twice-dropped repo comparison now lives as the
+  `repo-compare` skill with its first run in `docs/analysis/2026-08-11-repo-compare.md`.
+  Six operator decisions wait at its section 8.
 
 One index over all of it, milestone-ordered and reconciled against the Zion board, the 6
 unmerged PRs and the specs: [docs/analysis/2026-08-11-milestone-task-plan.md](analysis/2026-08-11-milestone-task-plan.md)

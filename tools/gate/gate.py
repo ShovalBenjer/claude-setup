@@ -256,6 +256,18 @@ GATE_OUTPUTS = ("state/gate-runs.jsonl", "state/reviews/")
 HARNESS_OUTPUTS = (
     "state/prompt-tickets.jsonl",
     "state/skill-use.jsonl",
+    # Third finding of the class, 2026-08-12, after the operator named the cost
+    # ("the hook ... really slows me down"): one session was forced through three
+    # full gate runs in 18 hours with no gated content changing between them.
+    # route.py appends per prompt, spawn_log.py per Agent call, slop_lint.py per
+    # lint invocation, and the agent-feed systemd timer appends the cursor on a
+    # 30-minute clock. All four are the harness writing on its own schedule.
+    # state/claims.jsonl, lessons.jsonl, resource-ledger.jsonl and bus.jsonl stay
+    # IN the fingerprint on purpose: those rows are authored content.
+    "state/routing.jsonl",
+    "state/agent-spawns.jsonl",
+    "state/prose-scores.jsonl",
+    "state/telemetry-published.txt",
 )
 
 _EXCLUDE = " ".join('":(exclude){}"'.format(p)

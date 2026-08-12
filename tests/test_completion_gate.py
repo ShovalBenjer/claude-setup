@@ -106,10 +106,21 @@ class LegitimateStopTests(unittest.TestCase):
 
 
 class CompletionClaimTests(unittest.TestCase):
-    def test_the_original_check_still_works(self) -> None:
-        self.assertEqual(act("All done, everything works."), "block")
+    def test_the_original_check_still_fires_as_a_nudge(self) -> None:
+        """Demoted from block to nudge 2026-08-12 on operator instruction, with
+        the measurement: 211 of 243 blocks in the prior week were this reason,
+        while ship_gate_stop.py enforces the same property against the run
+        ledger. The check must still FIRE and still name its reason: a silent
+        pass would be the oracle going blind rather than going quiet."""
+        self.assertEqual(act("All done, everything works."), "nudge")
         self.assertEqual(why("All done, everything works."),
                          "completion_without_evidence")
+
+    def test_an_unevidenced_claim_that_also_hands_back_still_blocks(self) -> None:
+        """The demotion must not silence the stronger sibling check."""
+        self.assertEqual(act("All done.\n\nWant me to continue?"), "block")
+        self.assertEqual(why("All done.\n\nWant me to continue?"),
+                         "handback_without_reason")
 
     def test_a_claim_with_evidence_passes(self) -> None:
         self.assertEqual(act("Fixed. pytest exit code 0, 435 passed."), "pass")
