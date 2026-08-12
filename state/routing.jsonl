@@ -218,3 +218,4 @@
 {"ts": "2026-08-12T15:37:07", "prompt_chars": 948, "personas": ["Product Studio"], "skills": ["ui-ux-pro-max", "frontend-design"], "matched": true, "session": ""}
 {"ts": "2026-08-12T18:31:18", "prompt_chars": 295, "personas": ["Evidence Clerk"], "skills": ["deep-research", "decision-grade"], "matched": true, "session": ""}
 {"ts": "2026-08-12T18:32:13", "prompt_chars": 40, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T18:42:21", "prompt_chars": 397, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
