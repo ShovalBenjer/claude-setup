@@ -3,6 +3,8 @@
   "reviewed": "2026-08-04",
   "recheck_after": "2026-11-02",
   "verdict": "build the collector, buy nothing, and keep the publisher deliberately small",
+  "verdict_class": "build",
+  "absorption_status": "unreviewed",
   "why": "Two halves with opposite answers, which is why this is one record and not two. The COLLECTOR half is unbuyable off the shelf for a reason that has nothing to do with capability: every observability product ingests events an application emits through its SDK, and this repository emits nothing. What it has is ten append-only JSONL ledgers written by hooks, each with a different schema (bus.jsonl stamps `ts` and identifies as `from_lane`; claims.jsonl uses `claimed_at` and `lane`; handback-log.jsonl has only action/reason/session/ts and no lane at all). Adopting Langfuse or an OTel collector means instrumenting ten hook scripts to emit spans, which is strictly more work than reading the files they already write, and it adds a service that must be running for telemetry to exist. The PUBLISHER half is the opposite: GitHub Issues is entirely off-the-shelf and this file is a thin `gh issue comment` wrapper on purpose, 202 lines of which the API call is one.",
   "alternatives": [
     {

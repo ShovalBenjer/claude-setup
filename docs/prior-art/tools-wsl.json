@@ -3,6 +3,8 @@
   "reviewed": "2026-08-03",
   "recheck_after": "2026-11-01",
   "verdict": "keep, narrowly, and delete half of it the moment a dependency is allowed",
+  "verdict_class": "keep-ours",
+  "absorption_status": "unreviewed",
   "our_loc": 353,
   "what_ours_does": "Two unrelated files that share a directory because both repair the Windows side of a WSL session. make_lane_logos.py writes four 256x256 RGBA PNGs of a single letter, by hand: zlib for the IDAT stream, struct for chunk framing, binascii.crc32 for checksums, and a 5x7 bitmap font typed into the source. fix-kitty-launchers.ps1 rewrites two Windows .lnk files to launch kitty through wslg.exe instead of wsl.exe, and flips byte 21 of the ShellLinkHeader to set the run-as-admin flag.",
   "why": "The PNG half is only defensible because of a measured absence, not because hand-rolling a PNG encoder is a good idea. Pillow is not installed in this distro and neither is ImageMagick, both checked 2026-08-01, and the repo's standing convention is stdlib-only tools under tools/. Given that constraint the entire encoder is about forty lines and removes a dependency argument; without that constraint Pillow wins outright and this file should be deleted, which is why the recheck below is a one-line install test rather than a design review. The .lnk half is different and does not have an off-the-shelf answer: WScript.Shell, which is the standard scripted way to write a shortcut and is what this file uses for everything else, cannot set the run-as-admin flag at all. That flag lives in a single bit of the binary header and every tool listed below either omits it or wraps the same byte edit. So the byte-21 write is not a shortcut taken around a library, it is the thing no library exposes.",

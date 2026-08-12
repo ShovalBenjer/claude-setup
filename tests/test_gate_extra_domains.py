@@ -305,6 +305,11 @@ class TestPriorArtBuiltin(GateCase):
             "reviewed": "2026-07-25",
             "recheck_after": "2099-01-01",
             "verdict": "keep-ours",
+            # Required since ABSORB-01/09. Without them this fixture exercises
+            # the absorption checks rather than the expiry behaviour these
+            # domain tests are about.
+            "verdict_class": "keep-ours",
+            "absorption_status": "unreviewed",
             "why": "no library covers the fixture's job",
             "alternatives": [{"name": "some-lib", "gap": "does not run offline"}],
             "evidence": "read the fixture source",
