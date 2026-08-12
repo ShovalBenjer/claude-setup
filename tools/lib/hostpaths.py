@@ -31,10 +31,12 @@ verification stance is that a checker must be able to say no.
 Deliberately not a path-manipulation library. Two spellings in, one question
 answered, and `exists()` is the only thing callers should need.
 
-Scope this does NOT cover, stated so nobody reads more into it: UNC paths, drive
-letters mapped to network shares, `%USERPROFILE%` and `$env:` expansion, and the
-reverse direction (Linux paths read from Windows). None has appeared in this repo's
-traffic; add them with a failing test when one does.
+Scope this does NOT cover, stated so nobody reads more into it: UNC network shares,
+drive letters mapped to them, `%USERPROFILE%` and `$env:` expansion, and the reverse
+direction (Linux paths read from Windows). The WSL-loopback UNC forms
+(`\\wsl.localhost\<distro>\...`, `\\wsl$\...`) ARE covered since 2026-08-12, when a
+Windows-side toast hook wired that spelling into the live settings.json and cost one
+false HIGH; anything else here gets added with a failing test when it appears.
 """
 from __future__ import annotations
 
@@ -53,6 +55,12 @@ _MSYS = re.compile(r"^/([A-Za-z])/(.+)$")
 # honesty property as the drive mounts: a name this host cannot actually reach
 # stays unchanged rather than being rewritten into something that looks local.
 _WSL_UNC = re.compile(r"^\\\\wsl(?:\.localhost|\$)\\([^\\]+)\\(.*)$", re.S)
+
+#: `\\wsl.localhost\<distro>\x` or `\\wsl$\<distro>\x`: how a Windows-side
+#: interpreter names a file inside THIS WSL filesystem (powershell.exe cannot read
+#: `/home/...` directly). Only these two hosts match; `\\fileserver\share` is a real
+#: network path and must never be rewritten.
+_UNC_WSL = re.compile(r"^\\\\(?:wsl\.localhost|wsl\$)\\[^\\]+\\(.+)$", re.S)
 
 
 def wsl_mounts(root: str = "/mnt") -> dict[str, Path]:
@@ -103,6 +111,14 @@ def translate(raw: str, mounts: dict[str, Path] | None = None) -> Path:
         mount = mounts.get(drive)
         if mount:
             return mount / rest
+
+    m = _UNC_WSL.match(raw)
+    if m:
+        # mounts non-empty is the license here too: it means we ARE the WSL side,
+        # so the UNC path names our own root. The distro segment is dropped rather
+        # than checked because this host cannot cheaply name its own distro, and a
+        # wrong-distro path will simply fail the exists() that follows.
+        return Path("/" + m.group(1).replace("\\", "/"))
     return Path(raw)
 
 
