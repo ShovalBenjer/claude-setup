@@ -237,6 +237,22 @@ def scan(roots: list[str], settings_files: list[str]) -> list[dict]:
         for event, path in hook_paths(settings):
             local = win(path)
             if not os.path.exists(local):
+                # A WSL-loopback UNC target that translation left UNCHANGED means
+                # this host has no WSL side to look in (a bare-Linux CI runner).
+                # Unreachable is not missing: the same L-2026-07-31-g class the
+                # hostpaths module exists for, so it reports at medium as its own
+                # kind instead of failing the branch for a file only the
+                # operator's machine can verify. On the machine that CAN reach
+                # it, translation rewrites the path and a real absence still
+                # reports wired-missing at high.
+                if str(local) == path and re.match(
+                        r"^\\\\wsl(?:\.localhost|\$)\\", path):
+                    findings.append({
+                        "kind": "wired-unverifiable", "severity": MED, "file": sf,
+                        "target": path,
+                        "note": "{} hook: WSL UNC target, no WSL side on this "
+                                "host to verify it against".format(event)})
+                    continue
                 findings.append({
                     "kind": "wired-missing", "severity": HIGH, "file": sf,
                     "target": path,
@@ -504,7 +520,10 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
                  "args": [p("hooks", "gone.py")]}]}],
             "Notification": [{"hooks": [
                 {"type": "command", "command": "powershell.exe",
-                 "args": ["-NoProfile", "-File", p("hooks", "real.sh")]}]}]}},
+                 "args": ["-NoProfile", "-File", p("hooks", "real.sh")]},
+                {"type": "command", "command": "powershell.exe",
+                 "args": ["-NoProfile", "-File",
+                          "\\\\wsl.localhost\\NoSuchDistro\\home\\x\\t.ps1"]}]}]}},
             open(settings, "w"))
 
         found = scan([tree], [settings])
@@ -513,6 +532,15 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
             by_kind.setdefault(f["kind"], []).append(f)
         tgts = {f["target"] for f in found}
 
+        check("an unreachable WSL UNC hook is unverifiable at medium, not missing",
+              any(f["kind"] == "wired-unverifiable" and f["severity"] == MED
+                  for f in found),
+              json.dumps([f for f in found if "wsl" in f.get("target", "").lower()],
+                         indent=1))
+        check("the unreachable UNC hook is NOT reported wired-missing",
+              not any("NoSuchDistro" in f.get("target", "")
+                      for f in by_kind.get("wired-missing", [])),
+              json.dumps(by_kind.get("wired-missing", []), indent=1))
         check("a wired hook that is a path is wired-hollow",
               any("hollow.sh" in f["target"] for f in by_kind.get("wired-hollow", [])),
               json.dumps(found, indent=1))

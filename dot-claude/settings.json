@@ -239,6 +239,14 @@
               "/home/shov/.claude/hooks/prior_art_gate.py"
             ],
             "timeout": 8
+          },
+          {
+            "type": "command",
+            "command": "python3",
+            "args": [
+              "/home/shov/.claude/hooks/drift_notify_stop.py"
+            ],
+            "timeout": 8
           }
         ]
       }
@@ -254,7 +262,7 @@
               "-ExecutionPolicy",
               "Bypass",
               "-File",
-              "/home/shov/.claude/hooks/notify-toast.ps1"
+              "\\\\wsl.localhost\\Ubuntu\\home\\shov\\.claude\\hooks\\notify-toast.ps1"
             ],
             "timeout": 15,
             "statusMessage": "Raising Windows toast",

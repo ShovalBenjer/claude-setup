@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1028**
+- documents: **1026**
 - reachable from `docs/INDEX.md`: **122** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -585,7 +585,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
 | `TODO.md` | 2026-08-01 | living | registry | 2 | yes | nothing | operator |
 
-## rule (42)
+## rule (40)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -593,7 +593,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/docs-control-plane.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/gastown-company-registry.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/hive-mind-workflows.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/rules/jira-comment-drafting.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/latent-vector-workflows.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/no-emojis.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/no-mocks.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -620,7 +619,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-codex/rules/tdd-enforcement.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/pii-handling.md` | 2026-06-10 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/production-means-merged-and-smoked.md` | 2026-06-29 | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/rules/foundry-deployment-per-project.md` | 2026-07-01 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/read-whole-before-reasoning.md` | 2026-07-08 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/calibrated-claims.md` | 2026-07-24 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/model-selection.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |

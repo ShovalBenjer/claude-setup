@@ -58,7 +58,7 @@ import re
 import sys
 from pathlib import Path
 
-REPO = Path(os.environ.get("CLAUDE_OS_DIR", str(Path.home() / "claude-setup"))).expanduser()
+REPO = Path(os.environ.get("CLAUDE_OS_DIR") or str(Path.home() / "claude-setup")).expanduser()
 REGISTRY = Path.home() / ".claude" / "rules" / "gastown-company-registry.md"
 LEDGER = REPO / "state" / "routing.jsonl"
 
