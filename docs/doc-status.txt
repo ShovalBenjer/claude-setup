@@ -107,3 +107,4 @@ AGENTS.md | living
 REVIEW.md | living
 docs/ESTATE-DIRECTORY-CATALOG.md | dated-snapshot
 .github/ISSUE_TEMPLATE/task.md | living
+docs/sagemaker-hyperpod.md | reference | fetched AWS doc page, dropped 2026-08-12 17:34 by a parallel session; belongs under docs/analysis or a corpus dir if kept

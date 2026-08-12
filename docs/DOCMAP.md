@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1027**
+- documents: **1028**
 - reachable from `docs/INDEX.md`: **122** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -414,7 +414,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/Documents/CDP_Kick_Research_20260507/CDP_Kick_Strategic_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Executive_MCP_Research_20260507/Executive_MCP_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 
-## doc (55)
+## doc (56)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -428,6 +428,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/gemini-code-1785457549011.md` | - | operator-input | registry | n/a | yes | - | - |
 | `docs/gemini-code-1785458291930.md` | - | operator-input | registry | n/a | yes | - | - |
 | `docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` | - | operator-input | registry | n/a | yes | - | - |
+| `docs/sagemaker-hyperpod.md` | - | reference \| fetched AWS doc page, dropped 2026-08-12 17:34 by a parallel session; belongs under docs/analysis or a corpus dir if kept | registry | n/a | - | - | - |
 | `dot-codex/AGENTS.md` | - | living | registry | n/a | - | - | - |
 | `dot-codex/automations/README.md` | - | living | registry | n/a | - | - | - |
 | `intent-control-plane/README.md` | - | subproject | registry | n/a | - | - | - |
