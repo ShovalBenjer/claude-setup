@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "wrap",
+ "verdict_class": "wrap",
+ "absorption_status": "unreviewed",
  "why": "The JSONL ledger earns its keep as shared data (written by `add`, mutated by mutate.py --spec refute, tagged by lane for a multi-session setup) -- pytest can't do that. But most of the 500 lines duplicate, imperfectly, distinctions pytest's 5-way exit code already makes for free: both bugs motivating this file are exactly the class pytest's design avoids. Per house rule ('a dependency that deletes hundreds of lines wins') and pytest costing nothing new here: keep the ledger schema, replace dispatch/reporting/selftest with a thin conftest.py.",
  "alternatives": [
   {
