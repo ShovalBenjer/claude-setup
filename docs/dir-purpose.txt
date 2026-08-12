@@ -125,7 +125,6 @@ intent-control-plane/src | Hold the single installable package (src-layout, hatc
 intent-control-plane/src/intent_control_plane | Implement the intent CLI: sqlite ledger/schema, retrieval, evidence, eval, delegation, and the depth/company/archive self-evolving-harness cores
 intent-control-plane/src/intent_control_plane/harness | Provide pure decision logic for the prompt router and G1 self-improve loop that hook shims are meant to call
 intent-control-plane/tests | Exercise the CLI, sqlite store, and pure cores with real subprocess/sqlite calls, unit tests, and hypothesis property tests -- no mocks
-master-plans | 2026-05 planning docs (master plan, tasks, WSL fix, skills triage, cleanup proposal); superseded by the newer docs/adr and docs/prd
 nexus-engine-rs/src | Rust sources for the native physics viewer over the plan surface: main.rs loads the exported plan, models.rs the node and link types, physics.rs the spring and force-field integrator, app.rs the window loop. The crate root carries its own README, so only this subdirectory needs a row
 research-papers | Root of a read-only corpus of gathered papers, docs, notes and analysis (evidence), not a maintained codebase
 research-papers/Documents | Dated, employer-facing (Seekapa/i-sdd) deep-research report folders, one subfolder per topic/date; md/html outputs plus one loose pptx
@@ -151,7 +150,6 @@ research-papers/el-vadt/sales-agents-summary/prompts | Current deployed and gend
 research-papers/el-vadt/sales-agents-summary/prompts/archive | Retired, superseded prompt versions (v6 through v6.8) for Maryam/Nouf, kept only for diffing against current prompts
 research-papers/el-vadt/sales-agents-summary/prompts/conversation-scripts | Scenario-based Arabic conversation script library used to script/test the Maryam voice agent
 research-papers/el-vadt/specify-memory | Holds only the memory/ subdirectory, which documents itself with its own README.md; this folder itself carries no files of its own beyond that child
-startup-scripts | Per-project bootstrap scripts and prompts (MCP env, kilocode, security setup) for campaign-analysis, qc-telephony, siu, vision projects
 state | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log
 state/backups | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project 3) field schema and every item field value, captured 2026-07-31 before the Lane retype and the Evidence field replacement
 state/retired-2026-07-25 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled from ~/.claude
@@ -159,6 +157,8 @@ state/retired-2026-07-25/bin | Retired 2026-07-25 meme/visual scripts (download/
 state/retired-2026-07-25/config | Retired 2026-07-25 memes.json, the config for the removed meme-control feature
 state/retired-2026-07-25/hooks | Retired 2026-07-25 hook scripts (meme-post-bash/skill, meme-stop, visual-explainer-trigger), unwired from settings.json
 state/retired-2026-07-25/skills | Holds the retired meme-control/ and visual-explainer/ skill folders, each self-documented by its own SKILL.md, removed from the live Claude Code skill set
+state/retired-2026-08-12 | Holds home-dotfiles/ and startup-scripts/, archived whole 2026-08-12 per the approved A3 item of docs/analysis/2026-08-09-session-scope-ledger.md (mechanism per docs/analysis/2026-08-07-toplevel-dir-decisions.md): both had 2 commits ever and every live target absent on this machine. home-dotfiles/ carries no row of its own here because it is still self-documented by its own AGENTS.md, unchanged by the move
+state/retired-2026-08-12/startup-scripts | Retired 2026-08-12 per-project bootstrap scripts and prompts (MCP env, kilocode, security setup) for campaign-analysis, qc-telephony, siu, vision projects; archived rather than deleted because those are separate repos this session does not own and the scripts may still be their only surviving copy
 state/reviews | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate
 state/snapshots | Tracked manifests (path+size+sha256) of point-in-time ~/.claude captures; actual file bytes stay untracked per its .gitignore
 state/snapshots/20260725T110903Z-pre-bus-wiring | One snapshot: manifest of ~/.claude taken 2026-07-25T11:09 UTC, labeled pre-bus-wiring, for drift diffing before that change
