@@ -10,6 +10,7 @@ Commands: post, bet, settle, board, selftest. Exit 0 on success, 1 on a rejected
 operation, 2 on usage error.
 """
 import argparse
+import fcntl
 import json
 import sys
 import uuid
@@ -33,13 +34,16 @@ def read_rows(ledger: Path) -> list[dict]:
 def append_row(ledger: Path, row: dict) -> None:
     ledger.parent.mkdir(parents=True, exist_ok=True)
     with ledger.open("a") as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
+        f.flush()
+        fcntl.flock(f, fcntl.LOCK_UN)
 
 
 def cmd_post(args, ledger: Path) -> int:
     row = {
         "kind": "post",
-        "id": uuid.uuid4().hex[:8],
+        "id": uuid.uuid4().hex[:12],
         "ts": now(),
         "session": args.session,
         "claim": args.claim,
@@ -52,6 +56,9 @@ def cmd_post(args, ledger: Path) -> int:
 
 
 def cmd_bet(args, ledger: Path) -> int:
+    if args.stake <= 0:
+        print(f"REJECT: stake must be positive, got {args.stake}", file=sys.stderr)
+        return 1
     rows = read_rows(ledger)
     posts = {r["id"] for r in rows if r["kind"] == "post"}
     settled = {r["id"] for r in rows if r["kind"] == "settle"}
@@ -134,7 +141,11 @@ def selftest() -> int:
         with contextlib.redirect_stdout(buf):
             check("post exits 0", cmd_post(ns, ledger) == 0)
         pid = buf.getvalue().strip()
-        check("post id is 8 hex chars", len(pid) == 8)
+        check("post id is 12 hex chars", len(pid) == 12)
+        neg = argparse.Namespace(id=pid, session="x", side="for", stake=-20)
+        check("negative stake rejected", cmd_bet(neg, ledger) == 1)
+        zero = argparse.Namespace(id=pid, session="x", side="for", stake=0)
+        check("zero stake rejected", cmd_bet(zero, ledger) == 1)
         bet = argparse.Namespace(id=pid, session="eng-firm", side="against", stake=10)
         check("bet on open post accepted", cmd_bet(bet, ledger) == 0)
         ghost = argparse.Namespace(id="deadbeef", session="x", side="for", stake=1)

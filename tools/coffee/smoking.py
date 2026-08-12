@@ -12,6 +12,7 @@ append-only and the cursor is derivable from it.
 Commands: scan, gripe, takeaway, mine, selftest.
 """
 import argparse
+import fcntl
 import json
 import sys
 from datetime import datetime, timedelta, timezone
@@ -38,7 +39,10 @@ def read_rows(path: Path) -> list[dict]:
 def append_row(path: Path, row: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a") as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
+        f.flush()
+        fcntl.flock(f, fcntl.LOCK_UN)
 
 
 def scan(gate_runs: Path, window_hours: float, ref: datetime | None = None) -> list[dict]:
@@ -85,7 +89,8 @@ def cmd_takeaway(args) -> int:
 
 
 def unmined_gripes(rows: list[dict]) -> list[dict]:
-    last_mine = max((r["ts"] for r in rows if r["kind"] == "mine"), default="")
+    epoch = "0000-01-01T00:00:00"
+    last_mine = max((r["ts"] for r in rows if r["kind"] == "mine"), default=epoch)
     return [r for r in rows if r["kind"] == "gripe" and r["ts"] > last_mine]
 
 
