@@ -95,3 +95,24 @@ PNGs decode to exactly their expected glyph pixel counts, `kitten icat
 wrong `--logo` path raises `FileNotFoundError` out of `kitty/render_cache.py` while
 the real path is silent, which proves the watermark is rasterised rather than merely
 parsed. What is NOT verified is whether it looks good; that needs the operator's eyes.
+
+## 2026-08-05: how the six governance domains reach the satellite repos
+
+Five candidates, ordered weird-first. Picked #5 at p_conventional 0.12: **claude-setup
+runs one nightly sweep that gates all three repos with `gate.py --project`, and the
+satellites publish evidence rather than executing anything.**
+
+Losers and why: copying the six rows into each contract (0.85) is the default and was
+forbidden; a git submodule of `tools/` (0.55) ships the whole tree and is the thing people
+forget to update; a contract `extends:` a pinned git ref (0.35) is the tidy answer and
+needs new resolution code in gate.py; an installable `claude-harness` package (0.22) is
+the right long-term shape and turns a stale copy into a visible version number.
+
+The reason the tail candidate won is a measurement, not taste. Both satellites have **zero**
+rows in `state/gate-runs.jsonl`. Every other candidate assumes the satellite runs its own
+gate, and neither ever has. The inherited constraint being killed is that a gate must run
+inside the repo it gates; `gate.py` already takes `--project`, and ddl already reaches
+across repos, badly, into a stale clone.
+
+Transferable rule: when a mechanism has never once executed, do not improve its inputs.
+Move the execution somewhere that already runs.

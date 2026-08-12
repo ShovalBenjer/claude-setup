@@ -24,16 +24,12 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
 import sys
 from pathlib import Path
 
-PROJECT_DIR = (Path.home() / ".claude" / "projects" /
-               "C--Users-shova-claude-setup")
+PROJECTS_ROOT = Path.home() / ".claude" / "projects"
 
-# Harness chatter that is not conversation. Anchored at the start so a message that
-# merely mentions one of these words is kept.
 NOISE = re.compile(
     r"^\s*(?:Stop hook feedback|Caveat: The messages below|"
     r"\[Request interrupted|\[SYSTEM NOTIFICATION|<system-reminder>|"
@@ -43,7 +39,22 @@ NOISE = re.compile(
 )
 
 
+def transcripts(root: Path = PROJECTS_ROOT) -> list[Path]:
+    """Return every transcript under every project slug, newest first.
+
+    Project directories are slugified working directories, so one repo has a
+    different slug per host: C--Users-shova-claude-setup on Windows against
+    -mnt-c-Users-shova-claude-setup and -home-shov-work-repos-claude-setup under
+    WSL. This was pinned to the Windows slug, so on the WSL box --latest printed
+    "no transcripts" instead of the newest one (measured 2026-08-06,
+    L-2026-07-31-g). Globbing every slug is host-independent.
+    """
+    return sorted(root.glob("*/*.jsonl"),
+                  key=lambda p: p.stat().st_mtime, reverse=True)
+
+
 def text_of(msg: dict) -> str:
+    """Concatenate a message's text blocks, ignoring tool_use and tool_result."""
     c = msg.get("content")
     if isinstance(c, str):
         return c
@@ -54,6 +65,7 @@ def text_of(msg: dict) -> str:
 
 
 def is_tool_result(msg: dict) -> bool:
+    """Report whether the message carries a tool_result block."""
     c = msg.get("content")
     if isinstance(c, list):
         return any(isinstance(b, dict) and b.get("type") == "tool_result" for b in c)
@@ -61,11 +73,13 @@ def is_tool_result(msg: dict) -> bool:
 
 
 def head(text: str, n: int) -> str:
+    """Return the first n non-blank lines of text."""
     lines = [l for l in text.splitlines() if l.strip()]
     return "\n".join(lines[:n])
 
 
 def main() -> int:
+    """Render one session as markdown to stdout or to --out."""
     ap = argparse.ArgumentParser()
     ap.add_argument("--session")
     ap.add_argument("--latest", action="store_true")
@@ -74,18 +88,19 @@ def main() -> int:
     ap.add_argument("--out")
     a = ap.parse_args()
 
+    found = transcripts()
     if a.latest or not a.session:
-        files = sorted(PROJECT_DIR.glob("*.jsonl"),
-                       key=lambda p: p.stat().st_mtime, reverse=True)
-        if not files:
-            print("no transcripts under", PROJECT_DIR)
+        if not found:
+            print("no transcripts under any slug of", PROJECTS_ROOT)
             return 1
-        path = files[0]
+        path = found[0]
     else:
-        path = PROJECT_DIR / (a.session + ".jsonl")
-    if not path.is_file():
-        print("no such transcript:", path)
-        return 1
+        matches = [p for p in found if p.stem == a.session]
+        if not matches:
+            print("no such transcript under any slug of {}: {}".format(
+                PROJECTS_ROOT, a.session))
+            return 1
+        path = matches[0]
 
     turns = []
     for line in path.read_text(encoding="utf-8", errors="replace").splitlines():

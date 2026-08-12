@@ -6,6 +6,13 @@ docs/SESSION-BOOT.md first.
 
 ## FOG: what a file-by-file sweep found that no status marker reported (2026-08-01)
 
+- [ ] **A secret reached a pushed commit and only the operator can finish removing it.**
+  `docs/analysis/2026-08-10-inbox-secret-exposure.md` records what leaked, why deleting the
+  file from HEAD does not remove it from the history that was already pushed, and the
+  rotation plus history-rewrite that does. No commit can close this row; it is here because
+  an analysis nothing links to is an analysis nobody reads, which is how the finding would
+  be lost a second time.
+
 Every row here was produced by opening the file or calling the API, not by reading a
 PASS. Ordered by how badly the recorded status disagreed with the disk.
 
@@ -349,6 +356,20 @@ one of them to make room for a pointer is the wrong trade.
 - [ ] **The scaffold is in the hooks tree, not the tools tree.** Measured: 1 orphan of 91 files under `tools/` (only `tools/refute/checks/portable_claims.py` is named nowhere outside its own directory). Against that, 23 of 29 `dot-claude/hooks` entries are wired nowhere in the live settings, and 12 of those are one-line pointers into `/home/shovalbe/`, a home that does not exist. If the question is what fraction is garbage, the answer differs by tree by two orders of magnitude, and the instruments are the healthy part
 - [ ] **AGENTS.md was wrong about its own skills tree** and is corrected in this pass: it claimed about a dozen skill stubs, and there are 0 across 73 entries
 
+- [ ] **`dot-claude/settings.json` describes a different machine, and no oracle checks it.**
+  Measured 2026-08-06 while wiring a hook: the tracked payload carries **10 hooks, 10 of
+  10 with Windows paths** (`C:\Users\shova\claude-setup\...`); the live
+  `~/.claude/settings.json` carries **13 hooks, 0 with a Windows path**. The payload still
+  wires `safety_gate.py`, the Python gate that `hookgate` replaced, and is missing
+  `prior_art_gate.py`, `skill-usage-log.sh` and `route.py` entirely. So the committed copy
+  of the harness contract is a snapshot of a host this repo no longer runs on. I nearly
+  made it worse by mirroring one live Linux path into it, which would have produced a file
+  correct on neither host; reverted. **`rules_sync.py` guards rules drift and
+  `skills_sync.py` guards skills drift; settings has neither**, which is why this went
+  unnoticed while both of those were being repaired in the same week. The fix is a third
+  oracle in the same shape, and it must compare hook SETS and script basenames rather than
+  paths, because the two hosts legitimately disagree about paths and only about paths.
+
 ## SETUP-OS: oracle repair (opened 2026-07-31, docs/HANDOFF-2026-07-31-review-oracle-repair.md)
 - [x] review domain: sql-concat required a verb and a concatenation and never required SQL, so English prose ("Delete ~380 lines ... + their selftest") was a HIGH; and added_lines reported lines this branch added and then deleted. Both fixed in tools/review/panel.py, 20 pinned cases, mutate --spec panel 10/10 caught, panel 5 high -> 0 high. Waiver replaced (2026-08-12 -> 2026-08-02) recording the old reason as wrong rather than deleting it (closed 2026-07-31). **THE "0 high" HALF OF THIS ROW IS FALSIFIED, 2026-08-01.** The waiver it wrote carried its own falsifier, the falsifier was run, and `panel.py run --project .` returns CHANGES-REQUESTED with 3 high. Two are real (vendored innerHTML in dot-claude/skills/brainstorming/scripts/helper.js:57,59) and one is the comment-matching mechanism this row claimed was eliminated, still live in a different check. The two fixes landed; the generalisation did not, and the row said otherwise. Waiver text corrected in quality-contract.json rather than the number being chased
 - [ ] slop_lint measures the ruled form, not the property (L-2026-07-31-b). It passes prose that reads as machine written: zero em dashes but 2.8% hyphen compounds and sentence stdev 14.8. Port a density + variance check from ~/.claude/skills/voice-metrics/voice_score.py into tools/slop_lint.py, thresholds FITTED against the operator's corpus, not guessed. Until then a clean slop_lint is not evidence
@@ -450,6 +471,30 @@ deletes an existing row; these are the rows that were silently dropped.
 - [ ] ABSORB-05 CCC (amirfish1/claude-command-center) is NOT a new row on purpose: AUTO-19 above already owns it and the operator said not to duplicate or delete tasks. Recording the absorption status against it instead. Verdict was ADOPT-PARTIAL on 2026-07-24 with one idea named worth taking (jsonl-on-disk as truth, replacing the dead WSL intent.db path); `docs/specs/2026-07-24-command-center-superior.md` carries a 12-row feature table, 5 premortems and an 18-item acceptance checklist; `tools/fleetview/` still does not exist. Status: SPECCED, ZERO CODE, 5 days
 - [ ] ABSORB-07 The saved-link corpus, which is the real unabsorbed pile and dwarfs the four repos audited above. `wa-export-archive/SENSITIVE-self-chat/_chat.txt` holds 8546 lines over roughly 14 months: 984 URL occurrences, 806 unique, 80 unique github.com repos, 12 arxiv papers, 14 learn.microsoft.com pages, 166 youtube. Save rate rose five to ten times in July 2026, so recency signals current intent. Named by docs/HANDOFF-FROM-LEARNING-2026-07-27.md section 3.6 on 2026-07-27 as "better curated than the learning platform's 11 world-scan sources because it is filtered by his actual attention. It is unwired." Two days later it was still unwired. Links and dates extracted 2026-07-29 to `C:\Users\shova\wa-export-archive\self-chat-links-2026-07-29.csv` (no message text copied, source is marked SENSITIVE and stays local). External brief ready at docs/2026-07-29-external-absorption-brief.md; run it in Claude Desktop with the CSV attached, then file the returned table against this section
 - [ ] ABSORB-08 vulture ADOPTED 2026-07-29, the first genuine third-party tool in this repo's quality loop, run via `uvx vulture` so it adds no install footprint. Result: 0 findings at >=80% confidence, 70 at >=60%, and the distribution is the finding. 57 of 70 are in `intent-control-plane/src/intent_control_plane/` (memory.py 6, durable.py 6, roster_evolution.py 5, provenance.py 5, reliability_policy.py 4), which is the operator's own observation that parts of the code cannot possibly be connected, now measured. NOT YET DONE: (a) whole-module connectivity, which vulture does not measure, since it finds unused symbols and not modules no one imports; (b) triage of the 70 into genuinely-dead versus CLI-dispatched false positives; (c) wiring `uvx vulture` into the gate as a check rather than a one-off. Websearch 2026-07-29 says the current standard pairing is ruff for fast local unused-import checks plus vulture for cross-module scanning, with `albertas/deadcode` as the more configurable alternative presented at EuroPython 2024
+- [ ] GATE-LOOP-01 `codemap` and `review` cannot both be green at the same time, and the reason is structural rather than a stale artifact. codemap records a file COUNT per directory and counts `state/reviews`, while the review domain requires `state/reviews/<HEAD sha>.json` to name HEAD exactly (gate.py review_artifact). So: leave the panel artifact uncommitted and codemap fails by one file; commit it and HEAD moves, so the artifact names the parent and review fails. Observed both ways on 2026-08-06 across four commits. gate.py already has `GATE_OUTPUTS = ('state/gate-runs.jsonl', 'state/reviews/')` for its own dirty calculation, so the concept exists and codemap.py simply does not share it. Fix is one of: have codemap exclude gate outputs the same way, or key the review artifact by tree fingerprint (`${FP}`, which review_artifact already supports) instead of commit sha. This is the general form of the fingerprint self-invalidation already known from the Stop hook
+- [ ] HOOKGATE-01 The compiled force-push rule disagrees with the live one, and the disagreement relaxes a guard, so it is an operator decision rather than a regen. `tests/test_hookgate.py::test_rules_rs_matches_safety_gate` has been failing since at least 2026-08-05 (the mtime on ~/.claude/hooks/safety_gate.py) and blocks the gate's `unit` domain. The delta is one rule: committed `tools/hookgate/src/rules.rs` blocks `--force(-with-lease)?|-f`, while the live safety_gate.py blocks `--force(?!-with-lease)` and permits `--force-with-lease` with the reason that it refuses if the remote moved since your last fetch. Running `python tools/hookgate/regen_rules.py` closes the test in one command and, in the same command, relaxes what the compiled binary blocks. Done deliberately by whoever edited the live file, or not at all. Found and reverted 2026-08-06 during unrelated work
+- [ ] HOOKPATH-01 A UserPromptSubmit hook FAILS CLOSED on a missing file and blocks the operator's prompt outright. Hit 2026-08-07: `python3: can't open file '/home/shov/claude-setup/tools/intent/route.py'`. Cause is not a bad path. `/home/shov/claude-setup` is a symlink to the main checkout, `route.py` exists ONLY on branch lane-a/boundary-contract-bans, and the main checkout had since been switched to lane-a/waived-domains-are-not-unmeasured, so another session changing branches deleted a live hook from disk. The live settings.json borrows three hooks out of a mutable working tree, which means any branch switch in any session can disable or block them. Fixed for route.py by deploying it to ~/.claude/hooks/route.py (404 lines, stdlib only, no repo-root derivation) and repointing settings.json; settings backed up first. NOT done for the other two, deliberately: capture_turn.py derives REPO_ROOT from Path(__file__).parents[2] and imports tickets from the repo, so deploying it to ~/.claude/hooks would resolve REPO_ROOT to /home/shov and write tickets to the wrong place. Those two need a real deploy step that carries their dependencies, or a wrapper that fails OPEN. A guard that blocks the operator when its own file is missing is worse than no guard
+- [ ] METRIC-01 Six externally-sourced metrics we are missing, all computable from artifacts already on disk, in docs/analysis/2026-08-06-persona-metrics-external-sweep.md. Cheapest first: M1 review-finding precision (state/reviews/*.json holds every panel finding and nothing has ever labelled one true or spurious; CR-Bench arXiv:2603.11078 measured that resolution rate alone rewards over-flagging), M3 request-to-outcome transitions (see INTENT-01), M5 per-task token and tool-call logging, which Anthropic measured as explaining roughly 80% of performance variance on BrowseComp and which we log nowhere
+- [ ] METRIC-02 Before reporting ANY score this harness computes about itself, check it against what a trivial policy would score. arXiv:2607.28685 re-ran four agent-safety benchmarks under their own scorers and found an always-positive policy hits F1 0.690 on R-Judge, beating 5 of 21 models that actually discriminate, and that three benchmarks rank the same 18 models in three different orders. tools/audit/mutate.py is already this instinct one level down. Nothing in the gate currently reports a trivial-baseline comparison alongside a pass rate
+- [ ] METRIC-03 Connector description scan for tool-poisoning shape, the one defensive check from the sweep computable here today. Malicious instructions hidden in an MCP tool description are invisible in the client UI and fully visible to the model (Invariant Labs 2025-04-01; the published example reads a local config and exfiltrates it through an innocuous argument). Mechanism is sourced, the check is a proposal, and it belongs with pointers.py rather than as a new gate domain
+- [ ] INTENT-01 467 prompt tickets exist and every one is state CAPTURED. `tools/intent/tickets.py` defines the whole lifecycle (CAPTURED -> TRIAGED / NOT_WORK / SUPERSEDED and onward) with an allow-list of legal edges, and not one transition has ever been written, which is the mechanism behind the operator's 2026-08-06 complaint that his request 'got lost as always in the session'. The ledger records that a request arrived and never records whether anything happened to it. Nothing needs building: the state machine is already there and nothing calls it. Wire a transition at the two points that already know (a claim row being written, and the completion gate at Stop)
+- [ ] INTENT-02 `tools/intent/resolve.py` now rejoins a ticket to the sentence that produced it, by recomputing text_sha over session transcripts, so 'dig it up later' works without storing prompt text twice and without touching capture_turn.py's hashes-only stance. Resolve rate is 226 of 467 today. The unresolved 241 are a floor not a measure: rotated transcripts, per-host project slugs, and any prompt that reached the model differently from how it was captured. Worth measuring which of the three dominates before assuming the join is lossy
+- [ ] PILE-04 Two of the three payload trees have NO destination on this machine. `~/.claude` exists with 40 entries; `~/.codex` and `~/.agents` do not exist at all, verified 2026-08-06. So dot-codex (333 files, 2.2M) and dot-agents (218 files, 3.8M) are payloads for runtimes that are not installed, and 27 of the 29 forked skills involve one of those two trees. The operator chose one-tree-plus-per-runtime-deploy, which is right, and the measurement says the deploy has exactly one live target today. Recommendation: dot-claude becomes the canonical tree, dot-codex and dot-agents are demoted to archive rather than deleted (they are the only copy of several skills), and the deploy learns the other two destinations when those runtimes are actually installed
+- [ ] PILE-05 `review` and `codex-call` are NOT forks, they are name collisions, and merging them would destroy a skill. dot-agents/review is automated checks (bundle size, vulnerabilities, licences, baseline screenshots, layer detection) plus a SOTA principles reference; dot-claude/review is a PR precheck with a CI fleet flow and two execution paths. Same for codex-call: dot-agents is a Codex orchestrator with four invocation patterns, dot-claude is external review judges with the Gemini Free Tier boundary. They need renaming, not a survivor. Between them they are 683 of the 1063 semantically divergent lines across all 29 forks
+- [ ] PILE-06 Search-replace corruption in dot-agents, and a contamination this session caused and then fixed. dot-agents/skills/codex-call/SKILL.md:60 reads 'When to use Codex vs Codex vs subagent', which is a global Claude->Codex replace collapsing a comparison into nonsense. 28 dot-agents files reference `~/.Codex` with a capital C, a path that does not exist in any casing. 4 of the 8 skills promoted into dot-claude today (to-issues, to-prd, request-refactor-plan, github-triage) carried that path in; corrected to ~/.claude and dot-claude/bin/work-item.sh deployed to ~/.claude/bin so the corrected path resolves. STILL DEAD: those skills also cite `~/.claude/rules/ado-issue-mapping.md`, which exists in no tree and no home. It is Azure DevOps, so it belongs with the EXJOB-01 decision rather than being recreated
+- [ ] PILE-01 The 29 forked skills, one decision each, table in state/pile-manifest.jsonl and printed by `python tools/audit/pile.py scan -v`. NOT a merge, 29 merges. The proposed winner is a dumb stated rule (newest git touch, then largest) and is a PROPOSAL: `review` is 22k in dot-agents against 11k in dot-claude, `heidegger-reflect` is 29k against 3k, `frontend-design` 1k against 8k, and picking by policy would discard the larger side unread in three cases. Four of the 29 are the ex-employer skills whose disposition is still open under EXJOB-01, so they cannot be resolved before that is
+- [ ] PILE-02 The real architectural question behind 'merge the dirs', which is NOT answerable by a tool: dot-claude, dot-codex and dot-agents are payloads for THREE runtimes (~/.claude, ~/.codex, ~/.agents), so merging them into one source means the three runtimes share one tree and one skill's edit reaches all three. That may well be right, since the forks above are the cost of not doing it, but it changes behaviour for two runtimes at once and is an operator decision, not a dedupe. 29 skills are already byte-identical across trees and can collapse the moment that call is made
+- [ ] PILE-03 Session collision, recorded because it is the cost the operator named. On 2026-08-06 this session and lane-a+session-corpus-extractor independently (a) removed the same expired review waiver, (b) hit the same codemap/review artifact loop, and (c) reached the same hookgate rules.rs regen, which that session applied as c30edc7 and this one reverted pending an operator call. Two sessions, same day, same three problems, no shared state. state/claims.jsonl exists precisely to prevent this and neither session read the other's row. GATE-LOOP-01 and HOOKGATE-01 are both already fixed on that branch, so the two waivers this branch added expire on merge rather than on work
+- [ ] EXJOB-01 The 8 always-loaded global rules grounded in the ex-employer, in three classes, per docs/analysis/2026-08-06-azure-jira-after-the-job.md. RELABEL (no decision needed, the rule is stack-independent and only its worked example is historical): boundary-contracts, production-means-merged-and-smoked, read-whole-before-reasoning, hidden-trees. Date the example the way calibrated-claims already dates its incidents. REWRITE (principle survives the tenant): foundry-deployment-per-project, pii-handling. RETIRE OR REFACTOR (operator call): jira-comment-drafting, which exists solely to post into a tenant we no longer have and names three colleagues in every session's context, and repo-topology, whose rule is among the most useful here and whose entire worked example is ORM-AGENT
+- [ ] EXJOB-02 `azure-activity-watch` recreated against git and gh. The one genuine capability gap the ex-employer audit found rather than inherited: 'who other than me touched this' has no counterpart here, and there is measured local pain for it (two clones on a shared stash, and the 2026-07-31 claim row recording 8 subagents against one shared dirty tree). Everything else on that list is either covered or retirable
+- [ ] EXJOB-03 `jira-read` rebound to `gh issue view --comments`, read whole. The skill is held back from the live tree and still in the repo. Its discipline is already a global rule (read-whole-before-reasoning, which was born from the DEV-5062 truncation), so what is missing is only the gh-shaped body. Decide with EXJOB-01 whether jira-task-draft and prod-deploy-rules are retired outright, since to-issues and to-prd already auto-detect GitHub and are now live. TRAP, found by making the mistake: the holdback is NOT durable. The three live in ~/.claude/skills-holdback-2026-08-06 and the next `skills_sync.py deploy --apply` puts every one of them back, because deploy reconciles repo to live and a skill missing from live simply reads as new. It happened once during this session and had to be undone. A holdback with no mechanism is a note, not a state, so either retire them from the payload or teach skills_sync an exclusion list
+- [ ] PERSONA-01 0 spawns have ever been recorded in state/agent-spawns.jsonl, and after today's repair all 19 personas are operational, so the ratio is now measurable rather than excused. `python tools/audit/persona_audit.py scan` is the check; wire `--strict` into the gate once EXJOB-01 settles, since it currently passes and would start failing the moment a persona is routed at a skill that cannot load
+- [ ] PERSONA-02 The registry's Best-Practices Corpus section tells every persona to use three paths under ~/.claude/corpus/ for coding-practice lookups, persona rule generation, review criteria and architecture decisions. The whole directory is absent on this machine, verified twice. Either build it (build_best_practices_corpus.py is itself one of the three absent files) or cut the section, because a corpus that does not exist is a routing instruction into nothing
+- [ ] ABSORB-09 The saved-repo pile, skills half. 17 of the repositories in `state/external-repos.jsonl` were enumerated for SKILL.md content on 2026-08-06 (roughly 370 skills) and 24 carry a decision row in the new `state/external-skills.jsonl`. Seven are adopt-candidates and none is installed, so this row is the unabsorbed remainder: `octocode-skills` (aims at our own skills_sync drift), `octocode-graph-eval`, `octocode-awareness`, `neat-freak`, `caveman-stats`, `resolving-merge-conflicts`, `verification-before-completion`. Two of the seven are metadata depth only and must be opened before adoption. `dmmulroy/.dotfiles` `.skill-lock.json` is adopt-patterns, not vendorable (no declared licence). Evidence and reasoning: docs/analysis/2026-08-06-skill-candidates-dependency-filter.md
+- [ ] ABSORB-10 DORA, decided rather than deferred, so it does not come back a third time. Six public DORA skills exist and the best of them (manikumarkv/devrunway-claude-plugin, MIT) needs only git and gh, so it passes the dependency filter. Rejected anyway on our own prior art: docs/specs/2026-07-31-github-native-project-surface.md section 4.1 already concluded the four keys do not transfer to a one-operator repo with no customers, and the transferable half (DORA's pairing of throughput with an instability counter) is already K1-K15 against our ledgers. If this is ever reopened, reopen the spec section, not the skill search
+- [ ] SKILLDEP-01 Decide the `az` question, because it governs the largest single block of unrunnable skills. `command -v az` is empty on this WSL host, 9 committed skills open with an `az` invocation, `jira-read` reaches through `az keyvault` for its token, and the gastown registry routes an Azure Ops Utility persona at 8 owned skills. Either install the Azure CLI in WSL or mark that persona Windows-side-only in the registry. Currently it is neither: routed, unrunnable, and silent about it. Measured by `python tools/audit/skill_deps.py counts`
+- [ ] SKILLDEP-02 `apt install jq` unblocks 4 committed skills (gws-gmail-read, gws-gmail-triage, pii-scrubber, review) for one command. Trivial, listed so it is not re-derived
+- [ ] SKILLDEP-03 Wire `python tools/audit/skill_deps.py scan --strict` into the gate's skills domain, so a newly added skill that cannot run on this host fails at commit rather than at first invocation. Blocked on SKILLDEP-01: with `az` unresolved, strict mode fails today on 26 pre-existing skills, and a check that is red on arrival gets waived instead of fixed
 - [ ] ABSORB-06 Coverage boundary of this audit, stated so it is not read as exhaustive. Four external repos and roughly 70 named alternatives inside the 27 prior-art records were checked. NOT checked: whether any of the ~70 alternatives inside those records was absorbed, because the schema has no field to check (that is ABSORB-01). Until ABSORB-01 lands, the true absorption rate across all external evaluation is unknown, not zero
 
 ## DONE
@@ -631,6 +676,8 @@ Two rows above were CLOSED by the same measurement and are marked in place.
 - [x] PERSONA-01: the allocator. `tools/review/allocate.py` maps a change to aspects and aspects to actors, decorrelating on `model_family` and never on `host`. Selftest green, 8 checks. It found its own defect on the first real run: it paired `nvidia-nim [VARIES-BY-MODEL]` with `qwen-dashscope [alibaba-qwen]` for `slop`, which is precisely the correlated pair `actors.json`'s contract forbids, because nvidia-nim serves qwen. A reseller family is now admissible only as a solitary reviewer
 - [ ] PERSONA-02: **only ONE actor declares `a11y`**, so accessibility can never receive a decorrelated second opinion. This is a registry gap and it was invisible until something read `may_enact`. Either a second actor declares it or the enum admits that a11y is single-opinion by construction. Do not fix it by having the allocator pretend
 - [ ] PERSONA-03: `panel.py` runs all five local personas on every change regardless of what changed. Wire it to consume `allocate.py`, so a diff touching only `.md` does not pay for the security rule set. Acceptance is a review artifact naming its allocated actors
+- [x] PERSONA-11: the three greppable bans from the restored `boundary-contracts.md` are now enforced. New `boundary` persona in `panel.py` with go-discarded-marshal (HIGH), go-discarded-read (HIGH) and ts-unchecked-json-parse (MED). Go arrives as a fixture language for the first time, since no check declared it before. `tests/test_panel_boundary_bans.py` pins the NEGATIVE cases, which is the half that decides survival: `a, err := json.Marshal(...)` and `_, err := ...` must stay quiet, and so must prose about the ban, which is L-2026-07-31-b and has already cost three review waivers. 8 tests, 436 in the suite, 0 findings on this repo's own tree. Side effect worth naming: the panel/registry vocabulary overlap goes from 2 of 11 words to 3, because `boundary` now has a local rule set as well as four external actors declaring it, so `allocate.py` can plan both halves of one dimension
+- [ ] PERSONA-12: **the boundary persona reimplements three mature tools, badly, and the PR said otherwise.** Prior-art gate fired; queries logged: `errcheck golangci-lint unchecked errors blank identifier assignment Go linter`, `typescript unchecked JSON.parse runtime validation zod eslint rule no-unsafe-json-parse`, `awesome static analysis linters list Go TypeScript error handling survey semgrep rules registry`. THREE not-a-gap signals fire: a curated awesome-list (analysis-tools-dev/static-analysis, richvred/awesome-linters, 111 Go tools catalogued), 2026 comparison surveys, and three tools naming the same problem. `errcheck` with `check-blank: true` IS go-discarded-marshal and go-discarded-read, done with type information instead of regex, and its own docs use `num, _ := strconv.Atoi(numStr)` as the example; `dogsled` covers the multi-blank form; `@typescript-eslint/no-unsafe-assignment` already flags the JSON.parse case because JSON.parse returns `any`; zod is the community answer for the actual fix; the Semgrep Registry has 2000+ rules and would express all three natively. WHAT SURVIVES: the panel reads added diff lines with no toolchain, no compilable package and no node_modules, which is the one thing none of those can do. So the persona is a FALLBACK for the diff-only case, not a replacement. ACTION: say so in panel.py, and for any repo that actually builds, recommend golangci-lint and typescript-eslint over these three regexes
 - [ ] PERSONA-04: **the two persona vocabularies share 2 words out of 11.** panel has `data`, `ops_release`, `ux_frontend` that no external actor can enact; the registry has `boundary`, `simplicity`, `perf`, `slop`, `tests` that no local rule set covers. Decide whether they converge or stay deliberately separate, and write the reason down either way. `PANEL_TO_ASPECT` currently records two holes as `None` rather than guessing
 - [ ] PERSONA-05: **ADR-0012's `auto:low` auto-merge is gated on a both-model approval that does not exist.** No `agreement` domain in the 14-domain contract, no implementation in `tools/`. Either build it on top of PERSONA-01, or amend ADR-0004 and ADR-0012 to record that it is designed and unbuilt. Doing neither leaves the governance docs describing a system nobody has, which is worse than having no docs
 - [ ] PERSONA-06: run two allocated actors blind to each other on one real PR. Acceptance is a `state/reviews/*.json` whose `reviewer` is not `persona-panel/local`; all 11 existing artifacts say `external backend not requested`
@@ -647,6 +694,16 @@ Ordered by whether it currently blocks a session. Every claim below names the co
 that produced it; where a number is asserted rather than measured it says so.
 
 ### Blocking now
+
+- [ ] **Nothing enforces the imported standards, and the topology is now measured.**
+      See [analysis/2026-08-05-enforcement-topology-measured.md](analysis/2026-08-05-enforcement-topology-measured.md)
+      for the five diagrams and the numbers. Headline: 22 global rules and 7 hook events
+      load in every session in every repo; all three repos declare a `quality-contract.json`
+      and only `claude-setup` has ever run one, with `new-recruit` and `daily-deep-learning`
+      at ZERO rows in `state/gate-runs.jsonl`. `code-quality-standard`, `harness-structure`
+      and `repo-standards` have zero executable references each, so a standard here must
+      have a status and be reachable while nothing reads what it says. 8 of 21 ADRs are
+      named by an oracle; 13 by nothing.
 
 - [ ] **The `review` CI job posts "Claude encountered an error after ~40s" on every run
       and exits 1, with the error swallowed by the action.** Four theories tested and
@@ -757,3 +814,127 @@ is that surface, and each is named with what it is for.
 - [ ] **Three bodies of work landed unclaimed today.** The four 2026-08-03 PRD/spec
       documents, the `tools/antigravity` component, and the docmap strand tooling. Charters
       rule 1 is claim-before-starting and it is the most-logged lesson in the repo.
+- [ ] **The LightRAG-vs-sqlite-first contradiction is still unresolved.**
+      `docs/gemini-code-1785457549011.md` specs a three-layer vector/graph RAG engine;
+      `intent-control-plane/docs/specs/2026-07-11-self-evolving-depth-harness.md` AC-K3
+      makes that a non-goal. Neither document references the other. Measured corpus stats
+      and the falsifiers that would flip the recommendation are in
+      [analysis/2026-08-06-memory-rag-substrate-findings.md](analysis/2026-08-06-memory-rag-substrate-findings.md).
+
+### Modules over the imported 500-line hard limit (15 as of 2026-08-06, was 14 on 08-05)
+
+The standard is `docs/standards/nr-code-quality-standard-2026-07.md`: module hard limit
+500, function target 20, hard limit 50. `quality-contract.json` has no size domain, so
+none of this is enforced. Filed as rows because a finding in prose is not a backlog.
+
+- [ ] `tools/gate/gate.py` is **1451 lines**, over the 500 limit by 951. worst function `cmd_selftest` at 305 lines
+- [ ] `tools/review/panel.py` is **1387 lines**, over the 500 limit by 887. worst function `cmd_selftest` at 330 lines
+- [ ] `tools/bus/bus.py` is **1244 lines**, over the 500 limit by 744. worst function `cmd_selftest` at 614 lines
+- [ ] `tools/e2e/flow.py` is **1144 lines**, over the 500 limit by 644. worst function `cmd_selftest` at 93 lines
+- [ ] `tools/snapshot/snap.py` is **827 lines**, over the 500 limit by 327. worst function `cmd_selftest` at 354 lines
+- [ ] `tools/supply/verify.py` is **808 lines**, over the 500 limit by 308. worst function `cmd_selftest` at 158 lines
+- [ ] `tools/audit/skills_sync.py` is **752 lines**, over the 500 limit by 252. worst function `cmd_selftest` at 253 lines
+- [ ] `tools/browser/cdp.py` is **739 lines**, over the 500 limit by 239. worst function `launch` at 60 lines
+- [ ] `tools/timetravel/snapshot.py` is **725 lines**, over the 500 limit by 225. worst function `cmd_selftest` at 174 lines
+- [ ] `tools/skilleval/run.py` is **579 lines**, over the 500 limit by 79. worst function `selftest` at 200 lines
+- [ ] `tools/audit/pointers.py` is **571 lines**, over the 500 limit by 71. worst function `cmd_selftest` at 103 lines
+- [ ] `tools/docmap/docmap.py` is **533 lines**, over the 500 limit by 33. worst function `selftest` at 98 lines
+- [ ] `tools/map/codemap.py` is **521 lines**, over the 500 limit by 21. worst function `cmd_selftest` at 85 lines
+- [ ] `tools/refute/refute.py` is **510 lines**, over the 500 limit by 10. worst function `cmd_selftest` at 183 lines
+
+- [ ] **daily-deep-learning's contract reaches into a STALE clone.** Its `review` and `e2e`
+      domains shell out to `C:/Users/shova/claude-setup/tools/...`, which resolves through
+      `/mnt/c` to the third clone, HEAD `f5d697e`. That clone predates today's panel.py
+      fixes, so ddl's review domain runs an oracle without the comment-strip or sql-concat
+      corrections. Superseded by the central-sweep decision in docs/taste.md 2026-08-05.
+- [ ] **Two daily-deep-learning waivers expire today, 2026-08-05: `e2e` and `a11y_ux`.**
+      A third, `pipeline`, expires 2026-08-10. Nobody will notice, because that repo has
+      never run its contract: zero rows in its `state/gate-runs.jsonl`.
+- [x] **WITHDRAWN: 'required reviewers are impossible on this plan'.** I reported branch
+      protection as unavailable because `gh api .../branches/main/protection` returned 403
+      'Upgrade to GitHub Pro or make this repository public'. The API response is real; the
+      CONCLUSION was wrong, because a parallel session is already working the reviewer
+      surface. A 403 from one endpoint is evidence about that endpoint, not about whether
+      the capability exists. Owner: the other session, not this row.
+- [x] **RESOLVED: `gh` now has `read:project`.** Zion is readable: 31 items, all Issues,
+      and **all 31 carry no status field at all**, which is why the board reads as zero
+      throughput. Nothing is In Progress because nothing has ever been moved out of the
+      default column. Discussions and Wiki remain disabled.
+- [ ] ~~GitHub Discussions and Wiki are both disabled~~ superseded by the row above; Issues (32 open) and Projects are
+      on. If Zion is the board, `gh` needs `read:project` scope before any session can read
+      it: `gh auth refresh -s read:project`.
+
+## From the 2026-08-06 external source read (see `docs/analysis/2026-08-06-external-repo-source-read-and-surface-comparison.md`, ledger `state/external-repos.jsonl`)
+
+- [ ] **`a2a-codex-call.sh` corrupts peer responses and no domain looks at it.** VERIFIED
+      2026-08-06: the response JSON is built by interpolating shell variables into a
+      `python -c` template (lines 128-146), so the peer's text is parsed as a Python string
+      literal. Literal `\x41` in a Codex review arrives as `A`; `\t` becomes a tab; a
+      Windows path loses its separators. This fails `boundary-contracts.md` points 1, 2 and
+      3 in one file. **Fix is 5 lines** (build a dict, `json.dumps` it, pass the text through
+      stdin or an env var rather than the source template). Do that before deciding anything
+      about ACP. **Acceptance: a test feeding `\x41`, `\t` and `C:\new` through the bridge
+      and asserting byte-identical round-trip.**
+- [ ] **The prose gate detects 20 lexical patterns and zero rhetorical ones.**
+      `petergyang/no-ai-slop` (MIT, so patterns are copyable) names 18 structural patterns
+      with rewrite examples; our output-style file already names several and `slop_lint.py`
+      cannot see any. About 8 are regex-able: summary-recap openers, rhetorical setups,
+      weasel attribution, faux-insight setups, the trailing `-ing` clause, negative listing,
+      colon reveals, binary contrast. **Add them as a separate class from `BANNED_PHRASES`
+      so a structural hit reports as structural.** Their `eval.md` (a checklist the model
+      runs against its own output) is the shape of the unbuilt `dod.py`.
+- [ ] **No oracle relates a requirement to a task.** `strand.py` checks status and
+      reachability and says in its own docstring that reachability "cannot catch a document
+      that is linked and ignored". `github/spec-kit`'s `analyze` supplies the missing shape:
+      duplication / ambiguity / underspecification / coverage-gap / inconsistency, severity
+      where a constitution MUST violation is automatically CRITICAL, and a coverage
+      percentage of requirements with at least one task. **Depends on the existing
+      "classify the 48 definition-of-done rows" row; do that first.**
+- [ ] **`state/deploy-manifest.tsv` records bytes, not the install.** 84 rows of
+      `sha256 <tab> path`, last written 2026-07-31. `affaan-m/ECC` (MIT) requires
+      `install-state.v1` with request, resolution, source, operations and `lastValidatedAt`,
+      and a `provenance` record with source, created_at, confidence and author on every
+      imported skill. **Provenance is the direct answer to the 45 forks**: a fork with a
+      recorded source is a merge decision with evidence, which is what the existing row
+      means by "picking by timestamp is not a decision".
+- [ ] **Three lanes, three repos, no shared architectural view.**
+      `docs/specs/2026-07-31-project-federation.md` wants one. `reposwarm/reposwarm`
+      (Apache-2.0) generates one `.arch.md` per repo into a central hub and re-analyzes only
+      repos whose HEAD moved, with prompt selection driven by a declarative pattern file.
+      `codemap.py` is directory-granularity and single-repo by construction. **The
+      incremental rule is the part that makes it affordable.**
+- [ ] **103 of 115 rows in `state/external-repos.jsonl` are `untriaged`.** 10 repositories
+      were read at source on 2026-08-06. `aaif-goose/goose` and `MemPalace/mempalace` are
+      cloned and unread. 138 community-shared repositories are resolved and unevaluated.
+      **This row exists so the 10 are not read as the whole set.**
+- [ ] **STILL OPEN, operator decision, raised 2026-07-30:**
+      `docs/analysis/reference/coherence-governor-AGENTS.md`, 17,923 bytes copied verbatim
+      from `Master0fFate/just-my-skills`, which still resolves `license: NONE` on 2026-08-06.
+      Summarize-and-link, ask for a licence, or accept that this repository cannot go public.
+
+<!-- prompt-tickets:begin generated by tools/intent/render_todo.py, do not hand-edit -->
+
+## Prompt inbox: claude-setup
+
+310 prompts across 34 sessions. 0 workable, 304 awaiting triage (newest 2026-08-10), 6 classified as slash commands or acks by rule.
+
+### Awaiting triage, newest 12 of 304
+
+Verbatim prompts, not yet promoted to work. Nothing here has been read by the machine that wrote it.
+
+- [ ] `PT-b93a3be202a3` 2026-08-10 Iterate over all my claude sessions prompts - should be stored in db, per sessions, and update…
+- [ ] `PT-1c2a4654a51a` 2026-08-10 y go
+- [ ] `PT-9d0ef9ce406f` 2026-08-10 live wiring check 2026-08-10
+- [ ] `PT-073ef92993c9` 2026-08-10 1. act. 2. what decision lie in contested dires? . plan how you give 1-5 to effiecent subagents…
+- [ ] `PT-7537cd2e78be` 2026-08-10 iterate over all of this session requests. tell me with adhd where we are.
+- [ ] `PT-20500255e28b` 2026-08-10 94% of your usage was at >150k context Longer sessions are more expensive even when cached. /co…
+- [ ] `PT-a11d06277e59` 2026-08-10 1. investigate why my claude context (have 4 other running services+ daily_learning_platform +…
+- [ ] `PT-483e9c6ff3b1` 2026-08-10 I want this setup, and minimize the use of claude to a self hosted on cloud system + Recursive…
+- [ ] `PT-2f7b93bed2a4` 2026-08-09 .
+- [ ] `PT-8b2a78d7b957` 2026-08-08 Course description Workflow agents and deep research agents are two of the hardest application…
+- [ ] `PT-e9738b1a2c93` 2026-08-08 1. after reviewers allow and their github comments resolved from my end i accept merge, as a ru…
+- [ ] `PT-4e799c3b6dfc` 2026-08-08 what now?
+
+292 older untriaged prompts are not listed here. Read them with `python tools/intent/render_todo.py list --project .`.
+
+<!-- prompt-tickets:end -->

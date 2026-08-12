@@ -18,3 +18,24 @@
 # The six binding STANDARDS from the same import are deliberately NOT here. They moved to
 # docs/standards/, which is now governed, because a standard that nothing references is a
 # defect and a research paper that nothing references is a library.
+
+# RESTORED 2026-08-05, after being deleted the same day on a reading that strand.py
+# itself has now been corrected for. The deletion followed the tool's own message,
+# "is exempt and is now referenced. Remove the exemption." The thing referencing all
+# ten was state/reviews/bca1d6942e6075ce4d89bf6b9a07b397c14f616c.json, a panel.py
+# artifact written per commit that names every file the diff added. So committing a
+# document marked it reached, and obeying the message recorded ten genuinely stranded
+# imports as consumed. strand.py now excludes state/reviews/ as a consumer prefix,
+# which is the fourth instance of the rule already stated in its own comment, and
+# these ten are stranded again because they always were.
+
+# The ten docs/analysis/reference/ rows were removed 2026-08-05, on the third
+# reading of them in one morning. They were deleted, restored, and deleted again:
+# first on a strand.py message that was wrong (the only referrer was a generated
+# panel.py review artifact, so committing a document marked it reached); then
+# restored once strand.py stopped counting state/reviews/ as a consumer; then
+# removed for good once TODO.md:467 linked all ten from the research-provenance
+# row, which is a surface that gets read and is exactly what the rule asks for.
+# The middle step is not wasted motion: without the strand.py fix, a real link
+# and a generated artifact are indistinguishable, and these rows would churn on
+# every commit.
