@@ -44,6 +44,9 @@ VERDICT_CLASS = {
     # coffee-break v2 (taste row 2026-08-12): stdlib ledger CLIs; the record's
     # own recheck flips this toward delete if the ledgers stay empty.
     "tools-coffee": "keep-ours",
+    # reanimation jutsu (2026-08-13): free-tier persona pipeline; recheck flips
+    # to delete if nothing is animated by the expiry.
+    "tools-reanimation": "keep-ours",
     "dot-claude-bin": "split",
     "dot-claude-hooks": "split",
     "dot-claude-skills-explain-simply": "split",
