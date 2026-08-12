@@ -790,6 +790,12 @@ is that surface, and each is named with what it is for.
 - [ ] **Three bodies of work landed unclaimed today.** The four 2026-08-03 PRD/spec
       documents, the `tools/antigravity` component, and the docmap strand tooling. Charters
       rule 1 is claim-before-starting and it is the most-logged lesson in the repo.
+- [ ] **The LightRAG-vs-sqlite-first contradiction is still unresolved.**
+      `docs/gemini-code-1785457549011.md` specs a three-layer vector/graph RAG engine;
+      `intent-control-plane/docs/specs/2026-07-11-self-evolving-depth-harness.md` AC-K3
+      makes that a non-goal. Neither document references the other. Measured corpus stats
+      and the falsifiers that would flip the recommendation are in
+      [analysis/2026-08-06-memory-rag-substrate-findings.md](analysis/2026-08-06-memory-rag-substrate-findings.md).
 
 ### Modules over the imported 500-line hard limit (15 as of 2026-08-06, was 14 on 08-05)
 
