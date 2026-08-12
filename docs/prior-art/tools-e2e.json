@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "split",
+ "verdict_class": "split",
+ "absorption_status": "unreviewed",
  "why": "flow.py's value is its ruleset, not its plumbing. PROBE_JS, the drive_controls click-and-fingerprint strategy and the planted-defect selftest are the parts worth keeping and would port almost verbatim onto a Playwright page. Only the cdp.WS dependency underneath is the build-vs-buy question, and it belongs to tools/browser. Verdict from the shared analysis: split  -  replace cdp.py's hand-rolled CDP transport (WS class + launch/new_tab machinery, cdp.py:69-363, ~300 of 509 lines) with Playwright's Python sync API; keep cdp.py's chrome_path()/adopt-running-instance CLI subcommands for its separate authenticated-ad-hoc-browsing job (or point them at Playwright's connect_over_cdp() later, out of this scope). Keep flow.py's PROBE_JS ruleset, drive_controls click-and-fingerprint fuzz strategy, and the planted-defect selftest almost verbatim  -  rehost them on a Playwright page/context instead of cdp.WS, add a webkit context alongside chromium, wire tracing.start/stop plus screenshot-on-FAIL, and enable pytest-xdist parallelism.",
  "alternatives": [
   {

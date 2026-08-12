@@ -3,6 +3,8 @@
   "reviewed": "2026-07-31",
   "recheck_after": "2026-10-29",
   "verdict": "split",
+  "verdict_class": "split",
+  "absorption_status": "unreviewed",
   "our_loc": 1408,
   "migration_loc": 293,
   "what_ours_does": "Measures a draft against a locally-fitted idiolect before it is sent. Five parts, and they are not one component: (1) voice_engine.py, a hashed character n-gram TF-IDF embedding, PCA-whitened, fitted on the local WhatsApp corpus, numpy the sole dependency; (2) profiles.py, per-surface metric rule sets (blog_post, devto, x) fitted with voice.py fit; (3) voice_score.py, percentile bands and a k-NN centrality score placing a draft inside or outside the corpus distribution; (4) lexicon/, spell check over 370,105 English words and a 324,329-entry Hebrew lexicon built from hspell 1.4; (5) voice_engine.separate_speakers, kept ONLY so a negative result stays reproducible, documented in its own module docstring.",

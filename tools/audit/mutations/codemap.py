@@ -96,4 +96,37 @@ MUTATIONS = [
      "being read at all",
      '    out = []\n    if state["undocumented"]:',
      '    out = ["always a problem"]\n    if state["undocumented"]:'),
+
+    # ---- absorption schema, ABSORB-01 and ABSORB-09 ----------------------
+    # These four break the checks added when the prior-art schema gained the
+    # ability to say what an evaluation took from its alternatives. The row that
+    # asked for them named the root cause exactly: absorption was
+    # unrepresentable, therefore unchecked, therefore it never happened. A
+    # schema field with no oracle would leave it exactly there.
+    ("a record with no verdict_class stops being faulted",
+     "the enumerated field goes back to optional, so 'how many components did we "
+     "decide to replace' costs 41 file reads again and the answer decays from "
+     "the next record onward",
+     '    klass = rec.get("verdict_class")\n    if not klass:',
+     '    klass = rec.get("verdict_class")\n    if False:'),
+
+    ("a record with no absorption_status stops being faulted",
+     "this is the whole of ABSORB-01. With the check gone the field is advisory, "
+     "and an advisory field on a schema nobody re-reads is the condition that "
+     "produced 0 of 41 in the first place",
+     '    status = rec.get("absorption_status")\n    if not status:',
+     '    status = rec.get("absorption_status")\n    if False:'),
+
+    ("the status vocabulary stops being closed",
+     "any string becomes a legal status, so the enum degrades into the free text "
+     "it was added to replace and groups nothing",
+     'elif status not in ABSORPTION_STATUSES:',
+     'elif False:'),
+
+    ("a status may claim a decision without naming it",
+     "absorption_status 'absorbed' with an empty `absorbed` field is the free-text "
+     "defect wearing an enum: it groups perfectly and carries no information about "
+     "what was actually taken or where it landed",
+     'elif status in ABSORPTION_NEEDS_DETAIL and not str(rec.get("absorbed", "")).strip():',
+     'elif False:'),
 ]
