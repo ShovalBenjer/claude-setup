@@ -107,6 +107,32 @@ class Translation(unittest.TestCase):
         self.assertFalse(hp.exists(r"C:\definitely\not\here.txt", mounts=self.HAVE))
 
 
+class UncWsl(unittest.TestCase):
+    """\\\\wsl.localhost\\<distro>\\... names this same filesystem when running
+    inside that distro. First appeared 2026-08-12: the live Notification hook
+    invokes notify-toast.ps1 through the UNC spelling so Windows PowerShell can
+    reach it, and pointers.py reported the existing file as wired-missing."""
+
+    def test_matching_distro_translates_to_the_local_root(self):
+        self.assertEqual(
+            hp.translate(r"\\wsl.localhost\Ubuntu\home\shov\.claude\hooks\notify-toast.ps1",
+                         mounts={}, distro="Ubuntu"),
+            Path("/home/shov/.claude/hooks/notify-toast.ps1"))
+
+    def test_the_legacy_wsl_dollar_spelling_translates_too(self):
+        self.assertEqual(
+            hp.translate(r"\\wsl$\Ubuntu\home\shov\x.py", mounts={}, distro="Ubuntu"),
+            Path("/home/shov/x.py"))
+
+    def test_a_foreign_distro_stays_unchanged(self):
+        raw = r"\\wsl.localhost\Debian\home\shov\x.py"
+        self.assertEqual(hp.translate(raw, mounts={}, distro="Ubuntu"), Path(raw))
+
+    def test_outside_wsl_stays_unchanged(self):
+        raw = r"\\wsl.localhost\Ubuntu\home\shov\x.py"
+        self.assertEqual(hp.translate(raw, mounts={}, distro=None), Path(raw))
+
+
 class RealHost(unittest.TestCase):
     def test_the_twelve_wired_missing_hooks_resolve_on_this_host(self):
         """The regression itself, against the real filesystem. Skips where there is

@@ -31,10 +31,12 @@ verification stance is that a checker must be able to say no.
 Deliberately not a path-manipulation library. Two spellings in, one question
 answered, and `exists()` is the only thing callers should need.
 
-Scope this does NOT cover, stated so nobody reads more into it: UNC paths, drive
-letters mapped to network shares, `%USERPROFILE%` and `$env:` expansion, and the
-reverse direction (Linux paths read from Windows). None has appeared in this repo's
-traffic; add them with a failing test when one does.
+Scope this does NOT cover, stated so nobody reads more into it: UNC paths other
+than \\wsl.localhost\<distro> and \\wsl$\<distro> (added 2026-08-12 with a failing
+test, when the live Notification hook's notify-toast.ps1 appeared through that
+spelling), drive letters mapped to network shares, `%USERPROFILE%` and `$env:`
+expansion, and the reverse direction (Linux paths read from Windows). None has
+appeared in this repo's traffic; add them with a failing test when one does.
 """
 from __future__ import annotations
 
@@ -70,11 +72,25 @@ def wsl_mounts(root: str = "/mnt") -> dict[str, Path]:
     return out
 
 
-def translate(raw: str, mounts: dict[str, Path] | None = None) -> Path:
+_UNC_WSL = re.compile(r"^\\\\wsl(?:\.localhost|\$)\\([^\\]+)\\(.*)$")
+_ENV_SENTINEL = object()
+
+
+def translate(raw: str, mounts: dict[str, Path] | None = None,
+              distro: object = _ENV_SENTINEL) -> Path:
     """The path as this host can reach it, or unchanged when it cannot.
 
     Unchanged is the honest answer for an unmounted drive; see the module docstring.
+    A \\\\wsl.localhost\\<distro>\\ UNC name (or the legacy \\\\wsl$\\ spelling) is
+    this filesystem's own root, but only when we ARE that distro: the same
+    only-where-mounted safety property, with WSL_DISTRO_NAME as the mount witness.
     """
+    m = _UNC_WSL.match(raw)
+    if m:
+        here = os.environ.get("WSL_DISTRO_NAME") if distro is _ENV_SENTINEL else distro
+        if here == m.group(1):
+            return Path("/" + m.group(2).replace("\\", "/"))
+        return Path(raw)
     if mounts is None:
         mounts = wsl_mounts()
     if not mounts:
