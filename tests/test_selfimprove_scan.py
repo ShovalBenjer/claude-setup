@@ -62,17 +62,23 @@ class HookTargetResolution(unittest.TestCase):
         self.assertEqual(scan.resolve_hook_target(raw), Path(raw))
 
     def test_a_real_live_hook_is_not_reported_missing(self) -> None:
-        """The regression, retargeted 2026-08-12: originally pinned the MSYS form
-        /c/Users/shova/... of the live SessionStart hook. The Windows-side
-        .claude estate was deliberately deleted on 2026-08-12 (WSL is the only
-        install), so that exact path now correctly resolves to nothing, and the
-        MSYS mapping itself stays covered by the drive-letter tests above. What
-        must keep holding: the hook actually wired in the live settings resolves
-        to an existing file, whatever form it is wired in."""
+        """The regression, merged from two independent 2026-08-12 fixes.
+
+        Both sides retargeted this after the Windows-side .claude estate was
+        deleted (WSL is now the only install). The main-branch fix kept the MSYS
+        arm but keyed its skip on the Windows copy, which on this host always
+        skips, a dead check. The branch fix asserted the actually-wired live
+        hook resolves, which always runs. Keep both: the MSYS arm exercises the
+        cross-form mapping wherever a Windows copy exists, and the live arm
+        guarantees the check cannot go permanently quiet on any host."""
         live = Path.home() / ".claude" / "hooks" / "session-recall.sh"
         if not live.is_file():
             self.skipTest("live session-recall.sh absent on this machine")
         self.assertTrue(scan.resolve_hook_target(str(live)).exists())
+        native = Path("/mnt/c/Users/shova/.claude/hooks/session-recall.sh")
+        if native.is_file():
+            wired = "/c/Users/shova/.claude/hooks/session-recall.sh"
+            self.assertTrue(scan.resolve_hook_target(wired).exists())
 
     def test_an_absent_hook_is_still_detected(self) -> None:
         """The check must not be fixed by making it unable to fire."""
