@@ -10,7 +10,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 ## Coverage
 
 - documents: **1018**
-- reachable from `docs/INDEX.md`: **121** (11%)
+- reachable from `docs/INDEX.md`: **122** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -138,7 +138,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-08-na-domains-rechecked.md` | 2026-08-08 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-08-zion-and-inheritance.md` | 2026-08-08 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-09-session-scope-ledger.md` | 2026-08-09 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/2026-08-10-inbox-secret-exposure.md` | 2026-08-10 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-10-inbox-secret-exposure.md` | 2026-08-10 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-08-10-milestone-task-plan.md` | 2026-08-10 | dated-snapshot | class | 2 | - | nothing. Re-derive before acting if the | - |
 | `docs/analysis/2026-08-10-three-skill-trees-measured.md` | 2026-08-10 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-11-milestone-task-plan.md` | 2026-08-11 | dated-snapshot | class | 2 | - | - | - |

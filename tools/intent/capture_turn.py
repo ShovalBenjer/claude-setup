@@ -183,6 +183,14 @@ def main() -> int:
     if not text.strip():
         return 0
 
+    # Claude Code delivers task notifications, system reminders and compaction
+    # continuations through this same event, and until 2026-08-10 each one minted a
+    # ticket: 93 of 1,306 ledger rows were `<task-notification>` blocks nobody typed.
+    # A ledger of prompts that is mostly not prompts cannot be triaged, and the count
+    # is the number the operator would have to read past.
+    if tickets.is_harness_authored(text):
+        return 0
+
     try:
         session = str(payload.get("session_id", ""))
         repo, branch = repo_and_branch(str(payload.get("cwd", "")))
