@@ -496,6 +496,70 @@ PERSONAS: dict[str, dict] = {
              "commented-out code, which future readers cannot tell from live code"),
         ],
     },
+    # SIXTH PERSONA, added 2026-08-05. It exists because dot-claude/rules/
+    # boundary-contracts.md was restored the day before after a "sync" had cut it
+    # from 5557 bytes to 488, and the restored rule carries three language-level
+    # bans that were readable again and enforced by nothing. A rule nobody can fail
+    # is a preference. This makes three of its eight points checkable.
+    #
+    # It also closes part of a measured gap: panel.py's persona names and
+    # actors.json's `_aspect_enum` shared two words out of eleven, and `boundary`
+    # was one of the six the registry declared that no local rule set covered. Four
+    # external actors already declare may_enact boundary; now something local does
+    # too, so tools/review/allocate.py can plan both halves of the same dimension.
+    #
+    # PRIOR ART, searched 2026-08-05 after the gate stopped a claim that these were
+    # unenforced. They are unenforced HERE and thoroughly solved elsewhere, and the
+    # difference matters for whoever reads this next:
+    #   errcheck with `check-blank: true` is go-discarded-marshal and
+    #     go-discarded-read, done with type information rather than a regex. Its own
+    #     documentation uses `num, _ := strconv.Atoi(numStr)` as the example.
+    #     golangci-lint bundles it; `dogsled` covers the multi-blank form.
+    #   @typescript-eslint/no-unsafe-assignment already flags the JSON.parse case,
+    #     because JSON.parse returns `any`. zod is the community answer to the
+    #     underlying problem: decode at the boundary against a schema.
+    #   The Semgrep Registry (2000+ rules) would express all three natively.
+    # WHAT THESE THREE ADD is one property none of those has: the panel reads ADDED
+    # DIFF LINES with no toolchain, no compilable package and no node_modules,
+    # against repositories it does not build. That is the whole of the case for
+    # them. For any repository that actually builds, run golangci-lint and
+    # typescript-eslint and delete these. See TODO PERSONA-12.
+    #
+    # NOT in COMMENT_AWARE, deliberately. A commented-out `payload, _ := json.Marshal`
+    # is dead code and not a live discarded error, and the comment-strip pass added
+    # 2026-08-04 already removes it before these patterns see the line. Registering
+    # them would be belt-and-braces on a mechanism that is already tested.
+    "boundary": {
+        "owns": "typed contracts at IO edges, and errors that are discarded rather than handled",
+        "checks": [
+            # `x, _ := json.Marshal(...)`. The rule names this one by example and
+            # the qc-telephony-api proxy it came from failed on exactly this line.
+            # Anchored on the blank identifier in the SECOND slot of a short
+            # declaration, so `a, b := json.Marshal(...)` and a genuine
+            # `_ = something` both stay clean.
+            ("go-discarded-marshal", HIGH, ["go"],
+             r"\b\w+\s*,\s*_\s*:?=\s*(?:json|xml|yaml)\.(?:Marshal|Unmarshal)\s*\(",
+             "a discarded (de)serialization error is a silent data-corruption path; "
+             "boundary-contracts.md rule 3"),
+            # `out, _ := io.ReadAll(...)`. Same shape, the other half of the same
+            # incident: the proxy read the upstream body with a discarded error and
+            # sent the bytes straight back.
+            ("go-discarded-read", HIGH, ["go"],
+             r"\b\w+\s*,\s*_\s*:?=\s*(?:io|ioutil)\.(?:ReadAll|ReadFile)\s*\(",
+             "a discarded read error means the body may be truncated or empty and "
+             "nothing downstream can tell; boundary-contracts.md rule 3"),
+            # An unchecked JSON.parse. Requires the call to be the whole of an
+            # assignment or an argument, and NOT already inside a try. The panel
+            # sees added lines rather than whole files, so `try {` on an earlier
+            # line is invisible; that is why this is MEDIUM and not HIGH, and why
+            # the message says which check the reader has to do by eye.
+            ("ts-unchecked-json-parse", MED, ["ts", "js"],
+             r"(?<!\.)\bJSON\.parse\s*\(",
+             "JSON.parse throws on malformed input; boundary-contracts.md rule 3 "
+             "wants the decode error handled. Confirm a surrounding try or a "
+             "schema decode, which this line-scoped panel cannot see"),
+        ],
+    },
     "data": {
         "owns": "schema change safety and query cost",
         "checks": [
@@ -979,6 +1043,7 @@ def cmd_selftest(args: argparse.Namespace) -> int:
             "  const who = jwt.decode(token);",                             # jwt-unverified
             "  try { risky(); } catch {}",                                  # empty-catch
             "  const x = y as any;",                                        # ts-escape
+            "  const cfg = JSON.parse(raw);",                               # ts-unchecked-json-parse
             "  let price: number = 0;",                                     # float-money
             "  save(row).then(done);",                                      # unawaited
             "  if (x == undefined) { return; }",                            # loose-equality-null
@@ -1001,6 +1066,16 @@ def cmd_selftest(args: argparse.Namespace) -> int:
             "        work()",
             "    except:",                                                  # bare-except-pass
             "        pass",
+        ],
+        # Go has no fixture file until now, because no check declared it. The
+        # boundary persona added 2026-08-05 is the first, so the language arrives
+        # with its own positive cases rather than being asserted to work.
+        "proxy.go": [
+            "func handler(c *fiber.Ctx) error {",
+            "\tpayload, _ := json.Marshal(req)",                            # go-discarded-marshal
+            "\tout, _ := io.ReadAll(resp.Body)",                            # go-discarded-read
+            "\treturn c.Send(out)",
+            "}",
         ],
         "schema.sql": [
             "DROP TABLE users;",                                            # drop-in-migration

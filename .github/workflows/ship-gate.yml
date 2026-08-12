@@ -290,6 +290,15 @@ jobs:
       - name: pile.py selftest (duplicate and fork manifest)
         run: python tools/audit/pile.py selftest
 
+      # This runner has no ~/.claude/rules, which is the exact condition that turned
+      # the rules domain red on 2026-08-05 and the condition this selftest now asserts
+      # is a NARROWED run rather than a failure. Named as its own step so the two
+      # halves stay attributable: drift reports SKIP here, shrink runs in full and can
+      # still turn the step red, and if those ever swap places the step says which one
+      # moved instead of the whole gate reporting one word.
+      - name: rules_sync.py selftest
+        run: python tools/audit/rules_sync.py selftest
+
       # Row 6 of the agentic repo standard (ADR-0020). Only the pure decision
       # function is exercised: the selftest never calls gh, git, or the network,
       # so it is deterministic in CI. Its job is to keep "the API did not answer"

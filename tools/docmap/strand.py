@@ -64,6 +64,25 @@ NOT_A_CONSUMER = frozenset({
     "docs/CODEBASE-MAP.md",
 })
 
+# The fourth instance of the same rule, and the first one whose paths cannot be listed
+# by name: `state/reviews/<sha>.json` is written by panel.py per commit, and it names
+# every file the diff added. So the act of committing a document makes a review
+# artifact "reference" it, one new artifact per commit, forever.
+#
+# Found 2026-08-05 by `strand.py check` reporting 10 violations of the form "is exempt
+# and is now referenced. Remove the exemption." on a clean tree. The 10 documents are
+# imported research references with no consumer at all; the only thing naming them
+# outside the bookkeeping surfaces above was
+# state/reviews/bca1d6942e6075ce4d89bf6b9a07b397c14f616c.json. Removing the exemptions
+# as the message instructs would have recorded 10 genuinely stranded documents as
+# reached, which is the opposite of what this oracle is for.
+NOT_A_CONSUMER_PREFIXES = ("state/reviews/",)
+
+
+def _is_consumer(ref: str) -> bool:
+    """A bookkeeping surface is never a consumer, whether it is named or prefixed."""
+    return ref not in NOT_A_CONSUMER and not ref.startswith(NOT_A_CONSUMER_PREFIXES)
+
 # The declared vocabulary. A status outside this set is a violation, because a
 # scheme that grows silently is how the unified PRD ended up declaring five
 # verdicts and using eight.
@@ -196,7 +215,7 @@ def evaluate(project: Path) -> dict:
         # precisely the documents it excuses. Counting either makes the rule vacuous, and
         # counting EXEMPT_PATH makes it self-satisfying: adding an exemption would mark the
         # document as referenced and clear the very violation the exemption was written for.
-        consumers = sorted(r for r in refs.get(doc, ()) if r not in NOT_A_CONSUMER)
+        consumers = sorted(r for r in refs.get(doc, ()) if _is_consumer(r))
         indexed = INDEX_PATH in refs.get(doc, ())
         stranded = not consumers
 
@@ -313,11 +332,27 @@ def selftest(_project: Path) -> int:
         if not any("Remove the exemption" in p for p in probs3):
             failures.append("a stale exemption for a wired document was not reported")
 
+        # A generated review artifact is not a consumer. panel.py writes
+        # state/reviews/<sha>.json naming every file a diff added, so without the
+        # prefix exclusion the act of committing a document marks it reached, one new
+        # artifact per commit, forever. Measured 2026-08-05: this fired as 10 false
+        # "Remove the exemption" violations on a clean tree, and obeying them would
+        # have recorded 10 genuinely stranded documents as reached.
+        _write(root / EXEMPT_PATH, "docs/analysis/lonely.md | grandfathered by selftest\n")
+        _write(root / "state/reviews/deadbeef.json",
+               '{"added": ["docs/analysis/lonely.md"]}\n')
+        subprocess.run(["git", "-C", str(root), "add", "-A"], check=True,
+                       capture_output=True)
+        probs4 = problems(evaluate(root))
+        if any("lonely.md" in p and "Remove the exemption" in p for p in probs4):
+            failures.append("a generated review artifact counted as a consumer, so "
+                            "committing a document marks it reached")
+
     if failures:
         for f in failures:
             print("selftest FAIL: " + f)
         return 1
-    print("strand selftest: 5 assertions, all held")
+    print("strand selftest: 6 assertions, all held")
     return 0
 
 
