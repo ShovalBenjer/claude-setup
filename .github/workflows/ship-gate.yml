@@ -62,7 +62,13 @@ jobs:
     # Covers: build, unit, types, security, docs, review, pipeline (see header).
     # Does NOT cover: e2e, a11y_ux (see header).
     if: ${{ !github.event.pull_request.draft }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
+    env:
+      # This runner lives on the operator's WSL machine, which has a real
+      # ~/.claude. Redirecting HOME reproduces the hosted-runner shape: the
+      # live-tree halves of rules/skills/pointers SKIP instead of racing the
+      # peer sessions that edit the live tree mid-run. Billed minutes: zero.
+      HOME: /home/shov/actions-runner/ci-home
     permissions:
       contents: read
     steps:
@@ -150,6 +156,8 @@ jobs:
     # ignore it, which is worse than not having it. `continue-on-error` comes off once
     # one real run has been read, same convention the header uses for the Chrome path.
     if: ${{ !github.event.pull_request.draft }}
+    # Stays hosted: osv-scanner is a docker container action and the wsl-shov
+    # runner has no docker. ~1 billed minute per run, the cheapest correct fix.
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -204,7 +212,13 @@ jobs:
     # It reports the blast radius so a reviewer knows what a diff touched, which is
     # the half that is safe to automate.
     if: ${{ !github.event.pull_request.draft && github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
+    env:
+      # This runner lives on the operator's WSL machine, which has a real
+      # ~/.claude. Redirecting HOME reproduces the hosted-runner shape: the
+      # live-tree halves of rules/skills/pointers SKIP instead of racing the
+      # peer sessions that edit the live tree mid-run. Billed minutes: zero.
+      HOME: /home/shov/actions-runner/ci-home
     permissions:
       contents: read
     steps:
@@ -251,7 +265,13 @@ jobs:
     # confirmed by a real run of this workflow -- treat the first run as the
     # confirmation, same convention as the Chrome-path assumption noted above.
     if: ${{ !github.event.pull_request.draft }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
+    env:
+      # This runner lives on the operator's WSL machine, which has a real
+      # ~/.claude. Redirecting HOME reproduces the hosted-runner shape: the
+      # live-tree halves of rules/skills/pointers SKIP instead of racing the
+      # peer sessions that edit the live tree mid-run. Billed minutes: zero.
+      HOME: /home/shov/actions-runner/ci-home
     permissions:
       contents: read
     steps:
