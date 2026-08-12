@@ -31,12 +31,14 @@ verification stance is that a checker must be able to say no.
 Deliberately not a path-manipulation library. Two spellings in, one question
 answered, and `exists()` is the only thing callers should need.
 
-Scope this does NOT cover, stated so nobody reads more into it: UNC paths other
-than \\wsl.localhost\<distro> and \\wsl$\<distro> (added 2026-08-12 with a failing
-test, when the live Notification hook's notify-toast.ps1 appeared through that
-spelling), drive letters mapped to network shares, `%USERPROFILE%` and `$env:`
-expansion, and the reverse direction (Linux paths read from Windows). None has
-appeared in this repo's traffic; add them with a failing test when one does.
+Scope this does NOT cover, stated so nobody reads more into it: UNC network shares,
+drive letters mapped to them, `%USERPROFILE%` and `$env:` expansion, and the reverse
+direction (Linux paths read from Windows). The WSL-loopback UNC forms
+(`\\wsl.localhost\<distro>\...`, `\\wsl$\...`) ARE covered since 2026-08-12, when a
+Windows-side toast hook wired that spelling into the live settings.json and cost one
+false HIGH; anything else here gets added with a failing test when it appears. Two
+sessions fixed that HIGH in parallel with different licenses (mounts-non-empty vs a
+distro witness); the merged rule is below, satisfying both branches' oracles.
 """
 from __future__ import annotations
 
@@ -50,6 +52,13 @@ _DRIVE = re.compile(r"^([A-Za-z]):[\\/](.*)$", re.S)
 #: `/c/x`, the MSYS form Git Bash writes. Exactly ONE letter between the slashes:
 #: `/home/...` and `/cc/...` must not match, and a bare `/c` is a real Linux path.
 _MSYS = re.compile(r"^/([A-Za-z])/(.+)$")
+
+#: `\\wsl.localhost\<distro>\x` or `\\wsl$\<distro>\x`: how a Windows-side
+#: interpreter names a file inside THIS WSL filesystem (powershell.exe cannot read
+#: `/home/...` directly). Only these two hosts match; `\\fileserver\share` is a real
+#: network path and must never be rewritten.
+_UNC_WSL = re.compile(r"^\\\\(?:wsl\.localhost|wsl\$)\\([^\\]+)\\(.+)$", re.S)
+_ENV_SENTINEL = object()
 
 
 def wsl_mounts(root: str = "/mnt") -> dict[str, Path]:
@@ -72,27 +81,26 @@ def wsl_mounts(root: str = "/mnt") -> dict[str, Path]:
     return out
 
 
-_UNC_WSL = re.compile(r"^\\\\wsl(?:\.localhost|\$)\\([^\\]+)\\(.*)$")
-_ENV_SENTINEL = object()
-
-
 def translate(raw: str, mounts: dict[str, Path] | None = None,
               distro: object = _ENV_SENTINEL) -> Path:
     """The path as this host can reach it, or unchanged when it cannot.
 
     Unchanged is the honest answer for an unmounted drive; see the module docstring.
     A \\\\wsl.localhost\\<distro>\\ UNC name (or the legacy \\\\wsl$\\ spelling) is
-    this filesystem's own root, but only when we ARE that distro: the same
-    only-where-mounted safety property, with WSL_DISTRO_NAME as the mount witness.
+    this filesystem's own root, licensed two ways: an explicit `distro` argument
+    that matches is a caller's witness and suffices alone; the env-derived witness
+    (WSL_DISTRO_NAME) additionally requires a mounted drive, so bare Linux and
+    Windows never rewrite it. Both parallel fixes' oracles hold under this rule.
     """
-    m = _UNC_WSL.match(raw)
-    if m:
-        here = os.environ.get("WSL_DISTRO_NAME") if distro is _ENV_SENTINEL else distro
-        if here == m.group(1):
-            return Path("/" + m.group(2).replace("\\", "/"))
-        return Path(raw)
     if mounts is None:
         mounts = wsl_mounts()
+    m = _UNC_WSL.match(raw)
+    if m:
+        explicit = distro is not _ENV_SENTINEL
+        here = distro if explicit else os.environ.get("WSL_DISTRO_NAME")
+        if here == m.group(1) and (explicit or mounts):
+            return Path("/" + m.group(2).replace("\\", "/"))
+        return Path(raw)
     if not mounts:
         return Path(raw)
 
@@ -110,6 +118,7 @@ def translate(raw: str, mounts: dict[str, Path] | None = None,
         mount = mounts.get(drive)
         if mount:
             return mount / rest
+
     return Path(raw)
 
 
