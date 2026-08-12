@@ -48,6 +48,11 @@ _DRIVE = re.compile(r"^([A-Za-z]):[\\/](.*)$", re.S)
 #: `/c/x`, the MSYS form Git Bash writes. Exactly ONE letter between the slashes:
 #: `/home/...` and `/cc/...` must not match, and a bare `/c` is a real Linux path.
 _MSYS = re.compile(r"^/([A-Za-z])/(.+)$")
+# The UNC name Windows gives a WSL distro's root. Translated only when this
+# process runs INSIDE that distro ($WSL_DISTRO_NAME matches), which is the same
+# honesty property as the drive mounts: a name this host cannot actually reach
+# stays unchanged rather than being rewritten into something that looks local.
+_WSL_UNC = re.compile(r"^\\\\wsl(?:\.localhost|\$)\\([^\\]+)\\(.*)$", re.S)
 
 
 def wsl_mounts(root: str = "/mnt") -> dict[str, Path]:
@@ -87,6 +92,10 @@ def translate(raw: str, mounts: dict[str, Path] | None = None) -> Path:
         # Only the separators are rewritten. Splitting on whitespace would lose
         # `C:\Program Files\Git\bin\bash.exe`, which is one of the twelve.
         return mount / rest.replace("\\", "/") if mount else Path(raw)
+
+    m = _WSL_UNC.match(raw)
+    if m and m.group(1) == os.environ.get("WSL_DISTRO_NAME"):
+        return Path("/" + m.group(2).replace("\\", "/"))
 
     m = _MSYS.match(raw)
     if m:
