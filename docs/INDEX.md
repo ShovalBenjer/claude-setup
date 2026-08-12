@@ -32,6 +32,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 
 ## PRDs
 
+- [analysis/2026-08-05-enforcement-topology-measured.md](analysis/2026-08-05-enforcement-topology-measured.md): Enforcement topology: global vs per-project vs document-only, measured *(status: measurement)*
 - [analysis/2026-08-03-code-audit-analysis-sweep-and-research-provenance.md](analysis/2026-08-03-code-audit-analysis-sweep-and-research-provenance.md): Code audit, the 37-file analysis sweep, and where this session's research landed *(status: measurement)*
 - [analysis/2026-08-05-implementation-reasoning-per-file.md](analysis/2026-08-05-implementation-reasoning-per-file.md): Why each source file is shaped the way it is, applying ADR-0021 per file *(status: analysis)*
 - [analysis/2026-08-10-inbox-secret-exposure.md](analysis/2026-08-10-inbox-secret-exposure.md): A secret reached a pushed commit; why removing it from HEAD does not remove it, and the operator action that does *(status: active)*

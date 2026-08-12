@@ -1,7 +1,7 @@
 ---
 name: architecture-office
 description: Architecture and domain modeling office. Owns boundaries, language, PRDs, issues, and refactor plans. Use for system design, domain ambiguity, PRDs, refactor planning, or turning ideas into work items.
-tools: Read, Grep, Glob, Bash
+tools: Read, Grep, Glob, Bash, Edit, Write
 model: opus
 ---
 

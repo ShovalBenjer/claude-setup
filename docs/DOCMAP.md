@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1021**
-- reachable from `docs/INDEX.md`: **121** (11%)
+- documents: **1029**
+- reachable from `docs/INDEX.md`: **122** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (62)
+## analysis (68)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -129,7 +129,13 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-01-ponytail-audit-prompt-archaeology.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-03-code-audit-analysis-sweep-and-research-provenance.md` | 2026-08-03 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-08-03-math-trends-and-model-stack.md` | 2026-08-03 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-08-05-enforcement-topology-measured.md` | 2026-08-05 | dated-snapshot | class | 2 | yes | - | - |
 | `docs/analysis/2026-08-05-implementation-reasoning-per-file.md` | 2026-08-05 | dated-snapshot | class | n/a | yes | - | - |
+| `docs/analysis/2026-08-06-azure-jira-after-the-job.md` | 2026-08-06 | dated-snapshot | class | n/a | - | - | things |
+| `docs/analysis/2026-08-06-external-repo-source-read-and-surface-comparison.md` | 2026-08-06 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-08-06-memory-rag-substrate-findings.md` | 2026-08-06 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-08-06-persona-metrics-external-sweep.md` | 2026-08-06 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-06-skill-candidates-dependency-filter.md` | 2026-08-06 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-07-toplevel-dir-decisions.md` | 2026-08-07 | dated-snapshot | class | n/a | - | - | the |
 | `docs/analysis/2026-08-08-connector-catalogue-reasoning.md` | 2026-08-08 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-08-08-connector-usage.md` | 2026-08-08 | dated-snapshot | class | 2 | - | - | - |
@@ -319,7 +325,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/commands/cdp.md` | 2026-07-27 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/commands/reground.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## corpus (92)
+## corpus (91)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -380,7 +386,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/home-md/Claude Code  Complete Issue Map & User Fixes.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/Claude Code bwrap Bash Tool Failure on WSL2  Root Cause & Fixes.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/README.md` | - | corpus-material | class | n/a | - | - | - |
-| `research-papers/home-md/RTK.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/agent_prompt_v38_mind.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/azure-wiki-onepager-skill.md` | - | corpus-material | class | n/a | - | - | - |
 | `research-papers/home-md/compass_artifact_wf-662a99e3-a378-4764-85f2-6b7801fa412c_text_markdown.md` | - | corpus-material | class | n/a | - | - | - |
@@ -515,7 +520,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prd/2026-08-03-boundary-termination-instrument.md` | 2026-08-03 | proposed | header | 2 | yes | - | - |
 | `docs/prd/2026-08-03-unified-architecture.md` | 2026-08-03 | proposed | header | n/a | yes | - | - |
 
-## prior-art (43)
+## prior-art (44)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -558,7 +563,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prior-art/tools-intent.json` | 2026-07-31 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-wsl.json` | 2026-08-03 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-antigravity.json` | 2026-08-04 | current | arithmetic | n/a | - | this file for in-session use and the CLI | - |
-| `docs/prior-art/tools-telemetry.json` | 2026-08-04 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/tools-telemetry.json` | 2026-08-05 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/tools-corpus.json` | 2026-08-06 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/dot-claude-skills-whatsapp-query.json` | 2026-08-07 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-whatsapp.json` | 2026-08-07 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-harness.json` | 2026-08-10 | current | arithmetic | n/a | - | - | - |
@@ -632,7 +638,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/the-loop-may-act.md` | 2026-08-10 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/long-checks-background.md` | 2026-08-12 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## skill (210)
+## skill (225)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -734,17 +740,27 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/coverage-enforcer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/decision-grade/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/dispatch/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/domain-model/ADR-FORMAT.md` | - | definition-see-skills_sync | class | n/a | - | - | ADR-NNNN |
+| `dot-claude/skills/domain-model/CONTEXT-FORMAT.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/domain-model/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/end-session/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/eval-runner/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/explain-simply/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/feature-investor/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/frontend-design/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/github-triage/AGENT-BRIEF.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/github-triage/OUT-OF-SCOPE.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/github-triage/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/grill-me/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/gws-gmail-read/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/gws-gmail-triage/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/gws-gmail/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/gws-shared/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/humanize/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/improve-codebase-architecture/DEEPENING.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/improve-codebase-architecture/INTERFACE-DESIGN.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/improve-codebase-architecture/LANGUAGE.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/improve-codebase-architecture/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/jira-read/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/jira-task-draft/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/kill-stale/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -775,13 +791,17 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/red-team/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/refactor-pre-push/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/reground/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/request-refactor-plan/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/requirement-anchor/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/review/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/ship-gate/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/skillmap/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/syndication-engine/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/testing-pyramid/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/to-issues/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/to-prd/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/triage-tests/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/ubiquitous-language/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/voice-explainer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/voice-metrics/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/watchdog/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -789,6 +809,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/web-inspect/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/whatsapp-query/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/workspace-brain/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/write-a-skill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/writing-great-skills/GLOSSARY.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/youtube-distill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/apify-mcp/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -959,7 +980,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-codex/skills/.system/skill-installer/SKILL.md` | - | third-party-not-ours | class | n/a | - | - | - |
 | `dot-agents/skills/heygen-skills/CHANGELOG.md` | 2026-05-13 | third-party-not-ours | class | n/a | - | - | - |
 
-## work-doc (179)
+## work-doc (166)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -993,13 +1014,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `work-docs/pipelines/notifications/README.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/prompt_v96_optimization_suggestions.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/research/README.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/Claude Code  Complete Issue Map & User Fixes.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/Claude Code bwrap Bash Tool Failure on WSL2  Root Cause & Fixes.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/FIX-BWRAP-WSL.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/Q-Learning, Deep RL & March 2026 Research  Auditing MiroFish & AutoResearch.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/azure-wiki-onepager-skill.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/compass_artifact_wf-662a99e3-a378-4764-85f2-6b7801fa412c_text_markdown.md` | - | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/deep-research-bwrap-wsl-error.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/specs/2026-05-13-ado-pr-review/review-prompt.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Architecture.md` | - | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Compliance.md` | - | dated-snapshot | class | n/a | - | - | - |
@@ -1030,14 +1044,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `work-docs/wiki/Home.md` | 2026-04-29 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/wiki/Knowledge-Base.md` | 2026-04-29 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-04-30-v109-deploy-review-cleanup.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/claude-code-experimental-features.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/cleanup-proposal.md` | 2026-04-30 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/claude-setup-master-plan-2026-05-02.md` | 2026-05-02 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/claude-setup-tasks-2026-05-02.md` | 2026-05-02 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/audits/2026-05-03-dor-cohen-sentimark-email.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/audits/2026-05-03-dormancy-audit.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/claude-skills-scatter-2026-05-03.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
-| `work-docs/root-cleanup-2026-05-28/claude-skills-triage-2026-05-03.md` | 2026-05-03 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-05-04-a2a-v1-and-wire-gap-closure.md` | 2026-05-04 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-05-04-claude-setup-session-structure-and-wire-gaps.md` | 2026-05-04 | dated-snapshot | class | n/a | - | - | - |
 | `work-docs/reflections/2026-05-04-pst-extraction-path-a-run.md` | 2026-05-04 | dated-snapshot | class | n/a | - | - | - |

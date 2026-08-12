@@ -38,6 +38,9 @@ PRIOR_ART_DIR = os.path.join(ROOT, "docs", "prior-art")
 
 # filename stem -> verdict_class. Assigned by reading each record's `verdict`.
 VERDICT_CLASS = {
+    # "build, narrowly, and the narrowness is the point": a build-ours verdict;
+    # the alternatives render sessions for humans, ours extracts a corpus.
+    "tools-corpus": "keep-ours",
     "dot-claude-bin": "split",
     "dot-claude-hooks": "split",
     "dot-claude-skills-explain-simply": "split",

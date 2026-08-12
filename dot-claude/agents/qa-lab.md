@@ -1,7 +1,7 @@
 ---
 name: qa-lab
 description: Testing, eval, and regression lab. Owns test pyramid, property tests, mutation checks, eval runners, failed eval diagnosis, and red-team review. Use before ship, after code changes, on failing tests, or when behavior quality matters.
-tools: Read, Grep, Glob, Bash
+tools: Read, Grep, Glob, Bash, Edit, Write
 model: sonnet
 ---
 

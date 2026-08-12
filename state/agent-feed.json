@@ -1,5 +1,11 @@
 {
-  "repo": "ShovalBenjer/claude-setup",
-  "discussion": 43,
-  "note": "Target of the agent feed. The surface moved from issue #38 to Discussion #43 on 2026-08-05; the systemd unit passes --sink discussion and publish.py resolves the id here, so moving the surface again edits this one committed file. Created 2026-08-11 while repairing the five-day --sink outage (L-2026-08-11 estate audit)."
+  "_note": "Ids resolved once and recorded. A node id is stable and a per-post lookup would be a network call on the throttle path.",
+  "repository_id": "R_kgDOSY49kQ",
+  "category_id": "DIC_kwDOSY49kc4DCwAH",
+  "category_name": "General",
+  "discussion_id": "D_kwDOSY49kc4AoSGc",
+  "discussion_number": 43,
+  "discussion_url": "https://github.com/ShovalBenjer/claude-setup/discussions/43",
+  "created": "2026-08-05",
+  "superseded_surface": "issue 38, 12 comments, 0 reactions, 0 replies"
 }
