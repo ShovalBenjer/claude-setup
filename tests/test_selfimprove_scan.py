@@ -68,17 +68,27 @@ class HookTargetResolution(unittest.TestCase):
         deleted (WSL is now the only install). The main-branch fix kept the MSYS
         arm but keyed its skip on the Windows copy, which on this host always
         skips, a dead check. The branch fix asserted the actually-wired live
-        hook resolves, which always runs. Keep both: the MSYS arm exercises the
-        cross-form mapping wherever a Windows copy exists, and the live arm
-        guarantees the check cannot go permanently quiet on any host."""
+        hook resolves, which always runs. Keep both: the MSYS arm lives in the
+        next test as a visible skip rather than a silent inline no-op, and the
+        live arm here guarantees the check cannot go permanently quiet."""
         live = Path.home() / ".claude" / "hooks" / "session-recall.sh"
         if not live.is_file():
             self.skipTest("live session-recall.sh absent on this machine")
         self.assertTrue(scan.resolve_hook_target(str(live)).exists())
+
+    def test_an_msys_wired_hook_resolves_to_itself(self) -> None:
+        """The exact regression: a live hook wired in MSYS form resolves to itself.
+
+        Kept as its own test rather than an inline `if` in the test above, so a
+        host with no Windows-side copy reports a skip instead of silently
+        asserting nothing, which since the estate retirement is the normal case
+        on this machine.
+        """
         native = Path("/mnt/c/Users/shova/.claude/hooks/session-recall.sh")
-        if native.is_file():
-            wired = "/c/Users/shova/.claude/hooks/session-recall.sh"
-            self.assertTrue(scan.resolve_hook_target(wired).exists())
+        if not native.is_file():
+            self.skipTest("no Windows-side session-recall.sh on this machine")
+        wired = "/c/Users/shova/.claude/hooks/session-recall.sh"
+        self.assertTrue(scan.resolve_hook_target(wired).exists())
 
     def test_an_absent_hook_is_still_detected(self) -> None:
         """The check must not be fixed by making it unable to fire."""

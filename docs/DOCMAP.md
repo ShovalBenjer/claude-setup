@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1026**
+- documents: **1027**
 - reachable from `docs/INDEX.md`: **122** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -462,7 +462,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `state/compact-log.md` | 2026-07-24 | living | registry | 1 | - | - | - |
 | `docs/QUALITY-CONTRACT.md` | 2026-07-25 | living | registry | n/a | yes | - | - |
 | `docs/2026-07-29-external-absorption-brief.md` | 2026-07-29 | dated-snapshot | registry | 1 | yes | - | - |
-| `docs/taste.md` | 2026-07-29 | living | registry | n/a | yes | it by date and say what changed. | - |
 | `dot-claude/output-styles/shoval.md` | 2026-07-29 | living | registry | n/a | - | - | - |
 | `docs/SESSION-BOOT.md` | 2026-07-30 | living | registry | 2 | yes | - | - |
 | `docs/charters.md` | 2026-07-30 | living | registry | 2 | yes | - | - |
@@ -474,6 +473,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `nexus-engine-rs/README.md` | 2026-07-31 | a working vertical slice, not the spec.** read the scope tab | header | n/a | - | - | - |
 | `tools/telemetry/systemd/README.md` | 2026-08-04 | live, 2026-08-04. the units below are deployed and the timer | header | n/a | - | - | - |
 | `dot-claude/CLAUDE.md` | 2026-08-05 | living | registry | n/a | - | - | - |
+| `docs/taste.md` | 2026-08-12 | living | registry | n/a | yes | it by date and say what changed. | - |
 
 ## generated-output (2)
 
@@ -514,7 +514,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prd/2026-08-03-boundary-termination-instrument.md` | 2026-08-03 | proposed | header | 2 | yes | - | - |
 | `docs/prd/2026-08-03-unified-architecture.md` | 2026-08-03 | proposed | header | n/a | yes | - | - |
 
-## prior-art (44)
+## prior-art (45)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -562,6 +562,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prior-art/dot-claude-skills-whatsapp-query.json` | 2026-08-07 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-whatsapp.json` | 2026-08-07 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-harness.json` | 2026-08-10 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/tools-coffee.json` | 2026-08-12 | current | arithmetic | n/a | - | - | - |
 
 ## reflection (6)
 
