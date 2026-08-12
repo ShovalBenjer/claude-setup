@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1026**
+- documents: **1027**
 - reachable from `docs/INDEX.md`: **122** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -414,7 +414,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/Documents/CDP_Kick_Research_20260507/CDP_Kick_Strategic_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Executive_MCP_Research_20260507/Executive_MCP_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 
-## doc (56)
+## doc (57)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -474,6 +474,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `nexus-engine-rs/README.md` | 2026-07-31 | a working vertical slice, not the spec.** read the scope tab | header | n/a | - | - | - |
 | `tools/telemetry/systemd/README.md` | 2026-08-04 | live, 2026-08-04. the units below are deployed and the timer | header | n/a | - | - | - |
 | `dot-claude/CLAUDE.md` | 2026-08-05 | living | registry | n/a | - | - | - |
+| `modal-lab/README.md` | 2026-08-13 | active | header | n/a | - | - | - |
 
 ## generated-output (2)
 

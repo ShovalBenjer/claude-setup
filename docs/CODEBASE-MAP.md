@@ -350,7 +350,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `modal-lab` | 3 | First stop of the GPU-provider evaluation decided 2026-08-13 (Modal now; Paperspace, | README.md |
+| `modal-lab` | 3 | Status: active | README.md |
 
 ## nexus-engine-rs
 

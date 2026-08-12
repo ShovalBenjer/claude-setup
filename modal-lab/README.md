@@ -1,5 +1,7 @@
 # modal-lab
 
+Status: active
+
 First stop of the GPU-provider evaluation decided 2026-08-13 (Modal now; Paperspace,
 then Fireworks/Together/OpenRouter or RunPod next). Two experiments in one app:
 
