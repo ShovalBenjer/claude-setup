@@ -246,8 +246,8 @@ jobs:
       - name: refute.py selftest
         run: python tools/refute/refute.py selftest
 
-      - name: refute.py run (verify portable claims, skip host-specific)
-        run: python tools/refute/refute.py run
+      - name: refute.py run (verify portable claims, skip mutation-backed)
+        run: python tools/refute/refute.py run --exclude C-015 C-022 C-024 C-026
 
       - name: skills_sync.py selftest
         run: python tools/audit/skills_sync.py selftest

@@ -34,6 +34,7 @@ Usage
 -----
   refute.py run                       # check every claim, print the verdict table
   refute.py run --only bus            # substring filter on id/claim/tag
+  refute.py run --exclude C-015 C-022 # exact-id exclusion (for CI dedup)
   refute.py run --json                # machine output for CI or the bus
   refute.py run --record              # append refutations to state/lessons.jsonl
   refute.py run --allow-broken        # named escape hatch, see below
@@ -82,7 +83,7 @@ REFUTED = "REFUTED"
 BROKEN = "BROKEN"  # the verifier itself could not run; the claim stays unknown
 CANNOT_MEASURE = "CANNOT_MEASURE"  # the precondition is absent, not broken
 
-SETTINGS_JSON = Path(os.path.expanduser("~")) / ".claude" / "settings.json"
+SETTINGS_JSON = Path(os.environ.get("CLAUDE_LIVE_HOME") or os.path.expanduser("~")) / ".claude" / "settings.json"
 
 NEEDS_CHECKS = {
     "deployed": lambda: SETTINGS_JSON.exists(),
@@ -188,6 +189,9 @@ def cmd_run(a: argparse.Namespace) -> int:
             or q in str(c.get("claim", "")).lower()
             or q in str(c.get("tag", "")).lower()
         ]
+    exclude_ids = set(getattr(a, "exclude", None) or [])
+    if exclude_ids:
+        claims = [c for c in claims if c.get("id", "") not in exclude_ids]
     # An empty ledger and a filter that matched nothing are different facts and
     # used to print the same sentence and exit 0. That is the defect this whole
     # tool exists to catch: examining zero things and reporting success. A caller
@@ -359,7 +363,8 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
             "".join(json.dumps(c, ensure_ascii=False) + "\n" for c in claims),
             encoding="utf-8")
 
-    def run(only: str | None = None, allow_broken: bool = False) -> tuple[int, str]:
+    def run(only: str | None = None, allow_broken: bool = False,
+            exclude: list[str] | None = None) -> tuple[int, str]:
         """Run cmd_run against the planted ledger, turning a crash into a verdict.
 
         An escaping exception used to take this whole selftest down: the case that
@@ -374,7 +379,8 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
         try:
             with redirect_stdout(buf), redirect_stderr(err):
                 rc = cmd_run(argparse.Namespace(only=only, json=False, record=False,
-                                                allow_broken=allow_broken))
+                                                allow_broken=allow_broken,
+                                                exclude=exclude))
         except BaseException:                # noqa: BLE001 - a crash is a verdict here
             return CRASH_RC, (buf.getvalue() + err.getvalue()
                               + "\nRAISED: " + traceback.format_exc())
@@ -413,6 +419,15 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
         rc, out = run(only="C-1")
         check("a filter that matches one claim checks exactly that one",
               rc == 0 and "1 claims:" in out and "C-2" not in out, out.strip()[:200])
+
+        # --exclude is the complement of --only: exact-id removal for CI dedup.
+        plant(claim("C-1", ok_cmd), claim("C-2", ok_cmd), claim("C-3", bad_cmd))
+        rc, out = run(exclude=["C-3"])
+        check("--exclude drops the named claim and checks the rest",
+              rc == 0 and "2 claims:" in out and "C-3" not in out, f"rc={rc} out={out.strip()[:200]!r}")
+        rc, out = run(exclude=["C-1", "C-2"])
+        check("--exclude with multiple IDs keeps only the remainder",
+              rc == 1 and "1 claims:" in out and "C-3" in out, f"rc={rc} out={out.strip()[:200]!r}")
 
         # A refuted claim must be counted, and counted once.
         plant(claim("C-1", ok_cmd), claim("C-2", bad_cmd), claim("C-3", bad_cmd))
@@ -544,6 +559,8 @@ def main() -> int:
 
     r = sub.add_parser("run")
     r.add_argument("--only", help="substring filter on id, claim, or tag")
+    r.add_argument("--exclude", nargs="+", metavar="ID",
+                   help="exact claim IDs to skip (e.g. --exclude C-015 C-022)")
     r.add_argument("--json", action="store_true")
     r.add_argument("--record", action="store_true", help="log refutations to lessons.jsonl")
     r.add_argument("--allow-broken", action="store_true",
