@@ -2,8 +2,8 @@
   "component": "tools/coffee",
   "reviewed": "2026-08-12",
   "recheck_after": "2026-11-12",
-  "verdict": "keep",
-  "verdict_class": "keep",
+  "verdict": "keep-ours",
+  "verdict_class": "keep-ours",
   "absorption_status": "unreviewed",
   "why": "Two small stdlib-only CLIs (futures.py 190 lines, smoking.py 168 lines) implementing the coffee-break v2 design picked by the operator via /diverge (docs/taste.md row 2026-08-12): a reputation betting board over assumptions with named falsifiers, and a frustration-triggered gripe ledger mined into bar-talk TODO candidates. The honest internal prior art is this repo's own tools/bus/bus.py, which already does append-only JSONL messaging with a hash chain and per-lane cursors; coffee rows could have been bus rows. They are not, deliberately: the bus chains rows for tamper evidence and fixes CHAIN_FIELDS, and betting/settlement rows need domain validation (reject bet-after-settle, settle-without-evidence) that the bus does not and should not know about. The external alternatives are real but each misses the one property that matters here: settlement evidence bound to this repo's own ledgers (gate-runs, refute) and reputation derived, never stored, so the standings cannot drift from the rows. At 358 combined lines the simplest correct option was still writing them; every alternative below costs an account, a service, or a schema bent out of shape.",
   "alternatives": [
