@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1024**
+- documents: **1030**
 - reachable from `docs/INDEX.md`: **122** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (66)
+## analysis (69)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -145,7 +145,10 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-10-inbox-secret-exposure.md` | 2026-08-10 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-08-10-milestone-task-plan.md` | 2026-08-10 | dated-snapshot | class | 2 | - | nothing. Re-derive before acting if the | - |
 | `docs/analysis/2026-08-10-three-skill-trees-measured.md` | 2026-08-10 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-11-estate-audit.md` | 2026-08-11 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-11-milestone-task-plan.md` | 2026-08-11 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-08-11-repo-compare.md` | 2026-08-11 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-12-plain-handoff.md` | 2026-08-12 | dated-snapshot | class | n/a | - | - | - |
 
 ## automation-output (126)
 
@@ -579,9 +582,9 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `CLAUDE-OS.md` | 2026-07-23 | active (living document, the spine) | header | n/a | yes | every prior setup plan. Predecessors rem | - |
 | `README.md` | 2026-07-23 | living | registry | n/a | - | every prior plan in this repo. | - |
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
-| `TODO.md` | 2026-08-01 | living | registry | 2 | yes | the 2026-08-10 version | operator |
+| `TODO.md` | 2026-08-01 | living | registry | 2 | yes | nothing | operator |
 
-## rule (41)
+## rule (42)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -626,8 +629,9 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/accepting-architectures.md` | 2026-08-05 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/merges-are-the-operators.md` | 2026-08-09 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/the-loop-may-act.md` | 2026-08-10 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/long-checks-background.md` | 2026-08-12 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## skill (224)
+## skill (225)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -855,8 +859,9 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/shoval-voice-draft/SKILL.md` | 2026-07-26 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/writing-great-skills/SKILL.md` | 2026-07-31 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/i-have-adhd/SKILL.md` | 2026-08-06 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/repo-compare/SKILL.md` | 2026-08-11 | definition-see-skills_sync | class | 2 | - | - | - |
 
-## spec (21)
+## spec (22)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -881,6 +886,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-03-detail-passes-teleology-and-creativity.md` | 2026-08-03 | design, 2026-08-03. nothing here is built. extends | header | n/a | yes | - | - |
 | `docs/specs/2026-08-05-persona-allocation-and-reviewer-identity.md` | 2026-08-05 | active, 2026-08-05. `active` is the vocabulary's word for th | header | n/a | - | - | - |
 | `docs/specs/2026-08-10-open-scope-delegation-plan.md` | 2026-08-10 | active | header | n/a | - | - | - |
+| `docs/specs/2026-08-12-open-model-and-scheduling-plan.md` | 2026-08-12 | proposed, operator decides the numbered blocks at the end | header | n/a | - | - | - |
 
 ## standard (7)
 

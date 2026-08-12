@@ -72,6 +72,7 @@ Owned skills:
 - `decision-grade`
 - `deep-research`
 - `LTMD`
+- `repo-compare`
 - `requirement-anchor`
 
 ### Latent Systems Lab

@@ -57,6 +57,10 @@ jobs:
             - Tiered depth: Critical/High get code snippets; Low gets one line.
             - Max 5 nits; count the rest in the summary.
             - Do not report style that CI already enforces.
+            - docs/CODEBASE-MAP.md, docs/DOCMAP.md and state/*.jsonl are generated
+              artifacts and append-only ledgers. Do not read, diff, or review them;
+              note "generated files skipped" and move on. Reading them is what spent
+              all 40 turns on PR #62 (error_max_turns) without producing a review.
           claude_args: |
             --model claude-sonnet-5
             # Was 10, which this repository's diffs outgrew: PR 55 died with

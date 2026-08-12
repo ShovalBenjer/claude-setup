@@ -29,16 +29,29 @@ reading this gets both halves or neither.
 ## The loop MAY NOT, ever, without a per-action answer
 
 - **Merge a pull request.** `merges-are-the-operators.md` is unchanged by this rule and
-  outranks it. Green CI authorises nothing.
+  outranks it. Green CI authorises nothing. A per-action answer can name a batch: on
+  2026-08-12 the operator wrote "i approve all 6 prs to merge", which authorised merging
+  exactly the six PRs then open (42, 47, 52, 53, 60, 61) and nothing after them.
 - **Deploy, or touch production.** `production-means-merged-and-smoked.md` still binds.
-- **Post outward**: a GitHub issue, discussion, review comment, a Jira comment, a message
-  on any platform. A draft is work; sending it is the operator's.
+- **Post outward on any platform other than GitHub**: a Jira comment, mail, WhatsApp,
+  anything with an audience. A draft is work; sending it is the operator's. GitHub
+  itself was widened on 2026-08-12, next section.
 - **Change the live `~/.claude` or `~/.codex` tree** without saying so in the same turn.
   The trees are payload in the repo and configuration on disk, and a silent live edit is
   invisible to every check the repo owns.
 - **Delete or overwrite** anything it did not create in that same run. Including a ledger
   rewrite, a force push, a branch deletion, a `git reset --hard`.
 - **Spend money**, or authorise a service that will.
+
+## Widened 2026-08-12: GitHub PR comments and discussions
+
+Operator instruction, verbatim: "i approve agents for pr and disucssions." Narrowed to
+what it names: on the operator's OWN repositories, the loop and its agents MAY post
+pull-request comments (reviews, replies, status notes) and create or reply to GitHub
+Discussions, without a per-action answer. Still excluded, because the instruction does
+not name them: opening GitHub issues, posting on other people's repositories, and every
+other platform. Every outward post still lands in the run's report row, so the audit
+trail keeps pace with the wider authority.
 
 ## The reporting obligation that makes the boundary checkable
 

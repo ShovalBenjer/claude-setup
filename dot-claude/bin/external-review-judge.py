@@ -41,7 +41,23 @@ MAX_UNTRACKED_FILE_BYTES = 64_000
 MAX_OUTPUT_BYTES = 1_000_000
 ATTESTATION_MAX_AGE_DAYS = 30
 DEFAULT_ATTESTATION = Path.home() / ".gemini" / "free-tier-attestation.json"
-REVIEW_ARTIFACT_EXCLUDE = ":(exclude).claude/reviews/**"
+REVIEW_ARTIFACT_EXCLUDE = (
+    ":(exclude).claude/reviews/**",
+    # Same class and same list as gate.py GATE_OUTPUTS + HARNESS_OUTPUTS, which is
+    # the source of truth for it: ledgers the harness appends on its own schedule,
+    # not authored content. Without these, any conversation turn during a long
+    # review moved the bundle hash and every verdict was discarded as
+    # "repository changed during review", which is how the first two PR-62 codex
+    # runs died on 2026-08-12 (concurrent_change: true, empty verdicts).
+    ":(exclude)state/gate-runs.jsonl",
+    ":(exclude)state/reviews/**",
+    ":(exclude)state/prompt-tickets.jsonl",
+    ":(exclude)state/skill-use.jsonl",
+    ":(exclude)state/routing.jsonl",
+    ":(exclude)state/agent-spawns.jsonl",
+    ":(exclude)state/prose-scores.jsonl",
+    ":(exclude)state/telemetry-published.txt",
+)
 
 SECRET_PATTERNS = (
     re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"),
@@ -302,7 +318,7 @@ def untracked_paths(repo: Path) -> list[str]:
         "-z",
         "--",
         ".",
-        REVIEW_ARTIFACT_EXCLUDE,
+        *REVIEW_ARTIFACT_EXCLUDE,
     )
     paths = [item for item in result.stdout.decode("utf-8", "surrogateescape").split("\0") if item]
     if len(paths) > MAX_UNTRACKED_FILES:
@@ -351,7 +367,7 @@ def build_bundle(
         "-z",
         "--",
         ".",
-        REVIEW_ARTIFACT_EXCLUDE,
+        *REVIEW_ARTIFACT_EXCLUDE,
     ).stdout
     head_sha = git(repo, "rev-parse", "HEAD").stdout.decode("ascii", "replace").strip()
     base_sha = ""
@@ -371,7 +387,7 @@ def build_bundle(
             f"{base}...HEAD",
             "--",
             ".",
-            REVIEW_ARTIFACT_EXCLUDE,
+            *REVIEW_ARTIFACT_EXCLUDE,
         )
         tracked_diff = git(repo, *diff_args).stdout
         names_args = (
@@ -381,7 +397,7 @@ def build_bundle(
             f"{base}...HEAD",
             "--",
             ".",
-            REVIEW_ARTIFACT_EXCLUDE,
+            *REVIEW_ARTIFACT_EXCLUDE,
         )
         untracked: list[str] = []
     else:
@@ -393,7 +409,7 @@ def build_bundle(
             "HEAD",
             "--",
             ".",
-            REVIEW_ARTIFACT_EXCLUDE,
+            *REVIEW_ARTIFACT_EXCLUDE,
         )
         tracked_diff = git(repo, *diff_args).stdout
         names_args = (
@@ -403,7 +419,7 @@ def build_bundle(
             "HEAD",
             "--",
             ".",
-            REVIEW_ARTIFACT_EXCLUDE,
+            *REVIEW_ARTIFACT_EXCLUDE,
         )
         untracked = untracked_paths(repo)
 
