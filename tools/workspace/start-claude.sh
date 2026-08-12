@@ -25,7 +25,16 @@
 
 set -uo pipefail
 
-CLAUDE_BIN="${CLAUDE_BIN:-$HOME/.bun/bin/claude}"
+# Resolve claude: explicit override, then PATH, then the native install, then bun.
+# The old default was ONLY $HOME/.bun/bin/claude; when the install moved to the
+# native launcher (~/.local/bin/claude) the chooser died at the -x check and the
+# kitty window closed before the message could be read. Measured 2026-08-13: the
+# bun path does not exist on this machine, the native one does (v2.1.229).
+if [ -z "${CLAUDE_BIN:-}" ]; then
+  CLAUDE_BIN="$(command -v claude 2>/dev/null || true)"
+  [ -x "$CLAUDE_BIN" ] || CLAUDE_BIN="$HOME/.local/bin/claude"
+  [ -x "$CLAUDE_BIN" ] || CLAUDE_BIN="$HOME/.bun/bin/claude"
+fi
 WORK="$HOME/work/repos"
 WIN="/mnt/c/Users/shova"
 
@@ -52,7 +61,16 @@ PROJECT_ROOTS=("$WORK" "$WIN/Downloads" "$WIN/PycharmProjects" "$HOME/work")
 c_reset=$'\033[0m'; c_cyan=$'\033[36m'; c_dim=$'\033[2m'
 c_green=$'\033[32m'; c_yellow=$'\033[33m'; c_red=$'\033[31m'
 
-die() { printf '%s%s%s\n' "$c_red" "$1" "$c_reset" >&2; exit 1; }
+# die holds the window open. This script is a desktop button's payload: when it
+# exits, kitty closes with it, so an unread error is indistinguishable from a
+# crash. The 2026-08-13 failure was exactly that: die("claude not executable")
+# fired and the window vanished before the line could be read.
+die() {
+  printf '%s%s%s\n' "$c_red" "$1" "$c_reset" >&2
+  printf '\n  press Enter to close ' >&2
+  read -r _ || true
+  exit 1
+}
 
 # Prefer ext4, fall back to the Windows mount, and say which was used so the speed penalty is
 # visible rather than mysterious.
