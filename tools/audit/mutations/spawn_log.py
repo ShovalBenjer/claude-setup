@@ -87,20 +87,11 @@ MUTATIONS = [
      '    if tool != "Agent" and not subagent:\n        return None',
      "    if False:\n        return None"),
 
-    ("is_known_agent is read from the registry instead of the agents directory",
-     "the Agent tool resolves subagent_type against ~/.claude/agents/, not against the "
-     "registry markdown. They already disagree: 4 agent files have no registry entry. "
-     "Reading the claim rather than the directory would mark a working persona unknown",
-     "        return {p.stem for p in AGENTS_DIR.glob(\"*.md\")}",
-     "        return set()"),
-
-    ("the slug stops dropping the words the filenames drop",
-     "three of the 19 personas are \"X and Y Office\" in the registry and `x-y-office.md` "
-     "on disk. Keeping `and` means MCP and Tooling Office, Security and Compliance Office "
-     "and Voice and Media Studio can NEVER agree with a route naming them, no matter what "
-     "is spawned. Found by building the sync oracle, not by reading: the naive form was "
-     "written first, shipped, and caught within the hour",
-     '    return "-".join(w for w in persona.lower().split() if w not in _DROPPED)',
-     '    return "-".join(persona.lower().split())'),
+    # Two rows removed 2026-08-12 during the PR 42 merge: they mutated
+    # is_known_agent() and the slug normalizer, which existed only in this
+    # branch's spawn_log and were dropped when the resolution adopted main's
+    # tested version (main commit 94354e2). The dropped capability is named in
+    # the PR 42 thread; if the comparison logic is ever ported, these two rows
+    # come back with it (history: this file at 01f7f32^).
 
 ]
