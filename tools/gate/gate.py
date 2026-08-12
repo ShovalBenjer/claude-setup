@@ -268,6 +268,10 @@ HARNESS_OUTPUTS = (
     "state/agent-spawns.jsonl",
     "state/prose-scores.jsonl",
     "state/telemetry-published.txt",
+    # Fourth mover of the class, 2026-08-12 evening: the discussion publisher's
+    # cursor, same writer-on-its-own-schedule shape as its sibling above. It
+    # appended once mid-session and forced a full regate of an unchanged tree.
+    "state/telemetry-published-discussion.txt",
 )
 
 _EXCLUDE = " ".join('":(exclude){}"'.format(p)
