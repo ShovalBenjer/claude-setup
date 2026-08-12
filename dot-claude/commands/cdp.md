@@ -1,6 +1,6 @@
 ---
 name: cdp
-description: Kickstart browser CDP for UI inspection / scraping. On Windows, the live profile is native Chrome on port 9224. Under WSL, defaults to Obscura (9222); pass "edge" for the Windows-side Edge bridge (9223, for Entra/domain apps).
+description: Kickstart browser CDP for UI inspection / scraping. On Windows, the live profile is native Chrome on port 9224. Under WSL, reach that same Chrome with `winchrome` (relay on 9324, no admin and no wsl --shutdown), or use Obscura (9222) for a Linux-local Chromium; pass "edge" for the Windows-side Edge bridge (9223, for Entra/domain apps).
 ---
 
 # /cdp — Kickstart browser CDP for UI work
@@ -79,6 +79,100 @@ The Claude-in-Chrome MCP tools (`mcp__claude-in-chrome__*`) are a separate path
 and do not use any of these ports. When they report "Browser extension is not
 connected", that says nothing about CDP — probe the ports before concluding
 there is no browser.
+
+Under WSL that message has one specific cause worth knowing, because reinstalling
+the extension never fixes it. The extension reaches Claude Code through Chrome
+native messaging, which launches a process named by a Windows registry manifest.
+Chrome is a Windows process and can only launch another Windows process, so the
+stock manifest points at `claude.exe`: the extension is wired to the **Windows**
+Claude Code, and a WSL session is a different process that never sees it. The
+native host's actual job is to open a unix socket a session then connects to, so
+the host has to run inside WSL for that socket to be reachable. `wsl-chrome-bridge`
+rewrites the `.bat` to call `wsl.exe`, which hands over the raw stdio handles and
+carries the 4-byte length-prefixed frames across unmodified.
+
+```bash
+wsl-chrome-bridge setup     # rewrite the .bat, symlink extension detection
+wsl-chrome-bridge verify    # bat target, native host start, extension present
+wsl-chrome-bridge revert    # hand the extension back to Windows Claude Code
+```
+
+Three things this cost to find out:
+
+- On 2.1.223 the WSL block is gone. `claude --chrome-native-host` runs on Linux
+  and opens `/tmp/claude-mcp-browser-bridge-$USER/<pid>.sock`. Older builds
+  refused with "Claude in Chrome Native Host not supported on this platform", and
+  that string is still in the binary, so treat its return as the gate coming back.
+- One manifest cannot point two ways. While bridged, Claude Code on Windows loses
+  the extension. That is the trade, not a defect.
+- A Claude Code upgrade regenerates the `.bat` pointing back at `claude.exe`,
+  which silently unbridges it. The symptom is the extension reporting "not
+  connected" again with nothing naming the cause, so re-run `setup` after upgrades.
+
+Neither restart is skippable: quit Chrome from the system tray rather than closing
+the window, and start Claude Code with `--chrome`. A session already running cannot
+attach, and this is the step most likely to look like the bridge failing.
+
+What `verify` proves and what it does not. It proves the host starts and the socket
+opens. It does not prove the extension connects, because that handshake only happens
+after both restarts, and a session cannot restart itself to watch it. Until a session
+shows `mcp__claude-in-chrome__*` tools, this is wiring-verified and handshake-unconfirmed.
+If it still reports "not connected" after both restarts, check three things in order:
+`wsl-chrome-bridge verify`, that `CLAUDE_CODE_OAUTH_TOKEN` is unset in the shell profile
+(it forces an account mismatch), and that the extension is signed into the same claude.ai
+account as Claude Code. The binary carries a distinct message for that last case, so a
+generic "not connected" means it is one of the first two.
+
+### Port 9224 from WSL: unreachable, and the firewall is not why
+
+Everything above about 9224 assumes a win32 session. From WSL that port is up and
+unreachable at the same time, which produces the most misleading probe result in
+this file: `curl 127.0.0.1:9224` returns connection-refused for a browser that
+answers on Windows a second later.
+
+Two independent facts cause it, and fixing either alone changes nothing:
+
+- Chrome binds `--remote-debugging-port` to `127.0.0.1` only.
+- WSL2's default NAT networking gives WSL its own loopback, so that address is
+  not the Windows one.
+
+Measured 2026-08-06 on this machine, and it narrows the fix a lot: a listener
+bound to `0.0.0.0` on Windows **is** reachable from WSL at the default-route
+address, with no admin rights and no firewall prompt. So Windows Defender is not
+in the way and `New-NetFirewallRule` is not needed. The only gap is Chrome's
+loopback-only bind, which a userspace relay closes:
+
+```bash
+winchrome start            # chrome + relay on the Windows side, health-checked
+winchrome status           # each hop separately: chrome, relay, wsl reachability
+eval "$(winchrome env)"    # exports CDP_HOST and CDP_PORT
+cd ~/.claude/bin
+CDP_TAB=<url-substring> uv run --with websocket-client python cdp_driver.py text
+```
+
+`dot-claude/bin/cdp-relay.py` runs on the **Windows** python and forwards
+`0.0.0.0:9324` to `127.0.0.1:9224`. It is a raw byte pump, so the WebSocket
+upgrade passes through unchanged.
+
+Prefer this over the two heavier options. `networkingMode=mirrored` in
+`.wslconfig` also works and is supported here (build 26200, WSL 2.7.11), but it
+is global to every distro and needs `wsl --shutdown`, which kills every running
+session including the one that asked for a browser. `netsh portproxy` needs
+admin. The relay needs neither.
+
+Three things measured while building it, each of which would otherwise cost a
+round:
+
+- Chrome does **not** reject the relayed request. It builds
+  `webSocketDebuggerUrl` from the request `Host` header, so the URL comes back
+  already pointing at the relay and needs no client-side rewriting.
+- Do not health-check the relay with `netstat | grep -q` under `set -o pipefail`.
+  grep exits on first match, netstat dies on SIGPIPE, and the pipeline reports
+  failure for a lookup that succeeded. It printed a confident `NO` beside a relay
+  the next line reached over the network.
+- `--remote-debugging-address=0.0.0.0` is asserted for Edge further down this
+  file. It was **not** verified for Chrome here; the relay was used instead, so
+  treat that flag as untested rather than as the known-good path.
 
 ## Default flow — Obscura (Linux, stealth Chromium)
 
