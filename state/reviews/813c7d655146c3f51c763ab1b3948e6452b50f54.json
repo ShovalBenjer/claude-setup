@@ -1,0 +1,76 @@
+{
+ "commit": "813c7d655146c3f51c763ab1b3948e6452b50f54",
+ "base": "main",
+ "reviewer": "persona-panel/local",
+ "reviewed_at": "2026-08-06T17:25:30",
+ "verdict": "pass",
+ "summary": "0 high, 0 medium, 5 low across 3 personas",
+ "coverage_boundary": "Reviewed 559 added line(s) across 7 file(s) against 32 pattern checks in 5 personas. This panel sees added lines only, not pre-existing code, and it sees syntax, not intent: a wrong algorithm that reads cleanly will pass it. It is not a substitute for a human reading the diff, and the artifact should not be cited as one.",
+ "external_note": "external backend not requested",
+ "counts": {
+  "high": 0,
+  "medium": 0,
+  "low": 5
+ },
+ "findings": [
+  {
+   "persona": "security",
+   "check": "http-url",
+   "severity": "low",
+   "file": "dot-claude/bin/cdp_driver.py",
+   "line": 39,
+   "why": "plaintext HTTP to a remote host",
+   "snippet": "BASE = f\"http://{HOST}:{PORT}\"",
+   "source": "local"
+  },
+  {
+   "persona": "security",
+   "check": "http-url",
+   "severity": "low",
+   "file": "dot-claude/bin/winchrome",
+   "line": 29,
+   "why": "plaintext HTTP to a remote host",
+   "snippet": "ENDPOINT=\"http://${HOST}:${RELAY_PORT}\"",
+   "source": "local"
+  },
+  {
+   "persona": "correctness",
+   "check": "py-type-ignore",
+   "severity": "low",
+   "file": "dot-claude/bin/cdp_driver.py",
+   "line": 57,
+   "why": "the typechecker was told to stop looking here",
+   "snippet": "import websocket  # type: ignore[import-not-found]  # websocket-client",
+   "source": "local"
+  },
+  {
+   "persona": "correctness",
+   "check": "py-type-ignore",
+   "severity": "low",
+   "file": "dot-claude/bin/cdp_driver.py",
+   "line": 73,
+   "why": "the typechecker was told to stop looking here",
+   "snippet": "import websocket  # type: ignore[import-not-found]  # websocket-client",
+   "source": "local"
+  },
+  {
+   "persona": "ops_release",
+   "check": "commented-code",
+   "severity": "low",
+   "file": "dot-claude/bin/cdp-relay.py",
+   "line": 40,
+   "why": "commented-out code, which future readers cannot tell from live code",
+   "snippet": "# for it, and closing both ways here truncates it.",
+   "source": "local"
+  }
+ ],
+ "files": [
+  "dot-claude/bin/cdp-relay.py",
+  "dot-claude/bin/cdp_driver.py",
+  "dot-claude/bin/winchrome",
+  "dot-claude/bin/wsl-chrome-bridge",
+  "dot-claude/commands/cdp.md",
+  "state/gate-runs.jsonl",
+  "state/prose-scores.jsonl"
+ ]
+}
