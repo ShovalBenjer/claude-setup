@@ -47,6 +47,26 @@ PRIOR_ART_LOC = 300
 # running it, and the record has to say which it was.
 PRIOR_ART_FIELDS = ("component", "reviewed", "recheck_after", "verdict", "why",
                     "alternatives", "evidence", "recheck")
+
+# ABSORB-09. `verdict` is free text and stays free text, because the sentences
+# are better than any enum would be: one of them reads "keep-provisionally, and
+# it is the weakest of the three records written today", which no vocabulary
+# expresses. What the sentence cannot do is answer "how many components did we
+# decide to replace" without 41 file reads, so the enumerated field sits BESIDE
+# the sentence rather than instead of it.
+VERDICT_CLASSES = ("absorb", "adopt", "build", "delete-ours", "keep-ours",
+                   "split", "wrap")
+
+# ABSORB-01. The schema could not express absorption at all: 41 records shared
+# 14 fields and not one of them named what was taken from the alternative. So
+# absorption was unrepresentable, therefore unchecked, therefore never happened.
+# `unreviewed` is a real value rather than a hole, and it is bounded by the
+# record's own `recheck_after`: a record cannot expire while still claiming
+# nobody has looked.
+ABSORPTION_STATUSES = ("absorbed", "adopted", "used-as-is", "rejected-with-reason",
+                       "unreviewed")
+ABSORPTION_NEEDS_DETAIL = ("absorbed", "adopted", "used-as-is", "rejected-with-reason")
+BACKFILL_CMD = "python tools/audit/absorption_backfill.py apply"
 RENDER_CAP = 180
 
 # The map is a tracked file in docs/. Counting it would make generation clean
@@ -321,6 +341,42 @@ def read_records(project: str) -> tuple[dict[str, dict], list[str]]:
     return found, broken
 
 
+def absorption_problems(component: str, rec: dict) -> list[str]:
+    """Fault the two fields ABSORB-01 and ABSORB-09 added, on one record.
+
+    Pure by construction so the selftest can plant every defect without writing
+    a file. Kept separate from audit_prior_art for the same reason: a check
+    reachable only through a directory walk is a check the mutation runner has
+    to build a repository to break.
+    """
+    out = []
+    klass = rec.get("verdict_class")
+    if not klass:
+        out.append("{}: no verdict_class beside its free-text verdict. The sentence "
+                   "stays; add the enumerated field. Run: {}".format(component, BACKFILL_CMD))
+    elif klass not in VERDICT_CLASSES:
+        out.append("{}: verdict_class {!r} is not one of {}".format(
+            component, klass, ", ".join(VERDICT_CLASSES)))
+
+    status = rec.get("absorption_status")
+    if not status:
+        out.append("{}: no absorption_status, so what this evaluation took from its "
+                   "alternatives is unrepresentable and therefore unchecked. Run: "
+                   "{}".format(component, BACKFILL_CMD))
+    elif status not in ABSORPTION_STATUSES:
+        out.append("{}: absorption_status {!r} is not one of {}".format(
+            component, status, ", ".join(ABSORPTION_STATUSES)))
+    elif status in ABSORPTION_NEEDS_DETAIL and not str(rec.get("absorbed", "")).strip():
+        # A status with nothing named beside it is the free-text problem wearing
+        # an enum: it groups cleanly and says nothing. "absorbed" has to name
+        # what was taken and the file it landed in, and the rejecting statuses
+        # have to name the reason, or the field is decoration.
+        out.append("{}: absorption_status is {!r} and `absorbed` is empty. Name what "
+                   "was taken and the file it landed in, or the reason it was "
+                   "not.".format(component, status))
+    return out
+
+
 def read_scope(project: str) -> list[tuple[str, str]]:
     rows = []
     for line in read(os.path.join(project, SCOPE_PATH)).splitlines():
@@ -360,14 +416,23 @@ def audit_prior_art(project: str, today: datetime.date) -> tuple[list[str], dict
             out.append("{}: recheck_after is not an ISO date".format(component))
             continue
         if until < today:
-            out.append("{}: prior-art record expired {}. Re-run its recheck: {}".format(
-                component, until.isoformat(), rec.get("recheck")))
+            owed = (" This record also still reports absorption_status unreviewed, so "
+                    "the recheck decides that too."
+                    if rec.get("absorption_status") == "unreviewed" else "")
+            out.append("{}: prior-art record expired {}. Re-run its recheck: {}{}".format(
+                component, until.isoformat(), rec.get("recheck"), owed))
+    # Over every record, not only the ones a line count currently obliges. A
+    # component can drop under 300 lines and keep its record, and the absorption
+    # question does not stop mattering when it does.
     for component in sorted(records):
+        out.extend(absorption_problems(component, records[component]))
         if component not in dirs:
             out.append("{}: prior-art record for a directory that is not in the "
                        "repository".format(component))
+    unreviewed = sorted(c for c, r in records.items()
+                        if r.get("absorption_status") == "unreviewed")
     return out, {"owing": owing, "recorded": sorted(records), "loc": loc,
-                 "excluded": excluded}
+                 "excluded": excluded, "unreviewed_absorption": unreviewed}
 
 
 # ------------------------------------------------------------------ cli
@@ -410,8 +475,15 @@ def cmd_prior_art(args) -> int:
     for path, reason in sorted(detail["excluded"].items()):
         print("out of scope {} ({} lines): {}".format(path, detail["loc"][path], reason))
     if not found:
+        # The unreviewed count is printed on the PASS path on purpose. It is the
+        # measured absorption rate across every external evaluation this repo has
+        # made, and a number that only appears when something is broken is a
+        # number nobody watches.
+        n = len(detail["unreviewed_absorption"])
         print("prior art current: {} component(s) over {} lines, all with an unexpired "
-              "record".format(len(detail["owing"]), PRIOR_ART_LOC))
+              "record. {} of {} record(s) still report absorption_status unreviewed; "
+              "each is decided no later than its own recheck_after.".format(
+                  len(detail["owing"]), PRIOR_ART_LOC, n, len(detail["recorded"])))
         return 0
     for p in found:
         print("FAIL " + p)
@@ -499,6 +571,47 @@ def cmd_selftest(args) -> int:
        and not any("not what the repository implies" in m for m in absent),
        "a map that does not exist says 'is missing', not the drift wording",
        absent[0][:90] if absent else "no message")
+
+    # absorption_problems(): ABSORB-01 and ABSORB-09. The schema could not say
+    # what an evaluation took from its alternatives, so absorption was
+    # unrepresentable and therefore never measured. These pin that the two new
+    # fields are required, that both vocabularies are closed, and that a status
+    # claiming a decision must name it.
+    whole = {"verdict_class": "keep-ours", "absorption_status": "unreviewed"}
+    ok(absorption_problems("c", whole) == [],
+       "a record carrying both fields with nothing claimed is clean")
+    # Assert the MESSAGE, not the count. A count-only assertion cannot tell the
+    # missing-field branch from the invalid-value branch one line below it: with
+    # the missing-field check disabled, a None value falls through to the
+    # vocabulary check and still produces exactly one message. Mutation testing
+    # found precisely that, and both of these passed for the wrong reason until
+    # they named the wording each branch owns.
+    no_class = absorption_problems("c", {"absorption_status": "unreviewed"})
+    ok(len(no_class) == 1 and "no verdict_class" in no_class[0],
+       "a record with no verdict_class is faulted AS MISSING, not as invalid",
+       no_class[0][:90] if no_class else "no message")
+    no_status = absorption_problems("c", {"verdict_class": "keep-ours"})
+    ok(len(no_status) == 1 and "no absorption_status" in no_status[0],
+       "a record with no absorption_status is faulted AS MISSING, not as invalid",
+       no_status[0][:90] if no_status else "no message")
+    ok(len(absorption_problems("c", dict(whole, verdict_class="probably"))) == 1,
+       "verdict_class is a CLOSED vocabulary, not any string")
+    ok(len(absorption_problems("c", dict(whole, absorption_status="probably"))) == 1,
+       "absorption_status is a CLOSED vocabulary, not any string")
+    claimed = absorption_problems("c", dict(whole, absorption_status="absorbed"))
+    ok(len(claimed) == 1 and "absorbed` is empty" in claimed[0],
+       "a status claiming a decision must NAME what was taken",
+       claimed[0][:90] if claimed else "no message")
+    ok(absorption_problems(
+        "c", dict(whole, absorption_status="absorbed", absorbed="the elision rule")) == [],
+       "the same status with the detail named is clean")
+    # The failure message has to carry the fix. A record fails here at the
+    # moment somebody adds a component, which is the moment they have the least
+    # context about a schema field that did not exist last week.
+    named = absorption_problems("c", {})
+    ok(all(BACKFILL_CMD in m for m in named) and len(named) == 2,
+       "both missing-field messages name the command that writes them",
+       str(named)[:120])
 
     print("\nVERDICT: {}".format(
         "every planted defect is caught" if rc == 0 else "codemap selftest has failures above"))

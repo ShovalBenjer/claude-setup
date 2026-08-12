@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "split",
+ "verdict_class": "split",
+ "absorption_status": "unreviewed",
  "why": "Split verdict. (A) schema.py+transitions.py+durable.py+mappers.py (~612 ln): the sqlite ledger/allow-list core. Real libraries exist but don't fit: FSM libs skip persistence/concurrency; SQLAlchemy+Alembic is overkill for 12 flat JSON-blob tables; Temporal/Prefect/Dagster/Celery/APScheduler solve distributed scheduling, not a same-process 7-state ledger -> keep-ours, EXCEPT durable.py (zero production callers) -> delete-ours. (B) remaining ~6086 ln of gastown/depth-harness domain logic (rubric, guardrails, provenance, TUI, roster HR) has no named competitor -> keep-ours by default.",
  "alternatives": [
   {

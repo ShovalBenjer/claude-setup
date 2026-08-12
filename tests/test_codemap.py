@@ -314,6 +314,11 @@ class TestPriorArt(MapCase):
             "reviewed": "2026-07-25",
             "recheck_after": recheck_after,
             "verdict": "keep-ours",
+            # Required since ABSORB-01/09. A fixture that omits them would make
+            # every test in this class assert on the absorption message instead
+            # of the expiry behaviour it is about.
+            "verdict_class": "keep-ours",
+            "absorption_status": "unreviewed",
             "why": "nothing off the shelf gives tree-bound verdicts",
             "alternatives": alternatives if alternatives is not None else [
                 {"name": "pre-commit", "gap": "no expiring waivers"}],

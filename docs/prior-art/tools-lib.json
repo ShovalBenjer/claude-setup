@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "keep-ours",
+ "verdict_class": "keep-ours",
+ "absorption_status": "unreviewed",
  "why": "Both fix a failure; no alternative removes it without a rewrite. envload (9-21): a case-sensitivity false-absence bug; a dotenv parser may be better-tested than this ~20-line parser but lacks case-insensitive matching and the redacted CLI, so most of 196 lines stay -- under the house \"hundreds of lines\" bar. A typed-settings package wants a schema, wrong shape. quota (2-19): needs an exact UTC-midnight reset plus a durable JSONL trail. The limiter has no file store; decorator/retry packages don't persist or track quotas; closest is rolling-window -- different semantics, plus a file-lock dep.",
  "alternatives": [
   {

@@ -3,6 +3,8 @@
   "reviewed": "2026-07-30",
   "recheck_after": "2026-10-28",
   "verdict": "keep-ours",
+  "verdict_class": "keep-ours",
+  "absorption_status": "unreviewed",
   "why": "Two scripts, 457 lines: reclaim.py reclaims space across the home tree from an operator-approved candidate list, and temp_sweep.py removes scratch directories THIS repository created in the system temp directory. What general cleaners cannot do is the part that makes them safe here: prove a directory is ours before removing it. temp_sweep matches only prefixes this repo creates, verifies each gate-extra directory still has the shape the test fixture produces (a git repo whose only content is a README and optional gate artifacts), quarantines anything that does not match instead of deleting it, and writes an fsynced manifest row BEFORE each action rather than after. A general cleaner deletes by age or by pattern and cannot tell a leaked test fixture from a running installer's working directory. The measured driver: 1,884 directories, 16,279 files, 34,486,913 bytes of gate-extra scratch, leaked one per test run by a cleanup that used shutil.rmtree(ignore_errors=True) and therefore could not fail on Windows read-only git pack files.",
   "what_ours_does": "Dry run by default, --execute to act, separate --allow-delete on reclaim.py, a hardcoded never-touch list (claude* session scratch), shape verification before deletion, quarantine rather than delete on mismatch, and an append-only fsynced manifest at state/reclaim-manifest.jsonl. Re-runs its invariants immediately before acting rather than trusting the scan.",
   "our_loc": 457,

@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "keep-ours",
+ "verdict_class": "keep-ours",
+ "absorption_status": "unreviewed",
  "why": "Despite the package name, this is not a workflow/scheduling harness - it's a stateless prompt-to-skill classifier for one person's ~35-skill catalog, wired into a UserPromptSubmit hook that must fail-safe to '{}' with no network call. None of the task's ten named libraries do prompt routing; category mismatch. The real comparison class - semantic-router, LLM-based classification, Rasa/snips-nlu NLU - trades a deterministic, tested regex table for an embedding dependency, a per-turn model call, or a training pipeline, none proportionate to a hand-curated route list.",
  "alternatives": [
   {
