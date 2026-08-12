@@ -9,11 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-<<<<<<< HEAD
-425 directories, 1910 tracked files, 0 without a stated purpose.
-=======
-429 directories, 1909 tracked files, 0 without a stated purpose.
->>>>>>> gh/main
+425 directories, 1911 tracked files, 0 without a stated purpose.
 
 ## .claude
 
