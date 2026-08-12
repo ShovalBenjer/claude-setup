@@ -119,3 +119,5 @@
 {"ts": "2026-08-10T13:38:33", "prompt_chars": 198, "personas": ["Workflow Clerk", "Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "reground", "workspace-brain"], "matched": true, "session": ""}
 {"ts": "2026-08-10T13:42:08", "prompt_chars": 250, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-10T13:44:22", "prompt_chars": 416, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-10T13:46:49", "prompt_chars": 88, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-10T13:47:30", "prompt_chars": 403, "personas": ["Release Bureau"], "skills": ["azure-devops", "commit-push-pr"], "matched": true, "session": ""}

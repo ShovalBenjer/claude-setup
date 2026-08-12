@@ -358,7 +358,7 @@ the same reason, one level down.
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
 | `nexus-engine-rs` | 4 | A native, physics-driven viewer over the plan surface of this repo. Nodes are rigid bodies, | README.md |
-| `nexus-engine-rs/src` | 4 | Rust sources for the physics-driven plan viewer: app wiring, the winit/wgpu entry point, the node and link models, and the spring solver. A working vertical slice, not the full... | registry |
+| `nexus-engine-rs/src` | 4 | Rust sources for the native physics viewer over the plan surface: main.rs loads the exported plan, models.rs the node and link types, physics.rs the spring and force-field integ... | registry |
 
 ## research-papers
 

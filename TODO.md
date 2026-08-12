@@ -16,6 +16,20 @@ docs/SESSION-BOOT.md first.
 Every row here was produced by opening the file or calling the API, not by reading a
 PASS. Ordered by how badly the recorded status disagreed with the disk.
 
+- [ ] **A secret is in a pushed commit and only the operator can close it.** 2026-08-10.
+  `docs/inbox-from-new-recruit/` is an untracked drop of another repository's tree, 74
+  files, placed here for reading by something that was not the session that committed it.
+  A `git add -A` swept it into `e695af5`, 83 files where the real diff was one Rust file,
+  and the push went out before the gate ran.
+  `docs/inbox-from-new-recruit/.claude/bin/elevenlabs-mcp-launcher.sh:9` assigns an
+  ElevenLabs key. The tree is now untracked and gitignored, which removes it from HEAD and
+  **does not remove it from `e695af5`**, which is on GitHub. A commit that deletes a file
+  is not a redaction. **Rotate the key.** That works whatever git does next; a history
+  rewrite plus force push does not, if anything already fetched the branch, and force push
+  is denied to the assistant on purpose. Full write-up, including the ordering defect that
+  let a push precede its gate:
+  `docs/analysis/2026-08-10-inbox-secret-exposure.md`.
+
 - [ ] **90 of 96 open TODO items are invisible at session boot, and this row exists to say so.**
   Measured 2026-08-05. `~/.claude/hooks/session-recall.sh:112` selects
   `l.strip().startswith("- [ ]")` and slices `[:6]`. TODO.md carries **96** matching rows,
