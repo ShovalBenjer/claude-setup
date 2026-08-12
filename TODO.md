@@ -426,6 +426,13 @@ That spec is a claimed lane-A session of its own under docs/specs/.
 - [ ] `int(cfg["discussion"])` accepts 0 and negatives; fail fast on `number < 1`.
   (kilo SUGGESTION, PR #62 thread)
 
+## REGISTRY: census re-verification (from Kilo review of PR #64, 2026-08-12)
+
+- [ ] The 2026-08-12 registry rewire's census (39 ghosts removed, 19 skills assigned)
+  is claimed in prose only. Add a check that re-parses gastown-company-registry.md
+  with hooks/route.py parse_registry and diffs against ~/.claude/skills, so a future
+  rewire ships with its measurement instead of a sentence about one.
+
 ## SETUP-OS: oracle repair (opened 2026-07-31, docs/HANDOFF-2026-07-31-review-oracle-repair.md)
 - [x] review domain: sql-concat required a verb and a concatenation and never required SQL, so English prose ("Delete ~380 lines ... + their selftest") was a HIGH; and added_lines reported lines this branch added and then deleted. Both fixed in tools/review/panel.py, 20 pinned cases, mutate --spec panel 10/10 caught, panel 5 high -> 0 high. Waiver replaced (2026-08-12 -> 2026-08-02) recording the old reason as wrong rather than deleting it (closed 2026-07-31). **THE "0 high" HALF OF THIS ROW IS FALSIFIED, 2026-08-01.** The waiver it wrote carried its own falsifier, the falsifier was run, and `panel.py run --project .` returns CHANGES-REQUESTED with 3 high. Two are real (vendored innerHTML in dot-claude/skills/brainstorming/scripts/helper.js:57,59) and one is the comment-matching mechanism this row claimed was eliminated, still live in a different check. The two fixes landed; the generalisation did not, and the row said otherwise. Waiver text corrected in quality-contract.json rather than the number being chased
 - [ ] slop_lint measures the ruled form, not the property (L-2026-07-31-b). It passes prose that reads as machine written: zero em dashes but 2.8% hyphen compounds and sentence stdev 14.8. Port a density + variance check from ~/.claude/skills/voice-metrics/voice_score.py into tools/slop_lint.py, thresholds FITTED against the operator's corpus, not guessed. Until then a clean slop_lint is not evidence
