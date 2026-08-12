@@ -96,9 +96,16 @@ def translate(raw: str, mounts: dict[str, Path] | None = None,
         mounts = wsl_mounts()
     m = _UNC_WSL.match(raw)
     if m:
-        explicit = distro is not _ENV_SENTINEL
-        here = distro if explicit else os.environ.get("WSL_DISTRO_NAME")
-        if here == m.group(1) and (explicit or mounts):
+        if distro is not _ENV_SENTINEL:
+            # A caller's explicit witness decides alone, either way.
+            ok = distro == m.group(1)
+        else:
+            # Heuristic path: mounts prove we are the WSL side; the env witness
+            # can veto a foreign distro but its absence (CI, injected mounts)
+            # does not withhold the license.
+            env = os.environ.get("WSL_DISTRO_NAME")
+            ok = bool(mounts) and (env is None or env == m.group(1))
+        if ok:
             return Path("/" + m.group(2).replace("\\", "/"))
         return Path(raw)
     if not mounts:
