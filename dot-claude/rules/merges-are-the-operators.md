@@ -61,3 +61,20 @@ merges a pull request WITHOUT a fresh per-PR answer once both conditions hold:
 A pending reviewer, a red check, or one unresolved thread still blocks the merge and
 gets surfaced instead. Everything else in this rule stands: deploys and production
 remain three-step, and the merge lands in the session's report row.
+
+## Follow-through 2026-08-12: a merge is finished by its smoke, not its click
+
+Operator instruction, same date: "merge it finish the work and monitor post finished
+smoked. (that in football called follow through)". The auto-merge authority above
+comes with the matching obligation: the session that merges also finishes the merge.
+
+1. After the merge lands, fetch fresh refs and verify ancestry:
+   `git merge-base --is-ancestor <merge-commit> origin/<default-branch>`.
+2. Run the gate (or the repo's declared check) against the merged default branch,
+   not the feature branch, and paste the verdict.
+3. Report the three facts together: merge commit, post-merge check verdict, and
+   anything that broke, in the same turn that claims the merge is done.
+
+A merge reported without its post-merge check is an unfinished merge and reads as
+ASSUMED under calibrated-claims. This is the PR-scale copy of
+production-means-merged-and-smoked, which keeps owning the deploy-scale version.

@@ -50,12 +50,11 @@ _DRIVE = re.compile(r"^([A-Za-z]):[\\/](.*)$", re.S)
 #: `/c/x`, the MSYS form Git Bash writes. Exactly ONE letter between the slashes:
 #: `/home/...` and `/cc/...` must not match, and a bare `/c` is a real Linux path.
 _MSYS = re.compile(r"^/([A-Za-z])/(.+)$")
-
-#: `\\wsl.localhost\<distro>\x` or `\\wsl$\<distro>\x`: how a Windows-side
-#: interpreter names a file inside THIS WSL filesystem (powershell.exe cannot read
-#: `/home/...` directly). Only these two hosts match; `\\fileserver\share` is a real
-#: network path and must never be rewritten.
-_UNC_WSL = re.compile(r"^\\\\(?:wsl\.localhost|wsl\$)\\[^\\]+\\(.+)$", re.S)
+# The UNC name Windows gives a WSL distro's root. Translated only when this
+# process runs INSIDE that distro ($WSL_DISTRO_NAME matches), which is the same
+# honesty property as the drive mounts: a name this host cannot actually reach
+# stays unchanged rather than being rewritten into something that looks local.
+_WSL_UNC = re.compile(r"^\\\\wsl(?:\.localhost|\$)\\([^\\]+)\\(.*)$", re.S)
 
 
 def wsl_mounts(root: str = "/mnt") -> dict[str, Path]:
@@ -96,6 +95,19 @@ def translate(raw: str, mounts: dict[str, Path] | None = None) -> Path:
         # `C:\Program Files\Git\bin\bash.exe`, which is one of the twelve.
         return mount / rest.replace("\\", "/") if mount else Path(raw)
 
+    m = _WSL_UNC.match(raw)
+    if m:
+        # mounts non-empty is the license here too: it means we ARE the WSL side.
+        # Two independent 2026-08-12 fixes merged here: when $WSL_DISTRO_NAME is
+        # available the distro segment must match (a foreign distro's path must
+        # not resolve to our root); when the env var is absent (systemd units)
+        # the segment is accepted and a wrong-distro path simply fails the
+        # exists() that follows.
+        ours = os.environ.get("WSL_DISTRO_NAME")
+        if ours is None or m.group(1) == ours:
+            return Path("/" + m.group(2).replace("\\", "/"))
+        return Path(raw)
+
     m = _MSYS.match(raw)
     if m:
         drive, rest = m.group(1).lower(), m.group(2)
@@ -103,13 +115,7 @@ def translate(raw: str, mounts: dict[str, Path] | None = None) -> Path:
         if mount:
             return mount / rest
 
-    m = _UNC_WSL.match(raw)
-    if m:
-        # mounts non-empty is the license here too: it means we ARE the WSL side,
-        # so the UNC path names our own root. The distro segment is dropped rather
-        # than checked because this host cannot cheaply name its own distro, and a
-        # wrong-distro path will simply fail the exists() that follows.
-        return Path("/" + m.group(1).replace("\\", "/"))
+
     return Path(raw)
 
 
