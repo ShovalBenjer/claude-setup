@@ -3,7 +3,7 @@
 Date: 2026-08-12. Read-only findings plus one applied cut. Point-in-time `analysis/`
 scan. Two independent passes cross-checked: a review-board ponytail-audit and a
 ledger-verified sighting list from the parallel CLI/permissions session (its evidence
-is `state/*.jsonl` and PR #66 landed today).
+is `state/*.jsonl` and PR #66 (merged or landing 2026-08-12; OPEN, gated PASS, mergeable, auto-merge on green)).
 
 ## Headline: the code is not the bloat
 
@@ -86,7 +86,7 @@ ponytail, ponytail-audit, ponytail-help, ponytail-review, code-simplifier, clean
 plus the built-in `/simplify`. The compression pass's cleanest first act is to collapse
 six of its own siblings into one. Catalog-wide: 80 skills installed, 21 ever used since
 logging began 2026-07-27; 18 of 23 personas never spawned. The never-used lists are the
-deletion shortlist. (PR #66, landed today, did the census and initial rewiring.)
+deletion shortlist. (PR #66, merged or landing 2026-08-12, did the census and initial rewiring.)
 
 ## Ranked next actions
 
