@@ -1,10 +1,14 @@
 # 2026-08-15: research context audit and forecast
 
-Session record, lane A. The operator supplied three LLM-assisted research surveys
+Session record, lane A. The operator supplied five LLM-assisted research surveys
 (two in English covering 2025-2026 conference results and categorical methods, one
-in Hebrew covering "agent factories" and a four-layer interpretability framing) and
-asked two questions: grade the account's implementation depth against the material,
-and map the material onto the account's repositories, including a forecast of which
+in Hebrew covering "agent factories" and a four-layer interpretability framing, a
+fourth covering the algebraic-topological turn, discrete diffusion, test-time
+compute, and information-theoretic aesthetics, and a fifth that is a citation-free
+catalog of roughly thirty techniques across mathematics, systems, software
+engineering, linguistics, cognitive science, and computational arts) and asked two
+questions: grade the account's implementation depth against the material, and map
+the material onto the account's repositories, including a forecast of which
 techniques become high-attention subjects next.
 
 Ground truth for every repo fact below is the cited code, not this file. The
@@ -20,8 +24,11 @@ would refute it.
 - One subagent survey over five sibling repos: new-recruit, sqltok,
   daily-deep-learning, protobuf-fuzz-guard, agenteval-bench (shallow clones at the
   head commits of 2026-08-15).
-- Ten citation checks against the live web, covering every flagship claim in the
-  three documents. Verdicts are split three ways: verified, garbled, invented.
+- Sixteen citation checks against the live web, covering every flagship claim in
+  the first four documents and the two uncertain items in the fifth; the fifth
+  document names no papers, so its audit is technique triage against primary
+  knowledge rather than citation forensics. Verdicts are split three ways:
+  verified, garbled, invented.
 
 ## Part 1: implementation depth grades
 
@@ -71,6 +78,14 @@ Citation forensics across all three, every flagship claim checked:
 | Catalytic subroutines recycling KV caches; borrowing other processes' RAM as a catalytic tape | Invented as engineering; the theory is real but no OS allows it and uncomputation requires storing what was claimed unstored | n/a |
 | "Mesostructured knowledge" as a named concept | Unsupported as standard terminology | n/a |
 | Resume metrics in the blueprints (64 percent KL recovery, zero sandbox escapes, 0.00 percent degradation) | Invented: stated before any falsifier exists | n/a |
+| GAIA, topos-theoretic generative AI | Verified as a theoretical program (single-author line, no working systems); "functorial backpropagation guarantees no representation drift" is overclaimed | arXiv 2402.18732, arXiv 2508.08293 |
+| GLGENN, Clifford-algebra equivariant networks, ICML 2025 | Verified; the "8x fewer parameters than ResNets" and "eliminates ViT FFN bottlenecks" framing is garbled (the paper compares against baseline equivariant models on equivariant benchmarks) | arXiv 2506.09625 |
+| Discrete masked diffusion LMs (MDLM) and trajectory-conditioned CaDDi | Verified; CaDDi is NeurIPS 2025 and the trajectory-conditioning description is accurate | arXiv 2406.07524, arXiv 2502.09767 |
+| Test-time compute scaling and process reward models | Verified and already mainstream; the printed search objective is decorative pseudo-math | Lightman et al. 2023, Snell et al. 2024 |
+| Intermittent active inference (threshold-triggered re-planning) | Verified, Entropy 2026 | doi 10.3390/e28030269 |
+| DisCoCat, DisCoCirc, density matrices for lexical ambiguity | Verified research program (Coecke, Sadrzadeh, Clark line; lambeq tooling) | Coecke et al. 2010 onward |
+| Birkhoff-Berlyne combined aesthetic measure with Kolmogorov complexity | Invented: the components are real (Birkhoff 1933, Berlyne 1971) but the printed measure divides by an uncomputable quantity and appears in no literature; "spectral curvature loss" is unsupported as a named method | n/a |
+| Code Brutalism and anti-automation design wave | Real as a cultural trend, not a formal method | n/a |
 
 Document verdicts:
 
@@ -92,9 +107,50 @@ Document verdicts:
   predates the label, and it carries verification instruments (gate, refuter,
   mutation specs, hash-chained ledgers) that the ICM paper does not have.
 
-The consistent failure mode across all three documents is a synthesis layer that
-upgrades real citations into overclaimed engineering, and pre-writes metrics for
-systems that do not exist. The account's own claim-plus-falsifier discipline
+- Document D (algebraic-topological turn, diffusion, test-time compute): the best
+  citation hit rate of the four. Every novel anchor checked out, including two
+  that read as invented and are not (GAIA and intermittent active inference). The
+  glue fails the same way as the others: an aesthetic formula built on an
+  uncomputable quantity, engineering overclaims for topos theory and Clifford
+  networks, and the recycled catalytic KV-cache claim. Its real contribution to
+  this audit is naming two subjects the v1 forecast underweighted: discrete
+  diffusion language models and step-level process verification.
+
+- Document E (technique catalog): the highest base-rate accuracy of the five,
+  because it names techniques rather than papers. Triage of its roughly thirty
+  items:
+  - Real and correctly described: tropical geometry of ReLU networks, sheaf
+    Laplacians for GNN pathologies (mitigate, not "completely resolve"), Fisher
+    information geometry and natural gradient, SETH-conditional lower bounds on
+    subquadratic attention (conditional, not "mathematically impossible"),
+    test-time training layers, state space duality and the Mamba-2 line, JEPA,
+    KTO and SimPO (the printed SimPO loss is correct), MX microscaling formats
+    (E8M0 shared scales over 32-element blocks is accurate; "zero loss" at FP4
+    is not), processing-in-memory for KV streaming, tree-structured speculative
+    decoding, code property graphs, eBPF sandboxing, LLM-directed mutation
+    testing, differential fuzzing for quantization, rational speech acts,
+    construction grammar probing of LLMs, hierarchical predictive coding,
+    complementary learning systems, bounded rationality as metareasoning (the
+    printed stopping rule is the Russell-Wefald value of computation),
+    adversarial stylometry.
+  - Overclaimed absolutes: "completely resolve over-smoothing", "zero loss in
+    perplexity", "guarantee generated code is free of memory leaks", "proving
+    that specific mid-layer induction heads represent constructions natively"
+    (the actual CxG probing literature finds models weakest on schematic
+    constructions).
+  - Confabulations: univalence-based verification of Triton kernels in Lean 4
+    (Lean's type theory is not univalent; kernel verification exists, not via
+    HoTT), MCP as a formally verified protocol with cryptographically signed
+    messages (MCP is JSON-RPC schema contracts, no signing layer), the FPT
+    treewidth pruning theorem as stated (no paper at that intersection was
+    found), "inhibitory split-brain modular reasoning" as a named method, and
+    "spectral curvature regularization", which recurs from document D and
+    remains unsupported.
+
+The consistent failure mode across all five documents is a synthesis layer that
+upgrades real material into overclaimed engineering: invented citations in the
+early documents, invented absolutes and confabulated hybrids in the later ones,
+and pre-written metrics for systems that do not exist throughout. The account's own claim-plus-falsifier discipline
 (`state/claims.jsonl`, `tools/refute/refute.py`) is the correct antidote and
 should be applied to README claims, not only to harness claims.
 
@@ -105,7 +161,10 @@ should be applied to README claims, not only to harness claims.
    storage by porting `canonical` and `row_hash` from `tools/bus/bus.py` (stdlib
    only); replace key-presence checking with real jsonschema; enforce or delete
    `threshold` and `max_input_tokens`. This converts the weakest repo into the
-   one that matches its README.
+   one that matches its README. Document D adds the natural second stage:
+   step-level process scoring of trajectories (PRM-style verdicts per step, not
+   only outcome grading), which is the evaluation-side form of the
+   test-time-compute wave.
 2. New repo, one only: a BatchTopK crosscoder model-diff on a small base/chat
    pair (for example Gemma-2-2B), reproducing the latent-decoupling findings of
    arXiv 2504.02922 so every claim is checkable against published numbers. This
@@ -121,7 +180,10 @@ should be applied to README claims, not only to harness claims.
    The thin modules the survey flagged (`tools/selfimprove/scan.py` with its
    hardcoded ranking constants and one-proposal-per-run break, `tools/slop_lint.py`
    with no selftest) are the next TODO rows; the coverage instrumentation already
-   points at them.
+   points at them. One more citation now available: the intermittent active
+   inference result (re-plan only when prediction error crosses a bound, Entropy
+   2026) is a formal frame for the harness's event-driven wake and hook design.
+   Worth a line in the docs, not an adoption project.
 4. new-recruit: derive every quantitative resume line from a ledger row with a
    falsifier attached, in the style of `state/claims.jsonl`. The documents'
    impact-statement format is usable; their invented numbers are the anti-pattern.
@@ -133,6 +195,16 @@ should be applied to README claims, not only to harness claims.
 7. daily-deep-learning: ingest the verified paper list as an SRS reading track;
    the existing four-way confidence signals are a working metacognition
    implementation worth a lesson unit.
+8. Document E items that land directly on existing code: LLM-directed mutation
+   testing is `tools/audit/mutate.py` with the spec authorship automated; a
+   pilot that generates candidate mutations for the modules with no mutation
+   spec, keeping the named-check attribution, is a natural TODO row. Code
+   property graphs are the formal version of what
+   `intent-control-plane/src/intent_control_plane/symbol_graph.py` and
+   `tools/map/codemap.py` approximate; if agent context ingestion becomes
+   graph-shaped, those two modules are the seams. eBPF sandboxing is the
+   kernel-level sibling of hookgate's userspace gate: worth tracking, not
+   building.
 
 ## Part 4: forecast, what buzzes next and why
 
@@ -140,8 +212,12 @@ Anchors for calibration: speculative decoding became a buzzing subject in
 2023-2024 because inference cost was the binding constraint and the technique
 gave an order-of-magnitude lever without retraining. Long-horizon agent evals are
 buzzing in 2025-2026 because agent deployment outran the ability to measure it.
-The pattern: a subject buzzes when a binding constraint meets a technique with
-working code and a forcing event. Applied to the material visited here:
+Test-time compute scaling and process reward models belong to that same
+already-buzzing class: document D presents them as frontier, but they are the
+present, not the next; their next-step derivative is process-level verification
+of agent trajectories (item 1 below). The pattern: a subject buzzes when a
+binding constraint meets a technique with working code and a forcing event.
+Applied to the material visited here:
 
 Tier 1, already inflecting, mainstream within 6 to 18 months:
 
@@ -177,25 +253,35 @@ Tier 1, already inflecting, mainstream within 6 to 18 months:
    deployment mandate for concept-level monitoring in a regulated sector.
    Refuted if no mainstream inference engine ships a first-party activation-hook
    API by 2027-06.
+5. Discrete diffusion language models (MDLM, trajectory-conditioned CaDDi, and
+   the commercial diffusion-LM line). Mechanism: attacks the same binding
+   constraint speculative decoding attacked, sequential decoding latency, and
+   adds native infilling and constraint satisfaction; trajectory conditioning
+   removes the error-accumulation objection to earlier discrete diffusion.
+   Evidence now: MDLM and CaDDi with released code, commercial diffusion LMs
+   demonstrating large token-throughput multiples. Trigger: a frontier-quality
+   diffusion model at a large throughput multiple over autoregression. Refuted
+   if no production diffusion LM endpoint from a major provider exists by
+   2027-06.
 
 Tier 2, strong fundamentals, 18 to 36 months:
 
-5. Null-space constrained updates generalizing from editing to unlearning and
+6. Null-space constrained updates generalizing from editing to unlearning and
    continual learning. Mechanism: right-to-be-forgotten pressure plus the
    catastrophic-forgetting tax; AlphaEdit showed the projection trick is one
    line once the covariance is in hand. Refuted if null-space methods remain
    editing-benchmark-only through 2028.
-6. Formal verification of the monitor, not the model: zonotope and SMT
+7. Formal verification of the monitor, not the model: zonotope and SMT
    certificates for probes and guardrail heads. Mechanism: verifying an LLM is
    intractable, verifying a linear or shallow head is routine, and "certified
    monitor" is a sellable artifact in finance and medical deployments. Refuted
    if no vendor ships a certificate for a deployed guardrail head by 2028.
-7. Persona stability as quantitative alignment engineering. Mechanism: the
+8. Persona stability as quantitative alignment engineering. Mechanism: the
    Lee-Kondor-Ngo log-pooling results turn the Waluigi effect from folklore into
    theorems with design consequences (three-outcome pooling, manifest-then-
    suppress); persona products keep having drift incidents. Refuted if no
    persona-robustness eval suite exists by 2028.
-8. Filesystem-as-architecture and context engineering standardization (ICM and
+9. Filesystem-as-architecture and context engineering standardization (ICM and
    successors). Mechanism: the practice is already universal (CLAUDE.md, skills
    trees, numbered stage folders); papers now name it; standardization follows
    naming. This one is partially post-buzz: the practice preceded the theory.
@@ -205,24 +291,68 @@ Tier 2, strong fundamentals, 18 to 36 months:
 Tier 3, deliberate anti-calls, real theory that will not become engineering buzz
 on this horizon:
 
-9. Catalytic computing as a memory-management technique for ML systems. The
+10. Catalytic computing as a memory-management technique for ML systems. The
    theory line (CL captures TC1, QCL in EQP, DQC1 simulations, the CBPL equals
    CL derandomization) is real and advancing, but no operating system lends
    another process's RAM, and uncomputation requires retaining exactly the
    information the claim removes. Expect continued TCS results, zero production
    systems. This stays a complexity-theory subject.
-10. Categorical deep learning and categorical cybernetics as mainstream
+11. Categorical deep learning and categorical cybernetics as mainstream
     practice. The unification is real and the optics formulation of RL is
     elegant, but the adoption bottleneck is tooling and the absence of a
     performance win; the buzz version will arrive diluted as "compositional AI"
     marketing. Sleeper risk: one framework with genuinely good developer
-    experience could flip this.
-11. Active inference as a named production paradigm. A decade of imminent
+    experience could flip this. The same verdict covers topos-theoretic
+    generative AI (a real but single-author theoretical program with no
+    benchmark wins) and quantum-categorical semantics (DisCoCat, a fifteen-year
+    program with mature tooling and a stable niche).
+12. Active inference as a named production paradigm. A decade of imminent
     breakout; the LLM-as-generative-model implementations visited in the
     documents are prompt engineering under new vocabulary. The ideas will ship,
-    the brand will not.
-12. Expander-graph routing for MoE and TDA over embeddings: both real, both
-    staying niche diagnostics or theory on this horizon.
+    the brand will not: the intermittent-planning result (Entropy 2026) is real
+    and useful and will surface as "adaptive compute allocation" or event-driven
+    agent scheduling, without the active inference name attached.
+13. Expander-graph routing for MoE, TDA over embeddings, and Clifford-algebra
+    equivariant networks: all real (GLGENN is an ICML 2025 result), all staying
+    theory, niche diagnostics, or physics-and-geometry tooling on this horizon;
+    equivariance already had its buzz cycle inside geometric deep learning. Code
+    Brutalism is a cultural tailwind for exposed-telemetry design (this repo's
+    dashboards already comply) rather than a technique, and needs no investment.
+
+Document E additions, same tier logic:
+
+14. Post-transformer sequence layers with inner-loop learning (test-time
+    training layers, state space duality, the Mamba-2 line and successors).
+    Tier 1. Mechanism: long-context cost is the binding constraint; TTT turns
+    the hidden state into a learner, and the SSD line gives linear-time kernels
+    that map onto GPU primitives. Trigger: a frontier hybrid shipping a
+    non-attention backbone at context lengths attention cannot price. Refuted
+    if frontier models remain pure-attention at 2027-06.
+15. Graph-shaped repository context for coding agents (code property graphs
+    over AST, control flow, and program dependence). Tier 1 to 2. Mechanism:
+    agentic coding is bounded by context selection rather than model quality;
+    file-and-grep retrieval loses dataflow; the tooling (Joern and kin) is
+    mature and waiting for the agent interface. Trigger: a major coding agent
+    shipping graph traversal as its retrieval layer. Refuted if agent context
+    stays file-based through 2027-06.
+16. Kernel-level agent sandboxing (eBPF syscall policy for autonomous code
+    execution). Tier 1 to 2, paired with item 1: the audit trail and the
+    enforcement boundary are the two halves of agent governance. Trigger: the
+    first prominent agent-caused security incident. Refuted if agent sandboxes
+    remain container-only through 2027-06.
+17. Agent memory consolidation on the complementary learning systems pattern
+    (fast episodic store plus slow parametric consolidation). Tier 2. The
+    subject is already warming as "agent memory"; CLS is the citable
+    architecture likely to survive the marketing. Refuted if no major agent
+    framework ships a two-store consolidation design by 2028.
+18. Already-buzzing rather than next, from document E: direct alignment
+    objectives (KTO, SimPO) are the post-DPO present; MX microscaling formats
+    ship in current hardware; tree speculative decoding is the mature form of
+    the 2023 wave. Additional anti-calls: photonic accelerators and
+    processing-in-memory are real but move on hardware timescales; univalent
+    verification of GPU kernels is not a 2026-2028 subject; the arts items
+    (microtonal diffusion synthesis, hyperbolic typography,
+    constraint-satisfaction narrative graphs) are real niches that stay niches.
 
 ## Part 5: build order for the account
 
@@ -234,6 +364,8 @@ on this horizon:
    verification identity is the chosen differentiator.
 4. Ledger-derived resume claims in new-recruit; committed benchmarks in sqltok.
 5. Curriculum ingestion in daily-deep-learning.
+6. LLM-directed mutation-spec pilot for the unguarded modules in this repo,
+   document E's one directly actionable item.
 
 The strategic through-line is unchanged from the v1 assessment and strengthened
 by document C: the 2025-2026 research wave legitimizes exactly the thing this
@@ -255,3 +387,14 @@ stops being the gap.
 - Lossless vertex expanders: https://arxiv.org/abs/2504.15087 and https://focs.computer.org/2025/best-paper-awards/
 - Interpretable Context Methodology: https://arxiv.org/abs/2603.16021
 - Poggio, the levels of understanding framework revised: https://journals.sagepub.com/doi/10.1068/p7299
+- GAIA and topos theory for generative AI: https://arxiv.org/abs/2402.18732 and https://arxiv.org/abs/2508.08293
+- GLGENN: https://arxiv.org/abs/2506.09625
+- MDLM: https://arxiv.org/abs/2406.07524
+- CaDDi, non-Markovian discrete diffusion: https://arxiv.org/abs/2502.09767
+- Intermittent active inference: https://doi.org/10.3390/e28030269
+- Test-time compute scaling: https://arxiv.org/abs/2408.03314
+- Test-time training layers: https://arxiv.org/abs/2407.04620
+- State space duality (Mamba-2): https://arxiv.org/abs/2405.21060
+- SimPO: https://arxiv.org/abs/2405.14734 and KTO: https://arxiv.org/abs/2402.01306
+- SETH-conditional attention lower bounds: https://arxiv.org/abs/2302.13214
+- Construction grammar probing of language models: https://arxiv.org/abs/2302.02178
