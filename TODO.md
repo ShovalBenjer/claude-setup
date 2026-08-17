@@ -500,6 +500,8 @@ cordiverse/paper (2026-08-17). Seven adopt-ranked gaps; the cross-source signal 
 
 - [ ] EXT-4 block/buzz follow-ups (docs/analysis/2026-08-17-repo-compare-block-buzz.md): WATCH rows for the ACP agent/tool protocol split and Nostr-signed per-agent audit events; re-check when a multi-agent server host or multi-principal threat model lands here
 
+- [ ] DASH-1 Session dashboard, Tauri + React (docs/specs/2026-08-17-session-dashboard-direction.md): direction locked by operator 2026-08-17; build starts in its own worktree/PR, buzz clone as design anchor, ledger-read-only
+
 ## ABSORB: external resources evaluated but never absorbed
 
 Operator directive 2026-07-29: every external resource we look at must end in
