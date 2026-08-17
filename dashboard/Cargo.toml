@@ -1,0 +1,12 @@
+[workspace]
+resolver = "2"
+# Slice 2 (DASH-1) members. `src-tauri` is intentionally NOT a member here:
+# the tauri crate's build.rs requires system GTK/webkit2gtk via pkg-config,
+# which this sandbox does not have (glib-2.0.pc / gobject-2.0.pc missing;
+# probed 2026-08-17, `cargo build` on a bare `tauri = "2"` dependency fails
+# before any GUI code runs). `core` compiles and tests standalone; `src-tauri`
+# is scaffolded as source only and is wired into the workspace once a machine
+# with GTK/webkit2gtk dev packages builds it. See
+# docs/specs/2026-08-17-session-dashboard-program-design.md section 1 and the
+# task's own documented fallback.
+members = ["core"]

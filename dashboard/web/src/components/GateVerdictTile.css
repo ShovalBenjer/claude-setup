@@ -1,0 +1,52 @@
+/* Buzz-style tile: near-black surface, bold oversized verdict type, thin
+   accent border in the verdict color, no gradient (out-of-distribution rule
+   bans purple-gradient-on-dark; this uses a flat surface plus a single
+   accent instead). Anchor: docs/specs/2026-08-17-session-dashboard-direction.md
+   ("buzz itself is Rust backend plus web front, and the buzz clone is the
+   live design reference"), applied from spec text since the clone path
+   named in the DASH-1 slice-2 task did not exist on this machine when this
+   file was written (see GateVerdictTile.tsx comment). */
+
+.gate-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px 24px;
+  border-radius: 10px;
+  background: #14151c;
+  border: 2px solid #2a2c3a;
+  min-width: 260px;
+  font-family: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+}
+
+.gate-tile__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #6b6f85;
+}
+
+.gate-tile__verdict {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #e8e9f3;
+}
+
+.gate-tile__meta {
+  font-size: 12px;
+  color: #9498ac;
+}
+
+.gate-tile--loading .gate-tile__verdict {
+  color: #6b6f85;
+}
+
+.gate-tile--error {
+  border-color: #ff5c5c;
+}
+
+.gate-tile--empty .gate-tile__verdict {
+  color: #6b6f85;
+  font-size: 22px;
+}
