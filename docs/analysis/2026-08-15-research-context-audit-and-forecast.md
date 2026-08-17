@@ -156,6 +156,11 @@ should be applied to README claims, not only to harness claims.
 
 ## Part 3: per-repo actions
 
+The full conversion of these actions into per-repo work items with acceptance
+falsifiers lives in the companion file
+`docs/analysis/2026-08-15-research-to-repo-work-map.md`; the summary here is the
+reading view, the work map is the executable one.
+
 1. agenteval-bench (largest gap, cheapest leverage): adopt Thought-Action-Result
    triples as the data model per the ASE 2025 study; hash-chain trajectory
    storage by porting `canonical` and `row_hash` from `tools/bus/bus.py` (stdlib
