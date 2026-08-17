@@ -1,5 +1,5 @@
 ---
-PRD: prd/autonomy-ecosystem.md
+PRD: prd/session-dashboard.md
 Ticket: DASH-1
 Status: active
 ---

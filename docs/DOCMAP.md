@@ -9,9 +9,9 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1031**
+- documents: **1033**
 - reachable from `docs/INDEX.md`: **122** (11%)
-- status UNDECLARED: **0**
+- status UNDECLARED: **2**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
 
@@ -506,7 +506,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/HANDOFF-2026-08-05-session-close.md` | 2026-08-05 | historical-record | class | 2 | yes | - | - |
 | `docs/HANDOFF-FROM-NEW-RECRUIT-2026-08-10.md` | 2026-08-10 | historical-record | class | n/a | - | - | - |
 
-## prd (5)
+## prd (6)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -515,6 +515,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prd/2026-07-30-consolidation-and-migration.md` | 2026-07-30 | approved for autonomous execution (operator, 2026-07-30, "lo | header | 2 | yes | it, and whether anything links to it. Or | - |
 | `docs/prd/2026-08-03-boundary-termination-instrument.md` | 2026-08-03 | proposed | header | 2 | yes | - | - |
 | `docs/prd/2026-08-03-unified-architecture.md` | 2026-08-03 | proposed | header | n/a | yes | - | - |
+| `docs/prd/session-dashboard.md` | 2026-08-17 | UNDECLARED | none | n/a | - | - | - |
 
 ## prior-art (44)
 
@@ -861,7 +862,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/repo-compare/SKILL.md` | 2026-08-11 | definition-see-skills_sync | class | 2 | - | - | - |
 | `dot-claude/skills/meme-gen/SKILL.md` | 2026-08-17 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (23)
+## spec (24)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -888,6 +889,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-10-open-scope-delegation-plan.md` | 2026-08-10 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-12-open-model-and-scheduling-plan.md` | 2026-08-12 | proposed, operator decides the numbered blocks at the end | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-direction.md` | 2026-08-17 | active | header | n/a | - | - | - |
+| `docs/specs/archive/README.md` | 2026-08-17 | UNDECLARED | none | n/a | - | - | - |
 
 ## standard (7)
 
