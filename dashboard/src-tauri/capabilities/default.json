@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Read-only ledger access. Program design section 2: no command in this contract accepts a write path, a delete path, or a ledger-mutating argument; this capability grants read only and no scope outside a configured project's state/ directory.",
+  "windows": ["main"],
+  "permissions": ["core:default", "fs:allow-read-file", "fs:scope-app-recursive"]
+}
