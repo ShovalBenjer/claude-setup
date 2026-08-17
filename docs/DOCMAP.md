@@ -10,7 +10,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 ## Coverage
 
 - documents: **1034**
-- reachable from `docs/INDEX.md`: **122** (11%)
+- reachable from `docs/INDEX.md`: **119** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -872,19 +872,19 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-07-24-autonomy-implementation.md` | 2026-07-24 | active | header | 1 | yes | - | - |
 | `docs/specs/2026-07-24-command-center-superior.md` | 2026-07-24 | active | header | n/a | yes | - | - |
 | `docs/specs/2026-07-29-architecture-build-plan-v2.md` | 2026-07-29 | partly-superseded-by docs/prd/2026-07-30-consolidation-and-migration.md | registry | 1 | yes | v1 the same day | - |
-| `docs/specs/2026-07-29-architecture-build-plan.md` | 2026-07-29 | superseded-by docs/specs/2026-07-29-architecture-build-plan-v2.md | registry | 1 | yes | - | 2026-07-29-architecture-build-plan-v2.md |
 | `docs/specs/2026-07-29-decision-rules.md` | 2026-07-29 | proposed. written 2026-07-29 for lane b (claude-setup) | header | 1 | yes | - | - |
 | `docs/specs/2026-07-29-deterministic-preflight.md` | 2026-07-29 | proposed. operator-originated 2026-07-29, needs /diverge on | header | n/a | yes | - | - |
 | `docs/specs/2026-07-29-intent-traceability.md` | 2026-07-29 | accepted | registry | n/a | yes | - | - |
 | `docs/specs/2026-07-29-prompt-to-ticket-lifecycle.md` | 2026-07-29 | active | header | 1 | yes | the | - |
-| `docs/specs/2026-07-29-trace-model-sacred-timeline.md` | 2026-07-29 | accepted | registry | 1 | yes | - | - |
+| `docs/specs/archive/2026-07-29-architecture-build-plan.md` | 2026-07-29 | superseded by 2026-07-29-architecture-build-plan-v2.md the s | header | 1 | - | - | 2026-07-29-architecture-build-plan-v2.md |
+| `docs/specs/archive/2026-07-29-trace-model-sacred-timeline.md` | 2026-07-29 | proposed. trace model, 2026-07-29. not built | header | 1 | - | - | - |
 | `docs/specs/2026-07-30-data-architecture-and-orchestration.md` | 2026-07-30 | proposed. design document, 2026-07-30. nothing here is built | header | n/a | yes | nothing. Extends ADR-0010 | - |
 | `docs/specs/2026-07-31-agentic-directory-standard-sota.md` | 2026-07-31 | design. specification and architectural comparison, 2026-07- | header | n/a | yes | - | - |
 | `docs/specs/2026-07-31-github-native-project-surface.md` | 2026-07-31 | design. nothing in this document has been applied. every wri | header | n/a | yes | - | - |
 | `docs/specs/2026-07-31-kanban-four-layer-model.md` | 2026-07-31 | design. nothing here has been applied. every write command i | header | 2 | yes | - | - |
-| `docs/specs/2026-07-31-project-federation.md` | 2026-07-31 | accepted | registry | n/a | yes | - | - |
 | `docs/specs/2026-07-31-research-corpus-and-cache.md` | 2026-07-31 | proposed. corpus and cache design, 2026-07-31. not built | header | n/a | yes | text references sources | - |
 | `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | active | header | 2 | yes | - | - |
+| `docs/specs/archive/2026-07-31-project-federation.md` | 2026-07-31 | parked. the document argues against its own proposal and con | header | n/a | - | - | - |
 | `docs/specs/2026-08-03-detail-passes-teleology-and-creativity.md` | 2026-08-03 | design, 2026-08-03. nothing here is built. extends | header | n/a | yes | - | - |
 | `docs/specs/2026-08-05-persona-allocation-and-reviewer-identity.md` | 2026-08-05 | active, 2026-08-05. `active` is the vocabulary's word for th | header | n/a | - | - | - |
 | `docs/specs/2026-08-10-open-scope-delegation-plan.md` | 2026-08-10 | active | header | n/a | - | - | - |
