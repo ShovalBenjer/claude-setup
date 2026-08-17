@@ -9,9 +9,9 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1033**
+- documents: **1034**
 - reachable from `docs/INDEX.md`: **122** (11%)
-- status UNDECLARED: **2**
+- status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
 
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (71)
+## analysis (72)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -151,6 +151,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-12-plain-handoff.md` | 2026-08-12 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-17-external-landscape-comparison.md` | 2026-08-17 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-17-repo-compare-block-buzz.md` | 2026-08-17 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-17-repo-compare-everything-claude-code.md` | 2026-08-17 | dated-snapshot | class | n/a | - | - | - |
 
 ## automation-output (126)
 
@@ -515,7 +516,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prd/2026-07-30-consolidation-and-migration.md` | 2026-07-30 | approved for autonomous execution (operator, 2026-07-30, "lo | header | 2 | yes | it, and whether anything links to it. Or | - |
 | `docs/prd/2026-08-03-boundary-termination-instrument.md` | 2026-08-03 | proposed | header | 2 | yes | - | - |
 | `docs/prd/2026-08-03-unified-architecture.md` | 2026-08-03 | proposed | header | n/a | yes | - | - |
-| `docs/prd/session-dashboard.md` | 2026-08-17 | UNDECLARED | none | n/a | - | - | - |
+| `docs/prd/session-dashboard.md` | 2026-08-17 | active | header | n/a | - | - | - |
 
 ## prior-art (44)
 
@@ -889,7 +890,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-10-open-scope-delegation-plan.md` | 2026-08-10 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-12-open-model-and-scheduling-plan.md` | 2026-08-12 | proposed, operator decides the numbered blocks at the end | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-direction.md` | 2026-08-17 | active | header | n/a | - | - | - |
-| `docs/specs/archive/README.md` | 2026-08-17 | UNDECLARED | none | n/a | - | - | - |
+| `docs/specs/archive/README.md` | 2026-08-17 | active | header | n/a | - | - | - |
 
 ## standard (7)
 

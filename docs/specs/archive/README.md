@@ -1,5 +1,7 @@
 # Superseded specs live here
 
+Status: active
+
 docs-control-plane rule 3: a spec whose Status turns superseded-by moves into
 this directory instead of sitting beside active specs. The directory was
 required by the rule since the rule existed and was only created 2026-08-17

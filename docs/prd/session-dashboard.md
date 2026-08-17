@@ -2,6 +2,8 @@
 tickets: [DASH-1]
 ---
 
+Status: active
+
 # PRD: Session dashboard (buzz-style workstation surface)
 
 Owner: operator. Opened 2026-08-17 after the spec-discipline review flagged
