@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1034**
-- reachable from `docs/INDEX.md`: **119** (11%)
+- documents: **1035**
+- reachable from `docs/INDEX.md`: **120** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -417,7 +417,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/Documents/CDP_Kick_Research_20260507/CDP_Kick_Strategic_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Executive_MCP_Research_20260507/Executive_MCP_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 
-## doc (56)
+## doc (57)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -477,6 +477,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `nexus-engine-rs/README.md` | 2026-07-31 | a working vertical slice, not the spec.** read the scope tab | header | n/a | - | - | - |
 | `tools/telemetry/systemd/README.md` | 2026-08-04 | live, 2026-08-04. the units below are deployed and the timer | header | n/a | - | - | - |
 | `dot-claude/CLAUDE.md` | 2026-08-05 | living | registry | n/a | - | - | - |
+| `docs/PLAN-SPINE.md` | 2026-08-17 | active | header | n/a | yes | - | kanban-four-layer-model |
 
 ## generated-output (2)
 
@@ -587,7 +588,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `CLAUDE-OS.md` | 2026-07-23 | active (living document, the spine) | header | n/a | yes | every prior setup plan. Predecessors rem | - |
 | `README.md` | 2026-07-23 | living | registry | n/a | - | every prior plan in this repo. | - |
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
-| `TODO.md` | 2026-08-01 | living | registry | 2 | yes | nothing | the |
+| `TODO.md` | 2026-08-17 | living | registry | 2 | yes | nothing | the |
 
 ## rule (41)
 
@@ -867,7 +868,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
-| `docs/specs/2026-07-23-persona-review-economy.md` | 2026-07-23 | active | header | n/a | yes | - | - |
+| `docs/specs/2026-07-23-persona-review-economy.md` | 2026-07-23 | proposed | header | n/a | yes | - | - |
 | `docs/specs/2026-07-23-slm-swarm.md` | 2026-07-23 | active | header | n/a | yes | - | - |
 | `docs/specs/2026-07-24-autonomy-implementation.md` | 2026-07-24 | active | header | 1 | yes | - | - |
 | `docs/specs/2026-07-24-command-center-superior.md` | 2026-07-24 | active | header | n/a | yes | - | - |
@@ -880,10 +881,10 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/archive/2026-07-29-trace-model-sacred-timeline.md` | 2026-07-29 | proposed. trace model, 2026-07-29. not built | header | 1 | - | - | - |
 | `docs/specs/2026-07-30-data-architecture-and-orchestration.md` | 2026-07-30 | proposed. design document, 2026-07-30. nothing here is built | header | n/a | yes | nothing. Extends ADR-0010 | - |
 | `docs/specs/2026-07-31-agentic-directory-standard-sota.md` | 2026-07-31 | design. specification and architectural comparison, 2026-07- | header | n/a | yes | - | - |
-| `docs/specs/2026-07-31-github-native-project-surface.md` | 2026-07-31 | design. nothing in this document has been applied. every wri | header | n/a | yes | - | - |
+| `docs/specs/2026-07-31-github-native-project-surface.md` | 2026-07-31 | superseded by docs/specs/2026-07-31-kanban-four-layer-model. | header | n/a | yes | - | docs/specs/2026-07-31-kanban-four-layer- |
 | `docs/specs/2026-07-31-kanban-four-layer-model.md` | 2026-07-31 | design. nothing here has been applied. every write command i | header | 2 | yes | - | - |
 | `docs/specs/2026-07-31-research-corpus-and-cache.md` | 2026-07-31 | proposed. corpus and cache design, 2026-07-31. not built | header | n/a | yes | text references sources | - |
-| `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | active | header | 2 | yes | - | - |
+| `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | superseded by docs/specs/2026-07-31-kanban-four-layer-model. | header | 2 | yes | - | docs/specs/2026-07-31-kanban-four-layer- |
 | `docs/specs/archive/2026-07-31-project-federation.md` | 2026-07-31 | parked. the document argues against its own proposal and con | header | n/a | - | - | - |
 | `docs/specs/2026-08-03-detail-passes-teleology-and-creativity.md` | 2026-08-03 | design, 2026-08-03. nothing here is built. extends | header | n/a | yes | - | - |
 | `docs/specs/2026-08-05-persona-allocation-and-reviewer-identity.md` | 2026-08-05 | active, 2026-08-05. `active` is the vocabulary's word for th | header | n/a | - | - | - |

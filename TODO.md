@@ -4,6 +4,13 @@ One TODO, grouped by layer, ticket-tagged (SETUP-OS + AUTO). Status mirrors
 docs/prd/claude-os.md and docs/prd/autonomy-ecosystem.md. Fresh session? Read
 docs/SESSION-BOOT.md first.
 
+Read `docs/PLAN-SPINE.md` before picking up cross-surface work: it is the one
+page connecting PRD to spec to current/next slice to ticket to % built, for
+harness-gate, autonomy/AUTO, dashboard/DASH, voice/VOICE,
+interpretability/Modal, persona-economy, intent-lifecycle, slm-swarm, and
+kanban. Written 2026-08-17 glue pass, after a sweep found 26 planning docs
+split BUILT 2 / PARTIAL 11 / PAPER 13 and no single spine.
+
 ## FOG: what a file-by-file sweep found that no status marker reported (2026-08-01)
 
 - [ ] **A secret reached a pushed commit and only the operator can finish removing it.**
