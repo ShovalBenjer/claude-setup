@@ -53,10 +53,10 @@ def one_on_one_ranked(msg: sqlite3.Connection) -> list[tuple[str, int]]:
 
 
 def resolve(msg: sqlite3.Connection, names: dict[str, str], who: str) -> list[str]:
-    if "@" in who:
-        return [who]
-    hits = [cid for cid, nm in names.items() if who.lower() in nm.lower()]
     present = {r["chatId"] for r in msg.execute("SELECT DISTINCT chatId FROM message")}
+    if "@" in who:
+        return [who] if who in present else []
+    hits = [cid for cid, nm in names.items() if who.lower() in nm.lower()]
     return [c for c in hits if c in present]
 
 
@@ -105,30 +105,34 @@ def main(argv: list[str] | None = None) -> int:
         c = sqlite3.connect(ct); c.row_factory = sqlite3.Row
         names = load_names(c)
 
-    if a.top:
-        done = 0
-        for cid, count in one_on_one_ranked(msg):
-            label = names.get(cid, cid)
-            n = extract_one(msg, cid, label, slugify(label))
-            print(f"{n:>6}  {label}  -> {OUT_ROOT / slugify(label)}")
-            done += 1
-            if done >= a.top:
-                break
-        return 0
+    try:
+        if a.top:
+            done = 0
+            for cid, count in one_on_one_ranked(msg):
+                label = names.get(cid, cid)
+                n = extract_one(msg, cid, label, slugify(label))
+                print(f"{n:>6}  {label}  -> {OUT_ROOT / slugify(label)}")
+                done += 1
+                if done >= a.top:
+                    break
+            return 0
 
-    if not a.contact:
-        print("give --contact or --top", file=sys.stderr)
+        if not a.contact:
+            print("give --contact or --top", file=sys.stderr)
+            return 2
+        cids = resolve(msg, names, a.contact)
+        if not cids:
+            print(f"no chat matching {a.contact!r}", file=sys.stderr)
+            return 1
+        cid = cids[0]
+        label = names.get(cid, cid)
+        slug = a.slug or slugify(label)
+        n = extract_one(msg, cid, label, slug)
+        print(f"{n} messages -> {OUT_ROOT / slug}")
+        return 0
+    except sqlite3.Error as e:
+        print(f"unexpected store schema: {e}", file=sys.stderr)
         return 2
-    cids = resolve(msg, names, a.contact)
-    if not cids:
-        print(f"no chat matching {a.contact!r}", file=sys.stderr)
-        return 1
-    cid = cids[0]
-    label = names.get(cid, cid)
-    slug = a.slug or slugify(label)
-    n = extract_one(msg, cid, label, slug)
-    print(f"{n} messages -> {OUT_ROOT / slug}")
-    return 0
 
 
 if __name__ == "__main__":

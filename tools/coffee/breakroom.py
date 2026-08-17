@@ -51,7 +51,7 @@ def cmd_post(a) -> int:
 
 
 def cmd_read(a) -> int:
-    rows = read_rows(a.board)[-a.n:]
+    rows = read_rows(a.board)[-a.n:] if a.n else []
     for r in rows:
         print(f"{r['ts']}  [{r['kind']}] {r['session']}: {r['text']}")
     if not rows:

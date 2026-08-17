@@ -50,7 +50,7 @@ def windows(corpus: Path, size: int) -> list[str]:
 def _json_only(s: str) -> dict:
     s = s.strip()
     if s.startswith("```"):
-        s = s.split("```", 2)[1].lstrip("json").strip() if "```" in s else s
+        s = s.split("```", 2)[1].removeprefix("json").strip() if "```" in s else s
     a, b = s.find("{"), s.rfind("}")
     return json.loads(s[a:b + 1]) if a >= 0 else {}
 

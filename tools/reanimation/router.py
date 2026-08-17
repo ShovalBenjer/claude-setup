@@ -95,7 +95,8 @@ def chat(messages: list[dict], *, temperature: float = 0.4,
                     time.sleep(2 * (attempt + 1))
                     continue
                 break  # 4xx/5xx: next lane
-            except (urllib.error.URLError, TimeoutError, KeyError) as e:
+            except (urllib.error.URLError, TimeoutError, KeyError,
+                    IndexError, json.JSONDecodeError) as e:
                 errors.append(f"{name}: {type(e).__name__}")
                 break
     raise AllLanesFailed("; ".join(errors))
