@@ -211,9 +211,11 @@ r4-replay-determinism | Deterministic replay | שחזור דטרמיניסטי
 depends: r4-trajectories-tar. Know by end: name what breaks replay
 (timestamps, randomness, external state) and the design moves that restore it.
 Drill: find the two nondeterminism sources in a given script and fix them.
-Cards: record versus replay mode; why the harness bans wall-clock in
-workflows. Sources: this repo's own workflow constraints as the worked
-example.
+Cards: record versus replay mode; why replay-cached orchestration runtimes ban
+wall-clock and ambient randomness inside workflow scripts, while ordinary
+tools (this repo's included) use wall-clock freely and get replayability from
+their ledgers instead. Sources: the agent workflow runtime's stated script
+constraints as the worked example.
 
 r4-ledgers-hashchains | Append-only ledgers and hash chains | יומנים וטבעות גיבוב
 depends: none in-track. Know by end: build a hash-chained JSONL ledger and
