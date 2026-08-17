@@ -502,6 +502,8 @@ cordiverse/paper (2026-08-17). Seven adopt-ranked gaps; the cross-source signal 
 
 - [ ] DASH-1 Session dashboard, Tauri + React (docs/specs/2026-08-17-session-dashboard-direction.md): direction locked by operator 2026-08-17; build starts in its own worktree/PR, buzz clone as design anchor, ledger-read-only
 
+- [ ] VOICE-1 Unified voice channel for the workstation (operator, 2026-08-17): replace the type-into-a-.txt loop with STT in and TTS out. Verified state from the interview-prep session, same date: TTS works today via Windows System.Speech (Zira, powershell say.sh); the voice-explainer/ElevenLabs path is DEAD (script missing, Seekapa-era key); STT is unwired because Win+H refuses Hebrew and cannot type into WSL terminals; the working stopgap is dictate-into-native-window then file-read via /mnt/c. Engine choice is an OPEN OPERATOR BLOCK per accepting-architectures: ElevenLabs Scribe realtime (~$0.39/audio hour, priced 2026-08-17) vs local Whisper (deferred once already) vs upgraded file-watch with auto-transcription. Constraint: do not touch the interview session's working loop before 2026-08-17 11:00; their 4-doc pipeline plan (TTS/STT adapters with fallback chain) was unwritten at ticket time, reconcile before building
+
 ## ABSORB: external resources evaluated but never absorbed
 
 Operator directive 2026-07-29: every external resource we look at must end in
