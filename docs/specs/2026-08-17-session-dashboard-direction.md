@@ -41,3 +41,13 @@ agents, gate verdicts), built as a Tauri desktop app: Rust core, React front.
   passes; the design anchor is the buzz UI, named in the artifact per the
   out-of-distribution rule.
 - Build starts in its own worktree and PR, not on the rules-sync branch.
+
+## Requirements added by the operator, 2026-08-17 (after the direction lock)
+
+- Capability modules with per-module on/off toggles; the meme-gen skill
+  (browser-driven Gemini/ChatGPT, tested live this date) is the first named
+  module.
+- A module showing open tasks can act: open Chrome and kickstart a cloud
+  session (claude.ai/code) to work them. Outward actions from the dashboard
+  inherit the-loop-may-act boundaries; kicking a session is allowed, merging
+  and posting stay with the operator.
