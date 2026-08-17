@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-426 directories, 1913 tracked files, 0 without a stated purpose.
+427 directories, 1914 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -210,6 +210,7 @@ the same reason, one level down.
 | `dot-claude/skills/learn-on-demand/references` | 2 | The rights-aware source catalog (books/docs/standards with rights_mode, ISBN, verification date) plus the provenance policy that scripts/knowledge.py and SKILL.md's rights gate... | registry |
 | `dot-claude/skills/learn-on-demand/scripts` | 1 | CLI (knowledge.py) that validates, indexes, and queries the rights-aware knowledge catalog, writing any private full-text chunks only to a database under the user's home directo... | registry |
 | `dot-claude/skills/meeting-notes` | 1 | Capture concise meeting notes in Shoval's bottom-line voice. Saves to ~/docs/meetings/YYYY-MM-DD-<topic>.md. Triggers on "/meeting-notes", "/log-meeting", "note this meeting", "... | SKILL.md |
+| `dot-claude/skills/meme-gen` | 1 | Create a meme image or short video with Gemini via the logged-in Chrome session. Triggers on /meme, "make a meme", "meme this", "surprise me with a meme". Takes a moment/joke/sc... | SKILL.md |
 | `dot-claude/skills/mutation-runner` | 1 | Run mutation testing workflows to measure test suite effectiveness and identify surviving mutants that indicate coverage gaps. | SKILL.md |
 | `dot-claude/skills/openai-agents` | 2 | Call OpenAI agents that live on platform.openai.com — Assistants API and AgentKit-published agents — from the CLI with full step observability. Stream runs with reasoning, tool... | SKILL.md |
 | `dot-claude/skills/ops-status` | 1 | "Ops Status — System State Snapshot Skill" | SKILL.md |
