@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-428 directories, 1919 tracked files, 0 without a stated purpose.
+438 directories, 1946 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -25,6 +25,21 @@ the same reason, one level down.
 | `.github` | 1 | Live GitHub Actions root; workflows/ holds the 3 CI YAMLs GitHub actually runs on PRs and cron (newer commit than github/) | registry |
 | `.github/ISSUE_TEMPLATE` | 1 | The one GitHub issue form (task.md); GitHub reads this exact path, so it is a wired location and not a docs folder | registry |
 | `.github/workflows` | 4 | The 3 live workflow files: Claude PR review (every push), Claude nightly job, and ship-gate CI check; Actions reads only this path | registry |
+
+## dashboard
+
+| dir | files | purpose | from |
+| --- | ----: | ------- | ---- |
+| `dashboard` | 3 | DASH-1 session dashboard (Tauri v2 + React), slice 2: read-only ledger readers over state/*.jsonl, gate-verdict IPC command and tile. src-tauri is source-only and not a workspac... | registry |
+| `dashboard/core` | 1 | Buildable Rust crate: LedgerReadReport<T> readers for state/*.jsonl, tolerant-by-construction (skip-and-count on malformed lines, never panics), no tauri dependency so it compil... | registry |
+| `dashboard/core/src` | 1 | Rust source for dashboard-core: lib.rs (LedgerReadReport, IpcError) plus the ledger/ submodule | registry |
+| `dashboard/core/src/ledger` | 3 | One module per ledger file per the program design; gate_runs.rs is fully implemented and tested, stubs.rs covers the other five (claims, agent-spawns, skill-use, routing, bus) a... | registry |
+| `dashboard/src-tauri` | 3 | Tauri v2 app shell source (commands, IPC handler registration, capabilities, tauri.conf.json); not a cargo workspace member here because tauri's build.rs needs system GTK/webkit... | registry |
+| `dashboard/src-tauri/capabilities` | 1 | Tauri v2 capability manifest (default.json): read-only fs scope, no write/delete permission granted to any command | registry |
+| `dashboard/src-tauri/src` | 3 | Tauri app shell Rust source: commands.rs (the 7 IPC command handlers), lib.rs (invoke_handler registration), main.rs (binary entry) | registry |
+| `dashboard/web` | 5 | Standalone Vite + React + TypeScript frontend; builds independently of src-tauri via `npm run build`; GateVerdictTile is the one live tile in slice 2, styled toward the buzz des... | registry |
+| `dashboard/web/src` | 6 | React app source: App.tsx, ipc.ts (Tauri invoke bridge), types.ts (hand-mirrored Rust types), components/ | registry |
+| `dashboard/web/src/components` | 2 | React components; GateVerdictTile is the one implemented in slice 2 | registry |
 
 ## docs
 
@@ -159,7 +174,7 @@ the same reason, one level down.
 | `dot-claude/bin` | 44 | Executable CLI scripts (shell/python/node) for provider switching, statusline rendering, Jira/PII/session utilities, and Gastown spawning; a few are stub pointers into the Codex... | registry |
 | `dot-claude/commands` | 7 | Slash-command markdown definitions (/diverge, /reground, /cdp, /commit-push-pr, /insights, /pickup-reviews, /slop) that Claude Code loads as user-invokable commands | registry |
 | `dot-claude/corpus` | 2 | Script and source whitelist that build a local SQLite FTS best-practices corpus (Google eng practices, Azure Well-Architected, OpenSSF, private docs) for Gastown/Claude retrieval | registry |
-| `dot-claude/hooks` | 33 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
+| `dot-claude/hooks` | 32 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
 | `dot-claude/output-styles` | 1 | Claude Code output styles, the native mechanism that shapes assistant prose BEFORE generation. Deployed to ~/.claude/output-styles. The alternative it replaces is policing the r... | registry |
 | `dot-claude/rules` | 25 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
 | `dot-claude/skills` | 0 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
