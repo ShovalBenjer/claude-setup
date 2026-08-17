@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-428 directories, 1918 tracked files, 0 without a stated purpose.
+428 directories, 1919 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -38,7 +38,7 @@ the same reason, one level down.
 | `docs/prior-art` | 44 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
 | `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
-| `docs/specs` | 23 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/specs` | 24 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
 | `docs/specs/archive` | 1 | Status: active | README.md |
 | `docs/standards` | 7 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
 
