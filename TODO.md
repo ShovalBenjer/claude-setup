@@ -498,6 +498,8 @@ cordiverse/paper (2026-08-17). Seven adopt-ranked gaps; the cross-source signal 
 - [ ] EXT-2 Risk-classified pre-action guard: couple the-loop-may-act's MAY/MAY-NOT list to a PreToolUse check on push/merge/deploy verbs
 - [ ] EXT-3 Skill-routing accuracy as a measured number from `state/routing.jsonl` + `state/skill-use.jsonl` against the Gastown registry (router-vs-spawn agreement was 0 of 20 in the week to 2026-08-12)
 
+- [ ] EXT-4 block/buzz follow-ups (docs/analysis/2026-08-17-repo-compare-block-buzz.md): WATCH rows for the ACP agent/tool protocol split and Nostr-signed per-agent audit events; re-check when a multi-agent server host or multi-principal threat model lands here
+
 ## ABSORB: external resources evaluated but never absorbed
 
 Operator directive 2026-07-29: every external resource we look at must end in
