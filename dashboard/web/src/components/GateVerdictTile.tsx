@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { CheckCircle2, CircleAlert, CircleX, Loader2 } from "lucide-react";
 import type { GateRun } from "../types";
 import { verdictLabel } from "../types";
 import { latestGateVerdict } from "../ipc";
-import "./GateVerdictTile.css";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Badge } from "./ui/badge";
+import { cn } from "../lib/cn";
 
 interface Props {
   project: string;
@@ -14,23 +17,46 @@ type LoadState =
   | { status: "empty" }
   | { status: "ok"; run: GateRun };
 
-// Design anchor: the buzz UI clone (dark background, bold oversized type,
-// high-contrast status color as the single accent) per the direction spec
-// (docs/specs/2026-08-17-session-dashboard-direction.md) and the
-// out-of-distribution rule's requirement to name the anchor in the artifact.
-// The task named a live clone path (/home/shov/.claude/jobs/b771656c/tmp/buzz)
-// that does not exist on this machine as of 2026-08-17 (checked before
-// writing this file); the anchor is applied from the direction spec's
-// written description (dark, bold, buzz-style) rather than from pixels, and
-// that gap is recorded here rather than silently ignored.
-function verdictColor(v: GateRun["verdict"]): string {
+// Design anchor: block/buzz (https://github.com/block/buzz), shallow-cloned
+// and read 2026-08-17 — dark Catppuccin-derived palette, Card/Badge
+// primitives at web/src/shared/ui/*.tsx. Tokens and component shells now
+// live in src/index.css and src/components/ui/*; this tile consumes them
+// instead of the bespoke GateVerdictTile.css it used before.
+function verdictTone(v: GateRun["verdict"]): "pass" | "fail" | "partial" | "unknown" {
   if (typeof v === "string") {
-    if (v === "pass") return "#3ddc84";
-    if (v === "fail") return "#ff5c5c";
-    if (v === "partial") return "#ffb454";
+    if (v === "pass") return "pass";
+    if (v === "fail") return "fail";
+    if (v === "partial") return "partial";
   }
-  return "#8a8fa3";
+  return "unknown";
 }
+
+const TONE_META = {
+  pass: {
+    badge: "default" as const,
+    icon: CheckCircle2,
+    text: "text-primary",
+    ring: "ring-primary/40",
+  },
+  fail: {
+    badge: "destructive" as const,
+    icon: CircleX,
+    text: "text-destructive",
+    ring: "ring-destructive/40",
+  },
+  partial: {
+    badge: "warning" as const,
+    icon: CircleAlert,
+    text: "text-warning",
+    ring: "ring-warning/40",
+  },
+  unknown: {
+    badge: "secondary" as const,
+    icon: CircleAlert,
+    text: "text-muted-foreground",
+    ring: "ring-border",
+  },
+};
 
 export function GateVerdictTile({ project }: Props) {
   const [state, setState] = useState<LoadState>({ status: "loading" });
@@ -53,45 +79,65 @@ export function GateVerdictTile({ project }: Props) {
 
   if (state.status === "loading") {
     return (
-      <div className="gate-tile gate-tile--loading">
-        <span className="gate-tile__label">GATE</span>
-        <span className="gate-tile__verdict">…</span>
-      </div>
+      <Card className="w-72">
+        <CardHeader>
+          <CardTitle>Gate</CardTitle>
+        </CardHeader>
+        <CardContent className="flex items-center gap-2 text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin" />
+          <span className="text-sm">Loading...</span>
+        </CardContent>
+      </Card>
     );
   }
 
   if (state.status === "error") {
     return (
-      <div className="gate-tile gate-tile--error">
-        <span className="gate-tile__label">GATE</span>
-        <span className="gate-tile__verdict">UNAVAILABLE</span>
-        <span className="gate-tile__meta">{state.message}</span>
-      </div>
+      <Card className="w-72 ring-1 ring-destructive/40">
+        <CardHeader>
+          <CardTitle>Gate</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Badge variant="destructive">UNAVAILABLE</Badge>
+          <p className="mt-2 text-xs text-muted-foreground">{state.message}</p>
+        </CardContent>
+      </Card>
     );
   }
 
   if (state.status === "empty") {
     return (
-      <div className="gate-tile gate-tile--empty">
-        <span className="gate-tile__label">GATE</span>
-        <span className="gate-tile__verdict">NO RUNS YET</span>
-      </div>
+      <Card className="w-72">
+        <CardHeader>
+          <CardTitle>Gate</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Badge variant="secondary">NO RUNS YET</Badge>
+        </CardContent>
+      </Card>
     );
   }
 
   const { run } = state;
-  const duration =
-    run.duration_seconds !== null ? `${run.duration_seconds.toFixed(1)}s` : "n/a";
+  const tone = verdictTone(run.verdict);
+  const meta = TONE_META[tone];
+  const Icon = meta.icon;
+  const duration = run.duration_seconds !== null ? `${run.duration_seconds.toFixed(1)}s` : "n/a";
 
   return (
-    <div className="gate-tile" style={{ borderColor: verdictColor(run.verdict) }}>
-      <span className="gate-tile__label">GATE</span>
-      <span className="gate-tile__verdict" style={{ color: verdictColor(run.verdict) }}>
-        {verdictLabel(run.verdict)}
-      </span>
-      <span className="gate-tile__meta">
-        {duration} · {run.project} · {run.ts}
-      </span>
-    </div>
+    <Card className={cn("w-72 ring-1", meta.ring)}>
+      <CardHeader>
+        <CardTitle>Gate</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex items-center gap-2">
+          <Icon className={cn("h-5 w-5", meta.text)} />
+          <span className={cn("text-lg font-bold", meta.text)}>{verdictLabel(run.verdict)}</span>
+        </div>
+        <p className="mt-2 text-xs text-muted-foreground">
+          {duration} &middot; {run.project} &middot; {run.ts}
+        </p>
+      </CardContent>
+    </Card>
   );
 }

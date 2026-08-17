@@ -237,3 +237,5 @@ dashboard/src-tauri/capabilities | Tauri v2 capability manifest (default.json): 
 dashboard/src-tauri/src | Tauri app shell Rust source: commands.rs (the 7 IPC command handlers), lib.rs (invoke_handler registration), main.rs (binary entry)
 dashboard/web/src | React app source: App.tsx, ipc.ts (Tauri invoke bridge), types.ts (hand-mirrored Rust types), components/
 dashboard/web/src/components | React components; GateVerdictTile is the one implemented in slice 2
+dashboard/web/src/components/ui | shadcn/ui-pattern primitives (button, card, badge) built on Radix + class-variance-authority + tailwind-merge, customized from block/buzz's equivalent files
+dashboard/web/src/lib | Shared frontend utilities (cn() class-merge helper)
