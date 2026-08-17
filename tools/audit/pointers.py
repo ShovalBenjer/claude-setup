@@ -237,6 +237,22 @@ def scan(roots: list[str], settings_files: list[str]) -> list[dict]:
         for event, path in hook_paths(settings):
             local = win(path)
             if not os.path.exists(local):
+                # A WSL-loopback UNC target that translation left UNCHANGED means
+                # this host has no WSL side to look in (a bare-Linux CI runner).
+                # Unreachable is not missing: the same L-2026-07-31-g class the
+                # hostpaths module exists for, so it reports at medium as its own
+                # kind instead of failing the branch for a file only the
+                # operator's machine can verify. On the machine that CAN reach
+                # it, translation rewrites the path and a real absence still
+                # reports wired-missing at high.
+                if str(local) == path and re.match(
+                        r"^\\\\wsl(?:\.localhost|\$)\\", path):
+                    findings.append({
+                        "kind": "wired-unverifiable", "severity": MED, "file": sf,
+                        "target": path,
+                        "note": "{} hook: WSL UNC target, no WSL side on this "
+                                "host to verify it against".format(event)})
+                    continue
                 findings.append({
                     "kind": "wired-missing", "severity": HIGH, "file": sf,
                     "target": path,
@@ -350,20 +366,49 @@ def report(findings: list[dict], out_path: str | None) -> None:
         print("\nfull list: {} ({} row(s))".format(out_path, len(findings)))
 
 
+def say_which_settings(settings: list[str], live: str, include_live: bool) -> None:
+    """State whether the file Claude Code actually executes was among them.
+
+    Measured 2026-08-07, and this is the whole reason the function exists. Three
+    agents were spawned in one turn and every one reported the same hook error:
+    `~/.claude/settings.json` wires a PostToolUse hook at
+    `tools/intent/spawn_log.py`, a file that did not exist. This scan is the
+    oracle for exactly that defect and it had been reporting PASS, because the
+    contract ran it without --include-live, so it audited the committed payload
+    copy of settings.json rather than the live one. The payload copy does not
+    even carry a PostToolUse section, so the broken hook was not merely missed,
+    it was outside the file being read.
+
+    A scan that reads a different file from the one that runs is not a weaker
+    check, it is a check of something else wearing the same name. Printing which
+    file was read is the minimum that keeps a PASS honest about its own scope.
+    """
+    if not include_live:
+        print("\n  NOT SCANNED: the live settings at {}. This run read the committed payload "
+              "copy only, and the payload is not what Claude Code executes. Pass "
+              "--include-live to audit the file that runs.".format(live))
+    elif not os.path.exists(live):
+        print("\n  SKIP live settings: no file at {} (expected on CI). Hooks wired only in the "
+              "live tree were NOT checked on this host.".format(live))
+    else:
+        print("\n  live settings read: {}".format(live))
+
+
 def cmd_scan(a: argparse.Namespace) -> int:
     root = os.path.abspath(a.project)
     roots = [os.path.join(root, r) for r in (a.tree or
              ["dot-claude", "dot-codex", "dot-agents"])]
     settings = list(a.settings or [])
+    live = os.path.join(os.path.expanduser("~"), ".claude", "settings.json")
     if not settings:
         settings = [os.path.join(root, "dot-claude", "settings.json")]
         if a.include_live:
-            settings.append(os.path.join(os.path.expanduser("~"), ".claude",
-                                         "settings.json"))
+            settings.append(live)
     findings = scan(roots, settings)
     print("scanned {} tree(s) and {} settings file(s)".format(
         len([r for r in roots if os.path.isdir(r)]),
         len([s for s in settings if os.path.exists(s)])))
+    say_which_settings(settings, live, a.include_live)
 
     # A POINTER INTO THE LIVE HOME IS UNANSWERABLE WHERE THERE IS NO LIVE HOME.
     # Added 2026-08-05, the same day the `rules` domain was fixed for the identical
@@ -475,7 +520,10 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
                  "args": [p("hooks", "gone.py")]}]}],
             "Notification": [{"hooks": [
                 {"type": "command", "command": "powershell.exe",
-                 "args": ["-NoProfile", "-File", p("hooks", "real.sh")]}]}]}},
+                 "args": ["-NoProfile", "-File", p("hooks", "real.sh")]},
+                {"type": "command", "command": "powershell.exe",
+                 "args": ["-NoProfile", "-File",
+                          "\\\\wsl.localhost\\NoSuchDistro\\home\\x\\t.ps1"]}]}]}},
             open(settings, "w"))
 
         found = scan([tree], [settings])
@@ -484,6 +532,15 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
             by_kind.setdefault(f["kind"], []).append(f)
         tgts = {f["target"] for f in found}
 
+        check("an unreachable WSL UNC hook is unverifiable at medium, not missing",
+              any(f["kind"] == "wired-unverifiable" and f["severity"] == MED
+                  for f in found),
+              json.dumps([f for f in found if "wsl" in f.get("target", "").lower()],
+                         indent=1))
+        check("the unreachable UNC hook is NOT reported wired-missing",
+              not any("NoSuchDistro" in f.get("target", "")
+                      for f in by_kind.get("wired-missing", [])),
+              json.dumps(by_kind.get("wired-missing", []), indent=1))
         check("a wired hook that is a path is wired-hollow",
               any("hollow.sh" in f["target"] for f in by_kind.get("wired-hollow", [])),
               json.dumps(found, indent=1))

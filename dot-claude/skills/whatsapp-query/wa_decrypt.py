@@ -18,6 +18,8 @@ OUTPUT_DIR defaults to %LOCALAPPDATA%\\Temp\\wa-decrypted. The output holds ever
 message you have; treat it as sensitive. Nothing here is committed to git.
 """
 import ctypes, struct, hashlib, sys, os, glob, shutil
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import wa_store
 from ctypes import wintypes, c_void_p, byref, POINTER, c_int, c_uint, create_string_buffer
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
@@ -149,8 +151,20 @@ def find_localstate():
     raise SystemExit("WhatsApp Desktop package not found under %LOCALAPPDATA%\\Packages")
 
 
+def default_outdir():
+    return os.path.join(os.environ["LOCALAPPDATA"], "Temp", "wa-decrypted")
+
+
 def main():
-    outdir = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.environ["LOCALAPPDATA"], "Temp", "wa-decrypted")
+    args = [a for a in sys.argv[1:] if a != "--purge"]
+    outdir = args[0] if args else default_outdir()
+    if "--purge" in sys.argv[1:]:
+        n = wa_store.purge(outdir)
+        print("purged {} ({} file(s))".format(outdir, n) if n else "nothing to purge at " + outdir)
+        return
+    gone = wa_store.purge(outdir)
+    if gone:
+        print("purged {} file(s) from a previous run before writing".format(gone))
     os.makedirs(outdir, exist_ok=True)
     ls = find_localstate()
     sess_dir = None
@@ -205,8 +219,12 @@ def main():
             with open(out, "wb") as f:
                 f.write(dec)
             print(f"wrote {out} ({len(dec)} bytes)")
+    wa_store.stamp(outdir)
     print(f"\nDone. Decrypted store in: {outdir}")
     print("This contains all your messages. It is local only; do not commit or share it.")
+    print("It expires in {} minutes: wa_query refuses to read it after that and deletes it."
+          .format(int(wa_store.DEFAULT_TTL_SECONDS // 60)))
+    print("To remove it now: python wa_decrypt.py --purge")
 
 
 if __name__ == "__main__":

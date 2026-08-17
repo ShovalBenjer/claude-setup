@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "split",
+ "verdict_class": "split",
+ "absorption_status": "unreviewed",
  "why": "The dominant design -- real temp git repos, real subprocess/importlib against the actual scripts, no mocks -- is correct for dev-tooling oracles and should not be replaced. The one real opening is Hypothesis on the safety_gate denylist and codemap escaper, free since it already resolves through the sibling env. pytest-randomly/xdist are reasonable but blocked on this dir having no dependency manifest of its own.",
  "alternatives": [
   {

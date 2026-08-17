@@ -102,3 +102,11 @@ measured against the axes the fable falsifier named. The trial in progress is th
 first one with a stated acceptance condition, and that condition is operator
 judgement rather than a ledger, so it will not produce a comparable number unless
 `state/handback-log.jsonl` and `state/gate-runs.jsonl` are read at the end of it.
+
+## Correction 2026-08-12: available roster (operator-stated)
+
+Opus 5 is no longer available. The roster is: `claude-fable-5` (session default,
+saved 2026-08-12), `claude-sonnet-5`, Opus 4.6, and `claude-haiku-4-5` (which the
+operator flags as highly underused; route inventory, extraction, classification,
+and cheap-oracle work there deliberately). Every `opus-5` route above reads as
+Opus 4.6 until the table is refit. The pricing row for opus-5 is stale with it.

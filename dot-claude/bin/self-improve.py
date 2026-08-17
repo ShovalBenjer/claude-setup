@@ -24,7 +24,25 @@ SKILLS = HOME / ".claude" / "skills"
 # Reachability + reflect-prompt logic lives in the tested intent-control-plane package
 # (src/intent_control_plane/harness/self_improve.py), so it is regression-guarded, not
 # duplicated untested glue. This file keeps the I/O and imports the pure functions.
-sys.path.insert(0, str(HOME / "projects" / "intent-control-plane" / "src"))
+#
+# This file is payload (dot-claude/bin/self-improve.py) deployed to ~/.claude/bin/, but it
+# is also runnable straight out of a claude-setup checkout at dot-claude/bin/self-improve.py,
+# two levels below the repo root, matching tools/bus/backfill_session_telemetry.py and
+# tools/intent/capture_turn.py. It used to insert $HOME/projects/intent-control-plane/src,
+# a path that has never existed on this machine (there is no ~/projects at all), so the
+# import below always raised ModuleNotFoundError with no indication of what was tried.
+# Resolve repo-relatively instead, and fail loudly and specifically if that resolution is
+# wrong, rather than falling through to a confusing import error two lines down.
+_ICP_SRC = Path(__file__).resolve().parents[2] / "intent-control-plane" / "src"
+if not _ICP_SRC.is_dir():
+    raise SystemExit(
+        f"self-improve.py: intent-control-plane/src not found at {_ICP_SRC} "
+        f"(resolved as ../../intent-control-plane/src from {Path(__file__).resolve()}). "
+        "This script must run from inside a claude-setup checkout that still has that "
+        "layout; a deployed ~/.claude/bin/self-improve.py with no adjacent repo cannot "
+        "resolve it and should not silently import nothing."
+    )
+sys.path.insert(0, str(_ICP_SRC))
 from intent_control_plane.harness.router import routed_skill_names
 from intent_control_plane.harness.self_improve import build_reflect_prompt, unreachable_skills
 

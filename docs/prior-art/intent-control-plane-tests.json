@@ -3,6 +3,8 @@
  "reviewed": "2026-07-25",
  "recheck_after": "2026-10-23",
  "verdict": "split",
+ "verdict_class": "split",
+ "absorption_status": "unreviewed",
  "why": "Keep the example/integration majority: real subprocess CLI, real sqlite, injected clock, tmp_path isolation, no mocks is house-correct for a local CLI with no HTTP surface. Extend the ALREADY-adopted hypothesis (no new dependency) to the one under-tested security function, util.py's redactor, proven only by one hand-picked example with one of three regexes never exercised. Add syrupy for the dashboard render only checked for non-emptiness. pytest-randomly/xdist are cheap opportunistic adds, not urgent (34s green suite).",
  "alternatives": [
   {

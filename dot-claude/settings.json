@@ -1,11 +1,50 @@
 {
+  "cleanupPeriodDays": 3650,
   "skillListingBudgetFraction": 0.02,
   "env": {
-    "API_TIMEOUT_MS": "600000"
+    "API_TIMEOUT_MS": "600000",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-5",
+    "_comment_subagent_model": "Set 2026-08-08. hive-mind-workflows.md has prescribed this line since it was written: 'Keep CLAUDE_CODE_SUBAGENT_MODEL=claude-sonnet-5 so spawned agents do not accidentally inherit expensive Opus/Fable lead sessions.' It was never actually set. Measured consequence: on 2026-08-07 three agents spawned from an opus[1m] lead inherited opus for two literature refreshes and one repo measurement, roughly 357k subagent tokens, all three of which model-selection.md routes to sonnet. Per-call model= on the Agent tool still overrides this for the cases that genuinely need opus, which the routing table names as adversarial verification and judge stages."
   },
   "permissions": {
-    "defaultMode": "acceptEdits",
-    "disableBypassPermissionsMode": "disable",
+    "allow": [
+      "Bash(gh api repos/ShovalBenjer/*)",
+      "Bash(gh repo list*)",
+      "Bash(gh repo view*)",
+      "Bash(gh pr list*)",
+      "Bash(gh pr view*)",
+      "Bash(gh run list*)",
+      "Bash(gh run view*)",
+      "Bash(git status*)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(git show*)",
+      "Bash(git rev-parse*)",
+      "Bash(git ls-files*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(python*)",
+      "Bash(uv run*)",
+      "Bash(uv sync*)",
+      "WebFetch",
+      "WebSearch",
+      "Bash(git push*)",
+      "Bash(git rebase*)",
+      "Bash(git branch*)",
+      "Bash(git stash*)",
+      "Bash(git worktree*)",
+      "Bash(git fetch*)",
+      "Bash(git checkout*)",
+      "Bash(git merge*)",
+      "Bash(gh pr*)",
+      "Bash(gh run*)",
+      "Bash",
+      "Edit(~/.claude/hooks/**)",
+      "Edit(~/.claude/settings.json)",
+      "Edit(~/.claude/skills/**)",
+      "Edit(~/.claude/rules/**)",
+      "Edit(~/.claude/agents/**)"
+    ],
     "deny": [
       "Bash(rm -rf /*)",
       "Bash(rm -rf $HOME*)",
@@ -59,42 +98,52 @@
       "Read(**/*.pem)",
       "Read(**/*.key)"
     ],
-    "allow": [
-      "Bash(git push*)",
-      "Bash(git rebase*)",
-      "Bash(git branch*)",
-      "Bash(git stash*)",
-      "Bash(git worktree*)",
-      "Bash(git fetch*)",
-      "Bash(git checkout*)",
-      "Bash(git merge*)",
-      "Bash(gh pr*)",
-      "Bash(gh run*)"
+    "defaultMode": "bypassPermissions",
+    "_comment_allow": [
+      "Read-only and self-owned operations pre-approved so NON-INTERACTIVE runs can",
+      "work. On 2026-07-26 three scheduled learning-platform sessions died identically:",
+      "gh, WebFetch, WebSearch, python and git all returned 'requires approval' and the",
+      "sessions reported 'this session is non-interactive, so approval cannot be",
+      "obtained'. The council run, the corpus diff and the critic post never executed.",
+      "53 deny rules with zero allow rules is correct for interactive work and fatal for",
+      "automation, where ask means die. Every entry below is either read-only, or a",
+      "write confined to this operator's own repositories. Nothing here weakens a deny",
+      "rule: deny is evaluated first and still wins.",
+      "",
+      "2026-08-07, operator instruction: 'change settings so change hooks is allowed, and",
+      "not needed my bash approval. I want autonomus.' Two separate gaps were open. The",
+      "allow list enumerated individual git and gh subcommands, so any bash outside those",
+      "30 patterns fell through to a prompt even though defaultMode is bypassPermissions;",
+      "bare Bash now covers the tool. And the live tree under ~/.claude had no Edit or",
+      "Write entry at all, so touching a hook, skill, rule or agent asked every time,",
+      "which is the surface this operator most often changes.",
+      "",
+      "This does NOT weaken the deny list, which is evaluated first and still wins, and it",
+      "does not touch the PreToolUse hookgate binary, which independently blocks recursive",
+      "deletion, hard resets, forced clean, bare force-push, remote ref deletion, checkout",
+      "and restore forms that discard a worktree, curl-piped-to-shell, and reads of likely",
+      "credential files. Credential paths stay denied for both Read and Edit. The autonomy",
+      "granted here is breadth of ordinary commands, not permission to run dangerous ones."
     ]
   },
-  "model": "opus",
-  "statusLine": {
-    "type": "command",
-    "command": "python C:/Users/shova/.claude/statusline.py",
-    "padding": 0
-  },
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "SessionStart": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "command": "bash",
             "args": [
-              "/c/Users/shova/.claude/hooks/session-recall.sh"
+              "/home/shov/.claude/hooks/session-recall.sh"
             ],
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "python",
+            "command": "python3",
             "args": [
-              "C:\\Users\\shova\\claude-setup\\tools\\bus\\bus.py",
+              "/home/shov/claude-setup/tools/bus/bus.py",
               "inbox"
             ],
             "timeout": 10
@@ -108,19 +157,44 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python",
-            "args": [
-              "C:\\Users\\shova\\.claude\\hooks\\safety_gate.py"
-            ],
+            "command": "/home/shov/claude-setup/tools/hookgate/target/release/hookgate",
             "timeout": 5
           },
           {
             "type": "command",
-            "command": "python",
+            "command": "python3",
             "args": [
-              "C:\\Users\\shova\\.claude\\hooks\\pre_push_gate.py"
+              "/home/shov/.claude/hooks/pre_push_gate.py"
             ],
             "timeout": 90
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": [
+              "/home/shov/.claude/hooks/skill-usage-log.sh"
+            ],
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3",
+            "args": [
+              "/home/shov/claude-setup/tools/intent/spawn_log.py"
+            ],
+            "timeout": 10
           }
         ]
       }
@@ -130,9 +204,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "command": "bash",
             "args": [
-              "/c/Users/shova/.claude/hooks/precompact-handoff.sh"
+              "/home/shov/.claude/hooks/precompact-handoff.sh"
             ],
             "timeout": 10
           }
@@ -144,19 +218,35 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python",
+            "command": "python3",
             "args": [
-              "C:\\Users\\shova\\.claude\\hooks\\completion_gate.py"
+              "/home/shov/.claude/hooks/completion_gate.py"
             ],
             "timeout": 8
           },
           {
             "type": "command",
-            "command": "python",
+            "command": "python3",
             "args": [
-              "C:\\Users\\shova\\.claude\\hooks\\ship_gate_stop.py"
+              "/home/shov/.claude/hooks/ship_gate_stop.py"
             ],
             "timeout": 20
+          },
+          {
+            "type": "command",
+            "command": "python3",
+            "args": [
+              "/home/shov/.claude/hooks/prior_art_gate.py"
+            ],
+            "timeout": 8
+          },
+          {
+            "type": "command",
+            "command": "python3",
+            "args": [
+              "/home/shov/.claude/hooks/drift_notify_stop.py"
+            ],
+            "timeout": 8
           }
         ]
       }
@@ -172,7 +262,7 @@
               "-ExecutionPolicy",
               "Bypass",
               "-File",
-              "C:\\Users\\shova\\.claude\\hooks\\notify-toast.ps1"
+              "\\\\wsl.localhost\\Ubuntu\\home\\shov\\.claude\\hooks\\notify-toast.ps1"
             ],
             "timeout": 15,
             "statusMessage": "Raising Windows toast",
@@ -186,22 +276,26 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python",
+            "command": "python3",
             "args": [
-              "C:\\Users\\shova\\claude-setup\\tools\\bus\\bus.py",
+              "/home/shov/claude-setup/tools/intent/capture_turn.py"
+            ],
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python3",
+            "args": [
+              "/home/shov/claude-setup/tools/bus/bus.py",
               "inbox"
             ],
             "timeout": 10
-          }
-        ]
-      },
-      {
-        "hooks": [
+          },
           {
             "type": "command",
-            "command": "python",
+            "command": "python3",
             "args": [
-              "C:\\Users\\shova\\claude-setup\\tools\\intent\\capture_turn.py"
+              "/home/shov/.claude/hooks/route.py"
             ],
             "timeout": 10
           }
@@ -209,14 +303,26 @@
       }
     ]
   },
+  "worktree": {
+    "baseRef": "head"
+  },
   "workflowKeywordTriggerEnabled": true,
-  "effortLevel": "high",
+  "outputStyle": "shoval",
+  "alwaysThinkingEnabled": false,
+  "effortLevel": "low",
+  "advisorModel": "opus",
+  "promptSuggestionEnabled": false,
+  "awaySummaryEnabled": false,
+  "askUserQuestionTimeout": "60s",
   "autoUpdatesChannel": "latest",
-  "skipDangerousModePermissionPrompt": false,
+  "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
-  "remoteControlAtStartup": true,
-  "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true,
-  "_effort_note": "Set to high on 2026-07-31. Three sources disagreed: this committed payload said xhigh, live ~/.claude/settings.json said low, and dot-claude/rules/model-selection.md prescribes high while recording the live value as the untested status quo. The low value was an operator trial opened 2026-07-29T22:39 whose stated acceptance condition was his own satisfaction; on 2026-07-31 he reported it at the floor, so the trial returned its verdict. Every failure it produced was one class, attention under a verification claim: a 350-line artifact published without ever being rendered while a browser was connected, mutation patterns written against guessed function names, three reads of a hook's `command` when the path lives in `args`, str.split fragmenting filenames with spaces, Preferences read instead of Secure Preferences, and three absence claims against namespaces never enumerated.",
-  "_pre_push_timeout_note": "REVERTED to 90s on 2026-07-31 the same hour it was cut to 10s. The 10s was sized from three samples averaging 161ms, and those samples measured the BAIL-OUT path: the hook's own internal subprocess timeouts are 5s, 20s and 8s, totalling 33s on the validation path, so a 10s outer budget would kill a credential audit midway and a truncated security gate fails open. Same error class as the hookgate benchmark earlier this session, which reported 14.85ms because the payload failed JSON parsing and main returned before doing any work. Twice in one session: measuring the cheap path and reporting it as the cost. 90s is not justified by a measurement either; it is justified by 33s of internal budget plus headroom, and the real number needs a timed run of an actual push against a repo with commits to audit."
+  "editorMode": "normal",
+  "verbose": false,
+  "autoCompactEnabled": true,
+  "switchModelsOnFlag": false,
+  "remoteControlAtStartup": false,
+  "inputNeededNotifEnabled": false,
+  "agentPushNotifEnabled": false,
+  "useAutoModeDuringPlan": false
 }

@@ -63,15 +63,19 @@ intent-control-plane/docs/analysis/2026-07-11-fleet-init-phase0.md | subproject
 intent-control-plane/docs/analysis/2026-07-11-widgora-tasks.md | subproject
 intent-control-plane/docs/analysis/2026-07-12-implementation-audit.md | subproject
 
-# ── home-dotfiles, the deployed-config payload tree ──────────────────────────
-home-dotfiles/AGENTS.md | living
-home-dotfiles/RTK.md | living
-home-dotfiles/TESTING-SOTA-2026-GAPS.md | dated-snapshot
-
 # ── tool READMEs ─────────────────────────────────────────────────────────────
 tools/hookgate/README.md | living
 tools/hookgate/bench/README.md | living
-startup-scripts/startup.md | living
+
+# ── state/retired-2026-08-12, home-dotfiles and startup-scripts archived per A3 ───────
+# Neither path falls under an auto-deriving class (not docs/, not work-docs/, no /skills/
+# etc.), and neither file declares its own Status: line, so both need a row here or they
+# read UNDECLARED. "salvage" per the vocabulary above: extracted from something retired,
+# frozen by definition, never updated again.
+state/retired-2026-08-12/home-dotfiles/AGENTS.md | salvage
+state/retired-2026-08-12/home-dotfiles/RTK.md | salvage
+state/retired-2026-08-12/home-dotfiles/TESTING-SOTA-2026-GAPS.md | salvage
+state/retired-2026-08-12/startup-scripts/startup.md | salvage
 
 # ── tool READMEs added 2026-07-30 by the parallel absorption run ──────────────
 tools/supply/README.md | living
@@ -103,3 +107,4 @@ AGENTS.md | living
 REVIEW.md | living
 docs/ESTATE-DIRECTORY-CATALOG.md | dated-snapshot
 .github/ISSUE_TEMPLATE/task.md | living
+docs/sagemaker-hyperpod.md | reference | fetched AWS doc page, dropped 2026-08-12 17:34 by a parallel session; belongs under docs/analysis or a corpus dir if kept

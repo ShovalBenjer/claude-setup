@@ -76,9 +76,40 @@ def repo_skills(root=None):
     return os.path.join(root or setup_root(), "dot-claude", "skills")
 
 
-def live_skills():
+def live_home():
     return os.path.join(os.environ.get("CLAUDE_LIVE_HOME") or os.path.expanduser("~"),
-                        ".claude", "skills")
+                        ".claude")
+
+
+def live_skills():
+    return os.path.join(live_home(), "skills")
+
+
+def live_settings():
+    return os.path.join(live_home(), "settings.json")
+
+
+def is_deployed_home():
+    """Is this ~/.claude a Claude installation, or just a directory of that name?
+
+    The distinction is the whole difference between a drift number and noise.
+    `pointers.py` learned it on 2026-08-05: its guard keyed on the DIRECTORY
+    existing, a runner creates the empty directory, and the domain went red on
+    the runner for a reason unrelated to what it checks. The fix there was to key
+    on settings.json instead, and the same guard was never brought here.
+
+    A remote container is the case that exposed it. `~/.claude/skills` exists and
+    holds a container's own skills, so the directory check passes, the survey
+    compares this repo against a tree that was never a deployment of it, and the
+    result is a large confident number about nothing. Measured 2026-08-10 on a
+    Claude Code container: DRIFT: 87 against the 28 the contract records, which
+    also drove the waiver's `confirm` string STALE and failed the domain.
+
+    A skills tree with no settings.json beside it is therefore unmeasurable
+    rather than drifted, which is exit 2, which gate.py already reads as
+    cannot-measure and records as waivers_unconfirmed.
+    """
+    return os.path.isfile(live_settings())
 
 
 def sha(path):
@@ -438,7 +469,22 @@ def cmd_check(a):
         print("cannot run: no repo skills tree at {}".format(repo_base))
         return 2
     if not os.path.isdir(live_base):
-        print("cannot run: no live skills tree at {}".format(live_base))
+        # Same shape as rules_sync: on a host with no live tree (CI) the
+        # deployment half is unanswerable, which is a fact about the runner and
+        # not about the repository. A foreign home below still returns 2,
+        # because "present but not ours" is a measurable wrongness.
+        print("SKIP drift: no live skills tree at {} (expected on CI). "
+              "Deployment drift was NOT checked on this host.".format(live_base))
+        return 0
+    if not is_deployed_home():
+        # Present but foreign. See is_deployed_home(): a directory named
+        # ~/.claude with no settings.json is not a deployment of this repo, and
+        # comparing against it produces a confident number about a tree nobody
+        # deployed.
+        print("cannot run: {} exists but there is no {}, so this ~/.claude is not "
+              "a deployment of this repo. Comparing against it would report drift "
+              "for a tree that was never synced from here.".format(
+                  live_base, live_settings()))
         return 2
     return report(survey(repo_base, live_base), repo_base, live_base, strict=a.strict)
 
@@ -704,6 +750,85 @@ def cmd_selftest(a):
         s = survey(r14, l14, root=root14)
         check([x[0] for x in s["drift"]] == ["pi"],
               "a real content difference is still drift after the EOL fix")
+
+        # Case 15: a ~/.claude that is a directory rather than a deployment.
+        # `check` must report cannot-measure (2), not a drift number, and the
+        # discriminator is settings.json rather than the skills directory. A
+        # runner and a container both create the directory; neither creates the
+        # settings file. Both directions are pinned, because a guard that only
+        # ever says "cannot measure" is as useless as one that never does.
+        home15 = os.path.join(tmp, "home15", ".claude")
+        os.makedirs(os.path.join(home15, "skills"), exist_ok=True)
+        write_skill(os.path.join(home15, "skills"), "rho", real_body("live text"))
+        prior = os.environ.get("CLAUDE_LIVE_HOME")
+        try:
+            os.environ["CLAUDE_LIVE_HOME"] = os.path.dirname(home15)
+            check(not is_deployed_home(),
+                  "a ~/.claude with skills but no settings.json is NOT a deployment")
+            with open(os.path.join(home15, "settings.json"), "w",
+                      encoding="utf-8") as fh:
+                fh.write("{}\n")
+            check(is_deployed_home(),
+                  "the same tree IS a deployment once settings.json exists")
+        finally:
+            if prior is None:
+                os.environ.pop("CLAUDE_LIVE_HOME", None)
+            else:
+                os.environ["CLAUDE_LIVE_HOME"] = prior
+
+        # Case 16: cmd_check itself returns 2 on a non-deployment home.
+        # Case 15 tests is_deployed_home() directly; this tests that cmd_check
+        # actually CALLS it and respects the answer. Without this, removing the
+        # `if not is_deployed_home()` guard from cmd_check survives.
+        home16 = os.path.join(tmp, "home16", ".claude")
+        os.makedirs(os.path.join(home16, "skills"), exist_ok=True)
+        prior = os.environ.get("CLAUDE_LIVE_HOME")
+        try:
+            os.environ["CLAUDE_LIVE_HOME"] = os.path.dirname(home16)
+            buf = io.StringIO()
+            class A16:
+                strict = False
+            with contextlib.redirect_stdout(buf):
+                rc16 = cmd_check(A16())
+            check(rc16 == 2,
+                  "cmd_check returns 2 (cannot-measure) on a non-deployment home")
+            os.environ["CLAUDE_LIVE_HOME"] = os.path.join(
+                os.path.dirname(home16), "no-such-home-at-all")
+            buf17 = io.StringIO()
+            with contextlib.redirect_stdout(buf17):
+                rc17 = cmd_check(A16())
+            check(rc17 == 0 and "SKIP drift" in buf17.getvalue(),
+                  "cmd_check SKIPs (exit 0) when no live tree exists at all, "
+                  "the CI shape")
+        finally:
+            if prior is None:
+                os.environ.pop("CLAUDE_LIVE_HOME", None)
+            else:
+                os.environ["CLAUDE_LIVE_HOME"] = prior
+
+        # Case 17: classify() edge cases for the two pointer branches.
+        # Branch 1: n <= POINTER_MAX_LINES, no dead paths. Without branch 1,
+        # this falls through to "thin" (no dead paths blocks branch 2).
+        # Branch 2: n < THIN_MAX_LINES with dead paths. Without branch 2,
+        # this falls through to "thin" (branch 3 has no dead check).
+        short_no_dead = os.path.join(tmp, "c17_a")
+        os.makedirs(short_no_dead, exist_ok=True)
+        with open(os.path.join(short_no_dead, "SKILL.md"), "w",
+                  encoding="utf-8") as fh:
+            fh.write("one line\n")
+        kind17a, n17a, _ = classify(os.path.join(short_no_dead, "SKILL.md"))
+        check(kind17a == "pointer" and n17a == 1,
+              "a 1-line skill with no dead path is pointer, not thin")
+
+        mid_with_dead = os.path.join(tmp, "c17_b")
+        os.makedirs(mid_with_dead, exist_ok=True)
+        with open(os.path.join(mid_with_dead, "SKILL.md"), "w",
+                  encoding="utf-8") as fh:
+            fh.write("\n".join("step {}".format(i) for i in range(10))
+                     + "\nSee /home/shovalbe/.codex/hooks/x.sh\n")
+        kind17b, n17b, dead17b = classify(os.path.join(mid_with_dead, "SKILL.md"))
+        check(kind17b == "pointer" and n17b == 11 and dead17b,
+              "an 11-line skill naming a dead path is pointer, not thin")
 
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

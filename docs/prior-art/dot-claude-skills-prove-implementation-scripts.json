@@ -3,6 +3,8 @@
  "reviewed": "2026-07-26",
  "recheck_after": "2026-10-24",
  "verdict": "split",
+ "verdict_class": "split",
+ "absorption_status": "unreviewed",
  "why": "Default is ours loses, and mostly does: benchmark section is schema-only, hand-typed candidate_results, no timer run; loop_audit.py's IO_MARKERS misses .fetchall()/.json()/ORM .all(), measuring nothing radon/scalene would for real. But git-commit+diff-hash state binding, wired into a live pre_push_gate.py hook, is governance none of the 9 alternatives do - they measure, none gates a push on a written comparison. Split: keep gate/schema/provenance; replace loop heuristic with radon/scalene; require benchmark fields from real pytest-benchmark/pyperf JSON via run-check, not hand-typed.",
  "alternatives": [
   {

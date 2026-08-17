@@ -380,11 +380,17 @@ class HookTests(unittest.TestCase):
             self.assertTrue(prepush.is_source(path), path)
 
     def test_utf8_hebrew_completion_and_non_completion(self) -> None:
-        blocked = run_hook(
+        # Contract changed 2026-08-12 by operator instruction: a completion claim
+        # without evidence NUDGES (visible systemMessage) instead of blocking,
+        # because ship_gate_stop.py enforces the same property against the run
+        # ledger and 211 blocks in 7 days were this reason alone. The check must
+        # still FIRE: a silent pass here would be the oracle going blind.
+        nudged = run_hook(
             "completion_gate.py",
             {"last_assistant_message": "הושלם והקוד עובד."},
         )
-        self.assertEqual(blocked.get("decision"), "block")
+        self.assertIsNone(nudged.get("decision"))
+        self.assertIn("Calibration nudge", nudged.get("systemMessage", ""))
         ordinary = run_hook(
             "completion_gate.py",
             {"last_assistant_message": "מדריך לעובדים חדשים."},

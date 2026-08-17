@@ -238,6 +238,52 @@ def proof_is_valid(root: Path, expected_state: dict[str, str | None]) -> bool | 
         return False
 
 
+SEPARATORS = re.compile(r"&&|\|\||[;\n|]")
+
+# Redirections are noise to every question this file asks, and they actively break
+# the split: `git push 2>&1 | tail -3` contains an `&`, so a separator set that
+# includes a bare `&` cuts the redirect in half and leaves `git push 2>` as the
+# segment, which matches no push form and asks. Stripped before segmenting rather
+# than after, so the separator pass never sees them.
+REDIRECT = re.compile(r"\s*\d?>>?\s*&?\s*[^\s;|&]+|\s*<\s*[^\s;|&]+")
+
+
+def push_segment(command: str) -> str | None:
+    """The one shell segment that pushes, or None if that is not what this is.
+
+    Added 2026-08-08 because the operator was still being prompted after the
+    proof branch was downgraded, and the cause was not the push at all. Every
+    recognised-form check here is a `fullmatch` against the WHOLE command
+    string, so `git push` alone passes and
+
+        git add -A; git commit -q -m msg; git push -q -u gh HEAD; echo pushed
+        git push 2>&1 | tail -3
+
+    both fail to match and ask, on the grounds of being an unrecognised push
+    form. They are not unrecognised pushes. They are recognised pushes inside a
+    compound command, and the parser had no way to say so.
+
+    Splitting on shell separators and returning the pushing segment lets the
+    existing checks run against the thing they were written for. It deliberately
+    does NOT widen what counts as safe: the segment still has to satisfy
+    SIMPLE_CURRENT_BRANCH_PUSH, still asks on main or master, and a wrapper such
+    as `sh -c 'git push'` still fails because the segment is the whole `sh -c`
+    call, which is not a push form.
+
+    Two or more pushing segments returns None, which falls back to matching the
+    entire string and therefore asks. A command that pushes twice is exactly the
+    shape worth a human read, and picking one of them would hide the other.
+
+    This cannot parse shell. A `git push` inside a quoted string or a heredoc is
+    seen as a segment and, failing to match the simple form, asks. That is the
+    same false positive hookgate documents and keeps on purpose: the failure
+    direction is a question nobody needed, not a push nobody saw.
+    """
+    segments = [s.strip() for s in SEPARATORS.split(REDIRECT.sub("", command))]
+    pushing = [s for s in segments if PUSH.search(s)]
+    return pushing[0] if len(pushing) == 1 else None
+
+
 def ask(reason: str) -> None:
     print(
         json.dumps(
@@ -250,6 +296,35 @@ def ask(reason: str) -> None:
             }
         )
     )
+
+
+def note(reason: str) -> None:
+    """Say it without stopping the push.
+
+    Changed 2026-08-08 on the operator's instruction that git should not prompt
+    him. This is deliberately not a removal: the reason still reaches stderr, it
+    simply no longer converts every push into a decision.
+
+    Why this particular check and not the others. The missing-proof branch fires
+    on any push carrying an unpushed source file with no valid
+    `.claude/proofs/current.json`. That file is real and `/prove-implementation`
+    really does write it, but producing it is a manual per-push ritual that is
+    not part of the flow, so in practice the branch fired on essentially every
+    substantive push. A gate that asks every time is not a gate, it is the
+    alarm-blindness failure the ledger already carries: the operator learns to
+    approve without reading, and the one push that genuinely needed a second
+    look is approved with the same reflex as the ninety before it.
+
+    What stays an ask, and why each earns it: a push aimed at main or master,
+    because ADR-0012 makes the deploy branch the one target that is never
+    automatic and it is rare enough to be worth a stop; and a push whose form
+    the parser does not recognise, because an unrecognised form is not a known
+    quantity being waved through. Separately, the hookgate binary still DENIES
+    bare force-push, remote ref deletion, mirror push and forced refspecs, and
+    a deny is not affected by anything here.
+    """
+    print(json.dumps({}))
+    print(reason, file=sys.stderr)
 
 
 def main() -> int:
@@ -265,6 +340,7 @@ def main() -> int:
     if not PUSH.search(command):
         print("{}")
         return 0
+    command = push_segment(command) or command
     if PROTECTED_TARGET.search(command):
         ask(
             "This push targets main or master directly. ADR-0012 says work ships through "
@@ -322,12 +398,13 @@ def main() -> int:
         return 0
 
     if source and proof is False:
-        ask("The implementation proof at .claude/proofs/current.json is invalid or incomplete. Review it before push.")
+        note("pre-push note: the implementation proof at .claude/proofs/current.json is "
+             "invalid or incomplete. Pushing anyway; run /prove-implementation if this "
+             "change deserves evidence bound to the commit.")
     elif source and proof is not True:
-        ask(
-            "This push changes behavior-affecting files but no valid, current-state-bound "
-            "implementation proof covers the change. Test-file presence alone is not execution evidence."
-        )
+        note("pre-push note: this push changes behavior-affecting files and no valid, "
+             "current-state-bound implementation proof covers them. Test-file presence "
+             "alone is not execution evidence. Pushing anyway.")
     else:
         print("{}")
     return 0

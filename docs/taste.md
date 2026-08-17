@@ -10,6 +10,7 @@ new row that supersedes it by date and say what changed.
 
 | Date | Decision | Pick | `p_conventional` | Reason |
 |---|---|---|---|---|
+| 2026-08-12 | Gastown coffee-break v2 design (cross-session social/serendipity mechanism); default was a scheduled random-pair chat on cron | Compose three: smoking area (frustration-triggered gripe sessions mined into TODO/lesson candidates), idea futures (sessions bet persona reputation on each other's riskiest assumptions, settled by gate/refute outcomes), and the flâneur (a standing gossip persona that walks ListAgents across clones and machines carrying news) | 0.10 / 0.20 / 0.35 | Chatter must be causally attached to real signal: complaints ride failure telemetry, bets settle against oracles, and the courier replaces fetch-before-working with a character. The rejected default (p 0.75) and the overhearing wall (p 0.05) lost for having no stakes. |
 | 2026-07-29 | Tamper-evidence for `state/prompt-tickets.jsonl`, given that `bus.py::canonical()` hashes a fixed `CHAIN_FIELDS` tuple that covers none of a ticket's content fields | Self-describing rows: each row carries `chain_fields`, and `canonical()` hashes the named fields plus the list itself | 0.10 | A row becomes verifiable by a reader that knows no schema, and shrinking a row's coverage changes its hash instead of hiding. The rejected default put coverage in a constant far from the data, which is what let the original defect exist. |
 
 ## Notes on the 2026-07-29 pick
@@ -95,3 +96,24 @@ PNGs decode to exactly their expected glyph pixel counts, `kitten icat
 wrong `--logo` path raises `FileNotFoundError` out of `kitty/render_cache.py` while
 the real path is silent, which proves the watermark is rasterised rather than merely
 parsed. What is NOT verified is whether it looks good; that needs the operator's eyes.
+
+## 2026-08-05: how the six governance domains reach the satellite repos
+
+Five candidates, ordered weird-first. Picked #5 at p_conventional 0.12: **claude-setup
+runs one nightly sweep that gates all three repos with `gate.py --project`, and the
+satellites publish evidence rather than executing anything.**
+
+Losers and why: copying the six rows into each contract (0.85) is the default and was
+forbidden; a git submodule of `tools/` (0.55) ships the whole tree and is the thing people
+forget to update; a contract `extends:` a pinned git ref (0.35) is the tidy answer and
+needs new resolution code in gate.py; an installable `claude-harness` package (0.22) is
+the right long-term shape and turns a stale copy into a visible version number.
+
+The reason the tail candidate won is a measurement, not taste. Both satellites have **zero**
+rows in `state/gate-runs.jsonl`. Every other candidate assumes the satellite runs its own
+gate, and neither ever has. The inherited constraint being killed is that a gate must run
+inside the repo it gates; `gate.py` already takes `--project`, and ddl already reaches
+across repos, badly, into a stale clone.
+
+Transferable rule: when a mechanism has never once executed, do not improve its inputs.
+Move the execution somewhere that already runs.

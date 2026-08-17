@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-12T09:06:13.015434Z",
+  "repo_name": "claude-setup",
+  "scope": "base",
+  "base": "gh/main",
+  "bundle_sha256": "acbb8ff86043d1702cb437668318e56cca948e7a7f81b2116be09d99abb903ab",
+  "repository_state_sha256": "22d984d2ab74b32fbb957c0745eb95f6c6afeb53a13bd453225dd48b62482208",
+  "concurrent_change": true,
+  "errors": {
+    "repository": "repository changed during review; all verdicts discarded"
+  },
+  "overall": "unavailable",
+  "verdicts": {},
+  "independent_results": [],
+  "auto_apply": false
+}

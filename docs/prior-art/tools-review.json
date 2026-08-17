@@ -3,6 +3,8 @@
  "reviewed": "2026-07-26",
  "recheck_after": "2026-10-24",
  "verdict": "split",
+ "verdict_class": "split",
+ "absorption_status": "unreviewed",
  "why": "gate.py's review domain must reach a verdict for an arbitrary target project on a Windows/PowerShell machine with no paid services, without assuming the target has ANY tooling installed — that requirement genuinely justifies keeping a zero-config regex fallback for house-specific policy checks no security registry publishes (mobile CSS width, alt text, test.only/skip, SQL migrations with no WHERE). But the security persona's per-language vulnerability patterns (shell injection, SQL concat, dangerouslySetInnerHTML, eval, TLS-off, JWT-none, CORS wildcard) duplicate problems that an already-installed, zero-cost tool (ruff, with its S/T20/ERA rulesets sitting unused in this repo's own documented standard) and a free, LGPL, now-Windows-native AST registry (Opengrep) solve more broadly and structurally avoid the \"matched its own pattern definition\" bug class that regex-on-text cannot avoid by construction.",
  "alternatives": [
   {

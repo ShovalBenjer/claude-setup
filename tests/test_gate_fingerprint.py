@@ -45,6 +45,10 @@ def repo(tmp_path):
     (state / "gate-runs.jsonl").write_text('{"verdict": "PASS"}\n', encoding="utf-8")
     (state / "prompt-tickets.jsonl").write_text('{"ticket": "t0"}\n', encoding="utf-8")
     (state / "skill-use.jsonl").write_text('{"skill": "s0"}\n', encoding="utf-8")
+    (state / "routing.jsonl").write_text('{"route": "r0"}\n', encoding="utf-8")
+    (state / "agent-spawns.jsonl").write_text('{"spawn": "a0"}\n', encoding="utf-8")
+    (state / "prose-scores.jsonl").write_text('{"score": 0}\n', encoding="utf-8")
+    (state / "telemetry-published.txt").write_text("abc\n", encoding="utf-8")
     _run(["git", "add", "-A"], tmp_path)
     _run(["git", "commit", "-qm", "initial"], tmp_path)
     return tmp_path
@@ -140,6 +144,31 @@ class TestHarnessPerTurnOutputIsNotHashed:
         (repo / "state" / "prompt-tickets-archive.jsonl").write_text(
             '{"ticket": "old"}\n', encoding="utf-8")
         assert fp(repo) != before
+
+    def test_the_other_per_turn_ledgers_are_exempt(self, repo):
+        """Third finding of the same class, measured 2026-08-12 after the operator
+        named the cost ('the hook... really slows me down'): one estate-audit
+        session was forced through three full gate runs in 18 hours because
+        routing.jsonl (route.py, once per prompt), agent-spawns.jsonl
+        (spawn_log.py, once per Agent call) and prose-scores.jsonl moved the
+        fingerprint between done-claims while no gated content changed."""
+        before = fp(repo)
+        for name, row in (("routing.jsonl", '{"route": "r1"}'),
+                          ("agent-spawns.jsonl", '{"spawn": "a1"}'),
+                          ("prose-scores.jsonl", '{"score": 1}')):
+            led = repo / "state" / name
+            led.write_text(led.read_text(encoding="utf-8") + row + "\n",
+                           encoding="utf-8")
+        assert fp(repo) == before
+
+    def test_the_feed_cursor_is_exempt(self, repo):
+        """state/telemetry-published.txt is appended by the agent-feed systemd
+        timer every 30 minutes on a real post: a schedule the gated change does
+        not control, which is this exemption class's own definition."""
+        before = fp(repo)
+        cur = repo / "state" / "telemetry-published.txt"
+        cur.write_text(cur.read_text(encoding="utf-8") + "def\n", encoding="utf-8")
+        assert fp(repo) == before
 
 
 class TestRealChangesStillMoveTheFingerprint:
