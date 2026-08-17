@@ -488,6 +488,16 @@ five findings on this harness. Ranked by ratio of value to effort.
 - [ ] RT-4 Fixture provenance for `tools/skilleval` + one independent audit of the existing 5 before writing the next 42. Self-annotated labels are the BIRD defect (52.8% annotation errors there); expanding coverage without auditing labels scales the defect
 - [ ] RT-5 First metamorphic relation (start with codemap: renaming one directory must change exactly one row). The repo has mutation testing, which asks "can this check fail", and nothing that asks "is the output invariant under a transformation that must not change it". `grep -ril metamorphic tools/` returns zero implementations
 
+## EXT: external landscape gaps (docs/analysis/2026-08-17-external-landscape-comparison.md)
+
+Operator-ordered comparison against 7 talks, CommandCodeAI, deepseek-harness, and
+cordiverse/paper (2026-08-17). Seven adopt-ranked gaps; the cross-source signal is
+"the rule exists as prose while the oracle does not". Top three as tickets:
+
+- [ ] EXT-1 Append-only-write oracle for `state/*.jsonl`: a `tools/audit/` check that no writer rewrites a ledger row in place (convention today, checked by nothing)
+- [ ] EXT-2 Risk-classified pre-action guard: couple the-loop-may-act's MAY/MAY-NOT list to a PreToolUse check on push/merge/deploy verbs
+- [ ] EXT-3 Skill-routing accuracy as a measured number from `state/routing.jsonl` + `state/skill-use.jsonl` against the Gastown registry (router-vs-spawn agreement was 0 of 20 in the week to 2026-08-12)
+
 ## ABSORB: external resources evaluated but never absorbed
 
 Operator directive 2026-07-29: every external resource we look at must end in
