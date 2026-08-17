@@ -76,7 +76,8 @@ verifier third.
    carries the number the README cites.
 3. Curriculum write-up. The CELF plus KMS plus MinHash implementation is the
    account's best algorithmic evidence; a lesson unit in the learning platform
-   (see curriculum R1-08) sources directly from this code.
+   (see curriculum unit r1-token-budget-selection, R1-07) sources directly from
+   this code.
 
 ## new-recruit (lane B)
 
