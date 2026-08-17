@@ -44,10 +44,21 @@ agents, gate verdicts), built as a Tauri desktop app: Rust core, React front.
 
 ## Requirements added by the operator, 2026-08-17 (after the direction lock)
 
-- Capability modules with per-module on/off toggles; the meme-gen skill
-  (browser-driven Gemini/ChatGPT, tested live this date) is the first named
-  module.
+- Capability modules with per-module on/off toggles; the meme surface is the
+  first named module and it is TWO capabilities: the meme-gen skill
+  (browser-driven Gemini/ChatGPT creation, tested live this date) and the
+  operator's own ShovalBenjer/claude-memes-skills (Rust binary, Giphy GIFs
+  inline in the terminal, 22 curated events plus embedding-matched auto mode).
+  The integration seam for the dashboard is the latter's MCP mode
+  (`claude-memes mcp`, tools find_meme and play_meme over stdio); the UI calls
+  those rather than reimplementing selection.
 - A module showing open tasks can act: open Chrome and kickstart a cloud
   session (claude.ai/code) to work them. Outward actions from the dashboard
   inherit the-loop-may-act boundaries; kicking a session is allowed, merging
   and posting stay with the operator.
+- The communication surface implements the operator's Buzz mode catalogue
+  (recorded in dot-claude/rules/output-channel-routing.md, from his Gemini
+  research chat of this date): emoji-reaction acks, stickers/memes for social
+  register, inline diagrams and annotated screenshots, voice notes/TTS
+  briefings, interactive approval widgets, and code-native event rendering,
+  routed by the high-signal / social / deep-engineering / urgent policy.
