@@ -4,6 +4,12 @@ One TODO, grouped by layer, ticket-tagged (SETUP-OS + AUTO). Status mirrors
 docs/prd/claude-os.md and docs/prd/autonomy-ecosystem.md. Fresh session? Read
 docs/SESSION-BOOT.md first.
 
+## INV: unfinished-work inventory (docs/analysis/2026-08-15-unfinished-work-inventory.md)
+
+- [ ] INV-1 Execute the phased waterfall in
+  `docs/analysis/2026-08-15-unfinished-work-inventory.md` (Phase 0 operator decisions
+  first; Phase 2 quick hygiene is agent-doable).
+
 ## FOG: what a file-by-file sweep found that no status marker reported (2026-08-01)
 
 - [ ] **A secret reached a pushed commit and only the operator can finish removing it.**
