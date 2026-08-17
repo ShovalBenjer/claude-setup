@@ -8,3 +8,7 @@ pub mod gate_runs;
 pub mod stubs;
 
 pub use gate_runs::{read_gate_runs, GateRun, Verdict};
+pub use stubs::{
+    read_agent_spawns, read_bus, read_claims, read_routing, read_skill_use, AgentSpawn,
+    BusMessage, ClaimRow, RoutingEvent, SkillUse,
+};

@@ -2,7 +2,7 @@
 name = "dashboard"
 version = "0.1.0"
 edition = "2021"
-description = "Session dashboard Tauri shell (DASH-1). NOT a workspace member yet: tauri's build.rs requires GTK/webkit2gtk dev packages via pkg-config, unavailable in the sandbox this crate was authored in (glib-2.0.pc / gobject-2.0.pc missing, probed 2026-08-17). See dashboard/Cargo.toml and docs/prd/session-dashboard.md for the deferred-build note. Build this crate on a machine with `libgtk-3-dev`, `libwebkit2gtk-4.1-dev`, `libayatana-appindicator3-dev`, and `librsvg2-dev` installed (Tauri v2 Linux prerequisites)."
+description = "Session dashboard Tauri shell (DASH-1). Requires GTK/webkit2gtk dev packages via pkg-config: `libgtk-3-dev`, `libwebkit2gtk-4.1-dev`, `libayatana-appindicator3-dev`, and `librsvg2-dev` (Tauri v2 Linux prerequisites)."
 
 [lib]
 name = "dashboard_lib"

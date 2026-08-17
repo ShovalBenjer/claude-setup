@@ -2,7 +2,7 @@
 name = "dashboard-core"
 version = "0.1.0"
 edition = "2021"
-description = "Read-only ledger readers for the session dashboard (DASH-1 slice 2). No tauri dependency: this crate is consumed by src-tauri once that crate can build on a machine with GTK/webkit2gtk dev packages."
+description = "Read-only ledger readers for the session dashboard (DASH-1 slice 2). No tauri dependency: this crate is consumed by src-tauri."
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }

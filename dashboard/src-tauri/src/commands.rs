@@ -6,12 +6,6 @@
 //! corresponding stub reader in `dashboard-core` (or return an empty
 //! `Vec`/`None` for `list_projects`), so a frontend that wires them early
 //! gets a typed empty result, never a missing command or a panic.
-//!
-//! This module is NOT compiled by CI in this slice (see `dashboard/
-//! src-tauri/Cargo.toml`'s doc comment): `tauri` requires GTK/webkit2gtk
-//! system libraries this sandbox does not have. It is reviewed as source and
-//! becomes buildable once `dashboard/src-tauri` is added back to the
-//! workspace `members` list on a machine with those libraries installed.
 
 use dashboard_core::ledger::{
     gate_runs, read_agent_spawns, read_bus, read_claims, read_routing, read_skill_use, AgentSpawn,

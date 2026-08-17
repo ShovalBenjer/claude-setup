@@ -226,13 +226,14 @@ work-docs/root-cleanup-2026-05-28/data | Retired: raw data swept in the same 202
 work-docs/specs | Source-of-truth engineering specs and implementation-delta plans, dated 2026-04-15 through 2026-07-09
 work-docs/wiki | Mirrors an Azure DevOps wiki for a customer-support automation product: architecture, compliance, deployment, FAQ pages
 work-docs/wiki-drafts | One draft wiki page not yet merged into the published wiki, dated 2026-06-30; the drafting lane is thin so far
-dashboard | DASH-1 session dashboard (Tauri v2 + React), slice 2: read-only ledger readers over state/*.jsonl, gate-verdict IPC command and tile. src-tauri is source-only and not a workspace member in this sandbox (no GTK/webkit2gtk dev libs); dashboard-core (Rust, no tauri dep) is the buildable/tested part
-dashboard/core | Buildable Rust crate: LedgerReadReport<T> readers for state/*.jsonl, tolerant-by-construction (skip-and-count on malformed lines, never panics), no tauri dependency so it compiles standalone in this sandbox
+dashboard | DASH-1 session dashboard (Tauri v2 + React), slice 2: read-only ledger readers over state/*.jsonl, gate-verdict IPC command and tile. src-tauri compiles as a real workspace member (GTK/webkit2gtk dev libs installed 2026-08-17); dashboard-core (Rust, no tauri dep) is the buildable/tested part
+dashboard/core | Buildable Rust crate: LedgerReadReport<T> readers for state/*.jsonl, tolerant-by-construction (skip-and-count on malformed lines, never panics), no tauri dependency so it compiles standalone
 dashboard/core/src/ledger | One module per ledger file per the program design; gate_runs.rs is fully implemented and tested, stubs.rs covers the other five (claims, agent-spawns, skill-use, routing, bus) as empty-report stubs
-dashboard/src-tauri | Tauri v2 app shell source (commands, IPC handler registration, capabilities, tauri.conf.json); not a cargo workspace member here because tauri's build.rs needs system GTK/webkit2gtk this sandbox lacks; reviewed as source, wired into the workspace on a machine with those libs
+dashboard/src-tauri | Tauri v2 app shell source (commands, IPC handler registration, capabilities, tauri.conf.json); a cargo workspace member and compiles clean with system GTK/webkit2gtk installed
+dashboard/src-tauri/icons | Placeholder app icon (icon.png) required by tauri::generate_context! at build time; a real icon is a later-slice product-design decision, not this slice's scope
 dashboard/web | Standalone Vite + React + TypeScript frontend; builds independently of src-tauri via `npm run build`; GateVerdictTile is the one live tile in slice 2, styled toward the buzz design anchor named in the direction spec
 dashboard/core/src | Rust source for dashboard-core: lib.rs (LedgerReadReport, IpcError) plus the ledger/ submodule
-dashboard/src-tauri/capabilities | Tauri v2 capability manifest (default.json): read-only fs scope, no write/delete permission granted to any command
+dashboard/src-tauri/capabilities | Tauri v2 capability manifest (default.json): core:default only, no fs plugin permission (all reads happen inside Rust IPC commands, not a JS-facing fs plugin), no write/delete permission granted to any command
 dashboard/src-tauri/src | Tauri app shell Rust source: commands.rs (the 7 IPC command handlers), lib.rs (invoke_handler registration), main.rs (binary entry)
 dashboard/web/src | React app source: App.tsx, ipc.ts (Tauri invoke bridge), types.ts (hand-mirrored Rust types), components/
 dashboard/web/src/components | React components; GateVerdictTile is the one implemented in slice 2

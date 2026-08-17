@@ -1,5 +1,4 @@
 //! Tauri app entry (library form, matches the `tauri-cli` scaffold shape).
-//! Not compiled in this slice; see `commands.rs` doc comment.
 
 pub mod commands;
 
