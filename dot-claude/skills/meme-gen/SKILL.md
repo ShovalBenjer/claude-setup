@@ -15,10 +15,17 @@ hand; this skill automates the loop and adds guardrails.
    conversational context (a WhatsApp exchange, a session event, a gate
    verdict). Funny beats clever; specific beats generic.
 2. **Scrub before prompting.** The prompt sent to Gemini must contain NO
-   personal identifiers: no real names, phone numbers, faces of private people,
-   employer names, or message text verbatim. Recast the moment as a generic
-   scene ("a guy's hair clipper catches fire and fills the flat with soot"),
-   never as identified people. pii-scrubber rules apply to outbound prompts.
+   personal identifiers: no real names, phone numbers, employer names, or
+   message text verbatim. Recast the moment as a scene. pii-scrubber rules
+   apply to outbound prompts.
+2b. **Reference image (the 2026-08-17 correction: text-only scored ~100 on the
+   catch but missed the reference).** Default to grounding the meme on a real
+   photo when one fits: use the composer's plus control to attach, from Google
+   Photos (the operator's own account integration) or a local file the
+   operator names. Operator-picked photos of himself or photos he explicitly
+   approves are allowed; never auto-select photos of other people, and when in
+   doubt name the candidate photo and ask before attaching. The prompt then
+   says "use the attached photo as the subject/scene reference".
 3. **Drive Chrome.** Load claude-in-chrome tools via ToolSearch (one batched
    select). Engine rotation, operator-set 2026-08-17: default
    https://gemini.google.com; second engine https://chatgpt.com (free-tier
