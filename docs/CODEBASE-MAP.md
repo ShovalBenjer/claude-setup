@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-428 directories, 1918 tracked files, 0 without a stated purpose.
+428 directories, 1921 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -159,7 +159,7 @@ the same reason, one level down.
 | `dot-claude/bin` | 44 | Executable CLI scripts (shell/python/node) for provider switching, statusline rendering, Jira/PII/session utilities, and Gastown spawning; a few are stub pointers into the Codex... | registry |
 | `dot-claude/commands` | 7 | Slash-command markdown definitions (/diverge, /reground, /cdp, /commit-push-pr, /insights, /pickup-reviews, /slop) that Claude Code loads as user-invokable commands | registry |
 | `dot-claude/corpus` | 2 | Script and source whitelist that build a local SQLite FTS best-practices corpus (Google eng practices, Azure Well-Architected, OpenSSF, private docs) for Gastown/Claude retrieval | registry |
-| `dot-claude/hooks` | 32 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
+| `dot-claude/hooks` | 33 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
 | `dot-claude/output-styles` | 1 | Claude Code output styles, the native mechanism that shapes assistant prose BEFORE generation. Deployed to ~/.claude/output-styles. The alternative it replaces is policing the r... | registry |
 | `dot-claude/rules` | 25 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
 | `dot-claude/skills` | 0 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
@@ -423,7 +423,7 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `tools` | 7 | Holds this repo's operational tooling: top-level scripts (repo audit, token rollout, slop lint) plus one subdirectory per verification, automation, or coordination tool | registry |
 | `tools/antigravity` | 1 | The `agy` CLI, a local reimplementation of an Antigravity command line that does not exist as a binary on this machine; wraps the google-antigravity Python SDK behind the repo's... | registry |
-| `tools/audit` | 9 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
+| `tools/audit` | 11 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
 | `tools/audit/mutations` | 22 | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red | registry |
 | `tools/browser` | 2 | Hand-rolled Chrome DevTools Protocol client that launches a separate Chrome so the assistant can browse authenticated pages, screenshot, and eval JS that anonymous WebFetch cann... | registry |
 | `tools/bus` | 2 | Cross-terminal message bus (bus.py): append-only hash-chained JSONL with per-lane read cursors so parallel Claude Code sessions in different terminals can send each other durabl... | registry |
