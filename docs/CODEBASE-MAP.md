@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-428 directories, 1918 tracked files, 0 without a stated purpose.
+428 directories, 1919 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -159,7 +159,7 @@ the same reason, one level down.
 | `dot-claude/bin` | 44 | Executable CLI scripts (shell/python/node) for provider switching, statusline rendering, Jira/PII/session utilities, and Gastown spawning; a few are stub pointers into the Codex... | registry |
 | `dot-claude/commands` | 7 | Slash-command markdown definitions (/diverge, /reground, /cdp, /commit-push-pr, /insights, /pickup-reviews, /slop) that Claude Code loads as user-invokable commands | registry |
 | `dot-claude/corpus` | 2 | Script and source whitelist that build a local SQLite FTS best-practices corpus (Google eng practices, Azure Well-Architected, OpenSSF, private docs) for Gastown/Claude retrieval | registry |
-| `dot-claude/hooks` | 32 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
+| `dot-claude/hooks` | 33 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
 | `dot-claude/output-styles` | 1 | Claude Code output styles, the native mechanism that shapes assistant prose BEFORE generation. Deployed to ~/.claude/output-styles. The alternative it replaces is policing the r... | registry |
 | `dot-claude/rules` | 25 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
 | `dot-claude/skills` | 0 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
