@@ -501,9 +501,9 @@ Operator-ordered comparison against 7 talks, CommandCodeAI, deepseek-harness, an
 cordiverse/paper (2026-08-17). Seven adopt-ranked gaps; the cross-source signal is
 "the rule exists as prose while the oracle does not". Top three as tickets:
 
-- [ ] EXT-1 Append-only-write oracle for `state/*.jsonl`: a `tools/audit/` check that no writer rewrites a ledger row in place (convention today, checked by nothing)
-- [ ] EXT-2 Risk-classified pre-action guard: couple the-loop-may-act's MAY/MAY-NOT list to a PreToolUse check on push/merge/deploy verbs
-- [ ] EXT-3 Skill-routing accuracy as a measured number from `state/routing.jsonl` + `state/skill-use.jsonl` against the Gastown registry (router-vs-spawn agreement was 0 of 20 in the week to 2026-08-12)
+- [x] EXT-1 Append-only-write oracle for `state/*.jsonl`: `tools/audit/append_only.py` (static scan for truncating writers + git-history line-count check), `selftest` green, `check` clean against this repo
+- [x] EXT-2 Risk-classified pre-action guard: `dot-claude/hooks/pretooluse-risk-guard.py`, payload-only (not wired into settings.json), `selftest` green
+- [x] EXT-3 Skill-routing accuracy as a measured number: `tools/audit/routing_accuracy.py report`, reads `state/agent-spawns.jsonl` (router_named vs subagent_type) + `state/routing.jsonl` (activation volume); measured live 2026-08-17: 1/6 (17%) overall spawn agreement, 31/37 spawns with no router_named on record
 
 - [ ] EXT-4 block/buzz follow-ups (docs/analysis/2026-08-17-repo-compare-block-buzz.md): WATCH rows for the ACP agent/tool protocol split and Nostr-signed per-agent audit events; re-check when a multi-agent server host or multi-principal threat model lands here
 
