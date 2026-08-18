@@ -11,11 +11,12 @@ import { TONE_DOT_CLASS, type StatusTone } from "../lib/status";
 // session -- no browser/web-fetch tool was available here; see the PR
 // description for that gap named plainly). cmux's rail is one narrow
 // tab per session (branch, cwd, a status/notification indicator), not a
-// wide labeled menu. This rail keeps that shape: fixed ~56px width, one
+// wide labeled menu. This rail keeps that shape: fixed 64px width, one
 // entry per wired data-source (not per invented "session", since no
 // session-scoped reader exists in dashboard/core -- agent-spawns' own
-// reader is a zero-field stub), icon-only by default with a name+detail
-// flyout on hover/focus, and a small status dot per entry sourced from
+// reader is a zero-field stub), icon plus a truncated label (not the
+// prior sidebar's full-width text row), a title attribute carrying the
+// full label + detail for hover, and a small status dot per entry sourced from
 // real gate-verdict data via RailEntry.tone (never a decorative color:
 // entries with no verdict data render the "unknown" muted tone, not a
 // fabricated pass).
@@ -76,8 +77,11 @@ function RailButton({
 }
 
 // cmux keeps its rail narrow (icon/compact width) rather than the wide
-// labeled sidebar this dashboard had; w-16 here is that same compact-width
-// call, not a wide menu with room for a settings row and a brand lockup.
+// labeled sidebar this dashboard had; w-16 (64px) here is that same
+// compact-width call, not a wide menu with room for a settings row and a
+// brand lockup. Each entry still carries a short truncated label under
+// the icon (not a strictly icon-only rail); the full label plus detail is
+// in the buttons title attribute for hover.
 export function Rail({
   entries,
   view,

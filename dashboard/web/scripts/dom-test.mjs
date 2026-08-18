@@ -84,7 +84,24 @@ async function bundleTestEntry() {
 
 function makeInvokeStub() {
   const gateReport = realGateRunRows(20);
-  const latestRun = gateReport.rows[gateReport.rows.length - 1] ?? null;
+  // Force a known verdict on the *latest* row rather than trusting
+  // whatever state/gate-runs.jsonl happens to end with (that tail is
+  // real but not deterministic across runs/branches). This is what makes
+  // the assertion below meaningful: gate-runs and overview dots must
+  // read exactly "fail" here, not merely "a valid tone", so the test
+  // proves the dot is actually wired to GateRun.verdict and not left at
+  // its "unknown" default.
+  const KNOWN_LATEST_VERDICT = "fail";
+  const gateReportWithKnownLatest = {
+    ...gateReport,
+    rows: gateReport.rows.length
+      ? [
+          ...gateReport.rows.slice(0, -1),
+          { ...gateReport.rows[gateReport.rows.length - 1], verdict: KNOWN_LATEST_VERDICT },
+        ]
+      : gateReport.rows,
+  };
+  const latestRun = gateReportWithKnownLatest.rows[gateReportWithKnownLatest.rows.length - 1] ?? null;
   const modules = [{ id: "meme", name: "Meme events", enabled: true }];
   const memeEvents = [
     { id: "ev-1", query: "tests failed", trigger: "gate:fail" },
@@ -95,7 +112,7 @@ function makeInvokeStub() {
       case "latest_gate_verdict":
         return latestRun;
       case "read_gate_runs":
-        return gateReport;
+        return gateReportWithKnownLatest;
       case "read_agent_spawns_cmd":
         return { rows: [], skipped: 0, total_lines: 0, first_error: null };
       case "list_modules":
@@ -194,6 +211,24 @@ async function main() {
   }
   if (spawnsDot && spawnsDot.getAttribute("data-status-dot") !== "unknown") {
     throw new Error(`agent-spawns rail dot must be "unknown" (reader is a stub), got "${spawnsDot.getAttribute("data-status-dot")}"`);
+  }
+
+  // Assert the gate-runs (and overview) rail dot is actually driven by
+  // GateRun.verdict, not merely present with a valid-looking tone. The
+  // stub above pins the latest row's verdict to a known value ("fail"),
+  // so this checks the rendered dot equals that exact tone -- a dot stuck
+  // at its "unknown" default would pass every other assertion in this
+  // file but fail this one.
+  const gateRunsDot = railDots.find((d) => d.closest("[data-rail-entry]")?.getAttribute("data-rail-entry") === "gate-runs");
+  if (!gateRunsDot) {
+    throw new Error("gate-runs rail entry has no status dot");
+  }
+  if (gateRunsDot.getAttribute("data-status-dot") !== "fail") {
+    throw new Error(`gate-runs rail dot must reflect the known latest verdict "fail", got "${gateRunsDot.getAttribute("data-status-dot")}"`);
+  }
+  const overviewDot = railDots.find((d) => d.closest("[data-rail-entry]")?.getAttribute("data-rail-entry") === "overview");
+  if (overviewDot && overviewDot.getAttribute("data-status-dot") !== "fail") {
+    throw new Error(`overview rail dot must reflect the same latest verdict, got "${overviewDot.getAttribute("data-status-dot")}"`);
   }
 
   console.log("PASS: all rail entries render distinct, non-empty content; no fabricated pass/fail dots on unwired sources");
