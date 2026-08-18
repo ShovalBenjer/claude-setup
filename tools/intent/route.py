@@ -207,7 +207,7 @@ def emit(decision: dict) -> str:
         "hookEventName": "UserPromptSubmit", "additionalContext": ctx}})
 
 
-def log(decision: dict, prompt_len: int) -> None:
+def log(decision: dict, prompt_len: int, session: str = "") -> None:
     """Append one routing row. No prompt text, only its length and the decision.
 
     Same discipline as tickets.py, which stores a text_sha and never the prompt: the
@@ -223,10 +223,32 @@ def log(decision: dict, prompt_len: int) -> None:
                 "personas": decision["personas"][:3],
                 "skills": decision["skills"][:8],
                 "matched": decision["matched"],
-                "session": os.environ.get("CLAUDE_SESSION_ID", ""),
+                # From the hook PAYLOAD, not from CLAUDE_SESSION_ID. That variable is
+                # not exported into hook env on this host, so every one of the first 54
+                # rows written here carried "session": "". spawn_log.py joins a spawn
+                # against the routing decision on exactly this field, so a blank one
+                # silently degraded every join to "newest row of any session", which with
+                # two parallel sessions compares a spawn against an unrelated prompt.
+                # capture_turn.py has read payload["session_id"] all along and its ledger
+                # has 428 rows with 0 blanks, so the working source was one file away.
+                "session": session,
             }, ensure_ascii=False) + "\n")
     except OSError:
         pass
+
+
+def registry_verdict(registry_present: bool) -> str:
+    """The verdict line, as a value. Pure, so both host shapes are reachable.
+
+    Inline, the no-registry branch is unreachable on a host that HAS a registry, and a
+    mutation replacing its text survived for exactly that reason. Same fix collect.py's
+    corpus_verdict got: a branch that cannot be exercised cannot be defended.
+    """
+    if registry_present:
+        return ("VERDICT: routing is deterministic, silent on no match, and names a real "
+                "owner")
+    return ("VERDICT (narrowed): routing is deterministic and silent on no match. NO live "
+            "registry was present, so whether it names a REAL owner was NOT measured.")
 
 
 def selftest() -> int:
@@ -269,7 +291,8 @@ def selftest() -> int:
     # The live registry must actually parse. A parser that works on a fixture and not on
     # the real file is the reason this check reads the real file.
     live = load_owners()
-    if REGISTRY.exists() and len(live) < 20:
+    registry_present = REGISTRY.exists()
+    if registry_present and len(live) < 20:
         failures.append("the live registry parsed to only {} owned skill(s), so the "
                         "shape assumption is wrong".format(len(live)))
 
@@ -322,10 +345,17 @@ def selftest() -> int:
     try:
         with tempfile.TemporaryDirectory() as td:
             LEDGER = Path(td) / "routing.jsonl"
-            log(route("deploy to prod", owners), len("deploy to prod"))
+            log(route("deploy to prod", owners), len("deploy to prod"),
+                "S-FROM-PAYLOAD")
             written = LEDGER.read_text(encoding="utf-8")
     finally:
         LEDGER = saved_ledger
+    if '"session": "S-FROM-PAYLOAD"' not in written:
+        failures.append("the routing ledger did not record the session it was GIVEN. "
+                        "spawn_log.py joins a spawn to a routing decision on this field, "
+                        "so a blank one degrades every join to `newest row of any "
+                        "session`, which with parallel sessions compares a spawn against "
+                        "an unrelated prompt")
     if "deploy to prod" in written:
         failures.append("the prompt TEXT was written to the routing ledger, which is "
                         "committed to git; tickets.py stores a sha for this reason")
@@ -335,6 +365,30 @@ def selftest() -> int:
 
     # THE HOOK EDGE MUST FAIL OPEN. It runs before every prompt.
     import io  # noqa: PLC0415
+
+    # main() END TO END against a real prompt, writing to a planted ledger. Without this
+    # the selftest only ever calls log() directly, so a mutation at main()'s CALL SITE
+    # (passing the prompt where its length belongs) is unreachable and survives.
+    saved_ledger2 = LEDGER
+    saved_stdin0 = sys.stdin
+    try:
+        with tempfile.TemporaryDirectory() as td2:
+            LEDGER = Path(td2) / "routing.jsonl"
+            sys.stdin = io.StringIO(json.dumps(
+                {"prompt": "please review the deploy plan", "session_id": "S-MAIN"}))
+            main([])
+            end_to_end = LEDGER.read_text(encoding="utf-8") if LEDGER.exists() else ""
+    finally:
+        LEDGER = saved_ledger2
+        sys.stdin = saved_stdin0
+    if "please review the deploy plan" in end_to_end:
+        failures.append("main() wrote the PROMPT TEXT into the routing ledger, which is "
+                        "committed to git")
+    if end_to_end and '"prompt_chars": 29' not in end_to_end:
+        failures.append("main() did not record the prompt LENGTH as a number; got {}"
+                        .format(end_to_end.strip()[:160]))
+    if '"session": "S-MAIN"' not in end_to_end:
+        failures.append("main() did not carry the payload session into the ledger")
 
     saved_stdin = sys.stdin
     try:
@@ -351,8 +405,18 @@ def selftest() -> int:
     if rc_bad != 0 or rc_odd != 0:
         failures.append("the hook edge returned nonzero on malformed input")
 
+    if registry_verdict(False) == registry_verdict(True):
+        failures.append("both host shapes report the same verdict, so a run that measured "
+                        "no live registry reads exactly like one that measured it")
+    if "NOT measured" not in registry_verdict(False):
+        failures.append("a run with no registry does not say what it failed to measure")
+    if "names a real owner" in registry_verdict(False).split("NO live")[0]:
+        failures.append("the narrowed verdict still CLAIMS it names a real owner, which "
+                        "is the claim it could not check. Saying `NOT measured` further "
+                        "down does not unmake an assertion already made")
+
     for line in failures:
-        print("  FAIL  " + line)
+        print("  [FAIL] " + line)
     if failures:
         print("VERDICT: {} check(s) failed".format(len(failures)))
         return 1
@@ -362,13 +426,17 @@ def selftest() -> int:
     print("  ok    personas are ordered by how many matched skills they own")
     print("  ok    the registry parser attributes skills to their heading, and to nothing "
           "when the registry is empty")
-    print("  ok    the LIVE registry parses to {} owned skill(s)".format(len(live)))
+    if registry_present:
+        print("  ok    the LIVE registry parses to {} owned skill(s)".format(len(live)))
+    else:
+        print("  NOT RUN  the live registry check: no file at {}. Whether real personas "
+              "parse out of it is unmeasurable here.".format(REGISTRY))
     print("  ok    the rendered context names a persona and the Agent tool")
     print("  ok    a skill listed twice keeps its FIRST owner, so ownership stays single")
     print("  ok    the emitted payload names the hook event, and a non-match emits nothing")
-    print("  ok    the routing ledger records length, never prompt text")
+    print("  ok    the routing ledger records length and the given session, never prompt text")
     print("  ok    the hook edge fails open on malformed and odd-typed input")
-    print("VERDICT: routing is deterministic, silent on no match, and names a real owner")
+    print(registry_verdict(registry_present))
     return 0
 
 
@@ -391,7 +459,7 @@ def main(argv: list[str]) -> int:
         payload = json.loads(sys.stdin.read() or "{}")
         prompt = str(payload.get("prompt", ""))
         decision = route(prompt)
-        log(decision, len(prompt))
+        log(decision, len(prompt), str(payload.get("session_id", "")))
         payload = emit(decision)
         if payload:
             print(payload)

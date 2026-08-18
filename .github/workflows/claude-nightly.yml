@@ -63,7 +63,9 @@ jobs:
             the PR. Write a PR body to .github/NIGHTLY_PR_BODY.md: what/why, how to
             verify, and which proposal/lesson id it advances. If nothing qualifies,
             change no files.
-          claude_args: "--max-turns 40"
+          # 40 hit error_max_turns on the 2026-08-17 02:34 run, same failure class
+          # claude-code-review.yml already fixed by raising to 60. Same remedy.
+          claude_args: "--max-turns 60"
 
       - name: Commit, push branch, open labeled PR
         if: ${{ steps.cap.outputs.open < 3 }}

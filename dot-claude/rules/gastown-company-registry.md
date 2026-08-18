@@ -261,6 +261,19 @@ task, not by novelty:
 - Diagrams for docs/PRs: `Mermaid Chart` validation, `Lucid` only for shared boards.
 - O'Reilly for book-grounded practice lookups (metadata/summary discipline applies).
 
+- Voice, TTS briefings, generated audio/media: `ElevenLabs` (verified live
+  2026-08-17, eleven_v3 through ffplay/WSLg; owned by Voice and Media Studio;
+  per-line credits, so briefings yes, long transcripts no).
+- Cross-app automation with no dedicated connector: `Zapier` (MCP and Tooling
+  Office; enable actions per use, never broadly).
+- AWS estate work, if any returns: `AWS` connector (Azure Ops Utility owns cloud
+  ops; AWS rows are read-only checks like the i-0a9036 instance question).
+
+Usage is measured as of 2026-08-17: every mcp__* call appends to
+state/connector-use.jsonl via the connector-usage-log.sh PostToolUse hook, the
+connector twin of skill-use.jsonl. A connector claimed as "wired" with zero rows
+there is prose, not wiring.
+
 Dormant by re-auth, operator-only fix from claude.ai settings: Coursera, Google Cloud
 BigQuery, Stack Overflow. Irrelevant to this estate's work and fine to ignore or
 disconnect: Booking.com, Tripadvisor, Dice, Indeed, ZipRecruiter, FMP, Twilio,

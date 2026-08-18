@@ -4,6 +4,13 @@ One TODO, grouped by layer, ticket-tagged (SETUP-OS + AUTO). Status mirrors
 docs/prd/claude-os.md and docs/prd/autonomy-ecosystem.md. Fresh session? Read
 docs/SESSION-BOOT.md first.
 
+Read `docs/PLAN-SPINE.md` before picking up cross-surface work: it is the one
+page connecting PRD to spec to current/next slice to ticket to % built, for
+harness-gate, autonomy/AUTO, dashboard/DASH, voice/VOICE,
+interpretability/Modal, persona-economy, intent-lifecycle, slm-swarm, and
+kanban. Written 2026-08-17 glue pass, after a sweep found 26 planning docs
+split BUILT 2 / PARTIAL 11 / PAPER 13 and no single spine.
+
 ## INV: unfinished-work inventory (docs/analysis/2026-08-15-unfinished-work-inventory.md)
 
 - [ ] INV-1 Execute the phased waterfall in
@@ -494,6 +501,29 @@ five findings on this harness. Ranked by ratio of value to effort.
 - [ ] RT-4 Fixture provenance for `tools/skilleval` + one independent audit of the existing 5 before writing the next 42. Self-annotated labels are the BIRD defect (52.8% annotation errors there); expanding coverage without auditing labels scales the defect
 - [ ] RT-5 First metamorphic relation (start with codemap: renaming one directory must change exactly one row). The repo has mutation testing, which asks "can this check fail", and nothing that asks "is the output invariant under a transformation that must not change it". `grep -ril metamorphic tools/` returns zero implementations
 
+## EXT: external landscape gaps (docs/analysis/2026-08-17-external-landscape-comparison.md)
+
+Operator-ordered comparison against 7 talks, CommandCodeAI, deepseek-harness, and
+cordiverse/paper (2026-08-17). Seven adopt-ranked gaps; the cross-source signal is
+"the rule exists as prose while the oracle does not". Top three as tickets:
+
+- [x] EXT-1 Append-only-write oracle for `state/*.jsonl`: `tools/audit/append_only.py` (static scan for truncating writers + git-history line-count check), `selftest` green, `check` clean against this repo
+- [x] EXT-2 Risk-classified pre-action guard: `dot-claude/hooks/pretooluse-risk-guard.py`, payload-only (not wired into settings.json), `selftest` green
+- [x] EXT-3 Skill-routing accuracy as a measured number: `tools/audit/routing_accuracy.py report`, reads `state/agent-spawns.jsonl` (router_named vs subagent_type) + `state/routing.jsonl` (activation volume); measured live 2026-08-17: 1/6 (17%) overall spawn agreement, 31/37 spawns with no router_named on record
+
+- [ ] EXT-4 block/buzz follow-ups (docs/analysis/2026-08-17-repo-compare-block-buzz.md): WATCH rows for the ACP agent/tool protocol split and Nostr-signed per-agent audit events; re-check when a multi-agent server host or multi-principal threat model lands here
+
+- [ ] DASH-1 Session dashboard, Tauri + React (docs/specs/2026-08-17-session-dashboard-direction.md): direction locked by operator 2026-08-17; build starts in its own worktree/PR, buzz clone as design anchor, ledger-read-only
+
+- [ ] DASH-1 slice 1, program design (docs/specs/2026-08-17-session-dashboard-program-design.md): Rust ledger types (tolerant, skip-and-count on malformed/unknown-schema rows, empirically grounded against a key-set scan of all six ledgers), Tauri IPC contract, React component tree, five-slice plan. Row 7 of docs/prd/session-dashboard.md closes on PR review, not on this file existing.
+
+- [x] GPU-C Open-model plan block C answered in practice (operator, 2026-08-17): Modal API key provisioned (~/.env plus ~/.modal.toml, profile shovalbenjer, auth verified via `uvx modal app list`; one prior app glimmer-lab deployed 2026-08-13). GPU bursts for the training-interpretability lane (SAE/crosscoder/KAN on small models, LoRA when the trajectory corpus is ready) run on Modal per burst; the spec's RunPod/Vast rows stand as fallback pricing, no monthly subscription, which was the spec's own recommendation
+- [ ] BILL-1 GitHub Actions billing wall (found 2026-08-17 post-merge of PR #74): hosted-runner jobs on every PR fail in seconds with "recent account payments have failed or your spending limit needs to be increased"; self-hosted jobs (gate, falsifiability) unaffected. Operator-only: Settings, Billing and plans. Blocks browser-instrument-selftest and supply-chain on PRs 75/76/78/79/80 and therefore blocks the standing auto-merge condition
+- [x] EXT-6 Connector-use ledger BUILT and wired live (2026-08-17): state/connector-use.jsonl fed by dot-claude/hooks/connector-usage-log.sh (PostToolUse matcher mcp__.*, deployed to live settings.json same turn, selftested with a synthetic payload). Registry gained rows for ElevenLabs, Zapier, AWS and the measured-usage clause. Census same date: ~24 servers surfaced, 10 routed, 11 ruled irrelevant, 2 ever actually called (claude-in-chrome, ElevenLabs); the ledger turns that from a one-off count into a running number
+- [ ] VOICE-1 Unified voice channel for the workstation (operator, 2026-08-17): replace the type-into-a-.txt loop with STT in and TTS out. Verified state from the interview-prep session, same date: TTS works today via Windows System.Speech (Zira, powershell say.sh); the voice-explainer/ElevenLabs path is DEAD (script missing, Seekapa-era key); STT is unwired because Win+H refuses Hebrew and cannot type into WSL terminals; the working stopgap is dictate-into-native-window then file-read via /mnt/c. Engine choice is an OPEN OPERATOR BLOCK per accepting-architectures: ElevenLabs Scribe realtime (~$0.39/audio hour, priced 2026-08-17) vs local Whisper (deferred once already) vs upgraded file-watch with auto-transcription. Constraint: do not touch the interview session's working loop before 2026-08-17 11:00. Update same date: their pipeline plan is on disk (~/docs/interviews/_pipeline/, plan.md holds the ElevenLabs opt-in operator block; reference that block, do not fork the decision), the operator endorsed Wispr Flow as preferred STT (pending confirmed install), and the channel-routing question is answered by the new rule dot-claude/rules/output-channel-routing.md. TTS engine update 2026-08-17 ~16:17: the ElevenLabs claude.ai MCP connector came online and a full loop was VERIFIED live (creative_generate_speech eleven_v3, voice Eric, mixed Hebrew+English, mp3 via ffplay through WSLg audio, 11.4s for ~142 credits about $0.05); the dead local generate-voice.py path is superseded by the connector, no local key needed, System.Speech stays the zero-cost fallback, and per-line pricing means briefings yes, long transcripts no
+
+- [ ] EXT-5 everything-claude-code watch items (docs/analysis/2026-08-17-repo-compare-everything-claude-code.md): the deterministic delivery-gate Stop-hook pattern (write the gap vs our completion_gate before adopting), the consolidated hook-dispatcher pattern (relevant to the unwired-hooks debt), and git-remote-hash project scoping as a manually-gated tool. Their instincts auto-rule-writer is IGNORE by decision, it contradicts accepting-architectures and calibrated-claims
+
 ## ABSORB: external resources evaluated but never absorbed
 
 Operator directive 2026-07-29: every external resource we look at must end in
@@ -534,6 +564,7 @@ deletes an existing row; these are the rows that were silently dropped.
   STILL OPEN, and it is the real work: 40 absorption reviews. This change makes them
   representable and dated. It does not do them.
 - [ ] ABSORB-01 ORIGINAL ROW, kept for the reasoning: the prior-art record schema cannot express absorption. All 27 records carry the same 14 fields (`verdict`, `why`, `strongest_counterargument`, `migration_loc`, `our_loc`, `recheck_after`, ...) and not one of them names what was taken from the alternative. So absorption is unrepresentable, therefore unchecked, therefore never happens. Add `absorbed` (what we took and the file it landed in) and `absorption_status` (absorbed / adopted / used-as-is / rejected-with-reason), backfill all 27 records, and have `codemap.py prior-art` fail on a record whose status is unset. Extends an oracle that already runs rather than adding a thirteenth domain (see the 4.2 warning in docs/reflections/2026-07-29-what-is-going-wrong.md)
+- [x] ABSORB-02a Dolt-as-database CLOSED, rejected with reasons (operator, 2026-08-17): Python access needs a standing dolt sql-server (violates no-unowned-server; the beads "Embedded Dolt" workaround is Go-only), and Dolt's content-addressed binary chunk store would replace today's PR-reviewable JSONL diffs with opaque blobs. Git-tracked JSONL already absorbs diff/history/blame. Full comparison in the 2026-08-17 DB-substrate research (session b771656c); the point-in-time reconstruction remainder stays open as ABSORB-02 below
 - [ ] ABSORB-02 DoltHub option (c), the deferred half. Three of Dolt's five features (diff, history, blame) were genuinely absorbed on 2026-07-25: `state/*.jsonl` is append-only in git, so `git show <rev>:state/x.jsonl` answers "what did this say on the 25th". The unabsorbed piece is point-in-time reconstruction for the ledgers that are gitignored and therefore have NO history at all, named in docs/analysis/2026-07-25-our-own-dolt.md section 4(c) as roughly 150 lines and deferred "only when a concrete need appears". It was never ticketed anywhere, which is how it got neglected. The concrete need now exists: `hiring_engine/ledger.sqlite` holds 272 jobs, 4 applications and 21 approvals with zero history (docs/analysis/2026-07-29-local-dependency-audit.md section 4). Lane B (resume) owns that ledger, so this is a lane-A proposal row, not lane-A work
 - [ ] ABSORB-03 albert (Sdraugel/albert), two mechanisms. Code reuse is blocked by PolyForm Noncommercial 1.0.0, so these get rebuilt, not copied: (a) git-worktree isolation per concurrent producer, which structurally kills the one-tree race that is open risk 1 and that fired again during this session's own verification run; (b) producers-never-grade-themselves enforced by role rather than asserted in prose, starting with the prior-art records, which are currently written and self-graded by their own author. Verdict and license reasoning in docs/analysis/2026-07-29-albert-prior-art-verdict.md
 - [x] ABSORB-04 just-my-skills coherence-governor, "steal one page". Recommended 2026-07-24 with the exact curl to run; the curl was never run and `docs/analysis/reference/` did not exist. DONE 2026-07-29: 419 lines saved to docs/analysis/reference/coherence-governor-AGENTS.md. The two pages worth taking are the 8-row Drift Sentinels table (line 262) and the 7-level Authority Order (line 43), both more compact than the equivalent scattered across five `.claude/rules/*.md` files. Merging either into calibrated-claims.md is a separate decision, not done here
@@ -691,9 +722,30 @@ Two rows above were CLOSED by the same measurement and are marked in place.
 
 ### Zion
 
-- [ ] ZION-01 BLOCKED(operator): the gh token has no `read:project` scope, so the live board could not be read or written this session. Unblock with `gh auth refresh -s read:project,project`, which needs an interactive browser step. `$BROWSER` is now bridged to Windows Chrome by `tools/wsl/bootstrap.sh`, so the device-code URL will open
-- [ ] ZION-02 Once ZION-01 clears, publish the rows above through the JSON, never by hand: edit `state/github-backlog-<date>.json`, then `python tools/ghpub/publish_backlog.py --update` (dry run), then `--execute`, then `zion_fields.py`. Rule from the Zion spec section 6: the JSON is edited, never the issue body, and a hand-set field is drift with no diff
-- [ ] ZION-03 The board's `Lane` field is a select of `B/C/D/E`. ADR-0016 renumbered the lanes to A/B/C/D on 2026-07-30. The board is one cutover behind the ADR, so every lane value on it is ambiguous in exactly the way `docs/charters.md` warns about
+- [x] ZION-01 **READ UNBLOCKED 2026-08-06.** The operator ran the refresh and the token now carries `read:project`. First live read of the board since 07-31: 31 items, 21 fields. **WRITE IS STILL BLOCKED**: `updateProjectV2` answers `INSUFFICIENT_SCOPES ... requires ['project']`, and the granted set is `gist, read:org, read:project, repo, workflow`. One more scope, `gh auth refresh -s project`, and it is operator-only for the same reason as before
+- [x] ZION-02 **CLOSED 2026-08-06 by executing the publish, and `zion_fields.py` was
+  never written because it would have written nothing.** The operator granted `project`
+  and the one remaining command ran:
+  `publish_backlog.py --source state/github-backlog-2026-07-31.json --project --fields --execute`.
+  Issues **#49** and **#50** created, board **31 items to 33**, and the two new items
+  verified against a live read carrying every field the JSON owns: `A harness` /
+  `operator-only` on both, `P0` + `S3 60min` + `refuted` on the falsifier epic, `P1` +
+  `S4 90min` + `measured` on the ratchet epic. All 33 items read `A harness`.
+  The field sync for the other 31 was already complete before this ran, which is why the
+  final plan reported `totals skip=165` with zero `set` rows. The tool that would have
+  done the work is the tool that proved it was already done, which is the only reason not
+  building `zion_fields.py` is a measurement rather than a guess.
+  **ONE GAP, named rather than hidden:** `Estimate (min)` is empty on #49 and #50. The
+  JSON carries `90 min` and `240 min` for them, but `publish_backlog.py --fields` owns
+  five fields (Priority, Ingestion, Lane, Autonomy, Evidence state) and `Estimate` is not
+  one of them, so 26 of 33 items have an estimate and the two newest do not. That is the
+  tool's declared ownership working as written, not a failure, and closing the gap means
+  widening `OWNED` rather than hand-setting a field.
+  **WHAT IS LEFT IS NOT TOOLING:** `Status` is unset on all 33 items and 0 of 34 issues
+  are closed. Nothing should write `Status` until the operator decides what it means on
+  this board, because a status column filled in by a script is the same fiction as a lane
+  value copied from a snapshot taken before the change it described.
+- [x] ZION-03 **REFUTED 2026-08-06 by reading the board.** `Lane` is `A harness / B resume / C learning / D content` and every one of the 31 items reads `A harness`. The rename landed on 07-31 with option ids preserved, exactly as `docs/prior-art/tools-ghpub.json` recorded and as this row denied. The row was written from `state/backups/zion-project3-2026-07-31.json`, a PRE-change snapshot, and nobody re-read the live board for six days. Same class as the findings-go-stale lesson: a claim sourced from a snapshot taken before the change it describes. The board also carries `Evidence state` (unmeasured/asserted/measured/verified/refuted) as a 21st field, which that backup does not list, so the backup was stale in two ways
 
 - [ ] **Doc structure and reachability are now enforced; absorption is not.** `tools/docmap/strand.py`
   landed 2026-08-03 with a selftest (5 assertions), 9 tests, and two CI steps. First real run

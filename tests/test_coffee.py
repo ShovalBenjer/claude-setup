@@ -50,3 +50,25 @@ def test_smoking_gripe_mine_cycle(tmp_path):
     assert "[bar-talk] eng-firm: docmap stale again" in mined.stdout
     again = run("tools/coffee/smoking.py", "--coffee", coffee, "mine")
     assert "nothing to mine" in again.stdout
+
+
+def test_breakroom_selftest_green():
+    r = run("tools/coffee/breakroom.py", "selftest")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "0 checks failed" in r.stdout
+
+
+def test_flaneur_selftest_green():
+    r = run("tools/coffee/flaneur.py", "selftest")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "0 checks failed" in r.stdout
+
+
+def test_breakroom_post_read_roundtrip(tmp_path):
+    board = str(tmp_path / "breakroom.jsonl")
+    assert run("tools/coffee/breakroom.py", "--board", board, "post",
+               "--session", "eng", "--kind", "brag",
+               "--text", "coffee v2 landed").returncode == 0
+    out = run("tools/coffee/breakroom.py", "--board", board, "read")
+    assert out.returncode == 0
+    assert "[brag] eng: coffee v2 landed" in out.stdout
