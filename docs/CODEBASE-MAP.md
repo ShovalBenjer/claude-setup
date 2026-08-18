@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-443 directories, 1986 tracked files, 0 without a stated purpose.
+443 directories, 1989 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -40,7 +40,7 @@ the same reason, one level down.
 | `dashboard/src-tauri/src` | 4 | Tauri app shell Rust source: commands.rs (the IPC command handlers), lib.rs (invoke_handler registration), main.rs (binary entry), meme_process.rs (meme-gen subprocess wrapper) | registry |
 | `dashboard/web` | 5 | Standalone Vite + React + TypeScript frontend; builds independently of src-tauri via `npm run build`; GateVerdictTile, ModuleRegistry, MemeModule are the live tiles, styled towa... | registry |
 | `dashboard/web/src` | 6 | React app source: App.tsx, ipc.ts (Tauri invoke bridge), types.ts (hand-mirrored Rust types), index.css (buzz-anchored token/theme layer), components/ | registry |
-| `dashboard/web/src/components` | 4 | React components: AppShell (layout), GateVerdictTile (gate ledger via IPC), ModuleRegistry (toggle-driven module list), MemeModule; ui/ holds shared primitives | registry |
+| `dashboard/web/src/components` | 7 | React components: AppShell (layout), GateVerdictTile (gate ledger via IPC), ModuleRegistry (toggle-driven module list), MemeModule; ui/ holds shared primitives | registry |
 | `dashboard/web/src/components/ui` | 4 | shadcn/ui-pattern primitives (button, card, badge) built on Radix + class-variance-authority + tailwind-merge, customized from block/buzz's equivalent files | registry |
 | `dashboard/web/src/lib` | 1 | Shared frontend utilities (cn() class-merge helper) | registry |
 
