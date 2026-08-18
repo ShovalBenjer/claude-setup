@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-430 directories, 1935 tracked files, 0 without a stated purpose.
+443 directories, 1975 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -26,6 +26,24 @@ the same reason, one level down.
 | `.github/ISSUE_TEMPLATE` | 1 | The one GitHub issue form (task.md); GitHub reads this exact path, so it is a wired location and not a docs folder | registry |
 | `.github/workflows` | 4 | The 3 live workflow files: Claude PR review (every push), Claude nightly job, and ship-gate CI check; Actions reads only this path | registry |
 
+## dashboard
+
+| dir | files | purpose | from |
+| --- | ----: | ------- | ---- |
+| `dashboard` | 3 | DASH-1 session dashboard: a Tauri desktop app reading local ledgers (gate runs, meme events, module toggles) into a native window. Cargo workspace root (core + src-tauri) plus w... | registry |
+| `dashboard/core` | 1 | dashboard-core crate: pure ledger-reading and state logic shared by the Tauri backend, no UI. Modules: ledger (gate-run/stub readers), meme (event-list parsing), modules (module... | registry |
+| `dashboard/core/src` | 3 | Source for dashboard-core: lib.rs re-exports, ledger.rs/meme.rs/modules.rs implement the reader and toggle logic each with its own inline test module | registry |
+| `dashboard/core/src/ledger` | 3 | Ledger readers: gate_runs.rs parses state/gate-runs.jsonl into the latest verdict, stubs.rs are placeholder readers for ledgers not yet wired, mod.rs re-exports both | registry |
+| `dashboard/src-tauri` | 3 | Tauri backend crate: commands.rs exposes IPC commands to the web frontend, meme_process.rs shells out to the meme-gen skill, tauri.conf.json/capabilities/icons are the desktop a... | registry |
+| `dashboard/src-tauri/capabilities` | 1 | Tauri v2 capability manifest (default.json) declaring which IPC commands and OS permissions the webview is allowed to invoke | registry |
+| `dashboard/src-tauri/icons` | 1 | App icon assets Tauri's bundler reads when packaging the desktop binary | registry |
+| `dashboard/src-tauri/src` | 4 | Tauri backend source: main.rs entry point, lib.rs app builder, commands.rs the #[tauri::command] IPC surface, meme_process.rs the meme-gen subprocess wrapper | registry |
+| `dashboard/web` | 5 | React + Vite + Tailwind v4 frontend for the dashboard, built with npm and node 22; index.css carries the buzz-anchored design tokens, App.tsx composes the module registry | registry |
+| `dashboard/web/src` | 6 | Frontend source: App.tsx root component, ipc.ts the Tauri IPC client, types.ts shared DTOs, index.css the token/theme layer, components/ the UI tree | registry |
+| `dashboard/web/src/components` | 4 | Feature components: AppShell (layout), GateVerdictTile (reads the gate ledger via IPC), MemeModule, ModuleRegistry (toggle-driven module list); ui/ holds the shared primitives | registry |
+| `dashboard/web/src/components/ui` | 4 | Buzz-anchored shared UI primitives (Badge, Button, Card) built on class-variance-authority, consumed by the feature components in the parent directory | registry |
+| `dashboard/web/src/lib` | 1 | Small frontend utilities: cn.ts (clsx/tailwind-merge class combiner) used across components/ui | registry |
+
 ## docs
 
 | dir | files | purpose | from |
@@ -38,7 +56,7 @@ the same reason, one level down.
 | `docs/prior-art` | 46 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
 | `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
-| `docs/specs` | 20 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/specs` | 21 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
 | `docs/specs/archive` | 4 | Status: active | README.md |
 | `docs/standards` | 7 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
 
