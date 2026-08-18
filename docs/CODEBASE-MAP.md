@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-434 directories, 1941 tracked files, 2 without a stated purpose.
+434 directories, 1941 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -172,9 +172,9 @@ the same reason, one level down.
 | `dot-claude/skills/blog` | 1 | Draft genuinely human long-form blog content in Shoval Benjer's voice, across platform formats (Medium, LinkedIn, Substack, Dev.to/technical, Jira-as-writeup). Anchors on the em... | SKILL.md |
 | `dot-claude/skills/blonde-designer` | 1 | Creative director + design architect for the Seekapa AR how-to video refresh (DEV-4968). Shapes each video's script and art direction to the locked production standard — real ap... | SKILL.md |
 | `dot-claude/skills/books-index` | 1 | Build and query a full-text search index over every file in docs/books, not just a curated subset. Triggers on "index the books", "rebuild book corpus", "search my books for X",... | SKILL.md |
-| `dot-claude/skills/books-index/scripts` | 2 | UNDOCUMENTED | none |
+| `dot-claude/skills/books-index/scripts` | 2 | Build/query scripts for the books-index skill's local SQLite+FTS5 corpus search over docs/books (build_index.py, query.py); local-only, no network access | registry |
 | `dot-claude/skills/books-ingest` | 1 | Copy (never move) book files the operator has legitimately acquired from Downloads into docs/books, extracting epub text for indexing. Triggers on "ingest books", "copy new book... | SKILL.md |
-| `dot-claude/skills/books-ingest/scripts` | 2 | UNDOCUMENTED | none |
+| `dot-claude/skills/books-ingest/scripts` | 2 | Copy-in scripts for the books-ingest skill: copies (never moves, never downloads) book files from Downloads into docs/books and extracts epub text (ingest.py, epub_to_text.py) | registry |
 | `dot-claude/skills/brainstorming` | 2 | "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design... | SKILL.md |
 | `dot-claude/skills/brainstorming/scripts` | 5 | A hand-rolled WebSocket server (RFC 6455 framing implemented inline in server.cjs, no dependency) plus its start/stop scripts and an iframe template, so the brainstorming skill... | registry |
 | `dot-claude/skills/case-ledger-post` | 2 | Turn a long working session into an interactive illustrated case-ledger post: the route taken, dead ends with receipts, measured cost from the session transcript, and lessons. R... | SKILL.md |
