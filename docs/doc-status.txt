@@ -89,6 +89,7 @@ CLAUDE.md | living
 dot-claude/output-styles/shoval.md | living
 tools/channel/README.md | living
 tools/intent/README.md | living
+dashboard/web/scripts/README.md | living
 docs/specs/2026-07-31-project-federation.md | accepted
 docs/gemini-code-1785410845331.md | operator-input
 docs/gemini-code-1785455675294.md | operator-input

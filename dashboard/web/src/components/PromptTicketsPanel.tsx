@@ -1,17 +1,18 @@
+import { ListTodo } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 
-// Nav-routing fix: "Prompt tickets" has no backing IPC command or Rust
-// reader at all (dashboard/core/src/ledger has readers for gate_runs and
-// stubs for claims/agent_spawns/skill_use/routing/bus — none of those is
-// state/prompt-tickets.jsonl). Mapping this tab onto `read_claims_cmd`
-// would silently show the wrong ledger's data, so instead this panel
-// renders an honest empty state naming the gap rather than fabricating or
-// mis-sourcing data.
+// DASH-1 v2 restyle: still no backing IPC command or Rust reader for
+// state/prompt-tickets.jsonl (dashboard/core/src/ledger has readers for
+// gate_runs and stubs for claims/agent_spawns/skill_use/routing/bus --
+// none of those is state/prompt-tickets.jsonl). Only the shell changed to
+// match the other panels' feed-card frame; still no fabricated content
+// and still no reuse of a different ledger's reader.
 export function PromptTicketsPanel() {
   return (
-    <Card className="w-full">
-      <CardHeader>
+    <Card className="w-full" data-panel="prompt-tickets">
+      <CardHeader className="flex-row items-center gap-2 space-y-0">
+        <ListTodo className="h-4 w-4 text-muted-foreground" />
         <CardTitle>Prompt tickets</CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">

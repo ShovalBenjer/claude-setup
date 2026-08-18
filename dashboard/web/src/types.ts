@@ -69,7 +69,13 @@ export interface FindHit {
 // DASH-1 nav-routing fix: the four sidebar destinations. Lifted to App.tsx
 // so AppShell (sidebar + topbar) and the content area share one source of
 // truth for which panel is active.
-export type View = "overview" | "gate-runs" | "prompt-tickets" | "agent-spawns";
+// DASH-1 v2: "meme" added as a fifth view -- direction doc item 4 folds
+// the meme module's entry point into the rail rather than keeping it as a
+// full-width section nested under Overview's ModuleRegistry card. The
+// toggle itself (enable/disable) still lives in ModuleRegistry on the
+// Overview view; this view only renders MemeModule's content when the
+// module is enabled and the rail entry is selected.
+export type View = "overview" | "gate-runs" | "prompt-tickets" | "agent-spawns" | "meme";
 
 // Mirrors dashboard/core/src/lib.rs LedgerReadReport<T>, generic over the
 // row type. `skipped > 0` must be surfaced (lib.rs doc comment: "the UI is
@@ -84,6 +90,6 @@ export interface LedgerReadReport<T> {
 
 // Mirrors dashboard/core/src/ledger/stubs.rs AgentSpawn: a zero-field unit
 // struct. The reader always returns an empty report (honest stub, not
-// implemented in this ledger yet) — the panel must say so, not fabricate
+// implemented in this ledger yet) -- the panel must say so, not fabricate
 // rows.
 export type AgentSpawnRow = Record<string, never>;
