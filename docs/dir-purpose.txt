@@ -226,3 +226,5 @@ work-docs/root-cleanup-2026-05-28/data | Retired: raw data swept in the same 202
 work-docs/specs | Source-of-truth engineering specs and implementation-delta plans, dated 2026-04-15 through 2026-07-09
 work-docs/wiki | Mirrors an Azure DevOps wiki for a customer-support automation product: architecture, compliance, deployment, FAQ pages
 work-docs/wiki-drafts | One draft wiki page not yet merged into the published wiki, dated 2026-06-30; the drafting lane is thin so far
+tools/coffee | Coffee-break v2 social loop (taste row 2026-08-12): futures.py is the reputation betting board over state/futures.jsonl, smoking.py the frustration-triggered gripe/mine cycle over state/coffee.jsonl reading gate-runs for triggers
+tools/reanimation | Reanimation jutsu: build a chattable persona from a WhatsApp thread. extract.py dumps a contact corpus from the decrypted store, fingerprint.py the stdlib statistical fingerprint, mask.py reversible PII tokenization at the model boundary, router.py the free-tier LLM failover (Qwen/NVIDIA/HF), persona.py the map-reduce persona card. Corpora live in ~/.intent, never committed
