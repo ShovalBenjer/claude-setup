@@ -1,7 +1,14 @@
 # GitHub-native project surface for ShovalBenjer/claude-setup and Zion (project 3)
 
-Status: DESIGN. Nothing in this document has been applied. Every write command
-below is marked UNEXECUTED. The operator decides.
+Status: superseded by docs/specs/2026-07-31-kanban-four-layer-model.md. Fixed
+2026-08-17 glue pass: kanban reconciles this spec and zion-board line by line
+(its defect 1 is named FIXED there, its five milestones cut into kanban's V1,
+its field/date decisions superseded per row). Every write command below was
+and remains UNEXECUTED; nothing here was ever applied. Kept in place rather
+than archived because the 2026-08-17 sweep found live cross-references
+(TODO.md, unified-architecture PRD, two analyses) that still point at this
+document's read-only verification section as the record of what was checked
+on 2026-07-31; archiving would strand that evidence trail.
 
 Author persona: product, planning agentic-product metrics for July 2026.
 Date: 2026-07-31. Verified against live GitHub state on that date.
