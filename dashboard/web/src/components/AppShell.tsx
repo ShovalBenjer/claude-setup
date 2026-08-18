@@ -2,11 +2,12 @@ import type { ReactNode } from "react";
 import { Activity, GitBranch, LayoutDashboard, ListTodo, Settings } from "lucide-react";
 
 import { cn } from "../lib/cn";
+import type { View } from "../types";
 
 interface NavItem {
+  view: View;
   label: string;
   icon: typeof LayoutDashboard;
-  active?: boolean;
 }
 
 // pattern inspired by shadcn/ui's "dashboard-01" block layout
@@ -16,13 +17,13 @@ interface NavItem {
 // below are named for this dashboard's own domains (Gate, Agents, Runs),
 // not copied from either source.
 const NAV_ITEMS: NavItem[] = [
-  { label: "Overview", icon: LayoutDashboard, active: true },
-  { label: "Gate runs", icon: Activity },
-  { label: "Prompt tickets", icon: ListTodo },
-  { label: "Agent spawns", icon: GitBranch },
+  { view: "overview", label: "Overview", icon: LayoutDashboard },
+  { view: "gate-runs", label: "Gate runs", icon: Activity },
+  { view: "prompt-tickets", label: "Prompt tickets", icon: ListTodo },
+  { view: "agent-spawns", label: "Agent spawns", icon: GitBranch },
 ];
 
-function Sidebar() {
+function Sidebar({ view, onSelect }: { view: View; onSelect: (v: View) => void }) {
   return (
     <aside className="hidden w-56 shrink-0 flex-col border-r border-sidebar-border bg-sidebar px-3 py-4 md:flex">
       <div className="mb-6 flex items-center gap-2 px-2">
@@ -36,11 +37,13 @@ function Sidebar() {
       <nav className="flex flex-1 flex-col gap-1">
         {NAV_ITEMS.map((item) => (
           <button
-            key={item.label}
+            key={item.view}
             type="button"
+            aria-current={view === item.view ? "page" : undefined}
+            onClick={() => onSelect(item.view)}
             className={cn(
               "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm font-medium transition-colors",
-              item.active
+              view === item.view
                 ? "bg-primary/15 text-primary"
                 : "text-sidebar-foreground/70 hover:bg-accent/50 hover:text-sidebar-foreground",
             )}
@@ -61,11 +64,18 @@ function Sidebar() {
   );
 }
 
-function Topbar({ project }: { project: string }) {
+const VIEW_TITLE: Record<View, string> = {
+  overview: "Overview",
+  "gate-runs": "Gate runs",
+  "prompt-tickets": "Prompt tickets",
+  "agent-spawns": "Agent spawns",
+};
+
+function Topbar({ project, view }: { project: string; view: View }) {
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-border/70 px-6">
       <div>
-        <h1 className="text-sm font-semibold text-foreground">Overview</h1>
+        <h1 className="text-sm font-semibold text-foreground">{VIEW_TITLE[view]}</h1>
         <p className="text-xs text-muted-foreground">{project}</p>
       </div>
       <div className="flex items-center gap-3">
@@ -76,12 +86,22 @@ function Topbar({ project }: { project: string }) {
   );
 }
 
-export function AppShell({ project, children }: { project: string; children: ReactNode }) {
+export function AppShell({
+  project,
+  view,
+  onSelectView,
+  children,
+}: {
+  project: string;
+  view: View;
+  onSelectView: (v: View) => void;
+  children: ReactNode;
+}) {
   return (
     <div className="flex min-h-screen bg-background text-foreground">
-      <Sidebar />
+      <Sidebar view={view} onSelect={onSelectView} />
       <div className="flex min-h-screen flex-1 flex-col">
-        <Topbar project={project} />
+        <Topbar project={project} view={view} />
         <main className="flex-1 overflow-auto p-6">{children}</main>
       </div>
     </div>

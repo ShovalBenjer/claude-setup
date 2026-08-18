@@ -1,4 +1,11 @@
-import type { FindHit, GateRun, MemeEvent, ModuleDescriptor } from "./types";
+import type {
+  AgentSpawnRow,
+  FindHit,
+  GateRun,
+  LedgerReadReport,
+  MemeEvent,
+  ModuleDescriptor,
+} from "./types";
 
 // Thin IPC wrapper around Tauri's `invoke`. `@tauri-apps/api` is not a
 // declared dependency in this slice (the src-tauri crate itself is not
@@ -18,6 +25,28 @@ function invoke<T>(cmd: string, args?: Record<string, unknown>): Promise<T> {
 
 export function latestGateVerdict(project: string): Promise<GateRun | null> {
   return invoke<GateRun | null>("latest_gate_verdict", { project });
+}
+
+// Nav-routing fix: `read_gate_runs` was already a real, tested Rust reader
+// and IPC command (dashboard/src-tauri/src/commands.rs) with nothing in
+// this file calling it. The Gate runs tab had no data path at all.
+export function readGateRuns(
+  project: string,
+  limit?: number,
+): Promise<LedgerReadReport<GateRun>> {
+  return invoke<LedgerReadReport<GateRun>>("read_gate_runs", { project, limit });
+}
+
+// `read_agent_spawns_cmd` is wired end to end at the IPC boundary, but its
+// reader (dashboard/core/src/ledger/stubs.rs) is an honest stub: it always
+// returns an empty report regardless of `state/agent-spawns.jsonl`
+// contents. Calling it here is correct (it is the real command); rendering
+// its result must say "not implemented yet", not imply real rows.
+export function readAgentSpawns(
+  project: string,
+  limit?: number,
+): Promise<LedgerReadReport<AgentSpawnRow>> {
+  return invoke<LedgerReadReport<AgentSpawnRow>>("read_agent_spawns_cmd", { project, limit });
 }
 
 // DASH-1 slice 3: module registry + meme module.
