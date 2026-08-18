@@ -1,6 +1,6 @@
 ---
 name: voice-metrics
-description: Measure a draft against the real corpus before sending it. Per-use-case metric rules, a locally-fitted idiolect embedding, randomised burst variants, and Hebrew/English spell check. Use when drafting a WhatsApp message, blog post, or any outbound text that has to sound like a specific person.
+description: Measure a draft against the real corpus before sending it: per-use-case metric rules, a locally-fitted idiolect embedding, randomised burst variants, Hebrew/English spell check. Use when drafting a WhatsApp message, blog post, or any outbound text that must sound like a specific person.
 ---
 
 # voice-metrics

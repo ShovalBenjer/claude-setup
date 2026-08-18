@@ -3,12 +3,10 @@ name: context-bounded-analyst
 description: >
   Data analysis over large files/datasets using DuckDB/Polars lazy queries.
   Builds a catalog + metrics dictionary; returns compact sourced answers
-  (number + provenance) — never loads full tables into context.
-  The fix for partial/mocked reports over large data.
-  Triggers: /analyst, "answer over the data", "query dont load",
-  "analyze this dataset", "run a query", large-dataset analysis requests.
-  SKIP: if the dataset fits in-memory < 5 MB and user explicitly asks to load it;
-  if the question is about code, not data.
+  (number + provenance), never loads full tables into context. Triggers:
+  /analyst, "answer over the data", "query dont load", "analyze this
+  dataset", "run a query". SKIP if dataset < 5 MB and user wants raw rows,
+  or the question is about code, not data.
 ---
 
 # context-bounded-analyst

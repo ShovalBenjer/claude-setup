@@ -226,6 +226,7 @@ work-docs/root-cleanup-2026-05-28/data | Retired: raw data swept in the same 202
 work-docs/specs | Source-of-truth engineering specs and implementation-delta plans, dated 2026-04-15 through 2026-07-09
 work-docs/wiki | Mirrors an Azure DevOps wiki for a customer-support automation product: architecture, compliance, deployment, FAQ pages
 work-docs/wiki-drafts | One draft wiki page not yet merged into the published wiki, dated 2026-06-30; the drafting lane is thin so far
+tools/dashboard | Session Lens: stdlib SSE dashboard reading ~/.claude transcripts and state ledgers, owns nothing (2026-08-13 repo-compare ADOPT)
 dashboard | DASH-1 session dashboard (Tauri v2 + React), slice 2: read-only ledger readers over state/*.jsonl, gate-verdict IPC command and tile. src-tauri compiles as a real workspace member (GTK/webkit2gtk dev libs installed 2026-08-17); dashboard-core (Rust, no tauri dep) is the buildable/tested part
 dashboard/core | Buildable Rust crate: LedgerReadReport<T> readers for state/*.jsonl, tolerant-by-construction (skip-and-count on malformed lines, never panics), no tauri dependency so it compiles standalone
 dashboard/core/src/ledger | One module per ledger file per the program design; gate_runs.rs is fully implemented and tested, stubs.rs covers the other five (claims, agent-spawns, skill-use, routing, bus) as empty-report stubs
