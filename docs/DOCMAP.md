@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1042**
+- documents: **1050**
 - reachable from `docs/INDEX.md`: **120** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (76)
+## analysis (80)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -148,7 +148,11 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-11-estate-audit.md` | 2026-08-11 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-11-milestone-task-plan.md` | 2026-08-11 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-08-11-repo-compare.md` | 2026-08-11 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-12-claude-code-repo-gap.md` | 2026-08-12 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-12-minimalism-audit.md` | 2026-08-12 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-12-plain-handoff.md` | 2026-08-12 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-13-buzz-adoption-handoff.md` | 2026-08-13 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-08-13-repo-compare-ui-ux.md` | 2026-08-13 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-15-frontier-curriculum.md` | 2026-08-15 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-15-research-context-audit-and-forecast.md` | 2026-08-15 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-08-15-research-to-repo-work-map.md` | 2026-08-15 | dated-snapshot | class | 2 | - | - | - |
@@ -596,7 +600,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
 | `TODO.md` | 2026-08-17 | living | registry | 2 | yes | nothing | the |
 
-## rule (41)
+## rule (44)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -608,6 +612,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/no-emojis.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/no-mocks.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/numerical-stack.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/project-template/jira-comment-drafting.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/repo-topology.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/task-verification.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/tdd-enforcement.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -630,6 +635,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-codex/rules/tdd-enforcement.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/pii-handling.md` | 2026-06-10 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/production-means-merged-and-smoked.md` | 2026-06-29 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/project-template/foundry-deployment-per-project.md` | 2026-07-01 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/read-whole-before-reasoning.md` | 2026-07-08 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/calibrated-claims.md` | 2026-07-24 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/model-selection.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
@@ -640,6 +646,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/merges-are-the-operators.md` | 2026-08-09 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/the-loop-may-act.md` | 2026-08-10 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/long-checks-background.md` | 2026-08-12 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/project-template/README.md` | 2026-08-12 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/output-channel-routing.md` | 2026-08-17 | definition-see-skills_sync | class | 2 | - | - | - |
 
 ## skill (223)
@@ -730,7 +737,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-agents/skills/write-a-skill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-agents/skills/zoom-out/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/agent-builder/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/skills/azure-runtime/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/blog/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/blonde-designer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/brainstorming/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -850,6 +856,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `state/retired-2026-07-25/skills/visual-explainer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/red-team-review/EXAMPLE_SESSION.md` | 2024-02-14 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/red-team-review/EXAMPLE_SESSION.md` | 2024-02-14 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/azure-runtime/SKILL.md` | 2025-04-01 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/azure-devops/PERMISSIONS.md` | 2026-02-16 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/azure-devops/README.md` | 2026-02-16 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-agents/skills/heidegger-reflect/SKILL.md` | 2026-02-19 | definition-see-skills_sync | class | n/a | - | - | - |
@@ -870,7 +877,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/repo-compare/SKILL.md` | 2026-08-11 | definition-see-skills_sync | class | 2 | - | - | - |
 | `dot-claude/skills/meme-gen/SKILL.md` | 2026-08-17 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (25)
+## spec (26)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -896,6 +903,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-05-persona-allocation-and-reviewer-identity.md` | 2026-08-05 | active, 2026-08-05. `active` is the vocabulary's word for th | header | n/a | - | - | - |
 | `docs/specs/2026-08-10-open-scope-delegation-plan.md` | 2026-08-10 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-12-open-model-and-scheduling-plan.md` | 2026-08-12 | proposed, operator decides the numbered blocks at the end | header | n/a | - | - | - |
+| `docs/specs/2026-08-13-code-quality-rethink.md` | 2026-08-13 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-direction.md` | 2026-08-17 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-program-design.md` | 2026-08-17 | active | header | n/a | - | nothing in | - |
 | `docs/specs/archive/README.md` | 2026-08-17 | active | header | n/a | - | - | - |
