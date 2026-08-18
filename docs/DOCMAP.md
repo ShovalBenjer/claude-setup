@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1039**
+- documents: **1042**
 - reachable from `docs/INDEX.md`: **120** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (73)
+## analysis (76)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -149,6 +149,9 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-11-milestone-task-plan.md` | 2026-08-11 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-08-11-repo-compare.md` | 2026-08-11 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-12-plain-handoff.md` | 2026-08-12 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-15-frontier-curriculum.md` | 2026-08-15 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-15-research-context-audit-and-forecast.md` | 2026-08-15 | dated-snapshot | class | 2 | - | - | - |
+| `docs/analysis/2026-08-15-research-to-repo-work-map.md` | 2026-08-15 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-08-15-unfinished-work-inventory.md` | 2026-08-15 | dated-snapshot | class | 2 | - | These are stale in their home surface an | the |
 | `docs/analysis/2026-08-17-external-landscape-comparison.md` | 2026-08-17 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-17-repo-compare-block-buzz.md` | 2026-08-17 | dated-snapshot | class | n/a | - | - | - |
