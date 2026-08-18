@@ -239,3 +239,5 @@ dashboard/web/src | React app source: App.tsx, ipc.ts (Tauri invoke bridge), typ
 dashboard/web/src/components | React components; GateVerdictTile is the one implemented in slice 2
 dashboard/web/src/components/ui | shadcn/ui-pattern primitives (button, card, badge) built on Radix + class-variance-authority + tailwind-merge, customized from block/buzz's equivalent files
 dashboard/web/src/lib | Shared frontend utilities (cn() class-merge helper)
+tools/coffee | Coffee-break v2 social loop (taste row 2026-08-12): futures.py is the reputation betting board over state/futures.jsonl, smoking.py the frustration-triggered gripe/mine cycle over state/coffee.jsonl reading gate-runs for triggers
+tools/reanimation | Reanimation jutsu: build a chattable persona from a WhatsApp thread. extract.py dumps a contact corpus from the decrypted store, fingerprint.py the stdlib statistical fingerprint, mask.py reversible PII tokenization at the model boundary, router.py the free-tier LLM failover (Qwen/NVIDIA/HF), persona.py the map-reduce persona card. Corpora live in ~/.intent, never committed

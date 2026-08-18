@@ -462,4 +462,29 @@ and five milestones with no due date.
 | `gh project item-edit` for Status, Estimate, Blocked by operator (M-2, M-4, M-7) | **UNEXECUTED WRITE** |
 | group-by introspection query, section 2 | **UNEXECUTED**, read-only when run |
 | `createProjectV2View` and `updateProjectV2View`, four views | **UNEXECUTED WRITE**, undocumented mutations |
+
+## 10. Tracer-bullet slices for the 6 unexecuted mutations (added 2026-08-17 glue pass)
+
+Each row in section 9 marked UNEXECUTED WRITE gets a falsifiable acceptance
+here, so "unexecuted" stops being the whole status.
+
+1. **Status option set.** Run the section-1 `updateProjectV2Field` mutation.
+   Falsifiable: `gh project field-list 3 --owner ShovalBenjer --format json`
+   shows 5 Status options (`Specced`, `In Review` added), not 3.
+2. **`Blocked by operator` field.** Run `gh project field-create`.
+   Falsifiable: the same field-list command shows the new field by name.
+3. **`Evidence` retarget or delete.** Resolve section 3.3's conditional.
+   Falsifiable: the field-list shows either the retargeted `Evidence` TEXT
+   field in use on at least one item, or its absence if deleted; no field
+   present-but-unused.
+4. **`publish_backlog.py` field sync (M-1).** Falsifiable: a fresh
+   `publish_backlog.py` run writes `Evidence state` on every item it touches,
+   verified by re-reading the item list after the run.
+5. **Item-edit migration (M-2, M-4, M-7).** Falsifiable: `gh project item-list
+   3 --owner ShovalBenjer --format json` shows Status, Estimate, and Blocked
+   by operator populated on the 31 existing items, not empty.
+6. **Four views (`createProjectV2View`/`updateProjectV2View`).** Falsifiable:
+   `gh api graphql` views query returns 4 new named views matching section 5,
+   confirmed against the UI since group-by/slice-by is not scriptable
+   (section 9 row 6 already states this).
 | all group-by, column-field and slice-by configuration | **NOT SCRIPTABLE, UI only** |

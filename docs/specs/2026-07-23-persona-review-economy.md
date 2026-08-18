@@ -1,9 +1,14 @@
 ---
 PRD: Claude OS
 Ticket: SETUP-OS #19
-Status: active
+Status: proposed
 Depends: ADR-0004 (agreement gate), ADR-0008 (reputation signal), ADR-0005 (enforcement)
 Date: 2026-07-23
+Corrected 2026-08-17 glue pass: header said `active`; all 7 rows in the
+Acceptance section below are unchecked and no reputation.db, contract file,
+or allocator code exists on disk (`find . -iname "*reputation*"` returns only
+the ADR; `state/` carries no persona-contract or reputation ledger). This was
+the sweep's example of a lying active header with nothing built.
 ---
 
 # Spec — Persona Review Economy (a dynamic labor market of reviewers)
@@ -138,3 +143,19 @@ examples, admit on probation. The market grows to fit the live threat surface.
 - [ ] Firing is proposal+approval; archive retains record.
 - [ ] Recruitment drafts a new persona from a real escaped-defect cluster.
 - [ ] Leaderboard appears in the daily digest.
+
+## 5. Tracer-bullet slices (added 2026-08-17 glue pass, none built)
+
+1. **Contracts on disk.** `state/persona-contracts.jsonl` exists with one row per
+   persona (aspect, scope, reputation seed). Falsifiable: `wc -l
+   state/persona-contracts.jsonl` returns the same count as
+   `gastown-company-registry.md`'s persona list, and a schema check rejects a row
+   missing `aspect`.
+2. **Scorer wired to one real signal.** A PR merge or revert appends one row to
+   `state/persona-scores.jsonl` keyed by persona and PR sha, sourced from
+   ADR-0008 ground truth (not self-report). Falsifiable: after the next merged PR
+   with a review comment, the row exists within one gate run.
+3. **Thompson allocation for one aspect.** Pick reviewers for exactly one aspect
+   (e.g. security) by sampling reputation, not by static assignment. Falsifiable:
+   `tools/review/panel.py run` names a different persona than the prior run at
+   least once across 5 PRs with the same aspect active, or logs why not.

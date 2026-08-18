@@ -73,7 +73,13 @@ def test_the_directory_guard_still_fires_when_there_is_no_skills_tree(tmp_path, 
                                                                      capsys):
     """The older guard is not replaced by the new one. Its message is distinct,
     because 'no tree at all' and 'a tree that is not ours' are different facts
-    and a checker that prints one word for both cannot be acted on."""
+    and a checker that prints one word for both cannot be acted on.
+
+    Contract change 2026-08-12: 'no tree at all' is the CI runner's normal
+    state, so it now SKIPs with exit 0 (the rules_sync shape) instead of
+    exit 2, which failed the gate's skills domain on every CI run. The
+    property this test keeps is the distinction: the SKIP message names the
+    missing tree, and the foreign-home case above still returns 2."""
     monkeypatch.setenv("CLAUDE_LIVE_HOME", str(tmp_path / "empty"))
 
     class Args:
@@ -81,5 +87,6 @@ def test_the_directory_guard_still_fires_when_there_is_no_skills_tree(tmp_path, 
 
     rc = skills_sync.cmd_check(Args())
     out = capsys.readouterr().out
-    assert rc == 2
+    assert rc == 0
+    assert "SKIP drift" in out
     assert "no live skills tree" in out
