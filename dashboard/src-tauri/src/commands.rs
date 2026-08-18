@@ -7,13 +7,17 @@
 //! `Vec`/`None` for `list_projects`), so a frontend that wires them early
 //! gets a typed empty result, never a missing command or a panic.
 
+use crate::meme_process;
 use dashboard_core::ledger::{
     gate_runs, read_agent_spawns, read_bus, read_claims, read_routing, read_skill_use, AgentSpawn,
     BusMessage, ClaimRow, GateRun, RoutingEvent, SkillUse,
 };
+use dashboard_core::meme::{parse_find, parse_list, FindHit, MemeEvent};
+use dashboard_core::modules::{self, ModuleDescriptor};
 use dashboard_core::{IpcError, LedgerReadReport};
 use serde::Serialize;
 use std::path::PathBuf;
+use tauri::{AppHandle, Manager};
 
 #[derive(Debug, Clone, Serialize)]
 pub struct ProjectRef {
@@ -106,4 +110,57 @@ pub fn read_bus_cmd(
 ) -> Result<LedgerReadReport<BusMessage>, IpcError> {
     let path = resolve_ledger_path(&project, "bus.jsonl")?;
     Ok(read_bus(&path))
+}
+
+// --- Module registry / meme module (DASH-1 slice 3) ---
+//
+// Path resolution (`app_config_dir()`) is the only piece of module-registry
+// logic that lives in this file; the round-trip and toggle logic itself is
+// in `dashboard_core::modules` so it is testable without a running Tauri app
+// (program design section 2.3, plus the slice-3 acceptance row: "toggle
+// state persists across a restarted app").
+
+fn modules_path(app: &AppHandle) -> Result<PathBuf, IpcError> {
+    app.path()
+        .app_config_dir()
+        .map(|dir| dir.join("modules.json"))
+        .map_err(|e| IpcError::Io(format!("could not resolve app config dir: {e}")))
+}
+
+#[tauri::command]
+pub fn list_modules(app: AppHandle) -> Result<Vec<ModuleDescriptor>, IpcError> {
+    let path = modules_path(&app)?;
+    Ok(modules::read_modules(&path).modules)
+}
+
+#[tauri::command]
+pub fn set_module_enabled(app: AppHandle, id: String, enabled: bool) -> Result<(), IpcError> {
+    let path = modules_path(&app)?;
+    let found = modules::set_module_enabled(&path, &id, enabled)
+        .map_err(|e| IpcError::Io(e.to_string()))?;
+    if !found {
+        return Err(IpcError::InvalidProject(format!("unknown module id: {id}")));
+    }
+    Ok(())
+}
+
+/// Named divergence from program design section 2.3's `meme_find ->
+/// MemeResult { path, source }`: this returns the ranked hub list from
+/// `claude-memes find`, not a single Giphy-query result, per the operator's
+/// slice-3 direction (subprocess `list`/`find`, not the `claude-memes mcp`
+/// stdio surface). See `dashboard_core::meme` module doc for the full
+/// rationale and the rejected alternative.
+#[tauri::command]
+pub fn meme_list_events() -> Result<Vec<MemeEvent>, IpcError> {
+    let stdout = meme_process::run_list().map_err(|e| IpcError::Io(e.to_string()))?;
+    Ok(parse_list(&stdout))
+}
+
+#[tauri::command]
+pub fn meme_find(query: String) -> Result<Vec<FindHit>, IpcError> {
+    if query.trim().is_empty() {
+        return Err(IpcError::InvalidProject("empty concept query".to_string()));
+    }
+    let stdout = meme_process::run_find(&query).map_err(|e| IpcError::Io(e.to_string()))?;
+    Ok(parse_find(&stdout))
 }

@@ -16,6 +16,8 @@
 //! not a crash.
 
 pub mod ledger;
+pub mod meme;
+pub mod modules;
 
 use serde::Serialize;
 

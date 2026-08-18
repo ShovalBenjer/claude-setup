@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "Read-only ledger access. Program design section 2: no command in this contract accepts a write path, a delete path, or a ledger-mutating argument; this capability grants only core defaults plus the custom read-only IPC commands in `src/commands.rs`. There is no `fs` plugin dependency: file reads happen inside those Rust commands (std::fs, not a JS-facing fs plugin), so no `fs:*` permission is declared or needed.",
+  "description": "Read-only ledger access, plus DASH-1 slice 3's module registry. Program design section 2: no command accepts a write path, a delete path, or a ledger-mutating argument for `state/*`; this capability grants only core defaults plus the custom IPC commands in `src/commands.rs`. There is no `fs` plugin dependency: file reads/writes happen inside those Rust commands (std::fs, not a JS-facing fs plugin), so no `fs:*` permission is declared or needed. `set_module_enabled` writes `modules.json` under the app config dir (`app_handle.path().app_config_dir()`), never under `state/`, so it does not violate the ledger read-only scope (section 2.3).",
   "windows": ["main"],
   "permissions": ["core:default"]
 }

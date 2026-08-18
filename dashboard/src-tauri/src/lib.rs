@@ -1,6 +1,7 @@
 //! Tauri app entry (library form, matches the `tauri-cli` scaffold shape).
 
 pub mod commands;
+mod meme_process;
 
 pub fn run() {
     tauri::Builder::default()
@@ -13,6 +14,10 @@ pub fn run() {
             commands::read_skill_use_cmd,
             commands::read_routing_cmd,
             commands::read_bus_cmd,
+            commands::list_modules,
+            commands::set_module_enabled,
+            commands::meme_list_events,
+            commands::meme_find,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

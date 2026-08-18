@@ -1,4 +1,4 @@
-import type { GateRun } from "./types";
+import type { FindHit, GateRun, MemeEvent, ModuleDescriptor } from "./types";
 
 // Thin IPC wrapper around Tauri's `invoke`. `@tauri-apps/api` is not a
 // declared dependency in this slice (the src-tauri crate itself is not
@@ -18,4 +18,21 @@ function invoke<T>(cmd: string, args?: Record<string, unknown>): Promise<T> {
 
 export function latestGateVerdict(project: string): Promise<GateRun | null> {
   return invoke<GateRun | null>("latest_gate_verdict", { project });
+}
+
+// DASH-1 slice 3: module registry + meme module.
+export function listModules(): Promise<ModuleDescriptor[]> {
+  return invoke<ModuleDescriptor[]>("list_modules");
+}
+
+export function setModuleEnabled(id: string, enabled: boolean): Promise<void> {
+  return invoke<void>("set_module_enabled", { id, enabled });
+}
+
+export function memeListEvents(): Promise<MemeEvent[]> {
+  return invoke<MemeEvent[]>("meme_list_events");
+}
+
+export function memeFind(query: string): Promise<FindHit[]> {
+  return invoke<FindHit[]>("meme_find", { query });
 }
