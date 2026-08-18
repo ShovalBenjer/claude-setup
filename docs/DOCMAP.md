@@ -900,7 +900,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-05-persona-allocation-and-reviewer-identity.md` | 2026-08-05 | active, 2026-08-05. `active` is the vocabulary's word for th | header | n/a | - | - | - |
 | `docs/specs/2026-08-10-open-scope-delegation-plan.md` | 2026-08-10 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-12-open-model-and-scheduling-plan.md` | 2026-08-12 | proposed, operator decides the numbered blocks at the end | header | n/a | - | - | - |
-| `docs/specs/2026-08-13-code-quality-rethink.md` | 2026-08-13 | active | header-inline | n/a | - | - | - |
+| `docs/specs/2026-08-13-code-quality-rethink.md` | 2026-08-13 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-direction.md` | 2026-08-17 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-program-design.md` | 2026-08-17 | active | header | n/a | - | nothing in | - |
 | `docs/specs/archive/README.md` | 2026-08-17 | active | header | n/a | - | - | - |

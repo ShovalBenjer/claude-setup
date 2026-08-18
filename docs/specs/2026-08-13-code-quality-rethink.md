@@ -1,6 +1,10 @@
-# Spec: cross-project tech-stack + code-quality rethink (operator directive)
+---
+PRD: none yet (this spec seeds it)
+Ticket: TODO
+Status: active
+---
 
-PRD: none yet (this spec seeds it). Ticket: TODO. Status: active.
+# Spec: cross-project tech-stack + code-quality rethink (operator directive)
 
 Operator, 2026-08-13, verbatim intents:
 1. Reasoning task ACROSS ALL PROJECTS: rethink tech-stack choices, search modern
