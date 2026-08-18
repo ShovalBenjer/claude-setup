@@ -11,6 +11,12 @@ interpretability/Modal, persona-economy, intent-lifecycle, slm-swarm, and
 kanban. Written 2026-08-17 glue pass, after a sweep found 26 planning docs
 split BUILT 2 / PARTIAL 11 / PAPER 13 and no single spine.
 
+## INV: unfinished-work inventory (docs/analysis/2026-08-15-unfinished-work-inventory.md)
+
+- [ ] INV-1 Execute the phased waterfall in
+  `docs/analysis/2026-08-15-unfinished-work-inventory.md` (Phase 0 operator decisions
+  first; Phase 2 quick hygiene is agent-doable).
+
 ## FOG: what a file-by-file sweep found that no status marker reported (2026-08-01)
 
 - [ ] **A secret reached a pushed commit and only the operator can finish removing it.**
