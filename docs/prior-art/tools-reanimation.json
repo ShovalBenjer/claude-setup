@@ -1,0 +1,45 @@
+{
+  "component": "tools/reanimation",
+  "reviewed": "2026-08-13",
+  "recheck_after": "2026-11-13",
+  "verdict": "keep-ours",
+  "verdict_class": "keep-ours",
+  "absorption_status": "unreviewed",
+  "why": "Five stdlib CLIs (563 lines) that turn a decrypted WhatsApp thread into a chattable persona card: extract.py (corpus dump), fingerprint.py (statistical half), mask.py (reversible PII tokenization at the model boundary), router.py (free-tier LLM failover), persona.py (map-reduce card). The off-the-shelf alternatives each own one stage well and none owns the join: the binding constraint is that construction spends the operator's free-tier quotas (Qwen/NVIDIA/HF from ~/.env), never Claude, and that private family/friend messages stay under ~/.intent and only masked chunks cross a model boundary (pii-handling rule). A general agent framework or a hosted persona product would either bill Claude/OpenAI or send raw private text to a vendor, which is the exact thing this is built to avoid. At 563 lines across five single-purpose files the simplest correct option was writing them.",
+  "alternatives": [
+    {
+      "name": "LangChain / LlamaIndex (RAG + map-reduce summarize chains)",
+      "covers": "persona.py's map-reduce shape and a RAG index over the corpus: both ship document loaders, chunkers, map-reduce summarize chains, and vector stores.",
+      "gap": "Neither has an opinion about which free tier to route to or how to fail over across Qwen/NVIDIA/HF by quota; that is router.py's whole job and the reason cost lands off Claude. Both are large dependencies for what is five short files, and adding them to a stdlib-only harness that must run in CI with no install step is the wrong trade. Not exercised this session.",
+      "cost": "pip install plus a transitive tree; MIT/Apache. Heavy for the harness.",
+      "maturity": "Mature, widely used. Verified by reputation, not run here."
+    },
+    {
+      "name": "Microsoft Presidio (PII detection + anonymization)",
+      "covers": "mask.py's job at product grade: NER-backed detection plus a reversible anonymizer engine, far better than mask.py's four regexes.",
+      "gap": "Wants a spaCy/transformers model (hundreds of MB, seconds to load) against a masker that must be instant and dependency-free in CI, and it has no Israeli-phone/ID recognizer in the default set, so the two locale patterns stay hand-written anyway. Same conclusion as the dot-claude-bin record reached for pii-scrub.py: right for a batch gate, wrong inside a fast path. Adopt later if masking quality becomes the bottleneck.",
+      "cost": "pip plus an NLP model; MIT.",
+      "maturity": "Active 2026 releases. Not run here."
+    },
+    {
+      "name": "simonw/llm (multi-provider CLI with SQLite logging)",
+      "covers": "router.py's multi-provider abstraction and would log every call to SQLite for free.",
+      "gap": "Its failover is manual (you pick a model), not quota-driven round-robin across free tiers, which is the property that keeps this pipeline running when one key hits its daily cap. Verified from the dot-claude-bin record this repo already holds: llm is a real option for the model bridge but does not do the automatic lane rotation. Adopting it would replace router.py with a dependency plus a wrapper that reintroduces the rotation, net zero.",
+      "cost": "pip, Apache-2.0, plus a plugin per provider.",
+      "maturity": "Actively maintained; cross-referenced from docs/prior-art/dot-claude-bin.json."
+    },
+    {
+      "name": "character.ai / hosted persona-chatbot products",
+      "covers": "The end goal: a chattable character with memory.",
+      "gap": "Requires uploading the corpus to a third party, which is a hard no for private family messages (pii-handling, and the operator's estate cannot be made public per memory). No local exemplar bank, no offline fingerprint, no control over which model sees what. Disqualified on the data boundary, not on features.",
+      "cost": "Subscription; data leaves the machine.",
+      "maturity": "Commercial. Excluded on principle, not tested."
+    }
+  ],
+  "evidence": "Wrote and read all five files this session. Live results: fingerprint.py ran over 7 real threads (33,413 messages total) and differentiated them (Hebrew ratio 0.58 to 0.95, median length 15 to 25 chars); router.py smoke `python tools/reanimation/router.py` returned [qwen] ok against the live free tier; persona.py built a full card for one thread (5 windows via Qwen, 10 traits, 40 exemplars) with zero Claude tokens. Offline tests: tests/test_reanimation.py 4 passed (mask roundtrip, mask stable tokens, fingerprint math incl. a real bug caught where top_words held 1-tuples not strings, empty-corpus safety). NOT VERIFIED: no alternative was installed or run; the persona card has Hebrew/English token bleed (\"סkeptical\") not yet cleaned; the corpus has no sender direction so no stage isolates one speaker, stated in every artifact.",
+  "recheck": "(1) `python tools/reanimation/mask.py && python -m pytest tests/test_reanimation.py -q` still green. (2) Has anything been animated? `ls ~/.intent/reanimation/*/persona.json` on the operator's machine; if none exist by the recheck date, the pipeline was built and never used (L-2026-08-11-a) and this flips toward delete. (3) Did masking quality become the bottleneck? If a persona card leaks a real name, Presidio adoption re-opens. (4) `gh release list --repo microsoft/presidio --limit 3; gh release list --repo simonw/llm --limit 3`.",
+  "our_loc": 563,
+  "what_ours_does": "extract.py (135): reads the decrypted genericStorage.dec.db, writes one contact's thread to ~/.intent/reanimation/<slug>/corpus.jsonl tagged direction:unknown, with a meta.json stating the store has no sender column. fingerprint.py (110): stdlib statistical fingerprint (length distribution, Hebrew/Latin/emoji mix, top openers/words, bigram+trigram catchphrases) to fingerprint.json. mask.py (60): a Vault that reversibly tokenizes email/URL/phone/9-digit-id to stable <TYPE_n> tokens and unmasks, so only masked chunks reach a lane. router.py (112): OpenAI-compatible chat() over Qwen/NVIDIA/HF lanes keyed from ~/.env, skipping keyless/failing lanes with per-lane retry on 429, raising only when all fail. persona.py (146): map (mask each window, ask a lane for a JSON traits/opinions/jokes record) then reduce (merge to one card) plus a locally-selected verbatim exemplar bank, to persona.json.",
+  "strongest_counterargument": "This is 563 lines with exactly one persona card built and none animated into a running character, so by its own recheck-2 it is one step from the automation-kept-alive-by-a-record failure class. The router is also the fragile part: free-tier endpoints and model names drift, and the three URLs/models are pinned in a constant that nothing tests against the live API, so router.py can rot silently the way the dot-claude-bin Codex wrapper can. And the whole pipeline's value is capped by the no-sender-direction limitation: a persona that cannot separate the operator's voice from the contact's is a weaker artifact than the fun framing implies, which the honest cards admit but the feature enthusiasm may gloss.",
+  "_scope": "The five .py files in tools/reanimation plus tests/test_reanimation.py. The chat-time runtime (loading a card into a persona and conversing) is future work with no code here."
+}
