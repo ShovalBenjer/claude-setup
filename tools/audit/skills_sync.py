@@ -469,8 +469,13 @@ def cmd_check(a):
         print("cannot run: no repo skills tree at {}".format(repo_base))
         return 2
     if not os.path.isdir(live_base):
-        print("cannot run: no live skills tree at {}".format(live_base))
-        return 2
+        # Same shape as rules_sync: on a host with no live tree (CI) the
+        # deployment half is unanswerable, which is a fact about the runner and
+        # not about the repository. A foreign home below still returns 2,
+        # because "present but not ours" is a measurable wrongness.
+        print("SKIP drift: no live skills tree at {} (expected on CI). "
+              "Deployment drift was NOT checked on this host.".format(live_base))
+        return 0
     if not is_deployed_home():
         # Present but foreign. See is_deployed_home(): a directory named
         # ~/.claude with no settings.json is not a deployment of this repo, and
@@ -787,6 +792,14 @@ def cmd_selftest(a):
                 rc16 = cmd_check(A16())
             check(rc16 == 2,
                   "cmd_check returns 2 (cannot-measure) on a non-deployment home")
+            os.environ["CLAUDE_LIVE_HOME"] = os.path.join(
+                os.path.dirname(home16), "no-such-home-at-all")
+            buf17 = io.StringIO()
+            with contextlib.redirect_stdout(buf17):
+                rc17 = cmd_check(A16())
+            check(rc17 == 0 and "SKIP drift" in buf17.getvalue(),
+                  "cmd_check SKIPs (exit 0) when no live tree exists at all, "
+                  "the CI shape")
         finally:
             if prior is None:
                 os.environ.pop("CLAUDE_LIVE_HOME", None)
