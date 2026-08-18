@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-428 directories, 1929 tracked files, 0 without a stated purpose.
+443 directories, 1982 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -26,19 +26,38 @@ the same reason, one level down.
 | `.github/ISSUE_TEMPLATE` | 1 | The one GitHub issue form (task.md); GitHub reads this exact path, so it is a wired location and not a docs folder | registry |
 | `.github/workflows` | 5 | The 3 live workflow files: Claude PR review (every push), Claude nightly job, and ship-gate CI check; Actions reads only this path | registry |
 
+## dashboard
+
+| dir | files | purpose | from |
+| --- | ----: | ------- | ---- |
+| `dashboard` | 3 | DASH-1 session dashboard (Tauri v2 + React), slice 2: read-only ledger readers over state/*.jsonl, gate-verdict IPC command and tile. src-tauri compiles as a real workspace memb... | registry |
+| `dashboard/core` | 1 | Buildable Rust crate: LedgerReadReport<T> readers for state/*.jsonl, tolerant-by-construction (skip-and-count on malformed lines, never panics), no tauri dependency so it compil... | registry |
+| `dashboard/core/src` | 3 | Rust source for dashboard-core: lib.rs (LedgerReadReport, IpcError) plus the ledger/ submodule | registry |
+| `dashboard/core/src/ledger` | 3 | One module per ledger file per the program design; gate_runs.rs is fully implemented and tested, stubs.rs covers the other five (claims, agent-spawns, skill-use, routing, bus) a... | registry |
+| `dashboard/src-tauri` | 3 | Tauri v2 app shell source (commands, IPC handler registration, capabilities, tauri.conf.json); a cargo workspace member and compiles clean with system GTK/webkit2gtk installed | registry |
+| `dashboard/src-tauri/capabilities` | 1 | Tauri v2 capability manifest (default.json): core:default only, no fs plugin permission (all reads happen inside Rust IPC commands, not a JS-facing fs plugin), no write/delete p... | registry |
+| `dashboard/src-tauri/icons` | 1 | Placeholder app icon (icon.png) required by tauri::generate_context! at build time; a real icon is a later-slice product-design decision, not this slice's scope | registry |
+| `dashboard/src-tauri/src` | 4 | Tauri app shell Rust source: commands.rs (the 7 IPC command handlers), lib.rs (invoke_handler registration), main.rs (binary entry) | registry |
+| `dashboard/web` | 5 | Standalone Vite + React + TypeScript frontend; builds independently of src-tauri via `npm run build`; GateVerdictTile is the one live tile in slice 2, styled toward the buzz des... | registry |
+| `dashboard/web/src` | 6 | React app source: App.tsx, ipc.ts (Tauri invoke bridge), types.ts (hand-mirrored Rust types), components/ | registry |
+| `dashboard/web/src/components` | 4 | React components; GateVerdictTile is the one implemented in slice 2 | registry |
+| `dashboard/web/src/components/ui` | 4 | shadcn/ui-pattern primitives (button, card, badge) built on Radix + class-variance-authority + tailwind-merge, customized from block/buzz's equivalent files | registry |
+| `dashboard/web/src/lib` | 1 | Shared frontend utilities (cn() class-merge helper) | registry |
+
 ## docs
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `docs` | 39 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
+| `docs` | 40 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 58 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 61 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
-| `docs/prd` | 5 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
+| `docs/prd` | 6 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
 | `docs/prior-art` | 46 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
 | `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
-| `docs/specs` | 22 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/specs` | 21 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
+| `docs/specs/archive` | 4 | Status: active | README.md |
 | `docs/standards` | 7 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
 
 ## dot-agents
@@ -158,9 +177,9 @@ the same reason, one level down.
 | `dot-claude/bin` | 44 | Executable CLI scripts (shell/python/node) for provider switching, statusline rendering, Jira/PII/session utilities, and Gastown spawning; a few are stub pointers into the Codex... | registry |
 | `dot-claude/commands` | 7 | Slash-command markdown definitions (/diverge, /reground, /cdp, /commit-push-pr, /insights, /pickup-reviews, /slop) that Claude Code loads as user-invokable commands | registry |
 | `dot-claude/corpus` | 2 | Script and source whitelist that build a local SQLite FTS best-practices corpus (Google eng practices, Azure Well-Architected, OpenSSF, private docs) for Gastown/Claude retrieval | registry |
-| `dot-claude/hooks` | 32 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
+| `dot-claude/hooks` | 34 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
 | `dot-claude/output-styles` | 1 | Claude Code output styles, the native mechanism that shapes assistant prose BEFORE generation. Deployed to ~/.claude/output-styles. The alternative it replaces is policing the r... | registry |
-| `dot-claude/rules` | 24 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
+| `dot-claude/rules` | 25 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
 | `dot-claude/skills` | 0 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
 | `dot-claude/skills/LTMD` | 1 | "Lead-To-Money-Decision lens. Judge any analysis/notebook/report/plan the way the paying decision-maker (default: Liron, CMO) would: does it end in ONE executable, dollar-valued... | SKILL.md |
 | `dot-claude/skills/advisor` | 1 | "Fast confidence-restoring research pass for when Claude (or the user) is NOT confident about an external, current, or SOTA question. Spawns a scoped web-research sub-agent, res... | SKILL.md |
@@ -210,6 +229,7 @@ the same reason, one level down.
 | `dot-claude/skills/learn-on-demand/references` | 2 | The rights-aware source catalog (books/docs/standards with rights_mode, ISBN, verification date) plus the provenance policy that scripts/knowledge.py and SKILL.md's rights gate... | registry |
 | `dot-claude/skills/learn-on-demand/scripts` | 1 | CLI (knowledge.py) that validates, indexes, and queries the rights-aware knowledge catalog, writing any private full-text chunks only to a database under the user's home directo... | registry |
 | `dot-claude/skills/meeting-notes` | 1 | Capture concise meeting notes in Shoval's bottom-line voice. Saves to ~/docs/meetings/YYYY-MM-DD-<topic>.md. Triggers on "/meeting-notes", "/log-meeting", "note this meeting", "... | SKILL.md |
+| `dot-claude/skills/meme-gen` | 1 | Create a meme image or short video with Gemini via the logged-in Chrome session. Triggers on /meme, "make a meme", "meme this", "surprise me with a meme". Takes a moment/joke/sc... | SKILL.md |
 | `dot-claude/skills/mutation-runner` | 1 | Run mutation testing workflows to measure test suite effectiveness and identify surviving mutants that indicate coverage gaps. | SKILL.md |
 | `dot-claude/skills/openai-agents` | 2 | Call OpenAI agents that live on platform.openai.com — Assistants API and AgentKit-published agents — from the CLI with full step observability. Stream runs with reasoning, tool... | SKILL.md |
 | `dot-claude/skills/ops-status` | 1 | "Ops Status — System State Snapshot Skill" | SKILL.md |
@@ -421,7 +441,7 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `tools` | 7 | Holds this repo's operational tooling: top-level scripts (repo audit, token rollout, slop lint) plus one subdirectory per verification, automation, or coordination tool | registry |
 | `tools/antigravity` | 1 | The `agy` CLI, a local reimplementation of an Antigravity command line that does not exist as a binary on this machine; wraps the google-antigravity Python SDK behind the repo's... | registry |
-| `tools/audit` | 9 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
+| `tools/audit` | 11 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
 | `tools/audit/mutations` | 22 | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red | registry |
 | `tools/browser` | 2 | Hand-rolled Chrome DevTools Protocol client that launches a separate Chrome so the assistant can browse authenticated pages, screenshot, and eval JS that anonymous WebFetch cann... | registry |
 | `tools/bus` | 2 | Cross-terminal message bus (bus.py): append-only hash-chained JSONL with per-lane read cursors so parallel Claude Code sessions in different terminals can send each other durabl... | registry |

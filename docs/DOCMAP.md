@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1028**
-- reachable from `docs/INDEX.md`: **122** (11%)
+- documents: **1038**
+- reachable from `docs/INDEX.md`: **120** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (69)
+## analysis (72)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -149,6 +149,9 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-11-milestone-task-plan.md` | 2026-08-11 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-08-11-repo-compare.md` | 2026-08-11 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-12-plain-handoff.md` | 2026-08-12 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-17-external-landscape-comparison.md` | 2026-08-17 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-17-repo-compare-block-buzz.md` | 2026-08-17 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-17-repo-compare-everything-claude-code.md` | 2026-08-17 | dated-snapshot | class | n/a | - | - | - |
 
 ## automation-output (126)
 
@@ -414,7 +417,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/Documents/CDP_Kick_Research_20260507/CDP_Kick_Strategic_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Executive_MCP_Research_20260507/Executive_MCP_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 
-## doc (56)
+## doc (57)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -474,6 +477,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `tools/telemetry/systemd/README.md` | 2026-08-04 | live, 2026-08-04. the units below are deployed and the timer | header | n/a | - | - | - |
 | `dot-claude/CLAUDE.md` | 2026-08-05 | living | registry | n/a | - | - | - |
 | `docs/taste.md` | 2026-08-12 | living | registry | n/a | yes | it by date and say what changed. | - |
+| `docs/PLAN-SPINE.md` | 2026-08-17 | active | header | n/a | yes | - | kanban-four-layer-model |
 
 ## generated-output (2)
 
@@ -504,7 +508,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/HANDOFF-2026-08-05-session-close.md` | 2026-08-05 | historical-record | class | 2 | yes | - | - |
 | `docs/HANDOFF-FROM-NEW-RECRUIT-2026-08-10.md` | 2026-08-10 | historical-record | class | n/a | - | - | - |
 
-## prd (5)
+## prd (6)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -513,6 +517,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prd/2026-07-30-consolidation-and-migration.md` | 2026-07-30 | approved for autonomous execution (operator, 2026-07-30, "lo | header | 2 | yes | it, and whether anything links to it. Or | - |
 | `docs/prd/2026-08-03-boundary-termination-instrument.md` | 2026-08-03 | proposed | header | 2 | yes | - | - |
 | `docs/prd/2026-08-03-unified-architecture.md` | 2026-08-03 | proposed | header | n/a | yes | - | - |
+| `docs/prd/session-dashboard.md` | 2026-08-17 | active | header | n/a | - | - | - |
 
 ## prior-art (46)
 
@@ -585,9 +590,9 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `CLAUDE-OS.md` | 2026-07-23 | active (living document, the spine) | header | n/a | yes | every prior setup plan. Predecessors rem | - |
 | `README.md` | 2026-07-23 | living | registry | n/a | - | every prior plan in this repo. | - |
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
-| `TODO.md` | 2026-08-01 | living | registry | 2 | yes | nothing | operator |
+| `TODO.md` | 2026-08-17 | living | registry | 2 | yes | nothing | the |
 
-## rule (40)
+## rule (41)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -631,8 +636,9 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/merges-are-the-operators.md` | 2026-08-09 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/the-loop-may-act.md` | 2026-08-10 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/long-checks-background.md` | 2026-08-12 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/output-channel-routing.md` | 2026-08-17 | definition-see-skills_sync | class | 2 | - | - | - |
 
-## skill (222)
+## skill (223)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -858,33 +864,37 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/writing-great-skills/SKILL.md` | 2026-07-31 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/i-have-adhd/SKILL.md` | 2026-08-06 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/repo-compare/SKILL.md` | 2026-08-11 | definition-see-skills_sync | class | 2 | - | - | - |
+| `dot-claude/skills/meme-gen/SKILL.md` | 2026-08-17 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (22)
+## spec (25)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
-| `docs/specs/2026-07-23-persona-review-economy.md` | 2026-07-23 | active | header | n/a | yes | - | - |
+| `docs/specs/2026-07-23-persona-review-economy.md` | 2026-07-23 | proposed | header | n/a | yes | - | - |
 | `docs/specs/2026-07-23-slm-swarm.md` | 2026-07-23 | active | header | n/a | yes | - | - |
 | `docs/specs/2026-07-24-autonomy-implementation.md` | 2026-07-24 | active | header | 1 | yes | - | - |
 | `docs/specs/2026-07-24-command-center-superior.md` | 2026-07-24 | active | header | n/a | yes | - | - |
 | `docs/specs/2026-07-29-architecture-build-plan-v2.md` | 2026-07-29 | partly-superseded-by docs/prd/2026-07-30-consolidation-and-migration.md | registry | 1 | yes | v1 the same day | - |
-| `docs/specs/2026-07-29-architecture-build-plan.md` | 2026-07-29 | superseded-by docs/specs/2026-07-29-architecture-build-plan-v2.md | registry | 1 | yes | - | 2026-07-29-architecture-build-plan-v2.md |
 | `docs/specs/2026-07-29-decision-rules.md` | 2026-07-29 | proposed. written 2026-07-29 for lane b (claude-setup) | header | 1 | yes | - | - |
 | `docs/specs/2026-07-29-deterministic-preflight.md` | 2026-07-29 | proposed. operator-originated 2026-07-29, needs /diverge on | header | n/a | yes | - | - |
 | `docs/specs/2026-07-29-intent-traceability.md` | 2026-07-29 | accepted | registry | n/a | yes | - | - |
 | `docs/specs/2026-07-29-prompt-to-ticket-lifecycle.md` | 2026-07-29 | active | header | 1 | yes | the | - |
-| `docs/specs/2026-07-29-trace-model-sacred-timeline.md` | 2026-07-29 | accepted | registry | 1 | yes | - | - |
+| `docs/specs/archive/2026-07-29-architecture-build-plan.md` | 2026-07-29 | superseded by 2026-07-29-architecture-build-plan-v2.md the s | header | 1 | - | - | 2026-07-29-architecture-build-plan-v2.md |
+| `docs/specs/archive/2026-07-29-trace-model-sacred-timeline.md` | 2026-07-29 | proposed. trace model, 2026-07-29. not built | header | 1 | - | - | - |
 | `docs/specs/2026-07-30-data-architecture-and-orchestration.md` | 2026-07-30 | proposed. design document, 2026-07-30. nothing here is built | header | n/a | yes | nothing. Extends ADR-0010 | - |
 | `docs/specs/2026-07-31-agentic-directory-standard-sota.md` | 2026-07-31 | design. specification and architectural comparison, 2026-07- | header | n/a | yes | - | - |
-| `docs/specs/2026-07-31-github-native-project-surface.md` | 2026-07-31 | design. nothing in this document has been applied. every wri | header | n/a | yes | - | - |
+| `docs/specs/2026-07-31-github-native-project-surface.md` | 2026-07-31 | superseded by docs/specs/2026-07-31-kanban-four-layer-model. | header | n/a | yes | - | docs/specs/2026-07-31-kanban-four-layer- |
 | `docs/specs/2026-07-31-kanban-four-layer-model.md` | 2026-07-31 | design. nothing here has been applied. every write command i | header | 2 | yes | - | - |
-| `docs/specs/2026-07-31-project-federation.md` | 2026-07-31 | accepted | registry | n/a | yes | - | - |
 | `docs/specs/2026-07-31-research-corpus-and-cache.md` | 2026-07-31 | proposed. corpus and cache design, 2026-07-31. not built | header | n/a | yes | text references sources | - |
-| `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | active | header | 2 | yes | - | - |
+| `docs/specs/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | superseded by docs/specs/2026-07-31-kanban-four-layer-model. | header | 2 | yes | - | docs/specs/2026-07-31-kanban-four-layer- |
+| `docs/specs/archive/2026-07-31-project-federation.md` | 2026-07-31 | parked. the document argues against its own proposal and con | header | n/a | - | - | - |
 | `docs/specs/2026-08-03-detail-passes-teleology-and-creativity.md` | 2026-08-03 | design, 2026-08-03. nothing here is built. extends | header | n/a | yes | - | - |
 | `docs/specs/2026-08-05-persona-allocation-and-reviewer-identity.md` | 2026-08-05 | active, 2026-08-05. `active` is the vocabulary's word for th | header | n/a | - | - | - |
 | `docs/specs/2026-08-10-open-scope-delegation-plan.md` | 2026-08-10 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-12-open-model-and-scheduling-plan.md` | 2026-08-12 | proposed, operator decides the numbered blocks at the end | header | n/a | - | - | - |
+| `docs/specs/2026-08-17-session-dashboard-direction.md` | 2026-08-17 | active | header | n/a | - | - | - |
+| `docs/specs/2026-08-17-session-dashboard-program-design.md` | 2026-08-17 | active | header | n/a | - | nothing in | - |
+| `docs/specs/archive/README.md` | 2026-08-17 | active | header | n/a | - | - | - |
 
 ## standard (7)
 
