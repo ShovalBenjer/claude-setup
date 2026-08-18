@@ -7,15 +7,29 @@ name: Ship gate
 # matches that regex directly -- do not rename/wrap that invocation without
 # re-reading ci_runs_gate(), or this workflow silently stops counting.
 #
-# WHAT A GREEN "gate" JOB COVERS (per quality-contract.json, verified 2026-07-25):
+# WHAT A GREEN "gate" JOB COVERS (per quality-contract.json, updated 2026-08-19):
 #   build     -- `cd intent-control-plane && uv sync --frozen`
 #   unit      -- root tests/, gate.py selftest, panel.py selftest,
+#                tools/audit/append_only.py selftest+check (EXT-1),
+#                tools/audit/routing_accuracy.py selftest+report (EXT-3),
 #                intent-control-plane's own pytest suite
 #   types     -- compileall + intent-control-plane's ruff/mypy
 #   security  -- secret_scan builtin (repo-wide regex scan)
 #   docs      -- docs_touched builtin (diff vs origin/main)
 #   review    -- panel.py's own diff-review producer, run for real
 #   pipeline  -- this file existing and calling `gate.py run` (see above)
+#   dashboard -- `cd dashboard && cargo test --workspace` (dashboard/core +
+#                dashboard/src-tauri). Set up via the `Install Rust toolchain`
+#                step below; needs GTK3 + webkit2gtk-4.1 system packages,
+#                installed via the `Install dashboard system deps` step.
+#
+# NOT run through gate.py, but run as a named CI step in this same job for the
+# same reason (39 dashboard/ files, 0 CI coverage before 2026-08-19):
+#   dashboard-web-build -- `npm run build` in dashboard/web via
+#     actions/setup-node@v4 (node 22). Not folded into the `dashboard` gate.py
+#     domain because that domain's cmd is Rust-only by design (see
+#     quality-contract.json's dashboard.scope_note) -- this step is what
+#     actually gates it in CI.
 #
 # WHAT IT DOES NOT COVER:
 #   e2e, a11y_ux -- these require a real browser (tools/browser/cdp.py) driving
@@ -142,6 +156,48 @@ jobs:
           done
           true
 
+      # Added 2026-08-19 alongside the `dashboard` gate.py domain. This job
+      # runs on [self-hosted, linux] -- the operator's own WSL machine, not a
+      # hosted ephemeral runner -- so this step is deliberately a GUARD, not
+      # an installer. `sudo apt-get install` or `dtolnay/rust-toolchain` here
+      # would mutate the operator's live machine (system packages, rustup
+      # default toolchain) on every CI run with no per-action approval, which
+      # `the-loop-may-act` puts on the may-not side. cargo/rustc already
+      # resolve on this host (~/.cargo/bin), and GTK3 + webkit2gtk-4.1 are
+      # already installed (measured 2026-08-19: `pkg-config --exists` on both
+      # returns 0), because `cargo test --workspace` needs a compiler for
+      # dashboard/src-tauri (a real Tauri 2 crate, not just dashboard/core's
+      # plain-Rust library), which links against those headers. If this guard
+      # ever goes red, that is an honest "this runner lost a dependency"
+      # signal for the operator to act on, not something CI silently fixes.
+      - name: Verify dashboard toolchain present (self-hosted runner; not installed here)
+        run: |
+          command -v cargo
+          command -v rustc
+          pkg-config --exists gtk+-3.0
+          pkg-config --exists webkit2gtk-4.1
+
+      # Named separately for the same reason as `gate.py selftest` and
+      # `panel.py selftest` above: individually attributable in the CI log.
+      # This duplicates the `dashboard` domain inside `gate.py run` below,
+      # but the second run is incremental against cargo's target/ cache (not
+      # recompiled from scratch), so the cost is one `cargo test` worth of
+      # link+run time, not a second full build.
+      - name: "dashboard cargo test --workspace (EXT for DASH-1: core + src-tauri)"
+        run: cd dashboard && cargo test --workspace
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: dashboard/web/package-lock.json
+
+      - name: dashboard-web-build (npm run build, dashboard/web)
+        run: |
+          cd dashboard/web
+          npm ci
+          npm run build
+
       - name: gate.py run (full contract)
         run: python tools/gate/gate.py run --project . -v
 
@@ -235,7 +291,8 @@ jobs:
           echo "changed files: $(echo "$FILES" | grep -c . || true)"
           echo
           for area in tools/ tests/ docs/ dot-claude/ dot-codex/ dot-agents/ \
-                      state/ .github/ intent-control-plane/ research-papers/ work-docs/; do
+                      state/ .github/ intent-control-plane/ research-papers/ work-docs/ \
+                      dashboard/; do
             n=$(echo "$FILES" | grep -c "^$area" || true)
             [ "$n" -gt 0 ] && printf "  %-24s %s file(s)\n" "$area" "$n"
           done
