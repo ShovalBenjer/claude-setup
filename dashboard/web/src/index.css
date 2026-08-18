@@ -2,16 +2,26 @@
 
 /*
  * Design anchor: block/buzz (https://github.com/block/buzz, shallow-cloned
- * and read 2026-08-17 at web/src/shared/styles/globals.css and
- * web/src/shared/ui/*.tsx). Buzz is the operator's stated taste reference
- * and is a real Tauri+React+Tailwind desktop app, confirming it as a live
- * source rather than description-only. Token values below are the Catppuccin
- * Macchiato dark palette buzz ships in its `.dark` block, carried as the
- * single (dark-only, this app has no light mode) theme here rather than
- * copy-pasted wholesale: buzz's mauve-accent full token set (sidebar/chart
- * tokens etc.) is trimmed to what this dashboard actually uses, and the
- * accent hue is shifted to a status-green/amber/red triad appropriate for a
- * gate-verdict dashboard instead of buzz's purple brand accent.
+ * and read 2026-08-17 and 2026-08-18 at web/src/shared/styles/globals.css
+ * and web/src/shared/ui/*.tsx). Buzz is the operator's stated taste
+ * reference and is a real Tauri+React+Tailwind desktop app, confirming it
+ * as a live source rather than description-only.
+ *
+ * Correction 2026-08-18: an earlier revision of this file shifted
+ * --primary (and --background) away from buzz's real values, reasoning
+ * that a gate-verdict dashboard needed its own green/amber/red accent
+ * instead of "buzz's purple brand accent." The operator rejected that:
+ * the violet --primary IS how buzz's identity is carried (buttons,
+ * active-nav, focus rings), so replacing it is exactly why the shipped
+ * UI stopped reading as buzz-inspired. Every token below is now taken
+ * directly from buzz's `.dark` block (Catppuccin Macchiato, mauve
+ * accent) at the path above, verified by direct comparison, not
+ * approximated from memory. Status colors (pass/fail/warn) are split
+ * into their own --status-* tokens instead of overloading --primary,
+ * matching how buzz itself keeps semantic status (its badge.tsx
+ * "destructive" variant: bg-destructive/text-destructive-foreground)
+ * separate from the brand accent (its badge.tsx "default" variant:
+ * bg-primary/text-primary-foreground reserved for brand, not status).
  */
 @theme {
   --font-sans:
@@ -21,31 +31,37 @@
 
 @layer base {
   :root {
-    --background: 232 23.4% 10%;
-    --foreground: 227 68.25% 92%;
-    --card: 232 20% 14%;
-    --card-foreground: 227 68.25% 92%;
-    --popover: 232 20% 14%;
-    --popover-foreground: 227 68.25% 92%;
-    --primary: 152 55% 55%;
-    --primary-foreground: 232 23.4% 10%;
-    --secondary: 230 18.8% 20%;
-    --secondary-foreground: 227 68.25% 92%;
-    --muted: 230 18.8% 18%;
-    --muted-foreground: 228 20% 65%;
-    --accent: 230 18.8% 22%;
-    --accent-foreground: 227 68.25% 92%;
-    --destructive: 0 72% 62%;
-    --destructive-foreground: 232 23.4% 10%;
+    --background: 232 23.4% 18.43%;
+    --foreground: 227 68.25% 87.65%;
+    --card: 232 23.4% 18.43%;
+    --card-foreground: 227 68.25% 87.65%;
+    --popover: 232 23.4% 18.43%;
+    --popover-foreground: 227 68.25% 87.65%;
+    --primary: 267 82.69% 79.61%;
+    --primary-foreground: 232 23.4% 18.43%;
+    --secondary: 230 18.8% 26.08%;
+    --secondary-foreground: 227 68.25% 87.65%;
+    --muted: 230 18.8% 26.08%;
+    --muted-foreground: 228 39.22% 80%;
+    --accent: 230 18.8% 26.08%;
+    --accent-foreground: 227 68.25% 87.65%;
+    --destructive: 351 73.91% 72.94%;
+    --destructive-foreground: 232 23.4% 18.43%;
     --warning: 38 92% 58%;
-    --warning-foreground: 232 23.4% 10%;
-    --border: 231 15.61% 24%;
-    --input: 231 15.61% 24%;
-    --ring: 152 55% 55%;
+    --warning-foreground: 232 23.4% 18.43%;
+    --status-pass: 142 71% 45%;
+    --status-pass-foreground: 232 23.4% 18.43%;
+    --status-fail: 0 72% 62%;
+    --status-fail-foreground: 232 23.4% 18.43%;
+    --status-warn: 38 92% 58%;
+    --status-warn-foreground: 232 23.4% 18.43%;
+    --border: 231 15.61% 33.92%;
+    --input: 231 15.61% 33.92%;
+    --ring: 267 82.69% 79.61%;
     --radius: 0.625rem;
-    --sidebar: 232 26% 8%;
-    --sidebar-foreground: 227 40% 80%;
-    --sidebar-border: 231 15.61% 20%;
+    --sidebar: 234 22.75% 17.25%;
+    --sidebar-foreground: 227 68.25% 87.65%;
+    --sidebar-border: 231 15.61% 33.92%;
   }
 }
 
@@ -78,6 +94,12 @@
   --color-destructive-foreground: hsl(var(--destructive-foreground));
   --color-warning: hsl(var(--warning));
   --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-status-pass: hsl(var(--status-pass));
+  --color-status-pass-foreground: hsl(var(--status-pass-foreground));
+  --color-status-fail: hsl(var(--status-fail));
+  --color-status-fail-foreground: hsl(var(--status-fail-foreground));
+  --color-status-warn: hsl(var(--status-warn));
+  --color-status-warn-foreground: hsl(var(--status-warn-foreground));
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));

@@ -18,10 +18,16 @@ type LoadState =
   | { status: "ok"; run: GateRun };
 
 // Design anchor: block/buzz (https://github.com/block/buzz), shallow-cloned
-// and read 2026-08-17 — dark Catppuccin-derived palette, Card/Badge
-// primitives at web/src/shared/ui/*.tsx. Tokens and component shells now
-// live in src/index.css and src/components/ui/*; this tile consumes them
-// instead of the bespoke GateVerdictTile.css it used before.
+// and read 2026-08-17/2026-08-18 — dark Catppuccin-derived palette,
+// Card/Badge primitives at web/src/shared/ui/*.tsx. Tokens and component
+// shells live in src/index.css and src/components/ui/*; this tile
+// consumes them instead of the bespoke GateVerdictTile.css it used before.
+//
+// Gate verdict tones use the dedicated --status-* tokens, not --primary
+// or --destructive: --primary is buzz's brand violet (buttons, active
+// nav, focus rings) and must stay visually distinct from a PASS/FAIL
+// verdict, matching how buzz's own badge.tsx keeps "default" (brand) and
+// "destructive" (semantic) as separate variants.
 function verdictTone(v: GateRun["verdict"]): "pass" | "fail" | "partial" | "unknown" {
   if (typeof v === "string") {
     if (v === "pass") return "pass";
@@ -33,22 +39,22 @@ function verdictTone(v: GateRun["verdict"]): "pass" | "fail" | "partial" | "unkn
 
 const TONE_META = {
   pass: {
-    badge: "default" as const,
+    badge: "status-pass" as const,
     icon: CheckCircle2,
-    text: "text-primary",
-    ring: "ring-primary/40",
+    text: "text-status-pass",
+    ring: "ring-status-pass/40",
   },
   fail: {
-    badge: "destructive" as const,
+    badge: "status-fail" as const,
     icon: CircleX,
-    text: "text-destructive",
-    ring: "ring-destructive/40",
+    text: "text-status-fail",
+    ring: "ring-status-fail/40",
   },
   partial: {
-    badge: "warning" as const,
+    badge: "status-warn" as const,
     icon: CircleAlert,
-    text: "text-warning",
-    ring: "ring-warning/40",
+    text: "text-status-warn",
+    ring: "ring-status-warn/40",
   },
   unknown: {
     badge: "secondary" as const,
