@@ -326,7 +326,7 @@ def selftest() -> int:
                             "through into a post, which is the one thing it exists to avoid")
 
     for line in failures:
-        print("  FAIL  " + line)
+        print("  [FAIL] " + line)
     if failures:
         print("VERDICT: {} check(s) failed".format(len(failures)))
         return 1

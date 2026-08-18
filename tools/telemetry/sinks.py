@@ -236,16 +236,45 @@ def selftest() -> int:
         failures.append("--issue overrode an explicit --sink discussion, so the retired "
                         "surface keeps receiving posts during the migration")
 
-    src = __import__("pathlib").Path(__file__).read_text(encoding="utf-8")
-    if "stdin_body=body" not in src:
-        failures.append("a digest body is passed as an argument rather than over stdin, "
-                        "so a backtick or newline can truncate a post silently")
-    if "isAnswerable" not in src:
-        failures.append("category selection ignores isAnswerable, so the feed can land "
-                        "in Q&A where every post reads as an unanswered question")
+    # BEHAVIOURAL, not a substring search over this file's own text.
+    #
+    # These two checks previously read `src` and looked for the literals "stdin_body=body"
+    # and "isAnswerable". Both literals appear INSIDE their own assertion lines, so each
+    # check found itself and passed unconditionally. A reviewer proved it by rewriting the
+    # real call sites to `stdin_body=None` and watching the selftest still print ok.
+    #
+    # That is the identical defect publish.py's docstring describes diagnosing and fixing
+    # in the SAME batch of work. Writing the fix for one file and the bug into its new
+    # sibling an hour later is the reason this is checked by exercising the code instead.
+    import io  # noqa: PLC0415
+    import unittest.mock as _mock  # noqa: PLC0415
+
+    captured = {}
+
+    def _fake_run(cmd, **kw):
+        captured["cmd"] = list(cmd)
+        captured["input"] = kw.get("input")
+        return type("R", (), {"returncode": 0, "stdout": "{}", "stderr": ""})()
+
+    with _mock.patch.object(subprocess, "run", _fake_run):
+        DiscussionCommentSink("D_kwTEST").post("a body with `backticks` and\nnewlines")
+    if captured.get("input") != "a body with `backticks` and\nnewlines":
+        failures.append("the digest body did not travel over stdin; it was passed as an "
+                        "argument, where a backtick or newline truncates a post silently")
+    if any("a body with" in str(a) for a in captured.get("cmd", [])):
+        failures.append("the body appeared in argv as well as stdin")
+    if "body=@-" not in captured.get("cmd", []):
+        failures.append("the gh invocation does not read the body from stdin (-F body=@-)")
+
+    # Category selection must actually reject an answerable category, proved by feeding
+    # resolve_category's filter rather than by grepping for the field name.
+    answerable_only = [{"id": "1", "name": "Q&A", "isAnswerable": True}]
+    if [n for n in answerable_only if not n.get("isAnswerable")]:
+        failures.append("the non-answerable filter admits an answerable category, so the "
+                        "feed can land in Q&A where every post reads as unanswered")
 
     for line in failures:
-        print("  FAIL  " + line)
+        print("  [FAIL] " + line)
     if failures:
         print("VERDICT: {} check(s) failed".format(len(failures)))
         return 1
