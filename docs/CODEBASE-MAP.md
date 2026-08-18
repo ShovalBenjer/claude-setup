@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-430 directories, 1937 tracked files, 0 without a stated purpose.
+443 directories, 1976 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -25,6 +25,24 @@ the same reason, one level down.
 | `.github` | 1 | Live GitHub Actions root; workflows/ holds the 3 CI YAMLs GitHub actually runs on PRs and cron (newer commit than github/) | registry |
 | `.github/ISSUE_TEMPLATE` | 1 | The one GitHub issue form (task.md); GitHub reads this exact path, so it is a wired location and not a docs folder | registry |
 | `.github/workflows` | 4 | The 3 live workflow files: Claude PR review (every push), Claude nightly job, and ship-gate CI check; Actions reads only this path | registry |
+
+## dashboard
+
+| dir | files | purpose | from |
+| --- | ----: | ------- | ---- |
+| `dashboard` | 3 | DASH-1 session dashboard (Tauri v2 + React), slice 2: read-only ledger readers over state/*.jsonl, gate-verdict IPC command and tile. src-tauri compiles as a real workspace memb... | registry |
+| `dashboard/core` | 1 | Buildable Rust crate: LedgerReadReport<T> readers for state/*.jsonl, tolerant-by-construction (skip-and-count on malformed lines, never panics), no tauri dependency so it compil... | registry |
+| `dashboard/core/src` | 3 | Rust source for dashboard-core: lib.rs (LedgerReadReport, IpcError) plus the ledger/ submodule | registry |
+| `dashboard/core/src/ledger` | 3 | One module per ledger file per the program design; gate_runs.rs is fully implemented and tested, stubs.rs covers the other five (claims, agent-spawns, skill-use, routing, bus) a... | registry |
+| `dashboard/src-tauri` | 3 | Tauri v2 app shell source (commands, IPC handler registration, capabilities, tauri.conf.json); a cargo workspace member and compiles clean with system GTK/webkit2gtk installed | registry |
+| `dashboard/src-tauri/capabilities` | 1 | Tauri v2 capability manifest (default.json): core:default only, no fs plugin permission (all reads happen inside Rust IPC commands, not a JS-facing fs plugin), no write/delete p... | registry |
+| `dashboard/src-tauri/icons` | 1 | Placeholder app icon (icon.png) required by tauri::generate_context! at build time; a real icon is a later-slice product-design decision, not this slice's scope | registry |
+| `dashboard/src-tauri/src` | 4 | Tauri app shell Rust source: commands.rs (the 7 IPC command handlers), lib.rs (invoke_handler registration), main.rs (binary entry) | registry |
+| `dashboard/web` | 5 | Standalone Vite + React + TypeScript frontend; builds independently of src-tauri via `npm run build`; GateVerdictTile is the one live tile in slice 2, styled toward the buzz des... | registry |
+| `dashboard/web/src` | 6 | React app source: App.tsx, ipc.ts (Tauri invoke bridge), types.ts (hand-mirrored Rust types), components/ | registry |
+| `dashboard/web/src/components` | 4 | React components; GateVerdictTile is the one implemented in slice 2 | registry |
+| `dashboard/web/src/components/ui` | 4 | shadcn/ui-pattern primitives (button, card, badge) built on Radix + class-variance-authority + tailwind-merge, customized from block/buzz's equivalent files | registry |
+| `dashboard/web/src/lib` | 1 | Shared frontend utilities (cn() class-merge helper) | registry |
 
 ## docs
 
