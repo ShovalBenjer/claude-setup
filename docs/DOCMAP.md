@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1036**
+- documents: **1038**
 - reachable from `docs/INDEX.md`: **119** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -637,7 +637,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/long-checks-background.md` | 2026-08-12 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/output-channel-routing.md` | 2026-08-17 | definition-see-skills_sync | class | 2 | - | - | - |
 
-## skill (223)
+## skill (225)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -728,6 +728,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/azure-runtime/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/blog/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/blonde-designer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/books-index/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/books-ingest/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/brainstorming/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/brainstorming/spec-document-reviewer-prompt.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/cleanup-crew/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
