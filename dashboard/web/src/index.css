@@ -13,15 +13,30 @@
  * instead of "buzz's purple brand accent." The operator rejected that:
  * the violet --primary IS how buzz's identity is carried (buttons,
  * active-nav, focus rings), so replacing it is exactly why the shipped
- * UI stopped reading as buzz-inspired. Every token below is now taken
- * directly from buzz's `.dark` block (Catppuccin Macchiato, mauve
- * accent) at the path above, verified by direct comparison, not
- * approximated from memory. Status colors (pass/fail/warn) are split
- * into their own --status-* tokens instead of overloading --primary,
- * matching how buzz itself keeps semantic status (its badge.tsx
- * "destructive" variant: bg-destructive/text-destructive-foreground)
- * separate from the brand accent (its badge.tsx "default" variant:
- * bg-primary/text-primary-foreground reserved for brand, not status).
+ * UI stopped reading as buzz-inspired.
+ *
+ * Every token buzz itself defines (--background/--foreground/--card/
+ * --popover/--primary/--secondary/--muted/--accent/--destructive/
+ * --border/--input/--radius/--sidebar*) is copied verbatim from buzz's
+ * `.dark` block at the path above, verified by direct comparison, not
+ * approximated from memory. Two deliberate departures from that
+ * verbatim copy, named rather than absorbed into the fidelity claim:
+ *   - --ring is set to buzz's --primary value, not buzz's own --ring
+ *     (which is buzz's --foreground, 227 68.25% 87.65%), because the
+ *     operator named "focus rings" as one of the three places the
+ *     violet brand color must read.
+ *   - --warning and the six --status-* tokens do not exist in buzz at
+ *     all; buzz has no gate-verdict concept. --status-pass/-fail/-warn
+ *     are new, kept out of buzz's own hue family only where buzz has no
+ *     equivalent (status-pass approximates Catppuccin Macchiato green
+ *     in the same ~72-80% lightness band buzz's other accents sit in,
+ *     rather than an arbitrary saturated green).
+ * These status tokens exist so gate PASS/FAIL/WARN never overloads
+ * --primary or --destructive, matching how buzz itself keeps semantic
+ * status (its badge.tsx "destructive" variant: bg-destructive/
+ * text-destructive-foreground) separate from the brand accent (its
+ * badge.tsx "default" variant: bg-primary/text-primary-foreground
+ * reserved for brand, not status).
  */
 @theme {
   --font-sans:
@@ -49,7 +64,7 @@
     --destructive-foreground: 232 23.4% 18.43%;
     --warning: 38 92% 58%;
     --warning-foreground: 232 23.4% 18.43%;
-    --status-pass: 142 71% 45%;
+    --status-pass: 105 48% 72%;
     --status-pass-foreground: 232 23.4% 18.43%;
     --status-fail: 0 72% 62%;
     --status-fail-foreground: 232 23.4% 18.43%;
