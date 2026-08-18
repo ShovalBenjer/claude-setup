@@ -126,3 +126,6 @@ docs/books/
 # disk and out of the index; see docs/analysis/2026-08-10-inbox-secret-exposure.md.
 docs/inbox-from-new-recruit/
 *:Zone.Identifier
+
+# Reanimation corpora are private family/friend messages, never committed
+.intent/
