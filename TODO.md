@@ -4,6 +4,19 @@ One TODO, grouped by layer, ticket-tagged (SETUP-OS + AUTO). Status mirrors
 docs/prd/claude-os.md and docs/prd/autonomy-ecosystem.md. Fresh session? Read
 docs/SESSION-BOOT.md first.
 
+Read `docs/PLAN-SPINE.md` before picking up cross-surface work: it is the one
+page connecting PRD to spec to current/next slice to ticket to % built, for
+harness-gate, autonomy/AUTO, dashboard/DASH, voice/VOICE,
+interpretability/Modal, persona-economy, intent-lifecycle, slm-swarm, and
+kanban. Written 2026-08-17 glue pass, after a sweep found 26 planning docs
+split BUILT 2 / PARTIAL 11 / PAPER 13 and no single spine.
+
+## INV: unfinished-work inventory (docs/analysis/2026-08-15-unfinished-work-inventory.md)
+
+- [ ] INV-1 Execute the phased waterfall in
+  `docs/analysis/2026-08-15-unfinished-work-inventory.md` (Phase 0 operator decisions
+  first; Phase 2 quick hygiene is agent-doable).
+
 ## FOG: what a file-by-file sweep found that no status marker reported (2026-08-01)
 
 - [ ] **A secret reached a pushed commit and only the operator can finish removing it.**
@@ -494,13 +507,15 @@ Operator-ordered comparison against 7 talks, CommandCodeAI, deepseek-harness, an
 cordiverse/paper (2026-08-17). Seven adopt-ranked gaps; the cross-source signal is
 "the rule exists as prose while the oracle does not". Top three as tickets:
 
-- [ ] EXT-1 Append-only-write oracle for `state/*.jsonl`: a `tools/audit/` check that no writer rewrites a ledger row in place (convention today, checked by nothing)
-- [ ] EXT-2 Risk-classified pre-action guard: couple the-loop-may-act's MAY/MAY-NOT list to a PreToolUse check on push/merge/deploy verbs
-- [ ] EXT-3 Skill-routing accuracy as a measured number from `state/routing.jsonl` + `state/skill-use.jsonl` against the Gastown registry (router-vs-spawn agreement was 0 of 20 in the week to 2026-08-12)
+- [x] EXT-1 Append-only-write oracle for `state/*.jsonl`: `tools/audit/append_only.py` (static scan for truncating writers + git-history line-count check), `selftest` green, `check` clean against this repo
+- [x] EXT-2 Risk-classified pre-action guard: `dot-claude/hooks/pretooluse-risk-guard.py`, payload-only (not wired into settings.json), `selftest` green
+- [x] EXT-3 Skill-routing accuracy as a measured number: `tools/audit/routing_accuracy.py report`, reads `state/agent-spawns.jsonl` (router_named vs subagent_type) + `state/routing.jsonl` (activation volume); measured live 2026-08-17: 1/6 (17%) overall spawn agreement, 31/37 spawns with no router_named on record
 
 - [ ] EXT-4 block/buzz follow-ups (docs/analysis/2026-08-17-repo-compare-block-buzz.md): WATCH rows for the ACP agent/tool protocol split and Nostr-signed per-agent audit events; re-check when a multi-agent server host or multi-principal threat model lands here
 
 - [ ] DASH-1 Session dashboard, Tauri + React (docs/specs/2026-08-17-session-dashboard-direction.md): direction locked by operator 2026-08-17; build starts in its own worktree/PR, buzz clone as design anchor, ledger-read-only
+
+- [ ] DASH-1 slice 1, program design (docs/specs/2026-08-17-session-dashboard-program-design.md): Rust ledger types (tolerant, skip-and-count on malformed/unknown-schema rows, empirically grounded against a key-set scan of all six ledgers), Tauri IPC contract, React component tree, five-slice plan. Row 7 of docs/prd/session-dashboard.md closes on PR review, not on this file existing.
 
 - [x] GPU-C Open-model plan block C answered in practice (operator, 2026-08-17): Modal API key provisioned (~/.env plus ~/.modal.toml, profile shovalbenjer, auth verified via `uvx modal app list`; one prior app glimmer-lab deployed 2026-08-13). GPU bursts for the training-interpretability lane (SAE/crosscoder/KAN on small models, LoRA when the trajectory corpus is ready) run on Modal per burst; the spec's RunPod/Vast rows stand as fallback pricing, no monthly subscription, which was the spec's own recommendation
 - [ ] BILL-1 GitHub Actions billing wall (found 2026-08-17 post-merge of PR #74): hosted-runner jobs on every PR fail in seconds with "recent account payments have failed or your spending limit needs to be increased"; self-hosted jobs (gate, falsifiability) unaffected. Operator-only: Settings, Billing and plans. Blocks browser-instrument-selftest and supply-chain on PRs 75/76/78/79/80 and therefore blocks the standing auto-merge condition
@@ -707,9 +722,30 @@ Two rows above were CLOSED by the same measurement and are marked in place.
 
 ### Zion
 
-- [ ] ZION-01 BLOCKED(operator): the gh token has no `read:project` scope, so the live board could not be read or written this session. Unblock with `gh auth refresh -s read:project,project`, which needs an interactive browser step. `$BROWSER` is now bridged to Windows Chrome by `tools/wsl/bootstrap.sh`, so the device-code URL will open
-- [ ] ZION-02 Once ZION-01 clears, publish the rows above through the JSON, never by hand: edit `state/github-backlog-<date>.json`, then `python tools/ghpub/publish_backlog.py --update` (dry run), then `--execute`, then `zion_fields.py`. Rule from the Zion spec section 6: the JSON is edited, never the issue body, and a hand-set field is drift with no diff
-- [ ] ZION-03 The board's `Lane` field is a select of `B/C/D/E`. ADR-0016 renumbered the lanes to A/B/C/D on 2026-07-30. The board is one cutover behind the ADR, so every lane value on it is ambiguous in exactly the way `docs/charters.md` warns about
+- [x] ZION-01 **READ UNBLOCKED 2026-08-06.** The operator ran the refresh and the token now carries `read:project`. First live read of the board since 07-31: 31 items, 21 fields. **WRITE IS STILL BLOCKED**: `updateProjectV2` answers `INSUFFICIENT_SCOPES ... requires ['project']`, and the granted set is `gist, read:org, read:project, repo, workflow`. One more scope, `gh auth refresh -s project`, and it is operator-only for the same reason as before
+- [x] ZION-02 **CLOSED 2026-08-06 by executing the publish, and `zion_fields.py` was
+  never written because it would have written nothing.** The operator granted `project`
+  and the one remaining command ran:
+  `publish_backlog.py --source state/github-backlog-2026-07-31.json --project --fields --execute`.
+  Issues **#49** and **#50** created, board **31 items to 33**, and the two new items
+  verified against a live read carrying every field the JSON owns: `A harness` /
+  `operator-only` on both, `P0` + `S3 60min` + `refuted` on the falsifier epic, `P1` +
+  `S4 90min` + `measured` on the ratchet epic. All 33 items read `A harness`.
+  The field sync for the other 31 was already complete before this ran, which is why the
+  final plan reported `totals skip=165` with zero `set` rows. The tool that would have
+  done the work is the tool that proved it was already done, which is the only reason not
+  building `zion_fields.py` is a measurement rather than a guess.
+  **ONE GAP, named rather than hidden:** `Estimate (min)` is empty on #49 and #50. The
+  JSON carries `90 min` and `240 min` for them, but `publish_backlog.py --fields` owns
+  five fields (Priority, Ingestion, Lane, Autonomy, Evidence state) and `Estimate` is not
+  one of them, so 26 of 33 items have an estimate and the two newest do not. That is the
+  tool's declared ownership working as written, not a failure, and closing the gap means
+  widening `OWNED` rather than hand-setting a field.
+  **WHAT IS LEFT IS NOT TOOLING:** `Status` is unset on all 33 items and 0 of 34 issues
+  are closed. Nothing should write `Status` until the operator decides what it means on
+  this board, because a status column filled in by a script is the same fiction as a lane
+  value copied from a snapshot taken before the change it described.
+- [x] ZION-03 **REFUTED 2026-08-06 by reading the board.** `Lane` is `A harness / B resume / C learning / D content` and every one of the 31 items reads `A harness`. The rename landed on 07-31 with option ids preserved, exactly as `docs/prior-art/tools-ghpub.json` recorded and as this row denied. The row was written from `state/backups/zion-project3-2026-07-31.json`, a PRE-change snapshot, and nobody re-read the live board for six days. Same class as the findings-go-stale lesson: a claim sourced from a snapshot taken before the change it describes. The board also carries `Evidence state` (unmeasured/asserted/measured/verified/refuted) as a 21st field, which that backup does not list, so the backup was stale in two ways
 
 - [ ] **Doc structure and reachability are now enforced; absorption is not.** `tools/docmap/strand.py`
   landed 2026-08-03 with a selftest (5 assertions), 9 tests, and two CI steps. First real run
@@ -996,6 +1032,37 @@ none of this is enforced. Filed as rows because a finding in prose is not a back
       `docs/analysis/reference/coherence-governor-AGENTS.md`, 17,923 bytes copied verbatim
       from `Master0fFate/just-my-skills`, which still resolves `license: NONE` on 2026-08-06.
       Summarize-and-link, ask for a licence, or accept that this repository cannot go public.
+
+## From the 2026-08-12/13 point-in-time scans
+
+- [ ] **Official `anthropics/claude-code` vs this harness, surface by surface.**
+      `docs/analysis/2026-08-12-claude-code-repo-gap.md` reads the public reference repo
+      (plugins/examples, not the closed CLI binary) and scores every surface HAVE / PARTIAL /
+      LACK / NON-GAP against what this harness already ships. Real gaps found: no
+      plugin-authoring skill, no NL-to-hook authoring flow, no guided model-migration skill,
+      no differentiated settings profiles (lax/strict/sandbox). Pick up any LACK row here
+      before assuming the harness needs it from scratch.
+- [ ] **Where the repo's prose/config bloat actually lives (it is not the code).**
+      `docs/analysis/2026-08-12-minimalism-audit.md` spot-checked `tools/*.py` (gate.py,
+      panel.py, bus.py) for the ponytail lens and found it clean; the recoverable tax is
+      per-session prose (`dot-claude/rules/`, ~11,300 words/session, 30-40% recoverable) and
+      skill `description:` frontmatter (~60% recoverable). One cut already applied
+      (`ui-ux-pro-max`, 119 to 62 words, lossless). The batch pass over the next 14 fattest
+      skills is the open follow-on.
+- [ ] **Adopt `block/buzz` (Apache-2.0, Rust, self-hostable agent/human workspace) as the
+      target UI, not the stdlib Session Lens.** `docs/analysis/2026-08-13-buzz-adoption-handoff.md`
+      is the operator's own correction ("the html you wrote is miles away from a polished
+      buzz") plus the four-step next-session plan: self-host, wire one session in as an
+      agent per `VISION_AGENT.md`, map `state/bus.jsonl` onto its Nostr-relay event log
+      (bridge vs replace), then customize. `tools/dashboard` (Session Lens) stays a stopgap
+      baseline only; do not extend it further pending this decision.
+- [ ] **Cross-project tech-stack and code-quality rethink, seeded but not yet a PRD.**
+      `docs/specs/2026-08-13-code-quality-rethink.md` captures the operator's verbatim
+      directives: rethink stack choices across all projects, question convention defaults
+      (one-line vs full docstrings), add a simulation ladder (static -> compile -> runtime ->
+      container -> E2E) to the testing pyramid, and close the gap against named pedagogy
+      (Matt Pocock, Andrej Karpathy, BetterStack). No PRD exists yet; this spec is the seed
+      and names the research agents to run before one is written.
 
 <!-- prompt-tickets:begin generated by tools/intent/render_todo.py, do not hand-edit -->
 

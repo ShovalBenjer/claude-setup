@@ -63,11 +63,12 @@ jobs:
               all 40 turns on PR #62 (error_max_turns) without producing a review.
           claude_args: |
             --model claude-sonnet-5
-            # Was 10, which this repository's diffs outgrew: PR 55 died with
-            # "Reached maximum number of turns (10)" after 1m5s having posted no
-            # review, so the job reported failure for running out of budget rather
-            # than for finding anything. 40 matches claude-nightly.yml, which has
-            # not hit its cap. Raised on the operator's answer that this action
-            # authenticates with CLAUDE_CODE_OAUTH_TOKEN and therefore bills the
+            # Raised 10 -> 40 on 2026-08-06 (at 10 this job FAILED on 29 of its 40
+            # runs with "Reached maximum number of turns": a full multi-category
+            # review of a 500-line diff spends its budget reading files and dies
+            # before writing the comment; not a code-quality signal, a spend limit).
+            # Raised 40 -> 60 after PR 55 still died with "Reached maximum number of
+            # turns (40)". 60 matches claude-nightly.yml, which has not hit its cap.
+            # This action authenticates with CLAUDE_CODE_OAUTH_TOKEN and bills the
             # subscription, not a metered API key.
             --max-turns 60
