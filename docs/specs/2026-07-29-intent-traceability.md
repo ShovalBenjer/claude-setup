@@ -1,6 +1,18 @@
 # Intent traceability: wiring, not building
 
-Status: proposed. Wiring design, 2026-07-29. Not built.
+Status: proposed. Wiring design, 2026-07-29. Partially built.
+
+Corrected 2026-08-17 glue pass: header said "not built"; that is now false for
+half the slice. Verified today: `tools/intent/capture_turn.py` exists (step 3
+below is done), `state/prompt-tickets.jsonl` holds 1851 chained rows with
+recent timestamps (the ledger is live-writing), and `UserPromptSubmit` is
+registered in `dot-claude/settings.json` (step 5 done). Still not done: step 4,
+`dot-claude/hooks/intent-capture.sh` is still the 45-byte dead-home stub named
+in 4.1 break 1 (`cat` shows a single line pointing at
+`/home/shovalbe/.codex/hooks/intent-capture.sh`, a home that does not exist on
+this machine), so whatever writes the ledger today is not this hook; the real
+wiring path is unverified and is itself the next slice, not this document's
+claimed one.
 
 Spec date 2026-07-29. Scope: turn operator prompts into tracked work items, and trace
 every session and every turn.
@@ -149,6 +161,27 @@ It also sidesteps the one known same-second `ts` collision at `2026-07-25T08:36:
 
 One vertical path: a prompt you type today becomes a row you can query tonight. Six
 steps. Nothing else in the package is touched.
+
+### 4.0 Remaining wires (added 2026-08-17 glue pass)
+
+Three of the six steps below still need closing, verified against disk today:
+
+1. **Fix the live hook.** `dot-claude/hooks/intent-capture.sh` still points at
+   `/home/shovalbe/.codex/hooks/intent-capture.sh`, a home directory absent on
+   this machine (this is `tools/audit/pointers.py`'s dead-home class).
+   Falsifiable: `cat dot-claude/hooks/intent-capture.sh` shows the step-4 body
+   in this file, not a one-line path, and `tools/audit/pointers.py scan`
+   reports zero dead-home hits for this file.
+2. **Identify the actual ledger writer.** `state/prompt-tickets.jsonl` is
+   live-writing (1851 rows, most recent 2026-08-17) through some path other
+   than the broken hook above. Falsifiable: one comment in this file or a new
+   analysis names the real writer with a `grep`/`git log -p` citation, so the
+   next reader is not misled by the "not built" verdict this file carried
+   until this pass.
+3. **Run the step-6 acceptance query for real.** The SQL join against
+   `~/.intent/intent.db` in step 6 has not been shown to return a row.
+   Falsifiable: paste the query's real output (bead_id, session_id, goal) for
+   one live prompt, not a description of what it should return.
 
 ### 4.1 The four breaks the slice has to clear
 

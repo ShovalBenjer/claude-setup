@@ -19,6 +19,15 @@ context. Verify them from the active repository or a current primary source.
   expanding scope to another system.
 - Do not read, print, transmit, or commit credentials and raw customer PII.
 
+## Delegation
+
+- Company personas are defined in `~/.claude/rules/gastown-company-registry.md`, and
+  each one resolves to a file in `~/.claude/agents/`. When delegating with the Agent
+  tool, prefer the persona that owns the work over `general-purpose`.
+- Measured 2026-08-05: 0 of 19 personas had ever been spawned. Spawns are now recorded
+  in `state/agent-spawns.jsonl` beside what the router named, so the ratio is checkable
+  rather than assumed.
+
 ## Context discipline
 
 - Read the nearest project `CLAUDE.md`, `AGENTS.md`, active PRD/spec, and Git
@@ -61,6 +70,25 @@ context. Verify them from the active repository or a current primary source.
   evidence with the command and meaningful output.
 - Say "best among tested candidates under these constraints," never globally
   optimal without a proof that supports that claim.
+
+## Ambiguity and technical defaults
+
+- When a prompt is ambiguous on scope, target, or intent, ask rather than assume,
+  unless the work is reversible and low-cost to redo.
+- Prefer strict type checking where the language supports it (TypeScript strict
+  mode, Python type hints checked by mypy/pyright). Restrict new external
+  dependencies to well-maintained, popular packages; justify anything else.
+- Handle errors explicitly. Do not swallow an exception into a silent pass or a
+  default value that hides the failure from the caller and the logs.
+- Define or ask for a performance bound (latency, throughput, size) before
+  calling a performance-sensitive path done.
+- For a user-facing change, validate like a user would: exercise the actual
+  flow (e2e) and, for UI, look at a rendered screenshot before claiming it
+  works. A passing unit test is not evidence a screen renders correctly.
+- Naming conventions, project structure, and system architecture live in the
+  nearest project `CLAUDE.md`/`AGENTS.md` (see Context discipline above), not
+  here: this file stays project-neutral, so a global architecture summary
+  would go stale immediately and mislead a different repo.
 
 ## Knowledge and resume boundary
 

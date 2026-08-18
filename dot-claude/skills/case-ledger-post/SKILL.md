@@ -1,6 +1,6 @@
 ---
 name: case-ledger-post
-description: Turn a long working session into an interactive illustrated case-ledger post: the route taken, dead ends with receipts, measured cost from the transcript, and lessons. Manim-style diagrams, interactive explainers, real screenshots. Triggers on "write this up as a blog post", "showcase this session", "case ledger", "post-mortem with visuals", "turn this into a writeup".
+description: Turn a long working session into an interactive illustrated case-ledger post: the route taken, dead ends with receipts, measured cost from the session transcript, and lessons. Register is the operator's own founding brief, a funny showcase, not a corporate postmortem: real session artifacts pasted as evidence, live/autoplaying apparatus over static prose, images kept not cut. Manim-style drawn diagrams, interactive explainers, real screenshots. Triggers on "write this up as a blog post", "showcase this session", "case ledger", "post-mortem with visuals", "turn this into a writeup".
 model: opus
 ---
 
@@ -9,9 +9,42 @@ model: opus
 Turn a session that actually happened into a publishable, interactive story: the
 route, the wrong turns, the break, the measured cost, and what survived.
 
-The genre is a **case ledger**, not a tutorial. A tutorial pretends the path was
-straight. A ledger shows the dead ends, because the dead ends are the content.
-If the session went straight to the answer, this is the wrong skill.
+**The register is the operator's own, verbatim, not a genre label chosen for
+him.** The founding brief for this skill: "i want to wrap this entire session
+as a funny showcase first blog post (naming of [friend] etc anonymized the
+streets view graph+ street views), all pathing and decision you made. The
+style is between my learning platform, my shoval voice draft and
+https://spiritt.ai/resources/use-cases/building-landing-pages poste (their
+design standard is a minimum bar)" (2026-07-27T04:13 UTC, session
+`f551cbf4-2dd7-4fb2-8871-1780e6b4bd0a`, cwd `Downloads/new-recruit`). Three
+real anchors, not an abstract genre: הסדנה's own design system (`DESIGN.md`,
+on disk), the operator's own voice (`shoval-voice-draft`, on disk), and
+spiritt.ai named as a floor to clear, not a target to imitate and not a page
+this skill has fetched or can describe the contents of.
+
+Underneath that register it is still a **case ledger**, not a tutorial: a
+tutorial pretends the path was straight, and a ledger shows the dead ends
+because the dead ends are the content. If the session went straight to the
+answer, this is the wrong skill. But the register sitting on top of that
+structure is funny-showcase-first, not incident-report-first. An earlier
+version of this file graded drafts against two JFrog engineering write-ups and
+a Cloudflare outage post, and every draft that scored better against that
+rubric was rejected by the operator, five in a row, most recently as work that
+did not clear his threshold. If a draft would run unedited on a corporate
+engineering blog with the names changed, it has drifted off the brief no
+matter how well it scores on structure alone.
+
+**What "not ready" sounded like, in his own words, is more useful here than
+any adjective this file could supply.** Two turns after the founding brief,
+same session: "Its a bit ai logging to me so make it more natural blogs...
+The slanted on top feels ai generic ui" (2026-07-27T04:29). Two days later,
+reviewing a draft built to the old rubric: "The content has a AI generated
+slop smell to it. I'm Missing artifacts / assets from the session itself, more
+interactiveness, more images, think things that feel live autoplaying,
+animations is flat" (2026-07-29T13:54, same session). Read literally, that is
+three concrete, checkable requirements, not a mood: real session output pasted
+in as evidence, not described; apparatus that plays on its own instead of
+sitting static; images present, not trimmed for length.
 
 ## The rule that makes it good
 
@@ -330,50 +363,69 @@ file with a `file://` URL when a deploy is slow. And when waiting on a deploy,
 grep for a marker unique to *this* change: grepping for a string that already
 existed passes instantly and screenshots stale content.
 
-## Grade the draft against how the field actually publishes
+## Check the draft against the operator's own criteria, not the field's
 
-Taste arguments go in circles. Score it instead. The rubric below is derived
-from three posts that demonstrably work: JFrog's
-[model routing](https://jfrog.com/blog/why-model-routing-backfires/) analysis,
-JFrog's [NuGet typosquat](https://jfrog.com/blog/nuget-typosquat-targets-betting-platform/)
-research, and Cloudflare's
-[18 Nov 2025 outage](https://blog.cloudflare.com/18-november-2025-outage/) writeup.
+There is no verified published exemplar for this genre, and this file does not
+invent one. spiritt.ai was named as a design floor in the founding brief (see
+the genre section above) but was never fetched or characterised for this
+rewrite; do not describe its contents from memory. An earlier version of this
+rubric was derived instead from three corporate engineering write-ups, JFrog's
+model routing analysis, JFrog's NuGet typosquat research, and Cloudflare's 18
+Nov 2025 outage post, and it rewarded every draft that drifted toward their
+incident-report register. Five drafts scored that way in a row were each
+rejected. Do not re-derive a rubric from an outside corpus for this genre;
+check the draft against the operator's own words instead.
 
-Score each 0-3. Under 20/30 is not ready.
+Score each 0-3. Two of the ten are gates: criteria 1 and 3 must each hit 3/3
+regardless of the rest, because register and liveness are exactly what five
+straight drafts failed on while still scoring well. Under 24/30 overall is not
+ready either.
 
-1. **Subject legible in 10 seconds.** A cold reader can say what this is from
-   the first screen. A story hook is not a subject.
-2. **Lead with finding, not setup.** Cloudflare opens with impact and timestamp,
-   then root cause, then narrative.
-3. **Named target.** Name the exact system and disambiguate it from its
-   siblings. "WhatsApp" is three clients and only one keeps a local store.
-4. **Artifacts, not descriptions.** JFrog pastes the IL transpiler and the C2
-   POST with its hardcoded key. Describing a mechanism is an assertion; showing
-   it is evidence. This is the criterion drafts fail most often.
-5. **Structured evidence.** Tables where the data is tabular: timelines,
-   version matrices, cost breakdowns.
-6. **Section arc.** Headings form a progression, not a list of topics. The
-   typosquat piece runs The Bait / The Evolution / The Trigger / The Patch.
-7. **Depth layering.** Casual reader gets the top, expert gets the mechanism,
-   neither is blocked by the other.
-8. **Quantified everywhere.** Numbers with provenance, never adjectives.
-9. **Synthesis block.** Takeaways that survive being read alone.
-10. **Ends with agency.** What changes, not how it felt.
-11. **Internal consistency.** No claim is contradicted by the piece's own
-    evidence. Added after a 26/30 piece was caught claiming "no hints /
-    uncontaminated" while its own reproduced table showed the operator's
-    verbatim hints, one labelled "a final hint". A structural rubric will not
-    catch a thesis-level self-contradiction; check it explicitly, and check any
-    cited external source actually says what you attribute to it (a workshop
-    "lists four patterns" claim turned out to be four contribution *types*).
+1. **Register match (gate).** Reads as "a funny showcase," not as a postmortem
+   written for a security vendor's engineering blog. If the piece would run
+   unedited on a corporate blog with the names changed, it fails this
+   criterion regardless of what else it does right.
+2. **Artifacts, not descriptions.** Real session output pasted in as evidence:
+   transcript lines, code, the actual images. "Missing artifacts / assets from
+   the session itself" was the operator's own complaint about a rejected
+   draft. Describing a mechanism is an assertion; showing it is evidence. This
+   is the criterion drafts fail most often.
+3. **Live apparatus over static prose (gate).** "more interactiveness, more
+   images, think things that feel live autoplaying, animations is flat," his
+   words about a rejected draft. A screenshot substituting for a live
+   interactive is a downgrade, not a simplification.
+4. **Images kept, not cut.** The same rejected draft was missing images the
+   operator expected present. Do not trim imagery to shorten a piece; cut
+   prose instead.
+5. **Named target.** Name the exact system and disambiguate it from its
+   siblings. "WhatsApp" names three different clients; only one keeps the
+   local store a session like this actually queries.
+6. **Structured evidence.** Tables where the data is tabular: timelines,
+   version matrices, cost breakdowns, not prose paragraphs restating numbers.
+7. **Depth layering.** A casual reader gets the top, an engaged reader gets
+   the mechanism, and neither is blocked by the other.
+8. **Quantified everywhere.** Numbers with provenance, traced to the
+   transcript, never adjectives standing in for a number.
+9. **Internal consistency.** No claim is contradicted by the piece's own
+   evidence. Added after a piece that scored well under the old rubric was
+   caught claiming "no hints / uncontaminated" while its own reproduced table
+   showed the operator's verbatim hints, one labelled "a final hint." A
+   structural score will not catch a thesis-level self-contradiction; check it
+   explicitly, and check any cited external source actually says what is
+   attributed to it (a workshop "lists four patterns" claim turned out to be
+   four contribution *types*).
+10. **Funny by accuracy, not decoration.** Per Voice, below: the humor comes
+    from being exact about the failures, never from a joke added on top. A
+    joke that could be cut without losing information was decoration, not this
+    genre's own funniness.
 
-Record the score in the draft folder with the before/after, so the next session
-inherits the diagnosis instead of re-deriving it.
+Record the score in the draft folder with the before/after, so the next
+session inherits the diagnosis instead of re-deriving it.
 
-**Where a case ledger can beat the reference set:** none of those three turns
-its own mistakes into named, citable failure modes. If the piece has a real
-failure taxonomy, that is the contribution, and it should lead the syndication
-copy rather than the story.
+**What this genre uniquely offers:** a real, citable failure taxonomy told in
+the operator's own funny register, not a postmortem's. If the piece has one,
+that is the contribution, and it should lead the syndication copy rather than
+the story.
 
 ## Before publishing
 
@@ -389,6 +441,38 @@ copy rather than the story.
 - No filled rounded card with a corner-tab label; asides are rules and margin labels.
 - Rendered at 1440 and 390 with `shots.py`, no horizontal overflow at either.
 - The desktop margin does work; it is not dead space around a phone column.
-- Scored against the 10-criterion rubric, 20/30 or better, score recorded.
+- Scored against the 10-criterion rubric: criteria 1 (register match) and 3
+  (live apparatus) at 3/3, 24/30 or better overall, score recorded.
 - The raw artifacts are shown, not characterised: prompts, code, keys, tables.
 - The target system is named and disambiguated from its siblings.
+- Images from the session are present, not trimmed out for length.
+- Read it back against "a funny showcase," not against a corporate postmortem.
+
+## Why the genre section changed (2026-08-10)
+
+This file used to open by declaring the genre a case ledger and grading output
+against two JFrog engineering write-ups and a Cloudflare outage post, a
+corporate incident-report rubric. The operator's actual founding brief, given
+2026-07-27, asked for "a funny showcase," styled between הסדנה, his own voice
+draft, and spiritt.ai named explicitly as a minimum design bar, not a target.
+Graded against the old rubric, five successive rewrites of
+`writing/the-bench.html` each scored better and were each rejected, most
+recently as work that, in the operator's words, was "slop" that did not clear
+his threshold (reported by the commissioning task; not independently verified
+from a transcript, unlike the two dated quotes above which are). The two lines
+that already pointed the right way, that funny comes from accuracy about the
+failures rather than added jokes, and that apparatus should autoplay rather
+than wait for a click, survived this rewrite unchanged. The genre framing and
+the scoring rubric above them did not; they now derive from the operator's own
+dated words rather than from an external corpus.
+
+Provenance correction for whoever reads this next: the founding brief and the
+follow-up complaints are not in the `daily-deep-learning` project's own
+transcript store. They are in session
+`f551cbf4-2dd7-4fb2-8871-1780e6b4bd0a.jsonl` under
+`~/.claude/projects/C--Users-shova-Downloads-new-recruit/` (cwd
+`Downloads/new-recruit`, branch `master`), a cross-project session that was
+also driving work in `daily-deep-learning/writing/`. Checked exhaustively (full
+file contents, not a line-buffered grep) before concluding the phrase was
+absent from the `daily-deep-learning` store; it is not, it was just filed under
+a different project's session.

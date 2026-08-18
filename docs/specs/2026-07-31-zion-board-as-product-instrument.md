@@ -1,7 +1,15 @@
 ---
 PRD: prd/autonomy-ecosystem.md (AUTO-11 merge policy, AUTO-19 FleetView)
 Ticket: ZION-BOARD (this spec)
-Status: active
+Status: superseded by docs/specs/2026-07-31-kanban-four-layer-model.md
+Superseded scope: sections 1-4 (the board-instrument model: fields, views,
+migrations). Fixed 2026-08-17 glue pass, corrects a lying `active` header the
+sweep found: kanban absorbs this spec's proposed-vs-built table row by row
+("Cut from the zion-board spec's seven", M-9 sub-issue migration cited as
+still-unexecuted by both specs). NOT superseded: the closing section on
+publication-quality output constraints and dedup-sweep sequencing, which
+kanban never touches and nothing else states; that section stays load-bearing
+and is why this file was left in place rather than archived.
 Authority: every count below was read from the live GitHub API on 2026-07-31, not from
 a doc. Field and view names are the ones that exist; where a thing is proposed rather
 than built, section 4 says so per row.

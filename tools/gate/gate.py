@@ -32,8 +32,19 @@ report prints in full.
   a11y_ux     the same run read at a stricter threshold: contrast, tap targets,
               labels, text size, since "looks fine on my monitor" is how the
               original defect shipped
-  security    no credential material in the change, dependency audit if the
-              stack has one
+  security    no credential material in the change. It does NOT audit
+              dependencies, and this line said it did until 2026-08-06. The only
+              builtin wired to this domain is secret_scan; grep this file for
+              pip-audit, osv or safety and every one returns nothing. A gate
+              whose own description promises a check it has never run is the
+              exact defect class this gate exists to catch, sitting inside the
+              thing that catches it.
+              The dependency half runs, but not here: .github/workflows/
+              ship-gate.yml has a separate `supply-chain` job on osv-scanner.
+              It is deliberately NOT pulled into this domain, because that job
+              needs the network and a scanner binary, and a domain that is red
+              on every offline run is one that gets waived. Naming where it
+              lives beats claiming it happens here.
   docs        the change is described where a reader would look: README or docs
               for behaviour, CHANGELOG for the fact it changed
   pipeline    CI runs these same checks, so local-green cannot diverge from
@@ -256,6 +267,14 @@ GATE_OUTPUTS = ("state/gate-runs.jsonl", "state/reviews/")
 HARNESS_OUTPUTS = (
     "state/prompt-tickets.jsonl",
     "state/skill-use.jsonl",
+    # Added 2026-08-06 with the two hooks that write them, and they are the worst
+    # offenders yet. route.py runs on EVERY UserPromptSubmit and spawn_log.py on every
+    # Agent call, and BOTH resolve their repo from CLAUDE_OS_DIR with a default of
+    # ~/claude-setup. So a prompt typed in any project on this host appends to a tracked
+    # file in THIS repo and moves its tree fingerprint. A green gate run here could be
+    # invalidated by somebody typing in an unrelated repository, which is the
+    # self-invalidation failure already on record, promoted from per-session to per-host.
+    #
     # Third finding of the class, 2026-08-12, after the operator named the cost
     # ("the hook ... really slows me down"): one session was forced through three
     # full gate runs in 18 hours with no gated content changing between them.
@@ -268,6 +287,10 @@ HARNESS_OUTPUTS = (
     "state/agent-spawns.jsonl",
     "state/prose-scores.jsonl",
     "state/telemetry-published.txt",
+    # Fourth mover of the class, 2026-08-12 evening: the discussion publisher's
+    # cursor, same writer-on-its-own-schedule shape as its sibling above. It
+    # appended once mid-session and forced a full regate of an unchanged tree.
+    "state/telemetry-published-discussion.txt",
 )
 
 _EXCLUDE = " ".join('":(exclude){}"'.format(p)
@@ -974,6 +997,22 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
         print("    $ " + cmd, file=sys.stderr)
     rc, output = run(cmd, project, timeout=spec.get("timeout", 900))
     tail = "\n".join([l for l in output.splitlines() if l.strip()][-14:])
+    if rc == CANNOT_MEASURE and "cannot run" in output:
+        # Host-shaped check on the wrong host (skills_sync on a CI runner with no
+        # live ~/.claude): measurable-or-not is a different question from
+        # pass-or-fail, the same exception confirm_waiver() already carries
+        # (L-2026-07-31-g). BOTH signals are required: exit 2 alone is argparse's
+        # usage-error code, and the phrase alone is a marker matched by existence
+        # (L-2026-08-05-a). Surfaced 2026-08-12 when the skills waiver was
+        # removed on a locally-CLEAN check and every CI gate run went red.
+        # The `unmeasured` flag feeds the ledger row (merged from the branch-side
+        # copy of this fix): a PASS with unmeasurable required domains records
+        # which checks never measured, distinguishable from a full local PASS.
+        out["status"] = NA
+        out["unmeasured"] = True
+        out["evidence"] = ("unmeasurable on this host: exit {} from `{}`\n{}"
+                           .format(rc, cmd, indent(tail)))
+        return out
     out["status"] = PASS if rc == 0 else FAIL
     out["evidence"] = "exit {} from `{}`\n{}".format(rc, cmd, indent(tail))
     return out
@@ -1151,6 +1190,10 @@ def cmd_run(args: argparse.Namespace) -> int:
         # one level up: the record claiming more than the run measured.
         "waivers_unconfirmed": [r["domain"] for r in results
                                 if r.get("confirmed") == "unmeasurable"],
+        # Same principle for unwaived domains whose command exited CANNOT_MEASURE:
+        # their NA is a fact about this host, not about the domain, and a PASS row
+        # that hides which checks never measured claims more than the run did.
+        "unmeasured": [r["domain"] for r in results if r.get("unmeasured")],
         # How long the run took, and per domain. Added 2026-08-08 because the
         # contract already carries a duration budget that nothing could check.
         # The unit domain's _timeout_note raised the timeout 300 to 900 on
@@ -1333,6 +1376,27 @@ def cmd_selftest(args: argparse.Namespace) -> int:
         # the output here, which is exactly the shape that failed CI on 2026-08-07.
         c["domains"]["e2e"]["cmd"] = "echo cannot run: no live tree; exit 2"
         json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        # The same shape on a PLAIN domain (no waiver): unmeasurable-here must
+        # read NA, not FAIL. This is the 2026-08-12 CI red: the skills waiver was
+        # removed on a locally-CLEAN check and skills_sync's exit-2 "cannot run"
+        # on the runner failed every branch. Both signals required; exit 2 with
+        # ordinary output stays FAIL (argparse usage errors must not go green).
+        c2 = json.loads(json.dumps(c))
+        c2["domains"]["e2e"].pop("waived", None)
+        json.dump(c2, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 0
+        print("\n[{}] an unwaived cannot-measure-here domain is NA, got {}".format(
+            "ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+        c2["domains"]["e2e"]["cmd"] = "echo usage: wrong flag; exit 2"
+        json.dump(c2, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 1
+        print("\n[{}] exit 2 without the cannot-run phrase still fails, got {}".format(
+            "ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
             got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
@@ -1351,6 +1415,38 @@ def cmd_selftest(args: argparse.Namespace) -> int:
             "ok  " if ok else "FAIL", last.get("waivers_unconfirmed")))
         rc |= 0 if ok else 1
         c["domains"]["e2e"]["cmd"] = "echo DRIFT: 29; exit 1"
+
+        # 3c. the same exit-2 convention holds WITHOUT a waiver: a required plain
+        # domain whose command cannot measure on this host is N/A with evidence,
+        # not FAIL. Added 2026-08-12: with the skills waiver removed because its
+        # reason ended, CI (no live ~/.claude) turned red on a domain that was
+        # CLEAN everywhere it could be measured, so the only way to keep a
+        # satisfied waiver removed was to re-add it, which is the waiver-as-
+        # permanent-fixture failure this file exists to prevent.
+        c["domains"]["e2e"] = {"required": True,
+                               "cmd": "echo cannot run: no live tree; exit 2"}
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        said = "unmeasurable on this host" in out.getvalue()
+        ok = got == 0 and said
+        print("\n[{}] an unwaived domain that cannot measure here is N/A and says so, "
+              "got {} said-so {}".format("ok  " if ok else "FAIL", got, said))
+        rc |= 0 if ok else 1
+
+        # ...and exit 2 is not a general escape hatch: exit 1 on the same shape
+        # still fails, so a check cannot go green by dying with the right number.
+        c["domains"]["e2e"]["cmd"] = "echo broken; exit 1"
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 1
+        print("\n[{}] the same unwaived domain exiting 1 still fails, got {}".format(
+            "ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+        c["domains"]["e2e"] = {"required": True, "cmd": "echo DRIFT: 29; exit 1",
+                               "waived": {"reason": "selftest", "until": "2099-01-01",
+                                          "confirm": "DRIFT: 29"}}
 
         # 4. a domain deleted from the contract is UNCOVERED, not absent
         del c["domains"]["e2e"]

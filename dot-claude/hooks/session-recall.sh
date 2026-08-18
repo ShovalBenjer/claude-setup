@@ -77,7 +77,18 @@ def _slug(p):
 _proj_root = Path.home() / ".claude" / "projects"
 _cwd = payload.get("cwd") or os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
 _here = _proj_root / _slug(str(_cwd)) / "memory" / "MEMORY.md"
-_home = _proj_root / "C--Users-shova" / "memory" / "MEMORY.md"
+# The cross-project home index. Its slug is Windows-shaped ("C--Users-shova") because
+# that is the host it was written on. Measured 2026-08-04: that directory does NOT exist
+# under the WSL ~/.claude/projects, so on Linux this fallback silently resolved to nothing
+# and the home notes had been unavailable for an unknown period with no signal. The live
+# copy is on the Windows side, 3,423 bytes, last written 2026-07-26.
+# This is L-2026-07-31-g: a host-shaped default that is correct where it was written and
+# silently answers the wrong question on the other host. Both candidates are tried; the
+# first that exists wins, so this is additive and changes nothing on Windows.
+_home_candidates = [
+    _proj_root / "C--Users-shova" / "memory" / "MEMORY.md",
+]
+_home = next((c for c in _home_candidates if c.exists()), _home_candidates[0])
 
 _sources = [p for p in (_here, _home) if p.exists()]
 _sources = list(dict.fromkeys(_sources))  # _here == _home when run from home

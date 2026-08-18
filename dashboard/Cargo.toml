@@ -1,0 +1,10 @@
+[workspace]
+resolver = "2"
+# Slice 2 (DASH-1) members. `src-tauri` was source-only from 2026-08-17 to
+# 2026-08-17 because this sandbox lacked GTK/webkit2gtk dev packages
+# (glib-2.0.pc / gobject-2.0.pc / webkit2gtk-4.1.pc missing via pkg-config).
+# Those system deps are now installed (verified: `pkg-config --modversion
+# glib-2.0 gobject-2.0 webkit2gtk-4.1` succeeds), so `src-tauri` is back in
+# the workspace. See
+# docs/specs/2026-08-17-session-dashboard-program-design.md section 1.
+members = ["core", "src-tauri"]

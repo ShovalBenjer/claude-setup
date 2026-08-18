@@ -100,11 +100,62 @@ class Translation(unittest.TestCase):
         self.assertEqual(hp.translate("tools/gate/gate.py", mounts=self.HAVE),
                          Path("tools/gate/gate.py"))
 
+    def test_the_unc_wsl_form_resolves_to_the_local_root(self):
+        """`\\\\wsl.localhost\\Ubuntu\\home\\shov\\...` is how a Windows-side
+        interpreter (powershell.exe reading a toast hook) names a file inside THIS
+        WSL filesystem. First appeared 2026-08-12 in the live settings.json and
+        cost one false HIGH. Translation is licensed by the same evidence as the
+        drive rules: mounts non-empty means we are inside WSL, so the UNC path
+        names our own root."""
+        for raw in (r"\\wsl.localhost\Ubuntu\home\shov\.claude\hooks\notify-toast.ps1",
+                    r"\\wsl$\Ubuntu\home\shov\.claude\hooks\notify-toast.ps1"):
+            self.assertEqual(
+                hp.translate(raw, mounts=self.HAVE),
+                Path("/home/shov/.claude/hooks/notify-toast.ps1"))
+
+    def test_the_unc_form_is_untouched_off_wsl(self):
+        """No mounts, no license: on bare Linux or Windows the UNC path stays as
+        written, per the safety property."""
+        raw = r"\\wsl.localhost\Ubuntu\home\shov\x.ps1"
+        self.assertEqual(hp.translate(raw, mounts=self.NONE), Path(raw))
+
+    def test_a_non_wsl_unc_share_is_never_touched(self):
+        """`\\\\fileserver\\share\\x` is a real network path, not a spelling of a
+        local one. Rewriting it would fabricate presence."""
+        raw = r"\\fileserver\share\x.ps1"
+        self.assertEqual(hp.translate(raw, mounts=self.HAVE), Path(raw))
+
     def test_exists_uses_the_translation(self):
         """The caller-facing helper. pointers.py asks "is this file there", not
         "what would this path be", so the translation has to be inside the answer."""
         self.assertTrue(hp.exists(str(MOD), mounts=self.HAVE))
         self.assertFalse(hp.exists(r"C:\definitely\not\here.txt", mounts=self.HAVE))
+
+
+class UncWsl(unittest.TestCase):
+    """\\\\wsl.localhost\\<distro>\\... names this same filesystem when running
+    inside that distro. First appeared 2026-08-12: the live Notification hook
+    invokes notify-toast.ps1 through the UNC spelling so Windows PowerShell can
+    reach it, and pointers.py reported the existing file as wired-missing."""
+
+    def test_matching_distro_translates_to_the_local_root(self):
+        self.assertEqual(
+            hp.translate(r"\\wsl.localhost\Ubuntu\home\shov\.claude\hooks\notify-toast.ps1",
+                         mounts={}, distro="Ubuntu"),
+            Path("/home/shov/.claude/hooks/notify-toast.ps1"))
+
+    def test_the_legacy_wsl_dollar_spelling_translates_too(self):
+        self.assertEqual(
+            hp.translate(r"\\wsl$\Ubuntu\home\shov\x.py", mounts={}, distro="Ubuntu"),
+            Path("/home/shov/x.py"))
+
+    def test_a_foreign_distro_stays_unchanged(self):
+        raw = r"\\wsl.localhost\Debian\home\shov\x.py"
+        self.assertEqual(hp.translate(raw, mounts={}, distro="Ubuntu"), Path(raw))
+
+    def test_outside_wsl_stays_unchanged(self):
+        raw = r"\\wsl.localhost\Ubuntu\home\shov\x.py"
+        self.assertEqual(hp.translate(raw, mounts={}, distro=None), Path(raw))
 
 
 class RealHost(unittest.TestCase):
@@ -129,3 +180,29 @@ class RealHost(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class WslUncTranslation(unittest.TestCase):
+    """\\\\wsl.localhost\\<distro>\\<path> resolves natively only inside that distro.
+
+    Added 2026-08-12: the live Notification hook hands powershell.exe the UNC form
+    of a WSL file (a Windows process cannot open /home/...), and pointers.py then
+    stat'ed the UNC string on Linux, reporting a real file as wired-missing."""
+
+    def test_own_distro_unc_resolves_to_native(self):
+        import os
+        if os.environ.get("WSL_DISTRO_NAME") != "Ubuntu":
+            self.skipTest("not inside the Ubuntu distro")
+        got = hp.translate(r"\\wsl.localhost\Ubuntu\home\shov\x.ps1")
+        self.assertEqual(got, Path("/home/shov/x.ps1"))
+
+    def test_foreign_distro_unc_stays_unchanged(self):
+        raw = r"\\wsl.localhost\NoSuchDistro\home\x.ps1"
+        self.assertEqual(hp.translate(raw), Path(raw))
+
+    def test_wsl_dollar_form_also_resolves(self):
+        import os
+        if os.environ.get("WSL_DISTRO_NAME") != "Ubuntu":
+            self.skipTest("not inside the Ubuntu distro")
+        got = hp.translate(r"\\wsl$\Ubuntu\home\shov\x.ps1")
+        self.assertEqual(got, Path("/home/shov/x.ps1"))

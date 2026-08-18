@@ -18,6 +18,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 
 ## Spine
 
+- [PLAN-SPINE.md](PLAN-SPINE.md): the unified plan spine. One row per live surface: PRD -> spec(s) -> current slice -> next slice -> ticket -> % built, each cell VERIFIED or marked `unverified`. Written 2026-08-17 glue pass.
 - [../CLAUDE-OS.md](../CLAUDE-OS.md): single source of truth. Layers L0 to L8, deep-work protocol, native-feature map, supersession table.
 - [SESSION-BOOT.md](SESSION-BOOT.md): any fresh session, full context from disk in 60 seconds (ADR-0010).
 - [charters.md](charters.md): the four session lanes A/B/C/D. Letters renumbered from B/C/D/E by ADR-0016 on 2026-07-30; pre-cutover ledger rows still say the old letter.

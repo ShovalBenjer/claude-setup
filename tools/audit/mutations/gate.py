@@ -88,15 +88,35 @@ MUTATIONS = [
      "restores the bug that failed PR 55: the confirming command exits 2 because "
      "no live tree exists on the runner, the confirm string is absent for a reason "
      "that has nothing to do with the waiver, and the gate fails the branch",
-     '    if rc == CANNOT_MEASURE:',
-     '    if False:'),
+     '''    if rc == CANNOT_MEASURE:
+        return WAIVED, ("waiver NOT confirmed on this host:''',
+     '''    if False:
+        return WAIVED, ("waiver NOT confirmed on this host:'''),
 
     ("any exit code counts as unmeasurable",
      "the exception swallows the rule. A checker that fails for a real reason then "
      "reports its waiver as merely unconfirmable, which is the fail-open this "
      "branch exists to close",
-     '    if rc == CANNOT_MEASURE:',
-     '    if True:'),
+     '''    if rc == CANNOT_MEASURE:
+        return WAIVED, ("waiver NOT confirmed on this host:''',
+     '''    if True:
+        return WAIVED, ("waiver NOT confirmed on this host:'''),
+
+    # The plain-runner copy of the same exception, added 2026-08-12 when the exit-2
+    # convention was extended beyond waiver confirmation. Each direction has a
+    # selftest case; these prove those cases can go red.
+    ("a plain domain that cannot measure fails anyway",
+     "restores the bug that failed PR 66 CI: skills_sync exits 2 on a runner with "
+     "no live ~/.claude and the domain reads FAIL, so a satisfied waiver cannot be "
+     "removed without breaking CI",
+     '    if rc == CANNOT_MEASURE and "cannot run" in output:',
+     '    if False:'),
+
+    ("any plain failure counts as unmeasurable",
+     "the exception swallows the rule for every unwaived domain: a checker that "
+     "fails for a real reason reads as N/A and the gate goes green on a red check",
+     '    if rc == CANNOT_MEASURE and "cannot run" in output:',
+     '    if rc != 0:'),
 
     ("an unconfirmed waiver is recorded as an ordinary one",
      "the ledger stops distinguishing a PASS that confirmed its waivers from one "

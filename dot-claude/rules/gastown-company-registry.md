@@ -37,31 +37,22 @@ This is the source-of-truth routing map for Claude's virtual-company operating m
 Role: lead orchestrator, routing, fanout, synthesis, escalation.
 
 Owned skills:
-- `agent-team`
 - `brainstorming`
 - `codex-call`
-- `context-i-forgot`
 - `dispatch`
 - `grill-me`
 - `premortem`
-- `quick-respond`
-- `answer-question`
-- `zoom-out`
 
 ### Workflow Clerk
 
 Role: context reload, project state, long-running work continuity, task bus hygiene.
 
 Owned skills:
-- `context-hygiene`
 - `end-session`
-- `memory-curator`
-- `obsidian-vault`
-- `plant-task`
-- `project-intake`
-- `project-state`
 - `reground`
 - `workspace-brain`
+- `skillmap`
+- `wayfinder`
 
 ### Evidence Clerk
 
@@ -74,6 +65,8 @@ Owned skills:
 - `LTMD`
 - `repo-compare`
 - `requirement-anchor`
+- `prior-art-gate`
+- `youtube-distill`
 
 ### Latent Systems Lab
 
@@ -81,7 +74,6 @@ Role: vector-state workflows, embedding relay, recursive model patterns, differe
 
 Owned skills:
 - `context-bounded-analyst`
-- `notebook`
 
 ### Engineering Firm
 
@@ -89,27 +81,21 @@ Role: coding, TDD, simplification, local implementation quality.
 
 Owned skills:
 - `code-simplifier`
-- `migrate-to-shoehorn`
 - `refactor-pre-push`
-- `scaffold-exercises`
-- `setup-pre-commit`
-- `tdd`
+- `prove-implementation`
 
 ### QA Lab
 
 Role: tests, evals, coverage, regressions, test triage.
 
 Owned skills:
-- `codex-ci`
 - `coverage-enforcer`
 - `eval-runner`
 - `mutation-runner`
 - `property-test-gen`
-- `qa`
 - `red-team`
 - `red-team-review`
 - `testing-pyramid`
-- `triage-issue`
 - `triage-tests`
 
 ### Review Board
@@ -123,9 +109,9 @@ Owned skills:
 - `ponytail-audit`
 - `ponytail-help`
 - `ponytail-review`
-- `pre-ship-clean`
 - `review`
 - `watchdog`
+- `ship-gate`
 
 ### Architecture Office
 
@@ -144,10 +130,7 @@ Owned skills:
 Role: git, PRs, ADO/GitHub flow, deployment readiness.
 
 Owned skills:
-- `azure-devops`
 - `commit-push-pr`
-- `deploy-prod`
-- `git-guardrails-claude-code`
 - `github-triage`
 
 ### Azure Ops Utility
@@ -155,11 +138,8 @@ Owned skills:
 Role: Azure runtime, cost, activity, Key Vault, azd, process state.
 
 Owned skills:
-- `azd`
 - `azure-activity-watch`
 - `azure-audit`
-- `azure-cert-coach`
-- `azure-keyvault-secrets`
 - `azure-runtime`
 - `kill-stale`
 - `ops-status`
@@ -170,7 +150,6 @@ Role: deployed AI agents and runtime/eval surfaces only. Never acts as a coding 
 
 Owned skills:
 - `agent-builder`
-- `azure-foundry`
 - `openai-agents`
 
 ### MCP and Tooling Office
@@ -178,10 +157,6 @@ Owned skills:
 Role: lazy connector activation, MCP/API adapters, browser inspection.
 
 Owned skills:
-- `apify-mcp`
-- `elevenlabs-mcp`
-- `heygen-mcp`
-- `mcp-activation`
 - `web-inspect`
 
 ### Security and Compliance Office
@@ -197,13 +172,13 @@ Role: analytics, local data, notebooks, tabular reasoning.
 
 Owned skills:
 - `feature-investor`
+- `whatsapp-query`
 
 ### Product Studio
 
 Role: UI, UX, frontend craft, design systems, product direction.
 
 Owned skills:
-- `design-an-interface`
 - `frontend-design`
 - `ui-ux-pro-max`
 
@@ -213,7 +188,6 @@ Role: voice/video/visual explainers, generated media, interactive educational ai
 
 Owned skills:
 - `blonde-designer`
-- `visual-explainer`
 - `voice-explainer`
 
 ### Communications Desk
@@ -221,23 +195,28 @@ Owned skills:
 Role: stakeholder messages, blogs, Jira drafts and reads, wiki pages, meeting notes.
 
 Owned skills:
-- `azure-wiki-onepager`
 - `blog`
-- `edit-article`
 - `humanize`
-- `jira-read`
-- `jira-task-draft`
 - `meeting-notes`
 - `shoval-voice-draft`
+- `gws-gmail`
+- `gws-gmail-read`
+- `gws-gmail-triage`
+- `gws-shared`
+- `recipe-create-gmail-filter`
+- `recipe-label-and-archive-emails`
+- `case-ledger-post`
+- `syndication-engine`
+- `voice-metrics`
 
 ### Conversation Layer
 
 Role: operator chat mode, compression, persona toggles. Never used inside CI/eval/audit reports unless explicitly requested.
 
 Owned skills:
-- `caveman`
-- `meme-control`
 - `persona`
+- `explain-simply`
+- `i-have-adhd`
 
 ### Learning Desk
 
@@ -245,6 +224,7 @@ Role: certification, exercises, study plans.
 
 Owned skills:
 - `write-a-skill`
+- `learn-on-demand`
 
 ## Best-Practices Corpus
 
@@ -262,3 +242,40 @@ Use it for:
 - latent/vector workflow design
 
 Do not use it to reproduce full copyrighted books. Cite and summarize.
+## Rewired 2026-08-12
+
+Census against the installed estate (80 skills) and state/skill-use.jsonl: 19 unowned skills assigned above (they included the three most-used skills and the three mandated gates), and 39 ghost entries removed (owned in this file but not installed; nearly all Seekapa-era). The census method: parse this file with hooks/route.py parse_registry, diff against ~/.claude/skills.
+
+## Connector routing (added 2026-08-12)
+
+The claude.ai connectors are configured server-side; nothing on disk lists them, so
+until now no rule told a session which to reach for and most sat unused. Route by
+task, not by novelty:
+
+- Library/framework/API question, any language: `Context7` before memory or web search.
+- Azure or Microsoft anything: `Microsoft Learn` (docs search + fetch + code samples).
+- Technical web search or page fetch: `Exa` over the default WebSearch.
+- Research papers, prior-art sweeps: `alphaXiv` (and `Scholar Gateway` for cross-source).
+- Math, unit conversions, symbolic checks: `Wolfram`.
+- Cloudflare estate (Pages, Workers, D1/KV/R2): `Cloudflare Developer Platform`.
+- Diagrams for docs/PRs: `Mermaid Chart` validation, `Lucid` only for shared boards.
+- O'Reilly for book-grounded practice lookups (metadata/summary discipline applies).
+
+- Voice, TTS briefings, generated audio/media: `ElevenLabs` (verified live
+  2026-08-17, eleven_v3 through ffplay/WSLg; owned by Voice and Media Studio;
+  per-line credits, so briefings yes, long transcripts no).
+- Cross-app automation with no dedicated connector: `Zapier` (MCP and Tooling
+  Office; enable actions per use, never broadly).
+- AWS estate work, if any returns: `AWS` connector (Azure Ops Utility owns cloud
+  ops; AWS rows are read-only checks like the i-0a9036 instance question).
+
+Usage is measured as of 2026-08-17: every mcp__* call appends to
+state/connector-use.jsonl via the connector-usage-log.sh PostToolUse hook, the
+connector twin of skill-use.jsonl. A connector claimed as "wired" with zero rows
+there is prose, not wiring.
+
+Dormant by re-auth, operator-only fix from claude.ai settings: Coursera, Google Cloud
+BigQuery, Stack Overflow. Irrelevant to this estate's work and fine to ignore or
+disconnect: Booking.com, Tripadvisor, Dice, Indeed, ZipRecruiter, FMP, Twilio,
+Roboflow, HyperFrames, Canva, Learning Commons. A connector with no row here gets one
+before serious use, same rule as skills.

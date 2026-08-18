@@ -1,0 +1,119 @@
+name: Auto-merge
+
+# Merge a pull request once its gates are green AND a human has opted this PR in.
+#
+# WHY THIS EXISTS AS A WORKFLOW RATHER THAN GITHUB'S OWN FEATURE.
+#
+# GitHub's native auto-merge needs a protected branch with required status checks.
+# Measured 2026-08-06 on this repository:
+#
+#   gh api repos/ShovalBenjer/claude-setup/branches/main/protection
+#     -> 403 "Upgrade to GitHub Pro or make this repository public"
+#   gh api repos/... --jq .allow_auto_merge
+#     -> false, and a PATCH setting it true does not apply
+#
+# The repository is private on a free plan, so protected branches and therefore native
+# auto-merge are unavailable. Making it public is not an option: 295 tracked files carry
+# employer identifiers and two trees are mirrors of a private company wiki, deployed
+# voice-agent prompts, and an Azure appsettings export. So the gating lives here.
+#
+# THE HUMAN STEP IS THE LABEL, AND IT IS DELIBERATE.
+#
+# The obvious design is to let the CI reviewer submit an approving review and merge on
+# that. It was tried and the permission classifier refused, correctly: an agent that
+# writes code, reviews it, approves it and merges it is a closed loop with no human in
+# it, and this repository's premise is that a model's own account of its work is not
+# evidence. The `auto:merge` label is the smallest possible human step that keeps the
+# loop open. Applying it is a decision; everything after it is mechanical.
+#
+# WHAT IS DELIBERATELY NOT A GATE HERE.
+#
+# Claude Code Review is NOT required. Measured over its last 40 runs: 6 success, 29
+# failure, 5 cancelled, and the failures were `--max-turns 10` exhaustion rather than
+# findings. Requiring a check that fails 72% of the time for a reason unrelated to code
+# would mean nothing ever merges, and the fix for that is landing separately. Gemini,
+# 38 of 38 green over the same window doing a diff-only review, IS required.
+#
+# Re-add Claude Code Review to REQUIRED_CHECKS once its pass rate is measured healthy.
+# Leaving it out is a dated concession, not a judgement that a second reviewer is
+# optional.
+
+on:
+  workflow_run:
+    workflows: ["Ship gate"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+  actions: read
+
+jobs:
+  merge:
+    # Cheapest possible precondition first: if the run that triggered this was not green,
+    # nothing below needs to happen.
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide and merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          # Every check that must be green for the same head sha. Ship gate is implied by
+          # the trigger; it is listed anyway so the required set is readable in one place
+          # rather than split between the `on:` block and here.
+          REQUIRED_CHECKS: 'Ship gate,Gemini diff review (decorrelated second reviewer)'
+          OPT_IN_LABEL: 'auto:merge'
+        run: |
+          set -euo pipefail
+
+          # The PR for this sha. A workflow_run carries no PR number of its own when the
+          # run came from a fork or a branch push, so it is looked up rather than assumed.
+          pr=$(gh api "repos/$REPO/commits/$HEAD_SHA/pulls" \
+                 -H "Accept: application/vnd.github.groot-preview+json" \
+                 --jq '[.[] | select(.state=="open")] | first | .number // empty')
+          if [ -z "$pr" ]; then
+            echo "no open PR for $HEAD_SHA; nothing to merge"
+            exit 0
+          fi
+          echo "PR #$pr at $HEAD_SHA"
+
+          # THE HUMAN STEP. Absent label means this PR was never opted in, which is the
+          # normal case and is not a failure.
+          labels=$(gh pr view "$pr" --repo "$REPO" --json labels --jq '[.labels[].name] | join(",")')
+          case ",$labels," in
+            *",$OPT_IN_LABEL,"*) echo "opt-in label present" ;;
+            *) echo "PR #$pr is not labelled $OPT_IN_LABEL; leaving it alone"; exit 0 ;;
+          esac
+
+          # Every required check, for THIS sha specifically. Checking the sha rather than
+          # the PR matters: a PR whose checks passed two pushes ago is not a PR whose
+          # current head is verified, and that distinction is the whole point of a gate.
+          runs=$(gh api "repos/$REPO/actions/runs?head_sha=$HEAD_SHA&per_page=100" \
+                   --jq '[.workflow_runs[] | {name, conclusion}]')
+          missing=""
+          IFS=',' read -ra want <<< "$REQUIRED_CHECKS"
+          for w in "${want[@]}"; do
+            got=$(echo "$runs" | jq -r --arg n "$w" \
+                    '[.[] | select(.name==$n) | .conclusion] | first // "absent"')
+            echo "  $w -> $got"
+            [ "$got" = "success" ] || missing="$missing$w($got) "
+          done
+          if [ -n "$missing" ]; then
+            echo "not merging; required check(s) not green for this sha: $missing"
+            exit 0
+          fi
+
+          # Mergeable is asked LAST and re-read, because GitHub computes it asynchronously
+          # and a stale UNKNOWN is not a conflict.
+          state=$(gh pr view "$pr" --repo "$REPO" --json mergeable --jq .mergeable)
+          if [ "$state" != "MERGEABLE" ]; then
+            echo "not merging; PR #$pr reports mergeable=$state"
+            exit 0
+          fi
+
+          gh pr merge "$pr" --repo "$REPO" --merge \
+            --subject "Auto-merge #$pr: gates green and opted in with $OPT_IN_LABEL"
+          echo "merged #$pr"

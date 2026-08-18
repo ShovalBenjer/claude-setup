@@ -219,3 +219,121 @@
 {"ts": "2026-08-12T18:31:18", "prompt_chars": 295, "personas": ["Evidence Clerk"], "skills": ["deep-research", "decision-grade"], "matched": true, "session": ""}
 {"ts": "2026-08-12T18:32:13", "prompt_chars": 40, "personas": [], "skills": [], "matched": false, "session": ""}
 {"ts": "2026-08-12T18:42:21", "prompt_chars": 397, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T18:47:22", "prompt_chars": 378, "personas": ["Release Bureau", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T19:05:39", "prompt_chars": 446, "personas": ["Evidence Clerk", "Architecture Office", "Mayor Opus"], "skills": ["requirement-anchor", "to-prd", "premortem", "deep-research", "decision-grade"], "matched": true, "session": ""}
+{"ts": "2026-08-12T19:17:31", "prompt_chars": 391, "personas": ["QA Lab", "Engineering Firm"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer"], "matched": true, "session": ""}
+{"ts": "2026-08-12T19:21:23", "prompt_chars": 2739, "personas": ["Product Studio", "Architecture Office", "Mayor Opus"], "skills": ["ui-ux-pro-max", "frontend-design", "premortem", "request-refactor-plan", "domain-model"], "matched": true, "session": ""}
+{"ts": "2026-08-12T19:23:07", "prompt_chars": 6253, "personas": ["Communications Desk", "Mayor Opus", "Evidence Clerk"], "skills": ["commit-push-pr", "refactor-pre-push", "deep-research", "decision-grade", "ui-ux-pro-max", "frontend-design", "shoval-voice-draft", "blog"], "matched": true, "session": ""}
+{"ts": "2026-08-12T19:24:22", "prompt_chars": 3066, "personas": ["Architecture Office", "MCP and Tooling Office", "Mayor Opus"], "skills": ["premortem", "request-refactor-plan", "domain-model", "mcp-activation", "web-inspect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T19:26:37", "prompt_chars": 403, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:28:48", "prompt_chars": 90, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:29:57", "prompt_chars": 2858, "personas": ["Communications Desk", "Product Studio", "Workflow Clerk"], "skills": ["ui-ux-pro-max", "frontend-design", "shoval-voice-draft", "blog", "humanize", "reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-12T19:30:49", "prompt_chars": 405, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:31:46", "prompt_chars": 387, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:33:26", "prompt_chars": 23, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:36:44", "prompt_chars": 109, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:39:37", "prompt_chars": 2559, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:42:54", "prompt_chars": 39, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:43:23", "prompt_chars": 715, "personas": ["MCP and Tooling Office"], "skills": ["mcp-activation", "web-inspect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T19:43:58", "prompt_chars": 373, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:45:07", "prompt_chars": 112, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:46:35", "prompt_chars": 112, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:48:08", "prompt_chars": 390, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:48:56", "prompt_chars": 6253, "personas": ["Communications Desk", "Mayor Opus", "Evidence Clerk"], "skills": ["commit-push-pr", "refactor-pre-push", "deep-research", "decision-grade", "ui-ux-pro-max", "frontend-design", "shoval-voice-draft", "blog"], "matched": true, "session": ""}
+{"ts": "2026-08-12T19:49:12", "prompt_chars": 376, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:49:57", "prompt_chars": 95, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:51:44", "prompt_chars": 158, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:52:16", "prompt_chars": 613, "personas": ["Communications Desk"], "skills": ["shoval-voice-draft", "blog", "humanize"], "matched": true, "session": ""}
+{"ts": "2026-08-12T19:52:36", "prompt_chars": 51, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:53:30", "prompt_chars": 390, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:53:34", "prompt_chars": 4075, "personas": ["QA Lab", "Communications Desk", "Engineering Firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "testing-pyramid", "tdd", "coverage-enforcer", "eval-runner"], "matched": true, "session": ""}
+{"ts": "2026-08-12T19:55:07", "prompt_chars": 121, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:56:38", "prompt_chars": 394, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T19:58:22", "prompt_chars": 353, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T20:02:27", "prompt_chars": 1249, "personas": ["Communications Desk", "Workflow Clerk"], "skills": ["shoval-voice-draft", "blog", "humanize", "reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-12T20:03:54", "prompt_chars": 5, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T20:04:59", "prompt_chars": 5, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T20:05:50", "prompt_chars": 3011, "personas": ["communications-desk", "review-board", "azure-ops-utility"], "skills": ["review", "heidegger-reflect", "azure-runtime", "azure-audit", "deep-research", "decision-grade", "context-bounded-analyst", "shoval-voice-draft"], "matched": true, "session": ""}
+{"ts": "2026-08-12T20:12:15", "prompt_chars": 395, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T20:12:20", "prompt_chars": 122, "personas": ["qa-lab", "conversation-layer"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer", "persona"], "matched": true, "session": ""}
+{"ts": "2026-08-12T20:15:07", "prompt_chars": 748, "personas": ["communications-desk", "qa-lab", "conversation-layer"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer", "shoval-voice-draft", "blog", "humanize", "persona"], "matched": true, "session": ""}
+{"ts": "2026-08-12T20:16:16", "prompt_chars": 381, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T20:17:41", "prompt_chars": 371, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T20:18:26", "prompt_chars": 169, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T20:19:25", "prompt_chars": 364, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T20:25:33", "prompt_chars": 1342, "personas": ["communications-desk", "qa-lab", "product-studio"], "skills": ["commit-push-pr", "refactor-pre-push", "testing-pyramid", "tdd", "coverage-enforcer", "ui-ux-pro-max", "frontend-design", "shoval-voice-draft"], "matched": true, "session": ""}
+{"ts": "2026-08-12T20:35:27", "prompt_chars": 589, "personas": ["latent-systems-lab"], "skills": ["context-bounded-analyst"], "matched": true, "session": ""}
+{"ts": "2026-08-12T20:36:40", "prompt_chars": 3091, "personas": ["communications-desk", "mayor-opus", "release-bureau"], "skills": ["prod-deploy-rules", "deploy-prod", "azure-devops", "commit-push-pr", "visual-explainer", "shoval-voice-draft", "blog", "humanize"], "matched": true, "session": ""}
+{"ts": "2026-08-12T20:37:07", "prompt_chars": 71, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T20:37:38", "prompt_chars": 68, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T20:38:32", "prompt_chars": 109, "personas": ["product-studio", "architecture-office", "mayor-opus"], "skills": ["ui-ux-pro-max", "frontend-design", "premortem", "request-refactor-plan", "domain-model"], "matched": true, "session": ""}
+{"ts": "2026-08-12T20:40:02", "prompt_chars": 107, "personas": ["review-board", "engineering-firm", "conversation-layer"], "skills": ["ponytail", "code-simplifier", "persona"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:07:29", "prompt_chars": 643, "personas": ["communications-desk", "review-board", "azure-ops-utility"], "skills": ["ponytail", "code-simplifier", "shoval-voice-draft", "blog", "humanize", "ops-status", "kill-stale", "watchdog"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:07:33", "prompt_chars": 587, "personas": ["communications-desk", "review-board", "engineering-firm"], "skills": ["ponytail", "code-simplifier", "shoval-voice-draft", "blog", "humanize", "persona"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:07:59", "prompt_chars": 2139, "personas": ["review-board", "communications-desk", "engineering-firm"], "skills": ["prod-deploy-rules", "deploy-prod", "commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "codex-call", "ponytail"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:10:21", "prompt_chars": 9061, "personas": ["review-board", "communications-desk", "azure-ops-utility"], "skills": ["review", "heidegger-reflect", "ponytail", "code-simplifier", "azure-runtime", "azure-audit", "jira-read", "jira-task-draft"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:11:16", "prompt_chars": 57, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:12:37", "prompt_chars": 393, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:13:58", "prompt_chars": 2699, "personas": ["communications-desk", "azure-ops-utility", "product-studio"], "skills": ["ponytail", "code-simplifier", "azure-runtime", "azure-audit", "ui-ux-pro-max", "frontend-design", "context-bounded-analyst", "voice-explainer"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:14:35", "prompt_chars": 89, "personas": ["release-bureau"], "skills": ["azure-devops", "commit-push-pr"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:15:20", "prompt_chars": 392, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:17:29", "prompt_chars": 806, "personas": ["engineering-firm", "evidence-clerk", "workflow-clerk"], "skills": ["commit-push-pr", "refactor-pre-push", "ponytail", "code-simplifier", "deep-research", "decision-grade", "reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:18:09", "prompt_chars": 6, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:20:24", "prompt_chars": 385, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:21:45", "prompt_chars": 402, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:22:17", "prompt_chars": 5, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:22:35", "prompt_chars": 22, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:22:42", "prompt_chars": 388, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:22:54", "prompt_chars": 421, "personas": ["qa-lab", "communications-desk", "evidence-clerk"], "skills": ["testing-pyramid", "tdd", "coverage-enforcer", "eval-runner", "deep-research", "decision-grade", "shoval-voice-draft", "blog"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:23:24", "prompt_chars": 1090, "personas": ["communications-desk", "review-board", "architecture-office"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "azure-devops", "shoval-voice-draft", "blog", "humanize"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:24:22", "prompt_chars": 124, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:25:05", "prompt_chars": 170, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:25:46", "prompt_chars": 14, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:26:09", "prompt_chars": 397, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:27:41", "prompt_chars": 123, "personas": ["workflow-clerk"], "skills": ["reground", "workspace-brain"], "matched": true, "session": ""}
+{"ts": "2026-08-12T21:34:29", "prompt_chars": 389, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:37:48", "prompt_chars": 372, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:38:34", "prompt_chars": 385, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T21:57:32", "prompt_chars": 370, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:15:35", "prompt_chars": 360, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:16:27", "prompt_chars": 100, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:16:38", "prompt_chars": 32, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:16:45", "prompt_chars": 17, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:16:50", "prompt_chars": 17, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:17:46", "prompt_chars": 122, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:18:16", "prompt_chars": 88, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push", "azure-devops"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:18:37", "prompt_chars": 54, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:18:59", "prompt_chars": 248, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:19:27", "prompt_chars": 5, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:19:38", "prompt_chars": 34, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:22:31", "prompt_chars": 387, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:25:09", "prompt_chars": 250, "personas": ["review-board", "release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:25:09", "prompt_chars": 367, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:26:39", "prompt_chars": 388, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:38:22", "prompt_chars": 198, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:40:17", "prompt_chars": 377, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:42:48", "prompt_chars": 252, "personas": ["review-board", "release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:44:19", "prompt_chars": 382, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:44:54", "prompt_chars": 206, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:45:39", "prompt_chars": 161, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:46:13", "prompt_chars": 380, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T22:55:23", "prompt_chars": 365, "personas": ["review-board"], "skills": ["review", "heidegger-reflect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T22:56:00", "prompt_chars": 361, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:00:23", "prompt_chars": 297, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:03:04", "prompt_chars": 356, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:03:08", "prompt_chars": 193, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:03:20", "prompt_chars": 1018, "personas": ["review-board", "release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect", "azure-devops", "mcp-activation", "web-inspect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:05:32", "prompt_chars": 379, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:07:36", "prompt_chars": 178, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:08:41", "prompt_chars": 387, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:10:20", "prompt_chars": 203, "personas": ["communications-desk", "release-bureau"], "skills": ["azure-devops", "commit-push-pr", "shoval-voice-draft", "blog", "humanize"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:13:00", "prompt_chars": 208, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:13:01", "prompt_chars": 383, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:14:29", "prompt_chars": 249, "personas": ["review-board", "release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push", "review", "heidegger-reflect"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:16:12", "prompt_chars": 389, "personas": ["release-bureau"], "skills": ["azure-devops", "commit-push-pr"], "matched": true, "session": ""}
+{"ts": "2026-08-12T23:17:18", "prompt_chars": 180, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:17:18", "prompt_chars": 365, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:19:37", "prompt_chars": 371, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:21:54", "prompt_chars": 190, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:21:54", "prompt_chars": 375, "personas": [], "skills": [], "matched": false, "session": ""}
+{"ts": "2026-08-12T23:25:35", "prompt_chars": 179, "personas": ["release-bureau", "engineering-firm"], "skills": ["commit-push-pr", "refactor-pre-push"], "matched": true, "session": ""}
