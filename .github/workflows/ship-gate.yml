@@ -19,9 +19,19 @@ name: Ship gate
 #   review    -- panel.py's own diff-review producer, run for real
 #   pipeline  -- this file existing and calling `gate.py run` (see above)
 #   dashboard -- `cd dashboard && cargo test --workspace` (dashboard/core +
-#                dashboard/src-tauri). Set up via the `Install Rust toolchain`
-#                step below; needs GTK3 + webkit2gtk-4.1 system packages,
-#                installed via the `Install dashboard system deps` step.
+#                dashboard/src-tauri). Toolchain presence (cargo/rustc,
+#                GTK3, webkit2gtk-4.1) is verified, not installed, by the
+#                `Verify dashboard toolchain present` step below -- see that
+#                step's comment for why this runner does not install deps.
+#   coverage_map -- `python tools/audit/coverage_map.py check`. Fails CLOSED
+#                if any top-level tracked directory (git ls-files, top
+#                segment) has no row in docs/coverage-map.txt naming either
+#                the domain that covers it or a stated exemption. This is
+#                the general mechanism that would have caught dashboard/
+#                itself, automatically, the day it was created -- added
+#                2026-08-19 as an operator-approved extension after an
+#                external review (Agentica) independently converged on the
+#                same finding this session's audit made and named the fix.
 #
 # NOT run through gate.py, but run as a named CI step in this same job for the
 # same reason (39 dashboard/ files, 0 CI coverage before 2026-08-19):
@@ -125,6 +135,13 @@ jobs:
 
       - name: atlas.py selftest (corpus structure + near-duplicate detection)
         run: python tools/docmap/atlas.py selftest
+
+      # Named separately for the same reason as the selftests above:
+      # individually attributable in the CI log. Proves the fail-closed
+      # coverage_map domain (quality-contract.json) can actually go red, not
+      # just that it reads clean against this repo's own current tree.
+      - name: coverage_map.py selftest (fail-closed on an undeclared top-level directory)
+        run: python tools/audit/coverage_map.py selftest
 
       # The review domain wants state/reviews/<HEAD sha>.json for the exact
       # commit being checked, and on a pull_request that HEAD is an ephemeral

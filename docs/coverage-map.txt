@@ -1,0 +1,40 @@
+# Every top-level tracked directory, mapped to the gate domain that exercises
+# it or to a stated exemption reason. tools/audit/coverage_map.py check fails
+# CLOSED: a top-level directory with no row here (declared covered or
+# declared exempt) blocks the gate. This is the opposite default from
+# docs/prior-art/out-of-scope.txt (there, an unlisted path is IN scope by
+# default); here, an unlisted path is UNKNOWN, and unknown is blocked, not
+# silently ungoverned. That inversion is the whole point of this file: it is
+# what would have caught dashboard/ automatically the day it was created,
+# instead of two days and 39 files later by manual audit.
+#
+# format: path | covered-by:<gate domain name> | reason
+#     or: path | exempt | reason
+#
+# UNIT: top-level only, not per-subdirectory. dashboard/core, dashboard/web
+# and dashboard/src-tauri are three different toolchains under one directory;
+# they get one row because the failure mode this file exists to close is "a
+# new top-level tree appears with zero domains touching it", not "every
+# subdirectory of an already-covered tree is individually accounted for".
+# Per-subdirectory tracking is docs/dir-purpose.txt's job (449 rows, already
+# maintained by codemap.py) and duplicating that granularity here would be a
+# second copy of the same data drifting on its own schedule.
+#
+# A row's <gate domain name> must be a real domain in quality-contract.json;
+# the checker resolves against that file, not just parses this one, so a typo
+# here is caught the same run it is written.
+
+.claude | exempt | project-local Claude Code tree: review artifacts and project-scoped config, not source code; nothing here is built or tested
+.github | covered-by:pipeline | the pipeline domain's ci_runs_gate builtin greps .github/workflows for the gate.py run invocation; the workflow YAML IS what this domain checks
+dashboard | covered-by:dashboard | cargo test --workspace (dashboard/core + dashboard/src-tauri) via the dashboard domain, dashboard-web-build CI step (npm run build, dashboard/web) via ship-gate.yml. Added 2026-08-19 closing the gap this file's own mechanism now guards against
+docs | covered-by:docmap | docmap.py check + codemap.py check together cover every tracked document and directory purpose under docs/
+dot-agents | exempt | vendored copy of the skills tree under a different top-level name; payload deployed to ~/.agents, not built or tested by this repo (AGENTS.md: "dot-* trees are payload, not live config")
+dot-claude | exempt | committed copy of the USER-level ~/.claude payload; payload deployed by hand or by skills_sync, not built or tested by this repo. The skills/rules/pointers domains DO check drift between this payload and the live tree, but that is a sync check, not code coverage, so dot-claude keeps its exempt row rather than a covered-by row that would overclaim
+dot-codex | exempt | same shape as dot-claude: committed payload for ~/.codex, not source this repo builds or tests
+intent-control-plane | covered-by:build | build/unit/types domains all cd into intent-control-plane and run uv sync / pytest / ruff / mypy against it directly
+nexus-engine-rs | exempt | KNOWN GAP, not a clean exemption: a second Rust crate (8 #[test] functions in src/models.rs and src/physics.rs, README documents `cargo test`) with zero gate coverage, found by this checker's first real run, 2026-08-19. Wiring it is out of scope for this change (operator-approved scope was EXT-1/EXT-3/dashboard plus this fail-closed mechanism); recorded here as an exemption WITH the gap stated rather than silently passed, so this checker does not paper over the exact class of defect it exists to catch. Follow-up ticket owed in TODO.md
+research-papers | exempt | read-only evidence corpus (AGENTS.md, docs/dir-purpose.txt), not a maintained codebase; no code here is built or tested by design
+state | covered-by:unit | append_only.py (EXT-1, chained into the unit domain's cmd) is what actually reads and validates state/*.jsonl: static-scans every writer for a truncating mode and checks tracked ledgers only grow. rules/skills/pointers check dot-claude/dot-codex/dot-agents payload drift, not state/ content, so covered-by:unit is the honest claim, not covered-by:rules; state itself holds no buildable source
+tests | covered-by:unit | the unit domain's first command is `python -m pytest tests/ -q`
+tools | covered-by:unit | at top-level-only granularity: quality-contract.json domains (build/unit/types/rules/skills/pointers/docmap/dashboard) and ship-gate.yml's falsifiability job together invoke code from at least a dozen tools/ subdirectories (gate, audit, review, docmap, map, bus, refute, skilleval, snapshot, e2e via selftest, browser via selftest). This is NOT a claim that every one of the ~42 tools/ subdirectories is exercised: a 2026-08-19 count found roughly 20 with no reference in either file (e.g. tools/coffee, tools/digest, tools/health, tools/hookgate, tools/telemetry, tools/whatsapp, tools/workspace). That per-subdirectory gap is real but is sub-top-level detail, out of scope for this file's stated unit (top-level only, see header); tracking it belongs in docs/dir-purpose.txt granularity or a future ticket, not a second row here
+work-docs | exempt | dated single-run analysis output (docs/dir-purpose.txt: "kept as the evidence behind a dated finding, never re-run"), not maintained source
