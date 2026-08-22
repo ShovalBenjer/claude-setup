@@ -244,3 +244,16 @@ dashboard/web/src/components/ui | shadcn/ui-pattern primitives (button, card, ba
 dashboard/web/src/lib | Shared frontend utilities (cn() class-merge helper)
 tools/coffee | Coffee-break v2 social loop (taste row 2026-08-12): futures.py is the reputation betting board over state/futures.jsonl, smoking.py the frustration-triggered gripe/mine cycle over state/coffee.jsonl reading gate-runs for triggers
 tools/reanimation | Reanimation jutsu: build a chattable persona from a WhatsApp thread. extract.py dumps a contact corpus from the decrypted store, fingerprint.py the stdlib statistical fingerprint, mask.py reversible PII tokenization at the model boundary, router.py the free-tier LLM failover (Qwen/NVIDIA/HF), persona.py the map-reduce persona card. Corpora live in ~/.intent, never committed
+dashboard | DASH-1 session dashboard: a Tauri desktop app reading local ledgers (gate runs, meme events, module toggles) into a native window. Cargo workspace root (core + src-tauri) plus web/ for the React frontend
+dashboard/core | dashboard-core crate: pure ledger-reading and state logic shared by the Tauri backend, no UI. Modules: ledger (gate-run/stub readers), meme (event-list parsing), modules (module-registry toggle persistence)
+dashboard/core/src | Source for dashboard-core: lib.rs re-exports, ledger.rs/meme.rs/modules.rs implement the reader and toggle logic each with its own inline test module
+dashboard/core/src/ledger | Ledger readers: gate_runs.rs parses state/gate-runs.jsonl into the latest verdict, stubs.rs are placeholder readers for ledgers not yet wired, mod.rs re-exports both
+dashboard/src-tauri | Tauri backend crate: commands.rs exposes IPC commands to the web frontend, meme_process.rs shells out to the meme-gen skill, tauri.conf.json/capabilities/icons are the desktop app manifest
+dashboard/src-tauri/capabilities | Tauri v2 capability manifest (default.json) declaring which IPC commands and OS permissions the webview is allowed to invoke
+dashboard/src-tauri/icons | App icon assets Tauri's bundler reads when packaging the desktop binary
+dashboard/src-tauri/src | Tauri backend source: main.rs entry point, lib.rs app builder, commands.rs the #[tauri::command] IPC surface, meme_process.rs the meme-gen subprocess wrapper
+dashboard/web | React + Vite + Tailwind v4 frontend for the dashboard, built with npm and node 22; index.css carries the buzz-anchored design tokens, App.tsx composes the module registry
+dashboard/web/src | Frontend source: App.tsx root component, ipc.ts the Tauri IPC client, types.ts shared DTOs, index.css the token/theme layer, components/ the UI tree
+dashboard/web/src/components | Feature components: AppShell (layout), GateVerdictTile (reads the gate ledger via IPC), MemeModule, ModuleRegistry (toggle-driven module list); ui/ holds the shared primitives
+dashboard/web/src/components/ui | Buzz-anchored shared UI primitives (Badge, Button, Card) built on class-variance-authority, consumed by the feature components in the parent directory
+dashboard/web/src/lib | Small frontend utilities: cn.ts (clsx/tailwind-merge class combiner) used across components/ui
