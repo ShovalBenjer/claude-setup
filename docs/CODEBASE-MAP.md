@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-445 directories, 1997 tracked files, 0 without a stated purpose.
+449 directories, 2005 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -48,7 +48,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `docs` | 40 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
+| `docs` | 41 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
 | `docs/analysis` | 69 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
@@ -190,6 +190,10 @@ the same reason, one level down.
 | `dot-claude/skills/azure-runtime` | 2 | Call Azure AI runtime from CLI — Azure OpenAI chat completions against deployed GPT models in brn-azai AND Azure AI Foundry agents (ORM-FLAGGING-AGENT, seekapa, AxiaCS) with thr... | SKILL.md |
 | `dot-claude/skills/blog` | 1 | Draft long-form blog content in Shoval Benjer's voice across platforms (Medium, LinkedIn, Substack, Dev.to, Jira-as-writeup). Anchors on the empirical voice fingerprint, runs a... | SKILL.md |
 | `dot-claude/skills/blonde-designer` | 1 | Creative director + design architect for the Seekapa AR how-to video refresh (DEV-4968). Shapes each video's script and art direction to the locked production standard, producin... | SKILL.md |
+| `dot-claude/skills/books-index` | 1 | Build and query a full-text search index over every file in docs/books, not just a curated subset. Triggers on "index the books", "rebuild book corpus", "search my books for X",... | SKILL.md |
+| `dot-claude/skills/books-index/scripts` | 2 | Build/query scripts for the books-index skill's local SQLite+FTS5 corpus search over docs/books (build_index.py, query.py); local-only, no network access | registry |
+| `dot-claude/skills/books-ingest` | 1 | Copy (never move) book files the operator has legitimately acquired from Downloads into docs/books, extracting epub text for indexing. Triggers on "ingest books", "copy new book... | SKILL.md |
+| `dot-claude/skills/books-ingest/scripts` | 2 | Copy-in scripts for the books-ingest skill: copies (never moves, never downloads) book files from Downloads into docs/books and extracts epub text (ingest.py, epub_to_text.py) | registry |
 | `dot-claude/skills/brainstorming` | 2 | "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design... | SKILL.md |
 | `dot-claude/skills/brainstorming/scripts` | 5 | A hand-rolled WebSocket server (RFC 6455 framing implemented inline in server.cjs, no dependency) plus its start/stop scripts and an iframe template, so the brainstorming skill... | registry |
 | `dot-claude/skills/case-ledger-post` | 2 | Turn a long working session into an interactive illustrated case-ledger post: the route taken, dead ends with receipts, measured cost from the session transcript, and lessons. R... | SKILL.md |
@@ -442,7 +446,7 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `tools` | 7 | Holds this repo's operational tooling: top-level scripts (repo audit, token rollout, slop lint) plus one subdirectory per verification, automation, or coordination tool | registry |
 | `tools/antigravity` | 1 | The `agy` CLI, a local reimplementation of an Antigravity command line that does not exist as a binary on this machine; wraps the google-antigravity Python SDK behind the repo's... | registry |
-| `tools/audit` | 11 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
+| `tools/audit` | 12 | Verification tools checking whether this repo's own checks are real: a dead-pointer/hollow-hook scanner, a skills drift checker, and the mutation-testing driver reading specs fr... | registry |
 | `tools/audit/mutations` | 22 | Per-target mutation specs (TARGET, ARGV, MUTATIONS) that tools/audit/mutate.py applies to prove each module's selftest can actually go red | registry |
 | `tools/browser` | 2 | Hand-rolled Chrome DevTools Protocol client that launches a separate Chrome so the assistant can browse authenticated pages, screenshot, and eval JS that anonymous WebFetch cann... | registry |
 | `tools/bus` | 2 | Cross-terminal message bus (bus.py): append-only hash-chained JSONL with per-lane read cursors so parallel Claude Code sessions in different terminals can send each other durabl... | registry |
