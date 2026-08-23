@@ -51,7 +51,7 @@ not a coordinator.
 | 12 | Skills estate fully owned/merged/archived | L5 | TODO | — |
 | 13 | Weekly self-improvement loop running | L5 | TODO | — |
 | 14 | **Memory + web-search write pipe** (fetch→distill→typed memory) | L2 | TODO | — |
-| 15 | **Repo portfolio graph** (nodes+edges, FalkorDB + Graphiti; d2+SQLite superseded) | L6 | TODO | spec 2026-08-24-ecosystem-db-falkordb-graphiti |
+| 15 | **Repo portfolio graph** (nodes+edges, FalkorDB + Graphiti; d2+SQLite superseded) | L6 | TODO | specs/2026-08-24-ecosystem-db-falkordb-graphiti.md |
 | 16 | **Blast-radius graph** (intra-repo import/call, feeds PR fanout) | L5/L6 | TODO | — |
 | 17 | **Git branch health sweep** (stale/merged/drift, gated actions) | L5 | TODO | — |
 | 18 | **Rules-as-enforcement** (per-repo rules bound to hooks, not prose) | L1 | TODO | — |
