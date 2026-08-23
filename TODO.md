@@ -1081,6 +1081,13 @@ none of this is enforced. Filed as rows because a finding in prose is not a back
       1 djvu, duplicates) in `docs/analysis/2026-08-23-books-corpus-wiring.md`.
 - [ ] **Dedup the books corpus by content hash** in books-ingest (TDA twice, Grohs and
       Kutyniok three times); install calibre for the 4 mobi, djvulibre for the 1 djvu.
+- [ ] **Build the dashboard SQL tab on the stack decided in
+      `docs/analysis/2026-08-23-dashboard-stack-and-supply-chain.md`**: rusqlite
+      read-only per command, `SqlError` via thiserror across IPC, notify-debounced
+      ledger watch pushing Emitter events, tracing on the query path. bun is the web
+      package manager (bun.lock, bunfig cooldown, CI on setup-bun). Open from that doc:
+      a gate domain for `supply/verify.py verify-ledger`, cosign via TUF bootstrap,
+      osv-scanner.
 - [ ] **`resources.py verify` breaks at row 3893 and nothing runs it** (L-2026-08-23-a).
       Decide: add it to the gate as a domain, or stop calling the ledger chained.
 - [x] docs/ root went from 43 files to 18; 25 point-in-time files moved to `docs/archive/`,

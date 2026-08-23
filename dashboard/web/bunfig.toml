@@ -1,0 +1,11 @@
+# Install-time supply-chain gates for dashboard/web. Sources, read 2026-08-23:
+# bun docs install.minimumReleaseAge (seconds, since bun 1.3.0); craigory.dev
+# 2026-05-29 cross-manager cooldown reference; pnpm.io/supply-chain-security.
+#
+# A compromised npm release is usually pulled within hours, so refusing any version
+# younger than a day filters most of them at install time with no scanner involved.
+# Lifecycle scripts are already blocked by bun unless a package is listed in
+# package.json "trustedDependencies"; nothing here needs one (the Tailwind oxide
+# binding is a prebuilt optional dependency, not a postinstall).
+[install]
+minimumReleaseAge = 86400
