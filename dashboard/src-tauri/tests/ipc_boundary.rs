@@ -14,7 +14,12 @@
 //! not a mocked function call. `tauri::test::mock_builder()` +
 //! `tauri::test::get_ipc_response` are Tauri's own supported headless IPC
 //! test surface (`tauri::test` module, "test" feature), not a bespoke
-//! substitute for the real dispatcher.
+//! substitute for the real dispatcher. NOTE: the `tauri::test` module's own
+//! doc comment states "This module is unstable" -- `mock_builder`,
+//! `get_ipc_response`, `INVOKE_KEY`, and `InvokeRequest`'s field shape carry
+//! no stability guarantee across 2.x patch releases, so a `cargo update`
+//! could break this test with no change to the app itself. Pinned here at
+//! `tauri-2.11.5` (see `dashboard/Cargo.lock`).
 //!
 //! What this test does NOT cover, named honestly: it never creates a real
 //! OS window and never loads `window.__TAURI_INTERNALS__` inside an actual
