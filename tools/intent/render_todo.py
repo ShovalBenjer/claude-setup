@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sqlite3
 import sys
 from pathlib import Path
@@ -126,7 +127,10 @@ def load(base_dir: Path | None = None) -> list[dict[str, Any]]:
                      limit 1) as goal,
                    (select t.to_state from state_transitions t
                      where t.subject_id = e.bead_id
-                     order by t.created_at_utc desc, t.rowid desc limit 1) as state
+                     order by t.created_at_utc desc, t.rowid desc limit 1) as state,
+                   (select t.reason from state_transitions t
+                     where t.subject_id = e.bead_id
+                     order by t.created_at_utc desc, t.rowid desc limit 1) as reason
               from events e
              where e.bead_id like 'PT-%'
              order by e.timestamp_utc
@@ -148,6 +152,8 @@ def for_project(rows: list[dict[str, Any]], project: str) -> list[dict[str, Any]
 def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     """Split a project's tickets into workable, noise, and awaiting triage."""
     workable, noise, untriaged = [], [], []
+    triaged: dict[str, int] = {}
+    not_work = 0
     for row in rows:
         state = row.get("state") or tickets.GENESIS
         if state in WORKABLE:
@@ -155,12 +161,23 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
         elif state == tickets.GENESIS:
             klass, _ = tickets.classify(row.get("text") or "")
             (noise if klass else untriaged).append(row)
+        elif state == "TRIAGED":
+            # The transition reason names where the ticket went ("issue #91"). Grouping
+            # by that keeps the inbox pointing at the checklist instead of going blank
+            # the moment everything is triaged, which is what happened on 2026-08-23.
+            m = re.search(r"issue #(\d+)", row.get("reason") or "")
+            key = f"#{m.group(1)}" if m else "(no issue named)"
+            triaged[key] = triaged.get(key, 0) + 1
+        elif state == "NOT_WORK":
+            not_work += 1
     untriaged.sort(key=lambda r: r.get("ts") or "", reverse=True)
     return {
         "total": len(rows),
         "workable": workable,
         "noise": len(noise),
         "untriaged": untriaged,
+        "triaged": triaged,
+        "not_work": not_work,
         "sessions": len({r.get("session") for r in rows}),
     }
 
@@ -190,6 +207,17 @@ def render(project: str, rows: list[dict[str, Any]]) -> str:
         f"(newest {date}), {s['noise']} classified as slash commands or acks by rule."
     )
     out.append("")
+
+    if s["triaged"]:
+        total_triaged = sum(s["triaged"].values())
+        out.append(f"### Triaged into checklist issues, {total_triaged} prompts")
+        out.append("")
+        out.append("One box per prompt lives on the issue; the ticket's state moves when the box does. "
+                   f"{s['not_work']} prompts were marked not work (acks, status checks, notifications).")
+        out.append("")
+        for key, n in sorted(s["triaged"].items(), key=lambda kv: (-kv[1], kv[0])):
+            out.append(f"- {key}: {n} prompts")
+        out.append("")
 
     if s["workable"]:
         out.append("### Workable")

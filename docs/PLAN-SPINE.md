@@ -28,12 +28,12 @@ appendix, so the check travels with the claim.
 
 ## Superseded-in-place, corrected this pass
 
-- `docs/specs/2026-07-31-github-native-project-surface.md`: superseded by
+- `docs/specs/archive/2026-07-31-github-native-project-surface.md`: superseded by
   kanban-four-layer-model, kept in place (not archived) because live
   cross-references (TODO.md, unified-architecture PRD, two analyses) point at
   its read-only verification section as evidence, and archiving would strand
   that trail.
-- `docs/specs/2026-07-31-zion-board-as-product-instrument.md`: superseded by
+- `docs/specs/archive/2026-07-31-zion-board-as-product-instrument.md`: superseded by
   kanban-four-layer-model for its board-instrument sections 1-4 only; its
   closing dedup-sweep-sequencing section is not touched by kanban and stays
   load-bearing, so the file stays in place with a corrected header rather

@@ -14,7 +14,7 @@
 - `C:\Users\shova\claude-setup\intent-control-plane`
 - `C:\Users\shova\Downloads\new-recruit\projects\intent-control-plane`
 
-`docs/HANDOFF-2026-07-30-session-close.md` ranked this the highest-value unknown on the estate and
+`docs/archive/HANDOFF-2026-07-30-session-close.md` ranked this the highest-value unknown on the estate and
 said plainly that nothing should be merged until it was answered, because both were live and a
 wrong merge loses work. `TODO.md` AUTO-06 bootstraps `state/ecosystem.db` from this package's
 schema, so the ambiguity blocked the substrate, and the repo migration would have moved the

@@ -652,7 +652,7 @@ row-reuse reads `chunks` plus `citations`, cache2action reads `artifacts` plus
 ## 6. Ingestion pipeline enforcing the synthesis standard
 
 The standard lives in
-`docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` (59
+`docs/archive/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` (59
 lines) and asks for synthesis over summarisation, strict `[S#]` citation,
 explicit conflict resolution, density, and no redundancy. Today those are
 requests in a prompt, which ADR-0005 identifies as the exact failure class: a

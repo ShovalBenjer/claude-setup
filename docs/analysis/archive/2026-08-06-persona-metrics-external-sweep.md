@@ -23,7 +23,7 @@ benchmark. Verbatim 5-gram overlap on ground-truth functions was 35% on
 SWE-bench Verified against 18% on comparable non-benchmark tasks.
 
 That is direct evidence for a decision this repo already made and recorded in
-`docs/specs/2026-07-31-github-native-project-surface.md` section 4.1, which
+`docs/specs/archive/2026-07-31-github-native-project-surface.md` section 4.1, which
 rejected importing benchmark-shaped scores and argued for measuring this harness
 on its own ledgers. The external literature now supports that from the other
 direction. Four further papers argue the same fragility (arXiv:2509.16941,

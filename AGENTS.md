@@ -53,6 +53,8 @@ python tools/review/panel.py run --project .   # writes state/reviews/<sha>.json
 python tools/audit/pointers.py scan            # hooks and skills that are dead paths
 python tools/refute/refute.py run              # run each claim's own falsifier
 python tools/slop_lint.py <file.md>            # prose gate, exit 1 on hits
+python tools/corpus/books_check.py             # docs/books vs the FTS5 index; exit 1 on an unindexed or unextracted book
+python tools/intent/render_todo.py check       # TODO.md prompt-inbox block vs ~/.intent; `write` to re-render
 ```
 
 ## How verification is arranged

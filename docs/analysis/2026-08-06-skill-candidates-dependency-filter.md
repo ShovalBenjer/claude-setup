@@ -69,7 +69,7 @@ none above single-digit stars. The best of them, `manikumarkv/devrunway-claude-p
 all. It passes the dependency filter cleanly.
 
 It should still not be adopted, and the argument is already in this repo.
-`docs/specs/2026-07-31-github-native-project-surface.md` section 4.1 read the DORA
+`docs/specs/archive/2026-07-31-github-native-project-surface.md` section 4.1 read the DORA
 2025 report and DX Core 4 and concluded that the throughput half does not transfer:
 DX's speed dimension is PRs per engineer and lead time, and this repo has one
 operator and no customers. What transfers is DORA's pairing rule, that a KPI

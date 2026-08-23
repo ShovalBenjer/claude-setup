@@ -27,7 +27,7 @@ write another document. Full version with all arithmetic:
    absent from every CI workflow; and its own analysis said "wire it or delete it"
    four days earlier. Verified after: `codemap.py check` clean at 365 dirs,
    `codemap.py prior-art` 26 components all unexpired, 179 tests pass.
-2. **`41f5a4c` closed two open branches.** `docs/analysis/2026-07-29-albert-prior-art-verdict.md`
+2. **`41f5a4c` closed two open branches.** `docs/analysis/archive/2026-07-29-albert-prior-art-verdict.md`
    resolves the albert question: PolyForm Noncommercial 1.0.0, not OSI-approved,
    commercial use prohibited, so the code is unadoptable while the repo stays
    binding prior art. Also not an ancestor, created 2026-07-23. And
@@ -127,7 +127,7 @@ other sessions. Filed as the first next action below.
    `codemap.py write` will keep generating a map that only the working tree matches.
    Consider whether `codemap.py` should count tracked files only, which would make
    the map reproducible from the repository rather than from one machine's disk.
-1. Run `docs/2026-07-29-external-absorption-brief.md` in Claude Desktop with
+1. Run `docs/archive/2026-07-29-external-absorption-brief.md` in Claude Desktop with
    `C:\Users\shova\wa-export-archive\self-chat-links-2026-07-29.csv` attached. This
    is the largest unabsorbed pile: 806 unique URLs, 80 GitHub repos, briefed and
    ready. File the returned table against `TODO.md` section ABSORB.

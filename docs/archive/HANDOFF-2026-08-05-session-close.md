@@ -108,7 +108,7 @@ All five are indexed in `docs/INDEX.md` and pass `strand.py`.
 - **`docs/specs/2026-08-03-detail-passes-teleology-and-creativity.md`**. Multi-lens
   verification, the teleological header (`why` / `for` / `within`), and measured
   `p_conventional`. Its central mechanism was withdrawn under audit, see §5.
-- **`docs/analysis/2026-08-03-code-audit-analysis-sweep-and-research-provenance.md`**. All
+- **`docs/analysis/archive/2026-08-03-code-audit-analysis-sweep-and-research-provenance.md`**. All
   93 `.py` files parsed, all 37 analysis documents opened one by one, all 19 of the
   session's search domains logged with where each landed.
 - **`docs/adr/0021-rust-for-hot-paths-python-for-oracles.md`**. The language criterion, plus
