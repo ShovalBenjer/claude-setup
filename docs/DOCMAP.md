@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1052**
+- documents: **1053**
 - reachable from `docs/INDEX.md`: **120** (11%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -425,11 +425,12 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/Documents/CDP_Kick_Research_20260507/CDP_Kick_Strategic_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Executive_MCP_Research_20260507/Executive_MCP_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 
-## doc (57)
+## doc (58)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `.github/ISSUE_TEMPLATE/task.md` | - | living | registry | n/a | - | - | - |
+| `dashboard/web/scripts/README.md` | - | living | registry | n/a | - | - | - |
 | `docs/CODEBASE-MAP.md` | - | generated | registry | n/a | yes | - | - |
 | `docs/ESTATE-DIRECTORY-CATALOG.md` | - | dated-snapshot | registry | n/a | yes | - | - |
 | `docs/EXECUTION-PLAN.md` | - | living | registry | n/a | yes | - | - |
