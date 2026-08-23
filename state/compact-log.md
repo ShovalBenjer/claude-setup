@@ -3443,3 +3443,36 @@ ac113aa feat(harness): promote the resolver into the producer, and close the ski
 ac113aa feat(harness): promote the resolver into the producer, and close the skills drift
 3ec226d chore(state): the passing gate run's own ledger row
 ```
+## compact 2026-08-19 04:32
+```
+## main...gh/main [behind 149]
+ M TODO.md
+ M state/agent-spawns.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+3e2db2c Merge pull request #66 from ShovalBenjer/chore/2026-08-12-estate-migration-and-registry
+118601d chore(contract): rules waiver removed a second time; merge reintroduced it stale
+7f90dd5 chore(state): gate ledger
+```
+## compact 2026-08-19 06:13
+```
+## main...gh/main [behind 149]
+ M TODO.md
+ M state/agent-spawns.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+3e2db2c Merge pull request #66 from ShovalBenjer/chore/2026-08-12-estate-migration-and-registry
+118601d chore(contract): rules waiver removed a second time; merge reintroduced it stale
+7f90dd5 chore(state): gate ledger
+```
+## compact 2026-08-23 20:11
+```
+## main...gh/main [ahead 1, behind 152]
+ M TODO.md
+ M state/agent-spawns.jsonl
+ M state/compact-log.md
+ M state/gate-runs.jsonl
+daa65a2 chore(workspace): land start-claude.sh at gh/main's merged content pre-merge
+3e2db2c Merge pull request #66 from ShovalBenjer/chore/2026-08-12-estate-migration-and-registry
+118601d chore(contract): rules waiver removed a second time; merge reintroduced it stale
+```
