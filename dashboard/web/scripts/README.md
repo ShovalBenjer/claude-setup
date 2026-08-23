@@ -5,7 +5,9 @@ the Vite dev/build pipeline. `dom-test.mjs` bundles the real app source
 (via `src/testEntry.tsx`) with Vite into a classic IIFE script, loads it
 into a real jsdom `Window`/`document` (jsdom does not execute inline
 `type="module"` scripts, hence the IIFE format), stubs the
-`window.__TAURI__.core.invoke` IPC boundary with real rows read from
+`window.__TAURI_INTERNALS__.invoke` IPC boundary (the primitive
+`@tauri-apps/api/core`'s `invoke` reads directly, and the one Tauri 2
+injects into every real webview) with real rows read from
 `state/gate-runs.jsonl` plus the actual module/meme-event shapes, then
 drives real `click()` events on each rail entry and asserts the main
 panel renders distinct, non-empty content per entry with no fabricated

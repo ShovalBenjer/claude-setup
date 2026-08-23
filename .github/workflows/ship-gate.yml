@@ -215,6 +215,19 @@ jobs:
           npm ci
           npm run build
 
+      # Added alongside the IPC-boundary fix (window.__TAURI__ was never
+      # injected; ipc.ts now imports invoke from @tauri-apps/api/core, which
+      # reads window.__TAURI_INTERNALS__). dom-test.mjs stubs that exact
+      # object and drives ipc.ts's real exported functions through it, so a
+      # regression back to a dead IPC import (wrong global, wrong package
+      # path, or dropped dependency) fails this step. It does not exercise a
+      # live Tauri webview; see dashboard/web/scripts/README.md and
+      # docs/QUALITY-CONTRACT.md for the boundary this leaves unverified.
+      - name: dashboard-web-ipc-boundary (npm run test:dom, dashboard/web)
+        run: |
+          cd dashboard/web
+          npm run test:dom
+
       - name: gate.py run (full contract)
         run: python tools/gate/gate.py run --project . -v
 

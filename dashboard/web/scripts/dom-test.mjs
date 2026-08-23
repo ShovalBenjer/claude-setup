@@ -4,7 +4,7 @@
 // real testEntry.tsx with Vite (same React/TS source the shipped build
 // uses, only main.tsx swapped for one that skips the CSS import), loads
 // the bundle into a real jsdom Window/document, stubs
-// window.__TAURI__.core.invoke to answer with real rows read from
+// window.__TAURI_INTERNALS__.invoke to answer with real rows read from
 // state/gate-runs.jsonl and the actual ModuleDescriptor/MemeEvent shapes
 // (the IPC boundary the webview would normally supply -- not fabricated
 // product data), then drives real click() calls on each rail button and
@@ -156,7 +156,16 @@ async function main() {
     virtualConsole,
   });
 
-  dom.window.__TAURI__ = { core: { invoke: makeInvokeStub() } };
+  // Stub the real IPC boundary `@tauri-apps/api/core`'s `invoke` calls:
+  // `window.__TAURI_INTERNALS__.invoke(cmd, args, options)`. This is the
+  // primitive Tauri 2 injects into every real webview regardless of the
+  // `withGlobalTauri` config flag, so stubbing it here (rather than the
+  // opt-in `window.__TAURI__` bundle this app does not enable) exercises
+  // ipc.ts's actual import path, not a shape the shipped app never reads.
+  const invokeStub = makeInvokeStub();
+  dom.window.__TAURI_INTERNALS__ = {
+    invoke: (cmd, args) => invokeStub(cmd, args),
+  };
 
   const scriptEl = dom.window.document.createElement("script");
   scriptEl.textContent = code;

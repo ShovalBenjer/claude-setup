@@ -105,6 +105,28 @@ whoever is already suspicious; `confirm` is read on every run.
 
 These were true when measured. Re-measure before relying on them.
 
+- 2026-08-23, `dashboard`: the Tauri<->React IPC boundary was dead on
+  `gh/main` (`window.__TAURI__` never injected; `ipc.ts` resolved `invoke`
+  off it at call time and always rejected). Fixed by importing `invoke` from
+  `@tauri-apps/api/core`, which reads `window.__TAURI_INTERNALS__` directly
+  -- the primitive Tauri 2 injects into every real webview. Two regression
+  oracles now cover this: `dashboard/src-tauri/tests/ipc_boundary.rs`
+  (`cargo test --workspace`, already this domain's `cmd`) dispatches a real
+  `InvokeRequest` through `tauri::test::get_ipc_response` against the app's
+  actual `invoke_handler` list and capability file; `dashboard/web/scripts/
+  dom-test.mjs` (new `dashboard-web-ipc-boundary` CI step, `npm run
+  test:dom`) stubs `window.__TAURI_INTERNALS__.invoke` and drives `ipc.ts`'s
+  real exports through it. Both were verified red-then-green: the Rust test
+  fails without the URL/permission setup matching the real capability file,
+  and the dom-test was confirmed to fail when the old `window.__TAURI__`
+  lookup was temporarily restored. Neither oracle proves a live webview
+  round-trip. Three attempts to launch the built binary under this
+  container's WSLg/RDP sandbox each got a real window ID assigned by Weston
+  (`rdp_rail_notify_app_list`, confirmed in `/mnt/wslg/weston.log`) but never
+  painted a frame or fired an IPC call in ~20-30s; this matches a
+  previously-documented sandbox limitation (WSLg renders on CPU / RDP
+  virtual output problems), not a defect in the fix. A live-webview check
+  remains unverified in this environment.
 - 2026-07-25, `build`: `tools/whatsapp/cdp_driver.py` imports third-party
   `websocket` and `tools/setup_token_pty.py` imports `winpty`. Neither is
   installed on this machine nor declared in any manifest, and both exit 1 with
