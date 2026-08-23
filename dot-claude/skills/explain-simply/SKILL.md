@@ -1,6 +1,6 @@
 ---
 name: explain-simply
-description: "Use when the operator asks for a simple, plain, or clear explanation, says he does not follow, or asks what is broken in plain language. Also use before any status update, decision summary, blocker list, handoff, or report a human must act on. Applies sourced plain-language rules with an executable checker that measures the draft instead of trusting it."
+description: "Use when the operator asks to explain something simply or plainly, says he does not follow, or asks what is broken in plain language, before a blocker list, handoff, or report a human must act on. Applies sourced plain-language rules with an executable checker that measures the draft instead of trusting it."
 model: opus
 ---
 
