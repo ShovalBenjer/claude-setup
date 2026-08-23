@@ -1139,3 +1139,14 @@ One box per prompt lives on the issue; the ticket's state moves when the box doe
   worktree-rules-sync-repo-stack-reasoning before that chain (5 branches, superseded
   by PR #86 for its dashboard work and by the 2026-08-19 EXT-1/EXT-3 gate contract
   entries for the rest) was deleted; this was the one genuinely un-landed item in it.
+
+- [ ] Issue and milestone reasoning is done, GitHub writes are not. See
+  `docs/analysis/2026-08-23-issue-and-milestone-reasoning.md` for the full pass
+  over all 56 open issues: which of the 33 milestone-linked EPICs are still live
+  vs done vs under-evidenced, why M1-M5 are kept, why the T01-T18 prompt-triage
+  series (created 2026-08-23, sourced from the operator's own words via
+  ~/.intent/intent.db) is the freshest layer and should get `related:` links to
+  the EPICs it overlaps, and the root finding that `state/prompt-tickets.jsonl`
+  is 2313 rows 100% still CAPTURED with zero ever transitioned to TRIAGED. No
+  issue was closed or edited by that pass; it ends with a proposed-next-action
+  list awaiting operator sign-off.
