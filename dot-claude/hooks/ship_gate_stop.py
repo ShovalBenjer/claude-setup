@@ -62,14 +62,27 @@ def find_contract(start: str) -> str | None:
     return None
 
 
-def load_gate():
+def load_gate(project: str | None = None):
     """Import tools/gate/gate.py, wherever this hook happens to be deployed.
 
     The hook ships to ~/.claude/hooks while gate.py stays in the repo, so the
     path cannot be relative to __file__ once deployed. Each candidate below is a
     real layout on this machine, tried in order of how specific it is.
+
+    `project` (the contract-bearing dir `find_contract` already resolved) is
+    tried first. Every real checkout and every real git worktree carries its
+    own tools/gate/gate.py, so gate.setup_root() then resolves to the SAME
+    tree `project` lives in. Without this, a worktree-isolated session fell
+    through to the ~/claude-setup fallback, a symlink to the main checkout:
+    the loaded module's setup_root() pointed at the wrong repo, so
+    ledger_state() read the main checkout's ledger instead of the worktree's
+    own, and a real PASS there stayed invisible to this hook. Found 2026-08-24,
+    worktree ecosystem-db-spec: a green run was reported "never gated" every
+    turn because the hook was checking a different file.
     """
     candidates = []
+    if project:
+        candidates.append(os.path.join(project, "tools", "gate", "gate.py"))
     env = os.environ.get("CLAUDE_SETUP_ROOT")
     if env:
         candidates.append(os.path.join(env, "tools", "gate", "gate.py"))
@@ -320,7 +333,7 @@ def main() -> int:
     if not project:
         return out({})
 
-    gate, where = load_gate()
+    gate, where = load_gate(project)
     if gate is None:
         return out({"systemMessage": (
             "Ship gate is OFF: {} has a {} but the gate runner is unreachable ({}). "
