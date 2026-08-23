@@ -3,8 +3,8 @@
 Operator ask: iterate over Matt Pocock's skills and say what we are not using and why,
 with https://www.youtube.com/watch?v=0oXOOlqVu5M as context. That video is Theo's review
 of the repo ("So I tried Matt's skills...", t3.gg, read from YouTube's oembed endpoint);
-its transcript was not fetched (the Chrome-to-Gemini drive the youtube-distill skill needs
-was not exercised in this pass), so nothing below leans on it. The repo was read directly:
+it was distilled in a second pass the same day (appendix at the end; nothing in the main
+body leans on it, and the appendix marks quote versus reading). The repo was read directly:
 36 SKILL.md frontmatters at HEAD (pushed 2026-08-21, 233k stars, MIT), diffed against the
 80-skill live tree and against the full teardown this repo already did on 2026-08-01
 (`docs/analysis/archive/2026-08-01-pocock-skills-teardown.md`, v1.1.0, 38 skills then).
@@ -74,3 +74,28 @@ is one file.
 Ledger: `state/external-repos.jsonl` row for mattpocock/skills moves untriaged ->
 adopt-patterns with this document as the why. Issue #90 box ticked; #93 holds the operator
 prompts that asked for this.
+
+## Appendix: the video, distilled 2026-08-23 (second pass of this doc)
+
+Theo's review distilled via the youtube-distill route (Chrome to Gemini Flash,
+conversation d31fe7ee8411259d). Contract note: Gemini returned no timestamps despite
+being asked, so apart from two direct quotes everything below is Gemini's reading of
+the video, medium confidence, not verified transcript.
+
+- Verdict: skills are a real paradigm, but importing big repos wholesale creates
+  context overhead; treat them as modular prompt patterns. Quote: "the biggest wins
+  came from somewhere unexpected."
+- Best: grill-me (quote from his session: "the 27th question made me realize what I
+  really want. Ended up cutting scope by like 90%"), plus /unslop and /blast-radius,
+  which are Lauren Tan's Pstack, not Matt's repo. Worst: heavy multi-step orchestration
+  and verbose wizard-style flows.
+- Economics: he lands exactly where the 08-01 teardown did, explicit user invocation
+  over model invocation, because model-invoked skills tax every turn. Independent
+  confirmation of the direction we already took.
+- Bearing on today's imports: wait-what and to-questionnaire sit in his "adopt" shape
+  (small, user-invoked, restraint); the wizard import carries his caveat, so ours stays
+  ephemeral and single-purpose by design. /unslop is already covered here by
+  slop_lint.py plus the no-ai-slop patterns (#10, #19). /blast-radius (downstream
+  impact of a diff before applying it) has no equivalent in this estate and goes to the
+  watch list: the nearest prior art is the affected-files CI job, which selects tests,
+  not consequences.
