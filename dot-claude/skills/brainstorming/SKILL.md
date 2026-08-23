@@ -68,6 +68,8 @@ digraph brainstorming {
 
 **The terminal state is invoking writing-plans.** Do NOT invoke frontend-design, mcp-builder, or any other implementation skill. The ONLY skill you invoke after brainstorming is writing-plans.
 
+**Note (checked 2026-08-19): `writing-plans` is not installed in this tree** (no `skills/writing-plans`, no matching agent). Until it exists, treat step 9 / the terminal node as: present the implementation plan directly in the conversation, in the same shape writing-plans would have produced (ordered steps, file-level detail, test plan), rather than invoking a skill that is not there. `spec-document-reviewer` (steps 7-8, the digraph's "Spec review loop") is unaffected by this note: it is a `Task tool (general-purpose)` dispatch using `spec-document-reviewer-prompt.md`, which is on disk and self-contained, not a missing named subagent.
+
 ## The Process
 
 **Understanding the idea:**
@@ -134,6 +136,7 @@ Wait for the user's response. If they request changes, make them and re-run the 
 
 - Invoke the writing-plans skill to create a detailed implementation plan
 - Do NOT invoke any other skill. writing-plans is the next step.
+- If writing-plans is not installed in the current tree (verify with a skill lookup before assuming), present the implementation plan directly instead of invoking it. Do not substitute a different implementation skill.
 
 ## Key Principles
 

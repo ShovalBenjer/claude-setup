@@ -1,6 +1,6 @@
 ---
 name: whatsapp-query
-description: Decrypt and query the local WhatsApp Desktop (Windows) message store as a searchable corpus, by contact / date / text, with contact-name resolution. Triggers on "search my whatsapp", "query whatsapp history", "what did <name> say about X", "decrypt my whatsapp". Local-only, read-only, never sends anything out.
+description: Decrypt and query the local WhatsApp Desktop (Windows) message store as a searchable corpus. Full history the linked device holds, by contact / date / text, with contact-name resolution. Triggers on "search my whatsapp", "query whatsapp history", "what did <name> say about X", "decrypt my whatsapp", "when did I talk to <name> about Y". Local-only, read-only queries, never sends anything out.
 model: opus
 ---
 
