@@ -51,10 +51,50 @@ def index_file(con: sqlite3.Connection, path: Path, rel: str) -> int:
     return len(chunks)
 
 
+def extract_pdfs(books_dir: Path) -> tuple[int, int, int]:
+    """Write `<name>.pdf.txt` beside every PDF that has none, so the txt-only indexer sees it.
+
+    Measured 2026-08-23: 300 of 335 files in docs/books were indexed and the 35 gaps were
+    every PDF, mobi and djvu, because this indexer reads `.txt` only and books-ingest
+    extracts epub only. pypdf is imported lazily: without it the PDFs are counted as
+    unextracted and reported, never silently skipped. Returns (extracted, skipped, failed).
+    """
+    pdfs = [p for p in sorted(books_dir.rglob("*.pdf")) if p.is_file()]
+    todo = [p for p in pdfs if not p.with_name(p.name + ".txt").exists()]
+    if not todo:
+        return 0, len(pdfs), 0
+    try:
+        from pypdf import PdfReader  # type: ignore
+    except ImportError:
+        print(f"pypdf not importable: {len(todo)} PDF(s) stay unextracted "
+              "(uv run --with pypdf python build_index.py)")
+        return 0, len(pdfs) - len(todo), len(todo)
+    done = failed = 0
+    for p in todo:
+        try:
+            reader = PdfReader(str(p))
+            text = "\n".join((page.extract_text() or "") for page in reader.pages)
+        except Exception as exc:  # noqa: BLE001
+            print(f"FAILED extract {p.name}: {exc}")
+            failed += 1
+            continue
+        if not text.strip():
+            print(f"EMPTY extract {p.name}: scanned or image-only PDF, no text layer")
+            failed += 1
+            continue
+        p.with_name(p.name + ".txt").write_text(text, encoding="utf-8")
+        done += 1
+        print(f"extracted {p.name} ({len(reader.pages)} pages)")
+    return done, len(pdfs) - len(todo), failed
+
+
 def run(books_dir: Path, db_path: Path, full: bool) -> None:
     db_path.parent.mkdir(parents=True, exist_ok=True)
     con = sqlite3.connect(db_path)
     ensure_schema(con)
+
+    ex, ex_skipped, ex_failed = extract_pdfs(books_dir)
+    print(f"pdf extraction: {ex} new, {ex_skipped} already had text, {ex_failed} failed")
 
     known: dict[str, tuple[float, int]] = {}
     if not full:

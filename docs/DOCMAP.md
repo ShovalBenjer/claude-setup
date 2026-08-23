@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1058**
+- documents: **1059**
 - reachable from `docs/INDEX.md`: **69** (6%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (83)
+## analysis (84)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -160,6 +160,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-17-external-landscape-comparison.md` | 2026-08-17 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-17-repo-compare-block-buzz.md` | 2026-08-17 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-17-repo-compare-everything-claude-code.md` | 2026-08-17 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/2026-08-23-books-corpus-wiring.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-23-prompt-triage.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-23-whatsapp-links-vs-plan.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-23-whatsapp-repo-reminder-list.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
@@ -749,7 +750,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/agent-builder/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/blog/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/blonde-designer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/skills/books-index/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/books-ingest/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/brainstorming/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/brainstorming/spec-document-reviewer-prompt.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -889,6 +889,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/repo-compare/SKILL.md` | 2026-08-11 | definition-see-skills_sync | class | 2 | - | - | - |
 | `dot-claude/skills/meme-gen/SKILL.md` | 2026-08-17 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/review-pr-ado/SKILL.md` | 2026-08-18 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/books-index/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
 ## spec (26)
 

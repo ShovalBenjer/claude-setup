@@ -1076,6 +1076,11 @@ none of this is enforced. Filed as rows because a finding in prose is not a back
 - [ ] **Saved-link triage, issue #90.** 15 WhatsApp repos and 9 links with no verdict;
       `docs/analysis/2026-08-23-whatsapp-links-vs-plan.md`. 113 of 125 external-repo rows
       are `untriaged`; the absorption loop stopped on 2026-08-05.
+- [x] **docs/books is queryable end to end**: 22 PDFs extracted, 323 txt indexed,
+      `tools/corpus/books_check.py` clean. Decision and what stays unreadable (4 mobi,
+      1 djvu, duplicates) in `docs/analysis/2026-08-23-books-corpus-wiring.md`.
+- [ ] **Dedup the books corpus by content hash** in books-ingest (TDA twice, Grohs and
+      Kutyniok three times); install calibre for the 4 mobi, djvulibre for the 1 djvu.
 - [ ] **`resources.py verify` breaks at row 3893 and nothing runs it** (L-2026-08-23-a).
       Decide: add it to the gate as a domain, or stop calling the ledger chained.
 - [x] docs/ root went from 43 files to 18; 25 point-in-time files moved to `docs/archive/`,

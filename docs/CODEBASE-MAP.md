@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-453 directories, 2019 tracked files, 0 without a stated purpose.
+453 directories, 2021 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -51,7 +51,7 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `docs` | 16 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 35 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 36 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/archive` | 37 | Analysis snapshots dated on or before 2026-08-08 that no live surface (rule, spec, PRD, tool, ADR) referenced when archived 2026-08-23; still dated-snapshot, still reachable by... | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/archive` | 25 | Point-in-time files that used to sit at the docs/ root: session handoffs, pasted model transcripts (gemini-code-*), one-off notes. Moved 2026-08-23; historical-record by constru... | registry |
@@ -456,7 +456,7 @@ the same reason, one level down.
 | `tools/bus` | 2 | Cross-terminal message bus (bus.py): append-only hash-chained JSONL with per-lane read cursors so parallel Claude Code sessions in different terminals can send each other durabl... | registry |
 | `tools/channel` | 2 | Purpose: measure whether a compressed inter-agent channel actually carried the | README.md |
 | `tools/coffee` | 7 | Coffee-break v2 social loop (taste row 2026-08-12): futures.py is the reputation betting board over state/futures.jsonl, smoking.py the frustration-triggered gripe/mine cycle ov... | registry |
-| `tools/corpus` | 2 | Extracts the conversational corpus (user and assistant message text only) from every session transcript slug under ~/.claude/projects into JSONL for embedding or counting; exclu... | registry |
+| `tools/corpus` | 3 | Extracts the conversational corpus (user and assistant message text only) from every session transcript slug under ~/.claude/projects into JSONL for embedding or counting; exclu... | registry |
 | `tools/dashboard` | 2 | Session Lens: stdlib SSE dashboard reading ~/.claude transcripts and state ledgers, owns nothing (2026-08-13 repo-compare ADOPT) | registry |
 | `tools/digest` | 1 | Builds the daily digest (push line plus digest.md) from TODO, git, and branch-health state for a cron job to send via PushNotification; out/ holds the generated digest.md and pu... | registry |
 | `tools/digest/out` | 2 | Generated daily-digest output (digest.md TODO/lessons rollup, push.txt); written by the digest tool, not source | registry |

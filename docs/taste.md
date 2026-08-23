@@ -124,3 +124,14 @@ Move the execution somewhere that already runs.
   Night / Rose Pine swap as the in-distribution mode. Lives as the marked override
   block at the end of ~/.config/kitty/kitty.conf; revert = delete block or restore
   kitty.conf.bak-2026-08-13-pre-glass.
+- 2026-08-23 books corpus retrieval: kept the stdlib FTS5 index (books-index skill,
+  `~/.claude/corpus/books.sqlite3`) and fixed the real gap (PDF extraction via pypdf,
+  a coverage oracle at `tools/corpus/books_check.py`). Candidates compared: CrabRAG
+  (guoyijia22, FastAPI + Bun gateway + web UI + GraphRAG; two server processes with no
+  owner on this machine, p_conventional 0.6), RustRAG/srag (MCP server, sqlite-vec,
+  PDF via lopdf, p 0.3), FTS5 as-is (p 0.8, already held 300 files). FTS5 won on
+  measured grounds: 22 PDFs extracted and queryable in one run, zero new processes,
+  zero new dependencies beyond pypdf already installed. Revisit when a query the
+  operator actually asks needs semantic rather than lexical recall; that is the
+  falsifier, not a feature list. Decided autonomously under the 2026-08-23 full-permission
+  job; the operator can overturn it by naming the query FTS5 failed.
