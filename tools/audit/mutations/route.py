@@ -101,6 +101,25 @@ MUTATIONS = [
      "prompt for exactly this reason: a prompt corpus in version control is a different "
      "consent question than a routing corpus, and it is not one a hook may answer on the "
      "operator's behalf",
-     '                "prompt_chars": prompt_len,',
-     '                "prompt_chars": prompt_len,\n                "prompt": prompt,'),
+     '        log(decision, len(prompt), str(payload.get("session_id", "")))',
+     '        log(decision, prompt, str(payload.get("session_id", "")))'),
+
+    ("the session is read from CLAUDE_SESSION_ID again",
+     "that variable is not exported into hook env on this host: the first 54 rows this "
+     "file wrote all carried an empty session. spawn_log.py joins a spawn to a routing "
+     "decision on exactly this field, so a blank one silently degrades every join to "
+     "`newest routing row of ANY session`. With two parallel sessions, which this "
+     "operator runs daily, a spawn in one is then compared against a prompt from the "
+     "other and `agreed` becomes noise wearing the shape of evidence",
+     '                "session": session,',
+     '                "session": os.environ.get("CLAUDE_SESSION_ID", ""),'),
+
+    ("a run with no registry reports the full verdict",
+     "the false-green shape, in the one file here that runs before EVERY prompt. On a "
+     "host with no registry the check silently does not run, and printing `names a real "
+     "owner` would claim a property that was never measured. collect.py and spawn_log.py "
+     "both narrow their verdicts; this file did not until a review caught it",
+     '    return ("VERDICT (narrowed): routing is deterministic and silent on no match. NO live "',
+     '    return ("VERDICT: routing is deterministic, silent on no match, and names a real owner. "'),
+
 ]

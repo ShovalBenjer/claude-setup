@@ -32,3 +32,17 @@ new component (e.g. the operator's own session UI replacing Claude's
 statusline) must name the repo facts it grounds on: stdlib-only tools, JSONL
 ledgers under state/, Windows-native constraints, no server processes without
 an owner.
+
+## Correction 2026-08-13: stdlib-only was never a rule
+
+Operator, verbatim intent: sessions hardened "stdlib-only tools" (a DESCRIPTION of
+this repo's existing habit, cited above as a grounding example) into an enforced
+default, and it "very much annoyed me across multiple requests". It is hereby
+demoted: stdlib is ONE candidate, never the default. For any new tool with a UI,
+performance, or product surface, /diverge MUST include at least two modern
+candidates from the current landscape (checked fresh, not from memory; as of
+2026-08-13: Leptos or Dioxus for Rust UI, Tauri for desktop shells, Next.js/React
+Server Components for web product surfaces). Choosing stdlib is allowed only when
+it WINS the comparison on stated constraints, and the comparison is shown. A
+session that silently defaults to stdlib repeats the exact drift this correction
+exists to end.

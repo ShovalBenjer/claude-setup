@@ -1,6 +1,6 @@
 ---
 name: blonde-designer
-description: Creative director + design architect for the Seekapa AR how-to video refresh (DEV-4968). Shapes each video's script and art direction to the locked production standard — real app footage inside a photoreal phone mockup with SOTA 3D motion, a single designed AR caption pill, and e-book-grade quality. Produces a beat-by-beat shooting script (VO → real screen segment → headline → caption → highlight → device motion) plus the build hand-off. Triggers on "/blonde-designer", "shape the video", "design the how-to", "art-direct the seekapa videos", "creative direction for DEV-4968", "beat sheet for <flow>". Design + direction only — it hands the spec to the render pipeline, it does not render.
+description: Creative director + design architect for the Seekapa AR how-to video refresh (DEV-4968). Shapes each video's script and art direction to the locked production standard, producing a beat-by-beat shooting script. Triggers on "/blonde-designer", "shape the video", "design the how-to", "art-direct the seekapa videos", "creative direction for DEV-4968", "beat sheet for <flow>". Design + direction only, hands off to the render pipeline. Full standard in the body.
 model: opus
 ---
 

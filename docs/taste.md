@@ -10,6 +10,7 @@ new row that supersedes it by date and say what changed.
 
 | Date | Decision | Pick | `p_conventional` | Reason |
 |---|---|---|---|---|
+| 2026-08-12 | Gastown coffee-break v2 design (cross-session social/serendipity mechanism); default was a scheduled random-pair chat on cron | Compose three: smoking area (frustration-triggered gripe sessions mined into TODO/lesson candidates), idea futures (sessions bet persona reputation on each other's riskiest assumptions, settled by gate/refute outcomes), and the flâneur (a standing gossip persona that walks ListAgents across clones and machines carrying news) | 0.10 / 0.20 / 0.35 | Chatter must be causally attached to real signal: complaints ride failure telemetry, bets settle against oracles, and the courier replaces fetch-before-working with a character. The rejected default (p 0.75) and the overhearing wall (p 0.05) lost for having no stakes. |
 | 2026-07-29 | Tamper-evidence for `state/prompt-tickets.jsonl`, given that `bus.py::canonical()` hashes a fixed `CHAIN_FIELDS` tuple that covers none of a ticket's content fields | Self-describing rows: each row carries `chain_fields`, and `canonical()` hashes the named fields plus the list itself | 0.10 | A row becomes verifiable by a reader that knows no schema, and shrinking a row's coverage changes its hash instead of hiding. The rejected default put coverage in a constant far from the data, which is what let the original defect exist. |
 
 ## Notes on the 2026-07-29 pick
@@ -116,3 +117,10 @@ across repos, badly, into a stale clone.
 
 Transferable rule: when a mechanism has never once executed, do not improve its inputs.
 Move the execution somewhere that already runs.
+- 2026-08-13 kitty window: all-four composition (glass 0.84 + centered 7%-alpha Clawd
+  pixel watermark + Kanagawa wave-accents-boosted over dragon base + loud chrome: top
+  slanted tabs always visible, gold active tab, 14px padding, gold active border).
+  Operator picked all four directions and asked for OOD composition; rejected Tokyo
+  Night / Rose Pine swap as the in-distribution mode. Lives as the marked override
+  block at the end of ~/.config/kitty/kitty.conf; revert = delete block or restore
+  kitty.conf.bak-2026-08-13-pre-glass.

@@ -1,6 +1,6 @@
 ---
 name: advisor
-description: "Fast confidence-restoring research pass for when Claude (or the user) is NOT confident about an external, current, or SOTA question. Spawns a scoped web-research sub-agent, restricts to trusted same-day sources (peer-reviewed / official / primary), and returns a dated recommendation with confidence and citations. Triggers on /advisor, 'get advice', 'what's the SOTA', 'is this still true', 'am I confident', 'check current best practice', 'latest release of X', 'not sure, look it up', or whenever the model's own confidence on an external fact is low. SKIP for local state (use reground), simple 1-2 search lookups (use WebSearch), debugging (standard tools), or a full multi-phase cited report (use deep-research)."
+description: "Fast confidence-restoring research pass for when confidence on an external, current, or SOTA question is low. Spawns a scoped web-research sub-agent restricted to trusted same-day sources, returns a dated recommendation with citations. Triggers on /advisor, 'get advice', 'what's the SOTA', 'is this still true', 'check current best practice', 'not sure, look it up'. SKIP for local state (reground), quick lookups (WebSearch), or a full report (deep-research)."
 model: opus
 ---
 

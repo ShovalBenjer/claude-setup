@@ -1,0 +1,8 @@
+[Unit]
+Description=Coffee v2 tick: mine gripes, print the flaneur briefing (local, free)
+
+[Service]
+Type=oneshot
+# Point this at wherever the harness is checked out on the machine.
+WorkingDirectory=%h/work/repos/claude-setup
+ExecStart=%h/work/repos/claude-setup/tools/coffee/tick.sh
