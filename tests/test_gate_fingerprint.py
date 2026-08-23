@@ -191,6 +191,36 @@ class TestRealChangesStillMoveTheFingerprint:
         _run(["git", "commit", "-qm", "second"], repo)
         assert fp(repo) != before
 
+    def test_a_commit_of_only_excluded_ledgers_does_not_move_it(self, repo):
+        """Fifth finding of the class, 2026-08-23, by a third route: COMMITTING.
+
+        The exclusions only filtered the dirty diff; the fingerprint also hashed the
+        raw HEAD sha, so `git commit` of nothing but gate-runs.jsonl and hook rows
+        minted a new fingerprint and invalidated the very run being recorded. One
+        session was made to run the full gate three times in a day with no gated
+        content changing, each time because it had committed the previous verdict.
+        """
+        before = fp(repo)
+        led = repo / "state" / "gate-runs.jsonl"
+        led.write_text(led.read_text(encoding="utf-8") + '{"verdict": "PASS"}\n',
+                       encoding="utf-8")
+        tick = repo / "state" / "prompt-tickets.jsonl"
+        tick.write_text(tick.read_text(encoding="utf-8") + '{"ticket": "t9"}\n',
+                        encoding="utf-8")
+        _run(["git", "add", "-A"], repo)
+        _run(["git", "commit", "-qm", "chore(state): ledger rows only"], repo)
+        assert fp(repo) == before
+
+    def test_a_commit_mixing_ledgers_and_content_still_moves_it(self, repo):
+        before = fp(repo)
+        led = repo / "state" / "gate-runs.jsonl"
+        led.write_text(led.read_text(encoding="utf-8") + '{"verdict": "PASS"}\n',
+                       encoding="utf-8")
+        (repo / "tools" / "thing.py").write_text("x = 9\n", encoding="utf-8")
+        _run(["git", "add", "-A"], repo)
+        _run(["git", "commit", "-qm", "mixed"], repo)
+        assert fp(repo) != before
+
     def test_an_edit_to_other_state_files_still_moves_it(self, repo):
         """Only the gate's OWN outputs are exempt. state/lessons.jsonl and the
         rest are ordinary content and a change to them is a change."""

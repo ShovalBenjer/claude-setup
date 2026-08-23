@@ -5,8 +5,11 @@ edition = "2021"
 description = "Read-only ledger readers for the session dashboard (DASH-1 slice 2). No tauri dependency: this crate is consumed by src-tauri."
 
 [dependencies]
+notify-debouncer-mini = "0.7.0"
+rusqlite = { version = "0.40.2", features = ["bundled"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+thiserror = "2.0.20"
 
 [dev-dependencies]
 tempfile = "3"

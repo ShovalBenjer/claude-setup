@@ -315,7 +315,15 @@ def tree_fingerprint(cwd: str) -> tuple[str, bool, str]:
     dirty = bool(git("status --porcelain", cwd).strip())
     status = git("status --porcelain -- . " + _EXCLUDE, cwd)
     h = hashlib.sha256()
-    h.update(sha.encode())
+    # Fifth finding of the self-invalidation class, 2026-08-23: hashing the raw
+    # HEAD sha meant a COMMIT containing nothing but excluded ledgers (the usual
+    # "chore(state): gate row" before a merge) minted a new fingerprint and
+    # invalidated the run it was recording; the exclusions below never got a say.
+    # So the commit's contribution is the tracked content MINUS the exclusions:
+    # `ls-files -s` lists every tracked path with its staged blob sha, honours
+    # the same pathspec magic, and costs one index read. A ledger-only commit
+    # leaves this listing byte-identical; any content commit changes a blob sha.
+    h.update(git("ls-files -s -- . " + _EXCLUDE, cwd).encode("utf-8", "replace"))
     # git diff of tracked files plus the names of untracked ones: enough to
     # notice any edit, cheap enough to run on every gate invocation.
     h.update(git("diff HEAD -- . " + _EXCLUDE, cwd).encode("utf-8", "replace"))
