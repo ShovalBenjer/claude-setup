@@ -193,7 +193,7 @@ import, because it would have to reconcile four surfaces that already overlap:
 3. `tools/selfimprove/scan.py`, which ranks what to pick up next.
 4. The Zion GitHub Project, which already carries `Priority`, `Ingestion` (S1 to S6),
    `Estimate (min)`, `Status` including `Review`, and native `Parent issue` /
-   `Sub-issues progress` per `docs/specs/2026-07-31-zion-board-as-product-instrument.md`.
+   `Sub-issues progress` per `docs/specs/archive/2026-07-31-zion-board-as-product-instrument.md`.
 
 Zion is the natural host, and the mapping is nearly free: destination becomes an epic body
 section, frontier becomes a saved view over unblocked-and-unassigned, fog becomes a board field

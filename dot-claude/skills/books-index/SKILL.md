@@ -28,6 +28,14 @@ files that changed since the last index, not the whole corpus.
 
 - `uv run python scripts/build_index.py`: incremental build/update. Safe to
   run repeatedly (e.g. after `books-ingest`); only touches changed files.
+  Since 2026-08-23 it first writes `<name>.pdf.txt` beside every PDF that has
+  none (pypdf, lazily imported; without it the PDFs are counted and reported,
+  never skipped silently). Measured that day: 300 of 335 files were indexed and
+  every gap was a PDF, mobi, or djvu.
+- `python tools/corpus/books_check.py` (in claude-setup): the coverage oracle.
+  Exit 1 on a txt the index does not know, a txt that changed since indexing, or
+  a pdf/epub with no extracted text. mobi, djvu, and partial downloads are
+  reported, not failed; they need calibre or djvulibre, which this machine lacks.
 - `uv run python scripts/build_index.py --full`: force full rebuild.
 - `uv run python scripts/query.py "search terms"`: FTS5 query, returns
   path, chunk index, and a snippet per hit, ranked by relevance.

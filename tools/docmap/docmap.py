@@ -86,6 +86,7 @@ ALWAYS: dict[str, str] = {
     "analysis": "dated-snapshot",
     "reflection": "dated-snapshot",
     "work-doc": "dated-snapshot",
+    "archived": "historical-record",
 }
 
 DATE_IN_NAME = re.compile(r"(20\d{2})-(\d{2})-(\d{2})")
@@ -165,8 +166,15 @@ VENDORED = (
 def classify(path: str) -> str:
     if any(v in path for v in VENDORED):
         return "vendored"
-    if path.startswith("docs/HANDOFF"):
+    if path.startswith("docs/HANDOFF") or path.startswith("docs/archive/HANDOFF"):
         return "handoff"
+    # docs/archive/ holds what used to sit at the docs/ root: handoffs, pasted model
+    # transcripts, one-off notes. Moved there 2026-08-23 when the root held 43 files and
+    # 25 of them were point-in-time. Everything under it is a historical record by
+    # construction, same reasoning as a handoff; a file that is still live does not
+    # belong there and the move is the bug.
+    if path.startswith("docs/archive/"):
+        return "archived"
     # Definition classes, checked before the docs/ prefixes so a rule or skill living anywhere is
     # recognised. Order matters: a SKILL.md inside a skills/ dir is a skill, and the other files
     # beside it are that skill's own references, which are equally not lifecycle documents.
@@ -408,6 +416,11 @@ def selftest(project: Path) -> int:
 
     # Class assignment. A handoff must never be classed as a current-state document.
     check("handoff by prefix", classify("docs/HANDOFF-2026-07-30-x.md"), "handoff")
+    check("archived handoff keeps its class", classify("docs/archive/HANDOFF-2026-07-30-x.md"), "handoff")
+    check("docs/archive is archived", classify("docs/archive/gemini-code-1.md"), "archived")
+    check("archived status is class-derived",
+          status_for("docs/archive/note.md", "archived", "", {}, "2026-08-23"),
+          ("historical-record", "class"))
     check("adr", classify("docs/adr/0016-x.md"), "adr")
     check("prior-art json", classify("docs/prior-art/tools-bus.json"), "prior-art")
     check("work-doc", classify("work-docs/x.md"), "work-doc")

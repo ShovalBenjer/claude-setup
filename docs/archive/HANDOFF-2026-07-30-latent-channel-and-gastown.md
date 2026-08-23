@@ -88,7 +88,7 @@ Do not act on that table without re-checking each row.
 
 An external summary claimed 56 repositories partitioned 10 Adopted / 8 Used-As-Is /
 12 Absorbed / 26 Rejected. The 56 is real, from
-`docs/analysis/2026-07-30-github-repo-triage.md`. Everything above it is not, and the
+`docs/analysis/archive/2026-07-30-github-repo-triage.md`. Everything above it is not, and the
 source document says so about itself in its second heading: "Not done: nobody has
 visited these repositories file by file." It calls itself metadata triage, states it
 "cannot answer 'adopt this'", and names presenting a metadata sort as a reading pass

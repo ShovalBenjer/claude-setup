@@ -89,7 +89,7 @@ state/claims.jsonl                     one claim row, before starting
 state/lessons.jsonl                    L-2026-07-30-c closed; L-2026-07-31-a/b/c appended
 docs/CODEBASE-MAP.md                   regenerated (see risk 3)
 docs/reflections/2026-07-30-thesis-and-deck-review.md   NEW
-docs/HANDOFF-2026-07-31-review-oracle-repair.md         NEW, this file
+docs/archive/HANDOFF-2026-07-31-review-oracle-repair.md         NEW, this file
 ```
 
 ## Lessons filed

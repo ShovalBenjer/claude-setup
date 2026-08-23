@@ -97,7 +97,7 @@ patches". That is the arithmetic of it.
 | wrap / thin-wrapper | 2 | ours should become a wrapper |
 
 Twenty of twenty-eight verdicts are instructions to remove code. Lines removed since
-those verdicts were written: zero. `docs/analysis/2026-07-29-where-our-system-stands.md`
+those verdicts were written: zero. `docs/analysis/archive/2026-07-29-where-our-system-stands.md`
 line 87 states it plainly, "Eight of ten verdicts were split, meaning part of our code
 should go", and then the document ends without a work order.
 
@@ -123,7 +123,7 @@ Four of four unadopted, and the one that eventually landed landed by accident of
 different project needing it.
 
 **The correct diagnosis was already written five days ago, and re-derived twice
-since.** `docs/analysis/2026-07-24-reference-repos-excavation.md` line 245 ends: "the
+since.** `docs/analysis/archive/2026-07-24-reference-repos-excavation.md` line 245 ends: "the
 edge is in how aggressively named parallel fan-out plus closed-loop automated
 verification get USED on one real build, which is a practice question, not a
 missing-tool question." That sentence is the answer to today's question. It was
@@ -163,7 +163,7 @@ commits in four weeks.
 Python. I spot-checked 4 of 26 backlog rows. The arithmetic in this document is exact
 and reproducible. The interpretation on top of it is one pass by one agent, which is
 the same self-annotation weakness that
-`docs/analysis/2026-07-29-where-our-system-stands.md` line 170 flags about its own ten
+`docs/analysis/archive/2026-07-29-where-our-system-stands.md` line 170 flags about its own ten
 subagent records. I am repeating the flaw the document I am citing already named.
 
 **Concealed gap 4: I did not open the question of whether this repo should exist.**
@@ -296,7 +296,7 @@ The strongest regularity acting on me: an audit-shaped request reliably produces
 audit-shaped artifact, headers, a table of findings, a recommendations section, a
 residual-risk note. I produced that form before I had decided it was the right form.
 Evidence that it is a pattern rather than a choice: `docs/analysis/2026-07-29-
-where-our-system-stands.md` and `docs/analysis/2026-07-24-reference-repos-excavation.md`
+where-our-system-stands.md` and `docs/analysis/archive/2026-07-24-reference-repos-excavation.md`
 have the same skeleton, written by different sessions, and so does this file.
 
 Second: "what am I and what are you doing wrong" cues a balanced two-column answer.

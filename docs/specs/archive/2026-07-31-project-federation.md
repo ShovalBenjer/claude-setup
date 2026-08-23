@@ -2,7 +2,7 @@
 
 Status: parked. The document argues against its own proposal and concludes the federation is overhead; kept because the argument is the useful part.
 
-Date: 2026-07-31. Companion to `docs/specs/2026-07-31-github-native-project-surface.md`,
+Date: 2026-07-31. Companion to `docs/specs/archive/2026-07-31-github-native-project-surface.md`,
 which this document extends rather than replaces. That document designed the schema
 and views for Zion. This one answers the question it did not ask: whether Zion should
 be one board or many.
@@ -168,7 +168,7 @@ wearing a projects hat.
 
 ### 4.1 A correction to the companion spec, measured rather than assumed
 
-`docs/specs/2026-07-31-github-native-project-surface.md` section 2.6 states that
+`docs/specs/archive/2026-07-31-github-native-project-surface.md` section 2.6 states that
 single-select option renames are UI-only, that the `updateProjectV2Field` mutation
 may clear values, and that its blast radius is unverified. It is now verified, and
 the answer is that both halves are true depending on one input field.

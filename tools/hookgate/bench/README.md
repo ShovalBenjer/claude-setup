@@ -1,7 +1,7 @@
 # bench
 
 The measurement scripts behind `tools/hookgate/README.md` and behind
-`docs/HANDOFF-TO-LEARNING-2026-07-30-process-cost-and-boundaries.md`.
+`docs/archive/HANDOFF-TO-LEARNING-2026-07-30-process-cost-and-boundaries.md`.
 
 Landed here because the handoff cites them as reproducible lab material and they were
 written in a session scratchpad, which does not survive the session. They are evidence, not

@@ -61,6 +61,24 @@ def test_summarize_splits_noise_from_untriaged():
     assert [r["ticket"] for r in s["workable"]] == ["PT-d"]
 
 
+def test_triaged_tickets_render_as_issue_pointers_not_a_blank_inbox():
+    """2026-08-23: after every ticket was triaged the block said '0 workable, 0 awaiting'
+    and nothing else, which hid where 354 prompts had gone."""
+    a = dict(ticket("PT-a", "fix the launcher", state="TRIAGED"),
+             reason="prompt-triage 2026-08-23: T04 -> issue #94")
+    b = dict(ticket("PT-b", "kitty errors", state="TRIAGED"),
+             reason="prompt-triage 2026-08-23: T04 -> issue #94")
+    c = dict(ticket("PT-c", "buzz tui", state="TRIAGED"),
+             reason="prompt-triage 2026-08-23: T05 -> issue #95")
+    d = dict(ticket("PT-d", "y go", state="NOT_WORK"), reason="ack")
+    s = rt.summarize([a, b, c, d])
+    assert s["triaged"] == {"#94": 2, "#95": 1}
+    assert s["not_work"] == 1
+    block = rt.render("/x/demo", [a, b, c, d])
+    assert "- #94: 2 prompts" in block
+    assert "1 prompts were marked not work" in block
+
+
 def test_splice_preserves_hand_written_text(tmp_path):
     todo = tmp_path / "TODO.md"
     handwritten = "# TODO\n\n- [ ] load-bearing hand-written item\n\n## A section\n\nbody\n"

@@ -93,7 +93,7 @@ the instruction said "all the sessions".
 **S5. Connector lists for the other three lanes.** `disabledMcpServers` is per project and
 only `claude-setup` has a non-empty list. `new-recruit` and `daily-deep-learning` inherit
 every medical connector for no reason. Recommendations exist in
-`docs/analysis/2026-08-08-connector-catalogue-reasoning.md` and were deliberately not
+`docs/analysis/archive/2026-08-08-connector-catalogue-reasoning.md` and were deliberately not
 applied, because a working environment belongs to whoever works in that lane.
 
 **S6. The autonomous workflows, which is the instruction I under-served.** The operator
@@ -111,7 +111,7 @@ issue #38 item".
 **S7. The board itself.** 33 epics, 0 closed, 8 of 196 checklist items, net debt up 9 in
 five days. `Status`, layer one of the four-layer taxonomy, is unset on all 33 items and has
 been for at least eight days because the design routes it to a human hand edit. Drafted and
-deliberately unposted text sits in `docs/analysis/2026-08-08-zion-and-inheritance.md`,
+deliberately unposted text sits in `docs/analysis/archive/2026-08-08-zion-and-inheritance.md`,
 including a reply on Discussion #43 about the feed's publish gap.
 
 **S8. Live `~/.claude/skills` went from 40 to 79 in two days and nothing can date or

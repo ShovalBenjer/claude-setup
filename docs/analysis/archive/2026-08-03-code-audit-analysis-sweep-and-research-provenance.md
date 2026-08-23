@@ -251,7 +251,7 @@ flowchart TB
 ### 4.1 Reading the chain
 
 **The load-bearing link is D to E.** Four separately-filed complaints turn out to be one
-defect. `docs/analysis/2026-07-25-effort-and-thinking.md` establishes what `effortLevel`
+defect. `docs/analysis/archive/2026-07-25-effort-and-thinking.md` establishes what `effortLevel`
 does and never what it buys. `2026-07-27-...oracles.md` T1 says the confidence gate is
 uncalibrated. T2 says the human gates are unmeasured.
 `2026-07-31-density-gate-measurement.md` refuses to set a threshold **on evidence** and is
