@@ -47,7 +47,20 @@ LANES=(
 
 # Where a project may live. Bounded on purpose: an unbounded scan of the home tree takes
 # seconds and surfaces node_modules clones nobody wants.
-PROJECT_ROOTS=("$WORK" "$WIN/Downloads" "$WIN/PycharmProjects" "$HOME/work")
+#
+# $WIN added 2026-08-23. audit-boundary and oren-roast-hq live directly at
+# C:\Users\shova, not under Downloads or PycharmProjects, so they were invisible to
+# every prior root. Found by diffing this list against a live `Get-ChildItem -Depth 0`
+# on the Windows home dir.
+PROJECT_ROOTS=("$WORK" "$WIN" "$WIN/Downloads" "$WIN/PycharmProjects" "$HOME/work")
+
+# A repo with no commit in this many days is excluded from the picker (still reachable
+# by typing its path directly to `claude`). Cutoff is 180 days: wide enough that any
+# lane repo (all committed within the last two weeks, measured 2026-08-23) clears it
+# by a wide margin, tight enough to drop Web_Scraping (2024-08-25) and
+# deep_learning_neural_networks (2024-12-20), both over a year stale, which were
+# showing in the picker with no way to tell they were dead.
+STALE_DAYS=180
 
 c_reset=$'\033[0m'; c_cyan=$'\033[36m'; c_dim=$'\033[2m'
 c_green=$'\033[32m'; c_yellow=$'\033[33m'; c_red=$'\033[31m'
@@ -76,12 +89,24 @@ read_choice() {
   done
 }
 
+# Seconds since the repo's last commit, or empty if it has none (an empty/broken
+# .git counts as stale rather than crashing the sort below).
+last_commit_age_days() {
+  local dir="$1" ts now
+  ts="$(git -C "$dir" log -1 --format=%ct 2>/dev/null)" || return 1
+  [ -z "$ts" ] && return 1
+  now="$(date +%s)"
+  printf '%s' $(( (now - ts) / 86400 ))
+}
+
 discover_projects() {
-  local root d
+  local root d age
   for root in "${PROJECT_ROOTS[@]}"; do
     [ -d "$root" ] || continue
     for d in "$root"/*; do
-      [ -d "$d/.git" ] && printf '%s\n' "$d"
+      [ -d "$d/.git" ] || continue
+      age="$(last_commit_age_days "$d")" || continue
+      [ "$age" -le "$STALE_DAYS" ] && printf '%s\n' "$d"
     done
   done | awk '!seen[$0]++'
 }
