@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-454 directories, 2027 tracked files, 0 without a stated purpose.
+457 directories, 2031 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -264,6 +264,7 @@ the same reason, one level down.
 | `dot-claude/skills/repo-compare` | 1 | Compare this harness against saved and newly published GitHub repos and produce an adopt/watch/ignore delta report. Triggers on "/repo-compare", "compare our system against new... | SKILL.md |
 | `dot-claude/skills/request-refactor-plan` | 1 | Create a detailed refactor plan with tiny commits via user interview, then file it as a tracked work item (ADO or GitHub auto-detected). Use when user wants to plan a refactor,... | SKILL.md |
 | `dot-claude/skills/requirement-anchor` | 1 | Extract a compact requirement-of-record + answer-map from a spec (PDF/eml/md/verbal) and gate read-before-build. Triggers on "/requirement-anchor", "anchor the requirement", "wh... | SKILL.md |
+| `dot-claude/skills/resolving-merge-conflicts` | 1 | "Use when you need to resolve an in-progress git merge/rebase conflict." | SKILL.md |
 | `dot-claude/skills/review` | 1 | PR precheck review — composites codex-call code review + testing-pyramid gap plan + heidegger-reflect into a single structured thread posted to Azure DevOps via the azure-devops... | SKILL.md |
 | `dot-claude/skills/review-pr-ado` | 1 | PR precheck review — composites codex-call code review + testing-pyramid gap plan + heidegger-reflect into a single structured thread posted to Azure DevOps via the azure-devops... | SKILL.md |
 | `dot-claude/skills/ship-gate` | 1 | The mandatory procedure before calling any implementation done. Runs the real-browser flow audit, the ten-domain SDLC gate (build, unit, types, e2e, a11y/UX, security, docs, pip... | SKILL.md |
@@ -273,6 +274,7 @@ the same reason, one level down.
 | `dot-claude/skills/testing-pyramid` | 1 | Plan layered test architecture before non-trivial code changes. Covers static, unit, property, component, contract, integration, E2E, non-functional, trajectory, and adversarial... | SKILL.md |
 | `dot-claude/skills/to-issues` | 1 | Break a plan, spec, or PRD into independently-grabbable work items (ADO or GitHub auto-detected) using tracer-bullet vertical slices. Use when user wants to convert a plan into... | SKILL.md |
 | `dot-claude/skills/to-prd` | 1 | Turn the current conversation context into a PRD and submit it as a tracked work item (ADO or GitHub auto-detected). Use when user wants to create a PRD from the current context. | SKILL.md |
+| `dot-claude/skills/to-questionnaire` | 1 | Turn a decision you can't fully answer into a questionnaire for someone else to fill in. | SKILL.md |
 | `dot-claude/skills/triage-tests` | 1 | "/triage-tests" | SKILL.md |
 | `dot-claude/skills/ubiquitous-language` | 1 | Extract a DDD-style ubiquitous language glossary from the current conversation, flagging ambiguities and proposing canonical terms. Saves to UBIQUITOUS_LANGUAGE.md. Use when use... | SKILL.md |
 | `dot-claude/skills/ui-ux-pro-max` | 1 | "UI/UX design intelligence for web and mobile: styles, color palettes, font pairings, product types, UX guidelines, and charts across 10 stacks (React, Next.js, Vue, Svelte, Swi... | SKILL.md |
@@ -290,6 +292,7 @@ the same reason, one level down.
 | `dot-claude/skills/wayfinder` | 1 | Draw the map before picking work. Names the destination, the fog, and the frontier across TODO.md, claims, selfimprove and Zion. | SKILL.md |
 | `dot-claude/skills/web-inspect` | 1 | "/web-inspect" | SKILL.md |
 | `dot-claude/skills/whatsapp-query` | 5 | Decrypt and query the local WhatsApp Desktop (Windows) message store as a searchable corpus, by contact / date / text, with contact-name resolution. Triggers on "search my whats... | SKILL.md |
+| `dot-claude/skills/wizard` | 2 | Generate an interactive bash wizard that walks a human through steps only they can perform. Use for credentials, OAuth connects, third-party dashboards, billing fixes, one-off m... | SKILL.md |
 | `dot-claude/skills/workspace-brain` | 1 | "Workspace Brain — Cross-Project Knowledge Index" | SKILL.md |
 | `dot-claude/skills/write-a-skill` | 1 | Create new agent skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, or build a new skill. | SKILL.md |
 | `dot-claude/skills/writing-great-skills` | 3 | Reference for writing and editing skills well — the vocabulary and principles that make a skill predictable. | SKILL.md |
