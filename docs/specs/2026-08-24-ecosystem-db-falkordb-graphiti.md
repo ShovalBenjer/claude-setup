@@ -23,7 +23,7 @@ was raised against.
 `docs/prd/2026-08-03-unified-architecture.md` already proposed plain
 SQLite with `valid_from`/`valid_to` columns for `ecosystem.db`, sized
 against a 16,644-row estate. That reasoning still holds for pure
-operational tables (sessions, proposals, runs, post_queue) — this spec
+operational tables (sessions, proposals, runs, post_queue): this spec
 does not touch those. It does not hold for the two features
 `docs/prd/claude-os.md` already names as graph-shaped: the repo
 portfolio graph (row 15) and blast-radius graph (row 16). Real graph
@@ -48,10 +48,10 @@ Checked directly, not assumed:
   memory systems) supplies the design constraint this spec adopts
   below: "we do not simply upload every slice of personal or
   organizational information to a memory database... effective memory
-  is retained in an intentional manner." Its worked example — an agent
-  with curated org memory (RCA records, standing rules) fixes a bug
-  correctly, the same agent blank-slate ships a costly regression —
-  is the argument against dumping every `state/*.jsonl` row into the
+  is retained in an intentional manner." Its worked example (an agent
+  with curated org memory, RCA records, standing rules, fixes a bug
+  correctly; the same agent blank-slate ships a costly regression) is
+  the argument against dumping every `state/*.jsonl` row into the
   graph unfiltered.
 
 ## Scope: one finishable slice, not a wholesale redesign
@@ -63,22 +63,38 @@ not grade down"), this is one verifiable slice:
 1. Stand up FalkorDB locally (Docker, per Graphiti's own README).
 2. Wire the Graphiti MCP server against it.
 3. Load one real graph: the repo portfolio (`claude-setup` plus
-   siblings — `new-recruit`, `daily-deep-learning`, `verdict-bench`,
+   siblings, `new-recruit`, `daily-deep-learning`, `verdict-bench`,
    `claude-setup-vault`) as nodes and edges (`repo`, `depends-on`,
    `references`). This is `docs/prd/claude-os.md` row 15, already
-   named, still TODO — this slice does not invent new scope, it builds
+   named, still TODO; this slice does not invent new scope, it builds
    what was already committed to paper.
-4. Apply the curation constraint from `agent_memory_1.txt`: define
-   explicitly what promotes a `state/*.jsonl` row into a graph node
-   versus what stays raw log. Do not let ingestion default to "load
-   everything" — that is the exact failure mode the book's worked
-   example warns against.
+4. Apply the curation constraint from `agent_memory_1.txt`/`agent_memory_2.txt`
+   (same book, ch.2, read in full 2026-08-24), not a vague "curate
+   somehow" but the book's own worked shape:
+   - Ingestion (a `MemoryConnector` contract: `list_records`, `search`,
+     `fetch`, each source yielding a common `RawRecord`) stays separate
+     from admission. Every reachable `state/*.jsonl` row and repo file
+     can be listed; not all of them belong in the graph.
+   - Normalize what's admitted into a richer record carrying domain,
+     owner, kind, authority, and `updated_at`, the fields an agent
+     needs to judge trust, not just match keywords on.
+   - Write the admission rule as a small, human-owned config (the
+     book's `methodology.yaml` pattern: owned domains, max age,
+     require-timestamp), enforced by a `screen()` function that returns
+     an admit/reject decision with a named reason per record. This
+     repo already has the domain vocabulary for "owned" (the charters
+     in `docs/charters.md`, lane A/B/C/D) to seed that config from,
+     rather than inventing one.
+   - Do not let ingestion default to "load everything": that is the
+     exact failure mode the book's worked example measures (15 records
+     ingested, 5 rejected by the methodology as stale/out-of-domain,
+     with the reason stated for each).
 5. Prove one real temporal query: what the dependency graph looked
    like before PR #89's IPC fix landed, or an equivalent before/after
    pair, since temporal traversal is the reason to choose Graphiti
    over a plain graph at all.
-6. Acceptance: one MCP query returns real graph data. Same
-   definition-of-done pattern as the unified-architecture PRD — a
+6. Acceptance: one MCP query returns real graph data, the same
+   definition-of-done pattern as the unified-architecture PRD: a
    command that exits zero and produces a named artifact, not a claim.
 
 Explicitly out of this slice: the rest of `ecosystem.db` (sessions,
@@ -90,7 +106,7 @@ graph-shaped.
 
 If, after building the repo-portfolio-graph slice, no query benefits
 from graph traversal over what a plain SQLite JOIN would answer just
-as well, this was the wrong tool — and the slice should be the last
+as well, this was the wrong tool: the slice should then be the last
 graph work attempted here, not upgraded further. Named per this repo's
 own falsifier discipline, not assumed correct because it sounds more
 advanced.
@@ -99,5 +115,5 @@ advanced.
 
 `docs/prd/claude-os.md` (rows 15, 16), `docs/prd/2026-08-03-unified-architecture.md`
 (the SQLite baseline this spec narrows, not replaces), TODO.md EXT-7
-(a separate, still-open operator decision on gate-run hash-chaining —
+(a separate, still-open operator decision on gate-run hash-chaining,
 not this spec's scope).

@@ -928,7 +928,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-17-session-dashboard-direction.md` | 2026-08-17 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-program-design.md` | 2026-08-17 | active | header | n/a | - | nothing in | - |
 | `docs/specs/archive/README.md` | 2026-08-17 | active | header | n/a | - | - | - |
-| `docs/specs/2026-08-24-ecosystem-db-falkordb-graphiti.md` | 2026-08-24 | active | header | n/a | - | - | - |
+| `docs/specs/2026-08-24-ecosystem-db-falkordb-graphiti.md` | 2026-08-24 | active | header | 2 | - | - | - |
 
 ## standard (7)
 
