@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-450 directories, 2014 tracked files, 0 without a stated purpose.
+451 directories, 2016 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -180,7 +180,7 @@ the same reason, one level down.
 | `dot-claude/corpus` | 2 | Script and source whitelist that build a local SQLite FTS best-practices corpus (Google eng practices, Azure Well-Architected, OpenSSF, private docs) for Gastown/Claude retrieval | registry |
 | `dot-claude/hooks` | 34 | Lifecycle hook scripts enforcing push/completion safety gates and session sync; roughly half are one-line stub pointers redirecting to the canonical hook in the Codex tree | registry |
 | `dot-claude/output-styles` | 1 | Claude Code output styles, the native mechanism that shapes assistant prose BEFORE generation. Deployed to ~/.claude/output-styles. The alternative it replaces is policing the r... | registry |
-| `dot-claude/rules` | 25 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
+| `dot-claude/rules` | 26 | Path-triggered and general rule docs Claude Code auto-loads when matching files are touched, governing boundaries, claims, topology, and Gastown agent/workflow discipline | registry |
 | `dot-claude/rules/project-template` | 3 | The rule set is split into two layers, mirroring how Claude Code's settings chain | README.md |
 | `dot-claude/skills` | 0 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
 | `dot-claude/skills/LTMD` | 1 | "Lead-To-Money-Decision lens. Judge any analysis/notebook/report/plan the way the paying decision-maker (default: Liron, CMO) would: does it end in ONE executable, dollar-valued... | SKILL.md |
@@ -263,6 +263,7 @@ the same reason, one level down.
 | `dot-claude/skills/request-refactor-plan` | 1 | Create a detailed refactor plan with tiny commits via user interview, then file it as a tracked work item (ADO or GitHub auto-detected). Use when user wants to plan a refactor,... | SKILL.md |
 | `dot-claude/skills/requirement-anchor` | 1 | Extract a compact requirement-of-record + answer-map from a spec (PDF/eml/md/verbal) and gate read-before-build. Triggers on "/requirement-anchor", "anchor the requirement", "wh... | SKILL.md |
 | `dot-claude/skills/review` | 1 | PR precheck review — composites codex-call code review + testing-pyramid gap plan + heidegger-reflect into a single structured thread posted to Azure DevOps via the azure-devops... | SKILL.md |
+| `dot-claude/skills/review-pr-ado` | 1 | PR precheck review — composites codex-call code review + testing-pyramid gap plan + heidegger-reflect into a single structured thread posted to Azure DevOps via the azure-devops... | SKILL.md |
 | `dot-claude/skills/ship-gate` | 1 | The mandatory procedure before calling any implementation done. Runs the real-browser flow audit, the ten-domain SDLC gate (build, unit, types, e2e, a11y/UX, security, docs, pip... | SKILL.md |
 | `dot-claude/skills/shoval-voice-draft` | 1 | Draft messages in Shoval Benjer's natural work style for review before sending. Per-recipient tone (Yasha / Liron / Ali / Adnan / Daniel / Vlad, including Vlad's ultra-compact s... | SKILL.md |
 | `dot-claude/skills/skillmap` | 1 | Router over every skill you invoke by hand. Ask which one fits the situation. | SKILL.md |
