@@ -1099,3 +1099,19 @@ Verbatim prompts, not yet promoted to work. Nothing here has been read by the ma
   is_docs_only to diff HEAD against the last gate-runs.jsonl row's commit for this
   project and downgrade when that delta is all prose. Regression test exists at
   tests/test_ship_gate_docs_only.py to extend.
+
+- [ ] EXT-7 Gate-run hash-chaining, sabotage-resistance for the reporting chain
+  (2026-08-19, external review via Agentica after reading CTRL-ALT-DECEIT: Sabotage
+  Evaluations for Automated AI R&D, arXiv 2511.09904): the agent that writes code,
+  runs the gate, interprets output, and reports the verdict is one trust domain with
+  no separation of privilege. Filed as its own ticket rather than folded into PR #87,
+  since bundling more scope into a PR the same agent authored is exactly the pattern
+  Agentica's fifth point warns against (agents should not be able to expand their own
+  evaluation criteria unchecked). Proposed scope: extend the existing bus.jsonl
+  hash-chain pattern to gate EXECUTIONS, not just code artifacts, so every gate.py run
+  writes a signed append-only record (commit, config version, raw-output hash),
+  independently checkable against what gets reported in chat. Operator decision
+  needed: build now, defer, or decline. Recovered 2026-08-23 from
+  worktree-rules-sync-repo-stack-reasoning before that chain (5 branches, superseded
+  by PR #86 for its dashboard work and by the 2026-08-19 EXT-1/EXT-3 gate contract
+  entries for the rest) was deleted; this was the one genuinely un-landed item in it.
