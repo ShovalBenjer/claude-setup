@@ -1070,26 +1070,28 @@ none of this is enforced. Filed as rows because a finding in prose is not a back
 
 ## Prompt inbox: claude-setup
 
-310 prompts across 34 sessions. 0 workable, 304 awaiting triage (newest 2026-08-10), 6 classified as slash commands or acks by rule.
+354 prompts across 44 sessions. 0 workable, 0 awaiting triage (newest n/a), 0 classified as slash commands or acks by rule.
 
-### Awaiting triage, newest 12 of 304
+### Triaged into checklist issues, 219 prompts
 
-Verbatim prompts, not yet promoted to work. Nothing here has been read by the machine that wrote it.
+One box per prompt lives on the issue; the ticket's state moves when the box does. 135 prompts were marked not work (acks, status checks, notifications).
 
-- [ ] `PT-b93a3be202a3` 2026-08-10 Iterate over all my claude sessions prompts - should be stored in db, per sessions, and update…
-- [ ] `PT-1c2a4654a51a` 2026-08-10 y go
-- [ ] `PT-9d0ef9ce406f` 2026-08-10 live wiring check 2026-08-10
-- [ ] `PT-073ef92993c9` 2026-08-10 1. act. 2. what decision lie in contested dires? . plan how you give 1-5 to effiecent subagents…
-- [ ] `PT-7537cd2e78be` 2026-08-10 iterate over all of this session requests. tell me with adhd where we are.
-- [ ] `PT-20500255e28b` 2026-08-10 94% of your usage was at >150k context Longer sessions are more expensive even when cached. /co…
-- [ ] `PT-a11d06277e59` 2026-08-10 1. investigate why my claude context (have 4 other running services+ daily_learning_platform +…
-- [ ] `PT-483e9c6ff3b1` 2026-08-10 I want this setup, and minimize the use of claude to a self hosted on cloud system + Recursive…
-- [ ] `PT-2f7b93bed2a4` 2026-08-09 .
-- [ ] `PT-8b2a78d7b957` 2026-08-08 Course description Workflow agents and deep research agents are two of the hardest application…
-- [ ] `PT-e9738b1a2c93` 2026-08-08 1. after reviewers allow and their github comments resolved from my end i accept merge, as a ru…
-- [ ] `PT-4e799c3b6dfc` 2026-08-08 what now?
-
-292 older untriaged prompts are not listed here. Read them with `python tools/intent/render_todo.py list --project .`.
+- #94: 32 prompts
+- #108: 29 prompts
+- #93: 20 prompts
+- #99: 18 prompts
+- #101: 17 prompts
+- #92: 16 prompts
+- #91: 15 prompts
+- #97: 14 prompts
+- #100: 12 prompts
+- #98: 12 prompts
+- #102: 9 prompts
+- #103: 7 prompts
+- #106: 7 prompts
+- #95: 6 prompts
+- #96: 3 prompts
+- #105: 2 prompts
 
 <!-- prompt-tickets:end -->
 
