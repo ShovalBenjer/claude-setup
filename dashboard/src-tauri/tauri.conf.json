@@ -10,6 +10,7 @@
     "frontendDist": "../web/dist"
   },
   "app": {
+    "withGlobalTauri": false,
     "windows": [
       {
         "title": "Session Dashboard",

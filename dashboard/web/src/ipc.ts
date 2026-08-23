@@ -1,3 +1,4 @@
+import { invoke } from "@tauri-apps/api/core";
 import type {
   AgentSpawnRow,
   FindHit,
@@ -7,21 +8,19 @@ import type {
   ModuleDescriptor,
 } from "./types";
 
-// Thin IPC wrapper around Tauri's `invoke`. `@tauri-apps/api` is not a
-// declared dependency in this slice (the src-tauri crate itself is not
-// buildable in this sandbox; see dashboard/src-tauri/Cargo.toml), so this
-// module resolves `invoke` off `window.__TAURI__` at call time rather than
-// importing the package, and falls back to a rejected promise outside a
-// Tauri webview. This keeps `bun run build` / `npm run build` green without
-// the package installed, while leaving a real call site for slice 3+ to
-// swap in `@tauri-apps/api/core`'s `invoke` directly.
-function invoke<T>(cmd: string, args?: Record<string, unknown>): Promise<T> {
-  const tauri = (window as unknown as { __TAURI__?: { core?: { invoke: <U>(c: string, a?: Record<string, unknown>) => Promise<U> } } }).__TAURI__;
-  if (!tauri?.core?.invoke) {
-    return Promise.reject(new Error("not running inside a Tauri webview"));
-  }
-  return tauri.core.invoke<T>(cmd, args);
-}
+// Thin IPC wrapper around Tauri's `invoke`, re-exported from
+// `@tauri-apps/api/core` (the idiomatic Tauri 2 pattern for a bundled
+// frontend: this app has a Vite/TypeScript build step, so it imports the
+// real package rather than relying on `withGlobalTauri` window-namespace
+// injection, which Tauri's own docs frame as the no-bundler convenience
+// path). `@tauri-apps/api/core`'s `invoke` reads `window.__TAURI_INTERNALS__`,
+// which the Tauri runtime injects into every webview regardless of the
+// `withGlobalTauri` config value; `window.__TAURI__` (the old check this
+// module used) is a separate, opt-in global bundle this app does not enable.
+// Outside a real Tauri webview (e.g. `vite dev` in a browser tab) the
+// import still resolves, but any call rejects because
+// `window.__TAURI_INTERNALS__` is absent -- callers already handle a
+// rejected promise via LedgerReadReport error paths and empty states.
 
 export function latestGateVerdict(project: string): Promise<GateRun | null> {
   return invoke<GateRun | null>("latest_gate_verdict", { project });

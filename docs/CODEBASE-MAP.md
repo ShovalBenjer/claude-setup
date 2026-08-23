@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-450 directories, 2014 tracked files, 0 without a stated purpose.
+451 directories, 2015 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -38,6 +38,7 @@ the same reason, one level down.
 | `dashboard/src-tauri/capabilities` | 1 | Tauri v2 capability manifest (default.json) declaring which IPC commands and OS permissions the webview is allowed to invoke | registry |
 | `dashboard/src-tauri/icons` | 1 | App icon assets Tauri's bundler reads when packaging the desktop binary | registry |
 | `dashboard/src-tauri/src` | 4 | Tauri backend source: main.rs entry point, lib.rs app builder, commands.rs the #[tauri::command] IPC surface, meme_process.rs the meme-gen subprocess wrapper | registry |
+| `dashboard/src-tauri/tests` | 1 | Headless IPC boundary regression test (ipc_boundary.rs): dispatches a real InvokeRequest through tauri::test::get_ipc_response against the app's actual invoke_handler list and c... | registry |
 | `dashboard/web` | 5 | React + Vite + Tailwind v4 frontend for the dashboard, built with npm and node 22; index.css carries the buzz-anchored design tokens, App.tsx composes the module registry | registry |
 | `dashboard/web/scripts` | 2 | Node-only verification scripts for the dashboard web frontend, run outside | README.md |
 | `dashboard/web/src` | 7 | Frontend source: App.tsx root component, ipc.ts the Tauri IPC client, types.ts shared DTOs, index.css the token/theme layer, components/ the UI tree | registry |
