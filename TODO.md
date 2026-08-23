@@ -1001,3 +1001,10 @@ Verbatim prompts, not yet promoted to work. Nothing here has been read by the ma
 292 older untriaged prompts are not listed here. Read them with `python tools/intent/render_todo.py list --project .`.
 
 <!-- prompt-tickets:end -->
+
+- [x] lane A: ship_gate_stop.py committed-docs-only case. DONE 2026-08-13, commit b43b570 on worktree-repo-gap-analysis, live hook updated. The 2026-08-13 docs-only fix
+  classifies the WORKING diff vs HEAD, so a clean tree whose only delta since the last
+  gated run is committed docs (e.g. regenerated maps) still hard-blocks. Extend
+  is_docs_only to diff HEAD against the last gate-runs.jsonl row's commit for this
+  project and downgrade when that delta is all prose. Regression test exists at
+  tests/test_ship_gate_docs_only.py to extend.
