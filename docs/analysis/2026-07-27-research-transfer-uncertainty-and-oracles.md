@@ -118,7 +118,7 @@ metamorphic approach detects hallucination with recall above 89 per cent and
 precision of 54 to 72 per cent using no reference query at all.
 
 **Today.** `grep -ril metamorphic tools/ docs/` returns exactly one hit, in
-`docs/analysis/2026-07-25-claude-mastery-research-prompt.md`, which is a research
+`docs/analysis/archive/2026-07-25-claude-mastery-research-prompt.md`, which is a research
 prompt rather than an implementation. The repo has the sibling technique and uses
 it well: `tools/audit/mutate.py` runs 9 specs and requires every mutation to turn
 its target's selftest red.

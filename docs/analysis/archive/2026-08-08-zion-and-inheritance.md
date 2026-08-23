@@ -1,6 +1,6 @@
 ---
 PRD: prd/2026-08-03-unified-architecture.md (acceptance row U5)
-Ticket: ZION-BOARD (docs/specs/2026-07-31-zion-board-as-product-instrument.md), reconciled by
+Ticket: ZION-BOARD (docs/specs/archive/2026-07-31-zion-board-as-product-instrument.md), reconciled by
 docs/specs/2026-07-31-kanban-four-layer-model.md
 Status: point-in-time analysis, read-only
 ---

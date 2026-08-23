@@ -165,7 +165,7 @@ Two consequences found immediately, both new:
 `docs/analysis/2026-07-29-session-retro-modes-models-workflows-observability.md`
 (auto/loop/bypass closed, model experiment, workflow KPIs, interruption cost,
 enforcement maturity map, judge fleet, Amir/CCC read),
-`docs/analysis/2026-07-29-long-context-kernel-critique-response.md` (a 2M-context
+`docs/analysis/archive/2026-07-29-long-context-kernel-critique-response.md` (a 2M-context
 critique tested against the ledgers: 130M transcript tokens per week and ~20M in
 one session mean the window is not the working set; a handback fired 13 minutes
 into a fresh session, so convergence is behavior not memory loss),

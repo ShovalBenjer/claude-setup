@@ -5,8 +5,8 @@ directive: recover every operator prompt since the work started, and decide from
 the record what was asked and never landed. It deliberately does NOT re-derive
 the `.md` consolidation and directory-organisation findings, which three other
 documents already cover from measurement:
-`docs/analysis/2026-08-01-fog-of-war.md` (document-to-path existence, tool
-wiring), `docs/analysis/2026-08-01-pocock-skills-teardown.md` (skill context
+`docs/analysis/archive/2026-08-01-fog-of-war.md` (document-to-path existence, tool
+wiring), `docs/analysis/archive/2026-08-01-pocock-skills-teardown.md` (skill context
 cost), and the `FOG` section of `TODO.md` (CI, mutation control, Zion). Producing
 a fourth document that disagrees with those three about counts would be worse
 than producing none.

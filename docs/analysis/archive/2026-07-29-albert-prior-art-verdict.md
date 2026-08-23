@@ -1,7 +1,7 @@
 # Albert: prior art for the whole repository, and not adoptable
 
 Date: 2026-07-29. Lane B. Closes the branch left open in
-`docs/analysis/2026-07-29-where-our-system-stands.md:99`, which named
+`docs/analysis/archive/2026-07-29-where-our-system-stands.md:99`, which named
 `github.com/Sdraugel/albert` as "prior art for the entire repository, not for any
 component in it, and our gate never asked about it because the audit is scoped per
 directory."
@@ -46,7 +46,7 @@ worktree." "Producers never grade themselves." Deploys need an explicit
 ## Correction to the framing that sent me here
 
 It was called an ancestor. It is not one. Albert was created 2026-07-23, which is
-**one day before** `docs/analysis/2026-07-24-reference-repos-excavation.md` was
+**one day before** `docs/analysis/archive/2026-07-24-reference-repos-excavation.md` was
 written and after most of this repository existed. It is a contemporary solving the
 same problem at the same time, not prior work we failed to find.
 
@@ -69,7 +69,7 @@ Two mechanisms, both structural, both absent here:
    impossible. We have the tooling for this already (`EnterWorktree`, `isolation:
    "worktree"`) and do not use it.
 2. **Producers never grade themselves, enforced by role.** Ours is a norm in prose.
-   `docs/analysis/2026-07-29-where-our-system-stands.md:170` records that today's ten
+   `docs/analysis/archive/2026-07-29-where-our-system-stands.md:170` records that today's ten
    prior-art records were each written and self-annotated by their own author, with no
    independent check. Same rule, unenforced.
 

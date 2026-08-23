@@ -187,7 +187,7 @@ Three rules that keep this from rotting:
 
 ## 7. Applying the research-synthesis standard to this repo's own .md files
 
-`docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` is written for
+`docs/archive/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` is written for
 synthesising ~50 sources into one survey. Its four processing directives generalise to
 document consolidation, and its schema does not. Adopt the directives, adapt the schema.
 

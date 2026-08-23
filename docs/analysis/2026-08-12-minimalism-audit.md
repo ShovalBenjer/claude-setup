@@ -98,6 +98,6 @@ deletion shortlist. (PR #66, merged or landing 2026-08-12, did the census and in
 4. Move the 2 project-specific rules out of the global tree (1,289 words/session in this repo).
 5. OPERATOR-DECISION, per file: relocate rule-file incident history to docs/adr/ (~30% of the 11,300-word rules tax). Not a batch job; each file's history is deliberate.
 
-Housekeeping: `docs/sagemaker-hyperpod.md` (a stray untracked AWS-docs fetch at docs root)
+Housekeeping: `docs/archive/sagemaker-hyperpod.md` (a stray untracked AWS-docs fetch at docs root)
 should be removed from the main checkout; the repo's delete-guard blocks a worktree rm and
 it is outside this worktree.

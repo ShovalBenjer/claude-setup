@@ -43,7 +43,7 @@ docs/specs/2026-07-29-intent-traceability.md | accepted
 docs/specs/2026-07-29-trace-model-sacred-timeline.md | accepted
 
 # ── The absorption brief ──────────────────────────────────────────────────────
-docs/2026-07-29-external-absorption-brief.md | dated-snapshot
+docs/archive/2026-07-29-external-absorption-brief.md | dated-snapshot
 
 # ── living-codex salvage, frozen ──────────────────────────────────────────────
 # Extracted 2026-07-30 from a repo with no remote and one commit, before deletion. Never updated:
@@ -91,12 +91,12 @@ tools/channel/README.md | living
 tools/intent/README.md | living
 dashboard/web/scripts/README.md | living
 docs/specs/2026-07-31-project-federation.md | accepted
-docs/gemini-code-1785410845331.md | operator-input
-docs/gemini-code-1785455675294.md | operator-input
-docs/gemini-code-1785457549011.md | operator-input
-docs/gemini-code-1785458291930.md | operator-input
+docs/archive/gemini-code-1785410845331.md | operator-input
+docs/archive/gemini-code-1785455675294.md | operator-input
+docs/archive/gemini-code-1785457549011.md | operator-input
+docs/archive/gemini-code-1785458291930.md | operator-input
 docs/memory-layer--nexus-gemini-code-1785456331041.md | operator-input
-docs/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md | operator-input
+docs/archive/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md | operator-input
 
 # ── arrived 2026-07-31 with the AGENTS.md/REVIEW.md split and the estate catalog ──
 # All four landed in 24e01de without a status, which is what turned the docmap
@@ -108,4 +108,4 @@ AGENTS.md | living
 REVIEW.md | living
 docs/ESTATE-DIRECTORY-CATALOG.md | dated-snapshot
 .github/ISSUE_TEMPLATE/task.md | living
-docs/sagemaker-hyperpod.md | reference | fetched AWS doc page, dropped 2026-08-12 17:34 by a parallel session; belongs under docs/analysis or a corpus dir if kept
+docs/archive/sagemaker-hyperpod.md | reference | fetched AWS doc page, dropped 2026-08-12 17:34 by a parallel session; belongs under docs/analysis or a corpus dir if kept

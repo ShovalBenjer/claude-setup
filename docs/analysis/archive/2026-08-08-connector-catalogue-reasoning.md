@@ -1,7 +1,7 @@
 # Connector catalogue reasoning: which of the ~850 earn a place
 
 Point-in-time reasoning pass, 2026-08-08, lane A. Extends
-`docs/analysis/2026-08-08-connector-usage.md`, which measured that nine already
+`docs/analysis/archive/2026-08-08-connector-usage.md`, which measured that nine already
 connected connectors were called zero times across 1183 transcripts. That number
 is the prior for this file: most things in the directory will not get used even
 after being turned on, so a connector needs a specific named task, not a general
@@ -12,7 +12,7 @@ and from each project's own AGENTS.md, PRD, and charter row.
 No settings were changed. `disabledMcpServers` recommendations below are
 proposals for whoever owns lane B, C, and D to apply in their own project,
 consistent with the charter rule that a cross-lane need is a proposal, not an
-edit (`docs/analysis/2026-08-08-connector-usage.md` did the same for lane A).
+edit (`docs/analysis/archive/2026-08-08-connector-usage.md` did the same for lane A).
 
 ## Method and its limit
 

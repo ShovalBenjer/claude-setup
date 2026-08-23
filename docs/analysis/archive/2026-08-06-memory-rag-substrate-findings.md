@@ -48,7 +48,7 @@ chars, ~21k tokens, median turn 125 characters. `tools/corpus/extract.py` produc
 
 ## 2. Two specs that contradict each other
 
-**`docs/gemini-code-1785457549011.md`**, 230 lines, listed in `docs/INDEX.md:171` as
+**`docs/archive/gemini-code-1785457549011.md`**, 230 lines, listed in `docs/INDEX.md:171` as
 "status not declared". A Gemini-generated implementation prompt titled "BUILD A NEXT-GEN
 HYBRID RAG ENGINE (PAGEINDEX + LIGHTRAG + SPECULATIVE ROUTING)". Three layers: PageIndex
 intra-document tree, LightRAG/LazyGraphRAG dual-level graph on NetworkX or Neo4j, agentic

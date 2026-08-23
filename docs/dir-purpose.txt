@@ -257,3 +257,5 @@ dashboard/web/src | Frontend source: App.tsx root component, ipc.ts the Tauri IP
 dashboard/web/src/components | Feature components: AppShell (layout), GateVerdictTile (reads the gate ledger via IPC), MemeModule, ModuleRegistry (toggle-driven module list); ui/ holds the shared primitives
 dashboard/web/src/components/ui | Buzz-anchored shared UI primitives (Badge, Button, Card) built on class-variance-authority, consumed by the feature components in the parent directory
 dashboard/web/src/lib | Small frontend utilities: cn.ts (clsx/tailwind-merge class combiner) used across components/ui
+docs/archive | Point-in-time files that used to sit at the docs/ root: session handoffs, pasted model transcripts (gemini-code-*), one-off notes. Moved 2026-08-23; historical-record by construction, never edited
+docs/analysis/archive | Analysis snapshots dated on or before 2026-08-08 that no live surface (rule, spec, PRD, tool, ADR) referenced when archived 2026-08-23; still dated-snapshot, still reachable by path, out of the inbox

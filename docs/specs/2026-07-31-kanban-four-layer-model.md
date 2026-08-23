@@ -368,7 +368,7 @@ title-based idempotency is undisturbed by every row above.
 
 ## 7. Reconciliation of the two specs already on disk
 
-### From `docs/specs/2026-07-31-zion-board-as-product-instrument.md` (APPLIED)
+### From `docs/specs/archive/2026-07-31-zion-board-as-product-instrument.md` (APPLIED)
 
 Survives: the storage order (JSON is source, GitHub is projection, evidence points
 into an append-only ledger); the ingestion-window rule for materializing
@@ -386,7 +386,7 @@ Now wrong in it:
   ADR-0016 the harness lane is A.
 - Every count in it is against 27 items. There are 31.
 
-### From `docs/specs/2026-07-31-github-native-project-surface.md` (UNEXECUTED)
+### From `docs/specs/archive/2026-07-31-github-native-project-surface.md` (UNEXECUTED)
 
 Survives: the API capability table, where view mutations exist but cannot set
 group-by; the rejection of `Start_date` and `Dependecies`; the `Review` status
