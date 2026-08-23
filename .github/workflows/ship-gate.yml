@@ -203,17 +203,20 @@ jobs:
       - name: "dashboard cargo test --workspace (EXT for DASH-1: core + src-tauri)"
         run: cd dashboard && cargo test --workspace
 
-      - uses: actions/setup-node@v4
+      # bun, not npm, since 2026-08-23: the repo rule prefers bun for JS, Vite 7 needs
+      # Node 20.19+ which the apt Node 18 on the runner host is not, and bun blocks
+      # dependency lifecycle scripts by default (bunfig.toml adds the release cooldown).
+      # --frozen-lockfile is the bun spelling of `npm ci`: a drifted bun.lock fails
+      # here instead of rewriting itself on the runner.
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: "22"
-          cache: npm
-          cache-dependency-path: dashboard/web/package-lock.json
+          bun-version: "1.3.14"
 
-      - name: dashboard-web-build (npm run build, dashboard/web)
+      - name: dashboard-web-build (bun --bun run build, dashboard/web)
         run: |
           cd dashboard/web
-          npm ci
-          npm run build
+          bun install --frozen-lockfile
+          bun --bun run build
 
       - name: gate.py run (full contract)
         run: python tools/gate/gate.py run --project . -v

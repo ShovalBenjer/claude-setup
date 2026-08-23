@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-453 directories, 2022 tracked files, 0 without a stated purpose.
+453 directories, 2025 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -38,7 +38,7 @@ the same reason, one level down.
 | `dashboard/src-tauri/capabilities` | 1 | Tauri v2 capability manifest (default.json) declaring which IPC commands and OS permissions the webview is allowed to invoke | registry |
 | `dashboard/src-tauri/icons` | 1 | App icon assets Tauri's bundler reads when packaging the desktop binary | registry |
 | `dashboard/src-tauri/src` | 4 | Tauri backend source: main.rs entry point, lib.rs app builder, commands.rs the #[tauri::command] IPC surface, meme_process.rs the meme-gen subprocess wrapper | registry |
-| `dashboard/web` | 5 | React + Vite + Tailwind v4 frontend for the dashboard, built with npm and node 22; index.css carries the buzz-anchored design tokens, App.tsx composes the module registry | registry |
+| `dashboard/web` | 6 | React + Vite + Tailwind v4 frontend for the dashboard, built with npm and node 22; index.css carries the buzz-anchored design tokens, App.tsx composes the module registry | registry |
 | `dashboard/web/scripts` | 2 | Node-only verification scripts for the dashboard web frontend, run outside | README.md |
 | `dashboard/web/src` | 7 | Frontend source: App.tsx root component, ipc.ts the Tauri IPC client, types.ts shared DTOs, index.css the token/theme layer, components/ the UI tree | registry |
 | `dashboard/web/src/components` | 9 | Feature components: AppShell (layout), GateVerdictTile (reads the gate ledger via IPC), MemeModule, ModuleRegistry (toggle-driven module list); ui/ holds the shared primitives | registry |
@@ -51,7 +51,7 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `docs` | 16 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 37 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 38 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/archive` | 37 | Analysis snapshots dated on or before 2026-08-08 that no live surface (rule, spec, PRD, tool, ADR) referenced when archived 2026-08-23; still dated-snapshot, still reachable by... | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/archive` | 25 | Point-in-time files that used to sit at the docs/ root: session handoffs, pasted model transcripts (gemini-code-*), one-off notes. Moved 2026-08-23; historical-record by constru... | registry |
@@ -419,7 +419,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `state` | 31 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
+| `state` | 32 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
 | `state/backups` | 1 | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project... | registry |
 | `state/retired-2026-07-25` | 0 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled... | registry |
 | `state/retired-2026-07-25/bin` | 6 | Retired 2026-07-25 meme/visual scripts (download/play memes, generate/pop visual, seed-meme-vectordb), pulled from the live bin/ tree | registry |
