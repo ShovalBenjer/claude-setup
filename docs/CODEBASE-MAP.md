@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-453 directories, 2025 tracked files, 0 without a stated purpose.
+454 directories, 2027 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -51,7 +51,7 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `docs` | 16 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 38 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 39 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/archive` | 37 | Analysis snapshots dated on or before 2026-08-08 that no live surface (rule, spec, PRD, tool, ADR) referenced when archived 2026-08-23; still dated-snapshot, still reachable by... | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/archive` | 25 | Point-in-time files that used to sit at the docs/ root: session handoffs, pasted model transcripts (gemini-code-*), one-off notes. Moved 2026-08-23; historical-record by constru... | registry |
@@ -285,6 +285,7 @@ the same reason, one level down.
 | `dot-claude/skills/voice-explainer` | 1 | Generate short audio narration via ElevenLabs eleven_multilingual_v2 and auto-play it. Triggers on out-of-focus / tired / "read it to me" signals (en/he/ar) detected by the User... | SKILL.md |
 | `dot-claude/skills/voice-metrics` | 11 | Measure a draft against the real corpus before sending it: per-use-case metric rules, a locally-fitted idiolect embedding, randomised burst variants, Hebrew/English spell check.... | SKILL.md |
 | `dot-claude/skills/voice-metrics/lexicon` | 4 | Spell-check corpora for the voice gate: 370,105 English words, a 324,329-entry Hebrew lexicon built from hspell 1.4 by build_lexicon.py (ISO-8859-8 in, UTF-8 out), and spellchec... | registry |
+| `dot-claude/skills/wait-what` | 1 | "Stop. That last message did not land: re-pitch it." | SKILL.md |
 | `dot-claude/skills/watchdog` | 1 | "Watchdog Agent - Quality Gatekeeper" | SKILL.md |
 | `dot-claude/skills/wayfinder` | 1 | Draw the map before picking work. Names the destination, the fog, and the frontier across TODO.md, claims, selfimprove and Zion. | SKILL.md |
 | `dot-claude/skills/web-inspect` | 1 | "/web-inspect" | SKILL.md |
