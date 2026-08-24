@@ -28,6 +28,8 @@ name: Gemini diff review (decorrelated second reviewer)
 #
 # This job is ADVISORY. It has pull-requests: read and cannot approve, request
 # changes, or block a merge. Findings surface as annotations on the diff.
+#
+# Runs on self-hosted linux to bypass GitHub account billing hold on ubuntu-latest.
 
 on:
   pull_request:
@@ -43,12 +45,14 @@ permissions:
 jobs:
   gemini-review:
     if: ${{ !github.event.pull_request.draft }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
+    env:
+      HOME: /home/shov/actions-runner/ci-home
     permissions:
       contents: read
       pull-requests: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
