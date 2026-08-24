@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-452 directories, 2028 tracked files, 0 without a stated purpose.
+452 directories, 2029 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -58,7 +58,7 @@ the same reason, one level down.
 | `engine/intent-control-plane/tests` | 46 | Exercise the CLI, sqlite store, and pure cores with real subprocess/sqlite calls, unit tests, and hypothesis property tests -- no mocks | registry |
 | `engine/nexus-engine-rs` | 4 | A native, physics-driven viewer over the plan surface of this repo. Nodes are rigid bodies, | README.md |
 | `engine/nexus-engine-rs/src` | 4 | Rust sources for the native physics viewer over the plan surface: main.rs loads the exported plan, models.rs the node and link types, physics.rs the spring and force-field integ... | registry |
-| `engine/tests` | 54 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `engine/tests` | 55 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
 | `engine/tests/cmd` | 1 | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process self... | registry |
 | `engine/tests/cmd/fixtures` | 1 | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it | registry |
 | `engine/tools` | 7 | Holds this repo's operational tooling: top-level scripts (repo audit, token rollout, slop lint) plus one subdirectory per verification, automation, or coordination tool | registry |

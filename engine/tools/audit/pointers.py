@@ -50,6 +50,9 @@ import re
 import sys
 import tempfile
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "lib"))
+from finding import Finding  # noqa: E402
+
 HIGH, MED, LOW = "high", "medium", "low"
 SEV_ORDER = {HIGH: 3, MED: 2, LOW: 1}
 
@@ -392,6 +395,70 @@ def say_which_settings(settings: list[str], live: str, include_live: bool) -> No
               "live tree were NOT checked on this host.".format(live))
     else:
         print("\n  live settings read: {}".format(live))
+
+
+def defer_unanswerable(findings: list[dict], live_home: bool | None = None,
+                        is_windows: bool | None = None) -> tuple[list[dict], list[dict], list[dict]]:
+    """The two host-answerability filters cmd_scan() applies inline, extracted so
+    check() can call the same logic instead of re-deriving it (and so both filters
+    get a direct test independent of argparse/stdout). Returns (kept, live_deferred,
+    windows_deferred): `kept` is what stays blocking, the other two are what a
+    host-shaped question could not answer on THIS host and were removed from the
+    blocking set, matching cmd_scan()'s SKIP-and-remove behavior exactly.
+
+    live_home/is_windows are injectable for tests; None means "ask the real host"
+    (os.path.isfile / os.name), same default-to-real-environment pattern
+    tools/lib/repo_root.py uses for its own env/start params.
+    """
+    if live_home is None:
+        live_home = os.path.isfile(os.path.join(os.path.expanduser("~"), ".claude",
+                                                  "settings.json"))
+    if is_windows is None:
+        is_windows = os.name == "nt"
+
+    live_deferred: list[dict] = []
+    if not live_home:
+        home_prefix = os.path.expanduser("~") + os.sep
+        live_deferred = [f for f in findings
+                          if str(f.get("target", "")).startswith(("~/", home_prefix))
+                          or normalize(str(f.get("target", ""))).startswith("~/")]
+
+    windows_deferred: list[dict] = []
+    if not is_windows:
+        windows_deferred = [f for f in findings
+                             if re.match(r"(?i)^[a-z]:[\\/]", str(f.get("target", "")))]
+
+    deferred_ids = {id(f) for f in live_deferred} | {id(f) for f in windows_deferred}
+    kept = [f for f in findings if id(f) not in deferred_ids]
+    return kept, live_deferred, windows_deferred
+
+
+def check(diff_or_text=None, project: str | None = None) -> list[Finding]:
+    """The item-2 shared-signature entry point: check(diff_or_text) -> list[Finding].
+    Ignores diff_or_text (whole-tree scan, not diff-scoped, same as rules_sync.check()).
+    `project` defaults to this repo's own root the way cmd_scan() defaults `a.project`.
+
+    Applies defer_unanswerable() the same way cmd_scan() does: a pointer into the
+    live home is unanswerable with no ~/.claude on this host, a Windows drive path
+    is unanswerable on a POSIX host. Skipping this step would reproduce the exact
+    regression this file's own cmd_scan() comments record: 304 false findings on a
+    GitHub runner, headed by ~/.claude/bin/work-item.sh, none of which say anything
+    about the repository.
+    """
+    root = os.path.abspath(project or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "..", ".."))
+    roots = [os.path.join(root, r) for r in
+             ("payload/dot-claude", "payload/dot-codex", "payload/dot-agents")]
+    settings = [os.path.join(root, "payload", "dot-claude", "settings.json")]
+
+    findings = scan(roots, settings)
+    kept, _live_deferred, _win_deferred = defer_unanswerable(findings)
+
+    return [
+        Finding(checker="pointers.{}".format(f["kind"]), severity=f["severity"],
+                file=f["file"], line=0, why=f["note"], meta={"target": f["target"]})
+        for f in kept
+    ]
 
 
 def cmd_scan(a: argparse.Namespace) -> int:
