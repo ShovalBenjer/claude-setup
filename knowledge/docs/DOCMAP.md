@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1067**
+- documents: **1066**
 - reachable from `docs/INDEX.md`: **69** (6%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -663,7 +663,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `payload/dot-claude/rules/output-channel-routing.md` | 2026-08-17 | definition-see-skills_sync | class | 2 | - | - | - |
 | `payload/dot-claude/rules/dynamic-verification-trigger.md` | 2026-08-18 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## skill (230)
+## skill (229)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -695,7 +695,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `payload/dot-agents/skills/coverage-enforcer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-agents/skills/deploy-prod/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-agents/skills/design-an-interface/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-agents/skills/dispatch/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-agents/skills/domain-model/ADR-FORMAT.md` | - | definition-see-skills_sync | class | n/a | - | - | ADR-NNNN |
 | `payload/dot-agents/skills/domain-model/CONTEXT-FORMAT.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-agents/skills/domain-model/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -874,7 +873,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `payload/dot-claude/skills/azure-runtime/SKILL.md` | 2025-04-01 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/azure-devops/PERMISSIONS.md` | 2026-02-16 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/azure-devops/README.md` | 2026-02-16 | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-agents/skills/heidegger-reflect/SKILL.md` | 2026-02-19 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/heidegger-reflect/SKILL.md` | 2026-02-19 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/advisor/SKILL.md` | 2026-04-09 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-agents/skills/azure-activity-watch/SKILL.md` | 2026-05-03 | definition-see-skills_sync | class | n/a | - | - | - |
@@ -893,6 +891,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `payload/dot-claude/skills/to-questionnaire/SKILL.md` | 2026-08-12 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/meme-gen/SKILL.md` | 2026-08-17 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/review-pr-ado/SKILL.md` | 2026-08-18 | definition-see-skills_sync | class | n/a | - | - | - |
+| `payload/dot-agents/skills/heidegger-reflect/SKILL.md` | 2026-08-19 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/books-index/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/resolving-merge-conflicts/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |

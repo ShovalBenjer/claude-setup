@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-460 directories, 2036 tracked files, 0 without a stated purpose.
+459 directories, 2035 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -230,7 +230,7 @@ the same reason, one level down.
 | `payload/dot-agents/skills/brainstorming` | 2 | "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design... | SKILL.md |
 | `payload/dot-agents/skills/brainstorming/scripts` | 5 | Runtime for the brainstorming skill's local companion UI: a Node WebSocket server (server.cjs), start/stop shell scripts, an HTML frame template, and a browser-side helper script | registry |
 | `payload/dot-agents/skills/caveman` | 1 | Ultra-compressed communication mode. Cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping full technical accuracy. Use when user says "caveman mode... | SKILL.md |
-| `payload/dot-agents/skills/codex-call` | 1 | Bridge Codex → Codex CLI for review, eval, automation, and any work where gpt-5.5 with explicit reasoning effort fits better than Codex. Use for /review on a PR or branch, batch... | SKILL.md |
+| `payload/dot-agents/skills/codex-call` | 1 | Run independent, bounded external code-review judges through Codex CLI and, only for explicitly public non-confidential input, the Gemini Developer API. Use automatically after... | SKILL.md |
 | `payload/dot-agents/skills/codex-ci` | 4 | AI-augmented CI workflows for local fix/review, mutation checks, and TDD assistance, with optional Azure Foundry remote review. | SKILL.md |
 | `payload/dot-agents/skills/commit-push-pr` | 1 | Run quality gates, commit (Conventional format), push, open PR, and sweep merged local branches. Auto-detects project stack and remote (GitHub `gh` or Azure DevOps `az`). | SKILL.md |
 | `payload/dot-agents/skills/context-hygiene` | 2 | Detect and prevent context/memory/skills/DB bloat. Scans ~/.Codex, ~/projects/*, and the memory store for duplicates, archive-files-that-still-load, stale entries, broken rule r... | SKILL.md |
@@ -244,14 +244,13 @@ the same reason, one level down.
 | `payload/dot-agents/skills/deep-research/tests/fixtures` | 2 | Sample research reports (one passing, one deliberately deficient) used to check validate_report.py and related scripts catch real defects like TBD placeholders and missing sections | registry |
 | `payload/dot-agents/skills/deploy-prod` | 1 | Guided pre-flight checklist for safe production deployment via CI pipeline. | SKILL.md |
 | `payload/dot-agents/skills/design-an-interface` | 1 | Generate multiple radically different interface designs for a module using parallel sub-agents. Use when user wants to design an API, explore interface options, compare module s... | SKILL.md |
-| `payload/dot-agents/skills/dispatch` | 1 | Sync agent-to-agent dispatch from Codex orchestrator to a registered peer (Codex executor on gpt-5.5, Foundry agents seekapa/AxiaCS, future bridges). Triggers on /dispatch, "ask... | SKILL.md |
 | `payload/dot-agents/skills/domain-model` | 3 | Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation (CONTEXT.md, ADRs) inline as decisions crystallise.... | SKILL.md |
 | `payload/dot-agents/skills/edit-article` | 1 | Edit and improve articles by restructuring sections, improving clarity, and tightening prose. Use when user wants to edit, revise, or improve an article draft. | SKILL.md |
 | `payload/dot-agents/skills/end-session` | 1 | End-of-session cleanup — security wipe of temp files, context compaction, lessons learned post-mortem, handover for next session. Run before /clear or exiting. | SKILL.md |
-| `payload/dot-agents/skills/frontend-design` | 1 | Injects anti-slop UI design constraints into the session. Activate at the start of any frontend work to prevent distributional convergence to AI-generated visual noise. | SKILL.md |
+| `payload/dot-agents/skills/frontend-design` | 1 | Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't... | SKILL.md |
 | `payload/dot-agents/skills/git-guardrails-claude-code` | 1 | Set up Codex hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute. Use when user wants to prevent destructive git operations, a... | SKILL.md |
 | `payload/dot-agents/skills/github-triage` | 3 | Triage issues/work-items through a label-based state machine (ADO and GitHub auto-detected). Use when user wants to create an issue, triage issues, review incoming bugs or featu... | SKILL.md |
-| `payload/dot-agents/skills/grill-me` | 1 | Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan... | SKILL.md |
+| `payload/dot-agents/skills/grill-me` | 1 | "Interactive Socratic interview protocol. Stress-tests design decisions, architectural plans, and candidate solutions before writing code. Triggers on /grill-me, 'grill me', 'st... | SKILL.md |
 | `payload/dot-agents/skills/heidegger-reflect` | 1 | End-of-task self-reflection protocol combining test evidence, completion honesty, and Heideggerian model-aware introspection. | SKILL.md |
 | `payload/dot-agents/skills/heidegger-reflect/docs` | 0 | Holds only the reflections subdirectory; it is the docs root the heidegger-reflect skill writes dated post-task reflection logs under | registry |
 | `payload/dot-agents/skills/heidegger-reflect/docs/reflections` | 3 | Dated Heidegger-reflection writeups from past real tasks (test evidence, fixes, deployed image tags) kept as worked examples of the reflection format | registry |
