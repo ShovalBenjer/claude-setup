@@ -87,4 +87,4 @@ If a file for that date+topic already exists, append `-2`, `-3`, etc., never ove
 ## Cross-references
 
 - Companion to [shoval-voice-draft] for drafting follow-up messages
-- Companion to memory at `~/.Codex/projects/-home-shovalbe/memory/` — significant decisions from meetings should ALSO be persisted as a `project` memory if they'll matter beyond this conversation
+- Companion to memory at `~/.claude/projects/-home-shovalbe/memory/` — significant decisions from meetings should ALSO be persisted as a `project` memory if they'll matter beyond this conversation

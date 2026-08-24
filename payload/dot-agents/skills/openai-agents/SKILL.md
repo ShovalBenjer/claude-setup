@@ -1,6 +1,6 @@
 ---
 name: openai-agents
-description: Call OpenAI agents that live on platform.openai.com — Assistants API and AgentKit-published agents — from the CLI with full step observability. Stream runs with reasoning, tool calls, and citations rendered. List/inspect/diff assistants. Triggers on "/openai-agents", "run my OpenAI agent", "call my Assistant", "list my assistants", "stream agent_xxx", references to platform.openai.com/agents or /playground/assistants. SKIP when working with Anthropic Codex SDK (use Codex-api), Azure Foundry agents (use eval-runner / az SDK), or ChatGPT consumer "My GPTs" (no API access — refuse with explanation).
+description: Call OpenAI agents that live on platform.openai.com — Assistants API and AgentKit-published agents — from the CLI with full step observability. Stream runs with reasoning, tool calls, and citations rendered. List/inspect/diff assistants. Triggers on "/openai-agents", "run my OpenAI agent", "call my Assistant", "list my assistants", "stream agent_xxx", references to platform.openai.com/agents or /playground/assistants. SKIP when working with Anthropic Claude SDK (use claude-api), Azure Foundry agents (use eval-runner / az SDK), or ChatGPT consumer "My GPTs" (no API access — refuse with explanation).
 model: opus
 ---
 
@@ -38,7 +38,7 @@ Never echo `OPENAI_API_KEY` value. Never write it to files. Never commit.
 
 - `openai` CLI — installed via `uv tool install openai`, on PATH
 - Python SDK — use `uv run --with openai python -c "..."` for ad-hoc, no global pollution
-- Helper script: `~/.Codex/skills/openai-agents/run.py` (PEP 723 deps, auto-resolves)
+- Helper script: `~/.claude/skills/openai-agents/run.py` (PEP 723 deps, auto-resolves)
 
 ## Common operations
 
@@ -53,7 +53,7 @@ for a in c.beta.assistants.list(limit=50).data:
 
 ### Run an Assistant (one-shot, stream with observability)
 ```bash
-~/.Codex/skills/openai-agents/run.py asst_xxx "your prompt here"
+~/.claude/skills/openai-agents/run.py asst_xxx "your prompt here"
 ```
 Streams `thread.run.step.*` events; prints reasoning to stderr, tool calls as bracketed cards, final text to stdout. Stdout is pipe-safe (only the assistant text).
 
@@ -69,15 +69,15 @@ Field name (`agent`, `agent_id`) varies by SDK minor version — check `c.respon
 
 ### Compare two agents on the same prompt (eval-shape)
 ```bash
-~/.Codex/skills/openai-agents/run.py asst_A "prompt" > /tmp/a.txt &
-~/.Codex/skills/openai-agents/run.py asst_B "prompt" > /tmp/b.txt &
+~/.claude/skills/openai-agents/run.py asst_A "prompt" > /tmp/a.txt &
+~/.claude/skills/openai-agents/run.py asst_B "prompt" > /tmp/b.txt &
 wait
 diff -y /tmp/a.txt /tmp/b.txt
 ```
 
 ## When the user wants to "run a preview" of a ChatGPT agent
 
-Their preview button is in the OpenAI builder UI — Codex can't trigger it. Either:
+Their preview button is in the OpenAI builder UI — Claude can't trigger it. Either:
 1. They publish/deploy the agent so it has an `agent_xxx` id, then we call via Responses API
 2. We simulate the run locally as a few-shot exemplar (no network)
 

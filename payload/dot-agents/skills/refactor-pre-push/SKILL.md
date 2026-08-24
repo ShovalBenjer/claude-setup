@@ -34,7 +34,7 @@ It DOES:
    ```bash
    git diff --cached --name-only
    ```
-2. Cross-reference against hot zones (top-5 files by `fix()` commit count last 30 days, from latest `d05-hot-zone-indicator` output if available at `~/.Codex/docs/HOT_ZONES_*.md`).
+2. Cross-reference against hot zones (top-5 files by `fix()` commit count last 30 days, from latest `d05-hot-zone-indicator` output if available at `~/.claude/docs/HOT_ZONES_*.md`).
 3. Output a single line:
    - If no hot-zone overlap: "No hot-zone files changed — REFACTOR optional. Push?"
    - If hot-zone overlap: "Hot-zone files in this push: <list>. Recommend `/simplify` before push. Skip? (forge-loop REFACTOR axis will be marked skipped if yes.)"

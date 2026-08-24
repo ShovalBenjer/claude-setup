@@ -108,7 +108,7 @@ proceed without having read them in the current session.
 
 ### 2. Read the implementation context
 
-- Read AGENTS.md (project rules — `bun`/`uv`, no mocks, TDD mandatory,
+- Read CLAUDE.md (project rules — `bun`/`uv`, no mocks, TDD mandatory,
   forge-loop).
 - Read the diff being tested (`git diff` or `git diff --staged`) or the
   implementation plan if there isn't code yet.
@@ -120,7 +120,7 @@ proceed without having read them in the current session.
 | Archetype | Examples | Required layers (minimum) |
 |---|---|---|
 | **Pure compute / shaping** | `_compute_auth_hash`, `_shape_customer`, classifier regex | Static + Unit + Property |
-| **External-API adapter** | `pandats.list_customers`, `windsor.get_data`, `crm.crm_get_customer` | Static + Unit + Component (respx) + **Contract** + Regression |
+| **External-API adapter** | `<vendor>.list_customers`, `<vendor>.get_data`, `crm.crm_get_customer` | Static + Unit + Component (respx) + **Contract** + Regression |
 | **MCP tool / agent surface** | New tool registered in `server.py` | All of External-API-adapter PLUS Trajectory + Golden master + Security smoke |
 | **Multi-step workflow** | Agent loop with branching tool calls | Everything above + Integration + E2E sandbox + Chaos + Trajectory + Adversarial |
 
@@ -151,28 +151,28 @@ This skill is a planner, not an author. It outputs the plan. The user
 (or `/tdd-slice-planner` / direct implementation) writes the tests in
 RED → GREEN order.
 
-## Concrete examples (from the campaign-analysis project)
+## Concrete examples (from a real MCP-tool project)
 
-### Example 1 — adding `chatwoot.list_contacts_by_crm_attribute` (MCP tool archetype)
+### Example 1 — adding `crm.list_contacts_by_crm_attribute` (MCP tool archetype)
 
 What I should have planned:
 - ✅ Static (ruff + mypy) — done
 - ✅ Unit on `_shape_crm_contact` projection — done (within the component tests)
 - ❌ **Property** on `_initials` (invariant: idempotent, max 4 chars, all-uppercase) — MISSING
 - ✅ Component via respx (4 happy-path tests) — done
-- ❌ **Contract** against real Chatwoot `/contacts` schema (VCR cassette nightly) — MISSING
+- ❌ **Contract** against the real CRM vendor's `/contacts` schema (VCR cassette nightly) — MISSING
 - ❌ **Golden master** on the response shape — MISSING
 - ❌ **Adversarial** — what happens when an attribute value contains injection patterns? — MISSING
 
 What I actually did: only unit + component. The Contract gap is
-exactly why the GAds 500 (separate connector) caught me at live-probe
+exactly why a separate connector's 500 caught me at live-probe
 time instead of at commit time.
 
-### Example 2 — fixing the Yarn-pubkey Dockerfile (hotfix archetype)
+### Example 2 — fixing a third-party-package Dockerfile pin (hotfix archetype)
 
 What I planned:
 - ✅ **Regression** test in `tests/test_dockerfile_third_party_apt_sources.py`
-  — 3 cases: file exists, yarn-purge present, yarn-purge BEFORE
+  — 3 cases: file exists, unwanted-package purge present, purge step BEFORE
   apt-update
 - Considered + skipped:
   - Integration (live docker build in CI) — handled by the pipeline itself; redundant locally
@@ -188,7 +188,7 @@ This is the right minimum for a hotfix archetype.
 **Archetype:** <one of the four>
 **Authority sources read:** ~/docs/testing_practices.txt,
                             ~/docs/deep-research-report (2).md
-**Project rules applied:** <from AGENTS.md — bun/uv, no mocks, etc.>
+**Project rules applied:** <from CLAUDE.md — bun/uv, no mocks, etc.>
 
 ### Layers required (your archetype's minimum)
 - ✅ <layer> — <how it's already covered>
@@ -217,16 +217,16 @@ WHY:   ...
 - **"100% line coverage" goal-setting** — the skill rejects this in favor of layer-coverage. Line coverage of 100% on a thin unit-only suite is weaker than 60% coverage across 6 layers.
 - **"Just write more unit tests"** — if a bug is at the Contract layer, no number of unit tests will catch it. The skill insists on the right *layer*, not more of any one layer.
 - **Horizontal slicing** — writing all the static tests, then all the unit tests, then all the property tests. The pyramid is the destination; the path to it is per-behavior vertical slices.
-- **Mocking external services in unit tests** — per AGENTS.md's no-mocks rule. Use respx (Python) / msw (TS) / VCR cassettes for component-level; testcontainers for integration; never `@patch` business logic.
+- **Mocking external services in unit tests** — per CLAUDE.md's no-mocks rule. Use respx (Python) / msw (TS) / VCR cassettes for component-level; testcontainers for integration; never `@patch` business logic.
 
 ## References
 
 - `~/docs/testing_practices.txt` — 8-layer pyramid + minimum set + CI cadence
 - `~/docs/deep-research-report (2).md` — agent-specific layers (trajectory, adversarial), modern harnesses, benchmark suites
-- AGENTS.md (project root) — project-specific overrides (bun/uv, no-mocks, forge-loop)
-- `~/.Codex/rules/tdd-enforcement.md` — RED → GREEN → REFACTOR discipline
-- `~/.Codex/rules/no-mocks.md` — alternatives (VCR, respx, real components)
-- `~/.Codex/skills/tdd-slice-planner/SKILL.md` — companion skill for picking the next failing test
+- CLAUDE.md (project root) — project-specific overrides (bun/uv, no-mocks, forge-loop)
+- `~/.claude/rules/tdd-enforcement.md` — RED → GREEN → REFACTOR discipline
+- `~/.claude/rules/no-mocks.md` — alternatives (VCR, respx, real components)
+- `~/.claude/skills/tdd-slice-planner/SKILL.md` — companion skill for picking the next failing test
 
 ## Slash invocation
 

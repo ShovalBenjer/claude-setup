@@ -80,4 +80,4 @@ The `a12-skill-usage-telemetry` automation will track skip-reasons over time. If
 
 ## Companion hook
 
-`~/.codex/hooks/coverage-enforcer.sh` does the actual deterministic gate. The skill exists to give Codex context when discussing coverage with the user — the hook is the enforcement layer.
+`~/.codex/hooks/coverage-enforcer.sh` does the actual deterministic gate. The skill exists to give Claude context when discussing coverage with the user — the hook is the enforcement layer.

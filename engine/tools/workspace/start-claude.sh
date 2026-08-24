@@ -145,8 +145,13 @@ new_project() {
   ( cd "$dir" && git init -q 2>/dev/null
     # gate.py init writes a starter quality-contract.json that deliberately FAILS a project
     # with no tests, so a new repo starts red rather than starting unmeasured.
-    gate="$WORK/claude-setup/tools/gate/gate.py"
-    [ -f "$gate" ] || gate="$WIN/claude-setup/tools/gate/gate.py"
+    # Self-relative first: this script's own deployed location is the one path shape
+    # that survives a repo restructure with no edit here (same fix class as
+    # ship_gate_stop.py's load_gate(), 2026-08-24). The WORK/WIN candidates stay as a
+    # fallback for the case this script runs from somewhere other than its usual home.
+    gate="$(cd "$(dirname "${BASH_SOURCE[0]}")/../gate" 2>/dev/null && pwd)/gate.py"
+    [ -f "$gate" ] || gate="$WORK/claude-setup/engine/tools/gate/gate.py"
+    [ -f "$gate" ] || gate="$WIN/claude-setup/engine/tools/gate/gate.py"
     [ -f "$gate" ] && python3 "$gate" init --project . >/dev/null 2>&1 )
   printf '  %screated %s%s\n' "$c_green" "$dir" "$c_reset" >&2
   printf '%s' "$dir"
