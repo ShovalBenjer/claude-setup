@@ -203,17 +203,17 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
 
     with tempfile.TemporaryDirectory() as td:
         project = Path(td)
-        (project / "tools" / "audit").mkdir(parents=True)
-        (project / "state").mkdir()
+        (project / "engine" / "tools" / "audit").mkdir(parents=True)
+        (project / "knowledge" / "state").mkdir(parents=True)
 
         # a real append-only writer: must NOT be reported
-        (project / "tools" / "audit" / "good_writer.py").write_text(
+        (project / "engine" / "tools" / "audit" / "good_writer.py").write_text(
             'with open("state/lessons.jsonl", "a") as f:\n    f.write(row)\n',
             encoding="utf-8",
         )
 
         # a planted truncating writer: must go red
-        bad = project / "tools" / "audit" / "bad_writer.py"
+        bad = project / "engine" / "tools" / "audit" / "bad_writer.py"
         bad.write_text(
             'def rewrite():\n'
             '    with open("state/lessons.jsonl", "w") as f:\n'
@@ -222,7 +222,7 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
         )
 
         # a planted seek+truncate rewrite: must also go red
-        bad2 = project / "tools" / "audit" / "bad_writer2.py"
+        bad2 = project / "engine" / "tools" / "audit" / "bad_writer2.py"
         bad2.write_text(
             'def patch():\n'
             '    f = open("state/claims.jsonl", "r+")\n'
