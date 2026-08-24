@@ -201,7 +201,10 @@ def run(cmd: str, cwd: str, timeout: int = 900) -> tuple[int, str]:
         p = subprocess.run(cmd, cwd=cwd, shell=True, capture_output=True,
                            text=True, timeout=timeout, encoding="utf-8",
                            errors="replace", env=_domain_env())
-        return p.returncode, ((p.stdout or "") + (p.stderr or ""))
+        out = ((p.stdout or "") + (p.stderr or ""))
+        if p.returncode == 127 and "not found" in out:
+            return CANNOT_MEASURE, "cannot run: command not found on this host\n{}".format(out)
+        return p.returncode, out
     except subprocess.TimeoutExpired:
         return 124, "timed out after {}s: {}".format(timeout, cmd)
     except Exception as exc:

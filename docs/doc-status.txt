@@ -17,9 +17,12 @@
 #   salvage             extracted from something deleted. Frozen by definition; never updated.
 #   superseded-by X     a real supersession, with the successor named.
 
-# ── Root-level living documents ───────────────────────────────────────────────
+# ── root living documents ─────────────────────────────────────────────────────
 README.md | living
 TODO.md | living
+CHANGELOG.md | living
+CONTRIBUTING.md | living
+SECURITY.md | living
 docs/INDEX.md | living
 docs/SESSION-BOOT.md | living
 docs/charters.md | living
