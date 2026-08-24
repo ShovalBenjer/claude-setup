@@ -9,6 +9,14 @@ import json, os, re, sys, datetime
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import prose_metrics  # noqa: E402
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib"))
+from finding import Finding  # noqa: E402
+
+# scan()'s three-tuple kinds map onto Finding.severity. Every kind here is a
+# hard fail in main() (exit 1), so "phrase"/"em/en-dash"/"ritual" are all
+# "high" — there is no existing soft/warn tier in this checker's CLI contract
+# for check() to preserve, unlike panel.py's high/medium/low personas.
+_KIND_SEVERITY = {"phrase": "high", "em/en-dash": "high", "ritual": "high"}
 
 # Density and variance, added 2026-07-31 for L-2026-07-31-b. WARN ONLY, and it
 # stays warn-only until a fitted band exists: the file this gate cleared while
@@ -86,6 +94,21 @@ def scan(text):
         for m in pat.finditer(text):
             hits.append(("ritual", m.group(0).strip(), text[:m.start()].count("\n") + 1))
     return hits
+
+
+def check(diff_or_text, file=""):
+    """The item-2 shared-signature entry point (docs/taste.md, 2026-08-24):
+    check(diff_or_text) -> list[Finding]. Wraps scan() rather than
+    reimplementing it, so the two can never drift on what counts as a hit;
+    scan() stays the single source of truth and this is purely a Finding
+    adapter. `file` is optional since slop_lint historically operates on
+    whatever text it's handed (a file's content or stdin), not a diff with
+    its own embedded path."""
+    return [
+        Finding(checker=f"slop_lint.{kind.replace('/', '-')}", severity=_KIND_SEVERITY[kind],
+                file=file, line=line, why=f"{kind}: {frag!r}", snippet=frag, source="local")
+        for kind, frag, line in scan(diff_or_text)
+    ]
 
 
 def main():
