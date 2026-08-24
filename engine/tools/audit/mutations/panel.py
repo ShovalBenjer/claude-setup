@@ -31,17 +31,22 @@ MUTATIONS = [
      'kept = [ln for ln in lines if not SKILL_DEFINITION.search(ln["file"])]',
      'kept = list(lines)'),
 
+    # Patterns updated 2026-08-24 for the payload/ prefix the same day's earlier
+    # restructure commit (93bf9e8) added to SKILL_DEFINITION but never brought
+    # here: both mutations silently stopped applying ("pattern did not match")
+    # rather than failing loud, the same drift class caught and fixed in
+    # tools/audit/mutations/skills_sync.py the same session.
     ("the pattern stops matching a bare SKILL.md",
      "only the directory form would be caught, so a skill file at any other path "
      "reaches the judge",
-     r'r"(?i)(^|/)SKILL\.md$|(^|/)(?:dot-claude|dot-codex|dot-agents|\.claude)/"',
-     r'r"(?i)(^|/)(?:dot-claude|dot-codex|dot-agents|\.claude)/"'),
+     r'r"(?i)(^|/)SKILL\.md$|(^|/)(?:payload/dot-claude|payload/dot-codex|payload/dot-agents|\.claude)/"',
+     r'r"(?i)(^|/)(?:payload/dot-claude|payload/dot-codex|payload/dot-agents|\.claude)/"'),
 
     ("the pattern stops covering the codex and agents trees",
      "the skills tree is triplicated across dot-claude, dot-codex and dot-agents; "
      "covering one of three is the same as covering none",
-     r'r"(?i)(^|/)SKILL\.md$|(^|/)(?:dot-claude|dot-codex|dot-agents|\.claude)/"',
-     r'r"(?i)(^|/)SKILL\.md$|(^|/)(?:dot-claude)/"'),
+     r'r"(?i)(^|/)SKILL\.md$|(^|/)(?:payload/dot-claude|payload/dot-codex|payload/dot-agents|\.claude)/"',
+     r'r"(?i)(^|/)SKILL\.md$|(^|/)(?:payload/dot-claude)/"'),
 
     ("blinding becomes silent",
      "the caller can no longer tell a filter that removed nothing from one that "

@@ -60,6 +60,9 @@ import re
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "lib"))
+from finding import Finding  # noqa: E402
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 SETUP = os.path.abspath(os.path.join(HERE, ".."))
 
@@ -872,6 +875,46 @@ def run_external(lines: list[dict], project: str, verbose: bool,
 
 
 # ------------------------------------------------------------------ verdict
+
+def check(diff_or_text=None, project: str | None = None, base: str | None = None,
+          allow_external: bool = False, external_model: str | None = None) -> list[Finding]:
+    """The item-2 shared-signature entry point: check(diff_or_text) -> list[Finding].
+    Unlike the five whole-tree checkers migrated earlier under this item,
+    diff_or_text is genuinely unused here for a real reason, not by convention:
+    this checker's actual input is a git repository's added-lines diff, computed
+    internally by added_lines(project, base) from git itself, not a text blob
+    that could be handed in as a string. project/base fill the role diff_or_text
+    would have, matching what cmd_run() already needs.
+
+    Mirrors cmd_run()'s exact flow: added_lines() -> run_local() (+ run_external()
+    if requested) -> Finding. Does not print or compute a pass/fail verdict; that
+    stays cmd_run()'s job (it also needs the base/sha/verbose reporting this
+    function has no reason to duplicate). A caller wanting pass/fail applies its
+    own fail_on threshold to the returned Finding.severity values, the same
+    reduction cmd_run() does inline for its own CLI output.
+    """
+    project = os.path.abspath(project or ".")
+    rc, _ = sh("git rev-parse --git-dir", project)
+    if rc != 0:
+        return [Finding(checker="panel.not-a-repo", severity="high", file=project,
+                         line=0, why="not a git repository")]
+    base = base or default_base(project)
+    lines = added_lines(project, base)
+    if not lines:
+        return []
+
+    raw = run_local(lines)
+    if allow_external:
+        ext, _note = run_external(lines, project, False, external_model)
+        raw += ext
+
+    return [
+        Finding(checker=f["check"], severity=f["severity"], file=f["file"],
+                line=f["line"], why=f["why"], snippet=f.get("snippet", ""),
+                source=f.get("source", "local"), meta={"persona": f["persona"]})
+        for f in raw
+    ]
+
 
 def cmd_run(args: argparse.Namespace) -> int:
     project = os.path.abspath(args.project)
