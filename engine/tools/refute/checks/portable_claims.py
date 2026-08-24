@@ -38,14 +38,14 @@ def _fail(msg: str) -> int:
 
 
 def c002_bus_tracked() -> int:
-    """tools/bus/bus.py survives a fresh clone."""
-    return _tracked("tools/bus/bus.py")
+    """engine/tools/bus/bus.py survives a fresh clone."""
+    return _tracked("engine/tools/bus/bus.py")
 
 
 def c010_refute_tracked() -> int:
     """refute.py survives a fresh clone. A checker that is not in git checks
     nothing for anyone who clones."""
-    return _tracked("tools/refute/refute.py")
+    return _tracked("engine/tools/refute/refute.py")
 
 
 def _tracked(rel: str) -> int:
