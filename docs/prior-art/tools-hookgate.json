@@ -1,0 +1,88 @@
+{
+  "component": "tools/hookgate",
+  "reviewed": "2026-07-30",
+  "recheck_after": "2026-10-28",
+  "verdict": "keep-ours-with-a-named-improvement",
+  "verdict_class": "keep-ours",
+  "absorption_status": "unreviewed",
+  "why": "Filed because the prior-art gate fired on a response that presented this crate's prescan as a design of its own. It is not. Literal prefiltering, meaning cheap substring pre-checks that decide whether the expensive regex engine runs at all, is decades-old standard practice and ships inside the engines this crate already depends on: regex-automata carries a whole prefilter module including an Aho-Corasick prefilter for alternations, and RE2, Hyperscan and GNU grep all do a version of it. The closest analogue found is corazawaf/coraza PR #1534, which is the SAME PROBLEM AND THE SAME SOLUTION SHAPE: a ModSecurity-compatible WAF loading hundreds of @rx rules, each evaluated per request, given compile-time analysis of the patterns to build cheap pre-checks that skip evaluation when the input clearly cannot match, and explicitly returning maybe-match on any uncertainty (non-ASCII with (?i), unknown AST nodes, unparseable patterns). That maybe-match rule is exactly this crate's over-approximate-never-under-approximate invariant, arrived at independently and worth strictly less for having been. Nothing in the technique is ours. What is defensible about this implementation is narrower and only about correctness plumbing: the deny rules are GENERATED from safety_gate.py::RULES rather than retyped, a differential oracle establishes that Python's re and fancy-regex agree on the byte-identical patterns (123 commands, exact, both platforms), the literal groups are fuzz-verified against 3069 mutated candidates before rules.rs is emitted, and that verifier is itself mutation-tested against 8 deliberately unsound group sets. Coraza does not need the fuzz because it derives its pre-checks mechanically from the pattern AST, which makes soundness follow from the analysis instead of from a test. That is the better design and it is the improvement named below, not a defect that blocks shipping.",
+  "alternatives": [
+    {
+      "name": "corazawaf/coraza PR #1534, literal pre-filtering for the @rx operator",
+      "url": "https://github.com/corazawaf/coraza/pull/1534",
+      "why_not": "Not adoptable: it is Go, and it is coupled to Coraza's rule and variable model rather than being a library. Adopted as a DESIGN REFERENCE instead. Two things taken from it. First, its maybe-match-on-uncertainty rule confirms the asymmetry this crate relies on, that over-approximating costs a wasted evaluation while under-approximating silently skips a rule. Second, it derives its pre-checks by analysing the pattern at compile time rather than from a hand-maintained table, which removes the entire class of error this crate defends against with a fuzz. It is also opt-in rather than default there, which is a signal about how much its authors trust the analysis."
+    },
+    {
+      "name": "regex_syntax::hir::literal::Extractor",
+      "url": "https://docs.rs/regex-syntax/latest/regex_syntax/hir/literal/struct.Extractor.html",
+      "why_not": "Genuinely the right tool and it does not fit, for two reasons that were checked rather than assumed. (a) It extracts PREFIX or SUFFIX sequences, with the contract that every match must start with (or end with) one of the literals returned. That is a disjunction, and it would mechanically reproduce this crate's group 0 (\"git\", \"rm\") but not group 1 (\"reset\", \"checkout\", a credential-shaped path), which is an INNER required literal and is where the measured win came from: a flat prefix-only disjunction left `python -m pytest` at 9.09 ms and admitted all ten git rules for any git command. (b) It parses regex-crate syntax, and 6 of the 17 rules contain lookaround, which regex-syntax rejects outright, so it cannot see the patterns that most need help. Worth revisiting if fancy_regex::Expr's own parser can be walked for required literals; that is the named improvement."
+    },
+    {
+      "name": "regex_automata::util::prefilter, including its Aho-Corasick prefilter",
+      "url": "https://docs.rs/aho-corasick",
+      "why_not": "Already in the dependency graph transitively, and already doing this INSIDE the engine for the patterns it can compile. It cannot help here because the cost being removed is not match time, it is COMPILE time: the measured problem was 45 ms of the gate's 49 ms spent constructing 17 patterns on every process invocation, and an engine-internal prefilter only exists once the pattern is already built. The prescan has to sit outside the engine to be worth anything."
+    },
+    {
+      "name": "Compile once in a resident daemon, reached by a thin client",
+      "url": "https://docs.anthropic.com/en/docs/claude-code/hooks",
+      "why_not": "Would eliminate repeated compilation completely and was measured and rejected on arithmetic. The hook protocol is spawn-per-call with no daemon surface, so a client process is still required per call, and client spawn measured 1.46 ms on Linux against a 2.26 ms total for the prescan version. The daemon could save at most ~0.8 ms while adding a lifecycle, a socket, and a failure mode where the gate is down and commands run unchecked."
+    },
+    {
+      "name": "Precompiled serialised DFAs (regex-automata dense::DFA serialisation)",
+      "url": "https://docs.rs/regex-automata",
+      "why_not": "Removes compile cost properly by moving it to build time, which is a better answer than a prescan in principle. Blocked by the same lookaround requirement: fancy-regex builds a backtracking VM for the 6 lookaround rules and exposes no serialisation, and the 6 are non-negotiable because one of them uses a negative lookahead to permit a staged-only git subcommand form while blocking every other form. Applying it to the 11 non-lookaround rules only would mean two matching paths in one guard, which is a worse correctness surface than one prescan."
+    },
+    {
+      "name": "Do nothing, keep the two Python hooks",
+      "url": "https://github.com/rust-lang/regex/issues/618",
+      "why_not": "The measured baseline is 242.5 ms on every Bash tool call to perform about 11 ms of regex work. Rejected on that number alone. Recorded as an alternative because it is the simplest correct option and the one this record is obliged to compare against."
+    }
+  ],
+  "improvement_owed": "Derive the literal groups mechanically from the pattern instead of hand-maintaining LITERAL_GROUPS. Coraza does this and it makes soundness a property of the analysis rather than of a fuzz that might miss a case the corpus does not reach. Path: walk fancy_regex::Expr for the 6 lookaround rules and regex_syntax::hir for the other 11, collecting literals that every match must contain. Until that exists, the fuzz plus its 8 mutation controls is the only thing standing between a mistyped group and a silently weaker guard, and that is a weaker guarantee than it looks.",
+  "searches": [
+    "regex literal prefilter required literals optimization avoid full match aho-corasick",
+    "regex-syntax hir literal Extractor extract required literals from pattern rust crate",
+    "WAF ModSecurity many regex rules skip evaluation required substring necessary condition inner literal prefilter"
+  ],
+  "not_a_gap_signals": "Fires on production implementations rather than on a survey or a workshop, which is the strongest form: the technique is shipped inside regex-automata, RE2, Hyperscan and GNU grep, and an active PR in a ModSecurity-compatible WAF implements the identical compile-time-analysis version against the identical many-rules problem. No survey, curated list, workshop or benchmark family was searched for after that, because existing shipped implementations already settle the question and looking for a fourth signal would be theatre.",
+  "what_ours_does": "One compiled PreToolUse hook replacing two Python ones on the hot path of every Bash tool call. Ports the 17 deny rules of safety_gate.py verbatim via codegen, skips compiling any pattern whose required literals are absent from the command, and delegates push commands unchanged to pre_push_gate.py rather than reimplementing its git inspection.",
+  "our_loc": 165,
+  "strongest_counterargument": "The literal groups are hand-maintained, so the guard's soundness rests on a fuzz over 3069 mutated candidates rather than on an analysis of the patterns. A fuzz can only fail on a case its corpus reaches. If a rule gains a form no corpus line exercises and a group is wrong for that form, the prescan skips the rule, every test still passes, every benchmark improves, and the guard is quietly weaker with nothing reporting it. Coraza avoids this entirely by deriving pre-checks from the pattern AST. That is a real argument that this crate should not have shipped a hand table, and the honest answer is that mechanical derivation is blocked on fancy_regex exposing no literal extractor for the 6 lookaround rules, not that the hand table is good enough. Filed as improvement_owed.",
+  "evidence": {
+    "measured": "2026-07-30, native process creation, warm, 400 runs per candidate, medians.",
+    "baseline_two_python_hooks_ms": 242.5,
+    "eager_compile_gate_ms": {
+      "windows": 91.87,
+      "linux": 49.01
+    },
+    "prescan_gate_ordinary_command_ms": {
+      "windows": 19.06,
+      "linux": 2.26
+    },
+    "spawn_floor_ms": {
+      "windows_rust_empty_main": 21.72,
+      "linux_rust_empty_main": 1.27
+    },
+    "compile_17_patterns_isolated_ms": {
+      "windows": 101.31,
+      "linux": 47.09
+    },
+    "per_payload_linux_ms": {
+      "echo hello": 2.26,
+      "ls -la": 2.5,
+      "python -m pytest -q": 2.01,
+      "a git hard reset": 2.25,
+      "a credential exposure command": 8.34,
+      "empty command": 1.9
+    },
+    "correctness": "Differential oracle: 123 commands, 86 blocks per side, ZERO disagreements in either direction, on both the Windows and the Linux build, before and after the prescan. Prescan soundness fuzz: 17 rules, all groups, 3069 candidates, fixed seed. Verifier mutation-tested with 8 controls, all passing, including that WEAKENING a group set is correctly not flagged. tests/test_hookgate.py: 16 tests.",
+    "retracted": "An earlier claim of 14.85 ms and 16.3x was WRONG. That benchmark's payload failed JSON parsing so main returned before compiling anything, and the figure reported was bare process spawn. Caught by a payload with no command in it costing 90 ms.",
+    "commands": [
+      "python tools/hookgate/regen_rules.py --check",
+      "python tools/hookgate/diff_oracle.py",
+      "python -m pytest tests/test_hookgate.py -q",
+      "python tools/hookgate/bench/bench_spawn.py"
+    ]
+  },
+  "recheck": "Re-run: python tools/hookgate/regen_rules.py --check && python tools/hookgate/diff_oracle.py && python -m pytest tests/test_hookgate.py -q. Then re-search whether fancy_regex has gained a literal extractor, and whether rust-lang/regex has landed the unbounded captureless lookbehind work tracked in issue #618 and discussion #910. Either one would unblock improvement_owed, and the second could remove the fancy-regex dependency entirely, which would also remove the 45 ms compile cost this crate works around."
+}

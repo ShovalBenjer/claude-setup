@@ -9,11 +9,11 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1069**
-- reachable from `docs/INDEX.md`: **69** (6%)
+- documents: **983**
+- reachable from `docs/INDEX.md`: **68** (6%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
-- written under the pre-2026-07-30 lane scheme: **25**
+- written under the pre-2026-07-30 lane scheme: **14**
 
 ### Lane scheme, and why the column exists
 
@@ -76,71 +76,23 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (87)
+## analysis (39)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
-| `docs/analysis/reference/coherence-governor-AGENTS.md` | - | dated-snapshot | class | n/a | yes | - | - |
-| `docs/analysis/reference/nr-claudecode-tui-research-2026-06-14.md` | 2026-06-14 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/reference/nr-coverage-aware-eval-research-2026-06-28.md` | 2026-06-28 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/reference/nr-commit-bug-tracing-research-2026-07-05.md` | 2026-07-05 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/reference/ddl-ui-deep-research-arkheron.md` | 2026-07-22 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-23-local-model-stress-test.md` | 2026-07-23 | dated-snapshot | class | n/a | yes | - | - |
-| `docs/analysis/reference/ddl-design-research-nextgen-2026-07.md` | 2026-07-23 | dated-snapshot | class | n/a | - | UI-DEEP-RESEARCH-ARKHERON.md as the desi | - |
 | `docs/analysis/2026-07-24-work-archive-import.md` | 2026-07-24 | dated-snapshot | class | n/a | yes | - | - |
-| `docs/analysis/archive/2026-07-24-creativity-wow-gap.md` | 2026-07-24 | dated-snapshot | class | 1 | - | - | - |
-| `docs/analysis/archive/2026-07-24-deployment-gap-audit.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-24-fleet-verification-gap.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-24-reference-repos-excavation.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-24-research-wiring-audit.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-24-setup-holding-us-back.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-24-skills-wiring-audit.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/reference/ddl-engine-research-prompt-2026-07-24-v3.md` | 2026-07-24 | dated-snapshot | class | n/a | - | v1/v2 | - |
-| `docs/analysis/reference/nr-technology-corpus-master-prompt-2026-07-24.md` | 2026-07-24 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-25-our-own-dolt.md` | 2026-07-25 | dated-snapshot | class | n/a | yes | - | - |
-| `docs/analysis/archive/2026-07-25-claude-mastery-audit.md` | 2026-07-25 | dated-snapshot | class | n/a | - | the older Gemini CLI free-quota | - |
-| `docs/analysis/archive/2026-07-25-claude-mastery-research-prompt.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-25-cloudflare-fit.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-25-dynamic-setup-decisions.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-25-effort-and-thinking.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-25-free-tier-exploitables.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-25-other-resources.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-25-repo-benchmark-and-star-forensics.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/reference/nr-technology-corpus-research-report-2026-07-25.md` | 2026-07-25 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-26-session-handoff.md` | 2026-07-26 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-27-research-transfer-uncertainty-and-oracles.md` | 2026-07-27 | dated-snapshot | class | n/a | yes | - | - |
-| `docs/analysis/reference/ddl-deep-research-2026-07-27.md` | 2026-07-27 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-29-local-dependency-audit.md` | 2026-07-29 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-07-29-session-retro-modes-models-workflows-observability.md` | 2026-07-29 | dated-snapshot | class | 1 | yes | - | - |
-| `docs/analysis/archive/2026-07-29-albert-prior-art-verdict.md` | 2026-07-29 | dated-snapshot | class | 1 | - | - | - |
-| `docs/analysis/archive/2026-07-29-long-context-kernel-critique-response.md` | 2026-07-29 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-29-where-our-system-stands.md` | 2026-07-29 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/reference/ddl-standard-and-grade-2026-07-29.md` | 2026-07-29 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-07-30-point-in-time-reconstruction.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
-| `docs/analysis/archive/2026-07-30-context-engineering-and-the-absence-claim-class.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/archive/2026-07-30-github-repo-triage.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/archive/2026-07-30-native-surface-audit.md` | 2026-07-30 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/archive/2026-07-30-self-chat-absorption-batch.md` | 2026-07-30 | dated-snapshot | class | 2 | - | the ABSORB-07 plan. | - |
 | `docs/analysis/2026-07-31-inventory-reconciliation-and-the-docs-control-plane.md` | 2026-07-31 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/archive/2026-07-31-density-gate-measurement.md` | 2026-07-31 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-07-31-the-green-test-gradient.md` | 2026-07-31 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/archive/2026-08-01-fog-of-war.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-08-01-pocock-skills-teardown.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-08-01-ponytail-audit-prompt-archaeology.md` | 2026-08-01 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-03-math-trends-and-model-stack.md` | 2026-08-03 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/archive/2026-08-03-code-audit-analysis-sweep-and-research-provenance.md` | 2026-08-03 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-05-implementation-reasoning-per-file.md` | 2026-08-05 | dated-snapshot | class | n/a | yes | - | - |
-| `docs/analysis/archive/2026-08-05-enforcement-topology-measured.md` | 2026-08-05 | dated-snapshot | class | 2 | - | - | - |
 | `docs/analysis/2026-08-06-skill-candidates-dependency-filter.md` | 2026-08-06 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-08-06-azure-jira-after-the-job.md` | 2026-08-06 | dated-snapshot | class | n/a | - | - | things |
-| `docs/analysis/archive/2026-08-06-external-repo-source-read-and-surface-comparison.md` | 2026-08-06 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/archive/2026-08-06-memory-rag-substrate-findings.md` | 2026-08-06 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/archive/2026-08-06-persona-metrics-external-sweep.md` | 2026-08-06 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-07-toplevel-dir-decisions.md` | 2026-08-07 | dated-snapshot | class | n/a | - | - | the |
 | `docs/analysis/2026-08-08-na-domains-rechecked.md` | 2026-08-08 | dated-snapshot | class | n/a | - | - | - |
-| `docs/analysis/archive/2026-08-08-connector-catalogue-reasoning.md` | 2026-08-08 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/archive/2026-08-08-connector-usage.md` | 2026-08-08 | dated-snapshot | class | 2 | - | - | - |
-| `docs/analysis/archive/2026-08-08-zion-and-inheritance.md` | 2026-08-08 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-09-session-scope-ledger.md` | 2026-08-09 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-10-inbox-secret-exposure.md` | 2026-08-10 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/analysis/2026-08-10-milestone-task-plan.md` | 2026-08-10 | dated-snapshot | class | 2 | - | nothing. Re-derive before acting if the | - |
@@ -167,18 +119,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-23-prompt-triage.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-23-whatsapp-links-vs-plan.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-23-whatsapp-repo-reminder-list.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
-
-## archived (7)
-
-| document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
-|---|---|---|---|---|---|---|---|
-| `docs/archive/gemini-code-1785410845331.md` | - | operator-input | registry | n/a | - | - | - |
-| `docs/archive/gemini-code-1785455675294.md` | - | operator-input | registry | n/a | - | - | - |
-| `docs/archive/gemini-code-1785457549011.md` | - | operator-input | registry | n/a | - | - | - |
-| `docs/archive/gemini-code-1785458291930.md` | - | operator-input | registry | n/a | - | - | - |
-| `docs/archive/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` | - | operator-input | registry | n/a | - | - | - |
-| `docs/archive/sagemaker-hyperpod.md` | - | reference \| fetched AWS doc page, dropped 2026-08-12 17:34 by a parallel session; belongs under docs/analysis or a corpus dir if kept | registry | n/a | - | - | - |
-| `docs/archive/2026-07-29-external-absorption-brief.md` | 2026-07-29 | dated-snapshot | registry | 1 | - | - | - |
 
 ## automation-output (126)
 
@@ -444,7 +384,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `research-papers/Documents/CDP_Kick_Research_20260507/CDP_Kick_Strategic_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 | `research-papers/Documents/Executive_MCP_Research_20260507/Executive_MCP_Research.md` | 2026-05-07 | corpus-material | class | n/a | - | - | - |
 
-## doc (51)
+## doc (47)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -459,16 +399,12 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `intent-control-plane/README.md` | - | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/docs/INDEX.md` | - | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/docs/RUNBOOK.md` | - | subproject | registry | n/a | - | - | - |
-| `state/retired-2026-08-12/home-dotfiles/AGENTS.md` | - | salvage | registry | n/a | - | - | - |
-| `state/retired-2026-08-12/home-dotfiles/RTK.md` | - | salvage | registry | n/a | - | - | - |
-| `state/retired-2026-08-12/startup-scripts/startup.md` | - | salvage | registry | n/a | - | - | - |
 | `tools/channel/README.md` | - | living | registry | n/a | - | - | - |
 | `tools/intent/README.md` | - | living | registry | n/a | - | - | - |
 | `tools/supply/README.md` | - | living | registry | n/a | - | - | - |
 | `intent-control-plane/CODE-HEALTH-2026-GAPS.md` | 2026-06-29 | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/TESTING-SOTA-2026-GAPS.md` | 2026-06-29 | subproject | registry | n/a | - | - | - |
 | `intent-control-plane/TODO.md` | 2026-06-29 | subproject | registry | n/a | - | - | - |
-| `state/retired-2026-08-12/home-dotfiles/TESTING-SOTA-2026-GAPS.md` | 2026-07-07 | salvage | registry | n/a | - | - | - |
 | `intent-control-plane/docs/adr/0001-harness-is-a-python-package-with-thin-bash-adapters.md` | 2026-07-09 | accepted | header | n/a | - | - | - |
 | `intent-control-plane/docs/adr/0002-knowledge-and-capability-delivery.md` | 2026-07-10 | accepted | header | n/a | - | - | - |
 | `intent-control-plane/docs/adr/0003-measured-self-improving-loop.md` | 2026-07-11 | accepted | header | n/a | - | - | - |
@@ -499,35 +435,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/CLAUDE.md` | 2026-08-05 | living | registry | n/a | - | - | - |
 | `docs/taste.md` | 2026-08-12 | living | registry | n/a | yes | it by date and say what changed. | - |
 | `docs/PLAN-SPINE.md` | 2026-08-17 | active | header | n/a | yes | - | kanban-four-layer-model |
-
-## generated-output (2)
-
-| document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
-|---|---|---|---|---|---|---|---|
-| `tools/digest/out/digest.md` | - | generated | class | n/a | - | - | - |
-| `tools/health/out/branch_health.md` | - | generated | class | n/a | - | - | - |
-
-## handoff (17)
-
-| document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
-|---|---|---|---|---|---|---|---|
-| `docs/archive/HANDOFF-2026-07-27-research-transfer.md` | 2026-07-27 | historical-record | class | 1 | - | - | - |
-| `docs/archive/HANDOFF-2026-07-27-session-close.md` | 2026-07-27 | historical-record | class | 1 | - | - | - |
-| `docs/archive/HANDOFF-FROM-LEARNING-2026-07-27.md` | 2026-07-27 | historical-record | class | n/a | - | - | - |
-| `docs/archive/HANDOFF-TO-LEARNING-2026-07-27.md` | 2026-07-27 | historical-record | class | n/a | - | - | - |
-| `docs/archive/HANDOFF-2026-07-29-absorption-session.md` | 2026-07-29 | historical-record | class | 1 | - | - | - |
-| `docs/archive/HANDOFF-2026-07-29-session-close.md` | 2026-07-29 | historical-record | class | 1 | - | - | - |
-| `docs/archive/HANDOFF-FROM-LEARNING-2026-07-29.md` | 2026-07-29 | historical-record | class | 1 | - | - | - |
-| `docs/archive/HANDOFF-FROM-NEW-RECRUIT-2026-07-29.md` | 2026-07-29 | historical-record | class | 1 | - | - | - |
-| `docs/archive/HANDOFF-README-OWNERSHIP-2026-07-29.md` | 2026-07-29 | historical-record | class | n/a | - | - | - |
-| `docs/archive/HANDOFF-2026-07-30-latent-channel-and-gastown.md` | 2026-07-30 | historical-record | class | 2 | - | - | - |
-| `docs/archive/HANDOFF-2026-07-30-overnight-run.md` | 2026-07-30 | historical-record | class | n/a | - | - | the |
-| `docs/archive/HANDOFF-2026-07-30-session-close.md` | 2026-07-30 | historical-record | class | 2 | - | - | - |
-| `docs/archive/HANDOFF-TO-LEARNING-2026-07-30-process-cost-and-boundaries.md` | 2026-07-30 | historical-record | class | 2 | - | - | - |
-| `docs/archive/HANDOFF-2026-07-31-review-oracle-repair.md` | 2026-07-31 | historical-record | class | 2 | - | - | - |
-| `docs/archive/HANDOFF-2026-07-31-session-close.md` | 2026-07-31 | historical-record | class | 2 | - | - | - |
-| `docs/archive/HANDOFF-2026-08-05-session-close.md` | 2026-08-05 | historical-record | class | 2 | - | - | - |
-| `docs/archive/HANDOFF-FROM-NEW-RECRUIT-2026-08-10.md` | 2026-08-10 | historical-record | class | n/a | - | - | - |
 
 ## prd (6)
 
@@ -666,7 +573,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/output-channel-routing.md` | 2026-08-17 | definition-see-skills_sync | class | 2 | - | - | - |
 | `dot-claude/rules/dynamic-verification-trigger.md` | 2026-08-18 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## skill (230)
+## skill (228)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -870,8 +777,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-codex/skills/watchdog/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/web-inspect/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/workspace-brain/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `state/retired-2026-07-25/skills/meme-control/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `state/retired-2026-07-25/skills/visual-explainer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/red-team-review/EXAMPLE_SESSION.md` | 2024-02-14 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/red-team-review/EXAMPLE_SESSION.md` | 2024-02-14 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/azure-runtime/SKILL.md` | 2025-04-01 | definition-see-skills_sync | class | n/a | - | - | - |
@@ -901,7 +806,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wizard/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (26)
+## spec (20)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -914,15 +819,10 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-07-29-deterministic-preflight.md` | 2026-07-29 | proposed. operator-originated 2026-07-29, needs /diverge on | header | n/a | yes | - | - |
 | `docs/specs/2026-07-29-intent-traceability.md` | 2026-07-29 | accepted | registry | n/a | yes | - | - |
 | `docs/specs/2026-07-29-prompt-to-ticket-lifecycle.md` | 2026-07-29 | active | header | 1 | yes | the | - |
-| `docs/specs/archive/2026-07-29-architecture-build-plan.md` | 2026-07-29 | superseded by 2026-07-29-architecture-build-plan-v2.md the s | header | 1 | - | - | 2026-07-29-architecture-build-plan-v2.md |
-| `docs/specs/archive/2026-07-29-trace-model-sacred-timeline.md` | 2026-07-29 | proposed. trace model, 2026-07-29. not built | header | 1 | - | - | - |
 | `docs/specs/2026-07-30-data-architecture-and-orchestration.md` | 2026-07-30 | proposed. design document, 2026-07-30. nothing here is built | header | n/a | yes | nothing. Extends ADR-0010 | - |
 | `docs/specs/2026-07-31-agentic-directory-standard-sota.md` | 2026-07-31 | design. specification and architectural comparison, 2026-07- | header | n/a | yes | - | - |
 | `docs/specs/2026-07-31-kanban-four-layer-model.md` | 2026-07-31 | design. nothing here has been applied. every write command i | header | 2 | yes | - | - |
 | `docs/specs/2026-07-31-research-corpus-and-cache.md` | 2026-07-31 | proposed. corpus and cache design, 2026-07-31. not built | header | n/a | yes | text references sources | - |
-| `docs/specs/archive/2026-07-31-github-native-project-surface.md` | 2026-07-31 | superseded by docs/specs/2026-07-31-kanban-four-layer-model. | header | n/a | - | - | docs/specs/2026-07-31-kanban-four-layer- |
-| `docs/specs/archive/2026-07-31-project-federation.md` | 2026-07-31 | parked. the document argues against its own proposal and con | header | n/a | - | - | - |
-| `docs/specs/archive/2026-07-31-zion-board-as-product-instrument.md` | 2026-07-31 | superseded by docs/specs/2026-07-31-kanban-four-layer-model. | header | 2 | - | - | docs/specs/2026-07-31-kanban-four-layer- |
 | `docs/specs/2026-08-03-detail-passes-teleology-and-creativity.md` | 2026-08-03 | design, 2026-08-03. nothing here is built. extends | header | n/a | yes | - | - |
 | `docs/specs/2026-08-05-persona-allocation-and-reviewer-identity.md` | 2026-08-05 | active, 2026-08-05. `active` is the vocabulary's word for th | header | n/a | - | - | - |
 | `docs/specs/2026-08-10-open-scope-delegation-plan.md` | 2026-08-10 | active | header | n/a | - | - | - |
@@ -930,7 +830,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-13-code-quality-rethink.md` | 2026-08-13 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-direction.md` | 2026-08-17 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-program-design.md` | 2026-08-17 | active | header | n/a | - | nothing in | - |
-| `docs/specs/archive/README.md` | 2026-08-17 | active | header | n/a | - | - | - |
 
 ## standard (7)
 
