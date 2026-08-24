@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1056**
+- documents: **1057**
 - reachable from `docs/INDEX.md`: **69** (6%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -591,7 +591,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prior-art/tools-coffee.json` | 2026-08-12 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-reanimation.json` | 2026-08-13 | current | arithmetic | n/a | - | - | - |
 
-## reflection (6)
+## reflection (7)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -601,6 +601,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/reflections/2026-07-30-thesis-and-deck-review.md` | 2026-07-30 | dated-snapshot | class | n/a | yes | - | - |
 | `docs/reflections/2026-07-30-what-i-saw.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
 | `docs/reflections/2026-07-31-session-close-what-the-instruments-caught.md` | 2026-07-31 | dated-snapshot | class | 2 | yes | - | - |
+| `docs/reflections/2026-08-24-worktree-ecosystem-db-spec-session.md` | 2026-08-24 | dated-snapshot | class | n/a | - | - | - |
 
 ## root (6)
 

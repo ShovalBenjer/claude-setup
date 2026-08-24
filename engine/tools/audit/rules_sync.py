@@ -49,6 +49,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
+from finding import Finding  # noqa: E402
+
 REPO = Path(__file__).resolve().parents[3]
 PAYLOAD = REPO / "payload" / "dot-claude" / "rules"
 LIVE = Path.home() / ".claude" / "rules"
@@ -171,6 +174,46 @@ def report(res: dict) -> int:
               .format(res.get("shrink_checked", 0), SHRINK_FLOOR))
     return 0
 
+
+
+def check() -> list[Finding]:
+    """The item-2 shared-signature entry point: check(diff_or_text) -> list[Finding].
+    This checker ignores its argument (it compares two whole trees, payload and
+    live, not a diff), which the shared signature allows since not every checker is
+    diff-scoped. Mirrors report()'s exact branching, not scan()'s raw output, because
+    report() is where the CI-safety logic lives: `live_present` gates the three drift
+    categories, and a check() that skipped straight to scan()'s dict would emit drift
+    findings on every CI runner with no ~/.claude, reproducing the exact regression
+    this file's own docstring names (SKIP drift, still run shrink, say which half ran).
+    """
+    res = scan()
+    live_present = Path(res["live_dir"]).is_dir()
+    findings: list[Finding] = []
+
+    if live_present:
+        for name in res["only_payload"]:
+            findings.append(Finding(
+                checker="rules_sync.only_payload", severity="high", file=name, line=0,
+                why="in the repo and NOT deployed; every session is missing it"))
+        for name in res["only_live"]:
+            findings.append(Finding(
+                checker="rules_sync.only_live", severity="high", file=name, line=0,
+                why="live and NOT tracked; it vanishes on a fresh machine"))
+        for d in res["differing"]:
+            findings.append(Finding(
+                checker="rules_sync.differing", severity="high", file=d["rule"], line=0,
+                why="differs between repo and live ({} vs {} bytes)".format(
+                    d["payload_bytes"], d["live_bytes"]),
+                meta={"payload_bytes": d["payload_bytes"], "live_bytes": d["live_bytes"]}))
+
+    for s in res["shrunk"]:
+        findings.append(Finding(
+            checker="rules_sync.shrunk", severity="high", file=s["rule"], line=0,
+            why="{} bytes against {} at {} (ratio {}); a rule that lost most of itself "
+                "is the 2bb97a8 failure".format(s["now"], s["max"], s["max_at"], s["ratio"]),
+            meta={"now": s["now"], "max": s["max"], "ratio": s["ratio"], "max_at": s["max_at"]}))
+
+    return findings
 
 
 def _report_without_live_tree() -> tuple[int, str, dict]:
