@@ -42,6 +42,41 @@ running app.
 | **Research** | `research-papers/`, `work-docs/research/` | The corpus that shapes the rules. Docs must cite and align with it. |
 | **Work / control plane** | `docs/` (prd/spec/adr/analysis/INDEX/TODO), `state/` (ledgers), `intent-control-plane/`, `nexus-engine-rs/`, `dashboard/` | Where decisions are recorded and work is tracked. Docs are the control plane. |
 
+The research corpus that shapes the rules includes the following reference, analysis, specs, and standards documents:
+
+- `docs/analysis/2026-08-10-three-skill-trees-measured.md`
+- `docs/analysis/2026-08-11-milestone-task-plan.md`
+- `docs/analysis/2026-08-12-claude-code-repo-gap.md`
+- `docs/analysis/2026-08-12-minimalism-audit.md`
+- `docs/analysis/2026-08-13-buzz-adoption-handoff.md`
+- `docs/analysis/2026-08-17-repo-compare-block-buzz.md`
+- `docs/analysis/2026-08-17-repo-compare-everything-claude-code.md`
+- `docs/analysis/2026-08-23-books-corpus-wiring.md`
+- `docs/analysis/2026-08-23-dashboard-stack-and-supply-chain.md`
+- `docs/analysis/2026-08-23-issue-and-milestone-reasoning.md`
+- `docs/analysis/2026-08-23-prompt-triage.md`
+- `docs/analysis/archive/2026-08-05-enforcement-topology-measured.md`
+- `docs/analysis/archive/2026-08-06-azure-jira-after-the-job.md`
+- `docs/analysis/archive/2026-08-06-external-repo-source-read-and-surface-comparison.md`
+- `docs/analysis/archive/2026-08-06-memory-rag-substrate-findings.md`
+- `docs/analysis/archive/2026-08-06-persona-metrics-external-sweep.md`
+- `docs/analysis/reference/ddl-deep-research-2026-07-27.md`
+- `docs/analysis/reference/ddl-design-research-nextgen-2026-07.md`
+- `docs/analysis/reference/ddl-engine-research-prompt-2026-07-24-v3.md`
+- `docs/analysis/reference/ddl-standard-and-grade-2026-07-29.md`
+- `docs/analysis/reference/ddl-ui-deep-research-arkheron.md`
+- `docs/analysis/reference/nr-claudecode-tui-research-2026-06-14.md`
+- `docs/analysis/reference/nr-commit-bug-tracing-research-2026-07-05.md`
+- `docs/analysis/reference/nr-coverage-aware-eval-research-2026-06-28.md`
+- `docs/analysis/reference/nr-technology-corpus-master-prompt-2026-07-24.md`
+- `docs/analysis/reference/nr-technology-corpus-research-report-2026-07-25.md`
+- `docs/specs/2026-08-13-code-quality-rethink.md`
+- `docs/standards/ddl-engineering-standards-2026-07-26.md`
+- `docs/standards/nr-adr-0001-unified-platform-standard.md`
+- `docs/standards/nr-harness-structure-standard-2026-07-09.md`
+- `docs/standards/nr-prd-2026-07-10-platform-standard.md`
+- `docs/standards/nr-repo-standards-2026-07-09.md`
+
 The `docs` control plane mandates: prd/ spec/ adr/ analysis/ as doc types, ONE `TODO.md`, ONE
 `docs/INDEX.md`, and `docs/DOCMAP.md` generated (never hand-edited). See `docs/doc-status.txt`
 for the residue registry.
