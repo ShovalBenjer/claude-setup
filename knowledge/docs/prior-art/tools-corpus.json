@@ -1,0 +1,57 @@
+{
+  "component": "engine/tools/corpus",
+  "reviewed": "2026-08-06",
+  "recheck_after": "2026-11-04",
+  "verdict": "build, narrowly, and the narrowness is the point",
+  "verdict_class": "keep-ours",
+  "absorption_status": "unreviewed",
+  "why": "Five maintained tools already read ~/.claude/projects/*/*.jsonl and four of them are squarely better at what they do, which is RENDERING a session for a person to read: claude-code-log ships a TUI and token accounting, simonw/claude-code-transcripts produces paginated mobile-friendly HTML, claude-JSONL-browser is a drag-and-drop web viewer, claude-devtools adds per-tool renderers and cross-session search. None of that is this job and this repo should never write it. The one genuine contest is claude-conversation-extractor (MIT, PyPI, stdlib-only, exports Markdown/JSON/HTML), and the honest position is that it covers the reading half of the overlap completely. What it does not document, and what the corpus job is entirely made of, is four filter properties that exist because of what this specific corpus contains: attachments are 13.6M of the 16.1M characters here and carry file contents and cloud scans, so exclusion is a PII posture and not a formatting preference; a single injected skill-cache blob measured 804,732 characters, so unfiltered harness text would dominate any embedding; slash-command turns arrive as <command-message> markup that the obvious anchored regex misses, so operator words enter as tags; and the boot block repeats verbatim, so turns need collapsing by digest with an audit count rather than silently. The output shape differs too: one JSON record per TURN for embedding, not one document per CONVERSATION for reading. That is a real but narrow gap, and if the filter requirements ever go away this component should be deleted in favour of the extractor plus a small post-processor.",
+  "alternatives": [
+    {
+      "name": "claude-conversation-extractor (PyPI, MIT, stdlib-only)",
+      "covers": "Walks ~/.claude/projects, exports Markdown, JSON and HTML; --detailed mode includes tool invocations, MCP responses, system messages and metadata. 100% local, no network.",
+      "gap": "Emits one document per conversation, not one record per turn keyed for dedupe. Its docs do not address deduplication, system-reminder/hook filtering, attachment exclusion, or slash-command unwrapping, which is the entire content of this component. NOT INSTALLED OR RUN, see evidence."
+    },
+    {
+      "name": "daaain/claude-code-log",
+      "covers": "Python CLI, converts transcript JSONL to HTML/Markdown, TUI session browser, processes the whole projects directory with linked index pages, token usage tracking, message filtering.",
+      "gap": "Human-readable rendering. Produces pages to read, not records to embed."
+    },
+    {
+      "name": "simonw/claude-code-transcripts",
+      "covers": "Converts local Claude Code sessions to a browsable, paginated, mobile-friendly HTML archive.",
+      "gap": "Built for publishing transcripts, not for building a filtered corpus."
+    },
+    {
+      "name": "withLinda/claude-JSONL-browser",
+      "covers": "Web UI: upload or drag JSONL, search, export individual or combined Markdown.",
+      "gap": "Browser-based and manual. Not scriptable from the gate, no filter policy."
+    },
+    {
+      "name": "claude-devtools",
+      "covers": "Chronological conversation view, per-tool renderers, cross-session search, export to Markdown/JSON/text.",
+      "gap": "A viewer. Same rendering-not-records mismatch."
+    },
+    {
+      "name": "jq over the jsonl",
+      "covers": "Streaming select and project on 12 record types; would handle the type filter and text extraction in a few lines.",
+      "gap": "sha256 dedupe with a repeats count, the command-wrapper rewrite, and a selftest that CI can name as a step are awkward-to-hostile in jq, and the repo's oracle convention requires the selftest."
+    },
+    {
+      "name": "Polars or DuckDB read_ndjson",
+      "covers": "Would read the files and do the per-slug and per-role aggregation declaratively.",
+      "gap": "The parse and filter is the work; the aggregation is 1,092 rows, far under the ~100k threshold the numerical-stack rule sets for reaching for a DataFrame. Adds a dependency to a repo whose root tools are deliberately stdlib because the root has no manifest and system Python is PEP 668 externally-managed."
+    },
+    {
+      "name": "tools/recall/session_recall.py (in-repo)",
+      "covers": "Already reads transcripts and already carries a noise regex; this component reuses that regex's shape.",
+      "gap": "One session, markdown, assistant turns truncated to their first N lines. Truncation is correct for reading and destroys a corpus. Kept, fixed, and left in its own role rather than widened."
+    }
+  ],
+  "evidence": "Measured on this host 2026-08-06, not recalled. Corpus shape: `find ~/.claude/projects -name '*.jsonl' | wc -l` -> 78 files, 38,090 lines, 83MB; a Python pass over all of them gave 13,240 user+assistant messages, 2.47M conversational chars against 13.6M attachment chars. The four filter properties were each found by running the tool against the real corpus and inspecting output, not predicted: the 804,732-char skill-cache blob and 7 smaller skill bodies were found by grepping kept rows for 'Base directory for this skill'; the command-wrapper defect was found by noticing 0 of 166 kept user turns began with '/' and then diffing the original anchored NOISE regex against a real wrapper string, which showed the turn was POLLUTED (markup embedded) rather than dropped, correcting an earlier wrong reading. Alternatives were identified by web search and by reading claude-conversation-extractor's PyPI page for formats, processing and licence. HONEST GAP: none of the five external tools was installed or executed. The build verdict therefore rests on their documented behaviour and on the output-shape mismatch, not on a measured diff against their output. That is the weakest link in this record and the recheck below closes it.",
+  "recheck": "uv run --with claude-conversation-extractor claude-extract --format json over one project slug, then diff its output against `python tools/corpus/extract.py dump` on the same slug. Specifically check whether its JSON is per-turn or per-conversation, and whether any of the four filters (attachment exclusion, skill-body/hook noise, sha dedupe with count, command unwrapping) can be expressed as flags or a short post-processor. If a post-processor under ~80 lines reproduces `stats`, delete this component and keep the post-processor. Also re-run `python tools/corpus/extract.py stats` and confirm the attachment share is still the large majority; if the transcript format stops inlining attachments, the PII argument weakens and the verdict should be revisited.",
+  "our_loc": 313,
+  "migration_loc": "Delete ~200 lines (walk, event admission, record building, CLI, fixture) and keep ~110 as a post-processor over the extractor's JSON: the NOISE and COMMAND regexes, clean(), key_of(), and the dedupe. Add a dependency and a uv invocation to a repo whose root currently has none.",
+  "what_ours_does": "extract.py (313 lines) walks every project slug under ~/.claude/projects, admits only user and assistant events, drops tool_result blocks and attachment payloads (the latter reversible via --include-attachments, which warns), rewrites slash-command wrappers to '/name args', drops anchored harness chatter including injected skill bodies, strips mid-message system-reminder and task-notification blocks in place so surrounding operator words survive, collapses turns identical by sha256 into one record with a repeats count, and emits one JSON object per turn. Subcommands: stats, dump, selftest (18 offline checks, no network, no real corpus).",
+  "strongest_counterargument": "claude-conversation-extractor is MIT, stdlib-only, local-only, already emits JSON, and is maintained by someone other than this repo's single operator. Its --detailed mode already distinguishes tool invocations and system messages, which is most of the classification work. It is entirely plausible that its JSON plus a 60-to-80-line filter reproduces everything here, in which case 313 lines of maintained-by-us code exists because nobody spent twenty minutes running a pip-installable tool. I did not run it, so I cannot refute that, and the record says so rather than hiding it behind the output-shape argument."
+}

@@ -1,0 +1,45 @@
+{
+  "component": "engine/tools/coffee",
+  "reviewed": "2026-08-12",
+  "recheck_after": "2026-11-12",
+  "verdict": "keep-ours",
+  "verdict_class": "keep-ours",
+  "absorption_status": "unreviewed",
+  "why": "Two small stdlib-only CLIs (futures.py 190 lines, smoking.py 168 lines) implementing the coffee-break v2 design picked by the operator via /diverge (docs/taste.md row 2026-08-12): a reputation betting board over assumptions with named falsifiers, and a frustration-triggered gripe ledger mined into bar-talk TODO candidates. The honest internal prior art is this repo's own tools/bus/bus.py, which already does append-only JSONL messaging with a hash chain and per-lane cursors; coffee rows could have been bus rows. They are not, deliberately: the bus chains rows for tamper evidence and fixes CHAIN_FIELDS, and betting/settlement rows need domain validation (reject bet-after-settle, settle-without-evidence) that the bus does not and should not know about. The external alternatives are real but each misses the one property that matters here: settlement evidence bound to this repo's own ledgers (gate-runs, refute) and reputation derived, never stored, so the standings cannot drift from the rows. At 358 combined lines the simplest correct option was still writing them; every alternative below costs an account, a service, or a schema bent out of shape.",
+  "alternatives": [
+    {
+      "name": "tools/bus/bus.py (internal, this repo)",
+      "covers": "Append-only JSONL rows, hash-chained, with per-lane read cursors and a selftest; gripe and takeaway rows could be bus kinds, and the mine cursor is exactly a bus read cursor.",
+      "gap": "No domain validation: nothing stops a bet on a settled post or a settlement without evidence, and adding bet/settle semantics to the bus couples a transport to a market. The self-describing chain_fields work (taste.md 2026-07-29) shows how carefully the bus's row schema is guarded; leaning new domain kinds on it was rejected to keep that surface small.",
+      "cost": "Zero install, already tested. The rejected path, not because it cannot, but because it should not.",
+      "maturity": "In-repo, selftested, mutation-covered."
+    },
+    {
+      "name": "Manifold Markets API (manifold.markets, play-money prediction markets, free API)",
+      "covers": "The entire futures.py job at product grade: markets on claims, bets, probability aggregation, resolution, leaderboards.",
+      "gap": "Settlement is a human clicking resolve on a hosted service, not a row citing state/gate-runs.jsonl; claims about this repo's internals would leave the machine (the operator's estate cannot be public, per memory claude-setup-cannot-be-made-public); and persona reputation should be derivable offline by the gate. Verified from docs summaries only, not exercised.",
+      "cost": "Free tier, but an external account and network egress for internal telemetry.",
+      "maturity": "Live product, public API. Not exercised this session."
+    },
+    {
+      "name": "GitHub Discussions + reactions (already authorized surface per the-loop-may-act 2026-08-12 widening)",
+      "covers": "The social half: gripes as discussion posts, bets as comments, visible to the operator with zero code.",
+      "gap": "No mechanical settlement, no derived reputation, no append-only local ledger the gate can read; and it publishes internal frustration telemetry to a remote even on a private repo. The mine step (gripe to TODO candidate) would become API scraping.",
+      "cost": "Zero code but per-call gh API quota and network dependency for what is a local loop.",
+      "maturity": "GitHub-native. Not built."
+    },
+    {
+      "name": "state/lessons.jsonl + tools/selfimprove/scan.py (internal, this repo)",
+      "covers": "The mine output's destination shape: ranked candidates for what to pick up next already exist there.",
+      "gap": "Lessons are verified failure classes; gripes are unverified bar-talk by design (calibrated-claims: a complaint is a lead, not a finding). Writing gripes straight into lessons would poison a curated ledger, which is why mine emits candidates to stdout instead of appending anywhere authoritative.",
+      "cost": "Zero, and it is the intended eventual consumer once a human or gate promotes a candidate.",
+      "maturity": "In-repo, live."
+    }
+  ],
+  "evidence": "Wrote and read both files in full this session (they are new). Selftests: `python tools/coffee/futures.py selftest` and `python tools/coffee/smoking.py selftest` both print 0 checks failed; `python -m pytest tests/test_coffee.py -q` 4 passed in 0.40s. LOC by the gate's own count: 358. Design provenance: docs/taste.md row 2026-08-12 (operator picked smoking area + idea futures + flaneur over the scheduled-pair default via /diverge with AskUserQuestion). Research grounding for the design, gathered same session via WebSearch: interpersonal chatter measurably reduces task quality (arXiv 2503.18238), so both tools force structured records; Moltbook's influential culture was curated not emergent (arXiv 2602.07432); conformity risk in agent discussion networks (arXiv 2601.05606) motivates the planned anti-conformity guard. NOT VERIFIED: Manifold's current API surface (docs summaries only); no external alternative was installed or exercised.",
+  "recheck": "(1) `python tools/coffee/futures.py selftest && python tools/coffee/smoking.py selftest` still green. (2) Has anything used them? `wc -l state/futures.jsonl state/coffee.jsonl` \u2014 if both are absent by the recheck date, the feature was built and never wired to a trigger (the exact automation-kept-alive-by-a-record failure class L-2026-08-11-a) and this record should flip toward delete. (3) Did the bus grow domain kinds anyway? `grep -n 'gripe\\|bet' tools/bus/bus.py` \u2014 if yes, merge and delete the duplicate.",
+  "our_loc": 358,
+  "what_ours_does": "futures.py: post (assumption + falsifier + settle-by, prints an 8-hex id), bet (for/against with integer stake, rejected on missing or settled posts), settle (requires evidence, rejected twice), board (open positions plus reputation standings derived per session: start 100, winning bet +stake, losing bet -stake), selftest (8 checks in a tempdir). smoking.py: scan (groups FAIL rows from state/gate-runs.jsonl inside a window into trigger candidates, declares the smoking area open at 2+ frustrated projects), gripe/takeaway (append typed rows to state/coffee.jsonl), mine (emits unmined gripes as [bar-talk] TODO candidate lines and appends a mine marker row so the cursor is derivable and the ledger stays append-only), selftest (10 checks). Both exit 0/1/2, stdlib only, ledgers overridable for tests.",
+  "strongest_counterargument": "This is 358 lines defending a feature with zero usage rows: no cron triggers scan, no session posts to the board, and the flaneur third of the design is explicitly blocked on operator prerequisites. The repo's own lesson L-2026-08-11-a is an automation kept alive in memory by a record nothing re-measures, and this record could become exactly that. The recheck's usage probe is the counterweight: if the ledgers do not exist by 2026-11-12, the right verdict flips from keep to delete, regardless of how sound the design argument reads today. Additionally, the bus alternative concedes that the transport half is duplicated; if the bus ever grows a generic validated-kind mechanism, futures.py shrinks to a schema plus a settlement check and should be absorbed.",
+  "_scope": "The two .py files in tools/coffee plus tests/test_coffee.py. The planned flaneur persona and any SendMessage/cron wiring are future work with no code in this record's scope."
+}

@@ -1,0 +1,81 @@
+{
+  "component": "payload/dot-claude/skills/syndication-engine",
+  "reviewed": "2026-07-31",
+  "recheck_after": "2026-10-29",
+  "verdict": "keep-provisionally, and it is the weakest of the three records written today",
+  "verdict_class": "keep-ours",
+  "absorption_status": "unreviewed",
+  "why": "The name says publishing; it is not a publisher. 549 lines across four files, of which the posting code is one function and reaches exactly one surface. What it actually is: a POSSE PROJECTOR. One canonical article is hand-annotated in spans.py into 22 semantically typed spans (hook, claim, number, reversal, failure, method, artifact, punchline, cta), each platform declares a shape in platforms.py (character budget, thread or single, markdown, a hook ANGLE, and the span kinds to draw from in priority order), and project.py fills that shape by SELECTING spans rather than rewriting prose. The design claim is that the same opener on seven surfaces is the tell that a bot posted it, so X gets a cold-number hook with the subject withheld, Bluesky wry, Medium in-media-res, and Reddit no hook at all because any hook there reads as self-promotion and gets removed. --ab N returns variants drawn from DIFFERENT angles with the body held constant, so an A/B test isolates the hook instead of comparing paraphrases. No scheduler tested below models a per-platform hook strategy, and that is the whole justification.",
+  "what_ours_does": "render / check / plan / publish. check validates every variant against its platform budget and currently passes all seven. publish is dry-run by default; even with --go the only wired path is the dev.to Articles API, and it posts published:false with canonical_url set to the original so a human flips it live. Credentials are read from the environment by the poster alone and never printed; the skill does not read .env. Every other surface prints the draft and the manual step, and the SKILL.md states why per surface (Medium's writer API is retired, X's free tier is write-limited, Reddit is subreddit-rule-gated).",
+  "our_loc": 549,
+  "strongest_counterargument": "spans.py contains one article. Not a schema with one instance loaded from a file: ARTICLE is a module-level Python list of 22 hand-written Span objects for a single post, with CANONICAL_URL hardcoded above it, and the dev.to publisher has that article's TITLE and tags baked into the payload dict. The entire stated reason for the component is that seven hand-maintained variants drift when the article changes, and that argument only pays once a SECOND article exists, which it does not. As built, this is 549 lines and a hand annotation to produce seven posts for one post, where writing seven posts by hand takes an afternoon and needs no annotation pass. The size is also misleading in the other direction: check reports the dev.to projection at 1302 characters against a 25000 budget, so what it emits for the long-form surfaces is a summary, not an article, and those surfaces need the real article pasted anyway. Buffer will schedule to eleven channels today with an AI assistant that will happily produce platform-specific variants, and it costs nothing to try. The honest defence is narrow: Buffer's AI rewrites prose, which is the thing the operator's voice discipline exists to prevent, and every span here is drawn from or faithful to the live article with nothing invented for the copy. Selection cannot hallucinate; rewriting can. That is a real distinction and it is the only one carrying 549 lines.",
+  "alternatives": [
+    {
+      "name": "Buffer",
+      "url": "https://buffer.com/",
+      "why_not": "The default answer, free to start, eleven channels including Bluesky and Mastodon, with an AI Assistant that explicitly crafts platform-specific posts. Rejected on the mechanism rather than the capability: its assistant REWRITES, and a rewrite of the operator's prose is exactly what tools/slop_lint.py and voice-metrics exist to catch. It also cannot express 'Reddit gets no hook' or 'lead X with a cold number and withhold the subject', because per-platform strategy in Buffer is a human editing a variant, which is the seven-drafts-that-drift problem with a scheduling UI. Its scheduling and analytics are strictly better than ours, which is nothing, and it does not carry dev.to, Medium or a GitHub README at all."
+    },
+    {
+      "name": "Postiz",
+      "url": "https://github.com/gitroomhq/postiz-app",
+      "why_not": "AGPL-3.0, self-hostable, and it publishes to fourteen surfaces including Reddit, Bluesky, Mastodon, LinkedIn and X, which is broader coverage than this component will ever wire. Rejected on infrastructure and on scope: self-hosting is PostgreSQL via Prisma, Redis, Temporal for task processing and a Node runtime across a NextJS/NestJS monorepo, which is four server processes with no owner on a one-operator Windows machine, to place roughly six posts. It also solves scheduling and account management, and this repository has never had a scheduling problem; it has a per-platform-shape problem."
+    },
+    {
+      "name": "Mixpost (Lite)",
+      "url": "https://github.com/inovector/mixpost",
+      "why_not": "MIT, the lightest credible self-hosted option, Laravel plus Vue with no subscription or usage caps, and it keeps content on the operator's own server which suits the data boundary better than any SaaS here. Rejected because it introduces a PHP toolchain to an estate that is Python and stdlib-first, and because the free Lite version is deliberately feature-separated from Mixpost Pro, so the capability set is the vendor's funnel rather than a stable contract. Same category error as Postiz regardless: it schedules identical or hand-varied content, and does not project one source onto per-platform shapes."
+    },
+    {
+      "name": "Bridgy Publish",
+      "url": "https://brid.gy/about",
+      "why_not": "The canonical IndieWeb POSSE implementation and the closest thing to a philosophical match, reading microformats2 off your own page and syndicating from it, which is precisely the source-of-truth-is-the-article model. Rejected on reach and on granularity, both from its own about page: Twitter, Facebook, Google+, Meetup, Blogger and Medium are all gone, leaving Bluesky, Flickr, GitHub and Mastodon, which misses X, LinkedIn, Reddit and dev.to. It also treats an original post as a single thing and cannot express a thread, and for Mastodon articles it posts only title and link. Its microformats2 approach also means the annotation would live in the published HTML, which is a genuinely better idea than a Python list and is noted in improvement_owed."
+    },
+    {
+      "name": "The dev.to / Forem Articles API used directly, and nothing else",
+      "url": "https://developers.forem.com/api/v1",
+      "why_not": "The simplest correct option, and the one this component reduces to if the projector is not earning its keep. The API takes published:false and canonical_url with a single api-key header, which is the only automated posting path this component has and about fifteen lines of urllib. Everything else it does is print a draft for a human to paste. Rejected only because the drafts are the point and the API is incidental: if the span model is ever abandoned, this is what should remain, not a smaller scheduler."
+    },
+    {
+      "name": "Hand-write the posts, keep a checklist for the publish order",
+      "url": "https://indieweb.org/POSSE",
+      "why_not": "Listed because with one article annotated it is currently the honest competitor, and the record would be self-serving without it. POSSE as a practice needs no engine: publish canonically, then post copies that link back, in an order that lets the first landed link feed the rest. The plan subcommand's real content is that ordering and its gates (dev.to first because it produces the citable link, Reddit last and only if dev.to landed), which is a checklist and could be a markdown file. Rejected on a single measured property: check catches budget violations across seven surfaces in one command and all seven currently pass, and a human pasting into seven boxes discovers a 280-character overflow in the box."
+    },
+    {
+      "name": "Magnet AXIOM-class commercial suites' equivalent here, i.e. Hootsuite and Publer",
+      "url": "https://buffer.com/",
+      "why_not": "Grouped deliberately rather than padded into separate rows: the enterprise schedulers differ from Buffer on team workflow, approval chains and paid analytics, none of which is a constraint for one operator posting a handful of times. They lose on the same axis Buffer loses on, and cost more. This row exists so the record does not pretend the category was examined only at its cheapest end."
+    }
+  ],
+  "improvement_owed": "It projects one hardcoded article and cannot take a second without editing Python. spans.py should read an annotated document rather than BE one, and the annotation belongs in or beside the article (Bridgy's microformats2 model is the proof that this works) so the canonical source and its labels cannot drift apart. Until that lands, the drift argument the whole design rests on is untested, because nothing has drifted yet. Two smaller debts: the dev.to publisher hardcodes the article's title and tags inside the payload dict, so publishing a second article would post the first one's headline; and like the other components audited today it has no selftest and no mutation entry, despite check being a real oracle that would be cheap to pin.",
+  "evidence": {
+    "measured": "2026-07-31",
+    "loc": {
+      "platforms.py": 105,
+      "project.py": 173,
+      "spans.py": 125,
+      "syndicate.py": 146,
+      "total": 549
+    },
+    "articles_modelled": 1,
+    "spans_in_the_corpus": 22,
+    "platforms_declared": 7,
+    "platforms_with_an_automated_path": 1,
+    "check_result": "exit 0, all variants within budget",
+    "projection_sizes": {
+      "x": "5 units, longest 270/280",
+      "bluesky": "3 units, longest 300/300",
+      "devto": "1 unit, 1302/25000",
+      "medium": "1142/25000",
+      "reddit": "1164/40000",
+      "github_readme": "595/4000",
+      "linkedin": "939/2800"
+    },
+    "anything_published": "unknown from the repository; no post-confirmation artifact exists and publish is dry-run unless --go",
+    "selftest": "none; no entry in tools/audit/mutate.py",
+    "commands": [
+      "python dot-claude/skills/syndication-engine/syndicate.py check",
+      "python dot-claude/skills/syndication-engine/syndicate.py render devto --ab 3"
+    ]
+  },
+  "recheck": "The decisive measurement is the article count. If spans.py still models exactly one article at recheck, the drift argument has never been exercised and the component should be cut to the dev.to poster plus a publish-order checklist, which is under 100 lines and leaves this audit. If a second article has been annotated and the projector took it without a code change, the design is vindicated and this verdict should harden to keep-ours. Also re-check the platform APIs, since the manual-by-necessity claims are the load-bearing reason not to adopt a scheduler: if X's write tier, Medium's writer API or Reddit's posting path becomes usable, Postiz's fourteen-surface coverage starts to beat one wired endpoint and the right answer becomes projector here, posting there."
+}

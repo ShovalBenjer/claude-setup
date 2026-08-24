@@ -1,0 +1,103 @@
+{
+  "component": "engine/tools/intent",
+  "reviewed": "2026-07-31",
+  "recheck_after": "2026-10-29",
+  "verdict": "keep-the-ledger-design, replace-the-capture-claim",
+  "verdict_class": "split",
+  "absorption_status": "unreviewed",
+  "why": "1016 lines across four files answering a question the LLM observability market does not ask. Every product below traces a MODEL CALL: which model, how many tokens, what latency, what the prompt and completion were. This traces an OPERATOR INTENT and its lifecycle: a PT- id derived from {session_id, text_sha, occurrence_index} with no clock and no randomness so replay reproduces it, a nine-state allow-list lifecycle (CAPTURED, TRIAGED, OPEN, IN_PROGRESS, BLOCKED_OPERATOR, CLOSED_VERIFIED, CLOSED_WONTDO, NOT_WORK, SUPERSEDED), and a hash-chained mirror in git that carries the chain-field declaration inside the hash so a row cannot lie about what it committed to. resources.py applies the same shape to what was handed TO a session and keeps `seen` and `note` as separate row kinds specifically so the ledger can report its own coverage instead of mistaking exposure for reading. None of that is an observability feature; a span has no lifecycle and no allow-listed transitions, and a trace backend records that a prompt was processed, never that anyone decided it was not work. That is why the component exists. It is also, measurably, not doing the job yet.",
+  "what_ours_does": "capture_turn.py runs as the UserPromptSubmit hook (wired in both dot-claude/settings.json and the live ~/.claude/settings.json), tickets.py holds the pure identity and lifecycle logic with no intent_control_plane import so the root suite can test it under the system interpreter, resources.py content-addresses a URL or repository so six spellings of one repo are one row set, scan_resources.py backfills. The chained mirror is state/prompt-tickets.jsonl; prompt text stays in ~/.intent and never enters a tracked file.",
+  "our_loc": 1016,
+  "strongest_counterargument": "The ledger cannot answer the question it was built for, and the measurements say so twice. state/prompt-tickets.jsonl holds 204 rows, all in state CAPTURED, all from ONE session: a nine-state lifecycle with 204 rows at the genesis state is a one-state machine with 282 lines of unused transition logic, and the allow-list has never rejected anything because nothing has ever transitioned. Worse, the rows carry text_sha and no text, so the ledger proves 204 prompts happened and cannot say what a single one asked. 'What did the operator ask me to do' is answerable only from ~/.intent, which is untracked, unbacked-up, and on one machine. Meanwhile Claude Code already writes a full JSONL transcript per session and hands the hook a transcript_path pointing at it, so the prompt text this ledger deliberately omits is already on disk in a file nobody wrote. And the resource half is worse than the ticket half: coverage reports 2716 resources, 2713 seen, 5 noted. The module's own docstring says it exists to move a 12.7% noted ratio; the measured ratio is 0.18%. A ledger honest enough to report that it is not working is still a ledger that is not working. The defence is narrow and it is about the DESIGN being right where the DEPLOYMENT is not: content-derived ids, an allow-list lifecycle and a self-reporting coverage ratio are the correct primitives, and no alternative below supplies any of them. But this record should not be read as saying the component currently earns 1016 lines.",
+  "alternatives": [
+    {
+      "name": "OpenTelemetry GenAI semantic conventions",
+      "url": "https://github.com/open-telemetry/semantic-conventions-genai",
+      "why_not": "The standard everything else in this list implements, and the right vocabulary for the model-call layer this component does not touch. Rejected as a substitute on three specifics read from its own spans document: the conventions are still marked Development, not stable; message content is carried as gen_ai.input.messages / gen_ai.output.messages span attributes with an explicit warning that the content is sensitive and should be filterable and truncatable, which is the opposite of a durable identity; and a span has a duration and a parent, not a state machine. There is no way to express CLOSED_WONTDO in it, and inventing an attribute for that is not adopting the standard. Worth adopting later for the model-call layer alongside this, not instead of it."
+    },
+    {
+      "name": "OpenLLMetry (Traceloop)",
+      "url": "https://github.com/traceloop/openllmetry",
+      "why_not": "Apache 2.0, the most credible open implementation of the above, instrumenting a dozen-plus providers, vector stores and frameworks and exporting to 27+ backends. Rejected because instrumentation is the half we do not have a problem with: it hooks the SDK call sites of an application you wrote, and this harness's model calls happen inside Claude Code, which is not an application we instrument. It would produce excellent traces of nothing we own, and still no ticket."
+    },
+    {
+      "name": "LangSmith",
+      "url": "https://docs.langchain.com/langsmith",
+      "why_not": "The most complete product here, with cloud, hybrid and self-hosted deployments all carrying observability, evaluation and prompt engineering. Rejected on the data boundary rather than on features: the default path sends trace data to their cloud, and the operator's prompts are the exact corpus that global CLAUDE.md forbids exporting to a third party. Self-hosting removes that objection and replaces it with a service to run, which repo-stack-reasoning forbids without an owner. It also has no lifecycle: a run is a run, and marking one NOT_WORK is not a concept it has."
+    },
+    {
+      "name": "Langfuse",
+      "url": "https://github.com/langfuse/langfuse",
+      "why_not": "MIT outside its ee/ folders, genuinely self-hostable via Docker Compose, Helm or Terraform, and it does traces, prompt management, datasets and evaluation. The closest thing to a drop-in and rejected on infrastructure: it stands on ClickHouse plus a container stack, which is a server process with no owner on a one-operator Windows machine, to hold roughly 3862 lines of JSONL. It also cannot be diffed, grepped, or replayed from git, which is what state/*.jsonl being append-only and hash-chained buys. Revisit if the estate ever grows a machine that is already running containers for something else."
+    },
+    {
+      "name": "Helicone",
+      "url": "https://github.com/Helicone/helicone",
+      "why_not": "Apache 2.0, and its gateway mode is the cheapest possible capture: change a baseURL and every call is logged with no instrumentation at all. Two disqualifiers, both structural. Routing through an AI gateway violates the standing constraint to keep first-party Claude.ai OAuth routing with no proxies. And self-hosting is five services (NextJS web, a worker, the Jawn express server, Supabase, ClickHouse, plus Minio for objects), which is a platform, not a tool."
+    },
+    {
+      "name": "Braintrust",
+      "url": "https://www.braintrust.dev/docs/start",
+      "why_not": "Positioned at agent observability specifically, which is nearer this use case than the prompt-response tools, and its annotate-then-evaluate loop is conceptually close to triage. Rejected as SaaS: the getting-started path is create an account at braintrust.dev, its documentation states no self-hosted deployment, and the same third-party boundary that rules out LangSmith rules it out with less to trade against."
+    },
+    {
+      "name": "W3C PROV-O",
+      "url": "https://www.w3.org/TR/prov-o/",
+      "why_not": "A W3C Recommendation since 2013-04-30 and the correct formal model for the thing this component is groping toward: Entity, Activity, Agent, joined by wasGeneratedBy, wasDerivedFrom, wasAttributedTo and wasAssociatedWith. A prompt is an Entity, a session is an Activity, the operator is an Agent, and the artifact a ticket closes wasDerivedFrom the prompt. Rejected as an implementation because it is an ontology, not a store: adopting it means an OWL vocabulary and a triple store to query it, and the query this harness actually runs is a grep over a JSONL file. Its vocabulary is worth borrowing for the field names even if nothing RDF is ever introduced."
+    },
+    {
+      "name": "Read Claude Code's own session transcripts, and write nothing",
+      "url": "https://code.claude.com/docs/en/hooks",
+      "why_not": "The simplest correct option and the one that most damages this component's case. Claude Code already writes each session as JSONL and passes every hook a transcript_path plus a session_id and a prompt_id, so prompt text, ordering and turn structure exist on disk for free, which is exactly the data our ledger declines to store. Rejected for two reasons and one of them is thin. The solid one: the transcript is Claude Code's file, rotated and shaped by an upstream we do not control, with no hash chain, so it is evidence of a conversation and not a tamper-evident record. The documentation also warns it is written asynchronously and may lag the in-memory conversation, so a hook cannot trust it for the current turn. The thin one: it has no lifecycle field, which is only an argument while a lifecycle is in use, and today it is not."
+    }
+  ],
+  "improvement_owed": "Two, and the first is not the missing prompt text. It is that the state machine is unused: 204 of 204 rows sit at CAPTURED, so the ledger currently records that prompts happened and nothing about what became of them, which is the same defect the resource ledger was written to expose in resources (0.18% noted). A lifecycle nothing traverses is not a design, it is an intention. Owed: one path that actually transitions a ticket, ideally the TODO.md linkage, before another line of lifecycle code is written. Second, the text_sha-only decision leaves the ledger unable to answer the question a human asks it, and the mitigation is not necessarily storing text in git: a tracked pointer to the Claude Code transcript and turn index would make a row resolvable to its prompt without putting operator words in a tracked file, and would survive ~/.intent being lost. Third and smaller: adopt PROV-O's vocabulary for the relation fields rather than inventing names.",
+  "evidence": {
+    "measured": "2026-07-31",
+    "loc": {
+      "capture_turn.py": 198,
+      "resources.py": 362,
+      "scan_resources.py": 174,
+      "tickets.py": 282,
+      "total": 1016
+    },
+    "prompt_tickets_rows": 204,
+    "prompt_tickets_states": {
+      "CAPTURED": 204
+    },
+    "prompt_tickets_distinct_sessions": 1,
+    "prompt_tickets_fields": [
+      "branch",
+      "chain_fields",
+      "hash",
+      "id",
+      "prev",
+      "repo",
+      "session",
+      "state",
+      "text_sha",
+      "ts"
+    ],
+    "prompt_text_stored": false,
+    "resource_ledger_rows": 3862,
+    "resource_coverage": {
+      "resources": 2716,
+      "seen": 2713,
+      "noted": 5,
+      "noted_ratio": "0.18%"
+    },
+    "hook_wired": "capture_turn.py appears in dot-claude/settings.json line 194 and in the live ~/.claude/settings.json line 232",
+    "intent_home": "~/.intent exists, intent.db is 700416 bytes, untracked and on one machine",
+    "commands": [
+      "python tools/intent/resources.py coverage",
+      "wc -l state/prompt-tickets.jsonl state/resource-ledger.jsonl"
+    ],
+    "ticket_rows": 208,
+    "sessions": 39,
+    "states": {
+      "CAPTURED": 208
+    },
+    "recount_2026_07_31": "Independently recounted by the main session immediately after this record was written. The record said 204 rows in ONE session; the ledger holds 208 rows across THIRTY-NINE sessions, all CAPTURED. The correction strengthens the finding rather than weakening it: a lifecycle unused across one session is a small sample, while a lifecycle unused across 39 sessions and 208 rows is a dead state machine. The record understated its own evidence. This is L-2026-07-31-c, a reviewer's own numbers going unchecked until an independent recount."
+  },
+  "recheck": "Re-run: python tools/intent/resources.py coverage, and recount the state histogram of state/prompt-tickets.jsonl. Two numbers decide this. If the ticket ledger is still 100% CAPTURED across more than one session, the lifecycle is dead code and the component should be cut to identity plus chain, which is well under 300 lines and would leave this audit entirely. If the noted ratio is still under 1%, resources.py is measuring a failure it does not cause and does not fix, and the honest move is to delete it rather than keep a ledger whose own metric says nobody uses it. Separately re-check whether the OpenTelemetry GenAI conventions have left Development status and whether they have grown any notion of a work item with states; that combination would make a standards-based rewrite the better answer."
+}
