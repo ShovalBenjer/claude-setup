@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-457 directories, 2030 tracked files, 0 without a stated purpose.
+439 directories, 1908 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -52,15 +52,11 @@ the same reason, one level down.
 | `docs` | 16 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
 | `docs/analysis` | 39 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
-| `docs/analysis/archive` | 37 | Analysis snapshots dated on or before 2026-08-08 that no live surface (rule, spec, PRD, tool, ADR) referenced when archived 2026-08-23; still dated-snapshot, still reachable by... | registry |
-| `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
-| `docs/archive` | 25 | Point-in-time files that used to sit at the docs/ root: session handoffs, pasted model transcripts (gemini-code-*), one-off notes. Moved 2026-08-23; historical-record by constru... | registry |
 | `docs/prd` | 6 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
 | `docs/prior-art` | 46 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
 | `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
 | `docs/specs` | 20 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
-| `docs/specs/archive` | 6 | Status: active | README.md |
 | `docs/standards` | 7 | Cross-repository contracts every repo the operator owns must satisfy; agentic-repo-standard.md is the reasoning behind the .alint.yml at each repo root (ADR-0020) | registry |
 
 ## dot-agents
@@ -423,18 +419,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `state` | 32 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
-| `state/backups` | 1 | Pre-change dumps of external surfaces that have no version control of their own, so a destructive fix has a rollback source; currently the GitHub Projects v2 Zion board (project... | registry |
-| `state/retired-2026-07-25` | 0 | Holds only subdirectories (bin, config, hooks, skills): archived scripts, hook wiring, config, and skill docs for the retired meme-control and visual-explainer features, pulled... | registry |
-| `state/retired-2026-07-25/bin` | 6 | Retired 2026-07-25 meme/visual scripts (download/play memes, generate/pop visual, seed-meme-vectordb), pulled from the live bin/ tree | registry |
-| `state/retired-2026-07-25/config` | 1 | Retired 2026-07-25 memes.json, the config for the removed meme-control feature | registry |
-| `state/retired-2026-07-25/hooks` | 4 | Retired 2026-07-25 hook scripts (meme-post-bash/skill, meme-stop, visual-explainer-trigger), unwired from settings.json | registry |
-| `state/retired-2026-07-25/skills` | 0 | Holds the retired meme-control/ and visual-explainer/ skill folders, each self-documented by its own SKILL.md, removed from the live Claude Code skill set | registry |
-| `state/retired-2026-07-25/skills/meme-control` | 1 | Toggle Codex meme playback on/off and report current meme state (session + durable config). | SKILL.md |
-| `state/retired-2026-07-25/skills/visual-explainer` | 1 | Generate a diagram or visual via Azure Foundry gpt-image-2-general and embed inline. Triggers on "i don't understand" / "show me" / "draw it" signals (en/he/ar) detected by the... | SKILL.md |
-| `state/retired-2026-08-12` | 0 | Holds home-dotfiles/ and startup-scripts/, archived whole 2026-08-12 per the approved A3 item of docs/analysis/2026-08-09-session-scope-ledger.md (mechanism per docs/analysis/20... | registry |
-| `state/retired-2026-08-12/home-dotfiles` | 9 | These instructions apply at `/home/shovalbe` and subprojects unless a deeper `AGENTS.md` overrides them. | AGENTS.md |
-| `state/retired-2026-08-12/startup-scripts` | 7 | Retired 2026-08-12 per-project bootstrap scripts and prompts (MCP env, kilocode, security setup) for campaign-analysis, qc-telephony, siu, vision projects; archived rather than... | registry |
+| `state` | 31 | Live operational-state logs: event bus, claims/refutations/lessons jsonl, gate-runs, deploy-manifest, dangling-pointers, compact-log | registry |
 | `state/reviews` | 19 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
 | `state/snapshots` | 1 | Tracked manifests (path+size+sha256) of point-in-time ~/.claude captures; actual file bytes stay untracked per its .gitignore | registry |
 | `state/snapshots/20260725T110903Z-pre-bus-wiring` | 1 | One snapshot: manifest of ~/.claude taken 2026-07-25T11:09 UTC, labeled pre-bus-wiring, for drift diffing before that change | registry |
@@ -463,17 +448,14 @@ the same reason, one level down.
 | `tools/corpus` | 3 | Extracts the conversational corpus (user and assistant message text only) from every session transcript slug under ~/.claude/projects into JSONL for embedding or counting; exclu... | registry |
 | `tools/dashboard` | 2 | Session Lens: stdlib SSE dashboard reading ~/.claude transcripts and state ledgers, owns nothing (2026-08-13 repo-compare ADOPT) | registry |
 | `tools/digest` | 1 | Builds the daily digest (push line plus digest.md) from TODO, git, and branch-health state for a cron job to send via PushNotification; out/ holds the generated digest.md and pu... | registry |
-| `tools/digest/out` | 2 | Generated daily-digest output (digest.md TODO/lessons rollup, push.txt); written by the digest tool, not source | registry |
 | `tools/docmap` | 3 | Generated document map: classifies all 929 tracked markdown files, derives each one's lifecycle status from its class or its own header, and records which lane-letter scheme (pr... | registry |
 | `tools/drift` | 1 | Session drift sentinel: measures whether a session's Edit/Write targets left its claimed lane's owned tree (lanes parsed from docs/charters.md Owns: lines), records strikes per... | registry |
 | `tools/e2e` | 1 | Real-browser end-to-end flow auditor (flow.py) that drives tools/browser/cdp.py at phone size, presses every control on every route, and feeds the ship gate's e2e and a11y_ux do... | registry |
 | `tools/gate` | 3 | Ship-gate contract enforcer (gate.py: coverage checklist plus a run ledger) and enforce_selftest.py, proving the live deployed Stop hook actually blocks an ungated done-claim | registry |
 | `tools/ghpub` | 1 | Publishes state/github-backlog-*.json to GitHub milestones, labels, issues and a project board. Idempotent by issue title so a re-run is safe and a partial failure resumes rathe... | registry |
 | `tools/graph` | 2 | Repo graphing: blast_radius.py finds a changed file's transitive import blast radius for PR-review fanout, repo_graph.py builds a cross-repo portfolio graph via gh; out/ holds g... | registry |
-| `tools/graph/out` | 2 | Generated repo-portfolio graph output: portfolio.d2 diagram source plus a portfolio.db sqlite file, built by the graph tool | registry |
 | `tools/harness` | 1 | Resolves where this harness lives so a consuming repository can call its tools without naming a machine: $CLAUDE_HARNESS, then self-detection when the caller is inside the harne... | registry |
 | `tools/health` | 1 | Read-only git branch health sweep (branch_sweep.py) across GitHub source repos via gh, classifying branches merged/stale/active; out/ holds the generated branch_health.json and .md | registry |
-| `tools/health/out` | 2 | Generated branch-health report (JSON+markdown) listing merged-deletable and default-branch-drifted branches across 22 repos | registry |
 | `tools/hookgate` | 6 | The `PreToolUse` deny rules, compiled. Replaces two Python hook processes on the hot path | README.md |
 | `tools/hookgate/bench` | 6 | The measurement scripts behind `tools/hookgate/README.md` and behind | README.md |
 | `tools/hookgate/src` | 2 | Rust source for the compiled PreToolUse gate. rules.rs is GENERATED by regen_rules.py from safety_gate.py::RULES and must never be hand-edited; main.rs carries the literal presc... | registry |
@@ -507,14 +489,14 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `work-docs` | 93 | This folder is the global knowledge surface for setup, operating rules, research, audits, and reusable project context. `reground` should read this file first, then open only th... | README.md |
+| `work-docs` | 92 | This folder is the global knowledge surface for setup, operating rules, research, audits, and reusable project context. `reground` should read this file first, then open only th... | README.md |
 | `work-docs/adr` | 1 | Architecture decision records; currently one accepted ADR (2026-07-10) on unifying the multi-repo platform standard | registry |
 | `work-docs/audits` | 11 | Dated one-off audits of the Azure/DevOps estate (dormancy, access boundaries, maturity) plus two Jira-analysis scripts and their HTML outputs | registry |
 | `work-docs/audits/2026-06-29-hedg-com-website-engineering-audit` | 2 | One dated external engineering audit bundle for a customer-facing broker website, passive-observation only, redacted of tokens/PII | registry |
 | `work-docs/audits/2026-06-29-hedg-com-website-engineering-audit/evidence` | 5 | Raw evidence backing that one website audit: recon notes plus Lighthouse and PageSpeed JSON captures for desktop and mobile | registry |
 | `work-docs/audits/2026-06-29-hedg-com-website-engineering-audit/screenshots` | 2 | Desktop and mobile homepage screenshots captured as visual evidence for that same website audit | registry |
 | `work-docs/azure-snapshots` | 0 | Holds only dated capture subfolders (currently just 2026-05-26) of Azure resource state and related access-request notes taken during infra consolidation planning | registry |
-| `work-docs/azure-snapshots/2026-05-26` | 17 | Frozen 2026-05-26 export of Azure Functions appsettings and storage account/container/share configs; a one-off snapshot, not a live log | registry |
+| `work-docs/azure-snapshots/2026-05-26` | 14 | Frozen 2026-05-26 export of Azure Functions appsettings and storage account/container/share configs; a one-off snapshot, not a live log | registry |
 | `work-docs/core` | 1 | Core docs are durable operating-system references for Shoval's local AI-native setup. They should be read before broad setup work, agent workflow changes, or cross-project audits. | README.md |
 | `work-docs/cs-agent` | 1 | Single audit doc defining what a customer-support bot may query/echo from CRM data, per a named stakeholder's review (2026-05-12) | registry |
 | `work-docs/diagrams` | 9 | Architecture and deployment diagrams as D2 source plus rendered SVG/HTML, including an interactive system-arch view | registry |
@@ -531,7 +513,7 @@ the same reason, one level down.
 | `work-docs/reflections` | 18 | Dated heidegger-reflect session postmortems and handoffs spanning 2026-03-22 through 2026-07-07 across several deploys/incidents | registry |
 | `work-docs/research` | 6 | This lane is for long-form research reports and external best-practice synthesis that should inform future implementation. Put new research here unless the file is a canonical r... | README.md |
 | `work-docs/research/prompts` | 11 | Dedicated deep-research prompts for the domains missing from `~/docs`, so any system built | README.md |
-| `work-docs/root-cleanup-2026-05-28` | 17 | Retired: 2026-05-28 sweep of misc home-directory and docs-root files (research dumps, fix notes, an audit dashboard) | registry |
+| `work-docs/root-cleanup-2026-05-28` | 16 | Retired: 2026-05-28 sweep of misc home-directory and docs-root files (research dumps, fix notes, an audit dashboard) | registry |
 | `work-docs/root-cleanup-2026-05-28/data` | 5 | Retired: raw data swept in the same 2026-05-28 cleanup (an API spec, a scraped dataset, misc JSON dumps), not project docs | registry |
 | `work-docs/specs` | 14 | Source-of-truth engineering specs and implementation-delta plans, dated 2026-04-15 through 2026-07-09 | registry |
 | `work-docs/specs/2026-05-13-ado-pr-review` | 3 | This adds a `codex_review` stage to the existing `azure-pipelines.yml` that, on every PR build, calls Foundry gpt-5.5 with the diff and posts a markdown comment to the PR via th... | README.md |
