@@ -1,3 +1,8 @@
+---
+name: mutation-runner
+description: Run mutation testing workflows to measure test suite effectiveness and identify surviving mutants that indicate coverage gaps.
+---
+
 # Mutation Testing Runner
 
 **Purpose:** Measure test suite strength by introducing code mutations and checking if tests catch them.
@@ -34,8 +39,8 @@ uv run mutmut results
 ```
 
 **Interpreting Results:**
-- **Mutation Score >80%**: Strong test suite ✅
-- **Mutation Score <80%**: Weak tests, add more test cases ❌
+- **Mutation Score >80%**: Strong test suite [PASS]
+- **Mutation Score <80%**: Weak tests, add more test cases [FAIL]
 - **Survived mutants**: Code mutations that didn't break tests (need more tests)
 
 **Safety:**

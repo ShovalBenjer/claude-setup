@@ -114,9 +114,6 @@ payload/dot-codex/skills/.system/skill-creator/scripts | Python tools that scaff
 payload/dot-codex/skills/.system/skill-installer/agents | Holds openai.yaml declaring the Skill Installer skill's UI metadata for installing curated skills from openai/skills or other GitHub repos
 payload/dot-codex/skills/.system/skill-installer/assets | Icon images (small SVG, large PNG) for the Skill Installer skill's UI tile
 payload/dot-codex/skills/.system/skill-installer/scripts | Python scripts that list skills in a GitHub repo path and download/install a chosen one into $CODEX_HOME/skills, sharing a GitHub-request helper module
-payload/dot-codex/skills/mutation-runner | Codex-side skill definition for mutation testing: introduce code mutations and check the suite catches them, as a measure of test strength rather than coverage
-payload/dot-codex/skills/property-test-gen | Codex-side skill definition for property-based tests: assert invariants over all inputs (bounds, ranges, enumerated tiers) instead of enumerating examples
-payload/dot-codex/skills/red-team | Codex-side TDD enforcement skill, explicitly NOT security testing despite the name: it checks that a failing test preceded the implementation. Carries its own .mcp.json
 engine/intent-control-plane/docs | Index the PRD/ADR/analysis/spec spine and give the operational runbook for the control tower and self-improve loop
 engine/intent-control-plane/docs/adr | Record costly-to-reverse architecture decisions: package-not-bash, retrieval delivery, measured self-improving loop, layered-stack proposal
 engine/intent-control-plane/docs/analysis | Hold dated, point-in-time fleet/estate scans (widgora tasks, fleet readiness, implementation-quality audit) as historical evidence, not live status

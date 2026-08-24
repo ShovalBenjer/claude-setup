@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1066**
+- documents: **1056**
 - reachable from `docs/INDEX.md`: **69** (6%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -663,7 +663,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `payload/dot-claude/rules/output-channel-routing.md` | 2026-08-17 | definition-see-skills_sync | class | 2 | - | - | - |
 | `payload/dot-claude/rules/dynamic-verification-trigger.md` | 2026-08-18 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## skill (229)
+## skill (219)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -835,44 +835,34 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `payload/dot-claude/skills/write-a-skill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/writing-great-skills/GLOSSARY.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/youtube-distill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/apify-mcp/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/azure-devops/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/azure-devops/TROUBLESHOOTING.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/azure-keyvault-secrets/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/cleanup-crew/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/code-simplifier/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/commit-push-pr/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/elevenlabs-mcp/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/eval-runner/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/feature-investor/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/heidegger-reflection.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/heygen-mcp/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/kill-stale/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/mcp-activation/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/mutation-runner/skill.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `payload/dot-codex/skills/mutation-runner/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/ops-status/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/ponytail-audit/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/ponytail-help/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/ponytail-review/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/ponytail/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/property-test-gen/skill.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `payload/dot-codex/skills/property-test-gen/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/red-team-review/PROJECT_TEMPLATE.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/red-team-review/PROMPT_TEMPLATE.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/red-team-review/README.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/red-team-review/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `payload/dot-codex/skills/red-team/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/red-team/red-team-tdd.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/red-team/skill.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/shoval-voice-draft/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/triage-tests/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/voice-explainer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/watchdog/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/web-inspect/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/workspace-brain/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/red-team-review/EXAMPLE_SESSION.md` | 2024-02-14 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-codex/skills/red-team-review/EXAMPLE_SESSION.md` | 2024-02-14 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/azure-runtime/SKILL.md` | 2025-04-01 | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/azure-devops/PERMISSIONS.md` | 2026-02-16 | definition-see-skills_sync | class | n/a | - | - | - |
-| `payload/dot-codex/skills/azure-devops/README.md` | 2026-02-16 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/heidegger-reflect/SKILL.md` | 2026-02-19 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-claude/skills/advisor/SKILL.md` | 2026-04-09 | definition-see-skills_sync | class | n/a | - | - | - |
 | `payload/dot-agents/skills/azure-activity-watch/SKILL.md` | 2026-05-03 | definition-see-skills_sync | class | n/a | - | - | - |

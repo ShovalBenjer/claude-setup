@@ -1,8 +1,7 @@
 ---
 name: commit-push-pr
 description: Run pre-commit quality gates (ruff/mypy/tests for Python, knip/eslint for JS), commit with Conventional format, push, open PR, sweep merged branches. Auto-detects bun/uv stack and Azure DevOps vs GitHub remote. Triggers on "/commit-push-pr", "commit and push", "open a PR", "ship it".
-model: sonnet
-allowed-tools: ["Bash", "Read", "Grep", "Glob"]
+model: claude-sonnet-4-6
 ---
 
 # /commit-push-pr

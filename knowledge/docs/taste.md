@@ -12,6 +12,24 @@ new row that supersedes it by date and say what changed.
 |---|---|---|---|---|
 | 2026-08-12 | Gastown coffee-break v2 design (cross-session social/serendipity mechanism); default was a scheduled random-pair chat on cron | Compose three: smoking area (frustration-triggered gripe sessions mined into TODO/lesson candidates), idea futures (sessions bet persona reputation on each other's riskiest assumptions, settled by gate/refute outcomes), and the flâneur (a standing gossip persona that walks ListAgents across clones and machines carrying news) | 0.10 / 0.20 / 0.35 | Chatter must be causally attached to real signal: complaints ride failure telemetry, bets settle against oracles, and the courier replaces fetch-before-working with a character. The rejected default (p 0.75) and the overhearing wall (p 0.05) lost for having no stakes. |
 | 2026-07-29 | Tamper-evidence for `state/prompt-tickets.jsonl`, given that `bus.py::canonical()` hashes a fixed `CHAIN_FIELDS` tuple that covers none of a ticket's content fields | Self-describing rows: each row carries `chain_fields`, and `canonical()` hashes the named fields plus the list itself | 0.10 | A row becomes verifiable by a reader that knows no schema, and shrinking a row's coverage changes its hash instead of hiding. The rejected default put coverage in a constant far from the data, which is what let the original defect exist. |
+| 2026-08-24 | Global rule-enforcement oracle architecture (item 2 of the six-item worktree session): 5 candidates sampled, ranging from bolting more personas onto `panel.py` (p 0.75) to a post-hoc non-blocking corpus miner (p 0.15) | Candidate #5: rule-file-as-contract — YAML frontmatter on every `~/.claude/rules/*.md` naming `applies_to`, `severity`, `check_ref` (required, `none`+reason if unchecked); a single `rule_runner.py` dispatches to check implementations migrated to one shared `check(diff_or_text) -> list[Finding]` signature | 0.20 | The real pain, evidenced by this session needing a 90-minute subagent survey just to answer "which rules are enforced", is that coverage is tribal knowledge split across 6 tool files, not that a check shape is missing. Making coverage queryable from the rule files themselves closes that gap. Rejected #4 (two independent oracles sharing only a waiver table, p 0.55) for shipping faster but leaving the same opacity in place. |
+
+## Notes on the 2026-08-24 pick: item-2 oracle architecture
+
+Decomposed per `accepting-architectures.md` rather than presented whole. Block 1
+(check_ref required, not optional) accepted on the reasoning that this mirrors
+quality-contract.json's own standing philosophy: unconfigured is UNCOVERED, and
+UNCOVERED fails. Block 2 (migrate all 6 existing checkers — panel.py's 6 personas,
+slop_lint.py, rules_sync.py, pointers.py, persona_audit.py, skills_sync.py — to a
+shared signature, rather than dispatching to each tool's existing CLI as-is) was
+accepted as the higher-cost option: it is the largest single piece of the whole
+design, larger than rule_runner.py itself, and touches 6 tools that currently pass
+their own selftests and the gate. Operator confirmed "full migration now" after the
+cost was named explicitly rather than absorbed silently. Sequencing per this repo's
+own contract -> oracle -> selftest -> mutation layering: one tool migrated per
+commit, its existing selftest must still pass and the gate stay green before the
+next tool starts. Advisor recommended `slop_lint.py` first (smallest, cheapest
+selftest) and `panel.py` last (6 personas, most tests riding on it, worst pilot).
 
 ## Notes on the 2026-07-29 pick
 

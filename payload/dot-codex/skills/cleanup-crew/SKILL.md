@@ -6,7 +6,7 @@ allowed-tools: ["Bash", "Read", "Edit", "Grep", "Glob"]
 
 # Cleanup Crew - SOTA 2026
 
-**Invocation:** `/cleanup-crew` | `~/.codex/skills/cleanup-crew/detect.sh`
+**Invocation:** `/cleanup-crew` | `tools/cleanup/detect.sh`
 
 ## Workflow
 

@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-459 directories, 2035 tracked files, 0 without a stated purpose.
+452 directories, 2023 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -467,30 +467,23 @@ the same reason, one level down.
 | `payload/dot-codex/skills/.system/skill-installer/agents` | 1 | Holds openai.yaml declaring the Skill Installer skill's UI metadata for installing curated skills from openai/skills or other GitHub repos | registry |
 | `payload/dot-codex/skills/.system/skill-installer/assets` | 2 | Icon images (small SVG, large PNG) for the Skill Installer skill's UI tile | registry |
 | `payload/dot-codex/skills/.system/skill-installer/scripts` | 3 | Python scripts that list skills in a GitHub repo path and download/install a chosen one into $CODEX_HOME/skills, sharing a GitHub-request helper module | registry |
-| `payload/dot-codex/skills/apify-mcp` | 1 | Use Apify MCP for actor discovery, execution, and dataset retrieval in scraping/ingestion workflows. | SKILL.md |
-| `payload/dot-codex/skills/azure-devops` | 6 | Use Azure DevOps CLI workflows for branch/commit/PR automation with explicit approval gates. | SKILL.md |
-| `payload/dot-codex/skills/azure-keyvault-secrets` | 1 | Load MCP and project secrets from Azure Key Vault into runtime dotenv files for Codex sessions. | SKILL.md |
 | `payload/dot-codex/skills/cleanup-crew` | 3 | "Cleanup Crew - SOTA 2026" | SKILL.md |
 | `payload/dot-codex/skills/code-simplifier` | 1 | "/code-simplifier" | SKILL.md |
 | `payload/dot-codex/skills/commit-push-pr` | 1 | Run pre-commit quality gates (ruff/mypy/tests for Python, knip/eslint for JS), commit with Conventional format, push, open PR, sweep merged branches. Auto-detects bun/uv stack a... | SKILL.md |
-| `payload/dot-codex/skills/elevenlabs-mcp` | 1 | Use ElevenLabs MCP for TTS/audio-generation tools in on-demand agent sessions. | SKILL.md |
 | `payload/dot-codex/skills/eval-runner` | 1 | Run the Foundry-only 4-phase eval pipeline (deterministic gate → smoke 10-row → expanded 40-80 → nightly 80-150) using grok-4-1-fast-reasoning-2-eval primary + DeepSeek-V3.2 aud... | SKILL.md |
 | `payload/dot-codex/skills/feature-investor` | 1 | Grade a feature, epic, or product concept against a strict 2026 SOTA investment bar with numeric scores, hard rules, and a go/no-go verdict. Use when deciding whether something... | SKILL.md |
-| `payload/dot-codex/skills/heygen-mcp` | 1 | Use HeyGen MCP for avatar/video generation flows when agent-driven tool access is required. | SKILL.md |
 | `payload/dot-codex/skills/kill-stale` | 1 | "/kill-stale" | SKILL.md |
-| `payload/dot-codex/skills/mcp-activation` | 1 | Activate only the MCP servers needed for the current Codex session. | SKILL.md |
-| `payload/dot-codex/skills/mutation-runner` | 1 | Codex-side skill definition for mutation testing: introduce code mutations and check the suite catches them, as a measure of test strength rather than coverage | registry |
+| `payload/dot-codex/skills/mutation-runner` | 1 | Run mutation testing workflows to measure test suite effectiveness and identify surviving mutants that indicate coverage gaps. | SKILL.md |
 | `payload/dot-codex/skills/ops-status` | 1 | "Ops Status — System State Snapshot Skill" | SKILL.md |
 | `payload/dot-codex/skills/ponytail` | 1 | Forces the laziest solution that actually works, simplest, shortest, most minimal. Channels a senior dev who has seen everything: question whether the task needs to exist at all... | SKILL.md |
 | `payload/dot-codex/skills/ponytail-audit` | 1 | Whole-repo audit for over-engineering. Like ponytail-review, but scans the entire codebase instead of a diff: a ranked list of what to delete, simplify, or replace with stdlib/n... | SKILL.md |
 | `payload/dot-codex/skills/ponytail-help` | 1 | Quick-reference card for all ponytail modes, skills, and commands. One-shot display, not a persistent mode. Trigger: /ponytail-help, "ponytail help", "what ponytail commands", "... | SKILL.md |
 | `payload/dot-codex/skills/ponytail-review` | 1 | Code review focused exclusively on over-engineering. Finds what to delete: reinvented standard library, unneeded dependencies, speculative abstractions, dead flexibility. One li... | SKILL.md |
-| `payload/dot-codex/skills/property-test-gen` | 1 | Codex-side skill definition for property-based tests: assert invariants over all inputs (bounds, ranges, enumerated tiers) instead of enumerating examples | registry |
-| `payload/dot-codex/skills/red-team` | 3 | Codex-side TDD enforcement skill, explicitly NOT security testing despite the name: it checks that a failing test preceded the implementation. Carries its own .mcp.json | registry |
+| `payload/dot-codex/skills/property-test-gen` | 1 | Generate property-based tests that validate invariants across wide input spaces for JavaScript/TypeScript and Python projects. | SKILL.md |
+| `payload/dot-codex/skills/red-team` | 3 | TDD-focused quality review skill for test-first discipline, coverage depth, mutation strength, and implementation readiness. | SKILL.md |
 | `payload/dot-codex/skills/red-team-review` | 5 | Multi-persona project review using parallel agent teams (security, architecture, performance, UX, eval). Spawns subagents in worktrees, aggregates findings into a unified report... | SKILL.md |
 | `payload/dot-codex/skills/shoval-voice-draft` | 1 | Draft messages in Shoval Benjer's natural work style for review before sending. Per-recipient tone (Yasha / Liron / Ali / Adnan / Daniel / Vlad, including Vlad's ultra-compact s... | SKILL.md |
 | `payload/dot-codex/skills/triage-tests` | 1 | "/triage-tests" | SKILL.md |
 | `payload/dot-codex/skills/voice-explainer` | 1 | Generate short audio narration via ElevenLabs eleven_multilingual_v2 and auto-play it. Triggers on out-of-focus / tired / "read it to me" signals (en/he/ar) detected by the User... | SKILL.md |
 | `payload/dot-codex/skills/watchdog` | 1 | "Watchdog Agent - Quality Gatekeeper" | SKILL.md |
 | `payload/dot-codex/skills/web-inspect` | 1 | "/web-inspect" | SKILL.md |
-| `payload/dot-codex/skills/workspace-brain` | 1 | "Workspace Brain — Cross-Project Knowledge Index" | SKILL.md |

@@ -1,3 +1,8 @@
+---
+name: red-team
+description: TDD-focused quality review skill for test-first discipline, coverage depth, mutation strength, and implementation readiness.
+---
+
 # Red Team Skill - Test-Driven Development Enforcement
 
 **Focus:** Code quality and functional correctness through TDD, NOT security testing.
@@ -15,7 +20,7 @@ Verify that:
 ```bash
 /red-team
 
-# In Claude Code, describe what needs review:
+# In Codex, describe what needs review:
 Review the ingestion pipeline for test coverage gaps
 Ensure aspect ratio lock is fully tested before deployment
 Audit test quality using mutation testing metrics
@@ -45,7 +50,7 @@ Check that all 10 system invariants have property tests
 - [ ] Golden master tests for complex outputs
 
 ### 4. SOTA Testing Standards
-Reference: `projects/figma-4-all/test/testing_best_practices.md`
+Reference: `<project-root>/test/testing_best_practices.md`
 
 **Required test types:**
 - Type checking & linting (static)
@@ -61,7 +66,7 @@ Reference: `projects/figma-4-all/test/testing_best_practices.md`
 - Distributed → Contract + Chaos tests
 
 ### 5. Code Implementation Quality
-- [ ] ES2017 compliance (figma-4-all)
+- [ ] Target JS/TS language-level compliance (per project config, e.g. ES2017)
 - [ ] Clean architecture patterns followed
 - [ ] No dead code (knip passes)
 - [ ] Linting clean (ESLint, Ruff)
@@ -70,7 +75,7 @@ Reference: `projects/figma-4-all/test/testing_best_practices.md`
 ## Output
 
 Red team provides:
-- ✅ Tests that pass vs ❌ tests that fail
+- [OK] Tests that pass vs [NO] tests that fail
 - Coverage metrics and gaps
 - Mutation testing results (test strength)
 - Recommendations for TDD improvements
@@ -103,9 +108,9 @@ Checking:
 
 Report:
 - Coverage: 78% (Python) - Gap: need +12%
-- Test types: Unit ✅, Property ✅, Integration ⚠️ (only 3 tests)
+- Test types: Unit [OK], Property [OK], Integration [WARN] (only 3 tests)
 - Mutation score: 72% (good, target >80%)
-- Functional: ✅ All tests passing
+- Functional: [OK] All tests passing
 - Grade: B+ (strong coverage, add more integration tests)
 
 Recommendations:
