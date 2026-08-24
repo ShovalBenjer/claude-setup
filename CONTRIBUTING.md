@@ -1,37 +1,26 @@
 # Contributing to claude-setup
 
-Thank you for your interest in contributing. This document describes how to work with this repository effectively.
+**CLAUDE-OS.md is the single source of truth for conventions, governance, and process.**
+Read it before making changes. This file covers the PR process, code style, and testing only.
 
-## Single Source of Truth
-
-**CLAUDE-OS.md is the single source of truth for conventions, governance, and process.** Before making changes, read it. It merges and supersedes every prior plan in this repo.
-
-This file covers the PR process, code style, and testing. For conventions, layer definitions, and the SDLC kernel, see `CLAUDE-OS.md`.
-
-## Branching and Commits
+## PR process
 
 - Work on the feature branch assigned by the convoy rig.
 - Keep commits small and focused: one logical change per commit.
 - Commit messages follow the imperative mood: `feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`.
 - The body should explain why, not what. The diff shows what.
+- The repository is gated. `python tools/gate/gate.py run --project . -v` is the full 12-domain contract.
+- Do not bypass the gate. If a domain is genuinely not applicable, add a waiver with a reason and expiry date.
+- Review fabric (`tools/review/panel.py`) writes artifacts under `state/reviews/`. These are generated and not committed.
 
-## Code Style
+## Code style
 
 - Python target: `>=3.11`.
 - Line length: 100 characters.
 - Lint and format with `ruff`. Run `ruff check .` and `ruff format .` before pushing.
 - Type check with `mypy --strict` on `tools/` and `tests/`.
 - Follow existing patterns in the file you are editing. Do not introduce new frameworks or libraries without discussion.
-
-## Testing
-
-- Root tests live in `tests/`.
-- Run `python -m pytest tests/ -q` before pushing.
-- The intent-control-plane subproject has its own tests under `intent-control-plane/tests/`. Run `cd intent-control-plane && uv run pytest -q` when touching that package.
-
-## Pre-Commit Hooks
-
-Install the pre-commit hooks after cloning:
+- Install the pre-commit hooks after cloning:
 
 ```bash
 pip install pre-commit
@@ -40,27 +29,8 @@ pre-commit install
 
 This runs ruff (lint + format), mypy, trailing-whitespace, end-of-file-fixer, check-yaml, and check-json before every commit.
 
-## Gate and Review
+## Testing
 
-- The repository is gated. `python tools/gate/gate.py run --project . -v` is the full 12-domain contract.
-- Do not bypass the gate. If a domain is genuinely not applicable, add a waiver with a reason and expiry date.
-- Review fabric (`tools/review/panel.py`) writes artifacts under `state/reviews/`. These are generated and not committed.
-
-## Secrets and PII
-
-- Never commit secrets, API keys, tokens, or credentials.
-- Use `.env` locally; it is gitignored. Copy `.env.example` to `.env` and fill in only what you need.
-- PII must never enter embedding indexes or commit history.
-- `tools/gate/gate.py` includes a secret-scan domain. Make sure your change passes it.
-
-## Documentation
-
-- Update `README.md` when you change the directory structure or user-facing behavior.
-- Update `CHANGELOG.md` for any change that affects users or operators.
-- Keep `TODO.md` trimmed. Move closed items to `docs/analysis/archive/` or delete them.
-
-## Questions
-
-- Process and conventions: `CLAUDE-OS.md`.
-- Harness behavior: `AGENTS.md`.
-- Tool internals: read the docstring at the top of the relevant `tools/*/*.py` file. Every major tool has one.
+- Root tests live in `tests/`.
+- Run `python -m pytest tests/ -q` before pushing.
+- The intent-control-plane subproject has its own tests under `intent-control-plane/tests/`. Run `cd intent-control-plane && uv run pytest -q` when touching that package.

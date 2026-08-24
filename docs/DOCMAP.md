@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1069**
+- documents: **1070**
 - reachable from `docs/INDEX.md`: **69** (6%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (87)
+## analysis (88)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -167,6 +167,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-23-prompt-triage.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-23-whatsapp-links-vs-plan.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-23-whatsapp-repo-reminder-list.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/archive/2026-08-24-closed-todo-items.md` | 2026-08-24 | dated-snapshot | class | 2 | - | - | operator |
 
 ## archived (7)
 
@@ -607,14 +608,14 @@ correct for its date**. Scheme `1` means read its lane letters through
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `CLAUDE.md` | - | living | registry | n/a | - | - | - |
-| `CONTRIBUTING.md` | - | living | registry | n/a | - | every prior plan in this repo. | - |
+| `CONTRIBUTING.md` | - | living | registry | n/a | - | - | - |
 | `REVIEW.md` | - | living | registry | n/a | - | - | - |
 | `SECURITY.md` | - | living | registry | n/a | - | - | - |
 | `CLAUDE-OS.md` | 2026-07-23 | active (living document, the spine) | header | n/a | yes | every prior setup plan. Predecessors rem | - |
-| `README.md` | 2026-07-23 | living | registry | n/a | - | every prior plan in this repo. | - |
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
-| `TODO.md` | 2026-08-17 | living | registry | 2 | yes | nothing | the |
+| `TODO.md` | 2026-08-17 | living | registry | 2 | yes | - | - |
 | `CHANGELOG.md` | 2026-08-24 | living | registry | n/a | - | - | - |
+| `README.md` | 2026-08-24 | living | registry | n/a | - | every prior plan in this repo. | - |
 
 ## rule (45)
 

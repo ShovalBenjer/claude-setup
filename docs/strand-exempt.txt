@@ -39,3 +39,57 @@
 # The middle step is not wasted motion: without the strand.py fix, a real link
 # and a generated artifact are indistinguishable, and these rows would churn on
 # every commit.
+
+# --- archived analysis and dated snapshots, 2026-08-24 ---
+# The 2026-08-24 TODO trim removed the closed items that linked these five
+# point-in-time analyses. They are historical records of completed work, not
+# living documents, and their findings are already incorporated into later
+# decisions. The archive/ subdirectory holds frozen scans that were superseded
+# by subsequent measurements. The new closed-todo-items archive is by definition
+# not referenced from a living surface.
+
+# analysis/archive: frozen scans superseded by later measurements
+docs/analysis/archive/2026-08-05-enforcement-topology-measured.md | superseded by 2026-08-10 measurement
+docs/analysis/archive/2026-08-06-azure-jira-after-the-job.md | point-in-time scan, superseded
+docs/analysis/archive/2026-08-06-external-repo-source-read-and-surface-comparison.md | point-in-time scan, superseded
+docs/analysis/archive/2026-08-06-memory-rag-substrate-findings.md | point-in-time scan, superseded
+docs/analysis/archive/2026-08-06-persona-metrics-external-sweep.md | point-in-time scan, superseded
+docs/analysis/archive/2026-08-24-closed-todo-items.md | archive of closed items; not linked from a living surface
+
+# analysis/2026-08-1x: dated measurements linked from closed TODO items
+docs/analysis/2026-08-10-three-skill-trees-measured.md | point-in-time measurement, closed item
+docs/analysis/2026-08-11-milestone-task-plan.md | dated plan, superseded by 2026-08-15 inventory
+docs/analysis/2026-08-12-claude-code-repo-gap.md | point-in-time analysis, closed item
+docs/analysis/2026-08-12-minimalism-audit.md | point-in-time analysis, closed item
+docs/analysis/2026-08-13-buzz-adoption-handoff.md | point-in-time analysis, closed item
+
+# specs/2026-08-13: dated spec, superseded by later decisions
+docs/specs/2026-08-13-code-quality-rethink.md | dated spec, superseded by subsequent ADRs
+
+# --- imported research corpus, 2026-08-05 (restored after TODO trim) ---
+# These arrived from new-recruit and daily-deep-learning as EVIDENCE, not as documents
+# this repo maintains. Same class the gate already grants research-papers/: "corpus and
+# employer-context material held as evidence; read, not maintained." They are exempt from
+# reachability and they are NOT exempt from being read.
+
+# analysis/reference: imported research corpus
+docs/analysis/reference/ddl-deep-research-2026-07-27.md | imported research corpus, evidence
+docs/analysis/reference/ddl-design-research-nextgen-2026-07.md | imported research corpus, evidence
+docs/analysis/reference/ddl-engine-research-prompt-2026-07-24-v3.md | imported research corpus, evidence
+docs/analysis/reference/ddl-standard-and-grade-2026-07-29.md | imported research corpus, evidence
+docs/analysis/reference/ddl-ui-deep-research-arkheron.md | imported research corpus, evidence
+docs/analysis/reference/nr-claudecode-tui-research-2026-06-14.md | imported research corpus, evidence
+docs/analysis/reference/nr-commit-bug-tracing-research-2026-07-05.md | imported research corpus, evidence
+docs/analysis/reference/nr-coverage-aware-eval-research-2026-06-28.md | imported research corpus, evidence
+docs/analysis/reference/nr-technology-corpus-master-prompt-2026-07-24.md | imported research corpus, evidence
+docs/analysis/reference/nr-technology-corpus-research-report-2026-07-25.md | imported research corpus, evidence
+
+# --- imported standards, 2026-08-04 ---
+# Standards imported from new-recruit and daily-deep-learning. No active maintainer
+# in this repo; they are held as reference material, not governed documents.
+
+docs/standards/ddl-engineering-standards-2026-07-26.md | imported standard, no active maintainer
+docs/standards/nr-adr-0001-unified-platform-standard.md | imported standard, no active maintainer
+docs/standards/nr-harness-structure-standard-2026-07-09.md | imported standard, no active maintainer
+docs/standards/nr-prd-2026-07-10-platform-standard.md | imported standard, no active maintainer
+docs/standards/nr-repo-standards-2026-07-09.md | imported standard, no active maintainer
