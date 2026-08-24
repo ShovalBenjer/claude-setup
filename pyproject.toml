@@ -1,0 +1,59 @@
+[project]
+name = "claude-setup"
+version = "0.1.0"
+description = "Claude OS: rails, gates, review fabric, and notification fabric for autonomous agentic workflows."
+authors = [
+    { name = "Shoval Benjer" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.11"
+readme = "README.md"
+keywords = ["claude", "agent", "harness", "gate", "review"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.scripts]
+gate = "tools.gate.gate:main"
+bus = "tools.bus.bus:main"
+refute = "tools.refute.refute:main"
+panel = "tools.review.panel:main"
+map = "tools.map.codemap:main"
+slop-lint = "tools.slop_lint:main"
+snap = "tools.snapshot.snap:main"
+skills-sync = "tools.audit.skills_sync:main"
+mutate = "tools.audit.mutate:main"
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "pytest>=8",
+    "hypothesis>=6.156.5",
+    "py>=1.11.0",
+    "pygments>=2.15.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["tools", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM", "PERF", "PIE", "RUF", "ERA"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["tools", "tests"]
+ignore_missing_imports = true
+warn_unused_ignores = true
+strict = true
