@@ -251,6 +251,10 @@ jobs:
     # Stays hosted: osv-scanner is a docker container action and the wsl-shov
     # runner has no docker. ~1 billed minute per run, the cheapest correct fix.
     runs-on: ubuntu-latest
+    # Job-level continue-on-error covers the "Set up job" billing-hold failure
+    # that the step-level continue-on-error below cannot reach (it fails before
+    # steps run). Step-level continue-on-error still governs content findings.
+    continue-on-error: true
     permissions:
       contents: read
       security-events: write
@@ -519,6 +523,12 @@ jobs:
     # instrument that happens to require Windows (see header comment).
     if: ${{ !github.event.pull_request.draft }}
     runs-on: windows-latest
+    # Non-blocking on hosted-runner billing holds: windows-latest is billed
+    # and the account is on a spending limit, failing at "Set up job" before
+    # any step runs. This check is independent of the gate verdict and best-effort
+    # by design (see header comment); continue-on-error keeps it visible without
+    # blocking merges. Re-evaluate once the spending limit is raised.
+    continue-on-error: true
     permissions:
       contents: read
     steps:

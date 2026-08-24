@@ -16,6 +16,13 @@ jobs:
     # Skip drafts; reviews restart when marked ready
     if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
+    # Non-blocking on hosted-runner billing holds: ubuntu-latest is billed and
+    # the account is on a spending limit, so this job fails at "Set up job"
+    # before any step runs. No repository change can clear a billing hold, but
+    # continue-on-error keeps the check yellow (visible, non-blocking) instead
+    # of red (blocking). The action still posts its review comment on a soft
+    # failure. Re-evaluate once the spending limit is raised.
+    continue-on-error: true
     permissions:
       contents: read
       pull-requests: write

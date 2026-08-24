@@ -44,6 +44,11 @@ jobs:
   gemini-review:
     if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
+    # Non-blocking on hosted-runner billing holds: see claude-code-review.yml.
+    # The --soft-fail flag below already handles advisor-level findings; this
+    # job-level guard covers the "Set up job" failure that step-level flags
+    # cannot.
+    continue-on-error: true
     permissions:
       contents: read
       pull-requests: read
