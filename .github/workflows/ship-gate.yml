@@ -54,20 +54,9 @@ name: Ship gate
 #   ran; read it as proof the domains above ran and the pipeline domain is
 #   honestly wired.
 #
-# A SEPARATE job, `browser-instrument-selftest`, runs `flow.py selftest`
-# (the flow.py + cdp.py harness's own self-check: serves a page with nine
-# planted defects on an ephemeral local port and asserts each is caught).
-# This is a check of the AUDIT TOOL, not of any served app in this repo, and
-# it is intentionally kept separate from the `gate` job's pass/fail because
-# tools/browser/cdp.py locates Chrome via hardcoded Windows paths only
-# (CHROME_CANDIDATES in cdp.py) -- it cannot run on ubuntu-latest without
-# editing that oracle file, which is out of scope. windows-latest GitHub-
-# hosted runners are documented (actions/runner-images) to ship Google Chrome
-# at the path cdp.py already looks for, but that has NOT been confirmed by an
-# actual run of this exact workflow from this environment -- treat the first
-# real run of this job as the confirmation, and if Chrome is missing at that
-# path, that is a runner-image assumption to fix here, not a reason to touch
-# cdp.py.
+# REMOVED jobs (blocked by GitHub account billing hold, re-add when restored):
+#   - browser-instrument-selftest: requires windows-latest (Chrome via cdp.py)
+#   - supply-chain: requires ubuntu-latest (osv-scanner docker)
 #
 # Neither job uses secrets or credentials.
 
@@ -237,69 +226,8 @@ jobs:
       - name: gate.py run (full contract)
         run: python tools/gate/gate.py run --project . -v
 
-  supply-chain:
-    # Added 2026-08-04 after measuring this repo's CI against nousresearch/hermes-agent:
-    # 21 workflows there, 1 here, and these three jobs were the cheapest of the gap.
-    # None of them duplicates an existing domain: the contract's `security` domain is
-    # a source scan, this is a DEPENDENCY scan, and they fail for different reasons.
-    #
-    # Deliberately NOT blocking on first landing. A supply-chain scanner that goes red
-    # on day one against pre-existing transitive advisories teaches the reader to
-    # ignore it, which is worse than not having it. `continue-on-error` comes off once
-    # one real run has been read, same convention the header uses for the Chrome path.
-    if: ${{ !github.event.pull_request.draft }}
-    # Stays hosted: osv-scanner is a docker container action and the wsl-shov
-    # runner has no docker. ~1 billed minute per run, the cheapest correct fix.
-    runs-on: ubuntu-latest
-    # Job-level continue-on-error covers the "Set up job" billing-hold failure
-    # that the step-level continue-on-error below cannot reach (it fails before
-    # steps run). Step-level continue-on-error still governs content findings.
-    continue-on-error: true
-    permissions:
-      contents: read
-      security-events: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: osv-scanner (dependency advisories, SARIF to the security tab)
-        continue-on-error: true
-        # Pinned to a real tag: the repo publishes semver tags only, and `@v2`
-        # resolved to nothing, which failed the whole job in 3s at Set up job --
-        # before continue-on-error on the step could soften anything.
-        uses: google/osv-scanner-action/osv-scanner-action@v2.3.8
-        with:
-          scan-args: |-
-            --output=results.sarif
-            --format=sarif
-            --recursive
-            ./
-
-      - name: upload SARIF
-        if: always()
-        continue-on-error: true
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: results.sarif
-
-      - name: lockfile-diff (a lock change is a supply-chain change and must be visible)
-        if: github.event_name == 'pull_request'
-        run: |
-          set -u
-          git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
-          CHANGED=$(git diff --name-only "origin/${{ github.base_ref }}"...HEAD -- \
-                      '**/uv.lock' '**/Cargo.lock' '**/package-lock.json' || true)
-          if [ -z "$CHANGED" ]; then
-            echo "no lockfile changed in this PR"
-            exit 0
-          fi
-          echo "LOCKFILES CHANGED:"; echo "$CHANGED"
-          for f in $CHANGED; do
-            echo "--- $f ---"
-            git diff "origin/${{ github.base_ref }}"...HEAD -- "$f" | head -200
-          done
-          echo
-          echo "A lockfile moved. Read the diff above before merging: this is the one"
-          echo "place a dependency enters the estate without anyone writing an import."
+  # supply-chain job removed: requires ubuntu-latest (osv-scanner docker) which is
+  # blocked by GitHub account billing hold. Re-add when billing is restored.
 
   affected:
     # Change-scoped reporting, taken from hermes-agent's `detect affected areas`.
@@ -515,28 +443,5 @@ jobs:
       - name: mutate.py --spec all (prove the selftests can fail)
         run: python tools/audit/mutate.py --spec all
 
-  browser-instrument-selftest:
-    # Covers ONLY: proving tools/e2e/flow.py + tools/browser/cdp.py still
-    # detect planted UI/accessibility defects, using a real Chrome instance.
-    # This is NOT part of the "pipeline"/gate verdict above and does not run
-    # `gate.py run` -- it is an independent, best-effort check of one
-    # instrument that happens to require Windows (see header comment).
-    if: ${{ !github.event.pull_request.draft }}
-    runs-on: windows-latest
-    # Non-blocking on hosted-runner billing holds: windows-latest is billed
-    # and the account is on a spending limit, failing at "Set up job" before
-    # any step runs. This check is independent of the gate verdict and best-effort
-    # by design (see header comment); continue-on-error keeps it visible without
-    # blocking merges. Re-evaluate once the spending limit is raised.
-    continue-on-error: true
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: flow.py selftest (requires a real Chrome via cdp.py)
-        run: python tools/e2e/flow.py selftest
+  # browser-instrument-selftest job removed: requires windows-latest (Chrome)
+  # which is blocked by GitHub account billing hold. Re-add when billing is restored.
