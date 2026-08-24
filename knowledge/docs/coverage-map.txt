@@ -1,0 +1,41 @@
+# Every top-level tracked directory, mapped to the gate domain that exercises
+# it or to a stated exemption reason. tools/audit/coverage_map.py check fails
+# CLOSED: a top-level directory with no row here (declared covered or
+# declared exempt) blocks the gate. This is the opposite default from
+# docs/prior-art/out-of-scope.txt (there, an unlisted path is IN scope by
+# default); here, an unlisted path is UNKNOWN, and unknown is blocked, not
+# silently ungoverned. That inversion is the whole point of this file: it is
+# what would have caught dashboard/ automatically the day it was created,
+# instead of two days and 39 files later by manual audit.
+#
+# format: path | covered-by:<gate domain name> | reason
+#     or: path | exempt | reason
+#
+# UNIT: top-level only, not per-subdirectory. dashboard/core, dashboard/web
+# and dashboard/src-tauri are three different toolchains under one directory;
+# they get one row because the failure mode this file exists to close is "a
+# new top-level tree appears with zero domains touching it", not "every
+# subdirectory of an already-covered tree is individually accounted for".
+# Per-subdirectory tracking is docs/dir-purpose.txt's job (449 rows, already
+# maintained by codemap.py) and duplicating that granularity here would be a
+# second copy of the same data drifting on its own schedule.
+#
+# A row's <gate domain name> must be a real domain in quality-contract.json;
+# the checker resolves against that file, not just parses this one, so a typo
+# here is caught the same run it is written.
+
+.claude | exempt | project-local Claude Code tree: review artifacts and project-scoped config, not source code; nothing here is built or tested
+.github | covered-by:pipeline | the pipeline domain's ci_runs_gate builtin greps .github/workflows for the gate.py run invocation; the workflow YAML IS what this domain checks
+
+# The three zones below replaced the flat top level on 2026-08-24 (payload/dot-claude,
+# payload/dot-agents, payload/dot-codex; engine/dashboard, engine/intent-control-plane,
+# engine/nexus-engine-rs, engine/tools, engine/tests; knowledge/docs, knowledge/research-papers,
+# knowledge/state, knowledge/work-docs). Per this file's own stated unit (top-level only,
+# see header), each ZONE gets one row; the per-subtree reasoning the old flat rows carried
+# is folded into that zone's row rather than duplicated at zone AND subtree granularity.
+
+engine | covered-by:unit | build/unit/types domains all touch engine/ directly: engine/tests (unit's first command is `python -m pytest engine/tests/ -q`), engine/intent-control-plane (build/unit/types cd into it and run uv sync / pytest / ruff / mypy), engine/dashboard (the dashboard domain's cargo test --workspace plus ship-gate.yml's dashboard-web-build CI step), engine/tools (quality-contract.json domains and ship-gate.yml's falsifiability job invoke code from at least a dozen engine/tools/ subdirectories: gate, audit, review, docmap, map, bus, refute, skilleval, snapshot, e2e via selftest, browser via selftest). NOT a claim every engine/tools/ subdirectory is exercised: a 2026-08-19 count (pre-move) found roughly 20 with no reference (tools/coffee, tools/digest, tools/health, tools/hookgate, tools/telemetry, tools/whatsapp, tools/workspace, now under engine/tools/); that per-subdirectory gap is real but is sub-zone detail, tracked in docs/dir-purpose.txt granularity, not a second row here. engine/nexus-engine-rs remains a KNOWN GAP inside this covered zone: a second Rust crate (8 #[test] functions, README documents `cargo test`) with zero gate coverage, found 2026-08-19, unwired as of this restructure; follow-up ticket owed in TODO.md, not silently papered over by the zone-level covered-by
+
+knowledge | covered-by:docmap | docmap.py check + codemap.py check together cover every tracked document and directory purpose under knowledge/docs/. knowledge/state is covered separately in substance by append_only.py (EXT-1, chained into the unit domain's cmd), which reads and validates knowledge/state/*.jsonl: static-scans every writer for a truncating mode and checks tracked ledgers only grow; rules/skills/pointers check payload/ drift, not knowledge/state content. knowledge/research-papers is read-only evidence (AGENTS.md, docs/dir-purpose.txt), not a maintained codebase, no code here is built or tested by design. knowledge/work-docs is dated single-run analysis output ("kept as the evidence behind a dated finding, never re-run"), not maintained source. All four subtrees are folded into this one zone row per the header's stated top-level-only unit
+
+payload | exempt | the three CLI-tool configuration trees (payload/dot-claude deployed to ~/.claude, payload/dot-agents a vendored copy with no live target, payload/dot-codex deployed to ~/.codex), not built or tested by this repo. The rules/skills/pointers domains DO check drift between this payload and the live tree, but that is a sync check, not code coverage, so payload keeps its exempt row rather than a covered-by row that would overclaim

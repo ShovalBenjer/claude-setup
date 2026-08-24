@@ -1,0 +1,91 @@
+{
+  "component": "engine/tools/trycmd",
+  "reviewed": "2026-07-30",
+  "recheck_after": "2026-10-28",
+  "verdict": "absorb-mechanism",
+  "verdict_class": "absorb",
+  "absorption_status": "absorbed",
+  "absorbed": "The mechanism, not the code: trycmd 1.2.1's literate `.trycmd` block grammar and snapbox 0.6.21's `[..]` intra-line and `...` line elision rules, ported to stdlib Python in tools/trycmd/trycmd.py. Recorded in this record's own absorbed_from and divergences_from_upstream fields, which predate this schema change and are what it was generalised from.",
+  "absorbed_from": {
+    "crate": "trycmd",
+    "version": "1.2.1",
+    "url": "https://crates.io/crates/trycmd",
+    "license": "MIT OR Apache-2.0",
+    "recent_downloads": 1400000,
+    "also": {
+      "crate": "snapbox",
+      "version": "0.6.21",
+      "what": "the line matcher and the elide rule"
+    },
+    "what_was_taken": "The mechanism, ported to stdlib Python. No Rust code was vendored and no dependency was added.",
+    "source_files_read": [
+      "trycmd-1.2.1/src/lib.rs:1-140 (format documentation and the TRYCMD=overwrite workflow)",
+      "trycmd-1.2.1/src/schema.rs:186-336 (parse_trycmd: the fenced-block grammar)",
+      "trycmd-1.2.1/src/schema.rs:875-900 (CommandStatus and its FromStr)",
+      "trycmd-1.2.1/src/schema.rs:124 (overwrite)",
+      "trycmd-1.2.1/src/runner.rs:460-490 (validate_streams: newline filter before comparison)",
+      "snapbox-0.6.21/src/filter/pattern.rs:520-605 (normalize_to_pattern, is_line_elide, line_matches)"
+    ],
+    "landed_in": [
+      "tools/trycmd/trycmd.py (474 lines)",
+      "tests/cmd/cli-surface.trycmd (8 executed steps)",
+      "tests/test_trycmd.py (37 tests)"
+    ]
+  },
+  "why": "Five tools in this repo carry a hand-rolled `selftest` subcommand and every one of them asserts on internal functions in-process. None executes its own command line. So in a repository whose stated purpose is verification, the argparse contract, the exit codes, and the error text a human reads were unverified. The first run of the new harness demonstrated that immediately: tools/map/codemap.py names its positional `command` while docmap, gate, panel and bus all name theirs `mode`, an inconsistency in the public CLI surface that no existing test could have seen because no existing test crosses the process boundary. That is the gap, and it does not overlap the selftests: they check derivations, this checks the boundary.",
+  "why_ported_and_not_adopted": "trycmd is a Rust test harness invoked from `cargo test`. Our CLIs are Python. Adopting it as-is would mean a second cargo crate in the gate whose only job is to shell out to python, for a harness with no hot path. tools/hookgate is Rust because it is a PreToolUse hook measured at 91.87ms and the latency argument carries it; a snapshot runner has no such argument. So the grammar and the matcher were ported and the crate was not taken.",
+  "what_ours_does": "Parses `.trycmd` literate blocks (```, ```console, ```trycmd) with the upstream grammar: `$ ` starts a command, `> ` continues it, `? <code|success|failed>` declares the exit status, following lines are expected merged stdout+stderr. Matches with snapbox's `[..]` intra-line wildcard and `...` line elide. Normalizes CRLF to LF and redacts the project root before comparison. `check` verifies, `overwrite` splices real output back into the file, `selftest` proves the grammar and the matcher.",
+  "our_loc": 474,
+  "divergences_from_upstream": [
+    "Bin resolution: upstream uses a `[[bin]]` table; here `python` maps to sys.executable and anything else to PATH.",
+    "`CommandStatus::Interrupted` and `Skipped` are not ported. Neither is expressible in a subprocess.run result on Windows, and a status value that can never be produced is a false affordance.",
+    "`[EXE]` redaction added for the Windows/Linux split this tree straddles.",
+    "A case file that fails to parse is a FAILURE, not a skip. Upstream errors too; this is called out because a snapshot harness that skips unreadable files reports green on an empty suite, and that is the failure mode tests/test_trycmd.py::TestHarnessCannotPassVacuously exists to prevent."
+  ],
+  "strongest_counterargument": "Snapshot tests of `--help` and argparse error strings are the most brittle tests it is possible to write, and they fail on cosmetic changes far more often than they catch a real defect. Python 3.13 already changed argparse's `invalid choice` wording once. Every one of those failures costs a human a decision, and the standard resolution is to run `overwrite` without reading the diff, at which point the suite asserts nothing and still reports green. That is a worse state than having no test, because it looks like coverage. The defence is that the wildcards keep the assertions on the load-bearing parts (the exit code, the mode list, the fact that a bad argument is exit 2 rather than a traceback), that `overwrite` is a mode a human must type and is never reached by `check`, and that the one real finding in the first run was a genuine CLI inconsistency. Whether that holds is measurable: if this suite needs more than two overwrites for cosmetic reasons before the recheck date, the counterargument won.",
+  "alternatives": [
+    {
+      "name": "Keep the status quo: in-process selftests only",
+      "url": "https://docs.rs/trycmd/latest/trycmd/",
+      "why_not": "The simplest correct option and the one this is obliged to beat. It cannot see anything at the process boundary by construction: argparse choices, exit codes, stderr routing, and whether a bad argument produces a usage message or a traceback. The codemap `command`-versus-`mode` inconsistency is the concrete thing it missed. Not replaced by this; both now run."
+    },
+    {
+      "name": "cram",
+      "url": "https://bitheap.org/cram/",
+      "why_not": "The original of this format, Python, language-agnostic, and the direct ancestor trycmd cites. Genuinely close and the strongest adopt candidate. Rejected on two counts: it is a third-party dependency in a tree with almost none, added for a test harness rather than for a product need; and its matching is exact-or-regex per line with no equivalent of snapbox's `[..]` plus `...` normalization, which is precisely what makes width-wrapped argparse output testable. Its `-i` interactive patch mode is better than our `overwrite` and is the thing worth stealing next."
+    },
+    {
+      "name": "pytest with subprocess.run and inline assertions",
+      "url": "https://docs.pytest.org/",
+      "why_not": "Already available, zero new code. It is what tests/test_codemap.py::_cli does. It works and it does not scale to a herd: each case is a hand-written function with hand-written expected strings, there is no update mode, and multi-line expected output becomes an unreadable literal. trycmd's actual thesis is that CLI cases should be cattle and not pets, and the cost of a case here is a four-line block in a markdown file."
+    },
+    {
+      "name": "pytest-console-scripts / pytest-regressions",
+      "url": "https://pypi.org/project/pytest-regressions/",
+      "why_not": "pytest-regressions is the closest Python-native snapshot library with an update flag (--force-regen). Rejected because its snapshots are opaque side files keyed by test name, so a reviewer reading a PR sees a changed .txt blob with no command next to it. The literate format keeps the command, the exit code, and the output in one reviewable block, which is the property that makes a snapshot diff judgeable rather than rubber-stamped."
+    },
+    {
+      "name": "insta / snapbox used directly",
+      "url": "https://crates.io/crates/snapbox",
+      "why_not": "Both Rust, same objection as trycmd itself: the harness would need a cargo build to test Python CLIs. snapbox's matcher is the part with real value and it is the part that was ported."
+    },
+    {
+      "name": "bats-core",
+      "url": "https://github.com/bats-core/bats-core",
+      "why_not": "Mature, widely used, and shell-first. This tree is Windows-native and the operator's own rules record repeated CRLF and shell-portability failures; making the CLI contract depend on a bash harness would move the tests onto the least portable surface available here."
+    }
+  ],
+  "improvement_owed": "Two things. First, only three of the five tools with a selftest have a case block (docmap, codemap, trycmd); gate.py, panel.py and bus.py have none, and gate.py is the one whose exit codes other things depend on. Second, there is no interactive review step on `overwrite`, which is exactly the hole the strongest counterargument names; cram's `-i` patch mode is the known fix and should be taken before this suite grows past roughly 30 steps.",
+  "evidence": {
+    "measured": "2026-07-30",
+    "trycmd_steps_executed": 8,
+    "pytest_tests": 37,
+    "finding_on_first_run": "tools/map/codemap.py names its positional `command`; docmap.py and the other four name theirs `mode`.",
+    "commands": [
+      "python tools/trycmd/trycmd.py selftest",
+      "python tools/trycmd/trycmd.py check -v",
+      "python -m pytest tests/test_trycmd.py -q"
+    ]
+  },
+  "recheck": "Re-run the three commands. Then count how many times `overwrite` was run against tests/cmd since this date and why: more than two cosmetic regenerations means the brittleness objection won and the argparse --help blocks should be dropped in favour of exit-code-and-mode-list assertions only. Also re-check whether cram has gained a snapbox-style normalizer, which would make porting redundant and adoption correct."
+}

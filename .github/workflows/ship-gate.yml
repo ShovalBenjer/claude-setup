@@ -122,26 +122,26 @@ jobs:
       # `unit` domain command below, so a selftest regression is individually
       # attributable in the CI log rather than buried inside one long &&-chain.
       - name: gate.py selftest
-        run: python tools/gate/gate.py selftest
+        run: python engine/tools/gate/gate.py selftest
 
       - name: panel.py selftest
-        run: python tools/review/panel.py selftest
+        run: python engine/tools/review/panel.py selftest
 
       - name: strand.py selftest
-        run: python tools/docmap/strand.py selftest
+        run: python engine/tools/docmap/strand.py selftest
 
       - name: strand.py check (doc structure + reachability)
-        run: python tools/docmap/strand.py check
+        run: python engine/tools/docmap/strand.py check
 
       - name: atlas.py selftest (corpus structure + near-duplicate detection)
-        run: python tools/docmap/atlas.py selftest
+        run: python engine/tools/docmap/atlas.py selftest
 
       # Named separately for the same reason as the selftests above:
       # individually attributable in the CI log. Proves the fail-closed
       # coverage_map domain (quality-contract.json) can actually go red, not
       # just that it reads clean against this repo's own current tree.
       - name: coverage_map.py selftest (fail-closed on an undeclared top-level directory)
-        run: python tools/audit/coverage_map.py selftest
+        run: python engine/tools/audit/coverage_map.py selftest
 
       # The review domain wants state/reviews/<HEAD sha>.json for the exact
       # commit being checked, and on a pull_request that HEAD is an ephemeral
@@ -150,7 +150,7 @@ jobs:
       # This step fails on a changes-requested verdict, which is the point:
       # before 2026-08-05 this coverage was a waiver, not a run.
       - name: panel.py run (produce the review artifact for this exact commit)
-        run: python tools/review/panel.py run --project .
+        run: python engine/tools/review/panel.py run --project .
 
       # intent-control-plane's suite (test_symbol_graph, test_codebase_map) makes
       # tree_sitter_language_pack download its parser bundle from a GitHub release
@@ -161,7 +161,7 @@ jobs:
       # still reports the real failure, so nothing is masked.
       - name: Pre-fetch tree-sitter parsers (retry; CDN flap cost 4 reruns on 2026-08-12)
         run: |
-          cd intent-control-plane
+          cd engine/intent-control-plane
           # || exit 0 because the runner's bash -e would otherwise fail the STEP
           # on a network outage here, before gate.py run ever reports the real
           # failure (kilo-code-bot caught the contradiction with the claim below).
@@ -201,7 +201,7 @@ jobs:
       # recompiled from scratch), so the cost is one `cargo test` worth of
       # link+run time, not a second full build.
       - name: "dashboard cargo test --workspace (EXT for DASH-1: core + src-tauri)"
-        run: cd dashboard && cargo test --workspace
+        run: cd engine/dashboard && cargo test --workspace
 
       # bun, not npm, since 2026-08-23: the repo rule prefers bun for JS, Vite 7 needs
       # Node 20.19+ which the apt Node 18 on the runner host is not, and bun blocks
@@ -214,12 +214,12 @@ jobs:
 
       - name: dashboard-web-build (bun --bun run build, dashboard/web)
         run: |
-          cd dashboard/web
+          cd engine/dashboard/web
           bun install --frozen-lockfile
           bun --bun run build
 
       - name: gate.py run (full contract)
-        run: python tools/gate/gate.py run --project . -v
+        run: python engine/tools/gate/gate.py run --project . -v
 
   supply-chain:
     # Added 2026-08-04 after measuring this repo's CI against nousresearch/hermes-agent:
@@ -310,16 +310,17 @@ jobs:
           FILES=$(git diff --name-only "$BASE"...HEAD)
           echo "changed files: $(echo "$FILES" | grep -c . || true)"
           echo
-          for area in tools/ tests/ docs/ dot-claude/ dot-codex/ dot-agents/ \
-                      state/ .github/ intent-control-plane/ research-papers/ work-docs/ \
-                      dashboard/; do
+          for area in engine/tools/ engine/tests/ knowledge/docs/ payload/dot-claude/ \
+                      payload/dot-codex/ payload/dot-agents/ knowledge/state/ .github/ \
+                      engine/intent-control-plane/ knowledge/research-papers/ \
+                      knowledge/work-docs/ engine/dashboard/; do
             n=$(echo "$FILES" | grep -c "^$area" || true)
             [ "$n" -gt 0 ] && printf "  %-24s %s file(s)\n" "$area" "$n"
           done
           echo
           echo "python blast radius of changed tool files:"
-          for f in $(echo "$FILES" | grep '^tools/.*\.py$' || true); do
-            python tools/graph/blast_radius.py . --changed "$f" 2>/dev/null | head -6
+          for f in $(echo "$FILES" | grep '^engine/tools/.*\.py$' || true); do
+            python engine/tools/graph/blast_radius.py . --changed "$f" 2>/dev/null | head -6
           done
 
   falsifiability:
@@ -359,16 +360,16 @@ jobs:
           python-version: "3.12"
 
       - name: bus.py selftest
-        run: python tools/bus/bus.py selftest
+        run: python engine/tools/bus/bus.py selftest
 
       - name: refute.py selftest
-        run: python tools/refute/refute.py selftest
+        run: python engine/tools/refute/refute.py selftest
 
       - name: refute.py run (verify portable claims, skip mutation-backed)
-        run: python tools/refute/refute.py run --exclude C-015 C-022 C-024 C-026
+        run: python engine/tools/refute/refute.py run --exclude C-015 C-022 C-024 C-026
 
       - name: skills_sync.py selftest
-        run: python tools/audit/skills_sync.py selftest
+        run: python engine/tools/audit/skills_sync.py selftest
 
       # selftest and check answer different questions and neither replaces the
       # other: selftest proves the checker can still fail, check asks whether the
@@ -378,10 +379,10 @@ jobs:
       # this line when the waiver is cleared rather than renewed.
       - name: skills_sync.py check
         continue-on-error: true
-        run: python tools/audit/skills_sync.py check
+        run: python engine/tools/audit/skills_sync.py check
 
       - name: pointers.py scan
-        run: python tools/audit/pointers.py scan
+        run: python engine/tools/audit/pointers.py scan
 
       # skills_sync answers "do the trees agree", pointers answers "does the file
       # exist". Neither asks whether a skill that is present and in sync can start
@@ -390,7 +391,7 @@ jobs:
       # The selftest is host-independent on purpose: it plants a deliberately
       # absent binary rather than asserting anything about the CI runner's PATH.
       - name: skill_deps.py selftest (host-runnability classifier)
-        run: python tools/audit/skill_deps.py selftest
+        run: python engine/tools/audit/skill_deps.py selftest
 
       # skill_deps asks whether one skill can start. This asks whether a persona
       # the router names can do anything at all. Measured 2026-08-06 before the
@@ -399,14 +400,14 @@ jobs:
       # reads ~/.claude/skills. The selftest plants its own registry and trees, so
       # it does not depend on the runner having either.
       - name: persona_audit.py selftest (routed-persona executability)
-        run: python tools/audit/persona_audit.py selftest
+        run: python engine/tools/audit/persona_audit.py selftest
 
       # pile.py emits a deletion list, so its selftest is the only thing standing
       # between a bad survivor rule and a file that is gone. It plants a protected
       # runtime instruction file on purpose: the first real run proposed removing
       # dot-codex/AGENTS.md for being byte-identical to the root CLAUDE.md.
       - name: pile.py selftest (duplicate and fork manifest)
-        run: python tools/audit/pile.py selftest
+        run: python engine/tools/audit/pile.py selftest
 
       # This runner has no ~/.claude/rules, which is the exact condition that turned
       # the rules domain red on 2026-08-05 and the condition this selftest now asserts
@@ -415,7 +416,7 @@ jobs:
       # still turn the step red, and if those ever swap places the step says which one
       # moved instead of the whole gate reporting one word.
       - name: rules_sync.py selftest
-        run: python tools/audit/rules_sync.py selftest
+        run: python engine/tools/audit/rules_sync.py selftest
 
       # Row 6 of the agentic repo standard (ADR-0020). Only the pure decision
       # function is exercised: the selftest never calls gh, git, or the network,
@@ -424,14 +425,14 @@ jobs:
       # which is what would file a violation against every repository at once
       # during a GitHub outage.
       - name: repo_project.py selftest (repo standard, row 6)
-        run: python tools/audit/repo_project.py selftest
+        run: python engine/tools/audit/repo_project.py selftest
 
       # A style rule nothing measures is a wish, and a style CHECKER nobody runs is
       # the same thing one layer down. This is the only step in this job guarding
       # prose rather than an instrument, and it belongs here because the question is
       # not "is the writing good" but "would a violation be caught at all".
       - name: plain.py selftest (explain-simply checker)
-        run: python dot-claude/skills/explain-simply/plain.py selftest
+        run: python payload/dot-claude/skills/explain-simply/plain.py selftest
 
       # The skill's own text has to survive its own rules. A style skill whose
       # documentation fails its own checker is exactly the decorative check this repo
@@ -439,7 +440,7 @@ jobs:
       # step already caught one real defect in the checker: a run of bullets was
       # measured as a single long paragraph.
       - name: plain.py check (the skill passes its own rules)
-        run: python dot-claude/skills/explain-simply/plain.py check dot-claude/skills/explain-simply/SKILL.md
+        run: python payload/dot-claude/skills/explain-simply/plain.py check payload/dot-claude/skills/explain-simply/SKILL.md
 
       # Skill routing. Written after benchmarking Master0fFate/just-my-skills, which
       # ships 40 eval cases across evals.json + trigger-evals.json and has nothing in
@@ -448,7 +449,7 @@ jobs:
       # skills and zero fixtures. A runner that grades nothing and a fixture nobody
       # grades are the same inert artifact, so both steps below are required.
       - name: skilleval selftest (prove each grader discriminates)
-        run: python tools/skilleval/run.py selftest
+        run: python engine/tools/skilleval/run.py selftest
 
       # WHAT THIS ENFORCES: for every skill that HAS a fixture, the frontmatter is
       # structurally sound, the fixture holds at least one trigger AND one skip case
@@ -471,7 +472,7 @@ jobs:
       #     vocabulary with a prompt that must be skipped than with one that must
       #     trigger. It is a lower bound, and it costs no model call and no network.
       - name: skilleval scan (grade the fixtures that exist)
-        run: python tools/skilleval/run.py scan
+        run: python engine/tools/skilleval/run.py scan
 
       # Runs here rather than in `unit` for the same reason as the rest of this job,
       # plus one specific to it: this tool is the undo path for writes into
@@ -480,20 +481,20 @@ jobs:
       # own live tree in a temp directory and never touches the real ~/.claude, so it
       # is portable to a runner that has no such tree at all.
       - name: snap.py selftest
-        run: python tools/snapshot/snap.py selftest
+        run: python engine/tools/snapshot/snap.py selftest
 
       # The committed message log must still verify. This is the one step here that
       # checks DATA rather than an instrument: a rewritten or reordered history in
       # state/bus.jsonl fails the chain among the rows that carry hashes.
       - name: bus.py verify (committed log chain)
-        run: python tools/bus/bus.py verify
+        run: python engine/tools/bus/bus.py verify
 
       # The expensive one, last: applies every mutation in every spec to a copy of
       # its target and requires each one to turn its selftest red. Exit 2 if a
       # baseline copy is not green or a spec is empty, exit 1 if any mutation
       # survived or a pattern drifted and went unapplied.
       - name: mutate.py --spec all (prove the selftests can fail)
-        run: python tools/audit/mutate.py --spec all
+        run: python engine/tools/audit/mutate.py --spec all
 
   browser-instrument-selftest:
     # Covers ONLY: proving tools/e2e/flow.py + tools/browser/cdp.py still
@@ -513,4 +514,4 @@ jobs:
           python-version: "3.12"
 
       - name: flow.py selftest (requires a real Chrome via cdp.py)
-        run: python tools/e2e/flow.py selftest
+        run: python engine/tools/e2e/flow.py selftest
