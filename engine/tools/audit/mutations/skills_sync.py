@@ -38,17 +38,22 @@ MUTATIONS = [
      'return False'),
 
     # ---- cmd_check: the guard being used ---------------------------------
+    # Disambiguated against check()'s own `if not is_deployed_home():` (added by
+    # the item-2 migration, 2026-08-24) with the comment line that immediately
+    # follows cmd_check's occurrence only: a bare pattern match is no longer
+    # unique in this file, and an ambiguous find-and-replace risks mutating the
+    # wrong occurrence silently rather than refusing to apply.
     ("cmd_check drops its is_deployed_home guard",
      "the filter that kept the survey honest is gone; a container runs the full "
      "comparison against a foreign tree and reports whatever it finds",
-     '    if not is_deployed_home():',
-     '    if False:'),
+     '    if not is_deployed_home():\n        # Present but foreign.',
+     '    if False:\n        # Present but foreign.'),
 
     ("cmd_check inverts its is_deployed_home guard",
      "a real deployment is reported as unmeasurable and a container is compared; "
      "the wrong half of every host population runs the check",
-     '    if not is_deployed_home():',
-     '    if is_deployed_home():'),
+     '    if not is_deployed_home():\n        # Present but foreign.',
+     '    if is_deployed_home():\n        # Present but foreign.'),
 
     # ---- classification: pointer vs real ---------------------------------
     ("a one-line dead-path skill stops being classified as pointer",

@@ -58,6 +58,9 @@ import shutil
 import sys
 import tempfile
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "lib"))
+from finding import Finding  # noqa: E402
+
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 # A path that only exists under WSL or under the retired codex tree. A body whose
@@ -461,6 +464,81 @@ def cmd_import(a):
     print("\nverified from disk: {} skill(s) now in the repo".format(len(todo)))
     print("they are UNCOMMITTED. git add + commit is a separate, human step.")
     return 0
+
+
+def check(diff_or_text=None, repo_base: str | None = None, live_base: str | None = None,
+          strict: bool = False) -> list[Finding]:
+    """The item-2 shared-signature entry point: check(diff_or_text) -> list[Finding].
+    Ignores diff_or_text, same as the other whole-tree checkers migrated under this
+    item. Mirrors cmd_check()'s exact branching, not survey()'s raw dict: this tool
+    has TWO distinct unmeasurable states, not one. No live tree at all (the CI case,
+    same shape as rules_sync.py) returns no findings, silently correct per this
+    file's own SKIP message. A live tree present but not a real deployment of this
+    repo (is_deployed_home() false — a directory named ~/.claude with no
+    settings.json, the remote-container case measured 2026-08-10: DRIFT 87 against
+    a contract recording 28) is UNMEASURABLE, not clean, and returns one finding
+    saying so rather than either an empty list (which would read as "checked,
+    clean") or the drift findings themselves (which would be a confident number
+    about a tree nobody deployed).
+    """
+    rb = repo_base or repo_skills()
+    lb = live_base or live_skills()
+    if not os.path.isdir(rb):
+        return [Finding(checker="skills_sync.no-repo-tree", severity="high",
+                         file=rb, line=0, why="cannot run: no repo skills tree here")]
+    if not os.path.isdir(lb):
+        return []  # SKIP, same as cmd_check(): CI has no live tree, unanswerable != wrong
+    if not is_deployed_home():
+        return [Finding(
+            checker="skills_sync.foreign-home", severity="medium", file=lb, line=0,
+            why="{} exists but there is no {}, so this ~/.claude is not a deployment "
+                "of this repo; comparing against it would report drift for a tree "
+                "nobody deployed".format(lb, live_settings()))]
+
+    s = survey(rb, lb)
+    findings: list[Finding] = []
+
+    def _rows(key, checker, severity, why_tmpl):
+        for row in s[key]:
+            name = row[0]
+            meta = {"kind": row[1], "lines": row[2]} if len(row) > 2 else {}
+            if len(row) > 3 and row[3]:
+                meta["dead_paths"] = row[3]
+            findings.append(Finding(checker=checker, severity=severity, file=name,
+                                     line=0, why=why_tmpl, meta=meta))
+
+    _rows("repo_only", "skills_sync.repo-only", "high",
+          "committed but not deployed; no session can invoke or read this")
+    _rows("live_only", "skills_sync.live-only", "high",
+          "deployed but not committed; exists on one machine only, in no commit")
+
+    for name, a_bytes, b_bytes in s["drift"]:
+        findings.append(Finding(
+            checker="skills_sync.drift", severity="high", file=name, line=0,
+            why="same name, different bytes; whichever side someone reads is a coin flip",
+            meta={"repo_bytes": a_bytes, "live_bytes": b_bytes}))
+
+    for name, side in s["no_manifest"]:
+        findings.append(Finding(
+            checker="skills_sync.no-manifest", severity="high", file=name, line=0,
+            why="no SKILL.md ({})".format(side), meta={"side": side}))
+
+    for side, key in (("repo", "squat_repo"), ("live", "squat_live")):
+        for name, size, first, dead, where in s[key]:
+            findings.append(Finding(
+                checker="skills_sync.squat-{}".format(side), severity="high",
+                file=name, line=0,
+                why="a file sits where a skill directory belongs on the {} side"
+                    .format(side),
+                meta={"size": size, "dead_path": dead, "body_lives_in": render_body(where)}))
+
+    if strict:
+        _rows("hollow_repo", "skills_sync.hollow-repo", "medium",
+              "deploying this would publish a name with nothing behind it")
+        _rows("hollow_live", "skills_sync.hollow-live", "medium",
+              "already published with nothing behind it; invoking it gets nothing")
+
+    return findings
 
 
 def cmd_check(a):
