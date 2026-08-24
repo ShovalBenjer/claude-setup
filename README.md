@@ -3,138 +3,73 @@
 **Start here: [CLAUDE-OS.md](CLAUDE-OS.md) — the single source of truth.** It merges and
 supersedes every prior plan in this repo.
 
-Updated 2026-07-23: relocated to `C:\Users\shova\claude-setup` (out of new-recruit),
-synced to the July work state (`dot-claude/`, `dot-codex/`, `dot-agents/`), added
-`tools/whatsapp/` CDP readers and the live notification hooks. The 2026-05-08 export
-below remains as history (commit 910dec2).
-
-Updated 2026-07-24: the July sync above was PARTIAL — completed today from
-`work-archive-2026-07-12` (HOME-setup.bundle + uncommitted tgz): all 23 Gastown
-agent personas, 14 hooks, 36 skills, tower/cx/intent bins, work CLAUDE.md +
-settings.json, the full work `docs/` tree (→ `work-docs/`), and the
-`intent-control-plane/` repo folded in. Full inventory + what stays bundle-only:
-`docs/analysis/2026-07-24-work-archive-import.md`. The 11 work project repos stay
-as bundles in the archive (portfolio, not setup).
+Updated 2026-08-24: directory structure consolidated. `dot-claude/`, `dot-codex/`,
+`dot-agents/` are the deployable dotfiles payload. `tools/` holds the harness (gate,
+oracles, review fabric, bus). `research-papers/` holds long-form research. `work-docs/`
+holds work artifacts. `docs/` holds project governance docs (PRDs, specs, ADRs, analysis).
 
 ---
-
-Built 2026-05-08. A snapshot of my Claude Code setup, research artifacts, presentations, and master plans.
 
 ## Contents
 
 ```
 claude-setup/
-├── dot-claude/              ← copy of ~/.claude/  (no caches/sessions/secrets)
-│   ├── skills/              23 user-authored skills
-│   ├── hooks/               5 hooks (meme-* + voice/visual triggers)
-│   ├── bin/                 13 helper scripts (a2a, generate-voice, play-meme, etc.)
-│   ├── commands/            2 slash commands (cdp, commit-push-pr)
-│   ├── config/              memes.json + meme registry
-│   ├── docs/                personal Claude Code docs
-│   ├── plans/               saved /plan outputs
-│   ├── CLAUDE.md            global per-session instructions
-│   ├── settings.json        permissions + hooks + env (no secrets)
-│   ├── policy-limits.json   hard limits
-│   ├── handover-*.md        rolling handover docs (Jan–Feb 2026)
-│   ├── ai-foundry-connection-update-report.md
-│   ├── production-readiness-sign-off.md
-│   └── Azure Resource Management Guidelines for oded (2).docx
+├── CLAUDE-OS.md              single source of truth (layers L0–L8, deep-work protocol)
+├── AGENTS.md                 agent instructions and lane topology
+├── TODO.md                   active ticket list (< 300 lines)
+├── CONTRIBUTING.md           PR process, code style, testing
 │
-├── home-dotfiles/           HOME-level dotfiles (renamed dot-* for portability)
-│   ├── dot-mcp.json         per-project MCP server registry
-│   ├── dot-claudeignore     ignore rules for $HOME-as-repo
-│   ├── dot-crontab-bak-*    cron schedules (health reminders + observability)
-│   └── AGENTS.md            Codex agent configuration
+├── tools/                    harness verification instruments
+│   ├── gate/                 12-domain contract + waiver system
+│   ├── bus/                  hash-chained cross-session bus
+│   ├── review/               panel.py oracle + diff model
+│   ├── audit/                skills_sync, pointers, codemap, refute
+│   ├── map/                  codemap + docmap
+│   ├── intent/               prompt capture + ticket lifecycle
+│   ├── slop_lint.py          prose gate (banned lexicon + density)
+│   └── ...
 │
-├── master-plans/            the planning docs that drive the setup
-│   ├── CLAUDE-CODE-MASTER-PLAN-2026-05-03.md      ← v2, current
-│   ├── claude-setup-master-plan-2026-05-02.md     ← v1, superseded
-│   ├── claude-setup-tasks-2026-05-02.md
-│   ├── claude-skills-scatter-2026-05-03.md
-│   ├── claude-skills-triage-2026-05-03.md
-│   ├── cleanup-proposal.md
-│   ├── claude-code-experimental-features.md
-│   └── FIX-BWRAP-WSL.md
+├── dot-claude/               committed copy of ~/.claude/ (skills, hooks, bin, commands)
+├── dot-codex/                committed copy of ~/.codex/ (skills, hooks)
+├── dot-agents/               committed copy of ~/.agents/ (skills)
 │
-├── research-papers/         the deep-dive documents I authored / curated
-│   ├── home-md/             25 long-form research markdowns (HOME-level)
-│   │   • From 2028 — Looking Back on 2026 Agentic Coding
-│   │   • Autonomous Agentic Coding Systems (Deep Dive)
-│   │   • Futuristic Learning Stack (April 2026)
-│   │   • AI Engineering 2030–2035 Frontiers
-│   │   • 2026 Mathematics & Statistics Frontier
-│   │   • Q-Learning, Deep RL & March 2026 Research
-│   │   • Claude Code Complete Issue Map
-│   │   • azure-wiki-onepager-skill
-│   │   • compass_artifact_wf-... (research export)
-│   │   • plus master plans (also under master-plans/)
-│   │
-│   ├── Documents/           11 dated research subfolders
-│   │   • CDP_Kick_Research_20260507
-│   │   • CRM_Call_Analyser_Tool_Selection_Research_20260418
-│   │   • CS_Agent_Eval_Research_20260415
-│   │   • CS_Agent_Eval_SOTA_Audit_20260406
-│   │   • ElevenLabs_Scribe_Research_20260427/28
-│   │   • Executive_MCP_Research_20260507
-│   │   • Football_Analytics_ML_Research_20260412
-│   │   • Foundry_Workflows_Research_20260419
-│   │   • SIU_InHouse_Video_Research_20260506
-│   │   • SOTA_DS_Methods_Research_20260415
-│   │
-│   ├── Prompts/             curated prompt library + style guides
-│   ├── knowledge/           knowledge-base scaffolding
-│   │
-│   ├── docs-shoval/         ~/docs (audits + specs + reflections + research)
-│   │   ├── audits/          Azure dormancy audit, CS-agent boundary audit, incident write-ups
-│   │   ├── specs/           silver eval dataset, v108 yasha intake, frontier governance, PST extraction
-│   │   ├── reflections/     7 honest end-of-task retrospectives
-│   │   └── research/        AI bot security best practices
-│   │
-│   └── el-vadt/             sales-agent research project (the "research papers" exemplar)
-│       ├── docs/            books + papers consulted (Spin Selling, Challenger Sale,
-│       │                    Cialdini's Psychology of Persuasion, How Emotions Are Made, etc.)
-│       │                    plus my Maryam v6.8 prompt research and ElevenLabs comparisons
-│       ├── sales-agents-summary/   handover, final report, prompts (no source dump)
-│       ├── specify-memory/  .specify framework memory
-│       └── analysis/        analysis artifacts
+├── intent-control-plane/     packaged subproject (lint + mypy here)
+├── nexus-engine-rs/          Rust ledger crate (hot-path rewrite candidate)
 │
-├── pptx/                    every .pptx I authored
-│   • AI_Status_Meeting_May_2026 - Copy.pptx           (root copy)
-│   • AI_Status_Meeting_May_2026 - Copy - Copy.pptx    (board meeting copy)
-│   • azure_costs_jan_may_2026.pptx                    (cost analysis Jan–May 2026)
-│   • ORM_intial_Design.pptx                           (ORM agent design)
-│   • azureops-copilot-agent.pptx                      (azure-devops-agent design)
-│   • ai-solutions-portfolio-2025-v3.pptx              (Oded portfolio archive)
+├── research-papers/          long-form research and SOTA references
+│   ├── home-md/              25 long-form research markdowns
+│   ├── Documents/            11 dated research subfolders
+│   ├── Prompts/              curated prompt library
+│   └── el-vadt/              sales-agent research project
 │
-└── startup-scripts/         every install/setup shell I touched
-    • claude-meme-hooks-startup.sh   (the new fixed installer; 344 lines, idempotent)
-    • siu-kilocode-install.sh
-    • siu-py-setup.sh
-    • qc-telephony-install-deps.sh
-    • campaign-analysis-install-deps.sh
-    • claude-orchestration-setup-mcp-env.sh
-    • vision-analysis-setup-security.sh
-    • startup.md (campaign-analysis design doc)
+├── work-docs/                work artifacts, specs, and planning docs
+├── docs/                     project governance
+│   ├── INDEX.md              every tracked prose document
+│   ├── SESSION-BOOT.md       fresh-session context from disk
+│   ├── PLAN-SPINE.md         PRD → spec → slice → ticket → % built
+│   ├── prd/                  product requirements
+│   ├── specs/                implementation specs
+│   ├── adr/                  architecture decision records
+│   ├── analysis/             point-in-time scans and measurements
+│   ├── standards/            imported and home-grown standards
+│   ├── prior-art/            third-party tool comparisons (300+ line components)
+│   └── ...
+│
+├── dashboard/                Tauri + React session dashboard
+├── state/                    append-only JSONL ledgers (bus, gate-runs, claims)
+├── tests/                    root test suite
+└── .github/workflows/        CI: gate, review, supply-chain, gemini-review
 ```
 
-## What's deliberately not here
+## Companion documentation
 
-- `~/.claude/cache/` (5 GB of LanceDB / Foundry cache)
-- `~/.claude/assets/` (downloaded meme clips + venv with torch/sentence-transformers)
-- `~/.claude/plugins/` (third-party marketplace skills, ~28 MB)
-- `~/.claude/projects/` (per-session conversation blobs, ~83 MB)
-- `~/.claude/sessions/`, `shell-snapshots/`, `file-history/`, `paste-cache/` (ephemeral state)
-- `~/.claude/mcp-servers/` (built MCP server binaries — checked into upstream repos already)
-- `el-vadt/sales-agents/` (497 MB of source — under git, can be re-cloned)
-- `el-vadt/sales-agents.zip` (359 MB duplicate)
+- [docs/SESSION-BOOT.md](docs/SESSION-BOOT.md) — full context from disk in 60 seconds
+- [docs/PLAN-SPINE.md](docs/PLAN-SPINE.md) — one page connecting PRD to spec to slice to ticket
+- [docs/INDEX.md](docs/INDEX.md) — every tracked prose document under docs/
+- [CLAUDE-OS.md](CLAUDE-OS.md) — mission, layers L0–L8, deep-work protocol, native-feature map
 
-## Companion archive
+## How to restore dotfiles
 
-`claude-meme-hooks-20260508.zip` ships alongside this bundle — the standalone meme-hooks project (project source + 2 downloaded mp4 clips), built earlier today.
-
-## How to restore
-
-1. Unzip somewhere (e.g. `~/restore-2026-05-08/`).
-2. `cp -r dot-claude/skills dot-claude/hooks dot-claude/bin dot-claude/commands ~/.claude/`
-3. Review `dot-claude/settings.json` and merge with current `~/.claude/settings.json` (the `hooks` block is the meaningful part — re-running `~/projects/claude-meme-hooks/startup.sh` re-patches it idempotently).
-4. Pptx + research papers — wherever you want them.
+1. `cp -r dot-claude/skills dot-claude/hooks dot-claude/bin dot-claude/commands ~/.claude/`
+2. Review `dot-claude/settings.json` and merge with current `~/.claude/settings.json`
+3. Repeat for `dot-codex/` and `dot-agents/` if those runtimes are installed
