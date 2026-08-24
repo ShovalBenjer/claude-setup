@@ -1,11 +1,10 @@
-# CLAUDE OS — Single Source of Truth
+# CLAUDE OS - Single Source of Truth
 
 Status: ACTIVE (living document, the spine)
-Date: 2026-07-23
+Date: 2026-08-24
 Owner: Shoval Benjer. Maintainer: the Claude-setup session.
-Repo: github.com/ShovalBenjer/claude-setup — canonical home of the OS; `dot-claude/`,
-`dot-codex/`, `dot-agents/` are the deployable payload (July-2026 state, on top of the
-May-2026 work export in commit 910dec2).
+Repo: github.com/ShovalBenjer/claude-setup - canonical home of the OS; `dot-claude/`,
+`dot-codex/`, `dot-agents/` are the deployable payload.
 
 This file MERGES and SUPERSEDES every prior setup plan. Predecessors remain as
 history/reference only; none is authoritative. See the supersession table at the end.
@@ -19,284 +18,246 @@ prompts) becomes gated, evidenced action across his ventures, with Shoval reduce
 approval surface, running on the Claude subscription at near-zero marginal cost.
 
 Three client ventures (each its own session/repo; the OS serves all):
-1. **Hiring machine** (new-recruit) — P(hire) optimization, offer by ~end Sept 2026.
-2. **Learning platform** (הסדנה / daily-deep-learning) — closing the gap between
+1. **Hiring machine** (new-recruit) - P(hire) optimization, offer by ~end Sept 2026.
+2. **Learning platform** (הסדנה / daily-deep-learning) - closing the gap between
    building AI-natively and actually knowing it.
-3. **The OS itself** (this repo) — rails, gates, review fabric, notification fabric.
+3. **The OS itself** (this repo) - rails, gates, review fabric, notification fabric.
 
 ---
 
-## 2. The Layers
+## 2. How to use Claude Code effectively
 
-### L0 — SDLC Kernel (the operating discipline; under everything)
-Origin: Shoval's 2026-07-23 feedback ("small patches + fast done ≠ my intent"),
-Forge Loop, local-intent-control-plane, orchestration-rewire.
+### 2.1 Session discipline
 
-- **Intent contract first.** Substantive task → first artifact is an acceptance
-  checklist extracted from Shoval's plan/context (task bus). Judged against THAT.
-- **Loop, don't hand back.** Workflows with a separate adversarial done-verifier
-  (mojuco pattern: one refuter, refute-by-default). Full time/token budget; speed
-  is only a virtue on explicit quick fixes.
+- **Read the boot path first.** `docs/SESSION-BOOT.md` is the canonical entry point.
+  Skipping it is the most frequently logged failure in `state/lessons.jsonl`.
+- **Name your lane.** `docs/charters.md` assigns lanes. Append a claim row to
+  `state/claims.jsonl` before starting. Doing another lane's work is the second most
+  logged failure.
+- **Ground truth is git plus state files, never a doc.** `docs/analysis/` and
+  `work-docs/` are dated snapshots and several are knowingly stale.
+
+### 2.2 Prompt patterns
+
+- **Spec-as-spine.** No substantive build without a spec + acceptance table. Every turn
+  re-anchors to the active spec. The `UserPromptSubmit` hook injects the active-spec
+  pointer.
+- **Intent contract first.** Substantive task → first artifact is an acceptance checklist
+  extracted from the operator's plan/context. Judged against THAT.
+- **Loop, don't hand back.** Workflows with a separate adversarial done-verifier (mojuco
+  pattern: one refuter, refute-by-default). Full time/token budget; speed is only a
+  virtue on explicit quick fixes.
 - **Done has a format.** Verification evidence (command + output) + intent-coverage
   statement (covered / uncovered + why). No coverage table = not done.
-- **State machine legality** (from mojuco/artifixer plan): no GENERATED→SHIPPED
-  without JUDGED+VERIFIED; no close without evidence; zero-opacity content is
-  killed, never softened. Enforced in hooks, not prose.
-- **Confidence gates** (intent-plane): ≥0.90 autonomous; 0.70–0.90 work + explicit
-  proof gate; <0.70 ask or spawn reviewer.
+- **Wide-then-curate for taste.** Generate 5 candidates with verbalized conventionality
+  probabilities; the operator picks. Pick + reason appended to taste corpus.
+- **Defixation.** Name the obvious/default solution and forbid it first. Anchor vocabulary
+  to excavated real artifacts.
 
-### L1 — Governance & Identity
-- One reconciliation ADR series: Codex = independent reviewer only (executor role
-  dead per 2026-07-20); model policy per model-selection.md actually enforced in
-  settings (Sonnet default; Fable/Opus deliberate) — PENDING SHOVAL (current global
-  default is fable[1m]); LoopCV verdict unified (KEEP DEMOTED).
-- Secrets: rotate the API key found in WhatsApp (PENDING SHOVAL); `.env`/credentials
-  never read/echoed/committed; PII never enters embedding indexes (pii-handling).
-- Cost: subscription-window backoff on all cron fleets; external metered APIs get a
-  hard monthly cap + pre-run projection (the $1.36 Apify lesson, generalized).
-- **Capability honesty matrix** (from IVR-sensors + SOTA-v4 audit): the OS maintains
-  a table of what each rail actually verifies vs claims. Stub functions and
-  always-pass checks are defects by definition.
+### 2.3 Context management
 
-### L2 — Memory, Continuity & Comms Copilot
-- **Task bus as spine**: all sessions read/write tasks with owner + evidence + deps.
-- SessionStart recall rewired to Windows paths: inject intent digest + candidate
-  skills (gap-analysis Tier-0, the highest-leverage single move).
-- Auto-memory + weekly curator cron (replaces dead WSL timers).
-- Intent ledger (`~/.intent/`: events.jsonl + intent.db) — capture prompts as SDLC
-  artifacts; authority order: raw prompt > spec > verified evidence > repo state >
-  summary > vector similarity.
-- **WhatsApp communications copilot** (Shoval-granted scope 2026-07-23): read ALL
-  groups + 1:1s via CDP (tools/whatsapp/, proven 2026-07-22 against role=grid DOM);
-  (a) twice-daily triage digest (who waits, asks, deadlines), (b) drafted replies in
-  Shoval's WhatsApp voice (style corpus from his own sent messages;
-  `~/.claude/style-corpus/shoval-whatsapp-voice.md`), (c) periodic reaction-coaching
-  retro. Draft-only — the send path is deliberately unbuilt. All local; PII out of
-  any index; incremental per-chat cursor.
+- **Fresh-context resumption.** A thrashed session → write handoff, restart from
+  artifacts; never continue polluted context. The `Stop`/`PreCompact` hook writes handoff
+  (goal/phase/decisions/evidence/next). Progress files + git are the sole carry-over.
+- **Compaction never decides what survives.** The mandated handoff schema is written first,
+  then compaction runs.
+- **Long horizon = the LOOP, not the session.** Cron-driven bounded runs over durable
+  artifacts (feature-list, progress file, one advance per run, commit).
+- **Subagent admission.** Spawn only when parallel, risky, specialist, or context-isolating.
+  Default 0, max 4. Every spawn gets fresh context pack + budget + output contract.
+- **Fanout with designed information asymmetry.** Breadth uses disjoint evidence/roles;
+  depth stays in ONE context with the 1M model when the working set demands.
 
-### L3 — Orchestration
-- One scheduler topology: native local cron (browser/ledger/WhatsApp work), cloud
-  routines (public-source work), WSL systemd retired.
-- Standing personas with real cadence: Mayor/concierge, Hiring operator, Portfolio
-  reviewer, Curator → become named agents the day standing agents release.
-- Phone RC = concierge-only front door: loads task bus + digest, dispatches, never
-  works in-call.
-- Subagent admission criteria (orchestration-rewire): spawn only when parallel,
-  risky, specialist, or context-isolating; default 0, max 4 even in ultracode;
-  every spawn gets fresh context pack + budget + output contract. ultracode is a
-  budget profile, not "max everything".
-- Hive bead bus retained where multi-session work needs atomic claim/close
-  (SQLite BEGIN IMMEDIATE; TTL sweep; evidence_url required to close).
+### 2.4 Safety guidelines
 
-### L4 — I/O
-- Inbound: WhatsApp copilot (L2), Gmail via gws (recruiter replies → outcomes;
-  alerts → discovery), GitHub/ADO events, phone RC voice.
-- Outbound: **one daily digest push** (approvals pending, PR verdicts, hiring
-  funnel, learning streak, ops health) + immediate push for P0 + Windows toasts
-  (Notification hook → dot-claude/hooks/notify-toast.ps1, wired 2026-07-22).
-  Push-beats-pull (Executive MCP research); digests carry `_provenance`.
-- Outward posts (Jira, LinkedIn, email, PR comments beyond agreement gate) are
-  drafted, never auto-sent.
-- Browser fleet: ONE owner process for automation Chrome (port 9224, profile
-  `~/.claude/automation-chrome-profile`); phases serialize through the task bus.
-- OneSignal: NOT part of the personal loop (native push won). Reserved for
-  Shoval-owned apps' users (learning-platform Web push; Kith Expo when unparked).
+- **Confidence gates.** >=0.90 autonomous; 0.70–0.90 work + explicit proof gate;
+  <0.70 ask or spawn reviewer.
+- **State machine legality.** No GENERATED -> SHIPPED without JUDGED + VERIFIED; no close
+  without evidence; zero-opacity content is killed, never softened.
+- **Secrets.** `.env`/credentials never read/echoed/committed; PII never enters embedding
+  indexes. Rotate exposed keys immediately.
+- **Outward posts are drafted, never auto-sent.** Jira, LinkedIn, email, PR comments beyond
+  agreement gate are drafted first.
+- **Rules-as-enforcement.** A rule with no stick is a defect. Enforced in hooks/CI, not
+  prose (ADR-0005).
 
-### L5b — New capabilities (2026-07-23 amendments)
-- **Memory + web-search write pipe** (L2): WebSearch/WebFetch → distill → TYPED
-  memory (reference cards w/ source+date+staleness); Changelog Hound cron rewired to
-  write memory, not dead .md. Memory becomes write-managed-and-read; web is a source.
-- **Repo portfolio graph** (L6): cron scanner → nodes (repos) + edges (shared code /
-  cross-ref / owner-persona / dependency) as d2 diagram + SQLite; makes the portfolio
-  queryable ("what breaks if I change X"). Feeds routing.
-- **Blast-radius graph** (L5/L6): intra-repo import/call graph; a diff reports modules
-  touched; wide diff → more reviewers (the old Understand-Anything blast-radius idea).
-- **Git branch health sweep** (L5): weekly cross-repo sweep — stale/merged/ahead-behind/
-  orphan-worktree/default-branch-drift; auto-delete MERGED branches (reflog-reversible),
-  PROPOSE deleting unmerged (never silent; destructive-op rule).
-- **Rules-as-enforcement** (L1): per-repo rules versioned in each repo's .claude/rules
-  and BOUND to hooks/CI, not prose (ADR-0005). A rule with no stick is a defect.
-- **Persona review economy** (L5/L8): the dynamic reviewer labor market — contracts,
-  reputation from external truth (ADR-0008), Thompson allocation, PIP, firing, coverage-
-  gap recruitment. Full design: docs/specs/2026-07-23-persona-review-economy.md.
+### 2.5 Common workflows
 
-### L5 — Quality Fabric
-- **a2a ⇄ GitHub PR review sync**: cron PR watcher over opt-in ShovalBenjer repos →
-  two independent reviews (Claude /code-review + Codex via a2a-codex-call.sh) →
-  agreement gate (both confirm → post `gh pr review` comment with `_provenance` +
-  audit.jsonl traceback; disagree → digest for Shoval). Prompts per the PR-review
-  best-practices doc: OWASP/CWE anchors, evidence-or-"possible issue", ≤15-line
-  fixes, tiered severity.
-- The fabric reviews the OS's own changes (this repo's PRs) — dogfooding.
-- Eval gates (promptfoo/deepeval) non-blocking until trusted; deterministic checks
-  ALWAYS before LLM judges (intent-plane pyramid).
-- Weekly self-improvement loop: skills fired vs never, hooks errored, intents
-  without proof, proposed diffs — applied only on approval.
-- Skills estate: every skill owned by a persona or archived; unwired = defect;
-  the six redundant pairs from the May triage merged.
-- **Validity discipline** (Wiley grilling): any scorer the OS ships (fit-score,
-  mojuco judges) needs ground-truth calibration, stratified checks, test-retest
-  stability, and documented weight derivation — or it is labeled a heuristic.
+#### Starting a session
 
-### L6 — Project Portfolio
-- Registry: every repo → owner persona, standards score, deploy story, docs
-  compliance. Active: new-recruit, הסדנה, claude-setup. Dormant with wake
-  triggers: Kith (Apple fee → OneSignal Expo path ready), SQLTok demo (Shoval
-  deploy), Gastown portfolio repos (PR fabric covers), seekapa legacy (archived).
-- GitHub claim-consistency is a STANDING weekly invariant (profile/READMEs vs the
-  resume claims table), not a one-time sweep.
-- Docs control plane applies to every repo incl. this one: prd/ spec/ adr/ analysis/,
-  ONE TODO, ONE INDEX.
+1. Read `docs/SESSION-BOOT.md` in order.
+2. Name your lane from `docs/charters.md`.
+3. Append claim row to `state/claims.jsonl`.
+4. Read `TODO.md` for current state.
+5. Verify ground truth: `git status -sb`, `git log --oneline -5`.
 
-### L7 — Platform & Machine
-- Windows-first purge: WSL paths, systemd assumptions, stale /cdp + reground docs.
-- TUI hardening (TUI research): fullscreen renderer, statusline, GPU terminal opt.
-- Always-on-PC health for the daemon (power settings, wake, Chrome ownership).
-- SQLite everywhere with WAL; survives reboots.
+#### Shipping work
 
-### L8 — Frontier
-- mojuco (adversarial sim-verify + sim-to-real calibration) and artifixer
-  (opacity-masked generation: high=byte-faithful, low=marked interpolation,
-  zero=kill) generalized as OS-wide patterns (they map to Workflow adversarial
-  verify + grounding veto).
-- Latent/vector path: every inter-agent edge declares transport=text_json today;
-  swappable to embedding/latent later without topology redesign (L0→L1→L2 honesty:
-  no false claims of latent comms on closed models).
-- **Learning-card emitter**: any session that ships work using a concept files a
-  card (concept, where used, mastery dimensions) to the learning platform queue —
-  the bridge from AI-native building to actually knowing it. Aligns with the
-  Living Codex design (mastery = Recognize/Explain/Apply/Connect/Challenge; spaced
-  recall; no guilt mechanics).
-- Agent contracts + reputation (Perplexity brainstorm): each standing persona has a
-  contract (scope, SLA, acceptance, proof) and accrues a track record the router
-  can use. Adversarial internal agent periodically fuzzes the others' assumptions.
-- Closed-loop recalibration (CONCEPTS/MatchIQ): settled outcomes → learned
-  adjustments → config → next cycle, no human dial; claims ledger discipline —
-  every load-bearing claim in the OS maps to an enforcing test.
+1. Write a spec + acceptance table before coding.
+2. Code in small, focused commits.
+3. Run `python tools/gate/gate.py run --project . -v` before pushing.
+4. Push to feature branch.
+5. Open PR via `gh pr create`.
+6. Address review feedback.
+7. Merge only after CI green and approval.
+
+#### Daily operations
+
+```bash
+python tools/gate/gate.py run --project . -v   # Morning gate check
+python tools/bus/bus.py inbox                   # Check task bus
+python tools/selfimprove/scan.py                # Ranked open work
+python tools/audit/skills_sync.py check         # Drift check
+```
+
+#### Recovery
+
+- Thrashed session: write handoff, restart.
+- Dirty tree with only docs changes: gate downgrades docs-only deltas.
+- Failed postcondition: replan that subgoal only, do not restart the whole task.
 
 ---
 
-## 2b. Deep Work Protocol (the answer to "partial and shallow")
+## 3. The Layers
 
-Grounded in the July-2026 literature sweep (sources in docs/research
-appendix; key: METR time-horizons, arXiv 2509.09677 self-conditioning, ACL 2026
-"Illusion of Insight", debate-martingale results, LLM homogenization studies,
-Verbalized Sampling 2510.01171, Antislop ICLR 2026, MAST NeurIPS 2025, Anthropic
-long-running-harness + context-engineering posts). Four findings drive everything:
-(1) long-task failure is EXECUTION failure — a model seeing its own errors in
-context errs more (self-conditioning); (2) visible self-reflection is mostly
-theater — only external checks deepen output; (3) same-context ensembles/debate
-cannot exceed their correlated-error floor — value requires information asymmetry;
-(4) homogenization ("AI slop") is measured and prompt-resistant — organic feel
-requires distribution-eliciting generation + human taste curation + slop gates.
+### L0 - SDLC Kernel (the operating discipline; under everything)
 
-The protocol — every rule has a native mechanism and a stick (nothing is advisory):
+- Intent contract first.
+- Loop, don't hand back.
+- Done has a format.
+- State machine legality.
+- Confidence gates.
+
+### L1 - Governance & Identity
+
+- One reconciliation ADR series.
+- Secrets: rotate exposed keys; `.env` never committed.
+- Capability honesty matrix: the OS maintains a table of what each rail actually verifies
+  vs claims. Stub functions and always-pass checks are defects by definition.
+
+### L2 - Memory, Continuity & Comms Copilot
+
+- Task bus as spine: all sessions read/write tasks with owner + evidence + deps.
+- Intent ledger (`~/.intent/`: events.jsonl + intent.db).
+- WhatsApp communications copilot (Shoval-granted scope): read-only, draft-only, PII-safe.
+- Auto-memory + weekly curator cron.
+
+### L3 - Orchestration
+
+- One scheduler topology: native local cron (browser/ledger/WhatsApp work), cloud routines.
+- Standing personas with real cadence.
+- Subagent admission criteria: spawn only when parallel, risky, specialist, or
+  context-isolating.
+- Hive bead bus for atomic claim/close across multi-session work.
+
+### L4 - I/O
+
+- Inbound: WhatsApp copilot, Gmail via gws, GitHub/ADO events, phone RC voice.
+- Outbound: one daily digest push + immediate P0 push + Windows toasts.
+- Browser fleet: ONE owner process for automation Chrome (port 9224).
+- Outward posts drafted, never auto-sent.
+
+### L5 - Quality Fabric
+
+- a2a ⇄ GitHub PR review sync: dual review, agreement gate, provenance + audit.
+- Eval gates non-blocking until trusted; deterministic checks ALWAYS before LLM judges.
+- Weekly self-improvement loop: skills fired vs never, hooks errored, intents without proof.
+- Skills estate: every skill owned by a persona or archived; unwired = defect.
+- Validity discipline: any scorer needs ground-truth calibration, stratified checks,
+  test-retest stability, and documented weight derivation.
+
+### L6 - Project Portfolio
+
+- Registry: every repo -> owner persona, standards score, deploy story, docs compliance.
+- GitHub claim-consistency is a STANDING weekly invariant.
+- Docs control plane applies to every repo: prd/ spec/ adr/ analysis/, ONE TODO, ONE INDEX.
+
+### L7 - Platform & Machine
+
+- Windows-first purge: WSL paths, systemd assumptions, stale /cdp docs.
+- TUI hardening: fullscreen renderer, statusline, GPU terminal opt.
+- Always-on-PC health for the daemon.
+- SQLite everywhere with WAL.
+
+### L8 - Frontier
+
+- mojuco (adversarial sim-verify + sim-to-real calibration) and artifixer
+  (opacity-masked generation) generalized as OS-wide patterns.
+- Latent/vector path: every inter-agent edge declares transport=text_json today.
+- Learning-card emitter: any session that ships work using a concept files a card.
+- Agent contracts + reputation: each standing persona has a contract and accrues a track
+  record.
+- Closed-loop recalibration: settled outcomes -> learned adjustments -> config -> next cycle.
+
+---
+
+## 4. Deep Work Protocol
+
+Grounded in the July-2026 literature sweep. Four findings drive everything:
+(1) long-task failure is EXECUTION failure; (2) visible self-reflection is mostly theater;
+(3) same-context ensembles cannot exceed their correlated-error floor;
+(4) homogenization is measured and prompt-resistant.
+
+The protocol - every rule has a native mechanism and a stick:
 
 | # | Rule | Native mechanism | Sticks via |
 |---|---|---|---|
-| 1 | Spec-as-spine: no substantive build without spec + acceptance table; every turn re-anchored | Plan mode → docs/prd; UserPromptSubmit hook injects active-spec pointer | hook + docs-control-plane rule |
-| 2 | Fresh-context resumption: thrashed session → write handoff, restart from artifacts; never continue polluted context | Stop/PreCompact hook writes handoff (goal/phase/decisions/evidence/next); progress files + git as sole carry-over | hook file + progress artifacts in repo |
-| 3 | External verifiers at every boundary; model self-review only as fresh-context subagent seeing diff+spec, never the transcript | PostToolUse test hooks; /verify, /run; workflow verify stages | hooks + production-means-smoked rule |
-| 4 | HTN-lite: every subgoal carries a postcondition + check command; failed postcondition replans that subgoal only | Plan-mode template; TaskCreate metadata `postcondition` | task-bus convention + planning skill |
-| 5 | Wide-then-curate for anything with taste: 5 candidates with verbalized conventionality probabilities; Shoval picks; pick + reason appended to taste corpus | AskUserQuestion with previews; `docs/taste.md` injected into creative tasks | creative-brief skill + taste.md file |
-| 6 | Defixation: name the obvious/default solution and forbid it first; anchor vocabulary to excavated real artifacts | creative-brief skill (encodes excavate-before-building) | skill + memory rule |
-| 7 | Slop lint as a GATE on prose deliverables (banned lexicon, rule-of-three, symmetric bullets, stock phrases) | Stop-hook / review pass; humanize + shoval-voice as gates | hook, not suggestion |
-| 8 | Fanout for breadth with designed information asymmetry (disjoint evidence/roles); depth stays in ONE context, 1M model when the working set demands | Agent tool + Workflow; /model [1m] escalation | hive-mind rule + L3 admission criteria |
-| 9 | Typed memory: decisions / episodes / procedures / taste — not one blob; weekly reflection distills episodes into procedures | auto-memory dir structure; curator cron | memory taxonomy + cron |
-| 10 | Compaction never decides what survives: mandated handoff schema written first | PreCompact hook | hook file |
-| 11 | Long horizon = the LOOP, not the session: cron-driven bounded runs over durable artifacts (feature-list, progress file, one advance per run, commit) | CronCreate / /schedule; initializer+coder pattern | cron jobs + artifacts |
-| 12 | Aspect-split verification: parallel single-aspect verifiers (correctness, security, contract, simplicity, slop), binary verdict + evidence each | Workflow pipeline templates | .claude/workflows in repo |
+| 1 | Spec-as-spine: no substantive build without spec + acceptance table | Plan mode -> docs/prd; UserPromptSubmit hook injects active-spec pointer | hook + docs-control-plane rule |
+| 2 | Fresh-context resumption: thrashed session -> write handoff, restart | Stop/PreCompact hook writes handoff | hook file + progress artifacts in repo |
+| 3 | External verifiers at every boundary | PostToolUse test hooks; /verify, /run | hooks + production-means-smoked rule |
+| 4 | HTN-lite: every subgoal carries postcondition + check command | Plan-mode template; TaskCreate metadata | task-bus convention + planning skill |
+| 5 | Wide-then-curate for taste: 5 candidates; operator picks | AskUserQuestion with previews; docs/taste.md | creative-brief skill + taste.md file |
+| 6 | Defixation: name the obvious solution and forbid it first | creative-brief skill (excavate-before-building) | skill + memory rule |
+| 7 | Slop lint as GATE on prose deliverables | Stop-hook / review pass; humanize + shoval-voice | hook, not suggestion |
+| 8 | Fanout for breadth with designed information asymmetry | Agent tool + Workflow; /model [1m] escalation | hive-mind rule + L3 admission criteria |
+| 9 | Typed memory: decisions / episodes / procedures / taste | auto-memory dir structure; curator cron | memory taxonomy + cron |
+| 10 | Compaction never decides what survives | PreCompact hook | hook file |
+| 11 | Long horizon = the LOOP, not the session | CronCreate / /schedule; initializer+coder pattern | cron jobs + artifacts |
+| 12 | Aspect-split verification: parallel single-aspect verifiers | Workflow pipeline templates | .claude/workflows in repo |
 
 Cross-cutting: depth is ENFORCED by structure (hooks, gates, files, crons), never
-REQUESTED from the model. A "please think deeply" prompt is the canonical anti-pattern.
+REQUESTED from the model.
 
-## 2c. Native-feature map (layer by layer, with stick mechanism)
+---
+
+## 5. Native-feature map
 
 | Native feature | Layer(s) | Use | Sticks via |
 |---|---|---|---|
-| Hooks (UserPromptSubmit/PreToolUse/PostToolUse/Stop/PreCompact/SessionStart/Notification) | L0,L2,L4,L5 | kernel gates, recall, toasts, verifiers | dot-claude/hooks + settings.json (this repo, deployed) |
+| Hooks | L0,L2,L4,L5 | kernel gates, recall, toasts, verifiers | dot-claude/hooks + settings.json |
 | Skills (frontmatter auto-invocation) | L0,L5,L8 | creative-brief, review aspects, voice gates | dot-claude/skills, owned per persona |
 | Plan mode + plan files | L0 | spec-as-spine entry | plansDirectory + prd tables |
-| Task bus (TaskCreate/Update, deps, metadata) | L0,L2,L3 | acceptance checklists, postconditions, cross-session state | task conventions in CLAUDE.md rule |
+| Task bus | L0,L2,L3 | acceptance checklists, postconditions, cross-session state | task conventions in CLAUDE.md rule |
 | Workflows / ultracode | L0,L5 | loop-until-dry, adversarial verify, aspect panels | .claude/workflows templates |
-| Subagents (Explore/general/custom, worktree isolation) | L3,L5 | asymmetric fanout, fresh-eyes review | admission criteria rule |
-| CronCreate (local) + /schedule (cloud) + /loop | L3,L4,L5 | daily digest, PR watcher, curator, self-improvement | registered jobs (re-bootstrap weekly) |
+| Subagents | L3,L5 | asymmetric fanout, fresh-eyes review | admission criteria rule |
+| CronCreate + /schedule + /loop | L3,L4,L5 | daily digest, PR watcher, curator, self-improvement | registered jobs |
 | Monitor + background tasks | L4 | gws reply watcher, CI watches | armed per session by convention |
-| PushNotification + Notification hook toast | L4 | approvals rail (verified 2026-07-22) | settings.json hook |
-| Remote Control + phone app | L3,L4 | concierge front door, approval from phone | remoteControlAtStartup + convention |
+| PushNotification + Notification hook toast | L4 | approvals rail | settings.json hook |
+| Remote Control + phone app | L3,L4 | concierge front door | remoteControlAtStartup + convention |
 | Memory (auto-memory dir + MEMORY.md) | L2 | typed memory taxonomy | memory files + curator cron |
 | CLAUDE.md hierarchy + .claude/rules | L1 | governance, authority order | this repo's dot-claude deployed |
 | MCP (lazy, per-session) | L4 | gws, playwright, onesignal (dormant) | mcp-activation skill; default-off |
-| GitHub Actions claude-code-action | L5 | always-fresh PR review, 22 repos | .github/workflows in each repo (rolled out 2026-07-23) |
+| GitHub Actions claude-code-action | L5 | always-fresh PR review | .github/workflows in each repo |
 | /model + effort + [1m] | L3,L8 | depth escalation for coupled design work | model-selection rule |
 | AskUserQuestion previews | L0 | wide-then-curate picks | creative-brief skill |
 | SendUserFile / DesignSync | L4 | artifact delivery | per-task |
 
-## 2d. What makes it DYNAMIC (the reason it is an OS, not a script)
+---
 
-A script runs the same path every time. This system is a **closed-loop control
-plane**: outcomes feed back into how work is allocated, who does it, what the
-harness knows, and what the rules are. Three feedback loops at three speeds — that
-is the whole definition of "dynamic" here.
+## 6. Build sequence
 
-**Fast loop (per-task / per-PR): reputation + routing.**
-Every review, apply, or build produces an outcome (finding held or dismissed,
-test reproduced, escaped defect later found). That outcome updates the actor's
-reputation. Allocation is Thompson sampling over actors (resume arms, review
-personas, channels) — so the NEXT task routes to whoever is currently performing,
-probabilistically, self-correcting under low volume. The org reshapes itself from
-results, continuously, with no hand-set weights. (Signal must be EXTERNAL ground
-truth — see ADR-0008; personas never rate personas.)
-
-**Medium loop (weekly): self-improvement.**
-The weekly loop reads what actually happened — skills that fired vs never, hooks
-that errored, intents shipped without proof, failure clusters — and proposes diffs
-to rules / hooks / skills / context-retrieval. Approved diffs mutate the harness
-itself. The system is therefore self-modifying, but approval-gated: it proposes,
-Shoval disposes (ADR-0005). What escaped last week becomes next week's gate.
-
-**Slow loop (as-needed): hiring, PIP, firing, rule evolution.**
-When a defect CLASS keeps escaping (a coverage cluster nobody catches), a new
-specialist review persona is recruited to target exactly that gap. Personas whose
-reputation decays get a PIP (narrowed scope / retrained prompt / pulled to a
-sandbox eval set) and, if they stay bad, are fired (deactivated, archived with
-record). The labor market of reviewers grows and prunes to fit the live threat
-surface (spec: persona-review-economy).
-
-Four more axes of dynamism layered on top of the loops:
-- **Adaptive compute** — effort, model tier, and subagent count scale to task
-  difficulty and confidence (0.90/0.70 gates), not fixed. Hard coupled design →
-  one long context on a 1M model; broad audit → fanout.
-- **Compounding memory** — typed memory + taste corpus + failure fixtures grow
-  every week; future work is conditioned on accumulated state, so the system is
-  measurably more capable each month without any model change.
-- **State-machine paths, not fixed scripts** — next_state = f(current_state,
-  verified_evidence, policy, budget, approval). The SAME intent takes different
-  paths live: blocked → escalate, failed postcondition → replan that subgoal,
-  low confidence → spawn reviewer. Path is computed from live state, not scripted.
-- **Open intent surface** — work enters from anywhere (WhatsApp, GitHub, phone,
-  cron, health sweeps) and the router classifies + dispatches at runtime; the
-  system continuously re-surveys its terrain (repo graph, branch health, drift)
-  and files its own work.
-
-The maturity ladder this climbs (from L0 prose-collection to L5 self-improving OS)
-and the target level (L4 Governed Control Plane → L5) are tracked in
-docs/adr and the PRD. Current honest maturity self-assessment: core harness and
-tool orchestration high; memory, evaluation, observability, and the dynamic
-loops are the build frontier.
-
-## 3. Build Sequence
-
-- **P0 (now):** repo relocation ✅; July-state sync ✅; this document ✅; governance
-  ADRs + Windows-path purge; push to GitHub.
+- **P0 (now):** repo relocation done; July-state sync done; governance ADRs + Windows-path
+  purge; push to GitHub.
 - **P1:** daily digest push + task-bus conventions + SessionStart recall rewire.
 - **P2:** a2a ⇄ GitHub PR fabric (watcher, dual review, agreement gate, provenance).
 - **P3:** scheduler consolidation + standing personas + concierge phone convention.
 - **P4:** WhatsApp copilot (triage/drafts/coaching) + learning-card emitter.
-- **Continuous:** weekly self-improvement, skills triage, portfolio invariants,
-  capability honesty matrix.
+- **Continuous:** weekly self-improvement, skills triage, portfolio invariants, capability
+  honesty matrix.
 
-## 4. Acceptance (PRD table)
+---
+
+## 7. Acceptance criteria
 
 | # | Criterion | Status |
 |---|---|---|
@@ -312,31 +273,33 @@ loops are the build frontier.
 | 10 | Scheduler topology consolidated; WSL systemd retired | TODO |
 | 11 | Skills estate fully owned/merged/archived | TODO |
 | 12 | Weekly self-improvement loop running | TODO |
-| 13 | Always-fresh PR review workflow on every source repo | DONE 2026-07-23 (22 repos; ANTHROPIC_API_KEY secret pending Shoval) |
-| 14 | Deep Work Protocol hooks live (spec-anchor, handoff, slop gate, postconditions) | TODO (P1) |
+| 13 | Always-fresh PR review workflow on every source repo | DONE 2026-07-23 (22 repos) |
+| 14 | Deep Work Protocol hooks live | TODO (P1) |
 
-## 5. Supersession table
+---
+
+## 8. Supersession table
 
 | Predecessor | Disposition |
 |---|---|
-| CLAUDE-CODE-MASTER-PLAN-2026-05-03 (+ skills triage/scatter) | Superseded. Alive: dotfiles-repo idea (this repo), skill-pair merges, hook checklist. Dead: $HOME-worktree move, Seekapa phases, Kilocode conversion. |
-| 2026-05-13 hive-adoption + 2026-05-17 systemd map | Superseded. Alive: bead bus semantics, evidence-to-close, TTL sweep. Dead: systemd timers, ADO webhooks, work rigs. |
-| 2026-06-14 agent-orchestration-rewire | Superseded. Alive: admission criteria, budget profiles, context packs, eval ladder. Dead: Codex-as-runtime. |
-| 2026-06-25 local-intent-control-plane | Superseded as plan; the intent ledger + authority order + confidence gates are absorbed into L0/L2. |
-| 2026-06-28 mojuco/artifixer (work-general + personal-autonomy + work-general-setup) | Superseded as plans; primitives absorbed into L0/L8; personal-autonomy resume loop lives in hiring-machine v2 (sibling). |
-| 2026-07-07 gap analysis + 2026-07-08 suggestions | Absorbed (G1→L5 weekly loop, G2→L0 gates, G3→L2 recall/routing, G4→L5 eval gates). |
+| CLAUDE-CODE-MASTER-PLAN-2026-05-03 (+ skills triage/scatter) | Superseded. Alive: dotfiles-repo idea, skill-pair merges, hook checklist. |
+| 2026-05-13 hive-adoption + 2026-05-17 systemd map | Superseded. Alive: bead bus semantics, evidence-to-close, TTL sweep. |
+| 2026-06-14 agent-orchestration-rewire | Superseded. Alive: admission criteria, budget profiles, context packs. |
+| 2026-06-25 local-intent-control-plane | Superseded as plan; intent ledger + authority order + confidence gates absorbed into L0/L2. |
+| 2026-06-28 mojuco/artifixer plans | Superseded as plans; primitives absorbed into L0/L8. |
+| 2026-07-07 gap analysis + 2026-07-08 suggestions | Absorbed (G1->L5 weekly loop, G2->L0 gates, G3->L2 recall/routing, G4->L5 eval gates). |
 | 2026-07-09 harness-maturity-plan | Completed historically; shim discipline carried into L5. |
 | Cowork session 2026-07-20 | Decision record only (local beats cloud-bridge for logged-in surfaces). |
 
-## 6. Pending Shoval decisions
+---
 
-1. ~~Global default model change~~ CLOSED 2026-07-29: operator set `opus[1m]` as
-   the saved default directly. The fable experiment ran part of one day and was
-   ended before its 2026-08-05 falsifier, so it produced no verdict; see
-   rules/model-selection.md. Effort level stays an open contradiction on purpose
-   (rule says high, live runs xhigh, nobody has measured the difference).
-2. API key in תזכורת לעצמי — rotate. Still unconfirmed since 2026-07-24; the CDP
-   sweep of that group found zero credential-shaped strings, which does not clear
-   it, because deletion-from-view and wrong-chat both look identical to that probe.
+## 9. Pending operator decisions
+
+1. Global default model: set to opus[1m] by operator 2026-07-29. Effort level stays
+   contradictory on purpose (rule says high, live runs xhigh, nobody has measured).
+2. API key in תזכורת לעצמי - rotate. Still unconfirmed since 2026-07-24.
 3. PR-fabric opt-in repo list.
 4. WhatsApp copilot cadence (2x daily proposed) + coaching retro frequency.
+5. dot-agents deploy target: `~/.agents` absent on this machine. Deploy or archive.
+6. dot-codex vs dot-agents merge decision (affects 45 forked skills).
+7. `dot-claude/settings.json` oracle: third drift checker for settings vs payload.

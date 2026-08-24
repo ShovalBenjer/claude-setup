@@ -1,140 +1,157 @@
-# Shoval Benjer — Claude Setup (Claude OS)
+# claude-setup
 
-**Start here: [CLAUDE-OS.md](CLAUDE-OS.md) — the single source of truth.** It merges and
-supersedes every prior plan in this repo.
+A mature Claude Code harness: gates, hooks, skills, review fabric, and the tools that verify whether any of it actually works. This repository is the operating system for AI-assisted development - rules, verification instruments, and living documentation.
 
-Updated 2026-07-23: relocated to `C:\Users\shova\claude-setup` (out of new-recruit),
-synced to the July work state (`dot-claude/`, `dot-codex/`, `dot-agents/`), added
-`tools/whatsapp/` CDP readers and the live notification hooks. The 2026-05-08 export
-below remains as history (commit 910dec2).
+## What this repository is
 
-Updated 2026-07-24: the July sync above was PARTIAL — completed today from
-`work-archive-2026-07-12` (HOME-setup.bundle + uncommitted tgz): all 23 Gastown
-agent personas, 14 hooks, 36 skills, tower/cx/intent bins, work CLAUDE.md +
-settings.json, the full work `docs/` tree (→ `work-docs/`), and the
-`intent-control-plane/` repo folded in. Full inventory + what stays bundle-only:
-`docs/analysis/2026-07-24-work-archive-import.md`. The 11 work project repos stay
-as bundles in the archive (portfolio, not setup).
+This is not an application. Nothing is served and there is no build output. Most "code" is a verification instrument whose job is to disagree with an agent's own report. The `dot-*` trees are deployable payload (committed copies of `~/.claude`, `~/.codex`, and agent skills), not live configuration.
 
----
-
-Built 2026-05-08. A snapshot of my Claude Code setup, research artifacts, presentations, and master plans.
-
-## Contents
+## Directory map
 
 ```
 claude-setup/
-├── dot-claude/              ← copy of ~/.claude/  (no caches/sessions/secrets)
-│   ├── skills/              23 user-authored skills
-│   ├── hooks/               5 hooks (meme-* + voice/visual triggers)
-│   ├── bin/                 13 helper scripts (a2a, generate-voice, play-meme, etc.)
-│   ├── commands/            2 slash commands (cdp, commit-push-pr)
-│   ├── config/              memes.json + meme registry
-│   ├── docs/                personal Claude Code docs
-│   ├── plans/               saved /plan outputs
-│   ├── CLAUDE.md            global per-session instructions
-│   ├── settings.json        permissions + hooks + env (no secrets)
-│   ├── policy-limits.json   hard limits
-│   ├── handover-*.md        rolling handover docs (Jan–Feb 2026)
-│   ├── ai-foundry-connection-update-report.md
-│   ├── production-readiness-sign-off.md
-│   └── Azure Resource Management Guidelines for oded (2).docx
-│
-├── home-dotfiles/           HOME-level dotfiles (renamed dot-* for portability)
-│   ├── dot-mcp.json         per-project MCP server registry
-│   ├── dot-claudeignore     ignore rules for $HOME-as-repo
-│   ├── dot-crontab-bak-*    cron schedules (health reminders + observability)
-│   └── AGENTS.md            Codex agent configuration
-│
-├── master-plans/            the planning docs that drive the setup
-│   ├── CLAUDE-CODE-MASTER-PLAN-2026-05-03.md      ← v2, current
-│   ├── claude-setup-master-plan-2026-05-02.md     ← v1, superseded
-│   ├── claude-setup-tasks-2026-05-02.md
-│   ├── claude-skills-scatter-2026-05-03.md
-│   ├── claude-skills-triage-2026-05-03.md
-│   ├── cleanup-proposal.md
-│   ├── claude-code-experimental-features.md
-│   └── FIX-BWRAP-WSL.md
-│
-├── research-papers/         the deep-dive documents I authored / curated
-│   ├── home-md/             25 long-form research markdowns (HOME-level)
-│   │   • From 2028 — Looking Back on 2026 Agentic Coding
-│   │   • Autonomous Agentic Coding Systems (Deep Dive)
-│   │   • Futuristic Learning Stack (April 2026)
-│   │   • AI Engineering 2030–2035 Frontiers
-│   │   • 2026 Mathematics & Statistics Frontier
-│   │   • Q-Learning, Deep RL & March 2026 Research
-│   │   • Claude Code Complete Issue Map
-│   │   • azure-wiki-onepager-skill
-│   │   • compass_artifact_wf-... (research export)
-│   │   • plus master plans (also under master-plans/)
-│   │
-│   ├── Documents/           11 dated research subfolders
-│   │   • CDP_Kick_Research_20260507
-│   │   • CRM_Call_Analyser_Tool_Selection_Research_20260418
-│   │   • CS_Agent_Eval_Research_20260415
-│   │   • CS_Agent_Eval_SOTA_Audit_20260406
-│   │   • ElevenLabs_Scribe_Research_20260427/28
-│   │   • Executive_MCP_Research_20260507
-│   │   • Football_Analytics_ML_Research_20260412
-│   │   • Foundry_Workflows_Research_20260419
-│   │   • SIU_InHouse_Video_Research_20260506
-│   │   • SOTA_DS_Methods_Research_20260415
-│   │
-│   ├── Prompts/             curated prompt library + style guides
-│   ├── knowledge/           knowledge-base scaffolding
-│   │
-│   ├── docs-shoval/         ~/docs (audits + specs + reflections + research)
-│   │   ├── audits/          Azure dormancy audit, CS-agent boundary audit, incident write-ups
-│   │   ├── specs/           silver eval dataset, v108 yasha intake, frontier governance, PST extraction
-│   │   ├── reflections/     7 honest end-of-task retrospectives
-│   │   └── research/        AI bot security best practices
-│   │
-│   └── el-vadt/             sales-agent research project (the "research papers" exemplar)
-│       ├── docs/            books + papers consulted (Spin Selling, Challenger Sale,
-│       │                    Cialdini's Psychology of Persuasion, How Emotions Are Made, etc.)
-│       │                    plus my Maryam v6.8 prompt research and ElevenLabs comparisons
-│       ├── sales-agents-summary/   handover, final report, prompts (no source dump)
-│       ├── specify-memory/  .specify framework memory
-│       └── analysis/        analysis artifacts
-│
-├── pptx/                    every .pptx I authored
-│   • AI_Status_Meeting_May_2026 - Copy.pptx           (root copy)
-│   • AI_Status_Meeting_May_2026 - Copy - Copy.pptx    (board meeting copy)
-│   • azure_costs_jan_may_2026.pptx                    (cost analysis Jan–May 2026)
-│   • ORM_intial_Design.pptx                           (ORM agent design)
-│   • azureops-copilot-agent.pptx                      (azure-devops-agent design)
-│   • ai-solutions-portfolio-2025-v3.pptx              (Oded portfolio archive)
-│
-└── startup-scripts/         every install/setup shell I touched
-    • claude-meme-hooks-startup.sh   (the new fixed installer; 344 lines, idempotent)
-    • siu-kilocode-install.sh
-    • siu-py-setup.sh
-    • qc-telephony-install-deps.sh
-    • campaign-analysis-install-deps.sh
-    • claude-orchestration-setup-mcp-env.sh
-    • vision-analysis-setup-security.sh
-    • startup.md (campaign-analysis design doc)
+├── tools/                    Harness tools: gate, review, bus, audit, map, refute
+│   ├── gate/                12-domain contract runner and verdict engine
+│   ├── review/              PR review fabric (panel, allocation, verdict)
+│   ├── bus/                 Hash-chained task bus and inbox
+│   ├── audit/               Skills sync, pointers, mutations, append-only oracles
+│   ├── map/                 Codemap and directory purpose registry
+│   ├── refute/              Claim falsifier layer
+│   ├── slop_lint.py         Prose gate (banned lexicon, hyphen density, symmetry)
+│   └── ...
+├── dot-claude/              Deployable payload for Claude Code (no caches/sessions/secrets)
+│   ├── skills/              User-authored skills
+│   ├── hooks/               Session hooks (pretooluse, posttooluse, stop, compact)
+│   ├── bin/                 Helper scripts
+│   ├── commands/            Slash commands
+│   ├── agents/              Persona definitions
+│   ├── rules/               Enforcement rules
+│   ├── CLAUDE.md            Global per-session instructions
+│   └── settings.json        Permissions, hooks, env (no secrets)
+├── dot-codex/               Deployable payload for Codex CLI
+│   ├── skills/              Codex-specific skills
+│   └── hooks/               Codex hook stubs and implementations
+├── dot-agents/              Agent skills tree (Gastown personas)
+│   └── skills/              Persona skill bodies
+├── intent-control-plane/    Packaged subproject: intent ledger, resources, tickets
+├── docs/                    Living documentation
+│   ├── prd/                 Product requirements documents
+│   ├── specs/               Technical specifications
+│   ├── adr/                 Architecture decision records
+│   ├── analysis/            Point-in-time scans and audits
+│   ├── prior-art/           External tool comparisons and adoption records
+│   ├── standards/           Imported and native coding standards
+│   └── DOCMAP.md            Generated living document inventory
+├── state/                   Ledgers and generated artifacts (append-only)
+│   ├── gate-runs.jsonl      12-domain contract execution history
+│   ├── bus.jsonl            Hash-chained task bus
+│   ├── reviews/             PR review artifacts
+│   └── ...
+├── tests/                   Root test suite (~70 tests)
+├── dashboard/               Session dashboard (Tauri + React, under active development)
+├── research-papers/         Deep-dive research and curated prompt library
+├── work-docs/               Work project artifacts and handover docs
+└── nexus-engine-rs/         Rust crate for hot-path ledger operations
 ```
 
-## What's deliberately not here
+## Quickstarts
 
-- `~/.claude/cache/` (5 GB of LanceDB / Foundry cache)
-- `~/.claude/assets/` (downloaded meme clips + venv with torch/sentence-transformers)
-- `~/.claude/plugins/` (third-party marketplace skills, ~28 MB)
-- `~/.claude/projects/` (per-session conversation blobs, ~83 MB)
-- `~/.claude/sessions/`, `shell-snapshots/`, `file-history/`, `paste-cache/` (ephemeral state)
-- `~/.claude/mcp-servers/` (built MCP server binaries — checked into upstream repos already)
-- `el-vadt/sales-agents/` (497 MB of source — under git, can be re-cloned)
-- `el-vadt/sales-agents.zip` (359 MB duplicate)
+### Harness tools
 
-## Companion archive
+```bash
+python -m pytest tests/ -q                     # Root suite, ~47s
+python tools/gate/gate.py run --project . -v   # Full 12-domain contract
+python tools/gate/gate.py status               # Last verdict
+python tools/map/codemap.py check              # Directory purposes + map freshness
+python tools/slop_lint.py <file.md>            # Prose gate
+python tools/bus/bus.py selftest               # Bus oracle self-test
+```
 
-`claude-meme-hooks-20260508.zip` ships alongside this bundle — the standalone meme-hooks project (project source + 2 downloaded mp4 clips), built earlier today.
+### Dotfiles payload
 
-## How to restore
+The `dot-*` trees are committed copies of runtime configuration. Editing them changes nothing about a running session until deployed. Deploy with the skills sync tool:
 
-1. Unzip somewhere (e.g. `~/restore-2026-05-08/`).
-2. `cp -r dot-claude/skills dot-claude/hooks dot-claude/bin dot-claude/commands ~/.claude/`
-3. Review `dot-claude/settings.json` and merge with current `~/.claude/settings.json` (the `hooks` block is the meaningful part — re-running `~/projects/claude-meme-hooks/startup.sh` re-patches it idempotently).
-4. Pptx + research papers — wherever you want them.
+```bash
+python tools/audit/skills_sync.py check         # Measure drift between repo and live trees
+python tools/audit/skills_sync.py deploy --apply # Apply repo payload to live runtime
+```
+
+### Documentation
+
+```bash
+python tools/map/codemap.py write                # Regenerate CODEBASE-MAP.md after adding files
+python tools/docmap/docmap.py check               # Verify document status declarations
+python tools/docmap/docmap.py write               # Regenerate docs/DOCMAP.md
+```
+
+### Intent control plane
+
+```bash
+cd intent-control-plane && uv run pytest -q     # Subproject tests
+cd intent-control-plane && uv run ruff check . && uv run mypy  # Lint and type check
+```
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                        Claude Code Session                          │
+│  (reads dot-claude/ rules, hooks, skills, CLAUDE.md at startup)    │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+            ┌───────────────────────┼───────────────────────┐
+            ▼                       ▼                       ▼
+     ┌─────────────┐        ┌─────────────┐        ┌─────────────┐
+     │  Hooks      │        │  Skills     │        │  Rules      │
+     │  (events)   │        │  (invoke)   │        │  (enforce)  │
+     └──────┬──────┘        └──────┬──────┘        └──────┬──────┘
+            │                       │                       │
+            └───────────────────────┼───────────────────────┘
+                                    ▼
+                    ┌─────────────────────────────┐
+                    │      tools/ (harness)        │
+                    │  gate → review → bus → audit │
+                    └─────────────────────────────┘
+                                    │
+                                    ▼
+                    ┌─────────────────────────────┐
+                    │         state/               │
+                    │  gate-runs.jsonl            │
+                    │  bus.jsonl (hash-chained)    │
+                    │  reviews/<sha>.json          │
+                    └─────────────────────────────┘
+```
+
+## Verification philosophy
+
+Every oracle carries its own selftest, and CI runs them as named steps so a regression is attributable. The layering is contract, then oracle, then that oracle's selftest, then a mutation that must turn the selftest red.
+
+Key checks:
+- `tools/gate/gate.py run` - 12-domain contract with verdict
+- `tools/review/panel.py` - PR review fabric with aspect-split verification
+- `tools/audit/mutate.py --spec all` - Mutation testing for all oracles
+- `tools/slop_lint.py` - Prose quality gate
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, branch naming, commit conventions, PR process, code review expectations, testing requirements, and release process.
+
+## FAQ
+
+**Why is nothing served?**
+This repository is a harness and verification instrument, not an application. Its outputs are verdicts, artifacts, and living documentation.
+
+**What are the dot-* trees?**
+They are deployable payload: committed copies of runtime configuration for Claude Code (`dot-claude/`), Codex CLI (`dot-codex/`), and agent skills (`dot-agents/`). Editing them changes nothing until deployed via `tools/audit/skills_sync.py`.
+
+**What is the single source of truth for conventions?**
+[CLAUDE-OS.md](CLAUDE-OS.md) is the single source of truth for conventions, governance, and process. It merges and supersedes every prior plan in this repo.
+
+**How is work tracked?**
+[TODO.md](TODO.md) is the roadmap: strategic objectives, key results, initiative tracker, and risk log. The `docs/DOCMAP.md` maps every major document to its purpose, audience, and maintenance owner.
+
+**How do I start a session?**
+Read [docs/SESSION-BOOT.md](docs/SESSION-BOOT.md) for the boot path. Name your lane from `docs/charters.md`, append a claim row to `state/claims.jsonl` before starting, and ground truth in git plus `state/` files.
+
+**What is the quality contract?**
+[quality-contract.json](quality-contract.json) declares 12+ domains. A domain counts as covered only when a command exits zero or a named artifact exists for the current commit. Unconfigured is UNCOVERED, and UNCOVERED fails.

@@ -514,14 +514,14 @@ correct for its date**. Scheme `1` means read its lane letters through
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `CLAUDE.md` | - | living | registry | n/a | - | - | - |
-| `CONTRIBUTING.md` | - | living | registry | n/a | - | every prior plan in this repo. | - |
+| `CONTRIBUTING.md` | - | living | registry | n/a | - | - | - |
+| `README.md` | - | living | registry | n/a | - | every prior plan in this repo. | - |
 | `REVIEW.md` | - | living | registry | n/a | - | - | - |
 | `SECURITY.md` | - | living | registry | n/a | - | - | - |
-| `CLAUDE-OS.md` | 2026-07-23 | active (living document, the spine) | header | n/a | yes | every prior setup plan. Predecessors rem | - |
-| `README.md` | 2026-07-23 | living | registry | n/a | - | every prior plan in this repo. | - |
+| `TODO.md` | - | living | registry | 1? | yes | - | - |
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
-| `TODO.md` | 2026-08-17 | living | registry | 2 | yes | nothing | the |
 | `CHANGELOG.md` | 2026-08-24 | living | registry | n/a | - | - | - |
+| `CLAUDE-OS.md` | 2026-08-24 | active (living document, the spine) | header | n/a | yes | every prior setup plan. Predecessors rem | - |
 
 ## rule (45)
 
