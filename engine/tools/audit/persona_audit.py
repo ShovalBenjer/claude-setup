@@ -48,6 +48,9 @@ import sys
 import tempfile
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
+from finding import Finding  # noqa: E402
+
 # Owned skills whose job is to produce a file. Curated, not inferred: each entry
 # is here because the skill's own description says it writes, generates, or
 # updates something on disk.
@@ -138,6 +141,50 @@ def spawn_counts(ledger: Path) -> dict[str, int]:
         if k:
             out[k] = out.get(k, 0) + 1
     return out
+
+
+def check(diff_or_text=None, registry: str = "~/.claude/rules/gastown-company-registry.md",
+          trees: list[str] | None = None, live: str = "~/.claude/skills",
+          agents: str = "~/.claude/agents") -> list[Finding]:
+    """The item-2 shared-signature entry point: check(diff_or_text) -> list[Finding].
+    Ignores diff_or_text, same as the other whole-tree checkers migrated under this
+    item. `operational` verdicts are not findings, they are the passing case; only
+    `routed-dead` (nothing loads live) and `write-blocked` (owns a producer skill,
+    no write tool) are reported, matching cmd_scan()'s own dead/wb split.
+
+    No host-answerability branching exists in this tool, unlike rules_sync.py and
+    pointers.py — audit() reads whatever registry/trees/live paths it's given and
+    reports what it finds, with no CI-vs-operator-machine distinction to preserve.
+    """
+    reg = Path(os.path.expanduser(registry))
+    if not reg.exists():
+        return [Finding(checker="persona_audit.registry-missing", severity="high",
+                         file=registry, line=0, why="registry not found")]
+    tree_paths = [Path(os.path.expanduser(t)) for t in
+                  (trees or ["payload/dot-claude/skills", "payload/dot-agents/skills",
+                             "payload/dot-codex/skills"])]
+    rows = audit(reg, tree_paths, Path(os.path.expanduser(live)),
+                 Path(os.path.expanduser(agents)))
+
+    findings: list[Finding] = []
+    for r in rows:
+        if r["verdict"] == "routed-dead":
+            findings.append(Finding(
+                checker="persona_audit.routed-dead", severity="high",
+                file=r["persona"], line=0,
+                why="zero owned skills load live; the router can name it, "
+                    "nothing happens when it does",
+                meta={"owned": r["owned"], "resolves": r["resolves"],
+                      "unresolved": r["unresolved"]}))
+        elif r["verdict"] == "write-blocked":
+            findings.append(Finding(
+                checker="persona_audit.write-blocked", severity="medium",
+                file=r["persona"], line=0,
+                why="owns a producer skill ({}) with no Edit/Write tool".format(
+                    ", ".join(r["write_blocked_skills"])),
+                meta={"write_blocked_skills": r["write_blocked_skills"],
+                      "unresolved": r["unresolved"]}))
+    return findings
 
 
 def cmd_scan(a: argparse.Namespace) -> int:
