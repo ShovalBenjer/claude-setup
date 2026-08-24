@@ -1475,7 +1475,7 @@ def cmd_selftest(args: argparse.Namespace) -> int:
         run("git add -A && git -c user.email=t@t -c user.name=t commit -q -m feature", td)
         got = cmd_run(argparse.Namespace(project=td, domain="review", verbose=False, json=None))
         sha = git("rev-parse HEAD", td)
-        art = os.path.join(td, "state", "reviews", "{}.json".format(sha))
+        art = os.path.join(td, "knowledge", "state", "reviews", "{}.json".format(sha))
         made = os.path.exists(art)
         named = False
         if made:

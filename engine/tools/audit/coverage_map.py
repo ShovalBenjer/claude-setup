@@ -71,6 +71,13 @@ from pathlib import Path
 COVERAGE_MAP_PATH = "docs/coverage-map.txt"
 CONTRACT_PATH = "quality-contract.json"
 
+# docs/ lives under knowledge/docs/ on disk since the 2026-08-24 top-level
+# restructure. Unlike tools/map/codemap.py, this tool has no external test
+# file asserting against a bare-docs synthetic fixture (its selftest below
+# builds its own tempdir from scratch), so the constant itself is safe to
+# repoint rather than needing a codemap.py-style fs_path() split.
+COVERAGE_MAP_PATH = "knowledge/" + COVERAGE_MAP_PATH
+
 
 def tracked_top_level_dirs(project: Path) -> list[str]:
     """Every top-level TRACKED directory, in git's own path encoding.
@@ -206,15 +213,15 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
             "domains": {"unit": {"required": True, "cmd": "true"}}
         }), encoding="utf-8")
 
-        (project / "docs").mkdir()
-        # docs/ itself becomes a tracked top-level directory the moment the
+        (project / "knowledge" / "docs").mkdir(parents=True)
+        # knowledge/ itself becomes a tracked top-level directory the moment the
         # coverage map file is committed under it, so the fixture has to
-        # declare docs too or the selftest would fail on an artifact of its
+        # declare knowledge too or the selftest would fail on an artifact of its
         # own setup rather than on the planted gap.
         (project / COVERAGE_MAP_PATH).write_text(
             "covered_dir | covered-by:unit | has real source, unit runs it\n"
             "exempt_dir | exempt | docs only, nothing to run\n"
-            "docs | exempt | fixture bookkeeping, not part of the planted scenario\n",
+            "knowledge | exempt | fixture bookkeeping, not part of the planted scenario\n",
             # fresh_uncovered_dir has NO row: this is the planted gap.
             encoding="utf-8",
         )
@@ -249,7 +256,7 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
             "covered_dir | covered-by:no_such_domain | typo'd domain name\n"
             "exempt_dir | exempt | fine\n"
             "fresh_uncovered_dir | exempt | fine\n"
-            "docs | exempt | fixture bookkeeping\n",
+            "knowledge | exempt | fixture bookkeeping\n",
             encoding="utf-8",
         )
         result2 = evaluate(project)

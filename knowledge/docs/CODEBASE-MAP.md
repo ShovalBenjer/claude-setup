@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-460 directories, 2033 tracked files, 0 without a stated purpose.
+460 directories, 2036 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -170,7 +170,7 @@ the same reason, one level down.
 | `knowledge/state/retired-2026-08-12` | 0 | Holds home-dotfiles/ and startup-scripts/, archived whole 2026-08-12 per the approved A3 item of docs/analysis/2026-08-09-session-scope-ledger.md (mechanism per docs/analysis/20... | registry |
 | `knowledge/state/retired-2026-08-12/home-dotfiles` | 9 | These instructions apply at `/home/shovalbe` and subprojects unless a deeper `AGENTS.md` overrides them. | AGENTS.md |
 | `knowledge/state/retired-2026-08-12/startup-scripts` | 7 | Retired 2026-08-12 per-project bootstrap scripts and prompts (MCP env, kilocode, security setup) for campaign-analysis, qc-telephony, siu, vision projects; archived rather than... | registry |
-| `knowledge/state/reviews` | 19 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
+| `knowledge/state/reviews` | 22 | Generated cache of 2 PR-review result JSONs keyed by commit SHA, written by the two-model review/agreement gate | registry |
 | `knowledge/state/snapshots` | 1 | Tracked manifests (path+size+sha256) of point-in-time ~/.claude captures; actual file bytes stay untracked per its .gitignore | registry |
 | `knowledge/state/snapshots/20260725T110903Z-pre-bus-wiring` | 1 | One snapshot: manifest of ~/.claude taken 2026-07-25T11:09 UTC, labeled pre-bus-wiring, for drift diffing before that change | registry |
 | `knowledge/state/timetravel` | 2 | Content-addressed snapshots of the gitignored ledgers, written by tools/timetravel. objects/ is gitignored and the manifest is committed, matching the state/snapshots precedent | registry |

@@ -8,9 +8,22 @@ __pycache__/
 *.xlsx
 *.lnk
 .DS_Store
-tools/local/flywheel/router_decisions.jsonl
-tools/selfimprove/proposals.jsonl
-state/hook-fires.log
+engine/tools/local/flywheel/router_decisions.jsonl
+engine/tools/selfimprove/proposals.jsonl
+knowledge/state/hook-fires.log
+
+# Real, unresolved test-isolation bug found 2026-08-24: at least one test under
+# engine/tests/ importing engine/tools/intent/tickets.py writes a real
+# engine/state/prompt-tickets.jsonl into the actual worktree on every pytest
+# run instead of into a tempdir fixture (content shows session=test-session,
+# repo=engine, so this is test output leaking, not a live hook). Not chased to
+# its exact source this session; ignored here so it stops corrupting commits
+# and stops moving the gate's tree fingerprint, but the root cause -- which
+# test, and why its isolation failed -- is still open. See also the analogous,
+# already-understood class this repo already excludes at the gate-fingerprint
+# layer (tools/gate/gate.py HARNESS_OUTPUTS): this may be the same class by a
+# different mechanism, or a genuinely new one; worth a real investigation.
+engine/state/
 
 # Credentials. tools/lib/envload.py treats a repo-local .env as a valid override
 # path, so one landing here must never be committable. new-recruit already ignores
@@ -23,8 +36,8 @@ state/hook-fires.log
 
 # Per-API call ledger. Append-only and machine-local: it records timestamps and
 # HTTP statuses, never key material, but it is local telemetry, not shared state.
-state/api-usage.jsonl
-state/openrouter-models.json
+knowledge/state/api-usage.jsonl
+knowledge/state/openrouter-models.json
 
 # Local safety nets and crash droppings, never shared state. The pre-edit copy of
 # settings.json is kept on disk deliberately: the version it backs up (live Windows
@@ -38,7 +51,7 @@ state/openrouter-models.json
 # message sent before the clone. Ignored deliberately, with one consequence
 # accepted: a cursor's prior value is then unrecoverable, which is how lane B's
 # pre-reset value was already lost on 2026-07-25.
-state/bus-cursors/
+knowledge/state/bus-cursors/
 
 # Mutation-harness scratch. tools/audit/mutate.py writes a mutated copy of a target
 # BESIDE the original, because several targets resolve their repo root from
@@ -59,7 +72,7 @@ _mutant_*.py
 # tools/gate/gate.py, applied at the ignore layer instead of by widening that exclusion,
 # because narrowing what an oracle can see is a worse trade than not committing
 # telemetry. The rate it measures is computed locally and reported, not audited from git.
-state/handback-log.jsonl
+knowledge/state/handback-log.jsonl
 
 # Chain locks (tools/bus/bus.py::file_lock). Zero-byte sidecars held for the duration of
 # one append. They carry no state and exist only so concurrent writers serialise.
@@ -67,7 +80,7 @@ state/handback-log.jsonl
 # Per-session statusline snapshots (the FleetView v0 tap). Runtime state written
 # on every statusline refresh; tracking it would make the gate fingerprint
 # self-invalidating, the same class as the per-turn telemetry fixed 2026-07-29.
-state/sessions/
+knowledge/state/sessions/
 
 # Merged 2026-07-31 from GitHub main's PR #3 generic template. Kept only the
 # patterns this file did not already cover; every commented rule above is a
@@ -110,7 +123,7 @@ temp/
 # treats this directory as its own exhaust (GATE_OUTPUTS, gate.py:204) and CI regenerates
 # the artifact for the exact commit it is testing (ship-gate.yml:116), so nothing needs
 # the committed copy.
-state/reviews/*.json
+knowledge/state/reviews/*.json
 
 # Extracted commercial book text, added 2026-08-09. 150 files, 8 MB, full chapter
 # bodies from published works (Software Engineering at Google and others). The
@@ -119,12 +132,12 @@ state/reviews/*.json
 # reconstructed. Committing full text to a repository is reconstruction, so the
 # corpus stays on disk, readable just in time, and out of git history where it
 # could not be removed later without a rewrite.
-docs/books/
+knowledge/docs/books/
 
 # An inbox of another repository's docs, dropped here for reading, not for tracking.
 # Swept in by a git add -A on 2026-08-10 and it carried a live secret. It stays on
 # disk and out of the index; see docs/analysis/2026-08-10-inbox-secret-exposure.md.
-docs/inbox-from-new-recruit/
+knowledge/docs/inbox-from-new-recruit/
 *:Zone.Identifier
 
 # Reanimation corpora are private family/friend messages, never committed
