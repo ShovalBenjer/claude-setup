@@ -1,5 +1,7 @@
 # Duplicate Rig Retirement Documentation
 
+Status: operator-input
+
 ## Summary
 
 Rig `0e00a01b-9bde-44f4-9650-78d458d87c18` is an **exact byte-for-byte duplicate** of rig `2da41b7d-cdb3-44ec-a26f-cd25e5225563` (claude-setup).
