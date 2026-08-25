@@ -293,7 +293,19 @@ REQUESTED from the model.
 
 ---
 
-## 9. Pending operator decisions
+## 9. Standards and references
+
+Imported and native coding standards that ground the engineering discipline:
+
+- `docs/standards/ddl-engineering-standards-2026-07-26.md` — Engineering standards for הסדנה (stack, LOC budgets, docstrings, testing).
+- `docs/standards/nr-adr-0001-unified-platform-standard.md` — ADR 0001: one unified platform standard, enforced by intent-control-plane.
+- `docs/standards/nr-code-quality-standard-2026-07.md` — Code quality standard (docstrings, typing, error handling, thresholds).
+- `docs/standards/nr-harness-structure-standard-2026-07-09.md` — Harness structure standard + REPO-MAP for the Gastown harness.
+- `docs/standards/nr-prd-2026-07-10-platform-standard.md` — PRD: unified platform standard (canonical structure, six-dimension score, AI-review gates).
+- `docs/standards/nr-repo-standards-2026-07-09.md` — Repository standards (structure, naming, documentation).
+- `docs/specs/2026-08-13-code-quality-rethink.md` — Code quality rethink: measurement and enforcement.
+
+## 10. Pending operator decisions
 
 1. Global default model: set to opus[1m] by operator 2026-07-29. Effort level stays
    contradictory on purpose (rule says high, live runs xhigh, nobody has measured).

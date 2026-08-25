@@ -1,6 +1,6 @@
 # Specs Archive
 
-Superseded or retired technical specifications. These documents are preserved for
+Status: reference. Superseded or retired technical specifications. These documents are preserved for
 historical reference but are no longer maintained.
 
 ## What belongs here

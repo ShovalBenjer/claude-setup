@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **983**
+- documents: **987**
 - reachable from `docs/INDEX.md`: **68** (6%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -76,7 +76,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/agents/voice-media-studio.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/agents/workflow-clerk.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 
-## analysis (39)
+## analysis (40)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -119,6 +119,14 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-23-prompt-triage.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-23-whatsapp-links-vs-plan.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-23-whatsapp-repo-reminder-list.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
+| `docs/analysis/archive/README.md` | 2026-08-24 | dated-snapshot | class | n/a | - | - | model-selection.md |
+
+## archived (2)
+
+| document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
+|---|---|---|---|---|---|---|---|
+| `docs/archive/MIGRATION-2026-08-24.md` | 2026-08-24 | historical-record | class | n/a | - | - | v2 |
+| `docs/archive/README.md` | 2026-08-24 | historical-record | class | n/a | - | - | specs |
 
 ## automation-output (126)
 
@@ -806,7 +814,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wizard/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (20)
+## spec (21)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -830,6 +838,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-13-code-quality-rethink.md` | 2026-08-13 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-direction.md` | 2026-08-17 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-program-design.md` | 2026-08-17 | active | header | n/a | - | nothing in | - |
+| `docs/specs/archive/README.md` | 2026-08-24 | reference. superseded or retired technical specifications. t | header | n/a | - | - | a |
 
 ## standard (7)
 
