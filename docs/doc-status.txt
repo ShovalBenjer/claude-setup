@@ -20,6 +20,7 @@
 # ── Root-level living documents ───────────────────────────────────────────────
 README.md | living
 TODO.md | living
+CONTRIBUTING.md | living
 docs/INDEX.md | living
 docs/SESSION-BOOT.md | living
 docs/charters.md | living
@@ -44,6 +45,13 @@ docs/specs/2026-07-29-trace-model-sacred-timeline.md | accepted
 
 # ── The absorption brief ──────────────────────────────────────────────────────
 docs/archive/2026-07-29-external-absorption-brief.md | dated-snapshot
+
+# ── 2026-08-24 doc-system maturity pass (roadmap + archive restructure) ───────
+# TODO.md was converted from a task tracker to a roadmap; closed rows moved to the
+# archive. MIGRATION-NOTES is the living index for docs/archive/; the done-archive
+# is a frozen snapshot of the extracted [x] rows.
+docs/archive/MIGRATION-NOTES.md | living
+docs/archive/2026-08-24-todo-done-archive.md | dated-snapshot
 
 # ── living-codex salvage, frozen ──────────────────────────────────────────────
 # Extracted 2026-07-30 from a repo with no remote and one commit, before deletion. Never updated:
