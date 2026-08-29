@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1070**
+- documents: **1071**
 - reachable from `docs/INDEX.md`: **69** (6%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -604,7 +604,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/reflections/2026-07-30-what-i-saw.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
 | `docs/reflections/2026-07-31-session-close-what-the-instruments-caught.md` | 2026-07-31 | dated-snapshot | class | 2 | yes | - | - |
 
-## root (8)
+## root (9)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -616,6 +616,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
 | `CLAUDE-OS.md` | 2026-08-24 | active (living document, the spine). date: 2026-08-24 | header | n/a | yes | every prior setup plan. Predecessors rem | - |
 | `TODO.md` | 2026-08-24 | living | registry | 2 | yes | - | - |
+| `EXECUTION_TRACKER.md` | 2026-08-29 | verified | header | 2 | - | - | - |
 
 ## rule (45)
 
