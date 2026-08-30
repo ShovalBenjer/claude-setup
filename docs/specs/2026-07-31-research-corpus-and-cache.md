@@ -697,6 +697,8 @@ differ by a version or status token such as `DEPLOYED` or `v6.7`. Pass C creates
 a `supersedes` edge and keeps BOTH, because the `maryam-v6.7-DEPLOYED` case
 proves that discarding one destroys the deployed-versus-draft fact.
 
+> **Quarantine triage implemented:** `tools/corpus/promote.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-promote.md`.
+
 **Stage 4, citation gate.** The enforcement of directive 2. A chunk with
 `kind='claim'` must produce at least one `citations` row. `[S#]` tags resolve
 against the source own reference section; bare URLs count; a claim with neither
