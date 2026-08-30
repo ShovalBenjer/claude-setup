@@ -170,6 +170,18 @@ A skill whose fixture routes to the wrong skill fails the gate. See
 [specs/2026-08-30-skilleval-gate.md](specs/2026-08-30-skilleval-gate.md).
 
 
+## Branch health
+
+The `branch_health` domain runs `tools/audit/branch_health.py check`, which
+finds stale branches (merged into the default branch but not deleted) and
+orphaned worktrees (prunable or with missing directories). Both shapes of git
+debris have caused gate failures in this repo: the codemap domain excludes
+`.claude/worktrees` from compileall because a sibling worktree carried live
+conflict markers, and the types domain failed on the same markers. Branches
+checked out in an active worktree are excluded from the stale check. See
+[specs/2026-08-30-branch-health-gate.md](specs/2026-08-30-branch-health-gate.md).
+
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.
