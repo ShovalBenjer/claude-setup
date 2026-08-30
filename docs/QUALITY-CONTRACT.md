@@ -152,6 +152,15 @@ and its selftest already existed; this domain is the enforcement half. See
 [specs/2026-08-30-refute-gate.md](specs/2026-08-30-refute-gate.md).
 
 
+## Bus integrity
+
+The `bus_integrity` domain verifies the hash chain of `state/bus.jsonl` via
+`tools/bus/bus.py verify`. Every chained row's hash covers its content plus
+the previous hash, so any edit, deletion, or reordering is detectable.
+Pre-chain rows carry no hash and are reported but not failed. See
+[specs/2026-08-30-bus-integrity-gate.md](specs/2026-08-30-bus-integrity-gate.md).
+
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.
