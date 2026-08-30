@@ -161,6 +161,15 @@ Pre-chain rows carry no hash and are reported but not failed. See
 [specs/2026-08-30-bus-integrity-gate.md](specs/2026-08-30-bus-integrity-gate.md).
 
 
+## Skilleval
+
+The `skilleval` domain runs `tools/skilleval/run.py scan`, which grades skill
+routing quality: given a prompt from a skill's routing fixture, does the right
+skill win? Skills without fixtures are counted as uncovered but do not fail.
+A skill whose fixture routes to the wrong skill fails the gate. See
+[specs/2026-08-30-skilleval-gate.md](specs/2026-08-30-skilleval-gate.md).
+
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.
