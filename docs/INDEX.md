@@ -55,6 +55,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-corpus-artifact-extraction.md](specs/2026-08-30-corpus-artifact-extraction.md): Spec: corpus artifact extraction, populates the artifacts table from chunk text with disk evidence *(status: done)*
 - [specs/2026-08-30-corpus-row-reuse.md](specs/2026-08-30-corpus-row-reuse.md): Spec: corpus row-reuse write-back, derived source and chunk creation with one-hop provenance cap *(status: done)*
 - [specs/2026-08-30-corpus-cache2action.md](specs/2026-08-30-corpus-cache2action.md): Spec: corpus cache-to-action proposal path, trust flags and evidence verification with no auto-execution *(status: done)*
+- [specs/2026-08-30-corpus-embedding-rerank.md](specs/2026-08-30-corpus-embedding-rerank.md): Spec: corpus embedding and rerank, hashed char-ngram TF-IDF + PCA with generation-tracked cosine reranking *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*

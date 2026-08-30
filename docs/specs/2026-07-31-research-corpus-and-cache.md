@@ -548,6 +548,8 @@ correct fix is a small ONNX embedder, decided after the lexical version runs and
 fails, not before.** Proposing the install now would be the unsourced novelty
 that prior-art-gate exists to block.
 
+> **Implemented:** `tools/corpus/embed.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-embedding-rerank.md`.
+
 ---
 
 ## 5. row-reuse and cache2action
