@@ -87,6 +87,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "tools" / "lib"))
+try:
+    from tracing import inject as trace_inject  # noqa: E402
+except ImportError:
+    def trace_inject(row):
+        return row
 BUS = ROOT / "state" / "bus.jsonl"
 CURSORS = ROOT / "state" / "bus-cursors"
 
@@ -358,6 +364,7 @@ def append_row(rec: dict) -> None:
     `\\n` as `\\r\\n` here, which is what made the torn-line check read a `\\n`
     that was really the tail of a `\\r\\n`.
     """
+    trace_inject(rec)
     BUS.parent.mkdir(parents=True, exist_ok=True)
     payload = (json.dumps(rec, ensure_ascii=False) + "\n").encode("utf-8")
     with file_lock(BUS):

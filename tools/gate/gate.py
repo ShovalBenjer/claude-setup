@@ -105,6 +105,9 @@ import sys
 import time
 import tempfile
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "lib"))
+from tracing import run_context, span as trace_span, inject as trace_inject
+
 CONTRACT_NAME = "quality-contract.json"
 LEDGER = os.path.join("state", "gate-runs.jsonl")
 
@@ -1106,6 +1109,11 @@ def indent(text: str, pad: str = "    ") -> str:
 
 
 def cmd_run(args: argparse.Namespace) -> int:
+    with run_context() as rid:
+        return _cmd_run_inner(args, rid)
+
+
+def _cmd_run_inner(args: argparse.Namespace, run_id: str) -> int:
     started = time.monotonic()
     project = os.path.abspath(args.project)
     contract = load_contract(project)
@@ -1149,7 +1157,8 @@ def cmd_run(args: argparse.Namespace) -> int:
         if args.verbose:
             print("  [{}]".format(name), file=sys.stderr)
         domain_started = time.monotonic()
-        result = eval_domain(name, declared.get(name), project, contract, args.verbose)
+        with trace_span(f"domain:{name}"):
+            result = eval_domain(name, declared.get(name), project, contract, args.verbose)
         result["seconds"] = round(time.monotonic() - domain_started, 1)
         results.append(result)
 
@@ -1188,6 +1197,7 @@ def cmd_run(args: argparse.Namespace) -> int:
 
     record = {
         "ts": datetime.datetime.now().isoformat(timespec="seconds"),
+        "run_id": run_id,
         "project": os.path.basename(project), "project_path": project,
         "commit": sha, "dirty": dirty, "fingerprint": fp,
         "partial": bool(args.domain),
