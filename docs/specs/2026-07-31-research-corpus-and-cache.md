@@ -845,6 +845,8 @@ direct answer to the 5.1 staleness-laundering failure mode.
 
 ---
 
+> **Coverage analysis implemented:** `tools/corpus/coverage.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-coverage.md`.
+
 ## 9. Migration path, in ingestion units
 
 S1 = 25 min, S2 = 45, S3 = 60, S4 = 90, S5 = half day, S6 = full day. Every step
