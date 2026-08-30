@@ -782,6 +782,8 @@ index-only external material, which is what closes the 5.2 injection path.
 
 ### 7.3 How a caller knows a result is stale
 
+> **Proactive sweep implemented:** `tools/corpus/staleness.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-staleness-sweep.md`.
+
 Staleness is computed and returned, never left for the caller to infer. Four
 signals, and the verdict is the worst of them:
 
