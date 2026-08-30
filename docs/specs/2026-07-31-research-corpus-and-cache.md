@@ -659,6 +659,8 @@ row-reuse reads `chunks` plus `citations`, cache2action reads `artifacts` plus
 
 ## 6. Ingestion pipeline enforcing the synthesis standard
 
+> **Implemented as a pipeline orchestrator:** `tools/corpus/pipeline.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-pipeline.md`.
+
 The standard lives in
 `docs/archive/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` (59
 lines) and asks for synthesis over summarisation, strict `[S#]` citation,
