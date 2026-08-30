@@ -959,6 +959,24 @@ def blast_radius(project: str, contract: dict, spec: dict) -> tuple[str, str]:
     return PASS, "\n".join(lines)
 
 
+def rules_enforcement(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    """Run mechanical enforcement predicates declared in rule frontmatter."""
+    import io
+    from contextlib import redirect_stdout
+
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "audit"))
+    import rules_enforce
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        code = rules_enforce.run_check(project)
+    evidence = buf.getvalue().strip()
+    if code == 2:
+        return CANNOT_MEASURE, evidence or "rules directory not found"
+    if code == 1:
+        return FAIL, evidence
+    return PASS, evidence
+
+
 BUILTINS = {
     "secret_scan": secret_scan,
     "docs_touched": docs_touched,
@@ -967,6 +985,7 @@ BUILTINS = {
     "prior_art": prior_art,
     "spec_linked": spec_linked,
     "blast_radius": blast_radius,
+    "rules_enforcement": rules_enforcement,
 }
 
 
