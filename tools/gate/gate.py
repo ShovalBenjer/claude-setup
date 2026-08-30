@@ -996,6 +996,24 @@ def lane_enforcement(project: str, contract: dict, spec: dict) -> tuple[str, str
     return PASS, evidence
 
 
+def todo_inbox(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    """Verify TODO.md prompt-inbox block matches the intent store."""
+    import importlib
+    import io
+    from contextlib import redirect_stdout
+
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "intent"))
+    rt = importlib.import_module("render_todo")
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        code = rt.main(["check", "--project", project])
+    evidence = buf.getvalue().strip()
+    if code == 2:
+        return CANNOT_MEASURE, evidence or "intent store not found"
+    if code == 1:
+        return FAIL, evidence
+    return PASS, evidence
+
 
 BUILTINS = {
     "secret_scan": secret_scan,
@@ -1007,6 +1025,7 @@ BUILTINS = {
     "blast_radius": blast_radius,
     "rules_enforcement": rules_enforcement,
     "lane_enforcement": lane_enforcement,
+    "todo_inbox": todo_inbox,
 }
 
 
