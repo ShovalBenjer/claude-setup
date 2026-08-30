@@ -747,6 +747,10 @@ Implemented in
 Entity enrichment (named entity detection with implementation signals) in
 [specs/2026-08-30-corpus-enrich.md](../specs/2026-08-30-corpus-enrich.md).
 
+> **Cross-ref:** Stage 7 paper rule is implemented in
+> `tools/corpus/paper_rule.py`, spec at
+> `docs/specs/2026-08-30-corpus-paper-rule.md`.
+
 **Stage 7, paper rule.** For `kind='paper'`, admit only `published_utc` in 2026
 and record `publisher` from the paper record, never from a search snippet. A
 paper whose institution cannot be verified from the paper is quarantined rather
