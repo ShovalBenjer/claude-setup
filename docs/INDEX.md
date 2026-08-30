@@ -78,6 +78,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-corpus-tagger.md](specs/2026-08-30-corpus-tagger.md): Spec: corpus auto-tagger, TF-IDF topic scoring across 20 domain vocabularies *(status: done)*
 - [specs/2026-08-30-corpus-semantic.md](specs/2026-08-30-corpus-semantic.md): Spec: corpus semantic analysis, sklearn TF-IDF classification, similarity, clustering, and outlier detection *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
+- [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*
