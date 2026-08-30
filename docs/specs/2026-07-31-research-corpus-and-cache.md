@@ -681,6 +681,8 @@ The pipeline turns each directive into a gate. All stages UNEXECUTED.
 dash variants, strip trailing whitespace. In-process, never shelling out per file
 (section 2.1). Output feeds `norm_text`.
 
+> **Implemented:** `tools/corpus/normalise.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-normalise.md`.
+
 **Stage 1, license and liveness gate.** Before content is read, resolve the
 license from the actual LICENSE text and record `license_evidence`. A
 `license_verdict='blocked'` source is refused by canonical hostname. A GitHub
