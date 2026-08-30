@@ -69,6 +69,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-corpus-validate.md](specs/2026-08-30-corpus-validate.md): Spec: corpus validate, structural integrity checks for orphan rows, empty text, and referential consistency *(status: done)*
 - [specs/2026-08-30-corpus-sample.md](specs/2026-08-30-corpus-sample.md): Spec: corpus sample, stratified random sampling for quality review with filtered draw and reproducible seeds *(status: done)*
 - [specs/2026-08-30-corpus-cluster.md](specs/2026-08-30-corpus-cluster.md): Spec: corpus cluster, simhash similarity, shared citation, and source overlap clustering for topical analysis *(status: done)*
+- [specs/2026-08-30-corpus-summarize.md](specs/2026-08-30-corpus-summarize.md): Spec: corpus summarize, comprehensive statistical profile with citation density, artifact adoption, and freshness *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*
