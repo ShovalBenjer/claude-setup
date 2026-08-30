@@ -61,7 +61,8 @@ data, git, cloud, quality.
 
 ## Non-goals
 
-- Persisting tags in the database (future work).
+- Persisting tags in the database (now implemented:
+  [corpus-tag-store](2026-08-30-corpus-tag-store.md)).
 - Neural or embedding-based classification (future work, per spec
   section 4.5 guidance on small ONNX embedder).
 - Hierarchical or multi-label taxonomy.
