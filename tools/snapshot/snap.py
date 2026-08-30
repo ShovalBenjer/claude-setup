@@ -174,9 +174,9 @@ def candidates() -> tuple[list[tuple[str, Path]], list[str]]:
             files.append((child.name, child))
         elif child.is_dir():
             if child.name in INCLUDE_TREES:
-                for p in sorted(child.rglob("*")):
-                    if p.is_file():
-                        files.append((p.relative_to(LIVE).as_posix(), p))
+                files.extend(
+                    (p.relative_to(LIVE).as_posix(), p)
+                    for p in sorted(child.rglob("*")) if p.is_file())
             else:
                 not_walked.append(child.name)
     return files, not_walked

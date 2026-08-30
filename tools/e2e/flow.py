@@ -87,7 +87,6 @@ import urllib.request
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "browser"))
 import cdp  # noqa: E402
 
-
 # Two viewports, both real devices rather than round numbers, because the
 # interesting failures are at the narrow end and 390x844 is the most common
 # phone in use. The desktop arm exists only to prove a finding is
@@ -885,8 +884,9 @@ def render(report: dict, strict: bool) -> str:
                     lines.append("                       at {}".format(f["sel"]))
             if len(fails) > 12:
                 lines.append("       ... {} more fail findings on this route".format(len(fails) - 12))
-            for f in warns[:6]:
-                lines.append("       warn  {:<9} {}".format(f["kind"], f["msg"]))
+            lines.extend(
+                "       warn  {:<9} {}".format(f["kind"], f["msg"])
+                for f in warns[:6])
             if len(warns) > 6:
                 lines.append("       ... {} more warnings on this route".format(len(warns) - 6))
     lines.append("")

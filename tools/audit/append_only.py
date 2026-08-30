@@ -79,10 +79,10 @@ def _iter_source_files(project: Path) -> list[Path]:
         root = project / root_name
         if not root.is_dir():
             continue
-        for path in root.rglob("*"):
+        files.extend(
+            path for path in root.rglob("*")
             if (path.is_file() and path.suffix in SCAN_SUFFIXES
-                    and path.relative_to(project).as_posix() not in SELF_EXEMPT):
-                files.append(path)
+                and path.relative_to(project).as_posix() not in SELF_EXEMPT))
     return files
 
 

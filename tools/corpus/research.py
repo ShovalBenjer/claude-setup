@@ -231,7 +231,7 @@ MIN_CHUNK_WORDS = 30
 
 def _classify_chunk(text):
     stripped = text.strip()
-    if stripped.startswith("```") or stripped.startswith("    "):
+    if stripped.startswith(("```", "    ")):
         return "code"
     if "|" in stripped and stripped.count("|") > 3:
         return "table"
@@ -374,11 +374,8 @@ def _hamming(a, b):
 # ---------------------------------------------------------- citation extraction
 
 def _extract_citations(text):
-    cites = []
-    for url in _URL_RE.finditer(text):
-        cites.append({"target_uri": url.group(), "tag": None})
-    for tag in _S_TAG_RE.finditer(text):
-        cites.append({"target_uri": "", "tag": tag.group()})
+    cites = [{"target_uri": url.group(), "tag": None} for url in _URL_RE.finditer(text)]
+    cites.extend({"target_uri": "", "tag": tag.group()} for tag in _S_TAG_RE.finditer(text))
     return cites
 
 
@@ -390,8 +387,7 @@ def _collect_files(dirs=None):
         d = Path(d)
         if not d.exists():
             continue
-        for f in sorted(d.rglob("*.md")):
-            files.append(f)
+        files.extend(sorted(d.rglob("*.md")))
     return files
 
 

@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 """Read the 'reminder for myself' WhatsApp group: reload, open archive if needed,
 find group row, open, scroll history, extract messages. Read-only (clicks only)."""
-import json, os, sys, time
+import json
+import os
+import sys
+import time
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault("CDP_TAB", "whatsapp")
-from cdp_driver import page_ws, cmd
+from cdp_driver import cmd, page_ws
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "wa_reminder_group.json")
 PAT = ["תזכורת", "עצמי", "reminder", "myself", "notes", "self"]

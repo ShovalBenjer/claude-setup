@@ -8,7 +8,11 @@ Usage:
   blast_radius.py <repo_dir>                 # print graph summary
   blast_radius.py <repo_dir> --changed a.py  # print blast radius of a.py
 """
-import ast, os, sys, argparse, pathlib
+import argparse
+import ast
+import os
+import pathlib
+import sys
 from collections import defaultdict
 
 

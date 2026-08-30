@@ -160,7 +160,7 @@ def cmd_runs(args: argparse.Namespace) -> int:
 
 def cmd_selftest(_args: argparse.Namespace | None = None) -> int:
     sys.path.insert(0, str(ROOT / "tools" / "lib"))
-    from tracing import run_context, span, inject, current_run_id, generate_run_id
+    from tracing import current_run_id, generate_run_id, inject, run_context, span
 
     with tempfile.TemporaryDirectory() as td:
         ledger = Path(td) / "test.jsonl"

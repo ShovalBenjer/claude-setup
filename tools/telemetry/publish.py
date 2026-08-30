@@ -133,9 +133,10 @@ def render(events: list[dict], dropped: int) -> str:
     if not events:
         return ""
     lines = ["**agent feed**, {} item(s) since the last post".format(len(events)), ""]
-    for e in events:
-        lines.append("- `{}` **{}** {} `{}` {}".format(
-            (e["ts"] or "")[:16], e["severity"], e["repo"] or "?", e["source"], e["subject"]))
+    lines.extend(
+        "- `{}` **{}** {} `{}` {}".format(
+            (e["ts"] or "")[:16], e["severity"], e["repo"] or "?", e["source"], e["subject"])
+        for e in events)
     if dropped:
         lines += ["", "_{} further item(s) not shown; the cap is {} per post._".format(dropped, MAX_LINES)]
     lines += ["", "_Derived from state ledgers by `tools/telemetry/publish.py`. "

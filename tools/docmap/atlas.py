@@ -81,7 +81,7 @@ def tracked(project: pathlib.Path) -> list[str]:
 
 def corpus_paths(paths: list[str]) -> list[str]:
     return sorted(p for p in paths
-                  if p.startswith(ROOTS) and (p.endswith(".md") or p.endswith(".txt")))
+                  if p.startswith(ROOTS) and p.endswith((".md", ".txt")))
 
 
 def cluster_of(path: str) -> str:

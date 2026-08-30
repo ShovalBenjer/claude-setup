@@ -102,11 +102,13 @@ import re
 import shutil
 import subprocess
 import sys
-import time
 import tempfile
+import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "lib"))
-from tracing import run_context, span as trace_span, inject as trace_inject
+from tracing import inject as trace_inject
+from tracing import run_context
+from tracing import span as trace_span
 
 CONTRACT_NAME = "quality-contract.json"
 LEDGER = os.path.join("state", "gate-runs.jsonl")
@@ -672,7 +674,7 @@ def docs_touched(project: str, contract: dict, spec: dict) -> tuple[str, str]:
     base = spec.get("base") or default_base(project)
     changed = [l for l in git("diff --name-only {}...HEAD".format(base), project).splitlines() if l]
     changed += _porcelain_paths(git("status --porcelain", project))
-    changed = sorted(set(c.strip() for c in changed if c.strip()))
+    changed = sorted({c.strip() for c in changed if c.strip()})
     if not changed:
         return PASS, "no change to document relative to {}".format(base)
 
@@ -783,9 +785,7 @@ def read_e2e_report(project: str, contract: dict, spec: dict) -> tuple[str, str]
     picked: list[dict] = []
     for routes in (rep.get("by_viewport") or {}).values():
         for r in routes:
-            for f in r.get("findings", []):
-                if f.get("kind") in kinds:
-                    picked.append(f)
+            picked.extend(f for f in r.get("findings", []) if f.get("kind") in kinds)
     fails = [f for f in picked if f.get("sev") == "fail"]
     warns = [f for f in picked if f.get("sev") == "warn"]
     max_warn = spec.get("max_warn", 0)
@@ -797,8 +797,7 @@ def read_e2e_report(project: str, contract: dict, spec: dict) -> tuple[str, str]
 
     lines = ["{} fail, {} warn across accessibility and mobile layout".format(
         len(fails), len(warns))]
-    for f in (fails + warns)[:12]:
-        lines.append("  {}  {}  {}".format(f["sev"], f["kind"], f["msg"][:150]))
+    lines.extend("  {}  {}  {}".format(f["sev"], f["kind"], f["msg"][:150]) for f in (fails + warns)[:12])
     if stale:
         lines.append("  report was produced against tree {} but the tree is now {}".format(
             stamp, fp))
@@ -898,7 +897,7 @@ def spec_linked(project: str, contract: dict, spec: dict) -> tuple[str, str]:
     threshold = spec.get("threshold", 3)
     changed = [l for l in git("diff --name-only {}...HEAD".format(base), project).splitlines() if l]
     changed += _porcelain_paths(git("status --porcelain", project))
-    changed = sorted(set(c.strip() for c in changed if c.strip()))
+    changed = sorted({c.strip() for c in changed if c.strip()})
     if not changed:
         return PASS, "no changes relative to {}".format(base)
 

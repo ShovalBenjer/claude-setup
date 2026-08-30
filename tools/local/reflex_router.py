@@ -8,7 +8,13 @@ model is down, returns route=escalate so nothing is silently kept-local.
 
 Usage: reflex_router.py "request text"  -> {"route","risk","source","escalate"}
 """
-import hashlib, json, os, sys, time, pathlib
+import hashlib
+import json
+import os
+import pathlib
+import sys
+import time
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))

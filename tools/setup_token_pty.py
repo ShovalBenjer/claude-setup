@@ -11,7 +11,11 @@ build-domain exclusion), so everything importable lives at module level with no 
 effects and the procedural flow runs only under __main__. tests/test_setup_token_pty.py
 pins the pure pieces on any host.
 """
-import os, re, time, pathlib, threading
+import os
+import pathlib
+import re
+import threading
+import time
 
 TOKEN_RE = re.compile(r"sk-ant-[A-Za-z0-9_\-]{20,}")
 
