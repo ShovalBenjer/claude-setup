@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1072**
+- documents: **1073**
 - reachable from `docs/INDEX.md`: **69** (6%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -904,7 +904,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wizard/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (26)
+## spec (27)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -934,6 +934,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-17-session-dashboard-direction.md` | 2026-08-17 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-program-design.md` | 2026-08-17 | active | header | n/a | - | nothing in | - |
 | `docs/specs/archive/README.md` | 2026-08-17 | active | header | n/a | - | - | - |
+| `docs/specs/2026-08-30-stack-lint-oracle.md` | 2026-08-30 | active | header | n/a | - | - | - |
 
 ## standard (7)
 
