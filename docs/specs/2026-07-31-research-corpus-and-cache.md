@@ -718,6 +718,8 @@ and visible to the backlog query. On the local corpus this would quarantine a
 large share of the 205 uncited files on first run, which is the correct outcome:
 it converts an invisible 57.7% defect into a visible queue.
 
+> **Citation gate implemented:** `tools/corpus/cite_gate.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-cite-gate.md`.
+
 **Stage 5, contradiction detection.** Directive 3 asks for conflict resolution.
 Three detectors, cheapest first. (a) Numeric: same metric name, different value
 outside a tolerance band, which is why `pwc-archive/evaluation-tables` is worth
