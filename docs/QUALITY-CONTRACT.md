@@ -170,6 +170,18 @@ A skill whose fixture routes to the wrong skill fails the gate. See
 [specs/2026-08-30-skilleval-gate.md](specs/2026-08-30-skilleval-gate.md).
 
 
+## Skip tracker
+
+The `skip_tracker` domain runs `tools/audit/skip_tracker.py check`, which
+parses pytest summary lines for each test suite and compares skip counts
+against `state/skip-baseline.json`. A rising skip count fails the gate.
+L-2026-07-29-i records the incident this domain exists to prevent: a generator
+bug deleted content from 12 shipped files, four tests responded with
+`pytest.skip()` instead of failing, and the gate read "89 passed, 4 skipped"
+as PASS. The skip count was the signal, and it was invisible. See
+[specs/2026-08-30-skip-tracker-gate.md](specs/2026-08-30-skip-tracker-gate.md).
+
+
 ## Branch health
 
 The `branch_health` domain runs `tools/audit/branch_health.py check`, which
