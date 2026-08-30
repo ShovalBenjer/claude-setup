@@ -557,6 +557,8 @@ below are an interpretation offered for approval, not a report of prior art.
 
 ### 5.1 row-reuse
 
+> Implemented in `tools/corpus/rowreuse.py`; spec at `docs/specs/2026-08-30-corpus-row-reuse.md`.
+
 **Definition.** A retrieval that answers a question entirely from stored corpus
 rows, and whose output is itself written back as a corpus row with edges to every
 row it consumed. The cache both serves and grows. The unit of reuse is a
