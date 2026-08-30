@@ -52,6 +52,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-lesson-check-gate.md](specs/2026-08-30-lesson-check-gate.md): Spec: lesson_check gate domain, lessons ledger structural integrity validation *(status: done)*
 - [specs/2026-08-30-gate-health-gate.md](specs/2026-08-30-gate-health-gate.md): Spec: gate_health gate domain, gate-run ledger structural integrity validation *(status: done)*
 - [specs/2026-08-30-corpus-contradiction-detection.md](specs/2026-08-30-corpus-contradiction-detection.md): Spec: corpus contradiction detection, three mechanical detectors for conflicting claims in the research corpus *(status: done)*
+- [specs/2026-08-30-corpus-artifact-extraction.md](specs/2026-08-30-corpus-artifact-extraction.md): Spec: corpus artifact extraction, populates the artifacts table from chunk text with disk evidence *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*
