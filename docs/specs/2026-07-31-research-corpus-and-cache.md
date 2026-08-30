@@ -808,6 +808,8 @@ direct answer to the 5.1 staleness-laundering failure mode.
 
 ---
 
+> **Diff tracking implemented:** `tools/corpus/diff.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-diff.md`.
+
 ## 8. What was deliberately not proposed
 
 - **No new vector database.** 25,000 chunks does not justify FAISS, Chroma,

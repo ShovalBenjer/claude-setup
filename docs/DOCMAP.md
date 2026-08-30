@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1099**
-- reachable from `docs/INDEX.md`: **95** (8%)
+- documents: **1100**
+- reachable from `docs/INDEX.md`: **96** (8%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -904,7 +904,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wizard/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (53)
+## spec (54)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -941,6 +941,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-30-corpus-cache2action.md` | 2026-08-30 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-30-corpus-contradiction-detection.md` | 2026-08-30 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-30-corpus-coverage.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-diff.md` | 2026-08-30 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-30-corpus-embedding-rerank.md` | 2026-08-30 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-30-corpus-export.md` | 2026-08-30 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-30-corpus-health-oracle.md` | 2026-08-30 | done | header | n/a | yes | - | - |
