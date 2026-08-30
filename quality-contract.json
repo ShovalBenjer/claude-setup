@@ -162,6 +162,12 @@
       "cmd": "python tools/skilleval/run.py scan",
       "_note": "Every skill with a routing fixture routes correctly (the right skill wins the prompt). Skills without fixtures are counted as uncovered but do not fail. A skill whose fixture routes to the wrong skill fails the gate. Catches regressions in skill descriptions that would misroute prompts."
     },
+    "branch_health": {
+      "required": true,
+      "timeout": 60,
+      "cmd": "python tools/audit/branch_health.py check --project .",
+      "_note": "Stale branches (merged into the default branch but not deleted) and orphaned worktrees are the two shapes of git debris that have caused gate failures in this repo. The codemap domain excludes .claude/worktrees from compileall because a sibling worktree carried live conflict markers. This domain catches the debris before it causes a downstream failure."
+    },
     "coverage_map": {
       "required": true,
       "timeout": 60,
