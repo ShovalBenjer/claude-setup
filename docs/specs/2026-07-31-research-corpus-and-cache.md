@@ -703,7 +703,8 @@ rows with the same `name` and opposite `implemented`, or two chunks recommending
 different libraries for one stated purpose. Each writes a `claim_edges` row with
 `edge_type='contradicts'` and `resolution=null`. **Nothing is auto-resolved.** An
 open contradiction downgrades both sides in ranking and surfaces in the 4.4
-query.
+query. Implemented in
+[specs/2026-08-30-corpus-contradiction-detection.md](../specs/2026-08-30-corpus-contradiction-detection.md).
 
 **Stage 6, artifact extraction.** For repository sources, walk the actual source
 tree rather than the README, and set `implemented=1` only with a real
