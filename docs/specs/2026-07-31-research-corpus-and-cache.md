@@ -758,6 +758,8 @@ limits named in 4.5.
 
 ### 7.2 What it returns
 
+> **Bulk export implemented:** `tools/corpus/export.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-export.md`.
+
 Each result is a record, not a paragraph:
 
 ```json
