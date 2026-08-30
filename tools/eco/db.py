@@ -276,12 +276,15 @@ def approve(conn, post_id):
     conn.commit()
 
 
+_TABLES = ("sessions", "proposals", "runs", "lessons", "reputation",
+           "post_queue", "repo_registry")
+
+
 def status(conn):
-    tables = ["sessions", "proposals", "runs", "lessons", "reputation",
-              "post_queue", "repo_registry"]
     out = {}
-    for t in tables:
-        row = conn.execute(f"SELECT count(*) FROM {t}").fetchone()  # noqa: S608
+    for t in _TABLES:
+        assert t.isidentifier(), t
+        row = conn.execute("SELECT count(*) FROM " + t).fetchone()
         out[t] = row[0]
     v = conn.execute(
         "SELECT version FROM schema_version ORDER BY version DESC LIMIT 1"
