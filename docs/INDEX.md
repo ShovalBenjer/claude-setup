@@ -74,6 +74,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-corpus-quality.md](specs/2026-08-30-corpus-quality.md): Spec: corpus quality scoring, weighted composite scores for chunk and source prioritisation *(status: done)*
 - [specs/2026-08-30-corpus-gaps.md](specs/2026-08-30-corpus-gaps.md): Spec: corpus gap analysis, reference domain coverage checks and uncovered directory detection *(status: done)*
 - [specs/2026-08-30-corpus-reclassify.md](specs/2026-08-30-corpus-reclassify.md): Spec: corpus chunk reclassification, content heuristic kind detection and mismatch correction *(status: done)*
+- [specs/2026-08-30-corpus-dedup.md](specs/2026-08-30-corpus-dedup.md): Spec: corpus deduplication, exact and near-duplicate detection with simhash hamming distance and claim_edges *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*
