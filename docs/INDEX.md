@@ -41,6 +41,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-blast-radius-gate.md](specs/2026-08-30-blast-radius-gate.md): Spec: blast-radius gate domain, transitive Python import graph for PR review fanout *(status: done)*
 - [specs/2026-08-30-waiver-falsifier.md](specs/2026-08-30-waiver-falsifier.md): Spec: waiver-falsifier execution, dedicated verification commands for gate waivers *(status: done)*
 - [specs/2026-08-30-rules-enforcement-gate.md](specs/2026-08-30-rules-enforcement-gate.md): Spec: rules-as-enforcement gate domain, mechanical predicates in rule frontmatter *(status: done)*
+- [specs/2026-08-30-lane-enforcement-gate.md](specs/2026-08-30-lane-enforcement-gate.md): Spec: lane-enforcement gate domain, claims ledger lane validation *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*
