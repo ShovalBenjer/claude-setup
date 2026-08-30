@@ -1,7 +1,7 @@
 # Waiver-Falsifier Execution
 
 **Date:** 2026-08-30
-**Status:** implemented
+**Status:** done
 **Gate domain:** n/a (extends gate.py internals)
 
 ## Problem

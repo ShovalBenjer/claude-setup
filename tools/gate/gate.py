@@ -926,6 +926,39 @@ def spec_linked(project: str, contract: dict, spec: dict) -> tuple[str, str]:
                       len(code), specs_dir, ", ".join(code[:10])))
 
 
+def blast_radius(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    """Report the transitive import blast radius of changed Python files."""
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "graph"))
+    import blast_radius as br
+
+    base = spec.get("base") or default_base(project)
+    changed = [l for l in git("diff --name-only {}...HEAD".format(base), project).splitlines() if l]
+    changed += _porcelain_paths(git("status --porcelain", project))
+    py_changed = sorted({c.strip() for c in changed if c.strip() and c.strip().endswith(".py")})
+    if not py_changed:
+        return PASS, "no Python files changed relative to {}".format(base)
+
+    mods, imports = br.build(project)
+    edges = sum(len(v) for v in imports.values())
+    lines = ["graph: {} modules, {} import edges".format(len(mods), edges)]
+    wide = []
+    for f in py_changed:
+        abspath = os.path.join(os.path.abspath(project), f)
+        if not os.path.isfile(abspath):
+            continue
+        mod = br.module_name(os.path.abspath(project), abspath)
+        if mod not in mods:
+            continue
+        radius = br.reverse_deps(imports, mod)
+        lines.append("  {} -> {} transitive importer(s)".format(f, len(radius)))
+        if len(radius) >= 3:
+            wide.append((f, len(radius)))
+    if wide:
+        lines.append("WIDE blast radius (>=3 importers): {}".format(
+            ", ".join("{} ({})".format(f, n) for f, n in wide)))
+    return PASS, "\n".join(lines)
+
+
 BUILTINS = {
     "secret_scan": secret_scan,
     "docs_touched": docs_touched,
@@ -933,6 +966,7 @@ BUILTINS = {
     "dir_map": dir_map,
     "prior_art": prior_art,
     "spec_linked": spec_linked,
+    "blast_radius": blast_radius,
 }
 
 

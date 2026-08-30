@@ -101,6 +101,19 @@ the domain if the string is gone. Two details are deliberate:
 Write the number into `confirm`, not only into the prose. Prose is read by
 whoever is already suspicious; `confirm` is read on every run.
 
+A waiver may also carry `command`, a dedicated falsifier whose exit code
+decides whether the waiver's claim still holds. See
+[specs/2026-08-30-waiver-falsifier.md](specs/2026-08-30-waiver-falsifier.md)
+for the schema and interaction with `confirm`.
+
+## Blast radius
+
+The `blast_radius` domain builds the intra-repo Python import graph and reports,
+for each changed `.py` file, how many modules import it transitively. The domain
+is informational (always PASS) but flags wide-radius changes so review tooling
+can widen the reviewer set. See
+[specs/2026-08-30-blast-radius-gate.md](specs/2026-08-30-blast-radius-gate.md).
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.

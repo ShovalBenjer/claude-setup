@@ -38,6 +38,8 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [analysis/2026-08-05-implementation-reasoning-per-file.md](analysis/2026-08-05-implementation-reasoning-per-file.md): Why each source file is shaped the way it is, applying ADR-0021 per file *(status: analysis)*
 - [analysis/2026-08-10-inbox-secret-exposure.md](analysis/2026-08-10-inbox-secret-exposure.md): A secret reached a pushed commit; why removing it from HEAD does not remove it, and the operator action that does *(status: active)*
 - [specs/2026-08-03-detail-passes-teleology-and-creativity.md](specs/2026-08-03-detail-passes-teleology-and-creativity.md): Spec: dynamic detail passes, the teleological gap, and measured creativity *(status: DESIGN)*
+- [specs/2026-08-30-blast-radius-gate.md](specs/2026-08-30-blast-radius-gate.md): Spec: blast-radius gate domain, transitive Python import graph for PR review fanout *(status: done)*
+- [specs/2026-08-30-waiver-falsifier.md](specs/2026-08-30-waiver-falsifier.md): Spec: waiver-falsifier execution, dedicated verification commands for gate waivers *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*
