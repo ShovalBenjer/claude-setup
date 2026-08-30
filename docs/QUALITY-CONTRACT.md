@@ -122,6 +122,7 @@ with a `deny_pattern` (grep) or `cmd` (shell command) check. Rules without
 frontmatter are prose-only and skipped. See
 [specs/2026-08-30-rules-enforcement-gate.md](specs/2026-08-30-rules-enforcement-gate.md).
 
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.

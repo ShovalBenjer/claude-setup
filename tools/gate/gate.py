@@ -977,6 +977,7 @@ def rules_enforcement(project: str, contract: dict, spec: dict) -> tuple[str, st
     return PASS, evidence
 
 
+
 BUILTINS = {
     "secret_scan": secret_scan,
     "docs_touched": docs_touched,
