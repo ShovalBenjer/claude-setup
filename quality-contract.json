@@ -125,6 +125,11 @@
       "specs_dir": "docs/specs/",
       "_note": "non-trivial source changes (>3 files) require a docs/specs/ entry touched in the same change. Spec culture already exists (20 specs on disk); this is the enforcement half. Action #4 from 2026-08-13 code-quality-rethink."
     },
+    "blast_radius": {
+      "required": true,
+      "builtin": "blast_radius",
+      "_note": "Computes the transitive Python import blast radius of changed files. Informational: always passes, reports which modules are affected and flags wide-radius changes (>=3 importers). PRD #16."
+    },
     "coverage_map": {
       "required": true,
       "timeout": 60,
