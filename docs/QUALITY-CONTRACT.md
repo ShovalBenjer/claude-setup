@@ -205,6 +205,18 @@ checked out in an active worktree are excluded from the stale check. See
 [specs/2026-08-30-branch-health-gate.md](specs/2026-08-30-branch-health-gate.md).
 
 
+## Lesson check
+
+The `lesson_check` domain runs `tools/audit/lesson_check.py check`, which
+validates the structural integrity of `state/lessons.jsonl`: every row
+parses as valid JSON, every row has an `id` field, and IDs use a recognised
+format (dated `L-YYYY-MM-DD-x` or legacy `L###`). Schema completeness gaps
+(missing `status`, missing timestamp, closed without closure explanation)
+are reported as warnings rather than gate failures, because the ledger is
+append-only and pre-existing gaps cannot be retroactively fixed. See
+[specs/2026-08-30-lesson-check-gate.md](specs/2026-08-30-lesson-check-gate.md).
+
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.

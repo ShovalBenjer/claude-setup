@@ -180,6 +180,12 @@
       "cmd": "python tools/audit/branch_health.py check --project .",
       "_note": "Stale branches (merged into the default branch but not deleted) and orphaned worktrees are the two shapes of git debris that have caused gate failures in this repo. The codemap domain excludes .claude/worktrees from compileall because a sibling worktree carried live conflict markers. This domain catches the debris before it causes a downstream failure."
     },
+    "lesson_check": {
+      "required": true,
+      "timeout": 60,
+      "cmd": "python tools/audit/lesson_check.py check --project .",
+      "_note": "state/lessons.jsonl is an append-only ledger of operational lessons. This domain validates that the ledger is parseable and structurally sound: every row has an id, IDs use a recognised format (L-YYYY-MM-DD-x or legacy L###), and the file contains valid JSON. Schema completeness gaps in older rows are reported as warnings rather than failures because the ledger is append-only and pre-existing gaps cannot be retroactively fixed."
+    },
     "coverage_map": {
       "required": true,
       "timeout": 60,
