@@ -162,6 +162,12 @@
       "cmd": "python tools/skilleval/run.py scan",
       "_note": "Every skill with a routing fixture routes correctly (the right skill wins the prompt). Skills without fixtures are counted as uncovered but do not fail. A skill whose fixture routes to the wrong skill fails the gate. Catches regressions in skill descriptions that would misroute prompts."
     },
+    "skip_tracker": {
+      "required": true,
+      "timeout": 600,
+      "cmd": "python tools/audit/skip_tracker.py check --project .",
+      "_note": "L-2026-07-29-i: a generator bug deleted content from 12 shipped files, four tests responded with pytest.skip() instead of failing, the suite reported '89 passed, 4 skipped', and the gate read that as PASS. This domain parses pytest summary lines for each test suite, compares skip counts against state/skip-baseline.json, and fails when skips rise above the baseline. A rising skip count is the signal the gate was missing. Run `update` to reset the baseline after legitimate skip changes."
+    },
     "branch_health": {
       "required": true,
       "timeout": 60,
