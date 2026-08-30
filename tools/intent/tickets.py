@@ -30,8 +30,15 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT / "tools" / "bus") not in sys.path:
     sys.path.insert(0, str(REPO_ROOT / "tools" / "bus"))
+if str(REPO_ROOT / "tools" / "lib") not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT / "tools" / "lib"))
 
 from bus import canonical, file_lock, row_altered, row_hash, row_id  # noqa: E402
+try:
+    from tracing import inject as trace_inject  # noqa: E402
+except ImportError:
+    def trace_inject(row):
+        return row
 
 TICKETS = REPO_ROOT / "state" / "prompt-tickets.jsonl"
 
@@ -225,6 +232,7 @@ def append_row(row: dict[str, Any], path: Path = TICKETS) -> None:
     no way to tell which row is the intruder. On Windows the unlocked case is worse
     still, because the appends can destroy each other outright rather than fork.
     """
+    trace_inject(row)
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = (json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8")
     with file_lock(path):
