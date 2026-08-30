@@ -86,6 +86,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-corpus-batch-export.md](specs/2026-08-30-corpus-batch-export.md): Spec: corpus batch export, adds tag/source-kind/date-range filters and tags field to export records *(status: done)*
 - [specs/2026-08-30-corpus-chunk-versions.md](specs/2026-08-30-corpus-chunk-versions.md): Spec: corpus chunk versioning, tracks content changes across re-ingestions with hash-based snapshots *(status: done)*
 - [specs/2026-08-30-corpus-domain-store.md](specs/2026-08-30-corpus-domain-store.md): Spec: corpus domain store, persists ML-based semantic domain classifications into chunk_domains table *(status: done)*
+- [specs/2026-08-30-corpus-semantic-dedup.md](specs/2026-08-30-corpus-semantic-dedup.md): Spec: corpus semantic deduplication, embedding-based paraphrase detection using PCA-reduced TF-IDF vectors *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*

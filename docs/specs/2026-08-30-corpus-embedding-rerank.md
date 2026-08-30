@@ -93,6 +93,11 @@ First run against the real corpus:
 - `tools/corpus/embed.py`: new tool
 - `docs/specs/2026-08-30-corpus-embedding-rerank.md`: this spec
 
+## See also
+
+- [corpus-semantic-dedup](2026-08-30-corpus-semantic-dedup.md): consumes
+  the vectors produced here for paraphrase-level deduplication.
+
 ## Non-goals
 
 - Replacing FTS5 for initial retrieval (embedding reranks FTS5 results,
