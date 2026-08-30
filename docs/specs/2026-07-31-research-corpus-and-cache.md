@@ -595,6 +595,8 @@ derived row may never be the sole citation for another derived row.
 
 ### 5.2 cache2action
 
+> Implemented in `tools/corpus/cache2action.py`; spec at `docs/specs/2026-08-30-corpus-cache2action.md`.
+
 **Definition.** A retrieval whose result is not prose but an **executable step**:
 a command, a patch, a config fragment, or a check, drawn from the `artifacts`
 table where `implemented = 1`, together with the `evidence_path` proving it was
