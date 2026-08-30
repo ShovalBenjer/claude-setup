@@ -192,6 +192,12 @@
       "cmd": "python tools/audit/coverage_map.py check",
       "_note": "Added 2026-08-19, operator-approved extension prompted by an external review (Agentica) that independently converged on the same DASH-1 finding as this session's own audit, and named the general fix: the gate should fail CLOSED on undeclared module coverage, not silently pass. Every domain above (build/unit/types/.../dashboard) answers 'does ITS OWN command exit zero'; none of them answers 'is there a top-level directory in this repository that NO domain looks at at all'. dashboard/ was exactly that for two days before a manual audit found it. This domain closes the general case: docs/coverage-map.txt must carry a row (covered-by:<domain> or exempt) for every top-level TRACKED directory (git ls-files, top segment only), and a directory with no row FAILS the gate rather than passing by default -- the inverse of docs/prior-art/out-of-scope.txt's own stated default ('a prefix not listed here is IN scope'), inverted on purpose because unlisted-and-silently-fine is the exact failure mode this domain exists to close. tools/audit/coverage_map.py's first real run against this repository found the check is not merely theoretical: nexus-engine-rs (a second Rust crate, 8 #[test] functions, its own README documenting `cargo test`) has the identical shape dashboard/ had and is recorded in docs/coverage-map.txt as an ADMITTED exemption naming the gap, not a silent pass -- wiring it is a follow-up, out of scope for this change.",
       "_falsifier": "tools/audit/coverage_map.py selftest plants a directory with no coverage-map.txt row in a synthetic git repo and asserts cmd_check returns 1; this was additionally verified against THIS repository directly (not just the synthetic fixture) by staging a real scratch top-level directory with a .py file, confirming `check` FAILed naming it, then removing it and confirming `check` PASSes again -- see the PR body for the exact commands and output."
+    },
+    "gate_health": {
+      "required": true,
+      "timeout": 60,
+      "cmd": "python tools/audit/gate_health.py check --project .",
+      "_note": "state/gate-runs.jsonl is the meta-record of every quality gate run (19K+ rows). This domain validates its structural integrity: every row parses as valid JSON, required fields (ts, project, commit, verdict, domains) are present, and verdict values are recognised. Data quality issues in existing rows (non-string domain verdicts from a gate.py builtin handler bug) are warnings because the ledger is append-only."
     }
   }
 }

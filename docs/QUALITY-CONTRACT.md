@@ -217,6 +217,18 @@ append-only and pre-existing gaps cannot be retroactively fixed. See
 [specs/2026-08-30-lesson-check-gate.md](specs/2026-08-30-lesson-check-gate.md).
 
 
+## Gate health
+
+The `gate_health` domain runs `tools/audit/gate_health.py check`, which
+validates the structural integrity of `state/gate-runs.jsonl`: every row
+parses as valid JSON, required fields (`ts`, `project`, `commit`, `verdict`,
+`domains`) are present, and verdict values are recognised strings. Data
+quality issues in existing rows (non-string domain verdicts from a gate.py
+builtin handler bug recording exit code 2 instead of `"N/A"`) are warnings
+because the ledger is append-only. See
+[specs/2026-08-30-gate-health-gate.md](specs/2026-08-30-gate-health-gate.md).
+
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.
