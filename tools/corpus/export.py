@@ -2,13 +2,13 @@
 """Corpus export: serialize the corpus or filtered subsets to JSON/JSONL.
 
 Exports full section 7.2 records with source provenance, citations,
-contradictions, artifacts, staleness, and trust. Supports filtering by
-status, kind, source type, and staleness verdict. Produces structured
-output suitable for dashboards, external analysis, or consumption by
-other tools.
+contradictions, artifacts, staleness, trust, and tags. Supports
+filtering by status, kind, source kind, tag, and date range.
+Produces structured output suitable for dashboards, external
+analysis, or consumption by other tools.
 
 Usage:
-    python tools/corpus/export.py full [--db PATH] [--format json|jsonl] [--status STATUS] [--kind KIND]
+    python tools/corpus/export.py full [--db PATH] [--format json|jsonl] [--status STATUS] [--kind KIND] [--source-kind KIND] [--tag TAG] [--since DATE] [--before DATE] [--out FILE]
     python tools/corpus/export.py defects [--db PATH] [--format json|jsonl]
     python tools/corpus/export.py artifacts [--db PATH] [--implemented] [--format json|jsonl]
     python tools/corpus/export.py sources [--db PATH] [--format json|jsonl]
@@ -88,21 +88,47 @@ def _trust_for(license_verdict):
     return "trusted" if license_verdict == "vendor" else "untrusted"
 
 
-def export_full(conn, status_filter=None, kind_filter=None):
-    """Export all chunks as section 7.2 records."""
-    sql = "SELECT * FROM chunks WHERE 1=1"
+def export_full(conn, status_filter=None, kind_filter=None,
+                source_kind=None, tag_filter=None,
+                since=None, before=None):
+    """Export all chunks as section 7.2 records with optional filters."""
+    sql = "SELECT c.* FROM chunks c"
+    joins = []
+    where = ["1=1"]
     params = []
 
+    if source_kind:
+        joins.append("JOIN sources s ON s.source_id = c.source_id")
+        kinds = [k.strip() for k in source_kind.split(",")]
+        placeholders = ",".join("?" * len(kinds))
+        where.append(f"s.kind IN ({placeholders})")
+        params.extend(kinds)
+
+    if tag_filter:
+        joins.append("JOIN chunk_tags ct ON ct.chunk_id = c.chunk_id")
+        tags = [t.strip() for t in tag_filter.split(",")]
+        placeholders = ",".join("?" * len(tags))
+        where.append(f"ct.tag IN ({placeholders})")
+        params.extend(tags)
+
     if status_filter:
-        sql += " AND status = ?"
+        where.append("c.status = ?")
         params.append(status_filter)
     if kind_filter:
         kinds = [k.strip() for k in kind_filter.split(",")]
         placeholders = ",".join("?" * len(kinds))
-        sql += f" AND kind IN ({placeholders})"
+        where.append(f"c.kind IN ({placeholders})")
         params.extend(kinds)
 
-    sql += " ORDER BY source_id, ordinal"
+    if since:
+        where.append("c.ingested_utc >= ?")
+        params.append(since)
+    if before:
+        where.append("c.ingested_utc < ?")
+        params.append(before)
+
+    sql = sql + " " + " ".join(joins) + " WHERE " + " AND ".join(where)
+    sql += " ORDER BY c.source_id, c.ordinal"
     chunks = conn.execute(sql, params).fetchall()
 
     source_cache = {}
@@ -149,6 +175,14 @@ def export_full(conn, status_filter=None, kind_filter=None):
             ).fetchall()
         ]
 
+        tags = [
+            {"tag": r[0], "score": r[1]}
+            for r in conn.execute(
+                "SELECT tag, score FROM chunk_tags "
+                "WHERE chunk_id = ? ORDER BY score DESC", (cid,)
+            ).fetchall()
+        ]
+
         staleness = _staleness_verdict(source)
 
         record = {
@@ -166,6 +200,7 @@ def export_full(conn, status_filter=None, kind_filter=None):
                 "fetched_utc": source.get("fetched_utc", ""),
                 "upstream_mtime": source.get("upstream_mtime", ""),
             },
+            "tags": tags,
             "citations": citations,
             "contradicted_by": contradictions,
             "artifacts": artifacts,
@@ -474,12 +509,23 @@ def selftest():
         )
         conn.commit()
 
+        conn.execute(
+            "INSERT INTO chunk_tags (chunk_id, tag, score, tagged_utc) "
+            "VALUES (?, ?, ?, ?)", ("c1", "database", 0.85, now),
+        )
+        conn.execute(
+            "INSERT INTO chunk_tags (chunk_id, tag, score, tagged_utc) "
+            "VALUES (?, ?, ?, ?)", ("c2", "data", 0.72, now),
+        )
+        conn.commit()
+
         records = export_full(conn)
         t("full export returns all chunks", len(records) == 3)
         t("full export has section 7.2 fields",
           all(k in records[0] for k in
               ("chunk_id", "text", "kind", "source", "citations",
-               "contradicted_by", "artifacts", "staleness", "trust")))
+               "contradicted_by", "artifacts", "staleness", "trust",
+               "tags")))
 
         accepted = export_full(conn, status_filter="accepted")
         t("status filter works", len(accepted) == 2)
@@ -521,6 +567,41 @@ def selftest():
         t("summary has artifacts",
           summary["artifacts"]["total"] == 1)
 
+        tagged = export_full(conn, tag_filter="database")
+        t("tag filter works", len(tagged) == 1)
+        t("tag filter returns correct chunk",
+          tagged[0]["chunk_id"] == "c1")
+        t("tags included in record",
+          len(tagged[0]["tags"]) > 0 and tagged[0]["tags"][0]["tag"] == "database")
+
+        by_source_kind = export_full(conn, source_kind="local_md")
+        t("source-kind filter works", len(by_source_kind) == 3)
+
+        since_recs = export_full(conn, since="2026-08-30T00:00:00Z")
+        t("since filter works", len(since_recs) == 3)
+
+        before_recs = export_full(conn, before="2020-01-01T00:00:00Z")
+        t("before filter excludes all", len(before_recs) == 0)
+
+        range_recs = export_full(
+            conn, since="2026-01-01T00:00:00Z", before="2027-01-01T00:00:00Z",
+        )
+        t("date range filter works", len(range_recs) == 3)
+
+        combined = export_full(
+            conn, status_filter="accepted", tag_filter="database",
+            kind_filter="prose",
+        )
+        t("combined tag+status+kind filter", len(combined) == 1)
+
+        out_path = Path(tmp) / "export.jsonl"
+        from io import StringIO
+        buf_out = StringIO()
+        _output(tagged, "jsonl", buf_out)
+        with open(out_path, "w") as f:
+            f.write(buf_out.getvalue())
+        t("file output works", out_path.exists())
+
         from io import StringIO
         buf = StringIO()
         _output(records, "jsonl", buf)
@@ -533,8 +614,8 @@ def selftest():
         t("json output is valid", len(parsed) == 3)
 
     status = "PASS" if not failures else "FAIL"
-    checks = 19 - len(failures)
-    print(f"selftest: {status} ({checks}/19 checks)")
+    checks = 27 - len(failures)
+    print(f"selftest: {status} ({checks}/27 checks)")
     return not failures
 
 
@@ -546,8 +627,17 @@ def main(argv=None):
     p_full.add_argument("--db", default=str(DEFAULT_DB))
     p_full.add_argument("--format", choices=["json", "jsonl"], default="json",
                         dest="fmt")
-    p_full.add_argument("--status", help="filter by status")
-    p_full.add_argument("--kind", help="filter by kind (comma-separated)")
+    p_full.add_argument("--status", help="filter by chunk status")
+    p_full.add_argument("--kind", help="filter by chunk kind (comma-separated)")
+    p_full.add_argument("--source-kind",
+                        help="filter by source kind (comma-separated)")
+    p_full.add_argument("--tag",
+                        help="filter by tag from chunk_tags (comma-separated)")
+    p_full.add_argument("--since",
+                        help="include chunks ingested on or after ISO date")
+    p_full.add_argument("--before",
+                        help="include chunks ingested before ISO date")
+    p_full.add_argument("--out", help="write output to file instead of stdout")
 
     p_def = sub.add_parser("defects", help="export uncited claims and contradictions")
     p_def.add_argument("--db", default=str(DEFAULT_DB))
@@ -578,9 +668,18 @@ def main(argv=None):
         sys.exit(0 if ok else 1)
     elif args.cmd == "full":
         conn = connect(args.db)
-        records = export_full(conn, args.status, args.kind)
+        records = export_full(
+            conn, args.status, args.kind,
+            source_kind=args.source_kind, tag_filter=args.tag,
+            since=args.since, before=args.before,
+        )
         conn.close()
-        _output(records, args.fmt)
+        if args.out:
+            with open(args.out, "w") as f:
+                _output(records, args.fmt, out=f)
+            print(f"  wrote {len(records)} record(s) to {args.out}")
+        else:
+            _output(records, args.fmt)
     elif args.cmd == "defects":
         conn = connect(args.db)
         data = export_defects(conn)
