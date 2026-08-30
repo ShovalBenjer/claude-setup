@@ -125,6 +125,16 @@ CREATE TABLE IF NOT EXISTS artifacts (
     evidence_path TEXT
 );
 
+CREATE TABLE IF NOT EXISTS chunk_tags (
+    chunk_id  TEXT NOT NULL REFERENCES chunks(chunk_id),
+    tag       TEXT NOT NULL,
+    score     REAL NOT NULL,
+    tagged_utc TEXT NOT NULL,
+    PRIMARY KEY (chunk_id, tag)
+);
+
+CREATE INDEX IF NOT EXISTS ix_tags_tag ON chunk_tags(tag);
+
 CREATE VIRTUAL TABLE IF NOT EXISTS chunks_fts USING fts5(
     norm_text, heading_path, content='chunks', content_rowid='rowid',
     tokenize='porter unicode61'
