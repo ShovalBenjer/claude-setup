@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-457 directories, 2032 tracked files, 0 without a stated purpose.
+458 directories, 2039 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -56,7 +56,7 @@ the same reason, one level down.
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/archive` | 27 | Point-in-time files that used to sit at the docs/ root: session handoffs, pasted model transcripts (gemini-code-*), one-off notes. Moved 2026-08-23; historical-record by constru... | registry |
 | `docs/prd` | 6 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
-| `docs/prior-art` | 46 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
+| `docs/prior-art` | 47 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
 | `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
 | `docs/specs` | 20 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
@@ -444,7 +444,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `tests` | 50 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `tests` | 54 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
 | `tests/cmd` | 1 | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process self... | registry |
 | `tests/cmd/fixtures` | 1 | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it | registry |
 
@@ -460,13 +460,14 @@ the same reason, one level down.
 | `tools/bus` | 2 | Cross-terminal message bus (bus.py): append-only hash-chained JSONL with per-lane read cursors so parallel Claude Code sessions in different terminals can send each other durabl... | registry |
 | `tools/channel` | 2 | Purpose: measure whether a compressed inter-agent channel actually carried the | README.md |
 | `tools/coffee` | 7 | Coffee-break v2 social loop (taste row 2026-08-12): futures.py is the reputation betting board over state/futures.jsonl, smoking.py the frustration-triggered gripe/mine cycle ov... | registry |
-| `tools/corpus` | 3 | Extracts the conversational corpus (user and assistant message text only) from every session transcript slug under ~/.claude/projects into JSONL for embedding or counting; exclu... | registry |
+| `tools/corpus` | 4 | Extracts the conversational corpus (user and assistant message text only) from every session transcript slug under ~/.claude/projects into JSONL for embedding or counting; exclu... | registry |
 | `tools/dashboard` | 2 | Session Lens: stdlib SSE dashboard reading ~/.claude transcripts and state ledgers, owns nothing (2026-08-13 repo-compare ADOPT) | registry |
 | `tools/digest` | 1 | Builds the daily digest (push line plus digest.md) from TODO, git, and branch-health state for a cron job to send via PushNotification; out/ holds the generated digest.md and pu... | registry |
 | `tools/digest/out` | 2 | Generated daily-digest output (digest.md TODO/lessons rollup, push.txt); written by the digest tool, not source | registry |
 | `tools/docmap` | 3 | Generated document map: classifies all 929 tracked markdown files, derives each one's lifecycle status from its class or its own header, and records which lane-letter scheme (pr... | registry |
 | `tools/drift` | 1 | Session drift sentinel: measures whether a session's Edit/Write targets left its claimed lane's owned tree (lanes parsed from docs/charters.md Owns: lines), records strikes per... | registry |
 | `tools/e2e` | 1 | Real-browser end-to-end flow auditor (flow.py) that drives tools/browser/cdp.py at phone size, presses every control on every route, and feeds the ship gate's e2e and a11y_ux do... | registry |
+| `tools/eco` | 1 | Ecosystem state DB CLI (ADR-0011, AUTO-06): init/migrate-jsonl/claim/log-run/approve/status/selftest over state/ecosystem.db, the single operational-state SQLite that FleetView... | registry |
 | `tools/gate` | 3 | Ship-gate contract enforcer (gate.py: coverage checklist plus a run ledger) and enforce_selftest.py, proving the live deployed Stop hook actually blocks an ungated done-claim | registry |
 | `tools/ghpub` | 1 | Publishes state/github-backlog-*.json to GitHub milestones, labels, issues and a project board. Idempotent by issue title so a re-run is safe and a partial failure resumes rathe... | registry |
 | `tools/graph` | 2 | Repo graphing: blast_radius.py finds a changed file's transitive import blast radius for PR-review fanout, repo_graph.py builds a cross-repo portfolio graph via gh; out/ holds g... | registry |
