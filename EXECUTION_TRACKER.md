@@ -121,6 +121,16 @@ roadmap row that carries it.
   - Verification: `python -m pytest tests/test_slop_lint.py -q` (18 passed);
     root suite 675 passed
 
+- [x] AUTO-06 [docs/specs/2026-07-24-autonomy-implementation.md P1] Ecosystem state DB
+  - Status: VERIFIED
+  - Acceptance Criteria: `tools/eco/db.py` implements the 7-table schema from ADR-0011,
+    init/migrate-jsonl/claim/log-run/approve/status/selftest subcommands all work, JSONL
+    migration ingests from state/lessons.jsonl (57 rows), state/claims.jsonl (26 sessions),
+    and tools/selfimprove/proposals.jsonl (3 proposals), schema constraints enforce valid
+    status/kind/autonomy values, double-claim is rejected, idempotent re-migration is safe
+  - Verification: `python tools/eco/db.py selftest` PASS; `python -m pytest
+    tests/test_eco_db.py -q` (20 passed); root suite 695 passed, 31 skipped, 1 xfailed
+
 ### Open roadmap backlog, tracked where it lives
 
 The roadmap rows below stay owned by `TODO.md` sections 1 through 3 and the issue

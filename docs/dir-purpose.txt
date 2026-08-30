@@ -259,3 +259,4 @@ dashboard/web/src/components/ui | Buzz-anchored shared UI primitives (Badge, But
 dashboard/web/src/lib | Small frontend utilities: cn.ts (clsx/tailwind-merge class combiner) used across components/ui
 docs/archive | Point-in-time files that used to sit at the docs/ root: session handoffs, pasted model transcripts (gemini-code-*), one-off notes. Moved 2026-08-23; historical-record by construction, never edited
 docs/analysis/archive | Analysis snapshots dated on or before 2026-08-08 that no live surface (rule, spec, PRD, tool, ADR) referenced when archived 2026-08-23; still dated-snapshot, still reachable by path, out of the inbox
+tools/eco | Ecosystem state DB CLI (ADR-0011, AUTO-06): init/migrate-jsonl/claim/log-run/approve/status/selftest over state/ecosystem.db, the single operational-state SQLite that FleetView reads

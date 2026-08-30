@@ -1,0 +1,43 @@
+{
+  "component": "tools/eco",
+  "reviewed": "2026-08-30",
+  "recheck_after": "2026-11-28",
+  "verdict": "keep",
+  "verdict_class": "keep",
+  "why": "A 446-line CLI that wraps SQLite with a 7-table operational-state schema (sessions, proposals, runs, lessons, reputation, post_queue, repo_registry) and four domain commands (init, migrate-jsonl, claim, log-run, approve, status). The schema enforces CHECK constraints on status/kind/autonomy columns, the migration is idempotent (INSERT OR IGNORE), and the selftest proves all paths in-process with a temp DB. The property that holds it up: the schema is bespoke to this ecosystem's operational model (lane-scoped claims with double-claim rejection, post_queue with an ADR-0014 approval gate, repo_registry with autonomy on/paused, run kinds tied to this system's run types), and the JSONL migration maps three existing state files (proposals.jsonl, lessons.jsonl, claims.jsonl) whose shapes are also bespoke. No off-the-shelf tool provides this schema or these migrations; the alternatives below all provide the storage engine, not the domain model.",
+  "alternatives": [
+    {
+      "name": "Raw SQLite via sqlite3 CLI or litecli",
+      "covers": "Every query and insert this module performs. The sqlite3 CLI can create tables from .sql files, run ad-hoc queries, and import CSV. litecli adds auto-completion and syntax highlighting.",
+      "gap": "No JSONL migration (sqlite3 .import handles CSV and TSV, not newline-delimited JSON with nested fields). No domain validation (the claim command checks current status before updating and raises on double-claim; a raw UPDATE would silently succeed). No selftest. The CLI commands (claim, log-run, approve) would be ad-hoc SQL strings the operator has to type correctly each time, which is the error surface this module exists to close.",
+      "cost": "Zero install, sqlite3 ships with Python. Would require the operator to remember exact SQL for every operational action.",
+      "maturity": "Shipped with every Python install since 2.5."
+    },
+    {
+      "name": "Datasette (datasette.io) with datasette-insert plugin",
+      "covers": "Reading and browsing ecosystem.db via a web UI, plus datasette-insert can ingest JSONL files into SQLite tables. Canned queries could wrap the claim and log-run operations.",
+      "gap": "datasette-insert handles bulk JSONL import but not the schema-specific mapping this module performs (skipping _seed rows in claims, deriving session ids from claim hashes, setting proposal status to claimed when a matching claim exists). Canned queries could approximate the domain commands but would not enforce the double-claim rejection or the CHECK constraints at the application layer. Datasette is a server process; this module is a CLI that runs and exits, which is the shape the gate and hooks expect.",
+      "cost": "pip install datasette plus plugins. Adds a web server dependency to a path that currently needs only stdlib.",
+      "maturity": "Actively maintained, Apache-2.0. The insert plugin is a separate install."
+    },
+    {
+      "name": "DuckDB CLI",
+      "covers": "Native JSONL reading (SELECT * FROM read_json('file.jsonl')) without any migration code. Analytical queries across the operational state would be faster and more expressive than SQLite for aggregation.",
+      "gap": "DuckDB is an analytical engine optimized for column-oriented reads, not a transactional store for single-row inserts (claim, log-run, approve). It does not enforce CHECK constraints the same way SQLite does. The WAL mode and row-level locking that make SQLite safe for concurrent hook writes do not have a DuckDB equivalent for this access pattern. Also adds a 50MB+ binary dependency to a repo that currently needs only Python stdlib.",
+      "cost": "pip install duckdb or a standalone binary. Materially heavier than sqlite3.",
+      "maturity": "Actively developed, MIT license. Production-grade for analytics; less common as an operational store."
+    },
+    {
+      "name": "Keeping everything in JSONL (the status quo before this module)",
+      "covers": "The append-only ingest that state/lessons.jsonl, state/claims.jsonl, and tools/selfimprove/proposals.jsonl already do. No migration needed because the files are the store.",
+      "gap": "This is the rejected alternative from ADR-0011. Cross-table queries (which proposals are claimed by which lane? which repos have reputation losses?) require loading every JSONL into memory, joining in Python, and re-scanning on every query. The claim operation requires reading the entire proposals file to check status before appending, with no atomicity guarantee. The double-claim rejection requires a scan plus a write that can race. The ecosystem was already at 58 lessons and 50 claims; at the projected volume (daily gate runs, nightly autonomous runs across 22 repos), JSONL scan time grows linearly with no index.",
+      "cost": "Zero. Already in place.",
+      "maturity": "The current system. Works but does not scale to the cross-lane coordination and reputation routing the autonomy ecosystem requires."
+    }
+  ],
+  "evidence": "Read in full: docs/specs/2026-07-24-autonomy-implementation.md (127 lines, the P1 section defining the 7-table schema and CLI), docs/adr/0011-one-operational-state-db.md (29 lines, the decision record mandating one SQLite file). Read and sampled: state/claims.jsonl (50 rows, first 5 read to understand schema), state/lessons.jsonl (58 rows, first 5 read), tools/selfimprove/proposals.jsonl (3 rows, all read), state/gate-runs.jsonl (17783 rows, first 5 read for the runs table format). Verified by running: `python tools/eco/db.py selftest` PASS, `python -m pytest tests/test_eco_db.py -q` 20 passed, `python tools/eco/db.py init` + `migrate-jsonl` ingested 57 lessons + 26 sessions + 3 proposals, `python tools/eco/db.py status` confirmed counts. Root suite 695 passed, 31 skipped, 1 xfailed after adding the module.",
+  "our_loc": 446,
+  "what_ours_does": "A single-file CLI (tools/eco/db.py, 446 lines) that creates and manages state/ecosystem.db, the operational state DB mandated by ADR-0011. (1) SCHEMA_SQL defines 7 tables plus a schema_version tracker, each with CHECK constraints: proposals.status IN (open/claimed/done/rejected), runs.kind IN (nightly/weekly/social/digest/gate/selftest), reputation.kind IN (persona/model/repo), repo_registry.autonomy IN (on/paused). (2) init_schema creates all tables idempotently and records the schema version. (3) migrate_proposals/migrate_lessons/migrate_claims read JSONL files and INSERT OR IGNORE into the corresponding tables; migrate_claims also creates session rows and updates proposal status to claimed. The _seed row in claims.jsonl is skipped. Stable IDs are derived by sha256 hashing key fields when the source row has no id. (4) claim(conn, proposal_id, lane) checks current status and raises ValueError on double-claim or missing proposal. (5) log_run(conn, kind, repo, outcome, pr_url) inserts a timestamped run with a uuid-derived id. (6) approve(conn, post_id) sets approved_at on a post_queue row, implementing the ADR-0014 gate. (7) status(conn) returns row counts per table plus the schema version. (8) selftest() exercises all of the above in a temp DB with assertions.",
+  "strongest_counterargument": "This is 446 lines wrapping sqlite3, which is itself a Python stdlib module. The schema could be a .sql file and the CLI could be replaced by four shell aliases around sqlite3. The domain logic (double-claim rejection, _seed skip, stable-id derivation) is under 50 lines total; the rest is boilerplate (argparse, connect, transaction commit, JSONL reading). A future session should ask whether the CLI commands are actually called by any hook, cron, or workflow, because a CLI that nobody calls is documentation pretending to be code. The selftest proves the module works but not that anything uses it; the real test is whether FleetView (AUTO-19) and the nightly autonomy loop (AUTO-07) actually read this DB, and neither exists yet.",
+  "recheck": "Run two checks: (1) Is this DB actually read by anything? `grep -r 'ecosystem.db' tools/ dot-claude/ .github/` should show at least FleetView or a hook or a workflow reading it; if only db.py itself appears, the module is orphaned infrastructure. (2) Has the schema grown? `sqlite3 state/ecosystem.db '.schema' | wc -l` vs the SCHEMA_SQL constant in db.py; if they diverge, migrations are not being tracked."
+}
