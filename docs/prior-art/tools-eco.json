@@ -3,7 +3,8 @@
   "reviewed": "2026-08-30",
   "recheck_after": "2026-11-28",
   "verdict": "keep",
-  "verdict_class": "keep",
+  "absorption_status": "unreviewed",
+  "verdict_class": "keep-ours",
   "why": "A 446-line CLI that wraps SQLite with a 7-table operational-state schema (sessions, proposals, runs, lessons, reputation, post_queue, repo_registry) and four domain commands (init, migrate-jsonl, claim, log-run, approve, status). The schema enforces CHECK constraints on status/kind/autonomy columns, the migration is idempotent (INSERT OR IGNORE), and the selftest proves all paths in-process with a temp DB. The property that holds it up: the schema is bespoke to this ecosystem's operational model (lane-scoped claims with double-claim rejection, post_queue with an ADR-0014 approval gate, repo_registry with autonomy on/paused, run kinds tied to this system's run types), and the JSONL migration maps three existing state files (proposals.jsonl, lessons.jsonl, claims.jsonl) whose shapes are also bespoke. No off-the-shelf tool provides this schema or these migrations; the alternatives below all provide the storage engine, not the domain model.",
   "alternatives": [
     {

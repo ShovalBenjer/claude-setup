@@ -279,13 +279,21 @@ def approve(conn, post_id):
 _TABLES = ("sessions", "proposals", "runs", "lessons", "reputation",
            "post_queue", "repo_registry")
 
+_COUNT_QUERIES = {
+    "sessions":      "SELECT count(*) FROM sessions",
+    "proposals":     "SELECT count(*) FROM proposals",
+    "runs":          "SELECT count(*) FROM runs",
+    "lessons":       "SELECT count(*) FROM lessons",
+    "reputation":    "SELECT count(*) FROM reputation",
+    "post_queue":    "SELECT count(*) FROM post_queue",
+    "repo_registry": "SELECT count(*) FROM repo_registry",
+}
+
 
 def status(conn):
     out = {}
     for t in _TABLES:
-        assert t.isidentifier(), t
-        row = conn.execute("SELECT count(*) FROM " + t).fetchone()
-        out[t] = row[0]
+        out[t] = conn.execute(_COUNT_QUERIES[t]).fetchone()[0]
     v = conn.execute(
         "SELECT version FROM schema_version ORDER BY version DESC LIMIT 1"
     ).fetchone()

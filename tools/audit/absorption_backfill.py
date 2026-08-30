@@ -67,6 +67,7 @@ VERDICT_CLASS = {
     "tools-browser": "split",
     "tools-bus": "keep-ours",
     "tools-docmap": "keep-ours",
+    "tools-eco": "keep-ours",
     "tools-e2e": "split",
     "tools-gate": "keep-ours",
     "tools-ghpub": "keep-ours",
