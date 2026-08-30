@@ -556,6 +556,7 @@ that prior-art-gate exists to block.
 > **Implemented:** `tools/corpus/embed.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-embedding-rerank.md`.
 > **Topical clustering:** `tools/corpus/cluster.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-cluster.md`.
 > **Auto-tagger:** `tools/corpus/tagger.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-tagger.md`.
+> **Semantic analysis:** `tools/corpus/semantic.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-semantic.md`.
 
 ---
 
