@@ -132,6 +132,16 @@ domain makes the violation mechanical rather than retrospective. See
 [specs/2026-08-30-lane-enforcement-gate.md](specs/2026-08-30-lane-enforcement-gate.md).
 
 
+## TODO inbox
+
+The `todo_inbox` domain verifies that TODO.md's generated prompt-inbox block
+matches the intent store (`~/.intent/intent.db`). Reports N/A on runners
+without the store, FAIL when the block is stale. The tool
+(`tools/intent/render_todo.py`) existed with a selftest and a `check`
+subcommand; this domain is the enforcement half. See
+[specs/2026-08-30-todo-inbox-gate.md](specs/2026-08-30-todo-inbox-gate.md).
+
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.

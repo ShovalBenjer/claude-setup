@@ -140,6 +140,11 @@
       "builtin": "lane_enforcement",
       "_note": "The most recent state/claims.jsonl row must name lane A (claude-setup harness). Cross-lane work is the most frequently logged lesson; this domain makes the gate fail before the session produces work under the wrong charter. Filed 2026-07-29, implemented 2026-08-30."
     },
+    "todo_inbox": {
+      "required": true,
+      "builtin": "todo_inbox",
+      "_note": "TODO.md's generated prompt-inbox block must match the intent store. Exits N/A when the store is absent (CI runners), FAIL when the block is stale. Enforces the intent lifecycle: a captured prompt is visible in the todolist until triaged, and a todolist that passed against a store it could not read would hide every prompt in the estate."
+    },
     "coverage_map": {
       "required": true,
       "timeout": 60,
