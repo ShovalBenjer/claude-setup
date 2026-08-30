@@ -133,5 +133,12 @@ state/ecosystem.db
 state/ecosystem.db-wal
 state/ecosystem.db-shm
 
+# Research corpus DB (spec 2026-07-31). Built by tools/corpus/research.py from
+# committed markdown files; the source files are tracked, the DB is runtime state.
+state/corpus.db
+state/corpus.db-wal
+state/corpus.db-shm
+state/corpus-ingest.jsonl
+
 # Reanimation corpora are private family/friend messages, never committed
 .intent/
