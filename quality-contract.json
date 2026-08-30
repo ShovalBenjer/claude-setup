@@ -145,6 +145,12 @@
       "builtin": "todo_inbox",
       "_note": "TODO.md's generated prompt-inbox block must match the intent store. Exits N/A when the store is absent (CI runners), FAIL when the block is stale. Enforces the intent lifecycle: a captured prompt is visible in the todolist until triaged, and a todolist that passed against a store it could not read would hide every prompt in the estate."
     },
+    "refute": {
+      "required": true,
+      "timeout": 300,
+      "cmd": "python tools/refute/refute.py run",
+      "_note": "Every claim in state/claims.json has a falsifier, and none of them fire. The refutation engine runs each claim's own verification command; any REFUTED or BROKEN verdict fails the gate. Claims whose preconditions are not met on the runner (e.g. no deployed ~/.claude) report cannot-measure and do not count toward the exit code."
+    },
     "coverage_map": {
       "required": true,
       "timeout": 60,

@@ -142,6 +142,16 @@ subcommand; this domain is the enforcement half. See
 [specs/2026-08-30-todo-inbox-gate.md](specs/2026-08-30-todo-inbox-gate.md).
 
 
+## Refute
+
+The `refute` domain runs every claim's own falsifier via
+`tools/refute/refute.py run`. Any REFUTED or BROKEN verdict fails the gate.
+Claims whose preconditions are not met (e.g. no deployed `~/.claude` on a CI
+runner) report cannot-measure and do not count toward the exit code. The tool
+and its selftest already existed; this domain is the enforcement half. See
+[specs/2026-08-30-refute-gate.md](specs/2026-08-30-refute-gate.md).
+
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.
