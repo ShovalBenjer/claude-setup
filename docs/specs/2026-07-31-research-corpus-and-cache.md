@@ -710,6 +710,8 @@ query. Implemented in
 tree rather than the README, and set `implemented=1` only with a real
 `evidence_path`. A library named in prose and absent from every manifest gets
 `implemented=0`. This is the mechanised form of the operator repository rule.
+Implemented in
+[specs/2026-08-30-corpus-artifact-extraction.md](../specs/2026-08-30-corpus-artifact-extraction.md).
 
 **Stage 7, paper rule.** For `kind='paper'`, admit only `published_utc` in 2026
 and record `publisher` from the paper record, never from a search snippet. A
