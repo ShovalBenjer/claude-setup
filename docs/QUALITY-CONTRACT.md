@@ -123,6 +123,14 @@ frontmatter are prose-only and skipped. See
 [specs/2026-08-30-rules-enforcement-gate.md](specs/2026-08-30-rules-enforcement-gate.md).
 
 
+## Lane enforcement
+
+The `lane_enforcement` domain reads the most recent row from
+`state/claims.jsonl` and fails the gate if the claimed lane is not A (the
+harness lane). Cross-lane work is the most frequently logged lesson; this
+domain makes the violation mechanical rather than retrospective. See
+[specs/2026-08-30-lane-enforcement-gate.md](specs/2026-08-30-lane-enforcement-gate.md).
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.

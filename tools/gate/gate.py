@@ -978,6 +978,24 @@ def rules_enforcement(project: str, contract: dict, spec: dict) -> tuple[str, st
 
 
 
+def lane_enforcement(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    """Verify the latest claims row names this repo's lane."""
+    import io
+    from contextlib import redirect_stdout
+
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "audit"))
+    import lane_check
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        code = lane_check.run_check(project)
+    evidence = buf.getvalue().strip()
+    if code == 2:
+        return CANNOT_MEASURE, evidence or "claims ledger not found"
+    if code == 1:
+        return FAIL, evidence
+    return PASS, evidence
+
+
 BUILTINS = {
     "secret_scan": secret_scan,
     "docs_touched": docs_touched,
@@ -987,6 +1005,7 @@ BUILTINS = {
     "spec_linked": spec_linked,
     "blast_radius": blast_radius,
     "rules_enforcement": rules_enforcement,
+    "lane_enforcement": lane_enforcement,
 }
 
 

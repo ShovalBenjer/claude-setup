@@ -135,6 +135,11 @@
       "builtin": "blast_radius",
       "_note": "Computes the transitive Python import blast radius of changed files. Informational: always passes, reports which modules are affected and flags wide-radius changes (>=3 importers). PRD #16."
     },
+    "lane_enforcement": {
+      "required": true,
+      "builtin": "lane_enforcement",
+      "_note": "The most recent state/claims.jsonl row must name lane A (claude-setup harness). Cross-lane work is the most frequently logged lesson; this domain makes the gate fail before the session produces work under the wrong charter. Filed 2026-07-29, implemented 2026-08-30."
+    },
     "coverage_map": {
       "required": true,
       "timeout": 60,
