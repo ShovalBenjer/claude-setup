@@ -84,6 +84,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-corpus-paper-rule.md](specs/2026-08-30-corpus-paper-rule.md): Spec: corpus paper rule, stage 7 enforcement of 2026-only paper admission with publisher verification *(status: done)*
 - [specs/2026-08-30-corpus-tag-store.md](specs/2026-08-30-corpus-tag-store.md): Spec: corpus tag store, persists auto-tagger results into chunk_tags table for faceted queries *(status: done)*
 - [specs/2026-08-30-corpus-batch-export.md](specs/2026-08-30-corpus-batch-export.md): Spec: corpus batch export, adds tag/source-kind/date-range filters and tags field to export records *(status: done)*
+- [specs/2026-08-30-corpus-chunk-versions.md](specs/2026-08-30-corpus-chunk-versions.md): Spec: corpus chunk versioning, tracks content changes across re-ingestions with hash-based snapshots *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*
