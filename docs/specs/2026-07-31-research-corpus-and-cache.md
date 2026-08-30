@@ -744,6 +744,8 @@ rots. Quarantine is reversible; deletion is not.
 
 > **Implemented:** `tools/corpus/retrieve.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-unified-retrieval.md`.
 
+> **Unified search implemented:** `tools/corpus/search.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-search.md`.
+
 ### 7.1 What a query looks like
 
 ```
