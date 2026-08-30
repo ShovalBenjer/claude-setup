@@ -131,6 +131,18 @@ roadmap row that carries it.
   - Verification: `python tools/eco/db.py selftest` PASS; `python -m pytest
     tests/test_eco_db.py -q` (20 passed); root suite 695 passed, 31 skipped, 1 xfailed
 
+- [x] CORPUS-1 [docs/specs/2026-07-31-research-corpus-and-cache.md steps 1-4] Research
+  corpus DB with FTS5 search
+  - Status: VERIFIED
+  - Acceptance Criteria: `tools/corpus/research.py` implements the 6-table + FTS5 schema
+    from spec section 4.3, 4-stage ingestion pipeline (normalise, chunk, dedup, citation
+    gate), FTS5 query with BM25 ranking, defect queries for uncited and contradicted chunks,
+    CLI with init/ingest/query/defects/status/selftest subcommands
+  - Verification: `python tools/corpus/research.py selftest` PASS; `python -m pytest
+    tests/test_corpus_research.py -q` (31 passed); ingest over 365 sources produces 5936
+    chunks with 3618 citations and 68 exact duplicates; FTS5 search returns ranked results;
+    root suite 726 passed, 31 skipped, 1 xfailed; full 12-domain gate PASS
+
 ### Open roadmap backlog, tracked where it lives
 
 The roadmap rows below stay owned by `TODO.md` sections 1 through 3 and the issue
