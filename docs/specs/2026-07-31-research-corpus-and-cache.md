@@ -501,6 +501,7 @@ generation mismatch means the vectors are stale and retrieval must say so.
 ### 4.4 The two defect queries the operator asked for
 
 > **Implemented as a health oracle:** `tools/corpus/health.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-health-oracle.md`.
+> **Structural integrity validation:** `tools/corpus/validate.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-validate.md`.
 
 The point of the schema is that these are one-liners, so a defect is found by
 query rather than by a reader.
