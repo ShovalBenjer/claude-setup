@@ -69,6 +69,11 @@ CREATE INDEX IF NOT EXISTS ix_tags_tag ON chunk_tags(tag);
 - `tools/corpus/tag_store.py`: new tool
 - `docs/specs/2026-08-30-corpus-tag-store.md`: this spec
 
+## See also
+
+- [corpus-batch-export](2026-08-30-corpus-batch-export.md): uses persisted
+  tags for `--tag` filtering and includes tags in export records.
+
 ## Non-goals
 
 - Replacing the tagger's scoring algorithm.
