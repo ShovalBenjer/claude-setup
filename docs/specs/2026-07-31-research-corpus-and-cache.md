@@ -308,6 +308,10 @@ That number decides everything.
 
 ### 4.1a Chunking: the one thing this spec asserted instead of deciding
 
+> **Cross-ref:** Stage 2 section-based chunking is implemented in
+> `tools/corpus/chunker.py`, spec at
+> `docs/specs/2026-08-30-corpus-chunker.md`.
+
 **GAP FOUND 2026-08-03 by comparison against DigitalOcean's published knowledge-base and
 chunking-strategy docs.** The sentence above is the entire chunking strategy: ~350 words,
 split on h2/h3, subdivide long sections. That is DigitalOcean's **section-based** strategy,
