@@ -699,6 +699,7 @@ a `supersedes` edge and keeps BOTH, because the `maryam-v6.7-DEPLOYED` case
 proves that discarding one destroys the deployed-versus-draft fact.
 
 > **Quarantine triage implemented:** `tools/corpus/promote.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-promote.md`.
+> **Quality review sampling:** `tools/corpus/sample.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-sample.md`.
 
 **Stage 4, citation gate.** The enforcement of directive 2. A chunk with
 `kind='claim'` must produce at least one `citations` row. `[S#]` tags resolve
