@@ -162,6 +162,12 @@
       "cmd": "python tools/skilleval/run.py scan",
       "_note": "Every skill with a routing fixture routes correctly (the right skill wins the prompt). Skills without fixtures are counted as uncovered but do not fail. A skill whose fixture routes to the wrong skill fails the gate. Catches regressions in skill descriptions that would misroute prompts."
     },
+    "prose_fit": {
+      "required": true,
+      "timeout": 60,
+      "cmd": "python tools/audit/prose_fit.py check --project .",
+      "_note": "prose_metrics.py collects density and variance scores to state/prose-scores.jsonl but explicitly defers thresholds (L-2026-07-31-b). This domain verifies that percentile bands have been fitted from the corpus (state/prose-thresholds.json exists, was fitted from 20+ scores, and has not gone stale as the corpus grew). The actual per-document enforcement is a follow-up in slop_lint.py; this domain ensures the infrastructure exists."
+    },
     "skip_tracker": {
       "required": true,
       "timeout": 600,

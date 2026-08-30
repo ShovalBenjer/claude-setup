@@ -170,6 +170,17 @@ A skill whose fixture routes to the wrong skill fails the gate. See
 [specs/2026-08-30-skilleval-gate.md](specs/2026-08-30-skilleval-gate.md).
 
 
+## Prose fit
+
+The `prose_fit` domain runs `tools/audit/prose_fit.py check`, which verifies
+that percentile bands have been fitted from the prose-score corpus
+(`state/prose-thresholds.json` exists, was fitted from 20+ scores, and is not
+stale). `prose_metrics.py` collects density and variance scores but explicitly
+defers thresholds (L-2026-07-31-b); this domain ensures the fitting
+infrastructure exists so `slop_lint.py` can enforce data-driven bands. See
+[specs/2026-08-30-prose-fit-gate.md](specs/2026-08-30-prose-fit-gate.md).
+
+
 ## Skip tracker
 
 The `skip_tracker` domain runs `tools/audit/skip_tracker.py check`, which
