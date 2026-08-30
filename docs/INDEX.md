@@ -62,6 +62,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-corpus-pipeline.md](specs/2026-08-30-corpus-pipeline.md): Spec: corpus ingestion pipeline, end-to-end orchestration of all stages with structured reporting *(status: done)*
 - [specs/2026-08-30-corpus-staleness-sweep.md](specs/2026-08-30-corpus-staleness-sweep.md): Spec: corpus staleness sweep, proactive freshness check with DB updates for drifted local files *(status: done)*
 - [specs/2026-08-30-corpus-export.md](specs/2026-08-30-corpus-export.md): Spec: corpus export, serializes corpus or filtered subsets to JSON/JSONL for external analysis *(status: done)*
+- [specs/2026-08-30-corpus-search.md](specs/2026-08-30-corpus-search.md): Spec: corpus search, unified search across research corpus and books index with graceful degradation *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*
