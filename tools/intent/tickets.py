@@ -34,6 +34,7 @@ if str(REPO_ROOT / "tools" / "lib") not in sys.path:
     sys.path.insert(0, str(REPO_ROOT / "tools" / "lib"))
 
 from bus import canonical, file_lock, row_altered, row_hash, row_id  # noqa: E402
+
 try:
     from tracing import inject as trace_inject  # noqa: E402
 except ImportError:

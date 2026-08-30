@@ -335,7 +335,7 @@ def cmd_selftest(_a: argparse.Namespace) -> int:
     import shutil
     import tempfile
     import traceback
-    from contextlib import redirect_stdout, redirect_stderr
+    from contextlib import redirect_stderr, redirect_stdout
 
     # Deliberately not 0, 1 or 2: a crash must not satisfy any check that asserts a
     # real exit code.

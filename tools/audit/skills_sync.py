@@ -609,8 +609,8 @@ def cmd_selftest(a):
         l9 = os.path.join(tmp, "c9", "live")
         write_skill(r9, "iota", real_body("same"))
         write_skill(l9, "iota", real_body("same"))
-        import io
         import contextlib
+        import io
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf):
             clean_rc = report(survey(r9, l9), r9, l9)

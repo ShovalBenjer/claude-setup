@@ -15,7 +15,13 @@ Signals (all real, all local):
   - test presence (tools/ modules without any test)
 Run: python tools/selfimprove/scan.py  ->  prints top proposals, writes proposals.jsonl
 """
-import json, os, re, subprocess, sys, pathlib, hashlib
+import hashlib
+import json
+import os
+import pathlib
+import re
+import subprocess
+import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from lib import repo_root  # noqa: E402

@@ -9,7 +9,9 @@ docs/analysis/2026-07-23-local-model-stress-test.md.
 
 Usage: route_classify.py "your request text"   ->  {"route":..., "risk":...}
 """
-import json, sys, urllib.request
+import json
+import sys
+import urllib.request
 
 MODEL = "qwen2.5:1.5b"
 SYS = '''You label a request with route and risk. Reply with ONE json object only.

@@ -41,10 +41,7 @@ REDUCE_SYS = (
 
 def windows(corpus: Path, size: int) -> list[str]:
     msgs = [json.loads(l)["text"] for l in corpus.read_text(encoding="utf-8").splitlines() if l.strip()]
-    out = []
-    for i in range(0, len(msgs), size):
-        out.append("\n".join(msgs[i:i + size]))
-    return out
+    return ["\n".join(msgs[i:i + size]) for i in range(0, len(msgs), size)]
 
 
 def _json_only(s: str) -> dict:

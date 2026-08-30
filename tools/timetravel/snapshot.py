@@ -327,7 +327,7 @@ def discover_targets(project: str, all_dirty: bool = False) -> list[str]:
     found: set[str] = set()
 
     for ln in git_lines(project, "status", "--porcelain", "--ignored", "--", "state"):
-        if not (ln.startswith("!!") or ln.startswith("??")):
+        if not ln.startswith(("!!", "??")):
             continue
         found.add(ln[3:].strip().strip('"'))
 

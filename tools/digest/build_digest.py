@@ -5,7 +5,12 @@ fires a prompt that runs this, reads push.txt, and sends it via PushNotification
 
 Sources (all real, all local): TODO.md, branch health json, repo graph db, git state.
 """
-import json, os, re, subprocess, sys, pathlib
+import json
+import os
+import pathlib
+import re
+import subprocess
+import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from lib import repo_root  # noqa: E402
@@ -85,8 +90,9 @@ def main():
         if open_rows:
             md.append("")
             md.append(f"- OPEN LESSONS ({len(open_rows)}) — unenforced until closed:")
-            for r in open_rows:
-                md.append(f"  - {r['id']}: {r['lesson'][:90]} -> {r['enforcement'][:70]}")
+            md.extend(
+                f"  - {r['id']}: {r['lesson'][:90]} -> {r['enforcement'][:70]}"
+                for r in open_rows)
             push += f" {len(open_rows)} open lessons."
 
     md.append("")
