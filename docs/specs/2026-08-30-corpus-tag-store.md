@@ -75,6 +75,8 @@ CREATE INDEX IF NOT EXISTS ix_tags_tag ON chunk_tags(tag);
   tags for `--tag` filtering and includes tags in export records.
 - [corpus-chunk-versions](2026-08-30-corpus-chunk-versions.md): another
   schema extension tracking chunk content changes over time.
+- [corpus-domain-store](2026-08-30-corpus-domain-store.md): persists
+  ML-based semantic domain classifications for faceted domain queries.
 
 ## Non-goals
 
