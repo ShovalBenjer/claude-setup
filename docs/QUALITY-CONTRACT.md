@@ -131,6 +131,7 @@ harness lane). Cross-lane work is the most frequently logged lesson; this
 domain makes the violation mechanical rather than retrospective. See
 [specs/2026-08-30-lane-enforcement-gate.md](specs/2026-08-30-lane-enforcement-gate.md).
 
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.
