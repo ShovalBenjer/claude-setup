@@ -51,8 +51,14 @@ A new tool `tools/corpus/dedup.py` with four subcommands:
 - `tools/corpus/dedup.py`: new tool
 - `docs/specs/2026-08-30-corpus-dedup.md`: this spec
 
+## See also
+
+- [corpus-semantic-dedup](2026-08-30-corpus-semantic-dedup.md): extends
+  this tool with embedding-based semantic deduplication for paraphrases.
+
 ## Non-goals
 
-- Semantic deduplication using embeddings.
+- ~~Semantic deduplication using embeddings.~~ Shipped as
+  [corpus-semantic-dedup](2026-08-30-corpus-semantic-dedup.md).
 - Automatic dedup on ingestion.
 - Cross-corpus dedup between separate databases.
