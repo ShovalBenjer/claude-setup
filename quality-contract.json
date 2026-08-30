@@ -151,6 +151,11 @@
       "cmd": "python tools/refute/refute.py run",
       "_note": "Every claim in state/claims.json has a falsifier, and none of them fire. The refutation engine runs each claim's own verification command; any REFUTED or BROKEN verdict fails the gate. Claims whose preconditions are not met on the runner (e.g. no deployed ~/.claude) report cannot-measure and do not count toward the exit code."
     },
+    "bus_integrity": {
+      "required": true,
+      "cmd": "python tools/bus/bus.py verify",
+      "_note": "The hash-chained event bus ledger (state/bus.jsonl) is intact. Every chained row's hash covers its own content plus the previous hash, so any edit, deletion, or reordering of chained rows is detectable. Pre-chain rows (before chaining was added) carry no hash and are reported but not failed."
+    },
     "coverage_map": {
       "required": true,
       "timeout": 60,
