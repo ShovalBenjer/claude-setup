@@ -111,6 +111,16 @@ roadmap row that carries it.
     gate job's verdict on the runner depends on those operator decisions)
   - Verification: the PR's Ship gate check on the current head
 
+- [x] PROP-2 [tools/selfimprove/proposals.jsonl, score 8] Add a test for
+  `tools/slop_lint.py`
+  - Status: VERIFIED
+  - Acceptance Criteria: every scan category (banned phrases, em/en-dash connectors,
+    ritual acknowledgements, ritual openers) fires on its own representative, clean
+    prose stays clean, line numbers are correct, the collector never fails the run,
+    and main() exits 1 on hits and 0 on clean
+  - Verification: `python -m pytest tests/test_slop_lint.py -q` (18 passed);
+    root suite 675 passed
+
 ### Open roadmap backlog, tracked where it lives
 
 The roadmap rows below stay owned by `TODO.md` sections 1 through 3 and the issue
@@ -122,6 +132,6 @@ evaluation) each name their own acceptance in `CLAUDE-OS.md` section 9 and are n
 executable from an ephemeral container without the operator's machines, keys, or
 schedulers; they are deliberately not duplicated into checkboxes here, because a second
 checklist that drifts from the roadmap is the exact failure `docs/archive/MIGRATION-NOTES.md`
-records. The two remaining selfimprove proposals not executed: "Return to main" does
+records. The remaining selfimprove proposals not executed: "Return to main" does
 not apply (this session is bound to its feature branch by its operating instructions),
 and "Grow flywheel" needs live router traffic this host does not carry.
