@@ -736,6 +736,8 @@ tree rather than the README, and set `implemented=1` only with a real
 `implemented=0`. This is the mechanised form of the operator repository rule.
 Implemented in
 [specs/2026-08-30-corpus-artifact-extraction.md](../specs/2026-08-30-corpus-artifact-extraction.md).
+Entity enrichment (named entity detection with implementation signals) in
+[specs/2026-08-30-corpus-enrich.md](../specs/2026-08-30-corpus-enrich.md).
 
 **Stage 7, paper rule.** For `kind='paper'`, admit only `published_utc` in 2026
 and record `publisher` from the paper record, never from a search snippet. A
