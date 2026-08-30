@@ -147,6 +147,16 @@ CREATE TABLE IF NOT EXISTS chunk_versions (
 
 CREATE INDEX IF NOT EXISTS ix_versions_chunk ON chunk_versions(chunk_id);
 
+CREATE TABLE IF NOT EXISTS chunk_domains (
+    chunk_id       TEXT NOT NULL REFERENCES chunks(chunk_id),
+    domain         TEXT NOT NULL,
+    score          REAL NOT NULL,
+    classified_utc TEXT NOT NULL,
+    PRIMARY KEY (chunk_id, domain)
+);
+
+CREATE INDEX IF NOT EXISTS ix_domains_domain ON chunk_domains(domain);
+
 CREATE VIRTUAL TABLE IF NOT EXISTS chunks_fts USING fts5(
     norm_text, heading_path, content='chunks', content_rowid='rowid',
     tokenize='porter unicode61'
