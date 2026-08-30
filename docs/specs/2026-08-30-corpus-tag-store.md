@@ -73,6 +73,8 @@ CREATE INDEX IF NOT EXISTS ix_tags_tag ON chunk_tags(tag);
 
 - [corpus-batch-export](2026-08-30-corpus-batch-export.md): uses persisted
   tags for `--tag` filtering and includes tags in export records.
+- [corpus-chunk-versions](2026-08-30-corpus-chunk-versions.md): another
+  schema extension tracking chunk content changes over time.
 
 ## Non-goals
 

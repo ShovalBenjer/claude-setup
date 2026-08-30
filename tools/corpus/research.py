@@ -135,6 +135,18 @@ CREATE TABLE IF NOT EXISTS chunk_tags (
 
 CREATE INDEX IF NOT EXISTS ix_tags_tag ON chunk_tags(tag);
 
+CREATE TABLE IF NOT EXISTS chunk_versions (
+    version_id   TEXT PRIMARY KEY,
+    chunk_id     TEXT NOT NULL REFERENCES chunks(chunk_id),
+    version_num  INTEGER NOT NULL,
+    norm_sha256  TEXT NOT NULL,
+    word_count   INTEGER NOT NULL,
+    snapshot_utc TEXT NOT NULL,
+    UNIQUE(chunk_id, version_num)
+);
+
+CREATE INDEX IF NOT EXISTS ix_versions_chunk ON chunk_versions(chunk_id);
+
 CREATE VIRTUAL TABLE IF NOT EXISTS chunks_fts USING fts5(
     norm_text, heading_path, content='chunks', content_rowid='rowid',
     tokenize='porter unicode61'
