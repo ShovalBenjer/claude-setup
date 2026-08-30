@@ -856,6 +856,7 @@ direct answer to the 5.1 staleness-laundering failure mode.
 ---
 
 > **Coverage analysis implemented:** `tools/corpus/coverage.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-coverage.md`.
+> **Gap analysis:** `tools/corpus/gaps.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-gaps.md`.
 
 ## 9. Migration path, in ingestion units
 
