@@ -678,6 +678,8 @@ license from the actual LICENSE text and record `license_evidence`. A
 `upstream_mtime` is older than 18 months is admitted with `liveness='stale'` and
 may never win a contradiction against a live source.
 
+> **Implemented:** `tools/corpus/license_gate.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-license-gate.md`.
+
 **Stage 2, chunk.** Split on h2/h3 headings, subdivide above ~350 words, classify
 `kind`. Code fences become `kind='code'` and feed stage 6.
 
