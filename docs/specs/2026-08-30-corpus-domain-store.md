@@ -86,4 +86,5 @@ CREATE INDEX IF NOT EXISTS ix_domains_domain ON chunk_domains(domain);
 - Replacing the semantic classifier's scoring algorithm.
 - Domain taxonomy management or domain renaming.
 - Automatic re-classification on chunk content changes.
-- Persisting cluster assignments (separate feature).
+- ~~Persisting cluster assignments.~~ Shipped as
+  [corpus-cluster-store](2026-08-30-corpus-cluster-store.md).
