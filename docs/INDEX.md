@@ -45,6 +45,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-todo-inbox-gate.md](specs/2026-08-30-todo-inbox-gate.md): Spec: todo-inbox gate domain, TODO.md prompt-inbox block vs intent store *(status: done)*
 - [specs/2026-08-30-refute-gate.md](specs/2026-08-30-refute-gate.md): Spec: refute gate domain, claim falsifier enforcement *(status: done)*
 - [specs/2026-08-30-bus-integrity-gate.md](specs/2026-08-30-bus-integrity-gate.md): Spec: bus-integrity gate domain, hash-chain verification of event bus ledger *(status: done)*
+- [specs/2026-08-30-skilleval-gate.md](specs/2026-08-30-skilleval-gate.md): Spec: skilleval gate domain, skill routing quality enforcement *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*

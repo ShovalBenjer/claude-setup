@@ -156,6 +156,12 @@
       "cmd": "python tools/bus/bus.py verify",
       "_note": "The hash-chained event bus ledger (state/bus.jsonl) is intact. Every chained row's hash covers its own content plus the previous hash, so any edit, deletion, or reordering of chained rows is detectable. Pre-chain rows (before chaining was added) carry no hash and are reported but not failed."
     },
+    "skilleval": {
+      "required": true,
+      "timeout": 120,
+      "cmd": "python tools/skilleval/run.py scan",
+      "_note": "Every skill with a routing fixture routes correctly (the right skill wins the prompt). Skills without fixtures are counted as uncovered but do not fail. A skill whose fixture routes to the wrong skill fails the gate. Catches regressions in skill descriptions that would misroute prompts."
+    },
     "coverage_map": {
       "required": true,
       "timeout": 60,
