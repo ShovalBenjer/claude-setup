@@ -887,12 +887,47 @@ def prior_art(project: str, contract: dict, spec: dict) -> tuple[str, str]:
     return codemap(project, spec, "prior-art")
 
 
+def spec_linked(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    """Non-trivial source changes require a docs/specs/ entry.
+
+    Parallels docs_touched: both compare the change against the base and fire
+    above a threshold. docs_touched asks "did you say what changed?"; this one
+    asks "did you say WHY it changes, before you started?"
+    """
+    base = spec.get("base") or default_base(project)
+    threshold = spec.get("threshold", 3)
+    changed = [l for l in git("diff --name-only {}...HEAD".format(base), project).splitlines() if l]
+    changed += _porcelain_paths(git("status --porcelain", project))
+    changed = sorted(set(c.strip() for c in changed if c.strip()))
+    if not changed:
+        return PASS, "no changes relative to {}".format(base)
+
+    code = [c for c in changed if re.search(
+        r"\.(ts|tsx|js|jsx|py|go|rs|java|kt|swift|rb|php|cs|sql|sh|ps1)$", c)]
+    if len(code) <= threshold:
+        return PASS, ("{} source file(s) changed, under the spec threshold of {}".format(
+            len(code), threshold + 1))
+
+    specs_dir = spec.get("specs_dir", "docs/specs/")
+    specs_touched = [c for c in changed
+                     if c.startswith(specs_dir.rstrip("/") + "/") and c.endswith(".md")]
+    if specs_touched:
+        return PASS, ("{} source file(s) changed, spec(s) touched: {}".format(
+            len(code), ", ".join(specs_touched[:6])))
+
+    return FAIL, ("{} source file(s) changed but no spec in {} was created or updated. "
+                  "Non-trivial changes need a spec entry (Status: active) written before "
+                  "the implementation starts.\n  changed: {}".format(
+                      len(code), specs_dir, ", ".join(code[:10])))
+
+
 BUILTINS = {
     "secret_scan": secret_scan,
     "docs_touched": docs_touched,
     "ci_runs_gate": ci_runs_gate,
     "dir_map": dir_map,
     "prior_art": prior_art,
+    "spec_linked": spec_linked,
 }
 
 
@@ -1698,6 +1733,60 @@ def cmd_selftest(args: argparse.Namespace) -> int:
             print("      status={} evidence={} porcelain={}".format(
                 st, ev.replace("\n", " | ")[:300],
                 git("status --porcelain", td3).replace("\n", " | ")))
+        rc |= 0 if ok else 1
+
+    # 11. spec_linked: non-trivial source changes require a docs/specs/ entry.
+    with tempfile.TemporaryDirectory() as td4:
+        run("git init -q .", td4)
+        os.makedirs(os.path.join(td4, "docs", "specs"), exist_ok=True)
+        open(os.path.join(td4, "a.py"), "w").write("x = 1\n")
+        run("git add -A", td4)
+        run("git -c user.email=t@t -c user.name=t commit -q -m base", td4)
+
+        spec4 = {"threshold": 2, "specs_dir": "docs/specs/", "base": "HEAD"}
+
+        # Under threshold: 2 source files, threshold 2 -> PASS
+        for n in ("a.py", "b.py"):
+            open(os.path.join(td4, n), "w").write("x = 2\n")
+        st, ev = spec_linked(td4, {}, spec4)
+        ok = st == PASS and "under the spec threshold" in ev
+        print("\n[{}] spec_linked: under-threshold change passes".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+        # Over threshold, no spec: 3 source files, threshold 2 -> FAIL
+        open(os.path.join(td4, "c.py"), "w").write("x = 1\n")
+        st, ev = spec_linked(td4, {}, spec4)
+        ok = st == FAIL and "no spec" in ev
+        print("\n[{}] spec_linked: over-threshold with no spec fails".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+        # Over threshold with spec touched -> PASS
+        open(os.path.join(td4, "docs", "specs", "my-feature.md"), "w").write(
+            "---\nStatus: active\n---\n# My Feature\n")
+        run("git add docs/specs/my-feature.md", td4)
+        st, ev = spec_linked(td4, {}, spec4)
+        ok = st == PASS and "spec(s) touched" in ev
+        print("\n[{}] spec_linked: over-threshold with spec touched passes".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+        # No changes at all -> PASS
+        run("git add -A", td4)
+        run("git -c user.email=t@t -c user.name=t commit -q -m done", td4)
+        st, ev = spec_linked(td4, {}, spec4)
+        ok = st == PASS and "no changes" in ev
+        print("\n[{}] spec_linked: no changes passes".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
         rc |= 0 if ok else 1
 
     # expired() decides whether a waiver is still live, and the docstring calls a
