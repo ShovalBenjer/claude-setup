@@ -50,6 +50,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-skip-tracker-gate.md](specs/2026-08-30-skip-tracker-gate.md): Spec: skip_tracker gate domain, pytest skip count regression detection *(status: done)*
 - [specs/2026-08-30-prose-fit-gate.md](specs/2026-08-30-prose-fit-gate.md): Spec: prose_fit gate domain, fitted prose-quality thresholds from score corpus *(status: done)*
 - [specs/2026-08-30-lesson-check-gate.md](specs/2026-08-30-lesson-check-gate.md): Spec: lesson_check gate domain, lessons ledger structural integrity validation *(status: done)*
+- [specs/2026-08-30-gate-health-gate.md](specs/2026-08-30-gate-health-gate.md): Spec: gate_health gate domain, gate-run ledger structural integrity validation *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*
