@@ -65,6 +65,8 @@ A new tool `tools/corpus/chunk_profile.py` with three subcommands:
 - [corpus-timeline](2026-08-31-corpus-timeline.md): temporal analysis;
   this tool shows a chunk's ingestion timestamp and source publication
   date.
+- [corpus-audit](2026-08-31-corpus-audit.md): cross-signal issue
+  detection; identifies which chunks need attention.
 
 ## Non-goals
 
