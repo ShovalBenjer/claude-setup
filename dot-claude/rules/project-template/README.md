@@ -17,8 +17,9 @@ Measured 2026-08-12: the global rules tree was ~11,300 words read every session.
 files in it were bound to single external systems and fired nowhere else:
 
 - `jira-comment-drafting.md` (632 words): comment tone for `qboservices.atlassian.net`.
-- `foundry-deployment-per-project.md` (657 words): deployment naming for the `brn-azai`
-  Azure Foundry account.
+- `foundry-deployment-per-project.md` (657 words): deployment naming, written around
+  the `brn-azai` Azure Foundry account. SUPERSEDED 2026-08-18, that account is
+  confirmed stale and deleted; the file is kept for its principle only.
 
 Every session in every repo (including this harness, which touches neither Jira nor
 Foundry) paid 1,289 words for context that could not apply. Moving them here removes

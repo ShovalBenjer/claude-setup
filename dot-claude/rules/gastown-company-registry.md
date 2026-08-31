@@ -188,6 +188,7 @@ Role: voice/video/visual explainers, generated media, interactive educational ai
 
 Owned skills:
 - `blonde-designer`
+- `meme-gen`
 - `voice-explainer`
 
 ### Communications Desk
@@ -211,7 +212,7 @@ Owned skills:
 
 ### Conversation Layer
 
-Role: operator chat mode, compression, persona toggles. Never used inside CI/eval/audit reports unless explicitly requested.
+Role: operator chat mode, compression, persona toggles. Never used inside CI/eval/audit reports unless explicitly requested. `meme-gen` (Voice and Media Studio) carries the identical hard-block: never in CI/PR/eval/audit output, per `output-channel-routing.md`.
 
 Owned skills:
 - `persona`
@@ -279,3 +280,55 @@ BigQuery, Stack Overflow. Irrelevant to this estate's work and fine to ignore or
 disconnect: Booking.com, Tripadvisor, Dice, Indeed, ZipRecruiter, FMP, Twilio,
 Roboflow, HyperFrames, Canva, Learning Commons. A connector with no row here gets one
 before serious use, same rule as skills.
+
+## Tool ownership (added 2026-08-19)
+
+`tools/*` entries are not skills and are deliberately kept out of the `### Persona`
+blocks above: `hooks/route.py parse_registry` and
+`intent_control_plane.gastown.parse_registry` both attribute every backtick-quoted
+bullet under the nearest `### ` heading to that persona, so a tool bullet placed
+inside a persona block (even under its own sub-heading) would leak into the skill
+census the next audit reads. This section stays outside any `### ` block on
+purpose. Findings from the 2026-08-19 unowned-tools sweep, checked against each
+tool's row in `docs/dir-purpose.txt`, not assigned from the suggestion alone:
+
+- **tools/antigravity** -- Runtime Agents Division. The `agy` CLI, a real local
+  reimplementation of an Antigravity command line (wraps the google-antigravity
+  SDK behind this repo's GEMINI_API_KEY convention and a free-tier data-boundary
+  refusal). Third-party agent-runtime integration, not a coding subagent, matching
+  this persona's charter exactly.
+- **tools/coffee** -- Latent Systems Lab. The coffee-break v2 social loop:
+  `futures.py` is a reputation-betting board over `state/futures.jsonl`,
+  `smoking.py` a frustration-triggered gripe cycle reading `state/gate-runs.jsonl`
+  for triggers. Non-prose coordination state over a ledger substrate is this
+  persona's charter.
+- **tools/health** -- Release Bureau, not Azure Ops Utility. Inspected: it is a
+  read-only git branch-health sweep (`branch_sweep.py`) across GitHub source repos
+  via `gh`, classifying branches merged/stale/active. That is branch/PR hygiene,
+  the Release Bureau's charter (git, PRs, ADO/GitHub flow), and has no Azure
+  content, so the audit's suggested fit is overridden here rather than followed.
+- **tools/reclaim** -- Azure Ops Utility. Executes a verified filesystem
+  reclamation plan (archive/delete), dry-run by default. System-hygiene charter,
+  approximate fit for local disk as the audit suggested; confirmed by reading
+  `tools/reclaim/reclaim.py` and its manifest row in `state/reclaim-manifest.jsonl`.
+- **tools/local** -- Mayor Opus. Runs a local qwen2.5:1.5b Ollama classifier to
+  cheaply triage a request's route and risk before escalating to Claude, logging
+  each decision to the flywheel jsonl for router training. This is a routing/
+  dispatch function, matching the audit's suggestion.
+
+Unowned, by design (inspected, no persona charter fits without forcing it):
+
+- **tools/workspace** -- genuine grab-bag on inspection: the lane chooser and its
+  launchers/taskbar-pin scripts (`Start-Claude.ps1`, `make_lane_launchers.py`,
+  `repoint_taskbar_pin.ps1`) sit alongside unrelated one-off scripts that repair
+  public repositories and measure per-repo activity. No single persona owns both
+  halves without stretching; left unowned rather than forced onto Workflow Clerk.
+- **tools/wsl** -- one-off WSL2 migration helpers (Makefile plus scripts moving
+  work onto the ext4 side for the measured git-status latency win). Environment
+  migration tooling, not a standing charter any persona holds; left unowned by
+  design, same treatment as `tools/lib`.
+
+Left standing, not merged: **tools/channel** has its own `README.md` and is called
+out as defensible in the audit that raised the merge-with-`tools/bus` question.
+Judgment call taken per the audit's own default (leave standing when documented
+and defensible); no merge performed.
