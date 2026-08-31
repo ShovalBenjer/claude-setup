@@ -73,6 +73,9 @@ A new tool `tools/corpus/citation_analysis.py` with four subcommands:
 - [corpus-cross-ref-density](2026-08-31-corpus-cross-ref-density.md):
   measures internal vs external citation patterns per source;
   this tool analyses citation patterns at the chunk level.
+- [corpus-citation-locator-analysis](2026-08-31-corpus-citation-locator-analysis.md):
+  analyses locator specificity and format patterns; this tool
+  analyses citation targets and coverage.
 
 ## Non-goals
 
