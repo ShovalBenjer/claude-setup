@@ -78,6 +78,9 @@ A new tool `tools/corpus/edge_confidence.py` with four subcommands:
 - [corpus-health-scorecard](2026-08-31-corpus-health-scorecard.md):
   aggregates corpus health metrics; edge confidence calibration
   is a complementary quality signal.
+- [corpus-edge-basis-analysis](2026-08-31-corpus-edge-basis-analysis.md):
+  analyses basis text quality; this tool analyses the confidence
+  scores that accompany basis justifications.
 
 ## Non-goals
 

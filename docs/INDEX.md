@@ -127,6 +127,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-status-reason-trends.md](specs/2026-08-31-corpus-status-reason-trends.md): Spec: status reason trends tracking quarantine and rejection patterns over time, by source, and by kind *(status: done)*
 - [specs/2026-08-31-corpus-tag-score-trends.md](specs/2026-08-31-corpus-tag-score-trends.md): Spec: tag score trends measuring tagging confidence evolution, per-tag drift detection, and classifier health *(status: done)*
 - [specs/2026-08-31-corpus-source-size-distribution.md](specs/2026-08-31-corpus-source-size-distribution.md): Spec: source size distribution, byte-count patterns and outlier detection across sources *(status: done)*
+- [specs/2026-08-31-corpus-edge-basis-analysis.md](specs/2026-08-31-corpus-edge-basis-analysis.md): Spec: edge basis analysis, claim justification text coverage and quality patterns *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*
