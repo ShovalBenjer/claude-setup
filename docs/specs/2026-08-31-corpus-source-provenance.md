@@ -86,6 +86,9 @@ Five signals contribute to the composite provenance score:
 - [corpus-query-coverage](2026-08-31-corpus-query-coverage.md):
   measures retrieval reachability; this tool measures source-level
   trustworthiness.
+- [corpus-domain-tag-affinity](2026-08-31-corpus-domain-tag-affinity.md):
+  analyses tag-domain relationships; this tool analyses source-level
+  quality signals.
 
 ## Non-goals
 
