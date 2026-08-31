@@ -68,6 +68,10 @@ A new tool `tools/corpus/tag_landscape.py` with four subcommands:
 - [corpus-audit](2026-08-31-corpus-audit.md): weak_tags detects
   low-confidence tags; this tool provides the full score distribution.
 
+- [corpus-similarity-analysis](2026-08-31-corpus-similarity-analysis.md):
+  analyses chunk similarity patterns; this tool analyses tag
+  classification patterns.
+
 ## Non-goals
 
 - Tag editing or score recalibration.
