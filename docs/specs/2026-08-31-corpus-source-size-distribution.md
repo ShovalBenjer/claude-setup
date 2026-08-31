@@ -76,6 +76,9 @@ subcommands:
 - [corpus-domain-analysis](2026-08-31-corpus-domain-analysis.md):
   analyses domain classifications; this tool analyses source
   size patterns that may correlate with domain coverage.
+- [corpus-publisher-license-distribution](2026-08-31-corpus-publisher-license-distribution.md):
+  analyses publisher and license metadata; this tool analyses
+  source byte-count patterns.
 
 ## Non-goals
 
