@@ -71,6 +71,10 @@ A new tool `tools/corpus/domain_analysis.py` with four subcommands:
   analyses edge lifecycle; this tool analyses edges across domain
   boundaries.
 
+- [corpus-tag-landscape](2026-08-31-corpus-tag-landscape.md):
+  analyses tag classifications; this tool analyses domain
+  classifications.
+
 ## Non-goals
 
 - Domain reclassification or score recalibration.
