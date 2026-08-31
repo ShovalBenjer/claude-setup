@@ -120,6 +120,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-edge-confidence.md](specs/2026-08-31-corpus-edge-confidence.md): Spec: edge confidence calibration measuring claim edge confidence distribution and extremes per edge type *(status: done)*
 - [specs/2026-08-31-corpus-source-lifecycle.md](specs/2026-08-31-corpus-source-lifecycle.md): Spec: source lifecycle measuring ingestion lag, liveness distribution, and kind profiles *(status: done)*
 - [specs/2026-08-31-corpus-chunk-kind-profile.md](specs/2026-08-31-corpus-chunk-kind-profile.md): Spec: chunk kind profile measuring kind distribution across sources and domains *(status: done)*
+- [specs/2026-08-31-corpus-citation-verification.md](specs/2026-08-31-corpus-citation-verification.md): Spec: citation verification rate measuring verified vs unverified citation patterns per source and tag *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*
