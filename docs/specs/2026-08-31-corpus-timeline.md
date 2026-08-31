@@ -59,6 +59,8 @@ A new tool `tools/corpus/timeline.py` with three subcommands:
   topic composition.
 - [corpus-source-overlap](2026-08-31-corpus-source-overlap.md):
   measures source redundancy; this tool measures source age spread.
+- [corpus-claim-network](2026-08-31-corpus-claim-network.md): analyses
+  claim relationship structure; this tool analyses temporal structure.
 
 ## Non-goals
 
