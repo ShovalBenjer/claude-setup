@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1190**
-- reachable from `docs/INDEX.md`: **186** (15%)
+- documents: **1191**
+- reachable from `docs/INDEX.md`: **187** (15%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -495,7 +495,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `tools/hookgate/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `tools/hookgate/bench/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `tools/timetravel/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
-| `docs/INDEX.md` | 2026-07-31 | living | registry | 2 | - | v1 the same day | - |
+| `docs/INDEX.md` | 2026-07-31 | living | registry | 2 | - | population rates, chain depth distributi | - |
 | `nexus-engine-rs/README.md` | 2026-07-31 | a working vertical slice, not the spec.** read the scope tab | header | n/a | - | - | - |
 | `tools/telemetry/systemd/README.md` | 2026-08-04 | live, 2026-08-04. the units below are deployed and the timer | header | n/a | - | - | - |
 | `dot-claude/CLAUDE.md` | 2026-08-05 | living | registry | n/a | - | - | - |
@@ -904,7 +904,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wizard/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (144)
+## spec (145)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -1039,6 +1039,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-31-corpus-source-provenance.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-size-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-status-reason-trends.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-supersession-analysis.md` | 2026-08-31 | done | header | n/a | yes | column had only chain-walking queries | anything |
 | `docs/specs/2026-08-31-corpus-tag-cooccurrence.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-tag-entropy.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-tag-landscape.md` | 2026-08-31 | done | header | n/a | yes | - | - |
