@@ -58,6 +58,8 @@ A new tool `tools/corpus/recommend.py` with two subcommands:
   the topic overlap signal.
 - [corpus-cluster-store](2026-08-30-corpus-cluster-store.md): provides
   the cluster co-membership signal.
+- [corpus-diversity](2026-08-31-corpus-diversity.md): measures the
+  corpus-level distribution these signals draw from.
 
 ## Non-goals
 
