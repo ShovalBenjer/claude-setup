@@ -67,6 +67,10 @@ A new tool `tools/corpus/chunk_evolution.py` with three subcommands:
 - [corpus-dashboard](2026-08-31-corpus-dashboard.md): reports corpus
   totals; this tool reports revision dynamics.
 
+- [corpus-artifact-adoption](2026-08-31-corpus-artifact-adoption.md):
+  analyses technology artifact patterns; this tool analyses content
+  revision patterns.
+
 ## Non-goals
 
 - Content diffing between version texts.

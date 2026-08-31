@@ -97,6 +97,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-source-chain.md](specs/2026-08-31-corpus-source-chain.md): Spec: source provenance chain tracing supersession relationships with broken chain detection *(status: done)*
 - [specs/2026-08-31-corpus-citation-analysis.md](specs/2026-08-31-corpus-citation-analysis.md): Spec: citation analysis with top targets, per-source coverage, verification rates, and uncited claim detection *(status: done)*
 - [specs/2026-08-31-corpus-chunk-evolution.md](specs/2026-08-31-corpus-chunk-evolution.md): Spec: chunk evolution tracking most-revised chunks, content drift statistics, and per-chunk version history *(status: done)*
+- [specs/2026-08-31-corpus-artifact-adoption.md](specs/2026-08-31-corpus-artifact-adoption.md): Spec: artifact adoption analysis with implementation rates, per-source density, and orphan detection *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*
