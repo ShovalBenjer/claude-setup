@@ -80,6 +80,9 @@ covered.
   dimension the scorecard does not cover.
 - [corpus-similarity-analysis](2026-08-31-corpus-similarity-analysis.md):
   analyses chunk relatedness; this tool analyses chunk retrievability.
+- [corpus-source-provenance](2026-08-31-corpus-source-provenance.md):
+  scores source-level trustworthiness; this tool scores retrieval-level
+  reachability.
 
 ## Non-goals
 
