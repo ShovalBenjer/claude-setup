@@ -89,6 +89,9 @@ Five signals contribute to the composite provenance score:
 - [corpus-domain-tag-affinity](2026-08-31-corpus-domain-tag-affinity.md):
   analyses tag-domain relationships; this tool analyses source-level
   quality signals.
+- [corpus-source-lifecycle](2026-08-31-corpus-source-lifecycle.md):
+  analyses ingestion lag and liveness distribution; this tool analyses
+  source metadata completeness.
 
 ## Non-goals
 
