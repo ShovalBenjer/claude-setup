@@ -89,6 +89,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-corpus-semantic-dedup.md](specs/2026-08-30-corpus-semantic-dedup.md): Spec: corpus semantic deduplication, embedding-based paraphrase detection using PCA-reduced TF-IDF vectors *(status: done)*
 - [specs/2026-08-30-corpus-cluster-store.md](specs/2026-08-30-corpus-cluster-store.md): Spec: corpus cluster store, persists ML-based KMeans cluster assignments into chunk_clusters table *(status: done)*
 - [specs/2026-08-30-corpus-similarity-store.md](specs/2026-08-30-corpus-similarity-store.md): Spec: corpus similarity store, precomputed nearest-neighbor pairs from embedding vectors *(status: done)*
+- [specs/2026-08-30-corpus-outlier-store.md](specs/2026-08-30-corpus-outlier-store.md): Spec: corpus outlier store, persists ML-based topical isolation detection into chunk_outliers table *(status: done)*
 - [HANDOFF-2026-08-05-session-close.md](HANDOFF-2026-08-05-session-close.md): Handoff: the atlas session, what landed and what is left *(status: historical-record)*
 - [prd/2026-08-03-unified-architecture.md](prd/2026-08-03-unified-architecture.md): PRD: Unified architecture, the whole Claude OS in one flow *(status: proposed)*
 - [prd/2026-08-03-boundary-termination-instrument.md](prd/2026-08-03-boundary-termination-instrument.md): PRD: BOUNDARY, the termination instrument *(status: proposed)*
