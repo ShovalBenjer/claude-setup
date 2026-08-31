@@ -9,7 +9,7 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1066**
+- documents: **1067**
 - reachable from `docs/INDEX.md`: **69** (6%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
@@ -663,7 +663,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/output-channel-routing.md` | 2026-08-17 | definition-see-skills_sync | class | 2 | - | - | - |
 | `dot-claude/rules/dynamic-verification-trigger.md` | 2026-08-18 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## skill (230)
+## skill (231)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -772,6 +772,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/explain-simply/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/feature-investor/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/frontend-design/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/gemini-dialectic/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/github-triage/AGENT-BRIEF.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/github-triage/OUT-OF-SCOPE.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/github-triage/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |

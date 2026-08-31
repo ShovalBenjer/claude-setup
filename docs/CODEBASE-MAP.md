@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-457 directories, 2031 tracked files, 0 without a stated purpose.
+458 directories, 2032 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -221,6 +221,7 @@ the same reason, one level down.
 | `dot-claude/skills/explain-simply` | 3 | "Use when the operator asks for a simple, plain, or clear explanation, says he does not follow, or asks what is broken in plain language. Also use before any status update, deci... | SKILL.md |
 | `dot-claude/skills/feature-investor` | 1 | Grade a feature, epic, or product concept against a strict 2026 SOTA investment bar with numeric scores, hard rules, and a go/no-go verdict. Use when deciding whether something... | SKILL.md |
 | `dot-claude/skills/frontend-design` | 1 | Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't... | SKILL.md |
+| `dot-claude/skills/gemini-dialectic` | 1 | Drive a real multi-turn conversation with Gemini via Claude in Chrome to brainstorm and plan, iterating until the position stabilizes (a measured stop condition, not a fixed rou... | SKILL.md |
 | `dot-claude/skills/github-triage` | 3 | Triage issues/work-items through a label-based state machine (ADO and GitHub auto-detected). Use when user wants to create an issue, triage issues, review incoming bugs or featu... | SKILL.md |
 | `dot-claude/skills/grill-me` | 1 | "Interactive Socratic interview protocol. Stress-tests design decisions, architectural plans, and candidate solutions before writing code. Triggers on /grill-me, 'grill me', 'st... | SKILL.md |
 | `dot-claude/skills/gws-gmail` | 2 | "Gmail: Send, read, and manage email." | SKILL.md |
