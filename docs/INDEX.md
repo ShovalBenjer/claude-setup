@@ -87,6 +87,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-recommend.md](specs/2026-08-31-corpus-recommend.md): Spec: multi-signal chunk recommender fusing topic, cluster, similarity, tags, and edges *(status: done)*
 - [specs/2026-08-31-corpus-diversity.md](specs/2026-08-31-corpus-diversity.md): Spec: corpus diversity analysis with Shannon entropy, Gini coefficient, and dominated-topic detection *(status: done)*
 - [specs/2026-08-31-corpus-tag-cooccurrence.md](specs/2026-08-31-corpus-tag-cooccurrence.md): Spec: tag co-occurrence analysis with PMI ranking, community detection, and hub identification *(status: done)*
+- [specs/2026-08-31-corpus-source-overlap.md](specs/2026-08-31-corpus-source-overlap.md): Spec: source overlap analysis measuring content redundancy between sources *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*
