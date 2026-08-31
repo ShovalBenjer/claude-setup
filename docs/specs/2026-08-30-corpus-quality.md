@@ -49,8 +49,14 @@ A new tool `tools/corpus/quality.py` with three subcommands:
 - `tools/corpus/quality.py`: new tool
 - `docs/specs/2026-08-30-corpus-quality.md`: this spec
 
+## See also
+
+- [corpus-quality-trend](2026-08-30-corpus-quality-trend.md): temporal
+  tracking of aggregate quality metrics computed by this tool.
+
 ## Non-goals
 
 - Subjective or LLM-based quality assessment.
 - Automatic promotion based on score thresholds.
-- Quality trend tracking over time.
+- ~~Quality trend tracking over time.~~ Implemented in
+  [corpus-quality-trend](2026-08-30-corpus-quality-trend.md).
