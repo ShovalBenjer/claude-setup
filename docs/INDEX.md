@@ -175,6 +175,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-simhash-tag-profile.md](specs/2026-08-31-corpus-simhash-tag-profile.md): Spec: simhash tag profile, tag vocabulary distribution across simhash collision groups *(status: done)*
 - [specs/2026-08-31-corpus-simhash-domain-profile.md](specs/2026-08-31-corpus-simhash-domain-profile.md): Spec: simhash domain profile, semantic domain distribution across simhash collision groups *(status: done)*
 - [specs/2026-08-31-corpus-simhash-citation-profile.md](specs/2026-08-31-corpus-simhash-citation-profile.md): Spec: simhash citation profile, citation count distribution across simhash collision groups *(status: done)*
+- [specs/2026-08-31-corpus-heading-tag-profile.md](specs/2026-08-31-corpus-heading-tag-profile.md): Spec: heading tag profile, tag vocabulary distribution across heading paths *(status: done)*
 - [specs/2026-08-31-corpus-kind-tag-profile.md](specs/2026-08-31-corpus-kind-tag-profile.md): Spec: kind tag profile, tag vocabulary distribution across chunk kinds *(status: done)*
 - [specs/2026-08-31-corpus-license-tag-profile.md](specs/2026-08-31-corpus-license-tag-profile.md): Spec: license tag profile, tag vocabulary distribution across license types *(status: done)*
 - [specs/2026-08-31-corpus-publisher-domain-profile.md](specs/2026-08-31-corpus-publisher-domain-profile.md): Spec: publisher domain profile, semantic domain distribution across publishers *(status: done)*
