@@ -76,6 +76,9 @@ A new tool `tools/corpus/citation_analysis.py` with four subcommands:
 - [corpus-citation-locator-analysis](2026-08-31-corpus-citation-locator-analysis.md):
   analyses locator specificity and format patterns; this tool
   analyses citation targets and coverage.
+- [corpus-citation-tag-profile](2026-08-31-corpus-citation-tag-profile.md):
+  cross-tabulates tags against source kinds and domains; this tool
+  reports basic per-tag counts.
 
 ## Non-goals
 
