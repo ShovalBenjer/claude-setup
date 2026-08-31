@@ -78,6 +78,9 @@ subcommands:
   length uniformity signal.
 - [corpus-domain-analysis](2026-08-30-corpus-domain-analysis.md):
   analyses domain coverage; word count patterns may vary by domain.
+- [corpus-source-size-distribution](2026-08-31-corpus-source-size-distribution.md):
+  analyses source-level byte counts; this tool analyses chunk-level
+  word counts.
 
 ## Non-goals
 
