@@ -59,6 +59,8 @@ A new tool `tools/corpus/claim_network.py` with three subcommands:
   detects contradictions; this tool clusters them into groups.
 - [corpus-timeline](2026-08-31-corpus-timeline.md): temporal analysis;
   this tool analyses relational structure.
+- [corpus-dashboard](2026-08-31-corpus-dashboard.md): reports edge
+  aggregate statistics; this tool analyses edge network structure.
 
 ## Non-goals
 
