@@ -72,6 +72,9 @@ A new tool `tools/corpus/citation_age.py` with three subcommands:
 - [corpus-edge-density](2026-08-31-corpus-edge-density.md):
   measures claim network density; this tool measures citation
   verification currency.
+- [corpus-citation-verification](2026-08-31-corpus-citation-verification.md):
+  analyses verification coverage per source and tag; this tool
+  analyses verification freshness.
 
 ## Non-goals
 
