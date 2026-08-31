@@ -77,6 +77,9 @@ A new tool `tools/corpus/domain_analysis.py` with four subcommands:
 - [corpus-domain-balance](2026-08-31-corpus-domain-balance.md):
   measures distribution evenness with entropy and Gini; this tool
   reports raw domain counts and per-source coverage.
+- [corpus-chunk-kind-profile](2026-08-31-corpus-chunk-kind-profile.md):
+  analyses chunk kind distribution across sources and domains;
+  this tool analyses domain classifications.
 
 ## Non-goals
 
