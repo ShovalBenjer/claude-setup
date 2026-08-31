@@ -74,6 +74,9 @@ A new tool `tools/corpus/domain_analysis.py` with four subcommands:
 - [corpus-tag-landscape](2026-08-31-corpus-tag-landscape.md):
   analyses tag classifications; this tool analyses domain
   classifications.
+- [corpus-domain-balance](2026-08-31-corpus-domain-balance.md):
+  measures distribution evenness with entropy and Gini; this tool
+  reports raw domain counts and per-source coverage.
 
 ## Non-goals
 

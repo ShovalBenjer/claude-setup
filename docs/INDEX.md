@@ -112,6 +112,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-readability.md](specs/2026-08-31-corpus-readability.md): Spec: chunk readability scorer measuring text complexity from word length, type-token ratio, and long word density *(status: done)*
 - [specs/2026-08-31-corpus-edge-density.md](specs/2026-08-31-corpus-edge-density.md): Spec: claim edge density measuring network interconnectedness per source with island detection *(status: done)*
 - [specs/2026-08-31-corpus-citation-age.md](specs/2026-08-31-corpus-citation-age.md): Spec: citation verification age measuring staleness of citation checks and overdue re-verification *(status: done)*
+- [specs/2026-08-31-corpus-domain-balance.md](specs/2026-08-31-corpus-domain-balance.md): Spec: domain coverage balance measuring distribution evenness with Shannon entropy and Gini coefficient *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*
