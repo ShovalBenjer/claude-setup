@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1161**
-- reachable from `docs/INDEX.md`: **157** (13%)
+- documents: **1162**
+- reachable from `docs/INDEX.md`: **158** (13%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -904,7 +904,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wizard/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (115)
+## spec (116)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -1013,6 +1013,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-31-corpus-recommend.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-similarity-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-chain.md` | 2026-08-31 | done | header | n/a | yes | column, but no tool traced these into ch | - |
+| `docs/specs/2026-08-31-corpus-source-citation-net.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-impact.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-overlap.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-provenance.md` | 2026-08-31 | done | header | n/a | yes | - | - |

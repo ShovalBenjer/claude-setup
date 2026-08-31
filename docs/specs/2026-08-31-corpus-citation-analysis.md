@@ -67,6 +67,9 @@ A new tool `tools/corpus/citation_analysis.py` with four subcommands:
 - [corpus-chunk-evolution](2026-08-31-corpus-chunk-evolution.md):
   analyses content change patterns; this tool analyses citation
   relationships.
+- [corpus-source-citation-net](2026-08-31-corpus-source-citation-net.md):
+  aggregates citations to source-to-source topology; this tool
+  analyses citation density and patterns at chunk level.
 
 ## Non-goals
 
