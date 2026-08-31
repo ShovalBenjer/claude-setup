@@ -60,6 +60,8 @@ A new tool `tools/corpus/dashboard.py` with three subcommands:
   distribution; this tool measures signal coverage breadth.
 - [corpus-claim-network](2026-08-31-corpus-claim-network.md): analyses
   edge network structure; this tool reports edge aggregate statistics.
+- [corpus-chunk-profile](2026-08-31-corpus-chunk-profile.md): drills
+  into individual chunks; this tool provides the corpus-wide overview.
 
 ## Non-goals
 
