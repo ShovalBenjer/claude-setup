@@ -82,6 +82,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-topic-coherence.md](specs/2026-08-31-corpus-topic-coherence.md): Spec: topic coherence scoring via NPMI with n_topics suggestion heuristic *(status: done)*
 - [specs/2026-08-31-corpus-citation-graph.md](specs/2026-08-31-corpus-citation-graph.md): Spec: citation graph analysis over claim_edges with authority, hub, and isolation metrics *(status: done)*
 - [specs/2026-08-31-corpus-vocab-analysis.md](specs/2026-08-31-corpus-vocab-analysis.md): Spec: corpus vocabulary profiling, distinctive terms per kind via TF-IDF, and domain coverage measurement *(status: done)*
+- [specs/2026-08-31-corpus-xray.md](specs/2026-08-31-corpus-xray.md): Spec: cross-table analysis joining clusters, topics, similarities, and contradictions *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*
