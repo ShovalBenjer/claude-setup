@@ -135,6 +135,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-language-distribution.md](specs/2026-08-31-corpus-language-distribution.md): Spec: language distribution, per-source diversity and kind correlation from chunk lang tags *(status: done)*
 - [specs/2026-08-31-corpus-upstream-provenance.md](specs/2026-08-31-corpus-upstream-provenance.md): Spec: upstream provenance analysis, revision and modification time completeness and age distribution *(status: done)*
 - [specs/2026-08-31-corpus-artifact-version-analysis.md](specs/2026-08-31-corpus-artifact-version-analysis.md): Spec: artifact version and snippet analysis, version format classification and snippet coverage *(status: done)*
+- [specs/2026-08-31-corpus-liveness-cross-analysis.md](specs/2026-08-31-corpus-liveness-cross-analysis.md): Spec: liveness cross-analysis, liveness patterns across kind, publisher, and license dimensions *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*
