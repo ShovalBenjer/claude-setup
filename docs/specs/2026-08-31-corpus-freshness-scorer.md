@@ -83,6 +83,10 @@ The per-chunk freshness score is a weighted combination of four signals:
 - [corpus-claim-consensus](2026-08-31-corpus-claim-consensus.md):
   cross-source claim agreement; this tool measures temporal freshness
   while that tool measures inter-source consensus.
+- [corpus-citation-age](2026-08-31-corpus-citation-age.md):
+  measures citation verification staleness; this tool measures
+  source-level freshness while that tool measures citation-level
+  verification currency.
 
 ## Non-goals
 
