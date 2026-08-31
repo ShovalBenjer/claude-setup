@@ -70,6 +70,9 @@ A new tool `tools/corpus/citation_analysis.py` with four subcommands:
 - [corpus-source-citation-net](2026-08-31-corpus-source-citation-net.md):
   aggregates citations to source-to-source topology; this tool
   analyses citation density and patterns at chunk level.
+- [corpus-cross-ref-density](2026-08-31-corpus-cross-ref-density.md):
+  measures internal vs external citation patterns per source;
+  this tool analyses citation patterns at the chunk level.
 
 ## Non-goals
 
