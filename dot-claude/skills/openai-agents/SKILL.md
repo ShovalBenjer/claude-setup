@@ -1,6 +1,6 @@
 ---
 name: openai-agents
-description: Call OpenAI agents on platform.openai.com — Assistants API and AgentKit-published agents — from the CLI with step observability, streaming, and list/inspect/diff. Triggers on "/openai-agents", "run my OpenAI agent", "call my Assistant", "stream agent_xxx", platform.openai.com/agents or /playground/assistants references. SKIP for Claude SDK, Azure Foundry agents, or ChatGPT "My GPTs" (no API).
+description: Call OpenAI agents that live on platform.openai.com — Assistants API and AgentKit-published agents — from the CLI with full step observability. Stream runs with reasoning, tool calls, and citations rendered. List/inspect/diff assistants. Triggers on "/openai-agents", "run my OpenAI agent", "call my Assistant", "list my assistants", "stream agent_xxx", references to platform.openai.com/agents or /playground/assistants. SKIP when working with Anthropic Claude SDK (use claude-api), Azure Foundry agents (use eval-runner / az SDK), or ChatGPT consumer "My GPTs" (no API access — refuse with explanation).
 model: opus
 ---
 

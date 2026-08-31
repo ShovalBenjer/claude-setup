@@ -94,7 +94,7 @@ Flag and delete or rewrite:
 - "No X. No Y. Just Z." -> "Skip X. Get to Z."
 
 **Three-word staccato triplets (expand into a sentence):**
-- "Focused. Aligned. Measurable." -> "The model is focused on conversion, aligned to the funnel, and measured by FTD rate."
+- "Focused. Aligned. Measurable." -> "The model is focused on conversion, aligned to the funnel, and measured by close rate."
 
 **Rhetorical question reveals (state directly):**
 - "The result? Higher engagement." -> "This increased engagement."
@@ -113,7 +113,7 @@ Count em dashes (---) per paragraph. Max 1 per paragraph.
 - **Heading per paragraph**: Only use headings for navigation, not decoration
 - **Summary paragraphs**: Delete recap paragraphs (except in exec summaries of 15+ page docs)
 - **Cautious openings**: First sentence must state a fact, problem, or instruction. No scene-setting.
-- **Passive voice**: Name the actor. "Yasha confirmed the schema." not "The schema has been confirmed."
+- **Passive voice**: Name the actor. "A teammate confirmed the schema." not "The schema has been confirmed."
 
 ### Step 6: Sentence Quality
 

@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-457 directories, 2031 tracked files, 0 without a stated purpose.
+456 directories, 2027 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -186,13 +186,13 @@ the same reason, one level down.
 | `dot-claude/rules/project-template` | 3 | The rule set is split into two layers, mirroring how Claude Code's settings chain | README.md |
 | `dot-claude/skills` | 0 | Skills root: most entries are real self-documenting skill dirs, but about a dozen are one-line stub files standing in for symlinks into ~/.codex/skills, kept in sync by bin/sync... | registry |
 | `dot-claude/skills/LTMD` | 1 | "Lead-To-Money-Decision lens. Judge any analysis/notebook/report/plan the way the paying decision-maker (default: Liron, CMO) would: does it end in ONE executable, dollar-valued... | SKILL.md |
-| `dot-claude/skills/advisor` | 1 | "Fast confidence-restoring research pass for when confidence on an external, current, or SOTA question is low. Spawns a scoped web-research sub-agent restricted to trusted same-... | SKILL.md |
-| `dot-claude/skills/agent-builder` | 1 | Author and deploy AI agents on Microsoft + Azure platforms — Azure AI Foundry agent CRUD, Microsoft 365 Agents SDK (Teams + Copilot + standalone), and Copilot Studio export/impo... | SKILL.md |
-| `dot-claude/skills/azure-activity-watch` | 2 | Surface Azure Activity-Log events where someone other than the owner (default shoval.be@i-sdd.com) has stopped, restarted, deleted, or resized a resource in AZAI_group. Use afte... | SKILL.md |
+| `dot-claude/skills/advisor` | 1 | "Fast confidence-restoring research pass for when Claude (or the user) is NOT confident about an external, current, or SOTA question. Spawns a scoped web-research sub-agent, res... | SKILL.md |
+| `dot-claude/skills/agent-builder` | 1 | Author and deploy AI agents on Microsoft + Azure platforms — Azure AI Foundry agent CRUD (azure-ai-projects SDK), Microsoft 365 Agents SDK projects (TS via bun, C# via dotnet —... | SKILL.md |
+| `dot-claude/skills/azure-activity-watch` | 2 | Surface Azure Activity-Log events where someone other than the owner (default <your-email>) has stopped, restarted, deleted, or resized a resource in <resource-group>. Use after... | SKILL.md |
 | `dot-claude/skills/azure-audit` | 1 | Weekly dormancy + cost audit of Azure (functions, web apps, container apps, storage), Azure DevOps repos + wikis, and Foundry agents. Produces a dated markdown report under ~/do... | SKILL.md |
-| `dot-claude/skills/azure-runtime` | 2 | Call Azure AI runtime from CLI — Azure OpenAI chat completions against deployed GPT models in brn-azai AND Azure AI Foundry agents (ORM-FLAGGING-AGENT, seekapa, AxiaCS) with thr... | SKILL.md |
-| `dot-claude/skills/blog` | 1 | Draft long-form blog content in Shoval Benjer's voice across platforms (Medium, LinkedIn, Substack, Dev.to, Jira-as-writeup). Anchors on the empirical voice fingerprint, runs a... | SKILL.md |
-| `dot-claude/skills/blonde-designer` | 1 | Creative director + design architect for the Seekapa AR how-to video refresh (DEV-4968). Shapes each video's script and art direction to the locked production standard, producin... | SKILL.md |
+| `dot-claude/skills/azure-runtime` | 2 | Call Azure AI runtime from CLI — Azure OpenAI chat completions against deployed GPT models in your Azure AI Foundry account (gpt-5.5, gpt-4.1, etc.) AND Azure AI Foundry agents... | SKILL.md |
+| `dot-claude/skills/blog` | 1 | Draft genuinely human long-form blog content in Shoval Benjer's voice, across platform formats (Medium, LinkedIn, Substack, Dev.to/technical, Jira-as-writeup). Anchors on the em... | SKILL.md |
+| `dot-claude/skills/blonde-designer` | 1 | Creative director + design architect for an AR how-to video refresh (<ticket-id>). Shapes each video's script and art direction to the locked production standard — real app foot... | SKILL.md |
 | `dot-claude/skills/books-index` | 1 | Build and query a full-text search index over every file in docs/books, not just a curated subset. Triggers on "index the books", "rebuild book corpus", "search my books for X",... | SKILL.md |
 | `dot-claude/skills/books-index/scripts` | 2 | Build/query scripts for the books-index skill's local SQLite+FTS5 corpus search over docs/books (build_index.py, query.py); local-only, no network access | registry |
 | `dot-claude/skills/books-ingest` | 1 | Copy (never move) book files the operator has legitimately acquired from Downloads into docs/books, extracting epub text for indexing. Triggers on "ingest books", "copy new book... | SKILL.md |
@@ -205,7 +205,7 @@ the same reason, one level down.
 | `dot-claude/skills/code-simplifier` | 1 | "/code-simplifier" | SKILL.md |
 | `dot-claude/skills/codex-call` | 1 | Run independent, bounded external code-review judges through Codex CLI and, only for explicitly public non-confidential input, the Gemini Developer API. Use automatically after... | SKILL.md |
 | `dot-claude/skills/commit-push-pr` | 1 | Run pre-commit quality gates (ruff/mypy/tests for Python, knip/eslint for JS), commit with Conventional format, push, open PR, sweep merged branches. Auto-detects bun/uv stack a... | SKILL.md |
-| `dot-claude/skills/context-bounded-analyst` | 1 | Data analysis over large files/datasets using DuckDB/Polars lazy queries. Builds a catalog + metrics dictionary; returns compact sourced answers (number + provenance), never loa... | SKILL.md |
+| `dot-claude/skills/context-bounded-analyst` | 1 | Data analysis over large files/datasets using DuckDB/Polars lazy queries. Builds a catalog + metrics dictionary; returns compact sourced answers (number + provenance) — never lo... | SKILL.md |
 | `dot-claude/skills/coverage-enforcer` | 1 | Block /commit-push-pr from pushing if the staged diff has source changes (.py/.ts/.js) without matching test changes. Closes the COVERAGE axis of Shoval's forge loop. Triggers o... | SKILL.md |
 | `dot-claude/skills/decision-grade` | 1 | "Claim-level linter/gate that extends LTMD. Rejects any report or deliverable where any claim lacks: a number with provenance (query/source), an interpretation (what it means fo... | SKILL.md |
 | `dot-claude/skills/deep-research` | 3 | Conducts enterprise-grade research with multi-source synthesis, citation tracking, and verification. Produces citation-backed reports through a structured pipeline with source c... | SKILL.md |
@@ -214,19 +214,18 @@ the same reason, one level down.
 | `dot-claude/skills/deep-research/templates` | 2 | Starter files the skill copies when assembling a report: a markdown report skeleton with generation instructions and a McKinsey-style HTML report shell | registry |
 | `dot-claude/skills/deep-research/tests` | 0 | Holds only the fixtures subdirectory; there is no test runner file here, just the sample reports fixtures/ provides for validate_report.py | registry |
 | `dot-claude/skills/deep-research/tests/fixtures` | 2 | Sample good and bad research reports used to exercise validate_report.py's quality checks (word count, sections, citations, no TBD/TODO) | registry |
-| `dot-claude/skills/dispatch` | 1 | Sync agent-to-agent dispatch from Claude orchestrator to a registered peer (Codex executor on gpt-5.5, Foundry agents seekapa/AxiaCS, future bridges). Triggers on /dispatch, "as... | SKILL.md |
 | `dot-claude/skills/domain-model` | 3 | Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation (CONTEXT.md, ADRs) inline as decisions crystallise.... | SKILL.md |
 | `dot-claude/skills/end-session` | 1 | End-of-session cleanup — security wipe of temp files, context compaction, lessons learned post-mortem, handover for next session. Run before /clear or exiting. | SKILL.md |
 | `dot-claude/skills/eval-runner` | 1 | Run the Foundry-only 4-phase eval pipeline (deterministic gate → smoke 10-row → expanded 40-80 → nightly 80-150) using grok-4-1-fast-reasoning-2-eval primary + DeepSeek-V3.2 aud... | SKILL.md |
-| `dot-claude/skills/explain-simply` | 3 | "Use when the operator asks for a simple, plain, or clear explanation, says he does not follow, or asks what is broken in plain language. Also use before any status update, deci... | SKILL.md |
+| `dot-claude/skills/explain-simply` | 3 | "Use when the operator asks for a simple, plain, or clear explanation, says he does not follow, asks what is going on in his own words, asks you to explain simply or in plain la... | SKILL.md |
 | `dot-claude/skills/feature-investor` | 1 | Grade a feature, epic, or product concept against a strict 2026 SOTA investment bar with numeric scores, hard rules, and a go/no-go verdict. Use when deciding whether something... | SKILL.md |
 | `dot-claude/skills/frontend-design` | 1 | Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't... | SKILL.md |
 | `dot-claude/skills/github-triage` | 3 | Triage issues/work-items through a label-based state machine (ADO and GitHub auto-detected). Use when user wants to create an issue, triage issues, review incoming bugs or featu... | SKILL.md |
 | `dot-claude/skills/grill-me` | 1 | "Interactive Socratic interview protocol. Stress-tests design decisions, architectural plans, and candidate solutions before writing code. Triggers on /grill-me, 'grill me', 'st... | SKILL.md |
-| `dot-claude/skills/gws-gmail` | 2 | "Gmail: Send, read, and manage email." | SKILL.md |
-| `dot-claude/skills/gws-gmail-read` | 2 | "Gmail: Read a message and extract its body or headers." | SKILL.md |
-| `dot-claude/skills/gws-gmail-triage` | 2 | "Gmail: Show unread inbox summary (sender, subject, date)." | SKILL.md |
-| `dot-claude/skills/gws-shared` | 2 | "gws CLI: Shared patterns for authentication, global flags, and output formatting." | SKILL.md |
+| `dot-claude/skills/gws-gmail` | 1 | "Gmail: Send, read, and manage email." | SKILL.md |
+| `dot-claude/skills/gws-gmail-read` | 1 | "Gmail: Read a message and extract its body or headers." | SKILL.md |
+| `dot-claude/skills/gws-gmail-triage` | 1 | "Gmail: Show unread inbox summary (sender, subject, date)." | SKILL.md |
+| `dot-claude/skills/gws-shared` | 1 | "gws CLI: Shared patterns for authentication, global flags, and output formatting." | SKILL.md |
 | `dot-claude/skills/heidegger-reflect` | 1 | End-of-task self-reflection protocol combining test evidence, completion honesty, and Heideggerian model-aware introspection. | SKILL.md |
 | `dot-claude/skills/humanize` | 1 | Detect AI-like writing patterns and rewrite flagged content into clearer, more natural human prose. | SKILL.md |
 | `dot-claude/skills/i-have-adhd` | 1 | 'Shape output for a reader with ADHD: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins v... | SKILL.md |
@@ -239,16 +238,17 @@ the same reason, one level down.
 | `dot-claude/skills/meeting-notes` | 1 | Capture concise meeting notes in Shoval's bottom-line voice. Saves to ~/docs/meetings/YYYY-MM-DD-<topic>.md. Triggers on "/meeting-notes", "/log-meeting", "note this meeting", "... | SKILL.md |
 | `dot-claude/skills/meme-gen` | 1 | Create a meme image or short video with Gemini via the logged-in Chrome session. Triggers on /meme, "make a meme", "meme this", "surprise me with a meme". Takes a moment/joke/sc... | SKILL.md |
 | `dot-claude/skills/mutation-runner` | 1 | Run mutation testing workflows to measure test suite effectiveness and identify surviving mutants that indicate coverage gaps. | SKILL.md |
-| `dot-claude/skills/openai-agents` | 2 | Call OpenAI agents on platform.openai.com — Assistants API and AgentKit-published agents — from the CLI with step observability, streaming, and list/inspect/diff. Triggers on "/... | SKILL.md |
+| `dot-claude/skills/openai-agents` | 2 | Call OpenAI agents that live on platform.openai.com — Assistants API and AgentKit-published agents — from the CLI with full step observability. Stream runs with reasoning, tool... | SKILL.md |
 | `dot-claude/skills/ops-status` | 1 | "Ops Status — System State Snapshot Skill" | SKILL.md |
 | `dot-claude/skills/persona` | 1 | Mirror-or-toggle persona/meme channel for 1:1 chat. Triggers on /persona <name>, /kyuubi, /saiyan, /jedi, /gandalf, /thanos, /mossad, /lebowski, /cinematic, /eretz-nehederet, OR... | SKILL.md |
 | `dot-claude/skills/pii-scrubber` | 1 | Scan outputs, deliverables, and staged diffs for PII (names, emails, phone numbers, national-IDs, CRM fields) before they are written or committed. Pseudonymizes or blocks on de... | SKILL.md |
-| `dot-claude/skills/ponytail` | 1 | Forces the laziest solution that actually works: simplest, shortest, most minimal. Question whether the task needs to exist (YAGNI), stdlib before custom code, native platform b... | SKILL.md |
+| `dot-claude/skills/ponytail` | 1 | Forces the laziest solution that actually works, simplest, shortest, most minimal. Channels a senior dev who has seen everything: question whether the task needs to exist at all... | SKILL.md |
 | `dot-claude/skills/ponytail-audit` | 1 | Whole-repo audit for over-engineering. Like ponytail-review, but scans the entire codebase instead of a diff: a ranked list of what to delete, simplify, or replace with stdlib/n... | SKILL.md |
 | `dot-claude/skills/ponytail-help` | 1 | Quick-reference card for all ponytail modes, skills, and commands. One-shot display, not a persistent mode. Trigger: /ponytail-help, "ponytail help", "what ponytail commands", "... | SKILL.md |
 | `dot-claude/skills/ponytail-review` | 1 | Code review focused exclusively on over-engineering. Finds what to delete: reinvented standard library, unneeded dependencies, speculative abstractions, dead flexibility. One li... | SKILL.md |
 | `dot-claude/skills/premortem` | 1 | Force a 5-failure-mode section into any /plan output before code is written. Triggers on "/plan", "/premortem", "let's design", "before we build", "design X", or whenever the us... | SKILL.md |
 | `dot-claude/skills/prior-art-gate` | 1 | "Simpsons did it already. Before claiming anything is novel, missing, unsolved or a gap, run a prior-art search and log it. Blocks unsourced novelty claims. Triggers on /prior-a... | SKILL.md |
+| `dot-claude/skills/prompt-eval` | 1 | Treat a prompt like a model release; benchmark it on a frozen suite with one-change rungs, suite separation, trust guardrails, and pre-registered gates with repeat protocols. Us... | SKILL.md |
 | `dot-claude/skills/property-test-gen` | 1 | Generate property-based tests that validate invariants across wide input spaces for JavaScript/TypeScript and Python projects. | SKILL.md |
 | `dot-claude/skills/prove-implementation` | 1 | Compare implementation and architecture alternatives, detect unjustified default loops or libraries, and require executable evidence before calling a coding choice correct, best... | SKILL.md |
 | `dot-claude/skills/prove-implementation/agents` | 1 | OpenAI/Codex-platform manifest (display name, description, default prompt) so this skill can be surfaced on agent platforms other than Claude Code | registry |
@@ -265,10 +265,10 @@ the same reason, one level down.
 | `dot-claude/skills/request-refactor-plan` | 1 | Create a detailed refactor plan with tiny commits via user interview, then file it as a tracked work item (ADO or GitHub auto-detected). Use when user wants to plan a refactor,... | SKILL.md |
 | `dot-claude/skills/requirement-anchor` | 1 | Extract a compact requirement-of-record + answer-map from a spec (PDF/eml/md/verbal) and gate read-before-build. Triggers on "/requirement-anchor", "anchor the requirement", "wh... | SKILL.md |
 | `dot-claude/skills/resolving-merge-conflicts` | 1 | "Use when you need to resolve an in-progress git merge/rebase conflict." | SKILL.md |
-| `dot-claude/skills/review` | 1 | PR precheck review — composites codex-call code review + testing-pyramid gap plan + heidegger-reflect into a single structured thread posted to Azure DevOps via the azure-devops... | SKILL.md |
+| `dot-claude/skills/review` | 2 | Unified multi-layer code review — combines codex-ci review + red-team TDD audit + heidegger-reflect + architecture/performance/accessibility/UI-UX/security/stack audit + despera... | SKILL.md |
 | `dot-claude/skills/review-pr-ado` | 1 | PR precheck review — composites codex-call code review + testing-pyramid gap plan + heidegger-reflect into a single structured thread posted to Azure DevOps via the azure-devops... | SKILL.md |
 | `dot-claude/skills/ship-gate` | 1 | The mandatory procedure before calling any implementation done. Runs the real-browser flow audit, the ten-domain SDLC gate (build, unit, types, e2e, a11y/UX, security, docs, pip... | SKILL.md |
-| `dot-claude/skills/shoval-voice-draft` | 1 | Draft messages in Shoval Benjer's natural work style for review before sending. Per-recipient tone (Yasha / Liron / Ali / Adnan / Daniel / Vlad, including Vlad's ultra-compact s... | SKILL.md |
+| `dot-claude/skills/shoval-voice-draft` | 1 | Draft messages in Shoval Benjer's natural work style for review before sending. Per-recipient tone (technical peer / manager / casual teammate / requirements-first teammate / fo... | SKILL.md |
 | `dot-claude/skills/skillmap` | 1 | Router over every skill you invoke by hand. Ask which one fits the situation. | SKILL.md |
 | `dot-claude/skills/syndication-engine` | 5 | Project one canonical post onto many platforms by selecting semantically-tagged spans, with per-platform hook strategy and A/B variants. Use to draft or publish a POSSE syndicat... | SKILL.md |
 | `dot-claude/skills/testing-pyramid` | 1 | Plan layered test architecture before non-trivial code changes. Covers static, unit, property, component, contract, integration, E2E, non-functional, trajectory, and adversarial... | SKILL.md |
@@ -277,7 +277,7 @@ the same reason, one level down.
 | `dot-claude/skills/to-questionnaire` | 1 | Turn a decision you can't fully answer into a questionnaire for someone else to fill in. | SKILL.md |
 | `dot-claude/skills/triage-tests` | 1 | "/triage-tests" | SKILL.md |
 | `dot-claude/skills/ubiquitous-language` | 1 | Extract a DDD-style ubiquitous language glossary from the current conversation, flagging ambiguities and proposing canonical terms. Saves to UBIQUITOUS_LANGUAGE.md. Use when use... | SKILL.md |
-| `dot-claude/skills/ui-ux-pro-max` | 1 | "UI/UX design intelligence for web and mobile: styles, color palettes, font pairings, product types, UX guidelines, and charts across 10 stacks (React, Next.js, Vue, Svelte, Swi... | SKILL.md |
+| `dot-claude/skills/ui-ux-pro-max` | 1 | "UI/UX design intelligence for web and mobile. Includes 50+ styles, 161 color palettes, 57 font pairings, 161 product types, 99 UX guidelines, and 25 chart types across 10 stack... | SKILL.md |
 | `dot-claude/skills/ui-ux-pro-max/data` | 15 | Searchable CSV knowledge base (styles, colors, charts, typography, products, UX guidelines, fonts) read by core.py's BM25 search; draft.csv's own header says it is an unread des... | registry |
 | `dot-claude/skills/ui-ux-pro-max/data/stacks` | 16 | Per-framework UI/UX guideline CSVs (React, Flutter, Vue, Angular, Laravel, etc.) that search.py filters by when a --stack is given | registry |
 | `dot-claude/skills/ui-ux-pro-max/scripts` | 3 | BM25 search engine (core.py), design-system generator that aggregates hits into a persisted MASTER.md (design_system.py), and the CLI entry point (search.py) | registry |
@@ -285,15 +285,14 @@ the same reason, one level down.
 | `dot-claude/skills/ui-ux-pro-max/templates/base` | 2 | Shared markdown body fragments (quick-reference cheat sheet, full applicability rules in Chinese) meant to be stitched into a platform's SKILL.md; no assembly script found in th... | registry |
 | `dot-claude/skills/ui-ux-pro-max/templates/platforms` | 18 | Per-agent-platform install manifests for porting ui-ux-pro-max to Cursor, Windsurf, Copilot, Codex, Gemini etc.; vendored from upstream, no generator script uses them in this repo | registry |
 | `dot-claude/skills/voice-explainer` | 1 | Generate short audio narration via ElevenLabs eleven_multilingual_v2 and auto-play it. Triggers on out-of-focus / tired / "read it to me" signals (en/he/ar) detected by the User... | SKILL.md |
-| `dot-claude/skills/voice-metrics` | 11 | Measure a draft against the real corpus before sending it: per-use-case metric rules, a locally-fitted idiolect embedding, randomised burst variants, Hebrew/English spell check.... | SKILL.md |
+| `dot-claude/skills/voice-metrics` | 11 | Measure a draft against the real corpus before sending it. Per-use-case metric rules, a locally-fitted idiolect embedding, randomised burst variants, and Hebrew/English spell ch... | SKILL.md |
 | `dot-claude/skills/voice-metrics/lexicon` | 4 | Spell-check corpora for the voice gate: 370,105 English words, a 324,329-entry Hebrew lexicon built from hspell 1.4 by build_lexicon.py (ISO-8859-8 in, UTF-8 out), and spellchec... | registry |
 | `dot-claude/skills/wait-what` | 1 | "Stop. That last message did not land: re-pitch it." | SKILL.md |
 | `dot-claude/skills/watchdog` | 1 | "Watchdog Agent - Quality Gatekeeper" | SKILL.md |
 | `dot-claude/skills/wayfinder` | 1 | Draw the map before picking work. Names the destination, the fog, and the frontier across TODO.md, claims, selfimprove and Zion. | SKILL.md |
 | `dot-claude/skills/web-inspect` | 1 | "/web-inspect" | SKILL.md |
-| `dot-claude/skills/whatsapp-query` | 5 | Decrypt and query the local WhatsApp Desktop (Windows) message store as a searchable corpus, by contact / date / text, with contact-name resolution. Triggers on "search my whats... | SKILL.md |
+| `dot-claude/skills/whatsapp-query` | 5 | Decrypt and query the local WhatsApp Desktop (Windows) message store as a searchable corpus. Full history the linked device holds, by contact / date / text, with contact-name re... | SKILL.md |
 | `dot-claude/skills/wizard` | 2 | Generate an interactive bash wizard that walks a human through steps only they can perform. Use for credentials, OAuth connects, third-party dashboards, billing fixes, one-off m... | SKILL.md |
-| `dot-claude/skills/workspace-brain` | 1 | "Workspace Brain — Cross-Project Knowledge Index" | SKILL.md |
 | `dot-claude/skills/write-a-skill` | 1 | Create new agent skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, or build a new skill. | SKILL.md |
 | `dot-claude/skills/writing-great-skills` | 3 | Reference for writing and editing skills well — the vocabulary and principles that make a skill predictable. | SKILL.md |
 | `dot-claude/skills/youtube-distill` | 1 | Analyse a YouTube video by driving Claude in Chrome to Gemini, which reads the video directly from its URL, then distil the answer into a fixed contract with search-ready takeaw... | SKILL.md |
