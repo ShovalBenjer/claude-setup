@@ -80,6 +80,9 @@ counted in total_edges but are neutral in the numerator.
 - [corpus-source-overlap](2026-08-31-corpus-source-overlap.md):
   measures source-level content overlap; this tool measures
   claim-level agreement through edges.
+- [corpus-ingestion-regression](2026-08-31-corpus-ingestion-regression.md):
+  detects within-chunk quality drops across versions; this tool
+  detects cross-source disagreement on claims.
 
 ## Non-goals
 
