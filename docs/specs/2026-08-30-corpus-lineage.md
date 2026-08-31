@@ -51,6 +51,14 @@ A new tool `tools/corpus/lineage.py` with three subcommands:
 - `tools/corpus/lineage.py`: new tool
 - `docs/specs/2026-08-30-corpus-lineage.md`: this spec
 
+## See also
+
+- [corpus-source-impact](2026-08-31-corpus-source-impact.md): scores
+  all sources by downstream analytical footprint; this tool traces
+  provenance from a single chunk or source.
+- [corpus-citation-graph](2026-08-31-corpus-citation-graph.md): graph
+  analysis over claim_edges (chunk-to-chunk citations).
+
 ## Non-goals
 
 - Visualization or graph rendering of lineage chains.
