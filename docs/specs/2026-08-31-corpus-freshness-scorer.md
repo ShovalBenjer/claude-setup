@@ -80,6 +80,9 @@ The per-chunk freshness score is a weighted combination of four signals:
   the versioning infrastructure whose snapshots feed version_score.
 - [corpus-quality-trend](2026-08-30-corpus-quality-trend.md):
   the quality trend tracker whose snapshots feed trend_score.
+- [corpus-claim-consensus](2026-08-31-corpus-claim-consensus.md):
+  cross-source claim agreement; this tool measures temporal freshness
+  while that tool measures inter-source consensus.
 
 ## Non-goals
 
