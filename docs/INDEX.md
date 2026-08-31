@@ -170,6 +170,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-kind-tag-profile.md](specs/2026-08-31-corpus-kind-tag-profile.md): Spec: kind tag profile, tag vocabulary distribution across chunk kinds *(status: done)*
 - [specs/2026-08-31-corpus-license-tag-profile.md](specs/2026-08-31-corpus-license-tag-profile.md): Spec: license tag profile, tag vocabulary distribution across license types *(status: done)*
 - [specs/2026-08-31-corpus-publisher-domain-profile.md](specs/2026-08-31-corpus-publisher-domain-profile.md): Spec: publisher domain profile, semantic domain distribution across publishers *(status: done)*
+- [specs/2026-08-31-corpus-license-domain-profile.md](specs/2026-08-31-corpus-license-domain-profile.md): Spec: license domain profile, semantic domain distribution across license types *(status: done)*
 - [specs/2026-08-31-corpus-tag-citation-yield.md](specs/2026-08-31-corpus-tag-citation-yield.md): Spec: tag-citation yield, chunk_tags.tag correlated with citation count to identify highest-yield topical tags *(status: done)*
 - [specs/2026-08-31-corpus-version-timeline.md](specs/2026-08-31-corpus-version-timeline.md): Spec: version timeline, chunk_versions.snapshot_utc temporal distribution with depth bucketing and churn measurement *(status: done)*
 - [specs/2026-08-31-corpus-classification-timeline.md](specs/2026-08-31-corpus-classification-timeline.md): Spec: classification timeline, chunk_domains.classified_utc temporal distribution with per-domain activity and score trends *(status: done)*
