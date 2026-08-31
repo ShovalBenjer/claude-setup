@@ -105,6 +105,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-freshness-scorer.md](specs/2026-08-31-corpus-freshness-scorer.md): Spec: per-chunk freshness scoring from temporal signals with exponential decay and multi-table correlation *(status: done)*
 - [specs/2026-08-31-corpus-claim-consensus.md](specs/2026-08-31-corpus-claim-consensus.md): Spec: cross-source claim consensus analyzer measuring agreement and contradiction across independent sources *(status: done)*
 - [specs/2026-08-31-corpus-ingestion-regression.md](specs/2026-08-31-corpus-ingestion-regression.md): Spec: ingestion regression detector comparing chunk versions for quality drops *(status: done)*
+- [specs/2026-08-31-corpus-artifact-graph.md](specs/2026-08-31-corpus-artifact-graph.md): Spec: artifact dependency graph mapping co-mention, co-source, and claim-linked relationships between artifacts *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*
