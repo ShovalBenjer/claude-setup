@@ -59,6 +59,12 @@ data, git, cloud, quality.
 - `tools/corpus/tagger.py`: new tool
 - `docs/specs/2026-08-30-corpus-tagger.md`: this spec
 
+## See also
+
+- [corpus-vocab-analysis](2026-08-31-corpus-vocab-analysis.md):
+  vocabulary profiling and coverage measurement against this tool's
+  `DOMAIN_VOCAB`.
+
 ## Non-goals
 
 - Persisting tags in the database (now implemented:
