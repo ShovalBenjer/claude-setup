@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1169**
-- reachable from `docs/INDEX.md`: **165** (14%)
+- documents: **1175**
+- reachable from `docs/INDEX.md`: **171** (14%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -904,7 +904,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wizard/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (123)
+## spec (129)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -1005,6 +1005,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-31-corpus-diversity.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-domain-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-domain-balance.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-domain-score-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-domain-tag-affinity.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-edge-confidence.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-edge-density.md` | 2026-08-31 | done | header | n/a | yes | - | - |
@@ -1015,6 +1016,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-31-corpus-query-coverage.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-readability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-recommend.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-similarity-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-chain.md` | 2026-08-31 | done | header | n/a | yes | column, but no tool traced these into ch | - |
 | `docs/specs/2026-08-31-corpus-source-citation-net.md` | 2026-08-31 | done | header | n/a | yes | - | - |
@@ -1022,14 +1024,18 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-31-corpus-source-lifecycle.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-overlap.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-provenance.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-size-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-reason-trends.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-tag-cooccurrence.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-tag-entropy.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-tag-landscape.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-score-trends.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-timeline.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-topic-coherence.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-topic-model.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-version-churn.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-vocab-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-word-count-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-xray.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 
 ## standard (7)
