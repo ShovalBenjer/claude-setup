@@ -77,6 +77,11 @@ reasonable signal-to-noise ratio for manual review.
 - `tools/corpus/contradict.py`: new tool (532 lines)
 - `docs/specs/2026-08-30-corpus-contradiction-detection.md`: this spec
 
+## See also
+
+- [corpus-citation-graph](2026-08-31-corpus-citation-graph.md): graph
+  analysis over the `claim_edges` table populated by this tool.
+
 ## Non-goals
 
 - Auto-resolution or adjudication of contradictions.
