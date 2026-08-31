@@ -54,6 +54,12 @@ First run against the real corpus:
 - `tools/corpus/promote.py`: new tool
 - `docs/specs/2026-08-30-corpus-promote.md`: this spec
 
+## See also
+
+- [corpus-status-reason-trends](2026-08-31-corpus-status-reason-trends.md):
+  analyses status reason patterns over time and by source; this tool
+  manages individual status transitions and flat reason counts.
+
 ## Non-goals
 
 - Automatic promotion based on heuristics (the operator decides what to
