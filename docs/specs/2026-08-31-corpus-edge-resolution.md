@@ -60,6 +60,9 @@ A new tool `tools/corpus/edge_resolution.py` with three subcommands:
   network structure of edges; this tool analyses their lifecycle.
 - [corpus-dashboard](2026-08-31-corpus-dashboard.md): reports aggregate
   edge counts; this tool breaks down resolution rates by type.
+- [corpus-source-chain](2026-08-31-corpus-source-chain.md): traces
+  source supersession lifecycle; this tool traces edge resolution
+  lifecycle.
 
 ## Non-goals
 
