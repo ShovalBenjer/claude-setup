@@ -62,6 +62,8 @@ A new tool `tools/corpus/source_chain.py` with three subcommands:
   explain why some sources overlap heavily.
 - [corpus-dashboard](2026-08-31-corpus-dashboard.md): reports source
   totals and liveness; this tool traces version lineage.
+- [corpus-citation-analysis](2026-08-31-corpus-citation-analysis.md):
+  analyses citation patterns; this tool analyses source lineage.
 
 ## Non-goals
 
