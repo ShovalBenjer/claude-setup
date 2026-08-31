@@ -93,6 +93,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-dashboard.md](specs/2026-08-31-corpus-dashboard.md): Spec: corpus dashboard aggregating chunk, source, edge, and signal coverage metrics *(status: done)*
 - [specs/2026-08-31-corpus-chunk-profile.md](specs/2026-08-31-corpus-chunk-profile.md): Spec: chunk profile assembling complete dossier with provenance, edges, tags, topic, cluster, similarity, and citations *(status: done)*
 - [specs/2026-08-31-corpus-audit.md](specs/2026-08-31-corpus-audit.md): Spec: corpus audit cross-referencing signals to detect intra-cluster contradictions, unverified citations, weak tags, orphans, and stale sources *(status: done)*
+- [specs/2026-08-31-corpus-edge-resolution.md](specs/2026-08-31-corpus-edge-resolution.md): Spec: edge resolution analysis with per-type rates, pending edge ranking, and resolution velocity *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*

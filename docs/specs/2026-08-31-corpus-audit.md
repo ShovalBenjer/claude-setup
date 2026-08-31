@@ -72,6 +72,9 @@ A new tool `tools/corpus/corpus_audit.py` with six subcommands:
 - [corpus-claim-network](2026-08-31-corpus-claim-network.md): analyses
   contradiction clusters by network structure; this tool finds
   contradictions within topical clusters.
+- [corpus-edge-resolution](2026-08-31-corpus-edge-resolution.md):
+  analyses resolution patterns across all edge types; this tool
+  identifies specific unresolved contradictions worth resolving.
 
 ## Non-goals
 
