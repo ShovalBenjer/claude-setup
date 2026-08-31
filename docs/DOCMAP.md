@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1223**
-- reachable from `docs/INDEX.md`: **219** (17%)
+- documents: **1224**
+- reachable from `docs/INDEX.md`: **220** (17%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -904,7 +904,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wizard/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (177)
+## spec (178)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -1056,6 +1056,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-31-corpus-source-overlap.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-provenance.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-size-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-enrichment-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-status-reason-trends.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-supersession-analysis.md` | 2026-08-31 | done | header | n/a | yes | column had only chain-walking queries | anything |
 | `docs/specs/2026-08-31-corpus-supersession-edge-orphans.md` | 2026-08-31 | done | header | n/a | yes | column | - |
