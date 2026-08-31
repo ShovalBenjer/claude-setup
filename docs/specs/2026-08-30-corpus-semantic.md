@@ -61,8 +61,28 @@ vectorizer with n-gram features and cosine similarity:
 - `tools/corpus/semantic.py`: new tool
 - `docs/specs/2026-08-30-corpus-semantic.md`: this spec
 
+## See also
+
+- [corpus-topic-model](2026-08-31-corpus-topic-model.md): unsupervised
+  NMF topic discovery, complementing the predefined domain descriptions
+  used here.
+- [corpus-cluster-store](2026-08-30-corpus-cluster-store.md): persists
+  the KMeans clustering results from `cluster_chunks()`.
+- [corpus-outlier-store](2026-08-30-corpus-outlier-store.md): persists
+  the outlier detection results from `find_outliers()`.
+- [corpus-domain-store](2026-08-30-corpus-domain-store.md): persists
+  the classification results from `classify_chunks()`.
+- [corpus-similarity-store](2026-08-30-corpus-similarity-store.md):
+  precomputes nearest-neighbor pairs.
+
 ## Non-goals
 
 - Neural embeddings (sentence-transformers, ONNX models).
-- Persisting classifications or clusters in the database.
+- Persisting classifications or clusters in the database (now
+  implemented: [cluster-store](2026-08-30-corpus-cluster-store.md),
+  [domain-store](2026-08-30-corpus-domain-store.md),
+  [outlier-store](2026-08-30-corpus-outlier-store.md),
+  [similarity-store](2026-08-30-corpus-similarity-store.md)).
 - Online/incremental learning.
+- ~~Topic modeling or LDA-style unsupervised clustering.~~ Implemented
+  in [corpus-topic-model](2026-08-31-corpus-topic-model.md).

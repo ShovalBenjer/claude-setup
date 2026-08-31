@@ -78,6 +78,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-30-corpus-dedup.md](specs/2026-08-30-corpus-dedup.md): Spec: corpus deduplication, exact and near-duplicate detection with simhash hamming distance and claim_edges *(status: done)*
 - [specs/2026-08-30-corpus-tagger.md](specs/2026-08-30-corpus-tagger.md): Spec: corpus auto-tagger, TF-IDF topic scoring across 20 domain vocabularies *(status: done)*
 - [specs/2026-08-30-corpus-semantic.md](specs/2026-08-30-corpus-semantic.md): Spec: corpus semantic analysis, sklearn TF-IDF classification, similarity, clustering, and outlier detection *(status: done)*
+- [specs/2026-08-31-corpus-topic-model.md](specs/2026-08-31-corpus-topic-model.md): Spec: corpus NMF topic model, unsupervised topic discovery via matrix factorization *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*
