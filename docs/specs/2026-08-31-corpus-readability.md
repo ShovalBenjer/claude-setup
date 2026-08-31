@@ -78,6 +78,9 @@ Four signals contribute to the composite complexity score:
 - [corpus-query-coverage](2026-08-31-corpus-query-coverage.md):
   measures retrieval reachability; this tool measures content
   readability of what the retrieval layer surfaces.
+- [corpus-edge-density](2026-08-31-corpus-edge-density.md):
+  measures claim network interconnectedness; this tool measures
+  text-level complexity of chunk content.
 
 ## Non-goals
 
