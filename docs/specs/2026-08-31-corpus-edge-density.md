@@ -69,6 +69,9 @@ A new tool `tools/corpus/edge_density.py` with three subcommands:
   interconnectedness.
 - [corpus-claim-network](2026-08-30-corpus-claim-network.md):
   maps the claim network topology; this tool quantifies its density.
+- [corpus-edge-confidence](2026-08-31-corpus-edge-confidence.md):
+  analyses confidence values on claim edges; this tool measures
+  edge count and density ratios.
 
 ## Non-goals
 
