@@ -72,6 +72,10 @@ A new tool `tools/corpus/similarity_analysis.py` with four subcommands:
   measures source-level overlap; this tool measures chunk-level
   similarity.
 
+- [corpus-health-scorecard](2026-08-31-corpus-health-scorecard.md):
+  aggregates all signal tables into a unified quality summary;
+  this tool provides the similarity dimension's underlying data.
+
 ## Non-goals
 
 - Similarity recomputation or threshold adjustment.

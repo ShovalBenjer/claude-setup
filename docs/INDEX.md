@@ -101,6 +101,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-domain-analysis.md](specs/2026-08-31-corpus-domain-analysis.md): Spec: domain analysis with distribution, per-source breakdown, multi-domain detection, and inter-domain edge flow *(status: done)*
 - [specs/2026-08-31-corpus-tag-landscape.md](specs/2026-08-31-corpus-tag-landscape.md): Spec: tag landscape with frequency distribution, per-source profiles, edge-tag correlation, and score bands *(status: done)*
 - [specs/2026-08-31-corpus-similarity-analysis.md](specs/2026-08-31-corpus-similarity-analysis.md): Spec: similarity analysis with score distribution, closest pairs, outlier review, and cluster cohesion *(status: done)*
+- [specs/2026-08-31-corpus-health-scorecard.md](specs/2026-08-31-corpus-health-scorecard.md): Spec: unified health scorecard aggregating all signal tables into per-dimension quality scores *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*
