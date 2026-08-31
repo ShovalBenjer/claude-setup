@@ -75,6 +75,9 @@ A new tool `tools/corpus/artifact_graph.py` with three subcommands:
 - [corpus-claim-consensus](2026-08-31-corpus-claim-consensus.md):
   analyses claim agreement; this tool uses claim edges to discover
   artifact-level semantic links.
+- [corpus-query-coverage](2026-08-31-corpus-query-coverage.md):
+  measures retrieval reachability of corpus content; this tool maps
+  structural relationships between artifacts.
 
 ## Non-goals
 
