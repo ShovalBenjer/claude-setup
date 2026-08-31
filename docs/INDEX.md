@@ -115,6 +115,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-domain-balance.md](specs/2026-08-31-corpus-domain-balance.md): Spec: domain coverage balance measuring distribution evenness with Shannon entropy and Gini coefficient *(status: done)*
 - [specs/2026-08-31-corpus-source-citation-net.md](specs/2026-08-31-corpus-source-citation-net.md): Spec: source-to-source citation network aggregating chunk citations to source-level dependency topology *(status: done)*
 - [specs/2026-08-31-corpus-version-churn.md](specs/2026-08-31-corpus-version-churn.md): Spec: version churn rate measuring temporal revision velocity and hotspot detection *(status: done)*
+- [specs/2026-08-31-corpus-tag-entropy.md](specs/2026-08-31-corpus-tag-entropy.md): Spec: tag entropy measuring information content and surprise of per-chunk tag assignments *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*

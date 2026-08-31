@@ -71,6 +71,9 @@ A new tool `tools/corpus/tag_landscape.py` with four subcommands:
 - [corpus-similarity-analysis](2026-08-31-corpus-similarity-analysis.md):
   analyses chunk similarity patterns; this tool analyses tag
   classification patterns.
+- [corpus-tag-entropy](2026-08-31-corpus-tag-entropy.md):
+  measures per-chunk information content of tag assignments;
+  this tool analyses tag distribution and coverage.
 
 ## Non-goals
 
