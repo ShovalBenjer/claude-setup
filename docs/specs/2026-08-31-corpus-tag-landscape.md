@@ -74,6 +74,9 @@ A new tool `tools/corpus/tag_landscape.py` with four subcommands:
 - [corpus-tag-entropy](2026-08-31-corpus-tag-entropy.md):
   measures per-chunk information content of tag assignments;
   this tool analyses tag distribution and coverage.
+- [corpus-tag-score-trends](2026-08-31-corpus-tag-score-trends.md):
+  analyses how tag scores evolve over time; this tool reports
+  static score-band distributions.
 
 ## Non-goals
 
