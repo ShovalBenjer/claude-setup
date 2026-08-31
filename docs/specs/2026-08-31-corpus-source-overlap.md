@@ -64,6 +64,8 @@ A new tool `tools/corpus/source_overlap.py` with three subcommands:
 - [corpus-source-impact](2026-08-31-corpus-source-impact.md): scores
   sources by analytical footprint; this tool measures their content
   redundancy.
+- [corpus-timeline](2026-08-31-corpus-timeline.md): analyses temporal
+  patterns; this tool analyses content redundancy patterns.
 
 ## Non-goals
 
