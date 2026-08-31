@@ -60,6 +60,8 @@ A new tool `tools/corpus/tag_cooccurrence.py` with three subcommands:
   corpus-level tag entropy; this tool analyses tag-to-tag structure.
 - [corpus-vocab-analysis](2026-08-31-corpus-vocab-analysis.md):
   profiles vocabulary per kind; this tool profiles tag relationships.
+- [corpus-source-overlap](2026-08-31-corpus-source-overlap.md):
+  measures content redundancy between sources at the chunk level.
 
 ## Non-goals
 
