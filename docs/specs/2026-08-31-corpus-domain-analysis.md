@@ -80,6 +80,9 @@ A new tool `tools/corpus/domain_analysis.py` with four subcommands:
 - [corpus-chunk-kind-profile](2026-08-31-corpus-chunk-kind-profile.md):
   analyses chunk kind distribution across sources and domains;
   this tool analyses domain classifications.
+- [corpus-domain-score-distribution](2026-08-31-corpus-domain-score-distribution.md):
+  analyses domain classification score distribution and calibration;
+  this tool reports average scores per domain.
 
 ## Non-goals
 
