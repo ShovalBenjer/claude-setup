@@ -76,6 +76,9 @@ A version transition is flagged as a regression when either:
 - [corpus-freshness-scorer](2026-08-31-corpus-freshness-scorer.md):
   temporal freshness scoring; this tool detects version-level
   regressions rather than age-based staleness.
+- [corpus-artifact-graph](2026-08-31-corpus-artifact-graph.md):
+  maps relationships between artifacts; this tool detects quality
+  regressions within individual chunks across versions.
 
 ## Non-goals
 
