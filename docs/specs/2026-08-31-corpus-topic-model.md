@@ -99,10 +99,13 @@ CREATE TABLE IF NOT EXISTS topic_terms (
   tagging with predefined vocabularies.
 - [corpus-cluster-store](2026-08-30-corpus-cluster-store.md): KMeans
   clustering persistence (groups by similarity, no term decomposition).
+- [corpus-topic-coherence](2026-08-31-corpus-topic-coherence.md): NPMI
+  coherence scoring for topics discovered here.
 
 ## Non-goals
 
 - Hierarchical topic modeling (flat topic assignments only).
 - Dynamic topic count selection (the caller chooses n-topics).
-- Topic coherence scoring (future work).
+- ~~Topic coherence scoring.~~ Implemented in
+  [corpus-topic-coherence](2026-08-31-corpus-topic-coherence.md).
 - Streaming or incremental topic updates.
