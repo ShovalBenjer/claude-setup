@@ -67,6 +67,9 @@ A new tool `tools/corpus/chunk_profile.py` with three subcommands:
   date.
 - [corpus-audit](2026-08-31-corpus-audit.md): cross-signal issue
   detection; identifies which chunks need attention.
+- [corpus-word-count-distribution](2026-08-31-corpus-word-count-distribution.md):
+  analyses word count patterns across the corpus; this tool shows
+  individual chunk metadata including word count.
 
 ## Non-goals
 
