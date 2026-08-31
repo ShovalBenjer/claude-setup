@@ -90,6 +90,8 @@ manage its own storage lifecycle.
   persistence pattern for domain classification results.
 - [corpus-cluster](2026-08-30-corpus-cluster.md): heuristic clustering
   (simhash, citation, source overlap) as distinct from ML clustering.
+- [corpus-xray](2026-08-31-corpus-xray.md): cross-table analysis that
+  joins chunk_clusters with topics, similarities, and contradictions.
 
 ## Non-goals
 
