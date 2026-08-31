@@ -71,6 +71,8 @@ A new tool `tools/corpus/xray.py` with four subcommands:
   populates claim_edges with contradiction edges this tool queries.
 - [corpus-citation-graph](2026-08-31-corpus-citation-graph.md): also
   analyses claim_edges, but per-chunk rather than per-topic/cluster.
+- [corpus-recommend](2026-08-31-corpus-recommend.md): per-chunk
+  recommender fusing the same analytical signals this tool joins.
 
 ## Non-goals
 
