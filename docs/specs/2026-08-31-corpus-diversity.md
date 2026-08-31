@@ -59,6 +59,8 @@ A new tool `tools/corpus/diversity.py` with three subcommands:
   topic assignments this tool analyses for diversity.
 - [corpus-source-impact](2026-08-31-corpus-source-impact.md): scores
   individual sources; this tool measures their collective spread.
+- [corpus-tag-cooccurrence](2026-08-31-corpus-tag-cooccurrence.md):
+  analyses tag-to-tag structure; this tool measures tag entropy.
 
 ## Non-goals
 
