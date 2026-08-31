@@ -97,6 +97,10 @@ First run against the real corpus:
 
 - [corpus-semantic-dedup](2026-08-30-corpus-semantic-dedup.md): consumes
   the vectors produced here for paraphrase-level deduplication.
+- [corpus-similarity-store](2026-08-30-corpus-similarity-store.md):
+  precomputes nearest-neighbor pairs from these vectors.
+- [corpus-outlier-store](2026-08-30-corpus-outlier-store.md): persists
+  topical isolation detection using these vectors.
 
 ## Non-goals
 
