@@ -71,6 +71,9 @@ Seven dimensions are scored:
 - [corpus-audit](2026-08-31-corpus-audit.md): the audit tool checks
   for specific quality problems; this tool provides quantitative
   dimension scores.
+- [corpus-freshness-scorer](2026-08-31-corpus-freshness-scorer.md):
+  per-chunk temporal freshness scoring; this tool covers the quality
+  dimensions that are not time-sensitive.
 
 ## Non-goals
 
