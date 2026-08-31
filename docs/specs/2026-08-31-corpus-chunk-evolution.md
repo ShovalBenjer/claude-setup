@@ -70,6 +70,9 @@ A new tool `tools/corpus/chunk_evolution.py` with three subcommands:
 - [corpus-artifact-adoption](2026-08-31-corpus-artifact-adoption.md):
   analyses technology artifact patterns; this tool analyses content
   revision patterns.
+- [corpus-version-churn](2026-08-31-corpus-version-churn.md):
+  measures temporal revision velocity and acceleration; this tool
+  counts revisions and measures content drift.
 
 ## Non-goals
 
