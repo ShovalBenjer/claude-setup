@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1208**
-- reachable from `docs/INDEX.md`: **204** (16%)
+- documents: **1209**
+- reachable from `docs/INDEX.md`: **205** (16%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -904,7 +904,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wizard/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (162)
+## spec (163)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -1066,6 +1066,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-31-corpus-version-citation-drift.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-version-domain-stability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-version-edge-impact.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-version-tag-stability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-version-timeline.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-vocab-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-word-count-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
