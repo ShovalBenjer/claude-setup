@@ -109,6 +109,7 @@ open ticket, not a promise made here: nothing currently fails when it drifts.
 - [specs/2026-08-31-corpus-query-coverage.md](specs/2026-08-31-corpus-query-coverage.md): Spec: query coverage analyzer finding chunks unreachable by FTS5 probe queries *(status: done)*
 - [specs/2026-08-31-corpus-source-provenance.md](specs/2026-08-31-corpus-source-provenance.md): Spec: source provenance scorer combining license, liveness, acceptance, citation, and freshness signals *(status: done)*
 - [specs/2026-08-31-corpus-domain-tag-affinity.md](specs/2026-08-31-corpus-domain-tag-affinity.md): Spec: domain-tag affinity analysis using pointwise mutual information across chunk_domains and chunk_tags *(status: done)*
+- [specs/2026-08-31-corpus-readability.md](specs/2026-08-31-corpus-readability.md): Spec: chunk readability scorer measuring text complexity from word length, type-token ratio, and long word density *(status: done)*
 - [specs/2026-08-30-corpus-enrich.md](specs/2026-08-30-corpus-enrich.md): Spec: corpus entity enrichment, named entity extraction and artifact table linking with implementation evidence *(status: done)*
 - [specs/2026-08-30-corpus-cite-gate.md](specs/2026-08-30-corpus-cite-gate.md): Spec: corpus citation gate, stage 4 enforcement quarantining uncited claim chunks *(status: done)*
 - [specs/2026-08-30-corpus-normalise.md](specs/2026-08-30-corpus-normalise.md): Spec: corpus text normaliser, stage 0 NFC unicode, mojibake repair, dash mapping, and whitespace stripping *(status: done)*

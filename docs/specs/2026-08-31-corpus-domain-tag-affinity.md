@@ -83,6 +83,9 @@ means less often.
 - [corpus-tag-landscape](2026-08-30-corpus-tag-landscape.md):
   maps the overall tag space; this tool maps tag-domain affinity
   within that space.
+- [corpus-readability](2026-08-31-corpus-readability.md):
+  measures text complexity per chunk; this tool measures tag-domain
+  vocabulary relationships.
 
 ## Non-goals
 
