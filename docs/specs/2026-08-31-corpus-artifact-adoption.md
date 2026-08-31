@@ -71,6 +71,10 @@ A new tool `tools/corpus/artifact_adoption.py` with four subcommands:
 - [corpus-audit](2026-08-31-corpus-audit.md): detects cross-signal
   issues; orphan artifacts are a related integrity concern.
 
+- [corpus-domain-analysis](2026-08-31-corpus-domain-analysis.md):
+  analyses semantic domain classifications; this tool analyses
+  technology artifact patterns.
+
 ## Non-goals
 
 - Automated artifact extraction from chunk text.
