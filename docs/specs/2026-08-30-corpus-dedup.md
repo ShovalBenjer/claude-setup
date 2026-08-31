@@ -55,6 +55,9 @@ A new tool `tools/corpus/dedup.py` with four subcommands:
 
 - [corpus-semantic-dedup](2026-08-30-corpus-semantic-dedup.md): extends
   this tool with embedding-based semantic deduplication for paraphrases.
+- [corpus-simhash-distribution](2026-08-31-corpus-simhash-distribution.md):
+  analyses the quality of simhash distribution underlying this tool's
+  near-duplicate detection.
 
 ## Non-goals
 
