@@ -64,6 +64,10 @@ A new tool `tools/corpus/citation_analysis.py` with four subcommands:
 - [corpus-dashboard](2026-08-31-corpus-dashboard.md): reports total
   citation count; this tool analyses citation patterns and coverage.
 
+- [corpus-chunk-evolution](2026-08-31-corpus-chunk-evolution.md):
+  analyses content change patterns; this tool analyses citation
+  relationships.
+
 ## Non-goals
 
 - Citation graph visualisation.
