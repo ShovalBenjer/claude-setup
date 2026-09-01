@@ -5,7 +5,11 @@ harness-side banlist). Not a style suggestion — a gate: exit 1 on hits.
 
 Usage: slop_lint.py <file.md> [...]   (or - for stdin)
 """
-import json, os, re, sys, datetime
+import datetime
+import json
+import os
+import re
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import prose_metrics  # noqa: E402
@@ -78,13 +82,16 @@ RITUAL_OPENER = re.compile(
 def scan(text):
     hits = []
     for pat in BANNED_PHRASES:
-        for m in re.finditer(pat, text, re.IGNORECASE):
-            hits.append(("phrase", m.group(0), text[:m.start()].count("\n") + 1))
-    for m in DASH.finditer(text):
-        hits.append(("em/en-dash", m.group(0).strip(), text[:m.start()].count("\n") + 1))
+        hits.extend(
+            ("phrase", m.group(0), text[:m.start()].count("\n") + 1)
+            for m in re.finditer(pat, text, re.IGNORECASE))
+    hits.extend(
+        ("em/en-dash", m.group(0).strip(), text[:m.start()].count("\n") + 1)
+        for m in DASH.finditer(text))
     for pat in (RITUAL, RITUAL_OPENER):
-        for m in pat.finditer(text):
-            hits.append(("ritual", m.group(0).strip(), text[:m.start()].count("\n") + 1))
+        hits.extend(
+            ("ritual", m.group(0).strip(), text[:m.start()].count("\n") + 1)
+            for m in pat.finditer(text))
     return hits
 
 

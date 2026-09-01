@@ -29,8 +29,7 @@ def brief(state_dir: Path, n: int = 6) -> str:
     lines = ["office gossip, freshest first:"]
 
     posts = _br.read_rows(state_dir / "breakroom.jsonl")[-n:]
-    for p in reversed(posts):
-        lines.append(f"  [{p['kind']}] {p['session']}: {p['text']}")
+    lines.extend(f"  [{p['kind']}] {p['session']}: {p['text']}" for p in reversed(posts))
 
     frows = _fut.read_rows(state_dir / "futures.jsonl")
     settled = {r["id"] for r in frows if r["kind"] == "settle"}
@@ -47,8 +46,7 @@ def brief(state_dir: Path, n: int = 6) -> str:
 
     gripes = [r for r in _smk.read_rows(state_dir / "coffee.jsonl")
               if r["kind"] == "gripe"][-n:]
-    for g in reversed(gripes):
-        lines.append(f"  overheard: {g['session']} griping about {g.get('about') or '?'}")
+    lines.extend(f"  overheard: {g['session']} griping about {g.get('about') or '?'}" for g in reversed(gripes))
 
     return "\n".join(lines)
 

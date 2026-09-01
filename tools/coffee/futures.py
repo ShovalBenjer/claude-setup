@@ -12,10 +12,18 @@ operation, 2 on usage error.
 import argparse
 import fcntl
 import json
+import os
 import sys
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "lib"))
+try:
+    from tracing import inject as trace_inject  # noqa: E402
+except ImportError:
+    def trace_inject(row):
+        return row
 
 LEDGER = Path("state/futures.jsonl")
 START_REPUTATION = 100
@@ -32,6 +40,7 @@ def read_rows(ledger: Path) -> list[dict]:
 
 
 def append_row(ledger: Path, row: dict) -> None:
+    trace_inject(row)
     ledger.parent.mkdir(parents=True, exist_ok=True)
     with ledger.open("a") as f:
         fcntl.flock(f, fcntl.LOCK_EX)

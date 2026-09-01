@@ -91,6 +91,11 @@
       "_note": "the global rules loaded into every session are deployed AND intact. Added 2026-08-04 after twelve of them were found at roughly a tenth of their original size, having been overwritten by commit 2bb97a8 which synced a degraded live tree back over the good repo copy and removed 986 lines. Nothing in the repo could see it: skills_sync.py covers dot-claude/skills and never mentioned rules. The shrink half of this check is the part that matters, because a byte count is the only signal left once the content is gone.",
       "_waiver_history": "CLOSED 2026-08-31 on measurement, not restated: operator decided live-wins-fold-into-repo (2026-08-31), the full live tree was folded on branch worktree-skills-live-wins-fold (skills: 38 updated + prompt-eval added + dispatch/workspace-brain removed; rules: gastown-company-registry.md and both project-template files folded), and both sync checks report zero drift at removal time. Prior waiver preserved verbatim: {\"reason\": \"2026-08-23, after merging main (328 commits, PR #88) into the operator's live checkout. dynamic-verification-trigger.md (untracked live rule) imported into the repo this session, closing that half. One item remains: gastown-company-registry.md differs repo 8495b vs live 12042b. Live is the edited side, but WHICH edits fold back is the operator's registry to curate, not a byte-count decision; same class this domain waived twice before (2026-08-12 evening and late evening) and both times the fix was the operator resolving specific content, not a sync script.\", \"until\": \"2026-08-26\", \"confirm\": \"1 problem(s) across 26 rule(s)\"} || EARLIER HISTORY: Reintroduced by the gh/main merge at 2026-08-12 late evening and REMOVED a second time for the same measured reason: rules_sync reports 24 rules identical at removal time, so the confirm string '3 problem(s) across 26 rule(s)' cannot reprint. A waiver until 2026-08-14 (confirm '26 rule(s)') was REMOVED on 2026-08-12 late evening, unexpired, because its measurement ended: rules_sync.py check reports 'rules clean: 24 rule(s), repo and live identical' at removal time. The peer compression session's live-tree rewrite it covered has been mirrored into the repo (two Seekapa-era rules deleted both sides, merges-are-the-operators widened and synced). PRIOR REASON: waived 2026-08-12 at session close: a peer session (repo-gap-analysis, operator-requested ponytail/caveman compression) is actively rewriting the live ~/.claude/rules tree mid-flight. Measured drift right now: merges-are-the-operators.md live 4273b vs repo 3292b (live carries the standing auto-merge widening plus peer edits), and foundry-deployment-per-project.md plus jira-comment-drafting.md deleted live but present in repo. Syncing or deleting from this closing session would race the peer session's own commit of the same compression. Two days only: the peer session's PR should land the compressed tree and clear this; if it has not by 2026-08-14, the drift is real and must be reconciled by hand. CONFIRM NOTE, added after CI failed the first confirm: the anchor is the rule census line because it is the only string rules_sync prints on every host; CI has no live tree, runs shrink-only by design (its selftest pins exit 0 there), so a drift-specific confirm reads stale on every runner. Drift resolution still self-clears: a passing domain never consults its waiver. The census anchor goes stale only if the rule count moves, and the 2026-08-14 expiry bounds everything else."
     },
+    "rules_enforcement": {
+      "required": true,
+      "builtin": "rules_enforcement",
+      "_note": "Runs mechanical enforcement predicates declared in rule file frontmatter. Each rule in dot-claude/rules/ may carry an enforce: block (deny_pattern or cmd) that is checked against the repo. Rules without frontmatter are prose-only and skipped. PRD #18."
+    },
     "skills": {
       "required": true,
       "cmd": "python tools/audit/skills_sync.py check",
@@ -112,12 +117,87 @@
       "_note": "Added 2026-08-19, closing a gap a fresh audit found on main: 39 dashboard/ source files merged across DASH-1 slices 1-3 (5a61a91..ca055da) with 0 test files invoked by anything in this contract or in ship-gate.yml, invisible to CI the same way EXT-1/EXT-3 were. dashboard/core has real Rust unit tests (16, ledger readers + meme parsing + module toggles, all tolerant-of-malformed-input per the program-design spec) and dashboard/src-tauri is a real Tauri 2 crate; `cargo test --workspace` runs both from one command since they share dashboard/Cargo.lock as a workspace. Measured 2026-08-19 on this machine (which is also the ship-gate.yml self-hosted runner's host, same HOME): `cargo check --workspace` and `cargo test --workspace` both exit 0 with GTK3 + webkit2gtk-4.1 present (pkg-config confirms both), src-tauri compiles clean, dashboard/core's 16 tests pass in under a second. This is an extra domain per gate.py's own 'DOMAINS is the floor, not the ceiling' rule (tools/gate/gate.py:1116), the same mechanism `rules`/`skills`/`pointers`/`docmap` already use, so no gate.py code change was needed to make it required and blocking.",
       "scope_note": "This domain is Rust-only on purpose: `dashboard/web`'s `npm run build` (tsc -b && vite build) was ALSO measured green here 2026-08-19 (Node 22 via nvm, 1830 modules, built in ~4s) but is deliberately not folded into this cmd, because ship-gate.yml's `gate` job installs Python only (actions/setup-python@v5) and has no Node toolchain step; adding an npm command to this domain's cmd would make it FAIL on every CI run until that step is added, which is a workflow change, not a contract change. See ship-gate.yml's dashboard-web-build step, added alongside this domain in the same change, which runs the npm build directly as a CI step rather than through gate.py. If GTK3/webkit2gtk-4.1 are ever missing on a runner (they were not, here), the honest fix is scoping this cmd to `cd dashboard/core && cargo test` and stating that narrowing here, not silently dropping src-tauri from `--workspace`."
     },
+    "lint": {
+      "required": true,
+      "timeout": 120,
+      "cmd": "ruff check tools/",
+      "_note": "Stack-lint oracle, phase 1: C4/PERF/PIE + import sorting, configured in ruff.toml. Enforces the coding-style standard from intent-control-plane's pyproject.toml on the root tools/ tree. Action #2 from 2026-08-13 code-quality-rethink. Phase 2 adds SIM/B/ERA; phase 3 adds UP/E/F/D after batch fixes."
+    },
+    "spec": {
+      "required": true,
+      "builtin": "spec_linked",
+      "threshold": 3,
+      "specs_dir": "docs/specs/",
+      "_note": "non-trivial source changes (>3 files) require a docs/specs/ entry touched in the same change. Spec culture already exists (20 specs on disk); this is the enforcement half. Action #4 from 2026-08-13 code-quality-rethink."
+    },
+    "blast_radius": {
+      "required": true,
+      "builtin": "blast_radius",
+      "_note": "Computes the transitive Python import blast radius of changed files. Informational: always passes, reports which modules are affected and flags wide-radius changes (>=3 importers). PRD #16."
+    },
+    "lane_enforcement": {
+      "required": true,
+      "builtin": "lane_enforcement",
+      "_note": "The most recent state/claims.jsonl row must name lane A (claude-setup harness). Cross-lane work is the most frequently logged lesson; this domain makes the gate fail before the session produces work under the wrong charter. Filed 2026-07-29, implemented 2026-08-30."
+    },
+    "todo_inbox": {
+      "required": true,
+      "builtin": "todo_inbox",
+      "_note": "TODO.md's generated prompt-inbox block must match the intent store. Exits N/A when the store is absent (CI runners), FAIL when the block is stale. Enforces the intent lifecycle: a captured prompt is visible in the todolist until triaged, and a todolist that passed against a store it could not read would hide every prompt in the estate."
+    },
+    "refute": {
+      "required": true,
+      "timeout": 300,
+      "cmd": "python tools/refute/refute.py run",
+      "_note": "Every claim in state/claims.json has a falsifier, and none of them fire. The refutation engine runs each claim's own verification command; any REFUTED or BROKEN verdict fails the gate. Claims whose preconditions are not met on the runner (e.g. no deployed ~/.claude) report cannot-measure and do not count toward the exit code."
+    },
+    "bus_integrity": {
+      "required": true,
+      "cmd": "python tools/bus/bus.py verify",
+      "_note": "The hash-chained event bus ledger (state/bus.jsonl) is intact. Every chained row's hash covers its own content plus the previous hash, so any edit, deletion, or reordering of chained rows is detectable. Pre-chain rows (before chaining was added) carry no hash and are reported but not failed."
+    },
+    "skilleval": {
+      "required": true,
+      "timeout": 120,
+      "cmd": "python tools/skilleval/run.py scan",
+      "_note": "Every skill with a routing fixture routes correctly (the right skill wins the prompt). Skills without fixtures are counted as uncovered but do not fail. A skill whose fixture routes to the wrong skill fails the gate. Catches regressions in skill descriptions that would misroute prompts."
+    },
+    "prose_fit": {
+      "required": true,
+      "timeout": 60,
+      "cmd": "python tools/audit/prose_fit.py check --project .",
+      "_note": "prose_metrics.py collects density and variance scores to state/prose-scores.jsonl but explicitly defers thresholds (L-2026-07-31-b). This domain verifies that percentile bands have been fitted from the corpus (state/prose-thresholds.json exists, was fitted from 20+ scores, and has not gone stale as the corpus grew). The actual per-document enforcement is a follow-up in slop_lint.py; this domain ensures the infrastructure exists."
+    },
+    "skip_tracker": {
+      "required": true,
+      "timeout": 600,
+      "cmd": "python tools/audit/skip_tracker.py check --project .",
+      "_note": "L-2026-07-29-i: a generator bug deleted content from 12 shipped files, four tests responded with pytest.skip() instead of failing, the suite reported '89 passed, 4 skipped', and the gate read that as PASS. This domain parses pytest summary lines for each test suite, compares skip counts against state/skip-baseline.json, and fails when skips rise above the baseline. A rising skip count is the signal the gate was missing. Run `update` to reset the baseline after legitimate skip changes."
+    },
+    "branch_health": {
+      "required": true,
+      "timeout": 60,
+      "cmd": "python tools/audit/branch_health.py check --project .",
+      "_note": "Stale branches (merged into the default branch but not deleted) and orphaned worktrees are the two shapes of git debris that have caused gate failures in this repo. The codemap domain excludes .claude/worktrees from compileall because a sibling worktree carried live conflict markers. This domain catches the debris before it causes a downstream failure."
+    },
+    "lesson_check": {
+      "required": true,
+      "timeout": 60,
+      "cmd": "python tools/audit/lesson_check.py check --project .",
+      "_note": "state/lessons.jsonl is an append-only ledger of operational lessons. This domain validates that the ledger is parseable and structurally sound: every row has an id, IDs use a recognised format (L-YYYY-MM-DD-x or legacy L###), and the file contains valid JSON. Schema completeness gaps in older rows are reported as warnings rather than failures because the ledger is append-only and pre-existing gaps cannot be retroactively fixed."
+    },
     "coverage_map": {
       "required": true,
       "timeout": 60,
       "cmd": "python tools/audit/coverage_map.py check",
       "_note": "Added 2026-08-19, operator-approved extension prompted by an external review (Agentica) that independently converged on the same DASH-1 finding as this session's own audit, and named the general fix: the gate should fail CLOSED on undeclared module coverage, not silently pass. Every domain above (build/unit/types/.../dashboard) answers 'does ITS OWN command exit zero'; none of them answers 'is there a top-level directory in this repository that NO domain looks at at all'. dashboard/ was exactly that for two days before a manual audit found it. This domain closes the general case: docs/coverage-map.txt must carry a row (covered-by:<domain> or exempt) for every top-level TRACKED directory (git ls-files, top segment only), and a directory with no row FAILS the gate rather than passing by default -- the inverse of docs/prior-art/out-of-scope.txt's own stated default ('a prefix not listed here is IN scope'), inverted on purpose because unlisted-and-silently-fine is the exact failure mode this domain exists to close. tools/audit/coverage_map.py's first real run against this repository found the check is not merely theoretical: nexus-engine-rs (a second Rust crate, 8 #[test] functions, its own README documenting `cargo test`) has the identical shape dashboard/ had and is recorded in docs/coverage-map.txt as an ADMITTED exemption naming the gap, not a silent pass -- wiring it is a follow-up, out of scope for this change.",
       "_falsifier": "tools/audit/coverage_map.py selftest plants a directory with no coverage-map.txt row in a synthetic git repo and asserts cmd_check returns 1; this was additionally verified against THIS repository directly (not just the synthetic fixture) by staging a real scratch top-level directory with a .py file, confirming `check` FAILed naming it, then removing it and confirming `check` PASSes again -- see the PR body for the exact commands and output."
+    },
+    "gate_health": {
+      "required": true,
+      "timeout": 60,
+      "cmd": "python tools/audit/gate_health.py check --project .",
+      "_note": "state/gate-runs.jsonl is the meta-record of every quality gate run (19K+ rows). This domain validates its structural integrity: every row parses as valid JSON, required fields (ts, project, commit, verdict, domains) are present, and verdict values are recognised. Data quality issues in existing rows (non-string domain verdicts from a gate.py builtin handler bug) are warnings because the ledger is append-only."
     }
   }
 }

@@ -1,5 +1,9 @@
-import statistics, subprocess, sys, time
+import statistics
+import subprocess
+import sys
+import time
 from pathlib import Path
+
 C=[("/bin/true (compiled floor)",["/bin/true"]),
    ("python3 -S -E -c pass",["python3","-S","-E","-c","pass"]),
    ("python3 -c pass",["python3","-c","pass"]),

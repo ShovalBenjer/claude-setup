@@ -150,9 +150,10 @@ def main() -> int:
                     print("  {:16s} {}".format(event, ", ".join(notes) or "-"))
                     print("      -  {}".format(before[:104]))
                     print("      +  {}".format(after[:104]))
-                for n in notes:
-                    if "no Linux equivalent" in n or "NOT created" in n:
-                        dead.append("{}: {}".format(event, n))
+                dead.extend(
+                    "{}: {}".format(event, n) for n in notes
+                    if "no Linux equivalent" in n or "NOT created" in n
+                )
     print("  {} hook(s) rewritten".format(changed))
     if dead:
         print("\n  WILL NOT RUN until fixed separately:")

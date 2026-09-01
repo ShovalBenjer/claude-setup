@@ -61,11 +61,17 @@ skip, because a permanent waiver is just a disabled check with better manners.
 
 An until-date only catches the waiver that ran out. It does not catch the one
 that stopped being true, and a waiver is a claim about a measurement, so the
-measurement moves under it. A waiver may therefore also carry `confirm`, a
-string the domain's own command must still print. The gate runs that command
-even though the domain is waived, ignores its exit code (a waived command is
-expected to fail, which is usually why it was waived), and fails the domain if
-the string is gone. See confirm_waiver for the run that made this necessary.
+measurement moves under it. A waiver may therefore carry:
+
+  `confirm`  a string the domain's own command must still print. The gate runs
+             that command even though the domain is waived, ignores its exit code
+             (a waived command is expected to fail), and fails the domain if the
+             string is gone.
+
+  `command`  a dedicated falsifier the waiver author wrote. Exit 0 = claim holds,
+             nonzero = claim stale. If `confirm` is also present, the string is
+             checked in the falsifier's output. See confirm_waiver for the full
+             history.
 
 RUN RECORDS
 
@@ -102,8 +108,13 @@ import re
 import shutil
 import subprocess
 import sys
-import time
 import tempfile
+import time
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "lib"))
+from tracing import inject as trace_inject
+from tracing import run_context
+from tracing import span as trace_span
 
 CONTRACT_NAME = "quality-contract.json"
 LEDGER = os.path.join("state", "gate-runs.jsonl")
@@ -201,7 +212,10 @@ def run(cmd: str, cwd: str, timeout: int = 900) -> tuple[int, str]:
         p = subprocess.run(cmd, cwd=cwd, shell=True, capture_output=True,
                            text=True, timeout=timeout, encoding="utf-8",
                            errors="replace", env=_domain_env())
-        return p.returncode, ((p.stdout or "") + (p.stderr or ""))
+        out = ((p.stdout or "") + (p.stderr or ""))
+        if p.returncode == 127 and "not found" in out:
+            return CANNOT_MEASURE, "cannot run: command not found on this host\n{}".format(out)
+        return p.returncode, out
     except subprocess.TimeoutExpired:
         return 124, "timed out after {}s: {}".format(timeout, cmd)
     except Exception as exc:
@@ -666,7 +680,7 @@ def docs_touched(project: str, contract: dict, spec: dict) -> tuple[str, str]:
     base = spec.get("base") or default_base(project)
     changed = [l for l in git("diff --name-only {}...HEAD".format(base), project).splitlines() if l]
     changed += _porcelain_paths(git("status --porcelain", project))
-    changed = sorted(set(c.strip() for c in changed if c.strip()))
+    changed = sorted({c.strip() for c in changed if c.strip()})
     if not changed:
         return PASS, "no change to document relative to {}".format(base)
 
@@ -777,9 +791,7 @@ def read_e2e_report(project: str, contract: dict, spec: dict) -> tuple[str, str]
     picked: list[dict] = []
     for routes in (rep.get("by_viewport") or {}).values():
         for r in routes:
-            for f in r.get("findings", []):
-                if f.get("kind") in kinds:
-                    picked.append(f)
+            picked.extend(f for f in r.get("findings", []) if f.get("kind") in kinds)
     fails = [f for f in picked if f.get("sev") == "fail"]
     warns = [f for f in picked if f.get("sev") == "warn"]
     max_warn = spec.get("max_warn", 0)
@@ -791,8 +803,7 @@ def read_e2e_report(project: str, contract: dict, spec: dict) -> tuple[str, str]
 
     lines = ["{} fail, {} warn across accessibility and mobile layout".format(
         len(fails), len(warns))]
-    for f in (fails + warns)[:12]:
-        lines.append("  {}  {}  {}".format(f["sev"], f["kind"], f["msg"][:150]))
+    lines.extend("  {}  {}  {}".format(f["sev"], f["kind"], f["msg"][:150]) for f in (fails + warns)[:12])
     if stale:
         lines.append("  report was produced against tree {} but the tree is now {}".format(
             stamp, fp))
@@ -881,12 +892,140 @@ def prior_art(project: str, contract: dict, spec: dict) -> tuple[str, str]:
     return codemap(project, spec, "prior-art")
 
 
+def spec_linked(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    """Non-trivial source changes require a docs/specs/ entry.
+
+    Parallels docs_touched: both compare the change against the base and fire
+    above a threshold. docs_touched asks "did you say what changed?"; this one
+    asks "did you say WHY it changes, before you started?"
+    """
+    base = spec.get("base") or default_base(project)
+    threshold = spec.get("threshold", 3)
+    changed = [l for l in git("diff --name-only {}...HEAD".format(base), project).splitlines() if l]
+    changed += _porcelain_paths(git("status --porcelain", project))
+    changed = sorted({c.strip() for c in changed if c.strip()})
+    if not changed:
+        return PASS, "no changes relative to {}".format(base)
+
+    code = [c for c in changed if re.search(
+        r"\.(ts|tsx|js|jsx|py|go|rs|java|kt|swift|rb|php|cs|sql|sh|ps1)$", c)]
+    if len(code) <= threshold:
+        return PASS, ("{} source file(s) changed, under the spec threshold of {}".format(
+            len(code), threshold + 1))
+
+    specs_dir = spec.get("specs_dir", "docs/specs/")
+    specs_touched = [c for c in changed
+                     if c.startswith(specs_dir.rstrip("/") + "/") and c.endswith(".md")]
+    if specs_touched:
+        return PASS, ("{} source file(s) changed, spec(s) touched: {}".format(
+            len(code), ", ".join(specs_touched[:6])))
+
+    return FAIL, ("{} source file(s) changed but no spec in {} was created or updated. "
+                  "Non-trivial changes need a spec entry (Status: active) written before "
+                  "the implementation starts.\n  changed: {}".format(
+                      len(code), specs_dir, ", ".join(code[:10])))
+
+
+def blast_radius(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    """Report the transitive import blast radius of changed Python files."""
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "graph"))
+    import blast_radius as br
+
+    base = spec.get("base") or default_base(project)
+    changed = [l for l in git("diff --name-only {}...HEAD".format(base), project).splitlines() if l]
+    changed += _porcelain_paths(git("status --porcelain", project))
+    py_changed = sorted({c.strip() for c in changed if c.strip() and c.strip().endswith(".py")})
+    if not py_changed:
+        return PASS, "no Python files changed relative to {}".format(base)
+
+    mods, imports = br.build(project)
+    edges = sum(len(v) for v in imports.values())
+    lines = ["graph: {} modules, {} import edges".format(len(mods), edges)]
+    wide = []
+    for f in py_changed:
+        abspath = os.path.join(os.path.abspath(project), f)
+        if not os.path.isfile(abspath):
+            continue
+        mod = br.module_name(os.path.abspath(project), abspath)
+        if mod not in mods:
+            continue
+        radius = br.reverse_deps(imports, mod)
+        lines.append("  {} -> {} transitive importer(s)".format(f, len(radius)))
+        if len(radius) >= 3:
+            wide.append((f, len(radius)))
+    if wide:
+        lines.append("WIDE blast radius (>=3 importers): {}".format(
+            ", ".join("{} ({})".format(f, n) for f, n in wide)))
+    return PASS, "\n".join(lines)
+
+
+def rules_enforcement(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    """Run mechanical enforcement predicates declared in rule frontmatter."""
+    import io
+    from contextlib import redirect_stdout
+
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "audit"))
+    import rules_enforce
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        code = rules_enforce.run_check(project)
+    evidence = buf.getvalue().strip()
+    if code == 2:
+        return CANNOT_MEASURE, evidence or "rules directory not found"
+    if code == 1:
+        return FAIL, evidence
+    return PASS, evidence
+
+
+
+def lane_enforcement(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    """Verify the latest claims row names this repo's lane."""
+    import io
+    from contextlib import redirect_stdout
+
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "audit"))
+    import lane_check
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        code = lane_check.run_check(project)
+    evidence = buf.getvalue().strip()
+    if code == 2:
+        return CANNOT_MEASURE, evidence or "claims ledger not found"
+    if code == 1:
+        return FAIL, evidence
+    return PASS, evidence
+
+
+def todo_inbox(project: str, contract: dict, spec: dict) -> tuple[str, str]:
+    """Verify TODO.md prompt-inbox block matches the intent store."""
+    import importlib
+    import io
+    from contextlib import redirect_stdout
+
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "intent"))
+    rt = importlib.import_module("render_todo")
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        code = rt.main(["check", "--project", project])
+    evidence = buf.getvalue().strip()
+    if code == 2:
+        return CANNOT_MEASURE, evidence or "intent store not found"
+    if code == 1:
+        return FAIL, evidence
+    return PASS, evidence
+
+
 BUILTINS = {
     "secret_scan": secret_scan,
     "docs_touched": docs_touched,
     "ci_runs_gate": ci_runs_gate,
     "dir_map": dir_map,
     "prior_art": prior_art,
+    "spec_linked": spec_linked,
+    "blast_radius": blast_radius,
+    "rules_enforcement": rules_enforcement,
+    "lane_enforcement": lane_enforcement,
+    "todo_inbox": todo_inbox,
 }
 
 
@@ -920,10 +1059,12 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
             return out
         out["status"] = WAIVED
         out["evidence"] = "waived until {}: {}".format(until, reason)
-        if waiver.get("confirm"):
-            st, ev, confirmed = confirm_waiver(project, spec, waiver["confirm"], verbose)
+        if waiver.get("command") or waiver.get("confirm"):
+            st, ev, confirmed = confirm_waiver(
+                project, spec, waiver.get("confirm"),
+                verbose, waiver_cmd=waiver.get("command"))
             out["status"] = st
-            out["cmd"] = spec.get("cmd")
+            out["cmd"] = waiver.get("command") or spec.get("cmd")
             out["evidence"] += "\n" + ev
             out["confirmed"] = confirmed
         return out
@@ -1026,63 +1167,35 @@ def eval_domain(name: str, spec: dict, project: str, contract: dict,
     return out
 
 
-def confirm_waiver(project: str, spec: dict, confirm: str,
-                   verbose: bool = False) -> tuple[str, str, str]:
-    """Run a waived domain's own command and check the waiver still describes it.
+def confirm_waiver(project: str, spec: dict, confirm: str | None,
+                   verbose: bool = False, *,
+                   waiver_cmd: str | None = None) -> tuple[str, str, str]:
+    """Run a command and check the waiver still describes the domain.
 
-    A waiver is a claim about a measurement: 51 items, 3 failing tests, one
-    unported check. The measurement moves and the claim does not, so a waiver
-    that was honest when written turns into a disabled check somewhere between
-    the day it was written and the day it expires. `until` only catches the
-    second of those.
+    Two modes, selected by what the waiver carries:
 
-    Measured here, 2026-08-07. The `skills` waiver ends with its own confirmation
-    step in prose: "CONFIRM BY RUNNING: python tools/audit/skills_sync.py check
-    -- expect 'DRIFT: 51'. If it prints a different number this waiver is stale."
-    A gate run that day printed that sentence verbatim as the domain's evidence,
-    reported WAIVED, and returned VERDICT: PASS. The checker, run by hand ninety
-    seconds later, printed DRIFT: 29 and exited 1. So the gate recited a
-    falsifier, did not run it, and went green. Nothing in the run was false; the
-    output simply asserted more than the run had measured, which is the class the
-    whole contract exists to catch.
+    1. `confirm` only (original mode). The domain's own `cmd` runs; the exit
+       code is ignored (a waived domain is expected to fail); the gate checks
+       whether `confirm` appears in the output. A match means the waiver still
+       describes the measurement; absence means the waiver is stale.
 
-    The fix is not to un-waive the domain. It is that a waiver may carry a
-    `confirm` string, and the gate runs the domain's command anyway and looks for
-    it. A stale waiver then fails exactly like an expired one, and for the same
-    reason: what is left is a check nobody runs and a justification that no
-    longer describes it.
+    2. `command` (waiver-falsifier). The waiver names its own command, a
+       dedicated falsifier the waiver author wrote to verify its claim. Exit 0
+       means the claim holds; nonzero means the claim is stale. If `confirm`
+       is also present, the string is checked in the falsifier's output; if
+       absent, exit code alone decides. This follows the same pattern as
+       refute.py: a claim that cannot name a command that would kill it is not
+       a claim.
 
-    Pass or fail is not read from the exit code. A waived domain's command is
-    expected to be non-zero, since that is usually why it was waived; what is
-    being tested is whether the waiver's own description of the failure still
-    holds. Exit code CANNOT_MEASURE is the one exception, and it is a different
-    question: measurable or not, rather than pass or fail.
-
-    That exception exists because the first version of this function did not have
-    it and shipped a host-shaped check, the class already on the ledger as
-    L-2026-07-31-g. `skills_sync.py check` compares the repo tree against the live
-    `~/.claude/skills`, which does not exist on a CI runner, so it printed
-    "cannot run: no live skills tree" and exited 2. The confirm string was absent
-    from that output for a reason that has nothing to do with the waiver, and the
-    gate called the waiver STALE and failed the branch on 2026-08-07. The same
-    commit had passed locally an hour earlier, where the live tree is real.
-
-    The signal is the exit code rather than a marker string in the output, because
-    a marker matched by substring is an oracle validated by existence rather than
-    content (L-2026-08-05-a): reword the tool's message and unmeasurable silently
-    becomes stale, or write the marker too loosely and real drift becomes a skip.
-    Exit 2 is the convention its sibling checks already keep, and a tool's own
-    selftest can pin it. What this cannot do is tell a genuinely unmeasurable host
-    from a check that has quietly stopped being able to measure anywhere, so the
-    unconfirmed state is printed on the domain and recorded on the run, never
-    folded into an ordinary WAIVED.
+    Both modes respect exit CANNOT_MEASURE identically.
     """
-    cmd = spec.get("cmd")
+    cmd = waiver_cmd or spec.get("cmd")
     if not cmd:
-        return FAIL, ("the waiver carries a confirm string and the domain names no command "
-                      "that could produce it, so the confirmation can never run"), "no-cmd"
+        return FAIL, ("the waiver carries a confirm/command field and the domain names no "
+                      "command that could produce it, so the confirmation can never run"), "no-cmd"
+    label = "falsifier" if waiver_cmd else "confirming the waiver"
     if verbose:
-        print("    $ " + cmd + "   (confirming the waiver)", file=sys.stderr)
+        print("    $ " + cmd + "   ({})".format(label), file=sys.stderr)
     rc, output = run(cmd, project, timeout=spec.get("timeout", 900))
     tail = "\n".join([l for l in output.splitlines() if l.strip()][-8:])
     if rc == CANNOT_MEASURE:
@@ -1091,11 +1204,16 @@ def confirm_waiver(project: str, spec: dict, confirm: str,
                         "waiver is still live, and this run asserts strictly less about it "
                         "than a run where the confirmation completed.\n{}".format(
                             cmd, CANNOT_MEASURE, indent(tail))), "unmeasurable"
-    if confirm in output:
-        return WAIVED, "waiver confirmed: `{}` still reports {}".format(cmd, confirm), "yes"
-    return FAIL, ("waiver STALE: `{}` no longer reports {}, so the waiver describes a "
-                  "measurement that has moved. Restate it with the current numbers or "
-                  "clear it.\n{}".format(cmd, confirm, indent(tail))), "stale"
+    if confirm is not None:
+        if confirm in output:
+            return WAIVED, "waiver confirmed: `{}` still reports {}".format(cmd, confirm), "yes"
+        return FAIL, ("waiver STALE: `{}` no longer reports {}, so the waiver describes a "
+                      "measurement that has moved. Restate it with the current numbers or "
+                      "clear it.\n{}".format(cmd, confirm, indent(tail))), "stale"
+    if rc == 0:
+        return WAIVED, "waiver falsifier passed: `{}`\n{}".format(cmd, indent(tail)), "yes"
+    return FAIL, ("waiver STALE: falsifier `{}` exited {}, so the waiver's claim no longer "
+                  "holds.\n{}".format(cmd, rc, indent(tail))), "stale"
 
 
 def indent(text: str, pad: str = "    ") -> str:
@@ -1103,6 +1221,11 @@ def indent(text: str, pad: str = "    ") -> str:
 
 
 def cmd_run(args: argparse.Namespace) -> int:
+    with run_context() as rid:
+        return _cmd_run_inner(args, rid)
+
+
+def _cmd_run_inner(args: argparse.Namespace, run_id: str) -> int:
     started = time.monotonic()
     project = os.path.abspath(args.project)
     contract = load_contract(project)
@@ -1146,7 +1269,8 @@ def cmd_run(args: argparse.Namespace) -> int:
         if args.verbose:
             print("  [{}]".format(name), file=sys.stderr)
         domain_started = time.monotonic()
-        result = eval_domain(name, declared.get(name), project, contract, args.verbose)
+        with trace_span(f"domain:{name}"):
+            result = eval_domain(name, declared.get(name), project, contract, args.verbose)
         result["seconds"] = round(time.monotonic() - domain_started, 1)
         results.append(result)
 
@@ -1185,6 +1309,7 @@ def cmd_run(args: argparse.Namespace) -> int:
 
     record = {
         "ts": datetime.datetime.now().isoformat(timespec="seconds"),
+        "run_id": run_id,
         "project": os.path.basename(project), "project_path": project,
         "commit": sha, "dirty": dirty, "fingerprint": fp,
         "partial": bool(args.domain),
@@ -1456,6 +1581,64 @@ def cmd_selftest(args: argparse.Namespace) -> int:
                                "waived": {"reason": "selftest", "until": "2099-01-01",
                                           "confirm": "DRIFT: 29"}}
 
+        # 3d. waiver-falsifier: a waiver can name its own command (not the
+        # domain's cmd). Exit 0 = claim holds, nonzero = stale.
+        for d in DOMAINS:
+            c["domains"][d] = {"required": True,
+                               "waived": {"reason": "selftest", "until": "2099-01-01"}}
+        c["domains"]["e2e"] = {
+            "required": True,
+            "waived": {"reason": "selftest", "until": "2099-01-01",
+                       "command": "echo verified; exit 0"}}
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 0
+        print("\n[{}] a waiver falsifier that exits 0 passes, got {}".format(
+            "ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+
+        c["domains"]["e2e"]["waived"]["command"] = "echo refuted; exit 1"
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 1
+        print("\n[{}] a waiver falsifier that exits nonzero fails (stale), got {}".format(
+            "ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+
+        # waiver.command + waiver.confirm: string checked in falsifier output
+        c["domains"]["e2e"]["waived"]["command"] = "echo DRIFT: 29; exit 0"
+        c["domains"]["e2e"]["waived"]["confirm"] = "DRIFT: 29"
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 0
+        print("\n[{}] falsifier + confirm: string present in falsifier output passes, got {}"
+              .format("ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+
+        c["domains"]["e2e"]["waived"]["confirm"] = "DRIFT: 51"
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 1
+        print("\n[{}] falsifier + confirm: string absent from falsifier output is stale, got {}"
+              .format("ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+
+        # waiver.command with CANNOT_MEASURE exit
+        c["domains"]["e2e"]["waived"] = {
+            "reason": "selftest", "until": "2099-01-01",
+            "command": "echo cannot run: no env; exit 2"}
+        json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
+        got = cmd_run(argparse.Namespace(project=td, domain=None, verbose=False, json=None))
+        ok = got == 0
+        print("\n[{}] falsifier exiting CANNOT_MEASURE is unconfirmed, not stale, got {}"
+              .format("ok  " if ok else "FAIL", got))
+        rc |= 0 if ok else 1
+
+        # restore for next section
+        c["domains"]["e2e"] = {"required": True, "cmd": "echo DRIFT: 29; exit 1",
+                               "waived": {"reason": "selftest", "until": "2099-01-01",
+                                          "confirm": "DRIFT: 29"}}
+
         # 4. a domain deleted from the contract is UNCOVERED, not absent
         del c["domains"]["e2e"]
         json.dump(c, open(os.path.join(td, CONTRACT_NAME), "w"), indent=2)
@@ -1685,6 +1868,60 @@ def cmd_selftest(args: argparse.Namespace) -> int:
             print("      status={} evidence={} porcelain={}".format(
                 st, ev.replace("\n", " | ")[:300],
                 git("status --porcelain", td3).replace("\n", " | ")))
+        rc |= 0 if ok else 1
+
+    # 11. spec_linked: non-trivial source changes require a docs/specs/ entry.
+    with tempfile.TemporaryDirectory() as td4:
+        run("git init -q .", td4)
+        os.makedirs(os.path.join(td4, "docs", "specs"), exist_ok=True)
+        open(os.path.join(td4, "a.py"), "w").write("x = 1\n")
+        run("git add -A", td4)
+        run("git -c user.email=t@t -c user.name=t commit -q -m base", td4)
+
+        spec4 = {"threshold": 2, "specs_dir": "docs/specs/", "base": "HEAD"}
+
+        # Under threshold: 2 source files, threshold 2 -> PASS
+        for n in ("a.py", "b.py"):
+            open(os.path.join(td4, n), "w").write("x = 2\n")
+        st, ev = spec_linked(td4, {}, spec4)
+        ok = st == PASS and "under the spec threshold" in ev
+        print("\n[{}] spec_linked: under-threshold change passes".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+        # Over threshold, no spec: 3 source files, threshold 2 -> FAIL
+        open(os.path.join(td4, "c.py"), "w").write("x = 1\n")
+        st, ev = spec_linked(td4, {}, spec4)
+        ok = st == FAIL and "no spec" in ev
+        print("\n[{}] spec_linked: over-threshold with no spec fails".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+        # Over threshold with spec touched -> PASS
+        open(os.path.join(td4, "docs", "specs", "my-feature.md"), "w").write(
+            "---\nStatus: active\n---\n# My Feature\n")
+        run("git add docs/specs/my-feature.md", td4)
+        st, ev = spec_linked(td4, {}, spec4)
+        ok = st == PASS and "spec(s) touched" in ev
+        print("\n[{}] spec_linked: over-threshold with spec touched passes".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
+        rc |= 0 if ok else 1
+
+        # No changes at all -> PASS
+        run("git add -A", td4)
+        run("git -c user.email=t@t -c user.name=t commit -q -m done", td4)
+        st, ev = spec_linked(td4, {}, spec4)
+        ok = st == PASS and "no changes" in ev
+        print("\n[{}] spec_linked: no changes passes".format(
+            "ok  " if ok else "MISS"))
+        if not ok:
+            print("      status={} evidence={}".format(st, ev.replace("\n", " | ")[:300]))
         rc |= 0 if ok else 1
 
     # expired() decides whether a waiver is still live, and the docstring calls a

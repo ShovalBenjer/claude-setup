@@ -11,7 +11,10 @@ Usage:
   web_to_memory.py --name <slug> --desc <one-line> --source <url> [--stamp <ISO>] < body.txt
 Writes: <auto-memory>/reference_<slug>.md  and appends a pointer to MEMORY.md
 """
-import argparse, sys, pathlib, os
+import argparse
+import os
+import pathlib
+import sys
 
 MEM = pathlib.Path(os.environ.get("CLAUDE_MEMORY_DIR",
       pathlib.Path.home() / ".claude" / "projects" / "C--Users-shova" / "memory"))

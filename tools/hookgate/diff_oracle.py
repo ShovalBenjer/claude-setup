@@ -39,6 +39,7 @@ _CANDIDATES = [
     S / "target" / "x86_64-unknown-linux-gnu" / "release" / "hookgate",
 ]
 import os as _os
+
 _env = _os.environ.get("HOOKGATE_BIN")
 RUST = Path(_env) if _env else next((c for c in _CANDIDATES if c.exists()), _CANDIDATES[0])
 CORPUS = S / "corpus.txt"

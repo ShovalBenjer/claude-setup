@@ -118,6 +118,20 @@ MUTATIONS = [
      '    if rc == CANNOT_MEASURE and "cannot run" in output:',
      '    if rc != 0:'),
 
+    # ---- spec_linked, added 2026-08-30 -----------------------------------
+    ("spec_linked passes when over threshold with no spec",
+     "removes the enforcement half: any change passes regardless of whether a "
+     "spec was written, which is the 'spec culture exists, enforcement does not' "
+     "gap this domain exists to close",
+     '    return FAIL, ("{} source file(s) changed but no spec in {} was created or updated. "',
+     '    return PASS, ("{} source file(s) changed but no spec in {} was created or updated. "'),
+
+    ("spec_linked threshold comparison is inverted",
+     "flipping the comparison makes large changes pass and small ones fail, "
+     "the inverse of the design: trivial fixes get blocked while features sail through",
+     '    if len(code) <= threshold:',
+     '    if len(code) > threshold:'),
+
     ("an unconfirmed waiver is recorded as an ordinary one",
      "the ledger stops distinguishing a PASS that confirmed its waivers from one "
      "that could not, so the run record claims more than the run measured",

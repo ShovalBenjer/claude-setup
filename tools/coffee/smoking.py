@@ -14,9 +14,17 @@ Commands: scan, gripe, takeaway, mine, selftest.
 import argparse
 import fcntl
 import json
+import os
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "lib"))
+try:
+    from tracing import inject as trace_inject  # noqa: E402
+except ImportError:
+    def trace_inject(row):
+        return row
 
 COFFEE = Path("state/coffee.jsonl")
 GATE_RUNS = Path("state/gate-runs.jsonl")
@@ -37,6 +45,7 @@ def read_rows(path: Path) -> list[dict]:
 
 
 def append_row(path: Path, row: dict) -> None:
+    trace_inject(row)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a") as f:
         fcntl.flock(f, fcntl.LOCK_EX)

@@ -148,7 +148,7 @@ def doc_groups(project: Path) -> list[dict]:
             "copies": len(paths),
             "proposed_survivor": ordered[0][0],
             "proposed_removals": [p for p, _ in ordered[1:]],
-            "last_touch": {p: d for p, d in dated},
+            "last_touch": dict(dated),
             "rule": "prefer docs/, then shallowest path, then alphabetical",
         })
     return sorted(rows, key=lambda r: -r["copies"])

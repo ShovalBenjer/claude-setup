@@ -42,7 +42,8 @@ import json
 import re
 import subprocess
 import sys
-from dataclasses import dataclass, replace as dc_replace
+from dataclasses import dataclass
+from dataclasses import replace as dc_replace
 from pathlib import Path
 
 MAP_PATH = "docs/DOCMAP.md"
@@ -166,7 +167,7 @@ VENDORED = (
 def classify(path: str) -> str:
     if any(v in path for v in VENDORED):
         return "vendored"
-    if path.startswith("docs/HANDOFF") or path.startswith("docs/archive/HANDOFF"):
+    if path.startswith(("docs/HANDOFF", "docs/archive/HANDOFF")):
         return "handoff"
     # docs/archive/ holds what used to sit at the docs/ root: handoffs, pasted model
     # transcripts, one-off notes. Moved there 2026-08-23 when the root held 43 files and
@@ -188,7 +189,7 @@ def classify(path: str) -> str:
         return "rule"
     # Corpus material. It has no lifecycle status and, per the shrinkage analysis, it should not
     # live in this repo at all. Classing it honestly is a prerequisite for moving it.
-    if path.startswith("research-papers/") or path.startswith("master-plans/"):
+    if path.startswith(("research-papers/", "master-plans/")):
         return "corpus"
     # Automation RUN OUTPUT. 154 of these are tracked, dated May to July 2026, one per cron
     # firing, with a single sweep accounting for about 45. They are logs. A log does not have a

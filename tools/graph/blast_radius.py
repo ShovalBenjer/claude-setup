@@ -8,7 +8,11 @@ Usage:
   blast_radius.py <repo_dir>                 # print graph summary
   blast_radius.py <repo_dir> --changed a.py  # print blast radius of a.py
 """
-import ast, os, sys, argparse, pathlib
+import argparse
+import ast
+import os
+import pathlib
+import sys
 from collections import defaultdict
 
 
@@ -23,13 +27,17 @@ def build(root):
              if ".venv" not in str(p) and "__pycache__" not in str(p) and "node_modules" not in str(p)]
     mods = {module_name(root, f): f for f in files}
     local_tops = {m.split(".")[0] for m in mods}
-    # edges: module -> set(local modules it imports)
+    # basename -> list of full module names (for sys.path.insert style imports)
+    by_basename = defaultdict(list)
+    for m in mods:
+        by_basename[m.rsplit(".", 1)[-1]].append(m)
     imports = defaultdict(set)
     for m, f in mods.items():
         try:
             tree = ast.parse(pathlib.Path(f).read_text(encoding="utf-8", errors="replace"))
         except Exception:
             continue
+        m_dir = os.path.dirname(f)
         for node in ast.walk(tree):
             names = []
             if isinstance(node, ast.Import):
@@ -37,12 +45,24 @@ def build(root):
             elif isinstance(node, ast.ImportFrom) and node.module:
                 names = [node.module]
             for n in names:
-                if n.split(".")[0] in local_tops:
-                    # match to the closest known local module
+                matched = None
+                base = n.split(".")[0]
+                if base in local_tops:
                     for cand in mods:
-                        if cand == n or cand.endswith("." + n) or cand.split(".")[-1] == n.split(".")[-1]:
-                            imports[m].add(cand)
+                        if cand == n or cand.endswith("." + n):
+                            matched = cand
                             break
+                if not matched and n in by_basename:
+                    candidates = by_basename[n]
+                    # prefer sibling (same directory) over distant match
+                    for cand in candidates:
+                        if os.path.dirname(mods[cand]) == m_dir:
+                            matched = cand
+                            break
+                    if not matched:
+                        matched = candidates[0]
+                if matched and matched != m:
+                    imports[m].add(matched)
     return mods, imports
 
 
@@ -61,11 +81,47 @@ def reverse_deps(imports, target_mod):
     return seen
 
 
+def selftest():
+    import tempfile
+    rc = 0
+    with tempfile.TemporaryDirectory() as td:
+        pathlib.Path(td, "lib.py").write_text("X = 1\n")
+        pathlib.Path(td, "core.py").write_text("import lib\n")
+        pathlib.Path(td, "app.py").write_text("import core\n")
+        mods, imports = build(td)
+        ok = len(mods) == 3 and sum(len(v) for v in imports.values()) == 2
+        print("[{}] 3-module chain has 2 edges".format("ok  " if ok else "FAIL"))
+        rc |= 0 if ok else 1
+        radius = reverse_deps(imports, "lib")
+        ok = radius == {"core", "app"}
+        print("[{}] blast radius of lib is core + app, got {}".format(
+            "ok  " if ok else "FAIL", radius))
+        rc |= 0 if ok else 1
+        radius = reverse_deps(imports, "app")
+        ok = len(radius) == 0
+        print("[{}] blast radius of leaf (app) is empty".format("ok  " if ok else "FAIL"))
+        rc |= 0 if ok else 1
+        pathlib.Path(td, "sub").mkdir()
+        pathlib.Path(td, "sub", "deep.py").write_text("import lib\n")
+        mods, imports = build(td)
+        ok = "sub.deep" in mods and "lib" in imports.get("sub.deep", set())
+        print("[{}] subdirectory import resolves by basename".format("ok  " if ok else "FAIL"))
+        rc |= 0 if ok else 1
+    print("VERDICT: {}".format("blast_radius selftest passed" if rc == 0 else "FAILURES above"))
+    return rc
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("repo")
+    ap.add_argument("repo", nargs="?")
     ap.add_argument("--changed")
+    ap.add_argument("command", nargs="?")
     a = ap.parse_args()
+    if a.command == "selftest" or (a.repo == "selftest"):
+        sys.exit(selftest())
+    if not a.repo:
+        ap.print_help()
+        sys.exit(2)
     mods, imports = build(a.repo)
     edges = sum(len(v) for v in imports.values())
     print(f"modules: {len(mods)} | import edges: {edges}")

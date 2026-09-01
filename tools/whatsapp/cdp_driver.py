@@ -7,7 +7,13 @@ Usage:
   uv run --with websocket-client python cdp_driver.py text              # visible innerText of body
   uv run --with websocket-client python cdp_driver.py eval "<js>"       # evaluate JS, print result
 """
-import base64, json, os, sys, time, urllib.request
+import base64
+import json
+import os
+import sys
+import time
+import urllib.request
+
 import websocket  # websocket-client
 
 PORT = int(os.environ.get("CDP_PORT", "9224"))

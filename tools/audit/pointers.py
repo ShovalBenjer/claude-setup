@@ -186,8 +186,7 @@ def walk(root: str) -> list[str]:
     out = []
     for base, dirs, files in os.walk(root):
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
-        for name in files:
-            out.append(os.path.join(base, name))
+        out.extend(os.path.join(base, name) for name in files)
     return out
 
 
@@ -208,9 +207,7 @@ def hook_paths(settings: dict) -> list[tuple[str, str]]:
                 cmd = hook.get("command")
                 if isinstance(cmd, str):
                     cands.append(cmd)
-                for a in hook.get("args") or []:
-                    if isinstance(a, str):
-                        cands.append(a)
+                cands.extend(a for a in (hook.get("args") or []) if isinstance(a, str))
                 for c in cands:
                     if not re.search(r"[/\\]", c):
                         continue          # bare interpreter name, resolved on PATH
