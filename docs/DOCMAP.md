@@ -628,7 +628,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/gastown-company-registry.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/hive-mind-workflows.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/latent-vector-workflows.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/rules/no-emojis.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/no-mocks.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/numerical-stack.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/project-template/jira-comment-drafting.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -668,6 +667,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/output-channel-routing.md` | 2026-08-17 | definition-see-skills_sync | class | 2 | - | - | - |
 | `dot-claude/rules/dynamic-verification-trigger.md` | 2026-08-18 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/project-template/foundry-deployment-per-project.md` | 2026-08-18 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/no-emojis.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
 ## skill (230)
 
