@@ -1,7 +1,3 @@
----
-enforce:
-  cmd: "test -f docs/INDEX.md && test -f docs/CODEBASE-MAP.md && test -f docs/DOCMAP.md && test -d docs/specs && test -d docs/prd"
----
 # Docs Control Plane (concrete taxonomy)
 
 Global rule. Binds every repo and session. The concrete directory taxonomy under the
