@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1236**
-- reachable from `docs/INDEX.md`: **232** (18%)
+- documents: **1295**
+- reachable from `docs/INDEX.md`: **270** (20%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -628,7 +628,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/gastown-company-registry.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/hive-mind-workflows.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/latent-vector-workflows.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/rules/no-emojis.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/no-mocks.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/numerical-stack.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/project-template/jira-comment-drafting.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -654,7 +653,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-codex/rules/tdd-enforcement.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/pii-handling.md` | 2026-06-10 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/production-means-merged-and-smoked.md` | 2026-06-29 | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/rules/project-template/foundry-deployment-per-project.md` | 2026-07-01 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/read-whole-before-reasoning.md` | 2026-07-08 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/calibrated-claims.md` | 2026-07-24 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/model-selection.md` | 2026-07-29 | definition-see-skills_sync | class | n/a | - | - | - |
@@ -668,6 +666,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/rules/project-template/README.md` | 2026-08-12 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/rules/output-channel-routing.md` | 2026-08-17 | definition-see-skills_sync | class | 2 | - | - | - |
 | `dot-claude/rules/dynamic-verification-trigger.md` | 2026-08-18 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/project-template/foundry-deployment-per-project.md` | 2026-08-18 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/rules/no-emojis.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
 ## skill (230)
 
@@ -757,6 +757,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-agents/skills/write-a-skill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-agents/skills/zoom-out/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/agent-builder/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/azure-activity-watch/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/azure-runtime/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/blog/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/blonde-designer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/books-ingest/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -769,7 +771,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/context-bounded-analyst/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/coverage-enforcer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/decision-grade/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/skills/dispatch/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/domain-model/ADR-FORMAT.md` | - | definition-see-skills_sync | class | n/a | - | - | ADR-NNNN |
 | `dot-claude/skills/domain-model/CONTEXT-FORMAT.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/domain-model/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -821,6 +822,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/request-refactor-plan/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/requirement-anchor/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/review/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/review/sota-principles-reference.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/ship-gate/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/shoval-voice-draft/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/skillmap/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -836,7 +838,6 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/wayfinder/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/web-inspect/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/whatsapp-query/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/skills/workspace-brain/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/write-a-skill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/writing-great-skills/GLOSSARY.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/youtube-distill/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
@@ -877,15 +878,12 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `state/retired-2026-07-25/skills/visual-explainer/SKILL.md` | - | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/red-team-review/EXAMPLE_SESSION.md` | 2024-02-14 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/red-team-review/EXAMPLE_SESSION.md` | 2024-02-14 | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/skills/azure-runtime/SKILL.md` | 2025-04-01 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/azure-devops/PERMISSIONS.md` | 2026-02-16 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-codex/skills/azure-devops/README.md` | 2026-02-16 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-agents/skills/heidegger-reflect/SKILL.md` | 2026-02-19 | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/skills/heidegger-reflect/SKILL.md` | 2026-02-19 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/advisor/SKILL.md` | 2026-04-09 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-agents/skills/azure-activity-watch/SKILL.md` | 2026-05-03 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-agents/skills/azure-audit/SKILL.md` | 2026-05-03 | definition-see-skills_sync | class | n/a | - | - | - |
-| `dot-claude/skills/azure-activity-watch/SKILL.md` | 2026-05-03 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/azure-audit/SKILL.md` | 2026-05-03 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-agents/skills/LTMD/SKILL.md` | 2026-05-27 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/LTMD/SKILL.md` | 2026-05-27 | definition-see-skills_sync | class | n/a | - | - | - |
@@ -899,12 +897,14 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/to-questionnaire/SKILL.md` | 2026-08-12 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/meme-gen/SKILL.md` | 2026-08-17 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/review-pr-ado/SKILL.md` | 2026-08-18 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/heidegger-reflect/SKILL.md` | 2026-08-19 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/books-index/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/resolving-merge-conflicts/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wizard/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
+| `dot-claude/skills/prompt-eval/SKILL.md` | 2026-08-24 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (190)
+## spec (249)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -998,12 +998,15 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-31-corpus-artifact-version-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-artifact-version-conflicts.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-audit.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-chunk-connectivity-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-chunk-evolution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-chunk-kind-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-chunk-position-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-chunk-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-chunk-similarity-clusters.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-citation-age.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-citation-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-citation-edge-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-citation-graph.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-citation-locator-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-citation-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
@@ -1020,62 +1023,118 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-31-corpus-domain-balance.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-domain-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-domain-edge-depth.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-domain-edge-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-domain-score-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-domain-tag-affinity.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-edge-basis-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-bridge-analysis.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-edge-chain-analysis.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-edge-citation-quality.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-confidence-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-edge-confidence.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-cycle-detection.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-edge-density.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-edge-detection-timeline.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-edge-reachability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-reciprocity-analysis.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-edge-resolution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-source-temporal-lag.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-edge-text-correlation.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-edge-type-transition.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-enrichment-lag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-evidence-chain-audit.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-evidence-coverage.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-freshness-scorer.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-fts-citation-reachability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-fts-edge-reachability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-citation-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-heading-depth-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-heading-domain-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-heading-edge-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-edge-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-heading-kind-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-license-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-liveness-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-publisher-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-simhash-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-heading-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-heading-tag-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-health-scorecard.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-ingestion-regression.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-kind-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-kind-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-kind-edge-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-kind-liveness-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-kind-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-kind-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-language-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-license-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-license-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-license-edge-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-license-edge-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-license-kind-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-license-liveness-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-license-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-license-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-liveness-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-liveness-cross-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-liveness-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-liveness-edge-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-liveness-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-liveness-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-publisher-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-publisher-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-publisher-edge-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-kind-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-publisher-license-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-license-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-liveness-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-publisher-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-query-coverage.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-readability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-recommend.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-simhash-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-simhash-edge-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-kind-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-license-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-liveness-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-publisher-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-similarity-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-argumentation-balance.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-source-chain.md` | 2026-08-31 | done | header | n/a | yes | column, but no tool traced these into ch | - |
 | `docs/specs/2026-08-31-corpus-source-citation-net.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-composite-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-edge-stance.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-source-enrichment-completeness.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-impact.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-lifecycle.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-overlap-analysis.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-source-overlap.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-provenance.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-source-size-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-edge-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-status-enrichment-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-status-reason-trends.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-supersession-analysis.md` | 2026-08-31 | done | header | n/a | yes | column had only chain-walking queries | anything |
 | `docs/specs/2026-08-31-corpus-supersession-edge-orphans.md` | 2026-08-31 | done | header | n/a | yes | column | - |
 | `docs/specs/2026-08-31-corpus-tag-citation-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-tag-citation-yield.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-tag-cooccurrence.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-domain-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-domain-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-tag-edge-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-edge-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
 | `docs/specs/2026-08-31-corpus-tag-entropy.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-tag-landscape.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 | `docs/specs/2026-08-31-corpus-tag-score-trends.md` | 2026-08-31 | done | header | n/a | yes | - | - |

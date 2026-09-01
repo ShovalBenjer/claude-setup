@@ -1,10 +1,19 @@
 # Foundry Deployment-Per-Project Rule
 
-Global rule. Applies to every project and session. Governs how Azure AI Foundry /
-Azure OpenAI model deployments map to projects, so that cost is attributable and any
-one project can be throttled, paused, or retired without collateral. Companion to
-`repo-topology.md` (one repo per deployable) and `gastown-company-registry.md`
-(ownership). Foundry account of record: `brn-azai` (project `seekapa_ai`).
+STATUS 2026-08-18: SUPERSEDED. The account this whole file was written around,
+`brn-azai` (project `seekapa_ai`), is confirmed stale and out of use, and the
+operator has directed it deleted from memory, unwired, and removed from Azure.
+Every example below (the migration table, the specific deployment names) describes
+that dead account, not a generic case. Do not follow this file's specifics. The
+PRINCIPLE below (one project owns its own named deployment) still applies the day a
+new Foundry account is provisioned; re-derive the concrete names against whatever
+account is live then, do not reuse anything named here.
+
+Global rule, principle only. Applies to every project and session once a live
+Foundry account exists again. Governs how Azure AI Foundry / Azure OpenAI model
+deployments map to projects, so that cost is attributable and any one project can be
+throttled, paused, or retired without collateral. Companion to `repo-topology.md`
+(one repo per deployable) and `gastown-company-registry.md` (ownership).
 
 ## Principle: one project owns its own named deployment(s)
 
@@ -67,12 +76,8 @@ project's cost, and delete or zero-scale it to retire the project, with zero bla
 - [ ] Stale deployments (no tokens in 90 days) are deleted, not left as ambiguous shared
       surface. Deletion still needs explicit per-action approval.
 
-## Migration for the current violation
+## Migration for the current violation (VOID, dead account)
 
-`gpt-5.4-SIU` is shared and must be split. Give each live caller its own deployment of
-the same model and repoint the hardcoded `DEPLOY = "gpt-5.4-SIU"` in each project's code:
-`gpt-5.4-video-vision` (video-understanding), `gpt-5.4-orm-vision` (ORM-AGENT), and, only
-if campaign scoring resumes, `gpt-5.4-campaign-scorer` (else leave campaign off the model
-entirely, since it is dormant). Once split, the dormant project's deployment can be
-removed without touching the live ones, and each project's Foundry cost reads off its own
-meter.
+This section described a split inside `brn-azai`. The account is gone, so nothing
+here is actionable; kept only so the reasoning pattern (per-caller deployments,
+scoped retirement) is available as a worked example for the next live account.

@@ -21,8 +21,8 @@ wrong stakeholder — so reviewers ask "how did you get this / what does it mean
 reads as noise. An anchor forces the question: *what is the real ask, in writing, before the
 first line of code or query runs?*
 
-Modeled on the CJA anchor at
-`projects/campaign-analysis/docs/CJA-REQUIREMENT-OF-RECORD.md`.
+Modeled on a prior requirement-of-record anchor at
+`<project>/docs/<PROJECT>-REQUIREMENT-OF-RECORD.md` from an earlier engagement.
 
 ## Protocol
 
@@ -107,8 +107,8 @@ Do not proceed to build any artifact until this gate is stated.
 
 If an anchor file path is known or writable (e.g., `docs/<project>-REQUIREMENT-OF-RECORD.md`),
 write the anchor there. Otherwise output it inline and note where it should be saved.
-Do NOT create the file at `$HOME` — the HOME-as-repo anomaly means any write there is
-potentially inside the axia-seekapa-cs-agents worktree.
+Do NOT create the file at `$HOME` — a HOME-as-repo anomaly (home directory doubling as a
+git worktree) means any write there could land inside an unrelated project's tree.
 
 ## Output rules
 

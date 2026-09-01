@@ -15,11 +15,23 @@ description: End-of-task self-reflection protocol combining test evidence, compl
 
 ## Protocol
 
-This skill executes the **full self-review protocol** defined in `docs/prompts/Heidegar_self_reflect_oded.md` (the prompt document -- DO NOT append to it).
+Corrected 2026-08-19: this section previously pointed at
+`docs/prompts/Heidegar_self_reflect_oded.md` as an external framework doc
+to read before reflecting, plus an archive fallback at
+`archive/cleanup-2026-02-19/docs-legacy/prompts/self_review.md`. Checked
+via full git history (`git log --all` and `git cat-file -e` against the
+initial commit): neither file has ever existed in this repo, at any
+point. This was not a regression; the skill was authored with a dangling
+reference from its first commit. A same-named `self_review.md` did once
+exist, but under an unrelated project path (`el-vadt/docs/prompts/`), not
+under this skill's tree, so even a literal-path fix would have pointed at
+the wrong content.
 
-The prompt document defines the framework. Read it before reflecting.
-
-For the deep introspective protocol (sections 1.2-1.4, 2.3, 3.1-3.3, 4.1-4.3), also reference `docs/prompts/self_review.md` if it exists, or the archived version at `archive/cleanup-2026-02-19/docs-legacy/prompts/self_review.md` (retrievable via `git show HEAD:...`).
+The protocol is fully self-contained in the Required Sections below.
+Nothing external needs to be read first. If a real external framework doc
+is later written and placed under this skill's own `docs/prompts/`
+directory, this section should point to it explicitly by relative path
+and the note above should be trimmed, not left as permanent history.
 
 ## Output Location
 
@@ -71,8 +83,26 @@ Ask user if they want a revised version integrating uncovered tensions.
 
 ## Key Rules
 
-- The prompt doc (`docs/prompts/Heidegar_self_reflect_oded.md`) is the FRAMEWORK. Never append reflections to it.
 - Each reflection is a separate file in `docs/reflections/`.
 - A reflection is NOT a status report. It requires genuine introspection on internal mechanisms.
-- Identify at least 3 concealed gaps (per project rule `.Codex/rules/heidegger_reflection.md`).
+- Identify at least 3 concealed gaps.
 - Cite specific files, line numbers, error counts.
+
+## Known duplication (not yet fully resolved)
+
+As of 2026-08-19, this skill's `SKILL.md` also exists, byte-identical
+after this fix, at `dot-agents/skills/heidegger-reflect/` in this repo,
+and is deployed live at `~/.claude/skills/heidegger-reflect/`. A third,
+differently-named single-file variant lives at
+`dot-codex/skills/heidegger-reflection.md` (124 lines, not diffed against
+this version, likely the Codex-side equivalent rather than a duplicate).
+A stray worktree checkout (`.wt-rules-sync`) also carries copies of the
+`dot-claude` and `dot-agents` versions; that tree was left untouched by
+this fix since it belongs to a separate worktree, not this one. Prior
+belief that "the skills and sub-dirs issue" had already been fixed does
+not match what was found: consolidating to one canonical location (this
+file, deployed to `~/.claude/skills/`) is still an open task, not done.
+`dot-agents/skills/heidegger-reflect/docs/reflections/` holds three real
+historical reflections (2026-06-02, 06-08, 06-11) that this location does
+not; if `dot-agents/` is retired in favor of this canonical copy, that
+history should move here first, not be discarded.

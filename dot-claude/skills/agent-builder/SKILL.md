@@ -1,6 +1,6 @@
 ---
 name: agent-builder
-description: Author and deploy AI agents on Microsoft + Azure platforms — Azure AI Foundry agent CRUD, Microsoft 365 Agents SDK (Teams + Copilot + standalone), and Copilot Studio export/import via pac CLI. Authoring time, not runtime. Triggers on "/agent-builder", "create foundry agent", "new m365 agent", "scaffold copilot agent", "deploy agent to teams", "create teams bot". SKIP for calling deployed agents (azure-runtime), evals (eval-runner), or OpenAI Assistants/AgentKit.
+description: Author and deploy AI agents on Microsoft + Azure platforms — Azure AI Foundry agent CRUD (azure-ai-projects SDK), Microsoft 365 Agents SDK projects (TS via bun, C# via dotnet — agents callable from Teams + Copilot + standalone), and Copilot Studio export/import via pac CLI. Authoring time, not runtime. Triggers on "/agent-builder", "create foundry agent", "new m365 agent", "scaffold copilot agent", "update agent instructions", "deploy agent to teams", "create teams bot", "version bump agent", "register tool with agent". SKIP when calling already-deployed agents (use azure-runtime), evaluating agents (use eval-runner), or working with OpenAI's platform.openai.com Assistants/AgentKit (no key, not supported here).
 model: opus
 allowed-tools: ["Bash", "Read", "Write", "Edit", "Grep", "Glob"]
 ---
@@ -17,7 +17,7 @@ allowed-tools: ["Bash", "Read", "Write", "Edit", "Grep", "Glob"]
 
 ### 1. Azure AI Foundry Agents
 
-Agents that run inside `brn-azai` Foundry projects. Used by Seekapa, ORM, Axia CS.
+Agents that run inside an Azure AI Foundry project.
 
 **Create:**
 ```bash
@@ -26,7 +26,7 @@ from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
 
 p = AIProjectClient(
-    endpoint="https://brn-azai.services.ai.azure.com/api/projects/seekapa_ai",
+    endpoint="https://<foundry-account>.services.ai.azure.com/api/projects/<project-name>",
     credential=DefaultAzureCredential(),
 )
 agent = p.agents.create_agent(
@@ -49,8 +49,8 @@ p.agents.update_agent(agent_id, instructions=new_text)
 **List / get / delete:**
 ```python
 p.agents.list_agents()
-p.agents.get_agent("ORM-FLAGGING-AGENT")          # latest
-p.agents.get_agent("ORM-FLAGGING-AGENT:7")        # pinned
+p.agents.get_agent("my-agent")          # latest
+p.agents.get_agent("my-agent:7")        # pinned
 p.agents.delete_agent(agent_id)                   # DESTRUCTIVE — explicit operator OK
 ```
 
@@ -71,7 +71,7 @@ bun add @microsoft/agents-extensions-ai
 
 Write `src/index.ts` extending `ActivityHandler`. Auth flows through Azure Bot Service — provision separately:
 ```bash
-az bot create --resource-group AZAI_group --name my-m365-agent-bot \
+az bot create --resource-group <resource-group> --name my-m365-agent-bot \
   --kind azurebot --sku F0 --app-type SingleTenant
 ```
 

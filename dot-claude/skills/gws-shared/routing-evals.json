@@ -1,8 +1,0 @@
-{
-  "cases": [
-    {"prompt": "what are the global flags for the gws cli", "expect": "trigger"},
-    {"prompt": "how does gws handle authentication and output formatting", "expect": "trigger"},
-    {"prompt": "show me the unread inbox summary", "expect": "skip", "_owner": "gws-gmail-triage"},
-    {"prompt": "write a resume bullet for the ledger work", "expect": "skip"}
-  ]
-}
