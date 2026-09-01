@@ -21,9 +21,10 @@ const PROJECT_PATH = ".";
 // meme module is enabled (whether its rail entry appears at all --
 // direction doc item 4, "fold its entry point into the left rail").
 // gate-runs/overview share one tone (both surface the same latest run);
-// prompt-tickets/agent-spawns get "unknown" because neither has a real
-// verdict-bearing reader yet (prompt-tickets: no reader at all;
-// agent-spawns: reader is a zero-field stub) -- rendering anything but
+// prompt-tickets/agent-spawns get "unknown" because neither has a
+// verdict of its own to derive a tone from: prompt-tickets still has no
+// reader at all, and agent-spawns' reader is real (2026-09-01) but a
+// spawn row carries no pass/fail signal -- rendering anything but
 // "unknown" there would be a fabricated status, not a derived one.
 function useRailEntries(project: string): RailEntry[] {
   const [tone, setTone] = useState<ReturnType<typeof verdictTone>>("unknown");
@@ -68,7 +69,7 @@ function useRailEntries(project: string): RailEntry[] {
     {
       view: "agent-spawns",
       label: "Spawns",
-      detail: "reader is a stub",
+      detail: "state/agent-spawns.jsonl",
       icon: RAIL_ICONS["agent-spawns"],
       tone: "unknown",
     },

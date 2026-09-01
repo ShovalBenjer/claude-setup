@@ -88,8 +88,21 @@ export interface LedgerReadReport<T> {
   first_error: string | null;
 }
 
-// Mirrors dashboard/core/src/ledger/stubs.rs AgentSpawn: a zero-field unit
-// struct. The reader always returns an empty report (honest stub, not
-// implemented in this ledger yet) -- the panel must say so, not fabricate
-// rows.
-export type AgentSpawnRow = Record<string, never>;
+// Mirrors dashboard/core/src/ledger/agent_spawns.rs AgentSpawn. Fields taken
+// from the real shape observed in state/agent-spawns.jsonl, 2026-09-01: see
+// that file's module doc for why model/isolation are plain strings (an
+// empty string is a real "no override" value, not an absent field).
+export interface AgentSpawnRow {
+  ts: string;
+  subagent_type: string;
+  description: string;
+  model: string;
+  background: boolean;
+  isolation: string;
+  prompt_chars: number;
+  session: string;
+  cwd: string;
+  router_named: string[];
+  router_skills: string[];
+  router_named_at: string;
+}
