@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-458 directories, 2032 tracked files, 0 without a stated purpose.
+458 directories, 2033 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -33,7 +33,7 @@ the same reason, one level down.
 | `dashboard` | 3 | DASH-1 session dashboard: a Tauri desktop app reading local ledgers (gate runs, meme events, module toggles) into a native window. Cargo workspace root (core + src-tauri) plus w... | registry |
 | `dashboard/core` | 1 | dashboard-core crate: pure ledger-reading and state logic shared by the Tauri backend, no UI. Modules: ledger (gate-run/stub readers), meme (event-list parsing), modules (module... | registry |
 | `dashboard/core/src` | 3 | Source for dashboard-core: lib.rs re-exports, ledger.rs/meme.rs/modules.rs implement the reader and toggle logic each with its own inline test module | registry |
-| `dashboard/core/src/ledger` | 3 | Ledger readers: gate_runs.rs parses state/gate-runs.jsonl into the latest verdict, stubs.rs are placeholder readers for ledgers not yet wired, mod.rs re-exports both | registry |
+| `dashboard/core/src/ledger` | 4 | Ledger readers: gate_runs.rs parses state/gate-runs.jsonl into the latest verdict, stubs.rs are placeholder readers for ledgers not yet wired, mod.rs re-exports both | registry |
 | `dashboard/src-tauri` | 3 | Tauri backend crate: commands.rs exposes IPC commands to the web frontend, meme_process.rs shells out to the meme-gen skill, tauri.conf.json/capabilities/icons are the desktop a... | registry |
 | `dashboard/src-tauri/capabilities` | 1 | Tauri v2 capability manifest (default.json) declaring which IPC commands and OS permissions the webview is allowed to invoke | registry |
 | `dashboard/src-tauri/icons` | 1 | App icon assets Tauri's bundler reads when packaging the desktop binary | registry |
