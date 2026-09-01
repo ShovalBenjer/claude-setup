@@ -101,6 +101,134 @@ the domain if the string is gone. Two details are deliberate:
 Write the number into `confirm`, not only into the prose. Prose is read by
 whoever is already suspicious; `confirm` is read on every run.
 
+A waiver may also carry `command`, a dedicated falsifier whose exit code
+decides whether the waiver's claim still holds. See
+[specs/2026-08-30-waiver-falsifier.md](specs/2026-08-30-waiver-falsifier.md)
+for the schema and interaction with `confirm`.
+
+## Blast radius
+
+The `blast_radius` domain builds the intra-repo Python import graph and reports,
+for each changed `.py` file, how many modules import it transitively. The domain
+is informational (always PASS) but flags wide-radius changes so review tooling
+can widen the reviewer set. See
+[specs/2026-08-30-blast-radius-gate.md](specs/2026-08-30-blast-radius-gate.md).
+
+## Rules enforcement
+
+The `rules_enforcement` domain runs mechanical predicates declared in rule file
+frontmatter. Each rule in `dot-claude/rules/` may carry a YAML `enforce:` block
+with a `deny_pattern` (grep) or `cmd` (shell command) check. Rules without
+frontmatter are prose-only and skipped. See
+[specs/2026-08-30-rules-enforcement-gate.md](specs/2026-08-30-rules-enforcement-gate.md).
+
+
+## Lane enforcement
+
+The `lane_enforcement` domain reads the most recent row from
+`state/claims.jsonl` and fails the gate if the claimed lane is not A (the
+harness lane). Cross-lane work is the most frequently logged lesson; this
+domain makes the violation mechanical rather than retrospective. See
+[specs/2026-08-30-lane-enforcement-gate.md](specs/2026-08-30-lane-enforcement-gate.md).
+
+
+## TODO inbox
+
+The `todo_inbox` domain verifies that TODO.md's generated prompt-inbox block
+matches the intent store (`~/.intent/intent.db`). Reports N/A on runners
+without the store, FAIL when the block is stale. The tool
+(`tools/intent/render_todo.py`) existed with a selftest and a `check`
+subcommand; this domain is the enforcement half. See
+[specs/2026-08-30-todo-inbox-gate.md](specs/2026-08-30-todo-inbox-gate.md).
+
+
+## Refute
+
+The `refute` domain runs every claim's own falsifier via
+`tools/refute/refute.py run`. Any REFUTED or BROKEN verdict fails the gate.
+Claims whose preconditions are not met (e.g. no deployed `~/.claude` on a CI
+runner) report cannot-measure and do not count toward the exit code. The tool
+and its selftest already existed; this domain is the enforcement half. See
+[specs/2026-08-30-refute-gate.md](specs/2026-08-30-refute-gate.md).
+
+
+## Bus integrity
+
+The `bus_integrity` domain verifies the hash chain of `state/bus.jsonl` via
+`tools/bus/bus.py verify`. Every chained row's hash covers its content plus
+the previous hash, so any edit, deletion, or reordering is detectable.
+Pre-chain rows carry no hash and are reported but not failed. See
+[specs/2026-08-30-bus-integrity-gate.md](specs/2026-08-30-bus-integrity-gate.md).
+
+
+## Skilleval
+
+The `skilleval` domain runs `tools/skilleval/run.py scan`, which grades skill
+routing quality: given a prompt from a skill's routing fixture, does the right
+skill win? Skills without fixtures are counted as uncovered but do not fail.
+A skill whose fixture routes to the wrong skill fails the gate. See
+[specs/2026-08-30-skilleval-gate.md](specs/2026-08-30-skilleval-gate.md).
+
+
+## Prose fit
+
+The `prose_fit` domain runs `tools/audit/prose_fit.py check`, which verifies
+that percentile bands have been fitted from the prose-score corpus
+(`state/prose-thresholds.json` exists, was fitted from 20+ scores, and is not
+stale). `prose_metrics.py` collects density and variance scores but explicitly
+defers thresholds (L-2026-07-31-b); this domain ensures the fitting
+infrastructure exists so `slop_lint.py` can enforce data-driven bands. See
+[specs/2026-08-30-prose-fit-gate.md](specs/2026-08-30-prose-fit-gate.md).
+
+
+## Skip tracker
+
+The `skip_tracker` domain runs `tools/audit/skip_tracker.py check`, which
+parses pytest summary lines for each test suite and compares skip counts
+against `state/skip-baseline.json`. A rising skip count fails the gate.
+L-2026-07-29-i records the incident this domain exists to prevent: a generator
+bug deleted content from 12 shipped files, four tests responded with
+`pytest.skip()` instead of failing, and the gate read "89 passed, 4 skipped"
+as PASS. The skip count was the signal, and it was invisible. See
+[specs/2026-08-30-skip-tracker-gate.md](specs/2026-08-30-skip-tracker-gate.md).
+
+
+## Branch health
+
+The `branch_health` domain runs `tools/audit/branch_health.py check`, which
+finds stale branches (merged into the default branch but not deleted) and
+orphaned worktrees (prunable or with missing directories). Both shapes of git
+debris have caused gate failures in this repo: the codemap domain excludes
+`.claude/worktrees` from compileall because a sibling worktree carried live
+conflict markers, and the types domain failed on the same markers. Branches
+checked out in an active worktree are excluded from the stale check. See
+[specs/2026-08-30-branch-health-gate.md](specs/2026-08-30-branch-health-gate.md).
+
+
+## Lesson check
+
+The `lesson_check` domain runs `tools/audit/lesson_check.py check`, which
+validates the structural integrity of `state/lessons.jsonl`: every row
+parses as valid JSON, every row has an `id` field, and IDs use a recognised
+format (dated `L-YYYY-MM-DD-x` or legacy `L###`). Schema completeness gaps
+(missing `status`, missing timestamp, closed without closure explanation)
+are reported as warnings rather than gate failures, because the ledger is
+append-only and pre-existing gaps cannot be retroactively fixed. See
+[specs/2026-08-30-lesson-check-gate.md](specs/2026-08-30-lesson-check-gate.md).
+
+
+## Gate health
+
+The `gate_health` domain runs `tools/audit/gate_health.py check`, which
+validates the structural integrity of `state/gate-runs.jsonl`: every row
+parses as valid JSON, required fields (`ts`, `project`, `commit`, `verdict`,
+`domains`) are present, and verdict values are recognised strings. Data
+quality issues in existing rows (non-string domain verdicts from a gate.py
+builtin handler bug recording exit code 2 instead of `"N/A"`) are warnings
+because the ledger is append-only. See
+[specs/2026-08-30-gate-health-gate.md](specs/2026-08-30-gate-health-gate.md).
+
+
 ## Known gaps, dated
 
 These were true when measured. Re-measure before relying on them.

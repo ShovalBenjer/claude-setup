@@ -282,6 +282,13 @@ def main(argv: list[str] | None = None) -> int:
     # you were pointed at defeats the isolation a worktree exists to provide.
     checkout = args.project.resolve()
     project = resolve_project(checkout)
+
+    base = args.base_dir or (Path.home() / ".intent")
+    store_db = base / "intent.db"
+    if args.command == "check" and not store_db.exists():
+        print(f"CANNOT MEASURE: intent store not found at {store_db}")
+        return 2
+
     rows = for_project(load(args.base_dir), str(project))
 
     if args.command == "list":
@@ -370,12 +377,10 @@ def selftest() -> int:
         if twice.count(BEGIN) != 1:
             failures.append(f"{twice.count(BEGIN)} begin markers after two splices")
 
-        # An unreadable store renders the empty block, which differs from what is on
-        # disk, so `check` must fail. A check that passed against a store it could not
-        # read would report every repository in the estate as current.
-        if main(["check", "--project", tmp, "--todo", str(todo),
-                 "--base-dir", str(Path(tmp) / "no-store")]) == 0:
-            failures.append("check passed against a store it could not read")
+        absent_store = main(["check", "--project", tmp, "--todo", str(todo),
+                             "--base-dir", str(Path(tmp) / "no-store")])
+        if absent_store != 2:
+            failures.append(f"check against absent store returned {absent_store}, expected 2")
 
         if todo_path(Path(tmp)) != Path(tmp) / "TODO.md":
             failures.append("the write target is not the checkout that was named")

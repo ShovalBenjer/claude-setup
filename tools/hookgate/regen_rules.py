@@ -202,17 +202,15 @@ def fuzz_candidates(rules) -> list[str]:
 
 def verify_literals(rules) -> list[str]:
     """Return counterexamples proving a group set is unsound. Empty means sound."""
-    failures: list[str] = []
+    failures: list[str] = [
+        "rule {} has no literal groups; add groups or an empty tuple to opt out".format(i)
+        for i in sorted(set(range(len(rules))) - set(LITERAL_GROUPS))
+    ]
 
-    for i in sorted(set(range(len(rules))) - set(LITERAL_GROUPS)):
-        failures.append(
-            "rule {} has no literal groups; add groups or an empty tuple to opt out".format(i)
-        )
-
-    for i in sorted(set(LITERAL_GROUPS) - set(range(len(rules)))):
-        failures.append(
-            "LITERAL_GROUPS has entry {} but there are only {} rules".format(i, len(rules))
-        )
+    failures.extend(
+        "LITERAL_GROUPS has entry {} but there are only {} rules".format(i, len(rules))
+        for i in sorted(set(LITERAL_GROUPS) - set(range(len(rules))))
+    )
 
     candidates = fuzz_candidates(rules)
     for i, (pattern, _reason) in enumerate(rules):

@@ -79,6 +79,13 @@ import sys
 import urllib.error
 import urllib.request
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "lib"))
+try:
+    from tracing import inject as trace_inject  # noqa: E402
+except ImportError:
+    def trace_inject(row):
+        return row
+
 LEDGER = os.path.join("state", "supply-chain.jsonl")
 GENESIS = "genesis"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
@@ -174,6 +181,7 @@ def append(row: dict, root: str | None = None) -> dict:
     rows = read_ledger(root)
     prev = rows[-1].get("hash") if rows and isinstance(rows[-1], dict) else None
     body = dict(row)
+    trace_inject(body)
     body["seq"] = len(rows)
     body["prev"] = prev or GENESIS
     body["hash"] = hashlib.sha256(canonical(body).encode("utf-8")).hexdigest()[:32]

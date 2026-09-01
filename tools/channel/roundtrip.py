@@ -249,9 +249,9 @@ def cmd_selftest(args) -> int:
     if inadmissible["verdict"] != "FAIL":
         failures.append("an inadmissible probe set must not report PASS")
 
-    for case in _fixture():
-        if case.admissible():
-            failures.append(f"fixture {case.name} has probes not present in its own document")
+    failures.extend(
+        f"fixture {case.name} has probes not present in its own document"
+        for case in _fixture() if case.admissible())
 
     for line in failures:
         print(f"FAIL {line}")

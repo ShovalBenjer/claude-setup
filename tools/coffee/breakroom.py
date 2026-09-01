@@ -13,9 +13,17 @@ Commands: post, read, selftest. Append-only state/breakroom.jsonl.
 import argparse
 import fcntl
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir, "lib"))
+try:
+    from tracing import inject as trace_inject  # noqa: E402
+except ImportError:
+    def trace_inject(row):
+        return row
 
 BOARD = Path("state/breakroom.jsonl")
 KINDS = ("brag", "gripe", "question", "note")
@@ -26,6 +34,7 @@ def now() -> str:
 
 
 def append_row(board: Path, row: dict) -> None:
+    trace_inject(row)
     board.parent.mkdir(parents=True, exist_ok=True)
     with board.open("a") as f:
         fcntl.flock(f, fcntl.LOCK_EX)

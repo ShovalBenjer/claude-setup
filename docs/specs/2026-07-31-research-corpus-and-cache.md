@@ -308,6 +308,10 @@ That number decides everything.
 
 ### 4.1a Chunking: the one thing this spec asserted instead of deciding
 
+> **Cross-ref:** Stage 2 section-based chunking is implemented in
+> `tools/corpus/chunker.py`, spec at
+> `docs/specs/2026-08-30-corpus-chunker.md`.
+
 **GAP FOUND 2026-08-03 by comparison against DigitalOcean's published knowledge-base and
 chunking-strategy docs.** The sentence above is the entire chunking strategy: ~350 words,
 split on h2/h3, subdivide long sections. That is DigitalOcean's **section-based** strategy,
@@ -500,6 +504,11 @@ generation mismatch means the vectors are stale and retrieval must say so.
 
 ### 4.4 The two defect queries the operator asked for
 
+> **Implemented as a health oracle:** `tools/corpus/health.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-health-oracle.md`.
+> **Structural integrity validation:** `tools/corpus/validate.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-validate.md`.
+> **Corpus summary profile:** `tools/corpus/summarize.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-summarize.md`.
+> **Provenance chain tracing:** `tools/corpus/lineage.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-lineage.md`.
+
 The point of the schema is that these are one-liners, so a defect is found by
 query rather than by a reader.
 
@@ -548,6 +557,11 @@ correct fix is a small ONNX embedder, decided after the lexical version runs and
 fails, not before.** Proposing the install now would be the unsourced novelty
 that prior-art-gate exists to block.
 
+> **Implemented:** `tools/corpus/embed.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-embedding-rerank.md`.
+> **Topical clustering:** `tools/corpus/cluster.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-cluster.md`.
+> **Auto-tagger:** `tools/corpus/tagger.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-tagger.md`.
+> **Semantic analysis:** `tools/corpus/semantic.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-semantic.md`.
+
 ---
 
 ## 5. row-reuse and cache2action
@@ -556,6 +570,8 @@ The operator named these. They are not established terms, so the definitions
 below are an interpretation offered for approval, not a report of prior art.
 
 ### 5.1 row-reuse
+
+> Implemented in `tools/corpus/rowreuse.py`; spec at `docs/specs/2026-08-30-corpus-row-reuse.md`.
 
 **Definition.** A retrieval that answers a question entirely from stored corpus
 rows, and whose output is itself written back as a corpus row with edges to every
@@ -592,6 +608,8 @@ across generations with each hop looking better cited than the last. Guard:
 derived row may never be the sole citation for another derived row.
 
 ### 5.2 cache2action
+
+> Implemented in `tools/corpus/cache2action.py`; spec at `docs/specs/2026-08-30-corpus-cache2action.md`.
 
 **Definition.** A retrieval whose result is not prose but an **executable step**:
 a command, a patch, a config fragment, or a check, drawn from the `artifacts`
@@ -651,6 +669,8 @@ row-reuse reads `chunks` plus `citations`, cache2action reads `artifacts` plus
 
 ## 6. Ingestion pipeline enforcing the synthesis standard
 
+> **Implemented as a pipeline orchestrator:** `tools/corpus/pipeline.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-pipeline.md`.
+
 The standard lives in
 `docs/archive/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` (59
 lines) and asks for synthesis over summarisation, strict `[S#]` citation,
@@ -665,12 +685,16 @@ The pipeline turns each directive into a gate. All stages UNEXECUTED.
 dash variants, strip trailing whitespace. In-process, never shelling out per file
 (section 2.1). Output feeds `norm_text`.
 
+> **Implemented:** `tools/corpus/normalise.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-normalise.md`.
+
 **Stage 1, license and liveness gate.** Before content is read, resolve the
 license from the actual LICENSE text and record `license_evidence`. A
 `license_verdict='blocked'` source is refused by canonical hostname. A GitHub
 `NOASSERTION` label is never accepted as an answer. A source whose
 `upstream_mtime` is older than 18 months is admitted with `liveness='stale'` and
 may never win a contradiction against a live source.
+
+> **Implemented:** `tools/corpus/license_gate.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-license-gate.md`.
 
 **Stage 2, chunk.** Split on h2/h3 headings, subdivide above ~350 words, classify
 `kind`. Code fences become `kind='code'` and feed stage 6.
@@ -685,6 +709,12 @@ differ by a version or status token such as `DEPLOYED` or `v6.7`. Pass C creates
 a `supersedes` edge and keeps BOTH, because the `maryam-v6.7-DEPLOYED` case
 proves that discarding one destroys the deployed-versus-draft fact.
 
+> **Quarantine triage implemented:** `tools/corpus/promote.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-promote.md`.
+> **Quality review sampling:** `tools/corpus/sample.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-sample.md`.
+> **Quality scoring:** `tools/corpus/quality.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-quality.md`.
+> **Kind reclassification:** `tools/corpus/reclassify.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-reclassify.md`.
+> **Deduplication:** `tools/corpus/dedup.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-dedup.md`.
+
 **Stage 4, citation gate.** The enforcement of directive 2. A chunk with
 `kind='claim'` must produce at least one `citations` row. `[S#]` tags resolve
 against the source own reference section; bare URLs count; a claim with neither
@@ -693,6 +723,8 @@ is **quarantined**, neither accepted nor discarded, with
 and visible to the backlog query. On the local corpus this would quarantine a
 large share of the 205 uncited files on first run, which is the correct outcome:
 it converts an invisible 57.7% defect into a visible queue.
+
+> **Citation gate implemented:** `tools/corpus/cite_gate.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-cite-gate.md`.
 
 **Stage 5, contradiction detection.** Directive 3 asks for conflict resolution.
 Three detectors, cheapest first. (a) Numeric: same metric name, different value
@@ -703,12 +735,21 @@ rows with the same `name` and opposite `implemented`, or two chunks recommending
 different libraries for one stated purpose. Each writes a `claim_edges` row with
 `edge_type='contradicts'` and `resolution=null`. **Nothing is auto-resolved.** An
 open contradiction downgrades both sides in ranking and surfaces in the 4.4
-query.
+query. Implemented in
+[specs/2026-08-30-corpus-contradiction-detection.md](../specs/2026-08-30-corpus-contradiction-detection.md).
 
 **Stage 6, artifact extraction.** For repository sources, walk the actual source
 tree rather than the README, and set `implemented=1` only with a real
 `evidence_path`. A library named in prose and absent from every manifest gets
 `implemented=0`. This is the mechanised form of the operator repository rule.
+Implemented in
+[specs/2026-08-30-corpus-artifact-extraction.md](../specs/2026-08-30-corpus-artifact-extraction.md).
+Entity enrichment (named entity detection with implementation signals) in
+[specs/2026-08-30-corpus-enrich.md](../specs/2026-08-30-corpus-enrich.md).
+
+> **Cross-ref:** Stage 7 paper rule is implemented in
+> `tools/corpus/paper_rule.py`, spec at
+> `docs/specs/2026-08-30-corpus-paper-rule.md`.
 
 **Stage 7, paper rule.** For `kind='paper'`, admit only `published_utc` in 2026
 and record `publisher` from the paper record, never from a search snippet. A
@@ -727,6 +768,10 @@ rots. Quarantine is reversible; deletion is not.
 
 ## 7. Retrieval
 
+> **Implemented:** `tools/corpus/retrieve.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-unified-retrieval.md`.
+
+> **Unified search implemented:** `tools/corpus/search.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-search.md`.
+
 ### 7.1 What a query looks like
 
 ```
@@ -740,6 +785,8 @@ facets. FTS5 first and vectors second is deliberate, given the lexical embedder
 limits named in 4.5.
 
 ### 7.2 What it returns
+
+> **Bulk export implemented:** `tools/corpus/export.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-export.md`.
 
 Each result is a record, not a paragraph:
 
@@ -765,6 +812,8 @@ index-only external material, which is what closes the 5.2 injection path.
 
 ### 7.3 How a caller knows a result is stale
 
+> **Proactive sweep implemented:** `tools/corpus/staleness.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-staleness-sweep.md`.
+
 Staleness is computed and returned, never left for the caller to infer. Four
 signals, and the verdict is the worst of them:
 
@@ -784,6 +833,8 @@ payload. That is the retrieval-side form of the calibrated-claims rule and the
 direct answer to the 5.1 staleness-laundering failure mode.
 
 ---
+
+> **Diff tracking implemented:** `tools/corpus/diff.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-diff.md`.
 
 ## 8. What was deliberately not proposed
 
@@ -821,6 +872,9 @@ direct answer to the 5.1 staleness-laundering failure mode.
   reported here and left in place.
 
 ---
+
+> **Coverage analysis implemented:** `tools/corpus/coverage.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-coverage.md`.
+> **Gap analysis:** `tools/corpus/gaps.py` (2026-08-30). Spec: `docs/specs/2026-08-30-corpus-gaps.md`.
 
 ## 9. Migration path, in ingestion units
 

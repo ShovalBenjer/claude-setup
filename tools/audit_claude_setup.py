@@ -18,7 +18,6 @@ from typing import Any, Iterable
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lib import repo_root  # noqa: E402
 
-
 SEVERITY_ORDER = {"critical": 0, "high": 1, "medium": 2, "info": 3}
 SECRET_KEY = re.compile(
     r"(?i)(?:api[_-]?key|secret|token|password|credential|private[_-]?key|sas)"
@@ -106,8 +105,9 @@ def audit_settings(path: Path, label: str, findings: list[dict[str, str]]) -> di
         findings.append(finding("high", "mcp", f"{label} enables every project MCP server.", path))
 
     missing = sorted({str(item) for item in absolute_hook_paths(data) if not item.exists()})
-    for hook_path in missing:
-        findings.append(finding("critical", "hook-existence", "Referenced hook file is missing.", Path(hook_path)))
+    findings.extend(
+        finding("critical", "hook-existence", "Referenced hook file is missing.", Path(hook_path))
+        for hook_path in missing)
     return data
 
 
@@ -161,7 +161,7 @@ def audit_rule_context(rule_root: Path, findings: list[dict[str, str]]) -> dict[
     stub_count = 0
     for path in files:
         text = path.read_text(encoding="utf-8-sig", errors="replace")
-        if text.startswith("---\n") or text.startswith("---\r\n"):
+        if text.startswith(("---\n", "---\r\n")):
             scoped += 1
         else:
             unconditional_bytes += len(text.encode("utf-8"))
@@ -241,9 +241,9 @@ def main() -> int:
         if contract_bytes > 12_000:
             findings.append(finding("medium", "context-budget", f"Global CLAUDE.md is {contract_bytes} bytes.", global_contract))
         lowered = contract.lower()
-        for phrase in STALE_GLOBAL_PHRASES:
-            if phrase in lowered:
-                findings.append(finding("high", "stale-global-context", f"Found stale phrase: {phrase}", global_contract))
+        findings.extend(
+            finding("high", "stale-global-context", f"Found stale phrase: {phrase}", global_contract)
+            for phrase in STALE_GLOBAL_PHRASES if phrase in lowered)
 
     provider_overrides = sorted(name for name in PROVIDER_ENV_NAMES if os.environ.get(name))
     if provider_overrides:

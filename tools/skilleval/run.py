@@ -67,7 +67,7 @@ WORD_RX = re.compile(r"[a-z][a-z0-9'\-]{2,}")
 
 
 def words(text: str) -> set:
-    return set(w for w in WORD_RX.findall((text or "").lower()) if w not in STOP)
+    return {w for w in WORD_RX.findall((text or "").lower()) if w not in STOP}
 
 
 def anchor_score(prompt: str, description: str) -> float:

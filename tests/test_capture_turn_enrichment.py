@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import sqlite3
 import subprocess
 import sys
@@ -33,7 +34,6 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-HOOK = ROOT / "tools" / "intent" / "capture_turn.py"
 SRC = ROOT / "intent-control-plane" / "src"
 
 #: The interpreter the live hook actually uses. Not sys.executable, which in a test run
@@ -49,12 +49,32 @@ def bare_env(home: Path) -> dict[str, str]:
     return env
 
 
-def run_hook(home: Path, text: str) -> subprocess.CompletedProcess:
-    payload = {"prompt": text, "cwd": str(ROOT), "session_id": "test-session"}
+@pytest.fixture
+def hook_repo(tmp_path: Path) -> Path:
+    """A copy of exactly what the hook reaches from its own file location.
+
+    capture_turn.py resolves REPO_ROOT from __file__, not from cwd, so running the real
+    file appends a hashed test row to the REAL state/prompt-tickets.jsonl on every suite
+    run. That happened silently until 2026-08-29: six 'test-session' rows were sitting
+    chained into the committed ledger. Copying the three trees the hook resolves keeps
+    the caller reproduction intact (system interpreter, scrubbed env, its own bare
+    except) while the durable row lands in a ledger this fixture owns.
+    """
+    repo = tmp_path / "repo"
+    for rel in (Path("tools") / "intent", Path("tools") / "bus",
+                Path("intent-control-plane") / "src"):
+        shutil.copytree(ROOT / rel, repo / rel,
+                        ignore=shutil.ignore_patterns("__pycache__"))
+    (repo / "state").mkdir()
+    return repo
+
+
+def run_hook(repo: Path, home: Path, text: str) -> subprocess.CompletedProcess:
+    payload = {"prompt": text, "cwd": str(repo), "session_id": "test-session"}
     return subprocess.run(
-        [SYSTEM_PYTHON, str(HOOK)],
+        [SYSTEM_PYTHON, str(repo / "tools" / "intent" / "capture_turn.py")],
         input=json.dumps(payload), capture_output=True, text=True,
-        env=bare_env(home), cwd=str(ROOT), timeout=60)
+        env=bare_env(home), cwd=str(repo), timeout=60)
 
 
 needs_system_python = pytest.mark.skipif(
@@ -82,18 +102,23 @@ def test_the_package_is_importable_without_a_venv_once_the_module_has_run():
 
 
 @needs_system_python
-def test_the_hook_writes_the_verbatim_text_under_a_bare_interpreter(tmp_path):
+def test_the_hook_writes_the_verbatim_text_under_a_bare_interpreter(tmp_path, hook_repo):
     """End to end, the way the outage would have been caught.
 
     A hashed row proves nothing here: that half never broke. The assertion is that the
-    typed words reach the store.
+    typed words reach the store, plus one isolation guard: the durable row landed in the
+    fixture's ledger, which is the proof it did not land in the repository's.
     """
     home = tmp_path / "home"
     home.mkdir()
     typed = "a sentence that exists only in this test, 8f31c2"
 
-    r = run_hook(home, typed)
+    r = run_hook(hook_repo, home, typed)
     assert r.returncode == 0, r.stderr
+
+    ledger = hook_repo / "state" / "prompt-tickets.jsonl"
+    assert ledger.is_file() and "test-session" in ledger.read_text(encoding="utf-8"), (
+        "the hashed row did not land in the fixture repo's own ledger")
 
     db = home / ".intent" / "intent.db"
     assert db.is_file(), (
@@ -109,7 +134,7 @@ def test_the_hook_writes_the_verbatim_text_under_a_bare_interpreter(tmp_path):
 
 
 @needs_system_python
-def test_the_hook_stays_silent_and_exits_zero(tmp_path):
+def test_the_hook_stays_silent_and_exits_zero(tmp_path, hook_repo):
     """Two properties the docstring calls load-bearing, guarded so a fix cannot cost them.
 
     Anything printed on exit 0 from UserPromptSubmit is injected into the session's
@@ -117,13 +142,13 @@ def test_the_hook_stays_silent_and_exits_zero(tmp_path):
     """
     home = tmp_path / "home"
     home.mkdir()
-    r = run_hook(home, "silence check")
+    r = run_hook(hook_repo, home, "silence check")
     assert r.returncode == 0
     assert r.stdout.strip() == ""
 
 
 @needs_system_python
-def test_a_broken_enrichment_still_exits_zero(tmp_path, monkeypatch):
+def test_a_broken_enrichment_still_exits_zero(tmp_path, hook_repo, monkeypatch):
     """The swallow is deliberate and must survive the fix.
 
     Making the store unwritable is the cheapest real failure: the durable hashed row is
@@ -134,6 +159,6 @@ def test_a_broken_enrichment_still_exits_zero(tmp_path, monkeypatch):
     home.mkdir()
     (home / ".intent").write_text("not a directory", encoding="utf-8")
 
-    r = run_hook(home, "enrichment cannot possibly work here")
+    r = run_hook(hook_repo, home, "enrichment cannot possibly work here")
     assert r.returncode == 0, r.stderr
     assert r.stdout.strip() == ""

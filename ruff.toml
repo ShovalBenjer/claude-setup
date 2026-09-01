@@ -1,0 +1,12 @@
+# Stack-lint oracle, phase 1: C4/PERF/PIE + import sorting.
+# Phase 2 adds SIM/B/ERA; phase 3 adds UP/E/F/D after batch fixes.
+# See docs/specs/2026-08-30-stack-lint-oracle.md.
+
+target-version = "py312"
+line-length = 100
+
+[lint]
+select = ["C4", "PERF", "PIE", "I"]
+
+[lint.isort]
+known-first-party = ["tracing"]

@@ -82,7 +82,7 @@ def inbox_target(hook: dict) -> str | None:
         low = part.lower().replace("\\", "/")
         if low.endswith("bus-inbox.sh"):
             return part
-        if low.endswith("/bus.py") or low.endswith("bus.py"):
+        if low.endswith(("/bus.py", "bus.py")):
             # The subcommand has to actually be inbox.
             if re.search(r"(^|\s)inbox(\s|$)", joined):
                 return part

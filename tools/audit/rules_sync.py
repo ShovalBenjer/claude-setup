@@ -44,9 +44,9 @@ from __future__ import annotations
 
 import argparse
 import json
-import tempfile
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -230,7 +230,8 @@ def selftest() -> int:
     # the real report function on synthetic input, because the two directions have
     # different consequences and both were wrong to miss. Its output is captured so a
     # passing selftest does not print lines that read as failures.
-    import contextlib, io  # noqa: PLC0415
+    import contextlib  # noqa: PLC0415
+    import io
 
     def _quiet_report(res: dict) -> int:
         with contextlib.redirect_stdout(io.StringIO()):

@@ -9,8 +9,8 @@ from an inventory. This file measures how much of the estate that order reaches.
 
 ## Coverage
 
-- documents: **1067**
-- reachable from `docs/INDEX.md`: **69** (6%)
+- documents: **1296**
+- reachable from `docs/INDEX.md`: **270** (20%)
 - status UNDECLARED: **0**
 - prior-art records EXPIRED: **0**
 - written under the pre-2026-07-30 lane scheme: **25**
@@ -168,7 +168,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/analysis/2026-08-23-whatsapp-links-vs-plan.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
 | `docs/analysis/2026-08-23-whatsapp-repo-reminder-list.md` | 2026-08-23 | dated-snapshot | class | n/a | - | - | - |
 
-## archived (7)
+## archived (9)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -179,6 +179,8 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/archive/prompt-research-effiefecnt-.md-files-gemini-code-1785450497712.md` | - | operator-input | registry | n/a | - | - | - |
 | `docs/archive/sagemaker-hyperpod.md` | - | reference \| fetched AWS doc page, dropped 2026-08-12 17:34 by a parallel session; belongs under docs/analysis or a corpus dir if kept | registry | n/a | - | - | - |
 | `docs/archive/2026-07-29-external-absorption-brief.md` | 2026-07-29 | dated-snapshot | registry | 1 | - | - | - |
+| `docs/archive/2026-08-24-todo-done-archive.md` | 2026-08-24 | dated-snapshot | registry | n/a | - | - | operator |
+| `docs/archive/MIGRATION-NOTES.md` | 2026-08-24 | living | registry | n/a | - | - | - |
 
 ## automation-output (126)
 
@@ -493,7 +495,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `tools/hookgate/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `tools/hookgate/bench/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
 | `tools/timetravel/README.md` | 2026-07-30 | living | registry | n/a | - | - | - |
-| `docs/INDEX.md` | 2026-07-31 | living | registry | 2 | - | v1 the same day | - |
+| `docs/INDEX.md` | 2026-07-31 | living | registry | 2 | - | population rates, chain depth distributi | - |
 | `nexus-engine-rs/README.md` | 2026-07-31 | a working vertical slice, not the spec.** read the scope tab | header | n/a | - | - | - |
 | `tools/telemetry/systemd/README.md` | 2026-08-04 | live, 2026-08-04. the units below are deployed and the timer | header | n/a | - | - | - |
 | `dot-claude/CLAUDE.md` | 2026-08-05 | living | registry | n/a | - | - | - |
@@ -540,7 +542,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prd/2026-08-03-unified-architecture.md` | 2026-08-03 | proposed | header | n/a | yes | - | - |
 | `docs/prd/session-dashboard.md` | 2026-08-17 | active | header | n/a | - | - | - |
 
-## prior-art (46)
+## prior-art (47)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -590,6 +592,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/prior-art/tools-harness.json` | 2026-08-10 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-coffee.json` | 2026-08-12 | current | arithmetic | n/a | - | - | - |
 | `docs/prior-art/tools-reanimation.json` | 2026-08-13 | current | arithmetic | n/a | - | - | - |
+| `docs/prior-art/tools-eco.json` | 2026-08-30 | current | arithmetic | n/a | - | - | - |
 
 ## reflection (6)
 
@@ -602,16 +605,19 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/reflections/2026-07-30-what-i-saw.md` | 2026-07-30 | dated-snapshot | class | 2 | yes | - | - |
 | `docs/reflections/2026-07-31-session-close-what-the-instruments-caught.md` | 2026-07-31 | dated-snapshot | class | 2 | yes | - | - |
 
-## root (6)
+## root (9)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
 | `CLAUDE.md` | - | living | registry | n/a | - | - | - |
+| `DUPLICATE-RETIREMENT.md` | - | operator-input | header | n/a | - | - | - |
 | `REVIEW.md` | - | living | registry | n/a | - | - | - |
-| `CLAUDE-OS.md` | 2026-07-23 | active (living document, the spine) | header | n/a | yes | every prior setup plan. Predecessors rem | - |
-| `README.md` | 2026-07-23 | living | registry | n/a | - | every prior plan in this repo. | - |
+| `CONTRIBUTING.md` | 2026-07-07 | living | registry | n/a | - | - | - |
+| `README.md` | 2026-07-07 | living | registry | n/a | - | every prior plan in this repo. | - |
 | `AGENTS.md` | 2026-07-30 | living | registry | 2 | - | - | - |
-| `TODO.md` | 2026-08-17 | living | registry | 2 | yes | nothing | the |
+| `CLAUDE-OS.md` | 2026-08-24 | active (living document, the spine). date: 2026-08-24 | header | n/a | yes | every prior setup plan. Predecessors rem | - |
+| `TODO.md` | 2026-08-24 | living | registry | 2 | yes | - | - |
+| `EXECUTION_TRACKER.md` | 2026-08-29 | verified | header | 2 | - | - | - |
 
 ## rule (45)
 
@@ -899,7 +905,7 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `dot-claude/skills/wait-what/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 | `dot-claude/skills/wizard/SKILL.md` | 2026-08-23 | definition-see-skills_sync | class | n/a | - | - | - |
 
-## spec (26)
+## spec (249)
 
 | document | date | status | from | lane scheme | in INDEX | supersedes | superseded by |
 |---|---|---|---|---|---|---|---|
@@ -929,6 +935,229 @@ correct for its date**. Scheme `1` means read its lane letters through
 | `docs/specs/2026-08-17-session-dashboard-direction.md` | 2026-08-17 | active | header | n/a | - | - | - |
 | `docs/specs/2026-08-17-session-dashboard-program-design.md` | 2026-08-17 | active | header | n/a | - | nothing in | - |
 | `docs/specs/archive/README.md` | 2026-08-17 | active | header | n/a | - | - | - |
+| `docs/specs/2026-08-30-blast-radius-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-branch-health-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-bus-integrity-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-artifact-extraction.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-batch-export.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-cache2action.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-chunk-versions.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-chunker.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-cite-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-cluster-store.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-cluster.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-contradiction-detection.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-coverage.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-dedup.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-diff.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-domain-store.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-embedding-rerank.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-enrich.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-export.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-gaps.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-health-oracle.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-license-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-lineage.md` | 2026-08-30 | done | header | n/a | yes | and what supersedes it | - |
+| `docs/specs/2026-08-30-corpus-normalise.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-outlier-store.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-paper-rule.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-pipeline.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-promote.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-quality-trend.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-quality.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-reclassify.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-row-reuse.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-sample.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-search.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-semantic-dedup.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-semantic.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-similarity-store.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-staleness-sweep.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-summarize.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-tag-store.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-tagger.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-unified-retrieval.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-corpus-validate.md` | 2026-08-30 | done | header | n/a | yes | target does not exist | - |
+| `docs/specs/2026-08-30-gate-health-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-lane-enforcement-gate.md` | 2026-08-30 | done | header | 2 | yes | - | - |
+| `docs/specs/2026-08-30-lesson-check-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-prose-fit-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-refute-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-rules-enforcement-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-skilleval-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-skip-tracker-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-stack-lint-oracle.md` | 2026-08-30 | active | header | n/a | - | - | - |
+| `docs/specs/2026-08-30-todo-inbox-gate.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-30-waiver-falsifier.md` | 2026-08-30 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-artifact-adoption.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-artifact-citation-provenance.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-artifact-domain-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-artifact-edge-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-artifact-graph.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-artifact-name-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-artifact-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-artifact-version-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-artifact-version-conflicts.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-audit.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-chunk-connectivity-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-chunk-evolution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-chunk-kind-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-chunk-position-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-chunk-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-chunk-similarity-clusters.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-citation-age.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-citation-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-citation-edge-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-citation-graph.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-citation-locator-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-citation-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-citation-verification.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-claim-consensus.md` | 2026-08-31 | done | header | n/a | yes | counts, distinct source count, cross-sou | - |
+| `docs/specs/2026-08-31-corpus-claim-network.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-classification-timeline.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-cross-kind-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-cross-ref-density.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-cross-table-outlier-detector.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-dashboard.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-diversity.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-domain-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-domain-balance.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-domain-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-domain-edge-depth.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-domain-edge-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-domain-score-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-domain-tag-affinity.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-basis-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-bridge-analysis.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-edge-chain-analysis.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-edge-citation-quality.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-confidence-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-edge-confidence.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-cycle-detection.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-edge-density.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-detection-timeline.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-reachability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-reciprocity-analysis.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-edge-resolution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-edge-source-temporal-lag.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-edge-text-correlation.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-edge-type-transition.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-enrichment-lag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-evidence-chain-audit.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-evidence-coverage.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-freshness-scorer.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-fts-citation-reachability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-fts-edge-reachability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-citation-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-depth-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-domain-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-edge-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-edge-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-heading-kind-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-license-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-liveness-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-publisher-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-simhash-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-heading-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-tag-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-heading-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-health-scorecard.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-ingestion-regression.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-kind-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-kind-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-kind-edge-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-kind-liveness-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-kind-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-kind-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-language-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-license-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-license-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-license-edge-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-license-edge-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-license-kind-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-license-liveness-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-license-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-license-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-liveness-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-liveness-cross-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-liveness-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-liveness-edge-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-liveness-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-liveness-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-edge-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-kind-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-license-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-license-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-liveness-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-publisher-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-query-coverage.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-readability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-recommend.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-edge-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-kind-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-license-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-liveness-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-publisher-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-status-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-simhash-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-similarity-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-argumentation-balance.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-source-chain.md` | 2026-08-31 | done | header | n/a | yes | column, but no tool traced these into ch | - |
+| `docs/specs/2026-08-31-corpus-source-citation-net.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-composite-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-edge-stance.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-source-enrichment-completeness.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-impact.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-lifecycle.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-overlap-analysis.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-source-overlap.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-provenance.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-source-size-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-citation-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-domain-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-edge-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-enrichment-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-reason-trends.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-status-tag-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-supersession-analysis.md` | 2026-08-31 | done | header | n/a | yes | column had only chain-walking queries | anything |
+| `docs/specs/2026-08-31-corpus-supersession-edge-orphans.md` | 2026-08-31 | done | header | n/a | yes | column | - |
+| `docs/specs/2026-08-31-corpus-tag-citation-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-citation-yield.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-cooccurrence.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-domain-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-domain-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-tag-edge-correlation.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-edge-profile.md` | 2026-08-31 | done | header | n/a | - | - | - |
+| `docs/specs/2026-08-31-corpus-tag-entropy.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-landscape.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-score-trends.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-tag-verification-breakdown.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-temporal-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-timeline.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-topic-coherence.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-topic-model.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-upstream-provenance.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-verification-timeline.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-version-churn.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-version-citation-drift.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-version-claim-edge-cascade.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-version-domain-stability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-version-edge-impact.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-version-fts-coverage.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-version-source-profile.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-version-tag-stability.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-version-timeline.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-vocab-analysis.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-word-count-distribution.md` | 2026-08-31 | done | header | n/a | yes | - | - |
+| `docs/specs/2026-08-31-corpus-xray.md` | 2026-08-31 | done | header | n/a | yes | - | - |
 
 ## standard (7)
 

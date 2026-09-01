@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 """Open WhatsApp archive via JS clicks, scroll, list all chat names."""
-import json, os, sys, time
+import json
+import os
+import sys
+import time
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault("CDP_TAB", "whatsapp")
-from cdp_driver import page_ws, cmd
+from cdp_driver import cmd, page_ws
+
 
 def ev(ws, expr):
     r = cmd(ws, "Runtime.evaluate", expression=expr, returnByValue=True, awaitPromise=True)
