@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-459 directories, 2487 tracked files, 0 without a stated purpose.
+460 directories, 2490 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -51,7 +51,7 @@ the same reason, one level down.
 | --- | ----: | ------- | ---- |
 | `docs` | 16 | Docs spine root: INDEX, SESSION-BOOT, charters, EXECUTION-PLAN, OPERATOR-RUNBOOK, SYSTEM-MAP, plus the adr/analysis/prd/specs subtrees | registry |
 | `docs/adr` | 21 | 15 dated ADRs (0001-0015) recording binding architecture decisions: repo topology, model gate, scheduler, PR-only ship gate | registry |
-| `docs/analysis` | 39 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
+| `docs/analysis` | 40 | Point-in-time analysis writeups (per docs/INDEX.md heading) feeding the TODO list: stress tests, gap audits, cost/free-tier notes | registry |
 | `docs/analysis/archive` | 37 | Analysis snapshots dated on or before 2026-08-08 that no live surface (rule, spec, PRD, tool, ADR) referenced when archived 2026-08-23; still dated-snapshot, still reachable by... | registry |
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/archive` | 27 | Point-in-time files that used to sit at the docs/ root: session handoffs, pasted model transcripts (gemini-code-*), one-off notes. Moved 2026-08-23; historical-record by constru... | registry |
@@ -468,6 +468,7 @@ the same reason, one level down.
 | `tools/drift` | 1 | Session drift sentinel: measures whether a session's Edit/Write targets left its claimed lane's owned tree (lanes parsed from docs/charters.md Owns: lines), records strikes per... | registry |
 | `tools/e2e` | 1 | Real-browser end-to-end flow auditor (flow.py) that drives tools/browser/cdp.py at phone size, presses every control on every route, and feeds the ship gate's e2e and a11y_ux do... | registry |
 | `tools/eco` | 1 | Ecosystem state DB CLI (ADR-0011, AUTO-06): init/migrate-jsonl/claim/log-run/approve/status/selftest over state/ecosystem.db, the single operational-state SQLite that FleetView... | registry |
+| `tools/fleetview` | 2 | Observability tooling for supervising several Claude Code sessions at once, per | README.md |
 | `tools/gate` | 3 | Ship-gate contract enforcer (gate.py: coverage checklist plus a run ledger) and enforce_selftest.py, proving the live deployed Stop hook actually blocks an ungated done-claim | registry |
 | `tools/ghpub` | 1 | Publishes state/github-backlog-*.json to GitHub milestones, labels, issues and a project board. Idempotent by issue title so a re-run is safe and a partial failure resumes rathe... | registry |
 | `tools/graph` | 2 | Repo graphing: blast_radius.py finds a changed file's transitive import blast radius for PR-review fanout, repo_graph.py builds a cross-repo portfolio graph via gh; out/ holds g... | registry |
