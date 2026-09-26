@@ -1,27 +1,33 @@
 import { useEffect, useState } from "react";
-import { GitBranch } from "lucide-react";
+import { Bot } from "lucide-react";
+import type { AgentSpawnRow, LedgerReadReport } from "../types";
 import { readAgentSpawns } from "../ipc";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
+import { FeedList, FeedRow } from "./FeedRow";
 
-type LoadState = { status: "loading" } | { status: "error"; message: string } | { status: "ok" };
+type LoadState =
+  | { status: "loading" }
+  | { status: "error"; message: string }
+  | { status: "ok"; report: LedgerReadReport<AgentSpawnRow> };
 
-// DASH-1 v2 restyle: still no fabricated rows. The Rust reader for
-// state/agent-spawns.jsonl (dashboard/core/src/ledger/stubs.rs) remains a
-// zero-field stub, so this panel cannot render a feed of real spawn
-// events -- doing so would be exactly the "do not fabricate data to make
-// the redesign look fuller" the task rules out. What changed is only the
-// shell (feed-card frame matching GateRunsPanel's new look) and the icon
-// (GitBranch, matching this entry's rail glyph); the honest empty-state
-// copy is unchanged from PR #85.
+// Real reader wired 2026-09-01 (dashboard/core/src/ledger/agent_spawns.rs),
+// replacing the zero-field stub PR #85/v2 restyle explicitly deferred ("this
+// ledger has real rows on disk waiting on a real reader, tracked separately").
+// Follows GateRunsPanel's proven feed shape: FeedList/FeedRow, a skipped-count
+// warning, one row per spawn. No status dot: a spawn has no pass/fail verdict
+// of its own (gate runs do), so forcing a tone here would be a fabricated
+// signal, not a derived one -- the same discipline App.tsx's rail already
+// applies to this same ledger ("rendering anything but unknown would be a
+// fabricated status").
 export function AgentSpawnsPanel({ project }: { project: string }) {
   const [state, setState] = useState<LoadState>({ status: "loading" });
 
   useEffect(() => {
     let cancelled = false;
     readAgentSpawns(project, 50)
-      .then(() => {
-        if (!cancelled) setState({ status: "ok" });
+      .then((report) => {
+        if (!cancelled) setState({ status: "ok", report });
       })
       .catch((err: unknown) => {
         if (!cancelled) setState({ status: "error", message: String(err) });
@@ -33,11 +39,10 @@ export function AgentSpawnsPanel({ project }: { project: string }) {
 
   return (
     <Card className="w-full" data-panel="agent-spawns">
-      <CardHeader className="flex-row items-center gap-2 space-y-0">
-        <GitBranch className="h-4 w-4 text-muted-foreground" />
+      <CardHeader>
         <CardTitle>Agent spawns</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-2">
+      <CardContent className="space-y-1">
         {state.status === "loading" && (
           <p className="text-sm text-muted-foreground">Loading...</p>
         )}
@@ -47,16 +52,39 @@ export function AgentSpawnsPanel({ project }: { project: string }) {
             <p className="mt-2 text-xs text-muted-foreground">{state.message}</p>
           </>
         )}
-        {state.status === "ok" && (
+        {state.status === "ok" && state.report.rows.length === 0 && (
+          <Badge variant="secondary">NO SPAWNS YET</Badge>
+        )}
+        {state.status === "ok" && state.report.rows.length > 0 && (
           <>
-            <Badge variant="secondary">READER NOT IMPLEMENTED</Badge>
-            <p className="text-xs text-muted-foreground">
-              The IPC command is wired, but the Rust reader for
-              state/agent-spawns.jsonl (dashboard/core/src/ledger/stubs.rs)
-              is a stub that always returns zero rows. No fabricated data is
-              shown here; this ledger has real rows on disk waiting on a
-              real reader (tracked separately, not this restyle).
-            </p>
+            {state.report.skipped > 0 && (
+              <p className="pb-2 text-xs text-status-warn">
+                {state.report.skipped} malformed line(s) skipped
+                {state.report.first_error ? `: ${state.report.first_error}` : ""}
+              </p>
+            )}
+            <FeedList>
+              {[...state.report.rows].reverse().map((row, i) => (
+                <FeedRow
+                  key={`${row.ts}-${i}`}
+                  icon={Bot}
+                  timestamp={row.ts}
+                  reference={
+                    row.isolation
+                      ? { label: "isolation", value: row.isolation }
+                      : row.background
+                        ? { label: "mode", value: "background" }
+                        : undefined
+                  }
+                >
+                  {row.subagent_type}
+                  {row.description ? `: ${row.description}` : ""}
+                  {row.router_named.length > 0
+                    ? ` · routed ${row.router_named.join(", ")}`
+                    : ""}
+                </FeedRow>
+              ))}
+            </FeedList>
           </>
         )}
       </CardContent>
