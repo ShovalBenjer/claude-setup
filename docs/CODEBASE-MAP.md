@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-460 directories, 2490 tracked files, 0 without a stated purpose.
+461 directories, 2493 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -378,6 +378,12 @@ the same reason, one level down.
 | `intent-control-plane/src/intent_control_plane` | 41 | Implement the intent CLI: sqlite ledger/schema, retrieval, evidence, eval, delegation, and the depth/company/archive self-evolving-harness cores | registry |
 | `intent-control-plane/src/intent_control_plane/harness` | 3 | Provide pure decision logic for the prompt router and G1 self-improve loop that hook shims are meant to call | registry |
 | `intent-control-plane/tests` | 46 | Exercise the CLI, sqlite store, and pure cores with real subprocess/sqlite calls, unit tests, and hypothesis property tests -- no mocks | registry |
+
+## jev
+
+| dir | files | purpose | from |
+| --- | ----: | ------- | ---- |
+| `jev` | 3 | Cost/latency-aware model router. Picks the cheapest route that can plausibly | README.md |
 
 ## nexus-engine-rs
 
