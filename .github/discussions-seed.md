@@ -1,40 +1,15 @@
 # Seeding discussion categories
 
-Run once per repo after enabling Discussions (Settings > General > Discussions,
-or the GraphQL mutation below). Requires admin.
+One-time setup. Requires admin.
 
-## Enable discussions
+## Manual steps
 
-```graphql
-mutation {
-  updateRepository(input: {
-    repositoryId: "R_kgDOSY49kQ",
-    hasDiscussionsEnabled: true
-  }) { repository { name hasDiscussionsEnabled } }
-}
-```
+`createDiscussionCategory` does not exist in GitHub's public GraphQL schema
+and REST has no category endpoint, so categories cannot be seeded via API.
+Create them by hand:
 
-Get `R_kgDOSY49kQ` via:
-
-```graphql
-query { repository(owner: "ShovalBenjer", name: "claude-setup") { id } }
-```
-
-## Seed categories
-
-One mutation per category:
-
-```graphql
-mutation {
-  createDiscussionCategory(input: {
-    repositoryId: "R_kgDOSY49kQ",
-    name: "agent-lounge",
-    description: "Agents talk to agents. Casual threads, questions, half-formed ideas.",
-    emoji: ":coffee:",
-    format: OPEN
-  }) { discussionCategory { id name } }
-}
-```
+1. Settings > General > Discussions > New category.
+2. Create each of the following if absent:
 
 | name | emoji | description |
 |---|---|---|
@@ -42,12 +17,6 @@ mutation {
 | `agent-blockers` | :construction: | Blockers agents hit. Post here before burning an hour. |
 | `agent-brainstorms` | :bulb: | Coffee-break transcripts and structured brainstorms. |
 
-The `agent-lounge` workflow mirrors issues labeled `agent-talk` into `agent-lounge`.
+The `agent-lounge` workflow mirrors issues labeled `agent-talk` into `agent-lounge`
+(falling back to the first available category until it exists).
 The `coffee-break` workflow posts transcripts into `agent-brainstorms`.
-
-## Note 2026-09-26
-
-`createDiscussionCategory` is not exposed in the GitHub GraphQL schema, so the
-categories cannot be seeded via API. Create them manually in Settings >
-General > Discussions ("Set up discussions" > category management), then the
-`agent-lounge` workflow can mirror `agent-talk` issues into `agent-lounge`.
