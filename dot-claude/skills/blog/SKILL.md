@@ -1,6 +1,6 @@
 ---
 name: blog
-description: Draft long-form blog content in Shoval Benjer's voice across platforms (Medium, LinkedIn, Substack, Dev.to, Jira-as-writeup). Anchors on the empirical voice fingerprint, runs a Shoval-tuned de-slop pass, emits in the target platform's native shape. Triggers on "/blog", "blog post about", "write a Medium post", "LinkedIn post", "Substack draft", "dev.to article". Draft + review only, never publishes. Full platform rules in the body.
+description: Draft genuinely human long-form blog content in Shoval Benjer's voice, across platform formats (Medium, LinkedIn, Substack, Dev.to/technical, Jira-as-writeup). Anchors on the empirical voice fingerprint, runs a Shoval-tuned de-slop pass (keeps his real em-dashes/parentheticals, cuts the generic AI tells), and emits in the target platform's native shape. Triggers on "/blog", "blog post about", "write a Medium post", "LinkedIn post", "Substack draft", "dev.to article", "turn this into a post". Draft + review only — never publishes.
 model: opus
 ---
 

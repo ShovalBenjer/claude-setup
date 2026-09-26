@@ -1,7 +1,3 @@
----
-enforce:
-  cmd: "python tools/slop_lint.py CLAUDE-OS.md AGENTS.md"
----
 # Calibrated claims — trust is the product
 
 Global rule. Binds every session, hardest on long-horizon work. Born 2026-07-24 from
