@@ -1,0 +1,8 @@
+# E-0003 - Memoized review decisions with fingerprint-guarded keys
+
+- Source: AIGUIDE ch.11 (tiered planner-decision cache) → issue #372 (evidence: adaptation)
+- Mechanism: A panel verdict on a diff is reusable when the same canonicalized diff recurs, which avoids re-paying the full persona orchestration on every run. Reuse is only safe under identical conditioning: the cache key combines the canonical diff with a fingerprint of the check registry, so any check added, removed, or edited expires old entries. A PASS recorded under an older check set never replays under a newer one. Exact tier only: byte-identical canonical diff, sorted file/text pairs, independent of diff order and line numbers.
+- Enforcement: `tools/review/e_rows.py::ReviewDecisionCache` (`canonical_key`, `registry_fingerprint`, `lookup`/`store` with anti-stale fingerprint comparison and oldest-first eviction at 500 entries), wired into `panel.cmd_run`: on a cache hit the stored verdict and findings are reused and the artifact is written as normal; on a miss the panel runs and the result is stored. Disabled when `--allow-external` is used (external findings are not deterministic) and never consulted by `panel.py selftest`. Cache lives at `<project>/state/reviews/decision-cache.json`; a corrupt or version-mismatched file is treated as empty, never as an error.
+- Check: `python3 -m pytest tests/test_erows.py -q -k e0003`
+- Status: enforced
+- Non-goals: The normalized tier (whitespace/format-insensitive canonicalization), the semantic tier (embedding similarity over change shape), and per-aspect expected-calls accounting with trigger-conditioned execution from #372 are tracked follow-ups, not this row.

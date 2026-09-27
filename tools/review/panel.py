@@ -60,6 +60,8 @@ import re
 import subprocess
 import sys
 
+import e_rows
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 SETUP = os.path.abspath(os.path.join(HERE, ".."))
 
@@ -666,6 +668,12 @@ def run_local(lines: list[dict]) -> list[dict]:
                     "file": ln["file"], "line": ln["line"], "why": why,
                     "snippet": ln["text"].strip()[:160], "source": "local",
                 })
+    # Diff-level E-row checks (anatomy/e-rows/): composite shapes that do not
+    # fit the per-line pattern tuples above. Same exemption rules apply.
+    reviewable = [ln for ln in lines
+                  if not EXEMPT.search(ln["file"])
+                  and not SELF_REFERENTIAL.search(ln["file"])]
+    findings += e_rows.composite_findings(reviewable, lines)
     return findings
 
 
@@ -891,12 +899,25 @@ def cmd_run(args: argparse.Namespace) -> int:
     print("persona panel: {} added line(s) across {} file(s), base {}".format(
         len(lines), len(files), base))
 
-    findings = run_local(lines)
+    findings = None
     ext_note = "external backend not requested"
-    if args.allow_external:
-        ext, ext_note = run_external(lines, project, args.verbose,
-                                     getattr(args, "external_model", None))
-        findings += ext
+    fp = e_rows.registry_fingerprint(PERSONAS)
+    cache = None
+    if not args.allow_external:
+        # E-0003: exact-tier memoized decisions. A stale entry (registry
+        # changed since it was stored) is a miss, never a replay.
+        cache = e_rows.ReviewDecisionCache(
+            os.path.join(project, "state", "reviews", "decision-cache.json"))
+        hit = cache.lookup(lines, fp)
+        if hit is not None:
+            findings = hit["findings"]
+            print("decision cache: hit (registry {})".format(fp[:12]))
+    if findings is None:
+        findings = run_local(lines)
+        if args.allow_external:
+            ext, ext_note = run_external(lines, project, args.verbose,
+                                         getattr(args, "external_model", None))
+            findings += ext
 
     blocking = [f for f in findings if f["severity"] == HIGH]
     med = [f for f in findings if f["severity"] == MED]
@@ -922,6 +943,8 @@ def cmd_run(args: argparse.Namespace) -> int:
     fail_at = {"high": [HIGH], "medium": [HIGH, MED], "low": [HIGH, MED, LOW]}[args.fail_on]
     blockers = [f for f in findings if f["severity"] in fail_at]
     verdict = "pass" if not blockers else "changes-requested"
+    if cache is not None:
+        cache.store(lines, fp, verdict, findings)
 
     coverage = (
         "Reviewed {} added line(s) across {} file(s) against {} pattern checks in {} "

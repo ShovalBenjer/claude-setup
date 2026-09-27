@@ -1,0 +1,8 @@
+# E-0001 - Undeclared tradeoff fails the panel
+
+- Source: "Foundations of LLM Evaluation: Core Concepts and Primitives" (Drive eval book, ch.1; book identity unverified) → issue #374 (evidence: adaptation)
+- Mechanism: Review decisions carry four production axes (Quality / Safety / Cost / Reliability). Tradeoffs between axes are normal; undeclared tradeoffs are not. When a diff weakens a guard (safety axis regresses) while tuning throughput or cost (another axis improves) and names no measured budget for the exchange, the review fails instead of silently accepting an implicit bargain.
+- Enforcement: `tools/review/e_rows.py::check_undeclared_tradeoff`, wired into `panel.run_local` via `e_rows.composite_findings`. Guard-weakening shapes (e.g. `verify=False`, `rejectUnauthorized: false`, `# nosec`) co-occurring with perf/cost shapes (e.g. `lru_cache`, `concurrent.futures`, `batch_size`) in added code lines produce a HIGH `undeclared-tradeoff` finding under the ops_release persona. A `tradeoff:` record in the added lines (naming what improved, what regressed, and the measured cost) suppresses it. Trigger patterns skip prose files: a document describing a disabled guard is demonstrating, not doing.
+- Check: `python3 -m pytest tests/test_erows.py -q -k e0001`
+- Status: enforced
+- Non-goals: The panel does not measure the axes the way a benchmark would; co-occurrence of the two shapes is the implementable proxy. The normalized/semantic memoization tiers and trigger-conditioned aspect execution from #372 are separate work. This row does not judge whether a declared tradeoff is a good deal, only that it is declared.
