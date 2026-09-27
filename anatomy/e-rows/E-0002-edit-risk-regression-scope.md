@@ -1,0 +1,8 @@
+# E-0002 - High-risk prompt/schema/evidence edits need a declared regression scope
+
+- Source: Drive corpus `eval_5.txt` ch.5 "Prompt governance for multimodal inputs", adapted to review personas → issue #373 (evidence: adaptation)
+- Mechanism: Not all prompt and contract edits are equal. Schema-structure edits, attention-directive edits (layout hints, region directives), and evidence-field format changes are HIGH risk: they change what the model attends to or what the gate reads, and the resulting failure looks like missing data rather than a model error. A HIGH-risk edit ships only with a declared regression scope or a test in the same diff.
+- Enforcement: `tools/review/e_rows.py::check_edit_risk`, wired into `panel.run_local` via `e_rows.composite_findings`. Files classified by path (prompt/schema/contract/example/evidence); HIGH triggers are schema-structure patterns (`"required"`, `"properties"`, `"enum"`), attention directives (bounding box, region of interest, focus/zoom/ignore directives), and evidence-format patterns. Without a `regression-scope:` record in the diff and without a test file added in the diff, each HIGH-risk file yields a MEDIUM `high-risk-edit-no-regression-scope` finding under the correctness persona. Satisfaction evidence is read from the full diff because test files are exempt from review but still count as the demanded evidence.
+- Check: `python3 -m pytest tests/test_erows.py -q -k e0002`
+- Status: enforced
+- Non-goals: This row does not version prompt artifacts or log artifact hashes per execution (points 3 of #373); those are tracked follow-ups. It does not classify MEDIUM example swaps as blocking.
