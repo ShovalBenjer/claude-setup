@@ -9,7 +9,7 @@ No timestamp and no commit sha here on purpose: either would make the map drift
 on every commit and train a reader to ignore the check. Line counts are out for
 the same reason, one level down.
 
-460 directories, 2490 tracked files, 0 without a stated purpose.
+461 directories, 2495 tracked files, 0 without a stated purpose.
 
 ## .claude
 
@@ -56,7 +56,7 @@ the same reason, one level down.
 | `docs/analysis/reference` | 12 | verbatim offline copies of external documents an analysis cites, saved so the citation survives the source moving or changing; read-only evidence, never edited to match our conv... | registry |
 | `docs/archive` | 27 | Point-in-time files that used to sit at the docs/ root: session handoffs, pasted model transcripts (gemini-code-*), one-off notes. Moved 2026-08-23; historical-record by constru... | registry |
 | `docs/prd` | 6 | The 2 live PRDs: claude-os.md (harness acceptance table) and autonomy-ecosystem.md (AUTO-01..20 next-level system) | registry |
-| `docs/prior-art` | 47 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
+| `docs/prior-art` | 48 | One JSON record per component over 300 lines of Python naming what third-party tool could do its job, why ours stays, and an expiry date; out-of-scope.txt lists prefixes exempte... | registry |
 | `docs/prior-art/living-codex-salvage` | 5 | Four files rescued from `C:\Users\shova\codex-sites\living-codex-build` on 2026-07-30, before | README.md |
 | `docs/reflections` | 6 | Post-task self-inspections written by the /heidegger-reflect protocol: measured failure evidence, honest completion percentages, and the concealed gaps a status report would omit | registry |
 | `docs/specs` | 243 | 4 active build specs (2026-07-23/24): autonomy implementation, command-center dashboard, persona-review economy, SLM swarm | registry |
@@ -444,7 +444,7 @@ the same reason, one level down.
 
 | dir | files | purpose | from |
 | --- | ----: | ------- | ---- |
-| `tests` | 55 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
+| `tests` | 56 | Single pytest file exercising the prove-implementation proof/loop-audit scripts (imported from dot-claude/skills) | registry |
 | `tests/cmd` | 1 | Literate CLI snapshot cases (.trycmd) run by tools/trycmd. These assert the command-line contract of the harness tools (modes, exit codes, error text), which the in-process self... | registry |
 | `tests/cmd/fixtures` | 1 | Deliberately broken .trycmd inputs, kept out of the default tests/cmd/*.trycmd glob, so the harness can be proven to fail on a case it cannot parse rather than skip it | registry |
 
@@ -492,6 +492,7 @@ the same reason, one level down.
 | `tools/refute` | 1 | CLI refutation engine that runs each claim's verifier command from state/claims-verify.jsonl and reports HELD/REFUTED/BROKEN, so no claim is asserted without an executable falsi... | registry |
 | `tools/refute/checks` | 8 | Verifier scripts refute.py invokes per claim: hook wiring/existence/execution, persona front-matter validity, config drift, hiring-ledger rows, and a meta-check that siblings fa... | registry |
 | `tools/review` | 5 | Runs a deterministic (plus optional opt-in OpenRouter) persona review over a git diff's added lines and writes the verdict artifact tools/gate/gate.py reads before merge | registry |
+| `tools/runtime` | 3 | Lifecycle inheritance for headless scheduled workers. | README.md |
 | `tools/selfimprove` | 1 | scan.py reads real signals (open TODOs, git drift, hook health, tool coverage, doc staleness) to generate ranked proposals for the system's own next work; proposals.jsonl is tha... | registry |
 | `tools/skilleval` | 1 | run.py grades each skill's own routing-eval fixtures for whether its description text separates trigger from non-trigger prompts, flagging skills with no fixtures as UNCOVERED f... | registry |
 | `tools/snapshot` | 1 | snap.py takes, lists, diffs and restores point-in-time backups of the live ~/.claude tree, splitting gitignored content from a git-tracked manifest and hashing out secret-lookin... | registry |
