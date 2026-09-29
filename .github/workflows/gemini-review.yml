@@ -29,7 +29,9 @@ name: Gemini diff review (decorrelated second reviewer)
 # This job is ADVISORY. It has pull-requests: read and cannot approve, request
 # changes, or block a merge. Findings surface as annotations on the diff.
 #
-# Runs on self-hosted linux to bypass GitHub account billing hold on ubuntu-latest.
+# Moved to ubuntu-latest 2026-09-29 (approved anatomy change): the self-hosted
+# runner wsl-shov went offline and the billing-hold rationale no longer
+# applies — ubuntu-latest runs fine on these repos.
 
 on:
   pull_request:
@@ -45,9 +47,7 @@ permissions:
 jobs:
   gemini-review:
     if: ${{ !github.event.pull_request.draft }}
-    runs-on: [self-hosted, linux]
-    env:
-      HOME: /home/shov/actions-runner/ci-home
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: read
