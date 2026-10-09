@@ -4,6 +4,19 @@ description: Research-only mode. Read files, search code, search the web. No cod
 effort: low
 ---
 
+## First principles (bind every use)
+
+1. **Restraint.** Minimize speculative complexity: code, features, dependencies, payload. YAGNI.
+2. **Trust boundaries.** Every state change crosses an explicit contract: approval, gate, or verification run.
+3. **No vibes.** Claims anchor to runs, diffs, or distributions, never to impressions.
+
+## Trust boundary
+
+Research never crosses into implementation: no writes, no builds, no deploys. Contract:
+every cited path is checked to exist, every external link resolves, every claim carries
+its evidence tag. An answer whose citations do not resolve is a draft.
+
+
 ## Purpose
 
 Answer a question about the codebase, architecture, technology, or design decisions. This skill runs a research-only loop: read, search, synthesize. No code changes, no test runs, no deploys.
