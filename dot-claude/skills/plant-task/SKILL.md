@@ -3,6 +3,18 @@ name: plant-task
 description: Write a task for a future session to pick up. Routes to a global or per-project TODO.md, surfaced automatically at session start. Use for leftover work, gaps outside current scope, or concrete follow-ups worth preserving across sessions.
 ---
 
+## First principles (bind every use)
+
+1. **Restraint.** Minimize speculative complexity: code, features, dependencies, payload. YAGNI.
+2. **Trust boundaries.** Every state change crosses an explicit contract: approval, gate, or verification run.
+3. **No vibes.** Claims anchor to runs, diffs, or distributions, never to impressions.
+
+## Trust boundary
+
+Append-only by contract: strict block format so the bootstrap can parse it, delete only on
+complete, `Blocked by` instead of delete when stuck. Git history is the audit trail.
+
+
 # Plant a task for a future session
 
 ## When to use
