@@ -3,6 +3,19 @@ name: context-hygiene
 description: Detect and prevent context, memory, skills, and session bloat. Scans for duplicates, stale entries, oversize files, and broken references. Proposes cleanups, never auto-deletes.
 ---
 
+## First principles (bind every use)
+
+1. **Restraint.** Minimize speculative complexity: code, features, dependencies, payload. YAGNI.
+2. **Trust boundaries.** Every state change crosses an explicit contract: approval, gate, or verification run.
+3. **No vibes.** Claims anchor to runs, diffs, or distributions, never to impressions.
+
+## Trust boundary
+
+Read-only by construction. Contract: never auto-deletes; fix commands are emitted for the
+user to paste. The `--fix-safe` flag is limited to zero-risk removals (`.writetest`
+droppings, stale snapshots) and only runs on explicit invocation.
+
+
 # Context Hygiene
 
 Run weekly, before clearing context, after a big refactor, when session usage feels high, or when the memory curator has not run in more than 14 days. Designed pair with `memory-curator`: this skill is the structural scan, the curator is the semantic review.
