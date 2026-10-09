@@ -3,6 +3,19 @@ name: agent-team
 description: Agent team coordination protocol, spawn rules, worktree isolation, handoff protocol, quality checkpoints. Use when spawning multiple agents for parallel work.
 ---
 
+## First principles (bind every use)
+
+1. **Restraint.** Minimize speculative complexity: code, features, dependencies, payload. YAGNI.
+2. **Trust boundaries.** Every state change crosses an explicit contract: approval, gate, or verification run.
+3. **No vibes.** Claims anchor to runs, diffs, or distributions, never to impressions.
+
+## Trust boundary
+
+Spawned agents are isolated (worktree); the lead's reflection pass is the handoff boundary.
+The red flags are structural anomaly signals: "done" without test output is the
+tautological-test pattern, same-file edits by two agents is a coordination failure.
+
+
 # /agent-team
 
 Structured agent coordination with quality gates at every handoff.
