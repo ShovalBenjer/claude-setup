@@ -3,6 +3,19 @@ name: project-intake
 description: Project intake gate, structure, git hygiene, code quality, testing, deployment checklist. Use when onboarding a new project to ~/workspace/ or a new repository.
 ---
 
+## First principles (bind every use)
+
+1. **Restraint.** Minimize speculative complexity: code, features, dependencies, payload. YAGNI.
+2. **Trust boundaries.** Every state change crosses an explicit contract: approval, gate, or verification run.
+3. **No vibes.** Claims anchor to runs, diffs, or distributions, never to impressions.
+
+## Trust boundary
+
+The intake is a gate: fail-closed. Contract: waivers are recorded with a reason, never
+silent; the README-path run (install, run, test from clean state) is the acceptance proof.
+A ticked checklist without that run does not admit the project.
+
+
 # /project-intake
 
 Mandatory checklist for any project entering the workspace. The lesson, learned the hard way: a 21K-line monolith with four backend copies and tens of megabytes of images committed. Never again.
