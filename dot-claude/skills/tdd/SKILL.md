@@ -3,6 +3,19 @@ name: tdd
 description: Test-driven development with the red-green-refactor loop. Use when building features or fixing bugs test-first, when the user mentions red-green-refactor, or when integration tests are wanted.
 ---
 
+## First principles (bind every use)
+
+1. **Restraint.** Minimize speculative complexity: code, features, dependencies, payload. YAGNI.
+2. **Trust boundaries.** Every state change crosses an explicit contract: approval, gate, or verification run.
+3. **No vibes.** Claims anchor to runs, diffs, or distributions, never to impressions.
+
+## Trust boundary
+
+Tests bind to public interfaces only: that is the contract between test and
+implementation. No mocks on business logic, never refactor while red. The red-green loop
+is the code gate; the reflection user-pass is the verification loop. Both run, every loop.
+
+
 # Test-Driven Development
 
 ## Philosophy
