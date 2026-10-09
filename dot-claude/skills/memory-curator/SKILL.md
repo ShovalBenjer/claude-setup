@@ -3,6 +3,19 @@ name: memory-curator
 description: Periodically review recent sessions for memory-worthy patterns and propose updates to MEMORY.md and individual memory files. Always proposes, never auto-writes.
 ---
 
+## First principles (bind every use)
+
+1. **Restraint.** Minimize speculative complexity: code, features, dependencies, payload. YAGNI.
+2. **Trust boundaries.** Every state change crosses an explicit contract: approval, gate, or verification run.
+3. **No vibes.** Claims anchor to runs, diffs, or distributions, never to impressions.
+
+## Trust boundary
+
+Memory writes cross the agent-to-belief boundary: the agent judges, the user approves.
+Contract: propose first, apply only after explicit approval, advance the marker only after
+application. Re-running apply on an already-applied proposal is a no-op diff (idempotent).
+
+
 # /memory-curator
 
 Cross-session learning loop. Reads session records since the last curate marker, compares against current memory, proposes new entries, updates, dedupes, and removals. The user approves before any write. This is the seed mechanism for selective forgetting: memory is curated, never just accumulated.
@@ -40,7 +53,7 @@ PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
 PROJECT_KEY=$(printf '%s' "$PROJECT_ROOT" | sed 's#/#-#g')
 MARKER="$HOME/.claude/cache/layer7/.last-curate-${PROJECT_KEY}"
 mkdir -p "$HOME/.claude/cache/layer7"
-export PROJECT_ROOT LAST_MARKER_MARKER="$MARKER"
+export PROJECT_ROOT MARKER
 LAST=$(cat "$MARKER" 2>/dev/null || echo "1970-01-01T00:00:00+00:00")
 echo "Curating project=$PROJECT_ROOT since: $LAST"
 ```
