@@ -3,6 +3,19 @@ name: design-an-interface
 description: Generate multiple radically different interface designs for a module using parallel subagents, then compare and synthesize. Use when designing an API, exploring interface options, comparing module shapes, or when the user says "design it twice".
 ---
 
+## First principles (bind every use)
+
+1. **Restraint.** Minimize speculative complexity: code, features, dependencies, payload. YAGNI.
+2. **Trust boundaries.** Every state change crosses an explicit contract: approval, gate, or verification run.
+3. **No vibes.** Claims anchor to runs, diffs, or distributions, never to impressions.
+
+## Trust boundary
+
+Designs are proposals, not implementations. Contract: nothing is built from a design
+without the reflection scratch verification (instantiate, exercise the primary path,
+type-check). The comparison, not the first idea, is the deliverable.
+
+
 # Design an Interface
 
 From "A Philosophy of Software Design": your first idea is unlikely to be the best. Generate multiple radically different designs, then compare. The value is in the contrast.
