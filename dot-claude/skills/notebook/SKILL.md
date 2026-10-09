@@ -3,6 +3,19 @@ name: notebook
 description: Generate a SOTA 2026 data science Jupyter notebook scaffold, Polars, Plotly, Optuna, SHAP. Use when data files are present, analysis is needed, or agent eval results need statistical analysis.
 ---
 
+## First principles (bind every use)
+
+1. **Restraint.** Minimize speculative complexity: code, features, dependencies, payload. YAGNI.
+2. **Trust boundaries.** Every state change crosses an explicit contract: approval, gate, or verification run.
+3. **No vibes.** Claims anchor to runs, diffs, or distributions, never to impressions.
+
+## Trust boundary
+
+The notebook emits and runs code inside the project. Contract: data files are never
+committed; new dependencies go to the dev group only; nothing writes outside the project
+dir. The executed notebook, re-run top to bottom with no exceptions, is the evidence.
+
+
 # /notebook
 
 Scaffold a state-of-the-art data science notebook for the current project context.
