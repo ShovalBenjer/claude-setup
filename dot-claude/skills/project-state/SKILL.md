@@ -3,6 +3,19 @@ name: project-state
 description: Durable project memory via status.json, handovers, and resume prompts.
 ---
 
+## First principles (bind every use)
+
+1. **Restraint.** Minimize speculative complexity: code, features, dependencies, payload. YAGNI.
+2. **Trust boundaries.** Every state change crosses an explicit contract: approval, gate, or verification run.
+3. **No vibes.** Claims anchor to runs, diffs, or distributions, never to impressions.
+
+## Trust boundary
+
+`status.json` is operational memory, never source of truth. Contract: `testsPass` is set
+only after a verification run; handover claims require the reflection evidence. A handover
+without a run is a wish, not a record.
+
+
 # Project State
 
 Use this skill when the user wants durable session memory across runs, a project handover, or a resume prompt, or when bootstrapping per-project state from current repo reality.
