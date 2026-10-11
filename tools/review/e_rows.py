@@ -224,9 +224,18 @@ def composite_findings(reviewable: list[dict],
 # cache key is the canonical diff plus a fingerprint of the check
 # registry; any registry change (new/edited check) expires old entries,
 # so a PASS from an older check set never replays under a newer one.
-# Exact tier only: byte-identical canonical diff. The normalized and
-# semantic tiers, and trigger-conditioned aspect execution, are tracked
-# follow-ups, not this row.
+#
+# LIVE IMPLEMENTATION: tools/review/review_cache.py (TieredDecisionCache)
+# implements the full issue #372 scope: exact tier (below), normalized
+# tier (formatting-insensitive, ch.11 Ex 11-5), semantic tier (opt-in,
+# token-shape similarity at tau 0.95), full conditioning (registry
+# fingerprint + file-type context + external-backend mode + prior
+# findings), trigger-conditioned aspect execution with the Table 11-3
+# expected-calls accounting, and the anti-loop forced-live guard with
+# per-tier telemetry. panel.py wires it in cmd_run.
+#
+# The class below is the exact-tier original, kept byte-stable because
+# tests/test_erows.py pins its behavior. New code uses review_cache.
 
 CACHE_VERSION = 1
 CACHE_MAX_ENTRIES = 500
@@ -234,12 +243,20 @@ CACHE_MAX_ENTRIES = 500
 
 def registry_fingerprint(personas: dict) -> str:
     """Fingerprint of the check registry: (persona, check id, severity,
-    pattern) sorted. Any check added, removed, or edited changes it."""
+    pattern) sorted. Any check added, removed, or edited changes it.
+
+    AST checks (tools/review/async_purity.py) do not live in the PERSONAS
+    pattern tuples, so their descriptor is appended explicitly: a new or
+    edited AST check must expire memoized decisions exactly like a pattern
+    edit does.
+    """
     items = sorted(
         (persona, cid, sev, pat)
         for persona, spec in personas.items()
         for cid, sev, _langs, pat, _why in spec["checks"]
     )
+    items.append(("correctness", "async-purity", "medium",
+                  "ast:blocking-sync-call-in-async-def:v1"))
     return hashlib.sha256(json.dumps(items).encode("utf-8")).hexdigest()
 
 
