@@ -222,3 +222,16 @@ async def f(url, timeout=requests.get('t').elapsed):
 """
     # The default-arg requests.get is at def time; no async-body violation.
     assert check_source(src) == []
+
+
+def test_aliased_module_import_resolved():
+    src = """
+import requests as rq
+import time as t
+async def f(url):
+    r = rq.get(url)
+    t.sleep(1)
+    return r.text
+"""
+    got = check_source(src)
+    assert sorted(d for _, d in got) == ["rq.get", "t.sleep"], got
