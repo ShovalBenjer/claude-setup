@@ -137,6 +137,14 @@ class _Visitor(ast.NodeVisitor):
         self.generic_visit(node)
         self.shadowed.pop()
 
+    def visit_Import(self, node: ast.Import) -> None:
+        for alias in node.names:
+            if alias.asname:
+                # import requests as rq -> rq: (requests, "").
+                # The empty attr marks a module alias (vs from-import).
+                self.imported[alias.asname] = (alias.name, "")
+        self.generic_visit(node)
+
     def visit_ImportFrom(self, node: ast.ImportFrom) -> None:
         if node.module:
             for alias in node.names:
@@ -160,6 +168,10 @@ class _Visitor(ast.NodeVisitor):
         parts = dotted.split(".")
         if len(parts) >= 2:
             mod, attr = parts[0], parts[-1]
+            # Resolve `import requests as rq`: rq -> requests.
+            alias = self.imported.get(mod)
+            if alias and alias[1] == "":
+                mod = alias[0]
             if not any(mod in scope for scope in self.shadowed):
                 return mod, attr
             return "", ""
