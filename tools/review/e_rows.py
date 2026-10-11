@@ -234,12 +234,20 @@ CACHE_MAX_ENTRIES = 500
 
 def registry_fingerprint(personas: dict) -> str:
     """Fingerprint of the check registry: (persona, check id, severity,
-    pattern) sorted. Any check added, removed, or edited changes it."""
+    pattern) sorted. Any check added, removed, or edited changes it.
+
+    AST checks (tools/review/async_purity.py) do not live in the PERSONAS
+    pattern tuples, so their descriptor is appended explicitly: a new or
+    edited AST check must expire memoized decisions exactly like a pattern
+    edit does.
+    """
     items = sorted(
         (persona, cid, sev, pat)
         for persona, spec in personas.items()
         for cid, sev, _langs, pat, _why in spec["checks"]
     )
+    items.append(("correctness", "async-purity", "medium",
+                  "ast:blocking-sync-call-in-async-def:v1"))
     return hashlib.sha256(json.dumps(items).encode("utf-8")).hexdigest()
 
 
