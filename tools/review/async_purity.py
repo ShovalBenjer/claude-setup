@@ -9,7 +9,7 @@ exception, just a loop that stops yielding.
 Enforcement shape: deterministic AST check, hand-coded rules, zero LLM in
 the hot path. Flags blocking sync calls inside `async def` bodies:
 
-- requests.get/post/put/delete, time.sleep
+- requests.* (get/post/put/delete), time.sleep
 - bare open() / file read-write without delegation
 
 Exemptions (no false positives):
@@ -52,58 +52,147 @@ ALLOWLIST_MODULES = {
     "motor",  # Motor: async MongoDB driver over a threaded core (ch.21 p.797)
 }
 
-# Call shapes that delegate to a thread: blocking calls nested inside
-# these are exempt because they do not run on the event loop.
-DELEGATING_CALLS = {
+# Dotted names that delegate to a thread (blocking calls nested inside
+# are exempt). The trailing-attribute form covers loop.run_in_executor
+# and chained asyncio.get_event_loop().run_in_executor.
+DELEGATING_DOTTED = {
     ("asyncio", "to_thread"),
-    ("to_thread",),  # from asyncio import to_thread
+    ("to_thread",),
 }
+DELEGATING_ATTRS = {"run_in_executor"}
 
 
 def _dotted(func: ast.AST) -> str:
-    """Dotted name of a call target: requests.get, open, self.method."""
-    if isinstance(func, ast.Attribute):
-        value = func.value
-        if isinstance(value, ast.Name):
-            return "{}.{}".format(value.id, func.attr)
-        return func.attr
+    """Full dotted name of a call target, or "" if unresolvable.
+
+    requests.get -> "requests.get". c.parser.open -> "c.parser.open"
+    (NOT collapsed to "open": a deep chain is not the builtin). Anything
+    built on a call/subscript result is unresolvable -> "".
+    """
+    parts: list[str] = []
+    while isinstance(func, ast.Attribute):
+        parts.append(func.attr)
+        func = func.value
     if isinstance(func, ast.Name):
-        return func.id
+        parts.append(func.id)
+        return ".".join(reversed(parts))
     return ""
 
 
-def _is_delegating(dotted: str) -> bool:
-    parts = tuple(dotted.split("."))
-    return parts in DELEGATING_CALLS or dotted.endswith(".run_in_executor")
+def _attr(func: ast.AST) -> str:
+    """Bare attribute name of a call target, or ""."""
+    if isinstance(func, ast.Attribute):
+        return func.attr
+    return ""
+
+
+def _is_delegating(dotted: str, attr: str) -> bool:
+    parts = tuple(dotted.split(".")) if dotted else ()
+    return parts in DELEGATING_DOTTED or attr in DELEGATING_ATTRS
 
 
 class _Visitor(ast.NodeVisitor):
     def __init__(self) -> None:
         self.in_async = 0
         self.in_delegated = 0
+        # from X import Y  ->  Y (or asname): (X, Y). Resolves `from requests
+        # import get` so bare `get(url)` is recognized as requests.get, and
+        # `from requests import get as rget` as requests.get via rget.
+        self.imported: dict[str, tuple[str, str]] = {}
+        # Parameter names shadowing module names: `async def f(requests)`
+        # means `requests.get` inside is not the module. Tracked per scope.
+        self.shadowed: list[set[str]] = []
         self.findings: list[tuple[int, str]] = []
 
+    # -- scope tracking -------------------------------------------------
+    def _visit_function(
+        self, node: ast.FunctionDef | ast.AsyncFunctionDef, is_async: bool
+    ) -> None:
+        params = {a.arg for a in node.args.args}
+        params.update(a.arg for a in node.args.kwonlyargs)
+        if node.args.vararg:
+            params.add(node.args.vararg.arg)
+        if node.args.kwarg:
+            params.add(node.args.kwarg.arg)
+        self.shadowed.append(params)
+        if is_async:
+            self.in_async += 1
+        # Decorators and default values evaluate at def time, not on the
+        # event loop: visit the body only.
+        for stmt in node.body:
+            self.visit(stmt)
+        if is_async:
+            self.in_async -= 1
+        self.shadowed.pop()
+
     def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
-        self.in_async += 1
+        self._visit_function(node, True)
+
+    def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
+        self._visit_function(node, False)
+
+    def visit_Lambda(self, node: ast.Lambda) -> None:
+        params = {a.arg for a in node.args.args}
+        self.shadowed.append(params)
         self.generic_visit(node)
-        self.in_async -= 1
+        self.shadowed.pop()
+
+    def visit_ImportFrom(self, node: ast.ImportFrom) -> None:
+        if node.module:
+            for alias in node.names:
+                self.imported[alias.asname or alias.name] = (
+                    node.module,
+                    alias.name,
+                )
+        self.generic_visit(node)
+
+    # -- call checking ---------------------------------------------------
+    def _resolve(self, dotted: str) -> tuple[str, str]:
+        """Resolve a call target to (module, attr).
+
+        Handles `requests.get` -> ("requests", "get") and, via import
+        tracking, `from requests import get` + `get(url)` ->
+        ("requests", "get") and `from requests import get as rget` ->
+        ("requests", "get"). Returns ("", "") when unresolvable.
+        """
+        if not dotted:
+            return "", ""
+        parts = dotted.split(".")
+        if len(parts) >= 2:
+            mod, attr = parts[0], parts[-1]
+            if not any(mod in scope for scope in self.shadowed):
+                return mod, attr
+            return "", ""
+        # Bare name: resolve via from-imports.
+        hit = self.imported.get(dotted)
+        if hit and not any(dotted in scope for scope in self.shadowed):
+            return hit
+        return "", ""
+
+    def _is_builtin_call(self, dotted: str) -> bool:
+        return (
+            "." not in dotted
+            and dotted in BLOCKING_BUILTINS
+            and not any(dotted in scope for scope in self.shadowed)
+        )
 
     def visit_Call(self, node: ast.Call) -> None:
         dotted = _dotted(node.func)
-        if _is_delegating(dotted):
+        if _is_delegating(dotted, _attr(node.func)):
             self.in_delegated += 1
             self.generic_visit(node)
             self.in_delegated -= 1
             return
         if self.in_async and not self.in_delegated:
-            mod = dotted.split(".")[0] if dotted else ""
-            if mod and mod not in ALLOWLIST_MODULES:
-                blocking = (
-                    dotted in {"{}.{}".format(m, a) for m, a in BLOCKING_CALLS}
-                    or dotted in BLOCKING_BUILTINS
-                )
-                if blocking:
-                    self.findings.append((node.lineno, dotted))
+            mod, attr = self._resolve(dotted)
+            if (
+                mod
+                and mod not in ALLOWLIST_MODULES
+                and (mod, attr) in BLOCKING_CALLS
+            ):
+                self.findings.append((node.lineno, dotted or attr))
+            elif self._is_builtin_call(dotted):
+                self.findings.append((node.lineno, dotted))
         self.generic_visit(node)
 
 
@@ -126,6 +215,24 @@ def check_source(source: str) -> list[tuple[int, str]]:
     except (SyntaxError, ValueError):
         return []
     return check_tree(tree)
+
+
+def config_fingerprint() -> str:
+    """Hash of the check's behavior-defining tables. The decision-cache
+    registry fingerprint includes this: editing BLOCKING_CALLS (or any
+    table) expires memoized decisions.
+    """
+    import hashlib
+    import json
+
+    payload = {
+        "blocking": sorted(BLOCKING_CALLS),
+        "builtins": sorted(BLOCKING_BUILTINS),
+        "allowlist": sorted(ALLOWLIST_MODULES),
+        "delegating_dotted": sorted(DELEGATING_DOTTED),
+        "delegating_attrs": sorted(DELEGATING_ATTRS),
+    }
+    return hashlib.sha256(json.dumps(payload).encode("utf-8")).hexdigest()[:16]
 
 
 WHY = (
