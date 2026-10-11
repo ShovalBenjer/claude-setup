@@ -45,12 +45,28 @@ async def save(path, data):
 
 def test_allowlisted_facade_no_findings():
     # my_async_facade.find is not a blocking-call shape at all, so it is
-    # not flagged regardless of the allowlist. motor IS allowlisted: even a
-    # hypothetical blocking-shaped call under motor stays silent.
+    # not flagged regardless of the allowlist.
     src = """
 import my_async_facade
 async def query(coll, q):
     return await my_async_facade.find(coll, q)
+"""
+    assert check_source(src) == []
+
+
+def test_allowlist_mechanism_exercised(monkeypatch):
+    # The allowlist is a safety valve: if a blocking shape is ever added
+    # under an allowlisted module, it must stay silent. Prove the branch
+    # is live, not dead code.
+    import async_purity
+    monkeypatch.setattr(
+        async_purity, "BLOCKING_CALLS",
+        async_purity.BLOCKING_CALLS | {("motor", "blocking_op")},
+    )
+    src = """
+import motor
+async def f():
+    motor.blocking_op()
 """
     assert check_source(src) == []
 
@@ -138,3 +154,71 @@ def test_findings_for_diff_skips_non_python(tmp_path):
 def test_findings_for_diff_missing_file(tmp_path):
     lines = [{"file": "nope.py", "line": 1, "text": "x"}]
     assert findings_for_diff(lines, str(tmp_path)) == []
+
+
+def test_from_import_resolved():
+    # `from requests import get` is the idiomatic spelling of the exact
+    # violation the issue targets; it must not slip through.
+    src = """
+from requests import get, post
+from time import sleep
+async def f(url):
+    r = get(url)
+    p = post(url)
+    sleep(1)
+    return r.text
+"""
+    got = check_source(src)
+    assert sorted(d for _, d in got) == ["get", "post", "sleep"], got
+
+
+def test_from_import_alias_resolved():
+    src = """
+from requests import get as rget
+async def f(url):
+    return rget(url).text
+"""
+    got = check_source(src)
+    assert [d for _, d in got] == ["rget"], got
+
+
+def test_deep_attribute_chain_not_collapsed():
+    # c.parser.open is not the builtin open(); collapsing it would be a
+    # false positive.
+    src = """
+async def f(c):
+    c.parser.open('x')
+"""
+    assert check_source(src) == []
+
+
+def test_chained_run_in_executor_exempt():
+    src = """
+import asyncio, time
+async def slow():
+    return await asyncio.get_event_loop().run_in_executor(None, time.sleep, 1)
+"""
+    assert check_source(src) == []
+
+
+def test_param_shadowing_not_flagged():
+    # `requests` is a parameter here, not the module.
+    src = """
+async def f(requests, url):
+    return requests.get(url)
+"""
+    assert check_source(src) == []
+
+
+def test_decorator_default_not_flagged():
+    # Blocking calls in decorators/defaults evaluate at def time, not on
+    # the event loop.
+    src = """
+import requests
+def deco(fn):
+    return fn
+async def f(url, timeout=requests.get('t').elapsed):
+    return url
+"""
+    # The default-arg requests.get is at def time; no async-body violation.
+    assert check_source(src) == []
